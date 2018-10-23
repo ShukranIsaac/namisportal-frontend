@@ -8,7 +8,7 @@ html, body {
 
 #side-bar-container {
   margin-top: 10px;
-  margin-left: 20px;
+  margin-left: 30px;
   margin-bottom: 10px;
 }
 
@@ -34,12 +34,12 @@ h5 a:hover, nav a:hover {
 }
 
 @media (min-width: 768px){
-  .col-md-8 {
+  main {
     -ms-flex: 0 0 80%;
     flex: 0 0 80%;
     max-width: 80%;
   }
-  .col-md-4 {
+  aside {
     -ms-flex: 0 0 20%;
     flex: 0 0 20%;
     max-width: 20%;
@@ -47,12 +47,12 @@ h5 a:hover, nav a:hover {
 }
 
 @media (min-width: 576px){
-  .col-sm-8 {
+  main {
     -ms-flex: 0 0 80%;
     flex: 0 0 80%;
     max-width: 80%;
   }
-  .col-sm-4 {
+  aside {
     -ms-flex: 0 0 20%;
     flex: 0 0 20%;
     max-width: 20%;
