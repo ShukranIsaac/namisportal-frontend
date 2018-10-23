@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import { Button, Navbar, Group, Heading, Divider, Alignment, Menu, MenuItem, Item, ControlGroup, InputGroup} from "@blueprintjs/core";
-import { Select, Suggest, ItemListRenderer } from "@blueprintjs/select";
+import { Button, Navbar, Alignment } from "@blueprintjs/core";
 
 import Home from './components/home'
 import Contact from './components/contact'

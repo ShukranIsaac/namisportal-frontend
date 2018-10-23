@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 
-import GisMinGridSideBar from './GridSideBar';
 import './grid.css';
 
 const CunstomGoogleMap = withScriptjs(
