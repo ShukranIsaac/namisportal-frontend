@@ -172,8 +172,6 @@ class GIS extends Component {
   }
 }
 
-const drawerWidth = 240;
-
 const styles = theme => ({
   root: {
     flexGrow: 1,
