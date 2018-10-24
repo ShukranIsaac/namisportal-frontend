@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
 // import Divider from '@material-ui/core/Divider';
 import green from '@material-ui/core/colors/green';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -15,6 +14,8 @@ import Select from '@material-ui/core/Select';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 
 import { Button as ButtonB, Checkbox, ControlGroup } from "@blueprintjs/core";
+
+import SideBarWrapper from '../SideBarWrapper';
 
 import './grid.css';
 
@@ -55,161 +56,145 @@ class GridSideBar extends Component {
     const { classes } = this.props;
 
     return (
-      <aside>
-        <Drawer
-            variant="permanent"
-            classes={{
-              paper: classes.drawerPaper,
+      <div>
+        <div className={ classes.search }>
+          <div className="form-group row">
+            <div className="bp3-input-group">
+              <span className="bp3-icon bp3-icon-search"></span>
+              <input
+                  className="bp3-input"
+                  type="search" name="search"
+                  placeholder="Search for min-grid location"
+                  dir="auto" id="search_place"
+                  onChange={ (e) => { this.props.onChange(e) } } />
+            </div>
+          </div>
+        </div>
+        <div className={classes.grow} />
+        <FormGroup row>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={this.state.electrified}
+                onChange={ () => { this.props.onChecked("electrified") } }
+                value="Electrified"
+                color="primary"
+                icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                checkedIcon={<CheckBoxIcon fontSize="small" />}
+                classes={{
+                  root: classes.root,
+                  checked: classes.checked,
+                }}
+              />
+            }
+            label="Electrified"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={this.state.to_be_electrified}
+                onChange={ () => { this.props.onChecked("to_be_electrified") } }
+                value="To be electrified"
+                color="primary"
+                icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                checkedIcon={<CheckBoxIcon fontSize="small" />}
+                classes={{
+                  root: classes.root,
+                  checked: classes.checked,
+                }}
+              />
+            }
+            label="To be electrified"
+          />
+        </FormGroup>
+
+        <div className={classes.grow} />
+
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="region-open-select">Region</InputLabel>
+          <Select
+            open={this.state.regionOpen}
+            onClose={this.handleClose}
+            onOpen={this.handleOpen}
+            value={this.state.region}
+            onChange={ (e) => { this.props.onChange(e) } }
+            inputProps={{
+              name: 'region',
+              id: 'region-open-select',
             }}
           >
-            <ControlGroup fill={true} vertical={false}>
-              <ButtonB icon="filter">Filter</ButtonB>
-              <ButtonB icon="arrow-right" />
-            </ControlGroup>
+            <MenuItem value="default">
+              <em>{ `${"--Choose region--"}` }</em>
+            </MenuItem>
+            { this.props.regions.map((region) => (
+                <MenuItem value={region.name}>{ region.name }</MenuItem>
+              ))
+            }
+          </Select>
+        </FormControl>
 
-            <div>
-              <form id="side-bar-container" autoComplete="off">
-                <div className={ classes.search }>
-                  <div className="form-group row">
-                    <div className="bp3-input-group">
-                      <span className="bp3-icon bp3-icon-search"></span>
-                      <input
-                          className="bp3-input"
-                          type="search" name="search"
-                          placeholder="Search for min-grid location"
-                          dir="auto" id="search_place"
-                          onChange={ (e) => { this.props.onChange(e) } } />
-                    </div>
-                  </div>
-                </div>
-                <div className={classes.grow} />
-                <FormGroup row>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={this.state.electrified}
-                        onChange={ () => { this.props.onChecked("electrified") } }
-                        value="Electrified"
-                        color="primary"
-                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                        checkedIcon={<CheckBoxIcon fontSize="small" />}
-                        classes={{
-                          root: classes.root,
-                          checked: classes.checked,
-                        }}
-                      />
-                    }
-                    label="Electrified"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={this.state.to_be_electrified}
-                        onChange={ () => { this.props.onChecked("to_be_electrified") } }
-                        value="To be electrified"
-                        color="primary"
-                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                        checkedIcon={<CheckBoxIcon fontSize="small" />}
-                        classes={{
-                          root: classes.root,
-                          checked: classes.checked,
-                        }}
-                      />
-                    }
-                    label="To be electrified"
-                  />
-                </FormGroup>
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="district-open-select">District</InputLabel>
+          <Select
+            open={this.state.districtOpen}
+            onClose={this.handleClose}
+            onOpen={this.handleOpen}
+            value={this.state.district}
+            onChange={ (e) => { this.props.onChange(e) } }
+            inputProps={{
+              name: 'district',
+              id: 'district-open-select',
+            }}
+          >
+            <MenuItem value="default">
+              <em>{ `${"--Choose district--"}` }</em>
+            </MenuItem>
+            { this.props.regions.map((region) => {
+                return region.districts.map((district) => (
+                    <MenuItem value={ district.name }>{ district.name }</MenuItem>
+                  ))
+              })
+            }
+          </Select>
+        </FormControl>
 
-                <div className={classes.grow} />
-
-                <FormControl className={classes.formControl}>
-                  <InputLabel htmlFor="region-open-select">Region</InputLabel>
-                  <Select
-                    open={this.state.regionOpen}
-                    onClose={this.handleClose}
-                    onOpen={this.handleOpen}
-                    value={this.state.region}
-                    onChange={ (e) => { this.props.onChange(e) } }
-                    inputProps={{
-                      name: 'region',
-                      id: 'region-open-select',
-                    }}
-                  >
-                    <MenuItem value="default">
-                      <em>{ `${"--Choose region--"}` }</em>
-                    </MenuItem>
-                    { this.props.regions.map((region) => (
-                        <MenuItem value={region.name}>{ region.name }</MenuItem>
-                      ))
-                    }
-                  </Select>
-                </FormControl>
-
-                <FormControl className={classes.formControl}>
-                  <InputLabel htmlFor="district-open-select">District</InputLabel>
-                  <Select
-                    open={this.state.districtOpen}
-                    onClose={this.handleClose}
-                    onOpen={this.handleOpen}
-                    value={this.state.district}
-                    onChange={ (e) => { this.props.onChange(e) } }
-                    inputProps={{
-                      name: 'district',
-                      id: 'district-open-select',
-                    }}
-                  >
-                    <MenuItem value="default">
-                      <em>{ `${"--Choose district--"}` }</em>
-                    </MenuItem>
-                    { this.props.regions.map((region) => {
-                        return region.districts.map((district) => (
-                            <MenuItem value={ district.name }>{ district.name }</MenuItem>
-                          ))
-                      })
-                    }
-                  </Select>
-                </FormControl>
-
-                <FormGroup row>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={this.state.electrified}
-                        onChange={ () => { this.props.onChecked("electrified") } }
-                        value="checked_lines"
-                        color="primary"
-                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                        checkedIcon={<CheckBoxIcon fontSize="small" />}
-                        classes={{
-                          root: classes.root,
-                          checked: classes.checked,
-                        }}
-                      />
-                    }
-                    label={ `${"33/11kV Lines"}` }
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={this.state.to_be_electrified}
-                        onChange={ () => { this.props.onChecked("checked_proposed") } }
-                        value="proposed"
-                        color="primary"
-                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                        checkedIcon={<CheckBoxIcon fontSize="small" />}
-                        classes={{
-                          root: classes.root,
-                          checked: classes.checked,
-                        }}
-                      />
-                    }
-                    label={ `${"Proposed 33/11kV Lines"}` }
-                  />
-                </FormGroup>
-              </form>
-            </div>
-        </Drawer>
-      </aside>
+        <FormGroup row>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={this.state.electrified}
+                onChange={ () => { this.props.onChecked("electrified") } }
+                value="checked_lines"
+                color="primary"
+                icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                checkedIcon={<CheckBoxIcon fontSize="small" />}
+                classes={{
+                  root: classes.root,
+                  checked: classes.checked,
+                }}
+              />
+            }
+            label={ `${"33/11kV Lines"}` }
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={this.state.to_be_electrified}
+                onChange={ () => { this.props.onChecked("checked_proposed") } }
+                value="proposed"
+                color="primary"
+                icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                checkedIcon={<CheckBoxIcon fontSize="small" />}
+                classes={{
+                  root: classes.root,
+                  checked: classes.checked,
+                }}
+              />
+            }
+            label={ `${"Proposed 33/11kV Lines"}` }
+          />
+        </FormGroup>
+      </div>
     );
   }
 }
@@ -256,4 +241,4 @@ GridSideBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(GridSideBar);
+export default withStyles(styles)(SideBarWrapper(GridSideBar));
