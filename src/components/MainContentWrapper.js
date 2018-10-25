@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import './licensing/licensing.css';
+import './wrappers.css';
 
 const MainContentWrapper = (WrappedComponent) => {
 

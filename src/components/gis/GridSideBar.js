@@ -8,12 +8,13 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
+import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 
-import { Button as ButtonB, Checkbox, ControlGroup } from "@blueprintjs/core";
+import { Checkbox, ControlGroup } from "@blueprintjs/core";
 
 import SideBarWrapper from '../SideBarWrapper';
 
@@ -29,28 +30,10 @@ class GridSideBar extends Component {
     this.state = {
       to_be_electrified: false,
       electrified: false,
-      region: '',
-      district: '',
-      districtOpen: false,
-      regionOpen: false,
       checked_proposed: false,
       checked_lines: false,
     };
   }
-
-  handleClose = () => {
-    this.setState({
-      districtOpen: false,
-      regionOpen: false,
-    });
-  };
-
-  handleOpen = () => {
-    this.setState({
-      districtOpen: true,
-      regionOpen: true,
-    });
-  };
 
   render() {
     const { classes } = this.props;
@@ -111,51 +94,43 @@ class GridSideBar extends Component {
         <div className={classes.grow} />
 
         <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="region-open-select">Region</InputLabel>
-          <Select
-            open={this.state.regionOpen}
-            onClose={this.handleClose}
-            onOpen={this.handleOpen}
+          <InputLabel shrink htmlFor="region-open-select">
+            Region
+          </InputLabel>
+          <NativeSelect
             value={this.state.region}
+            name="region"
             onChange={ (e) => { this.props.onChange(e) } }
-            inputProps={{
-              name: 'region',
-              id: 'region-open-select',
-            }}
+            input={<Input name="region" id="region-open-select" />}
           >
-            <MenuItem value="default">
-              <em>{ `${"--Choose region--"}` }</em>
-            </MenuItem>
+            <option value="">{ `${"--Choose region--"}` }</option>
             { this.props.regions.map((region) => (
-                <MenuItem value={region.name}>{ region.name }</MenuItem>
+                <option value={region.name}>{ region.name }</option>
               ))
             }
-          </Select>
+          </NativeSelect>
+          <FormHelperText><em>Add region filter</em></FormHelperText>
         </FormControl>
 
         <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="district-open-select">District</InputLabel>
-          <Select
-            open={this.state.districtOpen}
-            onClose={this.handleClose}
-            onOpen={this.handleOpen}
+          <InputLabel shrink htmlFor="district-open-select">
+            District
+          </InputLabel>
+          <NativeSelect
             value={this.state.district}
+            name="district"
             onChange={ (e) => { this.props.onChange(e) } }
-            inputProps={{
-              name: 'district',
-              id: 'district-open-select',
-            }}
+            input={<Input name="district" id="district-open-select" />}
           >
-            <MenuItem value="default">
-              <em>{ `${"--Choose district--"}` }</em>
-            </MenuItem>
+            <option value="">{ `${"--Choose district--"}` }</option>
             { this.props.regions.map((region) => {
                 return region.districts.map((district) => (
-                    <MenuItem value={ district.name }>{ district.name }</MenuItem>
+                    <option value={ district.name }>{ district.name }</option>
                   ))
               })
             }
-          </Select>
+          </NativeSelect>
+          <FormHelperText><em>Add district filter</em></FormHelperText>
         </FormControl>
 
         <FormGroup row>
@@ -216,10 +191,8 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 2,
   },
   formControl: {
-    marginRight: theme.spacing.unit * 1,
-    marginLeft: theme.spacing.unit * 0,
     marginBottom: theme.spacing.unit * 2,
-    minWidth: 110,
+    minWidth: 'auto',
   },
   search: {
     position: 'relative',
@@ -228,7 +201,6 @@ const styles = theme => ({
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
-    marginRight: theme.spacing.unit * 1,
     marginBottom: theme.spacing.unit * 1,
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing.unit * 0,

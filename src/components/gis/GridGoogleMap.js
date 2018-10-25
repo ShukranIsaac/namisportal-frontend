@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 
+import MainContentWrapper from '../MainContentWrapper';
+
 import './grid.css';
 
 const CunstomGoogleMap = withScriptjs(
@@ -154,13 +156,13 @@ class MinGridMap extends Component {
     const { classes } = this.props;
 
     return (
-      <main className={classes.content}>
+      <div>
         <CunstomGoogleMap googleMapURL='https://maps.googleapis.com/maps/api/js?key=AIzaSyA8-4amVHsfL-PCglVdff9yauniqT4hVQk&libraries=places'
           loadingElement={<div style={{ height: `100%` }} />} containerElement={<div style={{ height: `100vh` }} />}
           mapElement={<div style={{ height: `100%` }} />}
         >
         </CunstomGoogleMap>
-      </main>
+      </div>
     );
   }
 }
@@ -180,4 +182,4 @@ MinGridMap.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MinGridMap);
+export default withStyles(styles)(MainContentWrapper(MinGridMap));
