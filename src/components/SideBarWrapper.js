@@ -26,7 +26,7 @@ const SideBarWrapper = (WrappedComponent) => {
               </ControlGroup>
 
               <div id="side-bar-container">
-                <form autoComplete="off">
+                <form autoComplete="on">
 
                   <WrappedComponent { ...this.props } />
 

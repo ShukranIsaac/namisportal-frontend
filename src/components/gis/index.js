@@ -13,15 +13,20 @@ class GIS extends Component {
 
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
+    console.log(event.target.name + ":"+event.target.value);
   }
 
-  handleChecked = (name) => (event) => {
-    this.setState({ [name]: event.target.checked });
+  handleChecked = (event) => {
+    this.setState({ [event.target.name]: event.target.checked });
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
     this.setState({ [event.target.name]: event.target.value });
+  }
+
+  handlePlaceSearch = (event) => {
+    this.setState({ [event.target.name]: event.target.checked });
   }
 
   handleSignUp = (redirect) => {
@@ -163,8 +168,20 @@ class GIS extends Component {
 
     return (
       <div className={classes.root}>
-        <GridSideBar onChange={this.handleChange} onChecked={this.handleChecked} regions={regions}/>
-        <MinGridMap />
+
+        <GridSideBar
+            {...this.state}
+            onChange={this.handleChange}
+            onChecked={this.handleChecked}
+            regions={regions}
+        />
+        <MinGridMap
+            {...this.state}
+            onChange={this.handleChange}
+            onChecked={this.handleChecked}
+            onPlaceSearch={this.handlePlaceSearch}
+        />
+
       </div>
     );
   }

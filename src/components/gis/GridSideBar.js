@@ -4,17 +4,14 @@ import { withStyles } from '@material-ui/core/styles';
 // import Divider from '@material-ui/core/Divider';
 import green from '@material-ui/core/colors/green';
 import FormGroup from '@material-ui/core/FormGroup';
+import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { fade } from '@material-ui/core/styles/colorManipulator';
-
-import { Checkbox, ControlGroup } from "@blueprintjs/core";
 
 import SideBarWrapper from '../SideBarWrapper';
 
@@ -31,7 +28,7 @@ class GridSideBar extends Component {
       to_be_electrified: false,
       electrified: false,
       checked_proposed: false,
-      checked_lines: false,
+      checked_33_line: false,
     };
   }
 
@@ -58,12 +55,11 @@ class GridSideBar extends Component {
           <FormControlLabel
             control={
               <Checkbox
-                checked={this.state.electrified}
-                onChange={ () => { this.props.onChecked("electrified") } }
+                checked={this.props.electrified}
+                onChange={ (e) => { this.props.onChecked(e) } }
                 value="Electrified"
                 color="primary"
-                icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                checkedIcon={<CheckBoxIcon fontSize="small" />}
+                name="electrified"
                 classes={{
                   root: classes.root,
                   checked: classes.checked,
@@ -75,12 +71,11 @@ class GridSideBar extends Component {
           <FormControlLabel
             control={
               <Checkbox
-                checked={this.state.to_be_electrified}
-                onChange={ () => { this.props.onChecked("to_be_electrified") } }
+                checked={this.props.to_be_electrified}
+                onChange={ (e) => { this.props.onChecked(e) } }
                 value="To be electrified"
                 color="primary"
-                icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                checkedIcon={<CheckBoxIcon fontSize="small" />}
+                name="to_be_electrified"
                 classes={{
                   root: classes.root,
                   checked: classes.checked,
@@ -103,7 +98,7 @@ class GridSideBar extends Component {
             onChange={ (e) => { this.props.onChange(e) } }
             input={<Input name="region" id="region-open-select" />}
           >
-            <option value="">{ `${"--Choose region--"}` }</option>
+            <option value="">{ `${"--Select region--"}` }</option>
             { this.props.regions.map((region) => (
                 <option value={region.name}>{ region.name }</option>
               ))
@@ -122,7 +117,7 @@ class GridSideBar extends Component {
             onChange={ (e) => { this.props.onChange(e) } }
             input={<Input name="district" id="district-open-select" />}
           >
-            <option value="">{ `${"--Choose district--"}` }</option>
+            <option value="">{ `${"--Select district--"}` }</option>
             { this.props.regions.map((region) => {
                 return region.districts.map((district) => (
                     <option value={ district.name }>{ district.name }</option>
@@ -137,12 +132,11 @@ class GridSideBar extends Component {
           <FormControlLabel
             control={
               <Checkbox
-                checked={this.state.electrified}
-                onChange={ () => { this.props.onChecked("electrified") } }
+                checked={this.props.checked_33_line}
+                onChange={ (e) => { this.props.onChecked(e) } }
                 value="checked_lines"
                 color="primary"
-                icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                checkedIcon={<CheckBoxIcon fontSize="small" />}
+                name="checked_33_line"
                 classes={{
                   root: classes.root,
                   checked: classes.checked,
@@ -154,12 +148,11 @@ class GridSideBar extends Component {
           <FormControlLabel
             control={
               <Checkbox
-                checked={this.state.to_be_electrified}
-                onChange={ () => { this.props.onChecked("checked_proposed") } }
+                checked={this.props.checked_proposed}
+                onChange={ (e) => { this.props.onChecked(e) } }
                 value="proposed"
                 color="primary"
-                icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                checkedIcon={<CheckBoxIcon fontSize="small" />}
+                name="checked_proposed"
                 classes={{
                   root: classes.root,
                   checked: classes.checked,
@@ -201,6 +194,8 @@ const styles = theme => ({
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
+    marginLeft: theme.spacing.unit * 1,
+    marginRight: theme.spacing.unit * 2,
     marginBottom: theme.spacing.unit * 1,
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing.unit * 0,
