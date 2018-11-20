@@ -1,0 +1,51 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+#side-bar-container {
+  margin-bottom: 10px;
+}
+
+.container-fluid {
+  height: 100%;
+  padding-right: 0 !important;
+}
+
+.container-fluid .col-sm-12, .col-md-12 {
+  height: 100%;
+}
+
+.container-fluid .col-sm-12, .col-md-12 .row {
+  height: 100%;
+}
+
+@media (min-width: 768px){
+  main {
+    -ms-flex: 0 0 80%;
+    flex: 0 0 80%;
+    max-width: 80%;
+  }
+
+  aside {
+    -ms-flex: 0 0 20%;
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+}
+
+@media (min-width: 576px){
+  main {
+    -ms-flex: 0 0 80%;
+    flex: 0 0 80%;
+    max-width: 80%;
+  }
+
+  aside {
+    -ms-flex: 0 0 20%;
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+}
