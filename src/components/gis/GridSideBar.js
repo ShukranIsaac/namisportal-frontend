@@ -32,6 +32,18 @@ class GridSideBar extends Component {
     };
   }
 
+  renderRegions({regions}){
+    return regions.map( ({name}) => <option value={ name } key={ name }>{ name }</option>)
+  }
+
+  renderDistricts({regions}){
+    return regions.map(({districts}) => {
+      return districts.map(({name}) => (
+          <option value={ name } key={ name }>{ name }</option>
+        ))
+    })
+  }
+  
   render() {
     const { classes } = this.props;
 
@@ -99,10 +111,7 @@ class GridSideBar extends Component {
             input={<Input name="region" id="region-open-select" />}
           >
             <option value="">{ `${"--Select region--"}` }</option>
-            { this.props.regions.map((region) => (
-                <option value={region.name}>{ region.name }</option>
-              ))
-            }
+            { this.renderRegions(this.props) }
           </NativeSelect>
           <FormHelperText><em>Add region filter</em></FormHelperText>
         </FormControl>
@@ -118,12 +127,7 @@ class GridSideBar extends Component {
             input={<Input name="district" id="district-open-select" />}
           >
             <option value="">{ `${"--Select district--"}` }</option>
-            { this.props.regions.map((region) => {
-                return region.districts.map((district) => (
-                    <option value={ district.name }>{ district.name }</option>
-                  ))
-              })
-            }
+            { this.renderDistricts(this.props) }
           </NativeSelect>
           <FormHelperText><em>Add district filter</em></FormHelperText>
         </FormControl>

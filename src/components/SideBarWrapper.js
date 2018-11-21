@@ -20,11 +20,6 @@ const SideBarWrapper = (WrappedComponent) => {
                 paper: classes.drawerPaper,
               }}
             >
-              <ControlGroup fill={true} vertical={false}>
-                <ButtonBlueprint icon="filter">Filter</ButtonBlueprint>
-                <ButtonBlueprint icon="arrow-right" />
-              </ControlGroup>
-
               <div id="side-bar-container">
                 <form autoComplete="on">
 

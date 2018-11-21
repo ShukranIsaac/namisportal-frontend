@@ -100,7 +100,7 @@ class MinGridMap extends Component {
         <CunstomGoogleMap
           googleMapURL='https://maps.googleapis.com/maps/api/js?key=AIzaSyA8-4amVHsfL-PCglVdff9yauniqT4hVQk&libraries=places'
           loadingElement={<div style={{ height: `100%` }} />}
-          containerElement={<div style={{ height: `100vh` }} />}
+          containerElement={<div id="map-canvas" style={{ height: `900px` }} />}
           mapElement={<div id="map" style={{ height: `100%` }} />}
         >
         </CunstomGoogleMap>

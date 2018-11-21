@@ -1,0 +1,9 @@
+.container{
+    width: 80%;
+    margin: 0 auto;
+}
+
+.heading {
+    padding-left: 10px;
+    border-left: solid #15B371;
+}
