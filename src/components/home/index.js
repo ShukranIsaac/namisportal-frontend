@@ -20,7 +20,8 @@ class Home extends Component {
           align='center' 
           justify='center'
           m={1}
-          w={1}>
+          w={1}
+          className='landing-info'>
           <Box w={1/2} p={1} align='center'>
           <Card interactive={true} elevation={Elevation.TWO}>
             <h5 className="heading"><a href="#">Information for Mini-Grid Developers</a></h5>

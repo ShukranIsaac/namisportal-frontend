@@ -19,15 +19,11 @@ import "./App.css"
 class App extends Component {
 
   render() {
-    const header = {
-      background: '#3DCC91'
-    }
-
     return (
 
       <Router>
         <div>
-          <Navbar style={header}>
+          <Navbar>
             <Navbar.Group align={Alignment.LEFT}>
               <Link to="/">
                 <Navbar.Heading>Malawi Mini Grids</Navbar.Heading>
