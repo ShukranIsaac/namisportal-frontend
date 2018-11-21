@@ -5,8 +5,6 @@ import { Button, Navbar, Alignment } from "@blueprintjs/core";
 import Home from './components/home'
 import Contact from './components/contact'
 import Directory from './components/directory'
-import Documents from './components/documents'
-import User from './components/user'
 import FAQ from './components/faq'
 import GIS from './components/gis'
 import TASF from './components/tasf'

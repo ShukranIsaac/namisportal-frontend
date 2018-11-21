@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Button, Card, Callout, Collapse, Elevation, Icon } from "@blueprintjs/core"
-import { IconName } from "@blueprintjs/icons"
 
 export default class Document extends Component {
     constructor(){
@@ -21,10 +20,6 @@ export default class Document extends Component {
             fontSize: '1.2em',
             padding: '10px',
             cursor: 'pointer'
-        }
-    
-        const factsBack = {
-            background: '#CED9E0',
         }
 
         const docContainer = {
