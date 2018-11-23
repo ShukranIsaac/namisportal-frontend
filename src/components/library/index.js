@@ -12,34 +12,23 @@ import LegalRegFrameworks from './LegalRegFrameworks';
 import ResourcePlan from './ResourcePlan';
 
 class Library extends Component {
-  constructor(){
-    super()
-    this.state = {
-      navbarTabId: "Tarrifs"
-    }
-    this.handleNavBarChange = this.handleNavBarChange.bind(this);
-  }
+ 
 
   componentWillMount(){
-    console.log(this.props.fetchLibrary())
+    this.props.fetchLibrary()
   }
   
-  componentDidMount() {
-    const height = document.getElementById('footer').clientHeight;
-    this.setState({height})
-  }
-
   render(){
+    const { library } = this.props;
+
     const flexStyle = {
       margin: 'auto',
       background: '#15B371',
       padding: '12%'
     }
 
-    
+    console.log(library)
 
-    let { navbarTabId } = this.state;
-    console.log(this.props.library)
     return (
       <div>
         <Flex 
@@ -52,7 +41,7 @@ class Library extends Component {
           >
           <Box w={1} p={1}>
           <Card elevation={Elevation.TWO}>
-          <Tabs style={{justifyContent: 'center'}} className="test" id="TabsExample" selectedTabId={navbarTabId} onChange={ this.handleNavBarChange }>
+          <Tabs style={{justifyContent: 'center'}} className="test" id="TabsExample" selectedTabId='Tarrifs'>
                   <Tab id="Tarrifs" title="Tarrifs" panel={<Tarrifs/>}/>
                   <Tab id="Financing" title="Financing" panel={<Financing/>}/>
                   <Tab id="Policies-Stratigy" title="Policies and Strategies" panel={<PoliciesStratigies/>}/>
@@ -76,7 +65,7 @@ class Library extends Component {
 }
 
 const mapStateToProps = state => ({
-  library: state.library
+  library: state.library.library
 })
 
-export default connect(null, { fetchLibrary })(Library);
+export default connect(mapStateToProps, { fetchLibrary })(Library);
