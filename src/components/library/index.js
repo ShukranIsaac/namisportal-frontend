@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Tab, Tabs } from "@blueprintjs/core";
-import Footer from '../footer';
+import { connect } from 'react-redux'
+import { fetchLibrary } from '../../actions/library'
+import { Card, Elevation, Tab, Tabs } from "@blueprintjs/core";
 import Tarrifs from './Tarrifs';
 import { Flex, Box } from 'reflexbox'
 import './library.css'
@@ -14,32 +15,44 @@ class Library extends Component {
   constructor(){
     super()
     this.state = {
-      animate: true,
-      navbarTabId: "Tarrifs",
+      navbarTabId: "Tarrifs"
     }
     this.handleNavBarChange = this.handleNavBarChange.bind(this);
   }
 
+  componentWillMount(){
+    console.log(this.props.fetchLibrary())
+  }
+  
+  componentDidMount() {
+    const height = document.getElementById('footer').clientHeight;
+    this.setState({height})
+  }
+
   render(){
-    const containerStyle = {
-      width: '80%',
-      margin: '0 auto',
-      background: '#ffffff'
+    const flexStyle = {
+      margin: 'auto',
+      background: '#15B371',
+      padding: '12%'
     }
 
+    
 
     let { navbarTabId } = this.state;
+    console.log(this.props.library)
     return (
-      <>
+      <div>
         <Flex 
           p={4} 
           align='center' 
           justify='center'
           m={1}
-          w={1}>
+          w={1}
+          style={flexStyle}
+          >
           <Box w={1} p={1}>
-            <div style={containerStyle} align='center'>
-              <Tabs style={{justifyContent: 'center'}} className="test" id="TabsExample" selectedTabId={navbarTabId} onChange={ this.handleNavBarChange }>
+          <Card elevation={Elevation.TWO}>
+          <Tabs style={{justifyContent: 'center'}} className="test" id="TabsExample" selectedTabId={navbarTabId} onChange={ this.handleNavBarChange }>
                   <Tab id="Tarrifs" title="Tarrifs" panel={<Tarrifs/>}/>
                   <Tab id="Financing" title="Financing" panel={<Financing/>}/>
                   <Tab id="Policies-Stratigy" title="Policies and Strategies" panel={<PoliciesStratigies/>}/>
@@ -47,15 +60,11 @@ class Library extends Component {
                   <Tab id="Legal-Regulatory-Frameworks" title="Legal and Regulatory Frameworks" panel={<LegalRegFrameworks/>}/>
                   <Tab id="Resource-Plan" title="Resource Plan" panel={<ResourcePlan/>}/>
               </Tabs>
-
-            
-            </div>
+          </Card>
           </Box>
 
           </Flex>
-        
-        <Footer/>
-      </>
+      </div>
       
      
     );
@@ -66,4 +75,8 @@ class Library extends Component {
   }
 }
 
-export default Library;
+const mapStateToProps = state => ({
+  library: state.library
+})
+
+export default connect(null, { fetchLibrary })(Library);

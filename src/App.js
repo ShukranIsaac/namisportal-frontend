@@ -14,13 +14,30 @@ import Library from './components/library'
 import Licensing from './components/licensing'
 
 import "./App.css"
+import Footer from './components/footer';
 class App extends Component {
+  constructor(){
+    super()
+    this.state = {height: 0}
+  }
+
+  componentDidMount() {
+    const height = document.getElementById('footer').clientHeight;
+    this.setState({height})
+  }
 
   render() {
+    const wrapper = {
+      minHeight: '100vh',
+      position: 'relative'
+    }
+    const content = {
+      paddingBottom: this.state.height,
+    }
     return (
-
+      <div style={wrapper}>
       <Router>
-        <div>
+        <div style={content}>
           <Navbar>
             <Navbar.Group align={Alignment.LEFT}>
               <Link to="/">
@@ -81,6 +98,8 @@ class App extends Component {
         </div>
 
       </Router>
+      <Footer/>
+      </div>
     );
 
   }

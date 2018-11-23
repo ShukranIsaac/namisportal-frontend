@@ -39,12 +39,19 @@ class MinGridMap extends Component {
   }
 
   componentWillUpdate() {
-    const map = new window.google.maps.Map(document.getElementById('map'), {
-      center: {lat: -13.2512, lng: 34.3015},
-      zoom: 7,
-      mapTypeId: 'roadmap',
-    });
+    let map = {}
+    try{
+      map = new window.google.maps.Map(document.getElementById('map'), {
+        center: {lat: -13.2512, lng: 34.3015},
+        zoom: 7,
+        mapTypeId: 'roadmap',
+      });
+  
+    }catch(err){
 
+      console.log(err)
+    }
+    
     map.addListener('zoom_changed', () => {
       this.setState({
         zoom: map.getZoom(),

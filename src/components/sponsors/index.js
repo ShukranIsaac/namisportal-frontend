@@ -5,7 +5,8 @@ export default class Sponsors extends Component{
     render(){
         const container = {
             margin: '0 auto',
-            width: '80%'
+            width: '80%',
+            paddingTop: '20px'
         }
 
         const imageContainer = {
