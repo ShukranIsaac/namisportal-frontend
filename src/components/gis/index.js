@@ -13,7 +13,6 @@ class GIS extends Component {
 
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
-    console.log(event.target.name + ":"+event.target.value);
   }
 
   handleChecked = (event) => {
@@ -31,7 +30,7 @@ class GIS extends Component {
 
   handleSignUp = (redirect) => {
     if (redirect) {
-      return (<Redirect to="/signup" />);
+      return (<Redirect to="/home" />);
     }
   }
 

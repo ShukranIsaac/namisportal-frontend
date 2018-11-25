@@ -32,18 +32,35 @@ class GridSideBar extends Component {
     };
   }
 
-  renderRegions({regions}){
+  renderRegions = ({regions}) => {
     return regions.map( ({name}) => <option value={ name } key={ name }>{ name }</option>)
   }
 
-  renderDistricts({regions}){
-    return regions.map(({districts}) => {
-      return districts.map(({name}) => (
-          <option value={ name } key={ name }>{ name }</option>
-        ))
-    })
+  filterDistrictsPerRegion = (regions) => {
+
+    return regions.filter((region) => {
+      if (region.name === this.props.region) {
+        return region;
+      }
+    });
+    
   }
-  
+
+  renderDistricts = ({regions}) => {
+    if (this.props.region != undefined && this.props.region != null) {
+
+      return this.filterDistrictsPerRegion(regions).map(({districts}) => {
+
+        return districts.map(({name}) => {
+            return <option value={ name } key={ name }>{ name }</option>
+          }
+        );
+      })
+
+    }
+
+  }
+
   render() {
     const { classes } = this.props;
 

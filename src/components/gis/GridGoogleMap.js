@@ -46,12 +46,11 @@ class MinGridMap extends Component {
         zoom: 7,
         mapTypeId: 'roadmap',
       });
-  
-    }catch(err){
 
+    }catch(err){
       console.log(err)
     }
-    
+
     map.addListener('zoom_changed', () => {
       this.setState({
         zoom: map.getZoom(),
