@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { fetchLibrary } from '../../actions/library'
+import { connect } from 'react-redux';
+import { fetchLibrary } from '../../actions/index';
 import { Card, Elevation, Tab, Tabs } from "@blueprintjs/core";
 import Tarrifs from './Tarrifs';
 import { Flex, Box } from 'reflexbox'
@@ -12,12 +12,11 @@ import LegalRegFrameworks from './LegalRegFrameworks';
 import ResourcePlan from './ResourcePlan';
 
 class Library extends Component {
- 
 
   componentWillMount(){
     this.props.fetchLibrary()
   }
-  
+
   render(){
     const { library } = this.props;
 
@@ -27,13 +26,11 @@ class Library extends Component {
       padding: '12%'
     }
 
-    console.log(library)
-
     return (
       <div>
-        <Flex 
-          p={4} 
-          align='center' 
+        <Flex
+          p={4}
+          align='center'
           justify='center'
           m={1}
           w={1}
@@ -54,8 +51,8 @@ class Library extends Component {
 
           </Flex>
       </div>
-      
-     
+
+
     );
   }
 

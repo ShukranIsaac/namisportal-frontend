@@ -1,20 +1,17 @@
-import { FETCH_LIBRARY } from '../action_type/index';
+import { FETCH_GIS } from '../action_type/index';
 
 const initialState = {
-    library: []
+    gis: []
 }
 
 export default (state = initialState, action) => {
     switch(action.type){
-        case FETCH_LIBRARY:
-            console.log('sasdas')
-
+        case FETCH_GIS:
             return {
                 ...state,
-                library: action.payload
+                gis: [...state.gis, action.payload]
             }
         default:
-            console.log('default')
             return state;
     }
 }
