@@ -14,11 +14,15 @@ import MainContentWrapper from '../MainContentWrapper';
 class LicensingProfile extends Component {
 
   expPanel = (props) => {
+
     return (
       <ExpansionPanel>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography className={props.classes.heading}>
-            { props.capacity ? <div>{ props.capacity }</div> : <div>Step</div> }
+        <ExpansionPanelSummary className={ props.classes.button } expandIcon={<ExpandMoreIcon />}>
+          <Typography className={ props.classes.heading }>
+            {
+              props.capacity !== undefined && props.capacity !== null ?
+              <div>{ props.capacity }</div> : <div>{`Step`}</div>
+            }
           </Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
@@ -26,9 +30,11 @@ class LicensingProfile extends Component {
         </ExpansionPanelDetails>
       </ExpansionPanel>
     );
+
   }
 
   licenseTypeHeading = (props) => {
+
     return (
       <Card className={props.classes.card}>
         <CardContent>
@@ -43,9 +49,11 @@ class LicensingProfile extends Component {
         </CardContent>
       </Card>
     );
+
   }
 
   render(){
+
     const { classes, capacity } = this.props;
 
     return (
@@ -92,6 +100,12 @@ const styles = theme => ({
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
   },
+  button: {
+    width: '100%',
+    borderRadius: '0',
+    background: '#BFCCD6',
+    fontSize: '1.1em'
+  }
 });
 
 LicensingProfile.propTypes = {

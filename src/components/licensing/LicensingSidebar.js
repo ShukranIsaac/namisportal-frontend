@@ -10,18 +10,26 @@ import Select from '@material-ui/core/Select';
 
 import SideBarWrapper from '../SideBarWrapper';
 
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
+const intended = [
+  {
+    capacity: ["Up to 1 MW", "1 to 10 MW", "No generation"],
+  },
+  {
+    technology: ["Solar","Wind","Hydro","Biomass"]
+  },
+  {
+    hybrid: ["Yes","No"],
+  },
+  {
+    wholesale_selling: ["DNO (Without SPPA)","DNO (Without SPPA)","N/A (Retail Only)","N/A (Own Use)"],
+  },
+  {
+    retail_selling: ["Customers in own grid"," Customers in other DNO grid","Customers in own grid and in other DNO grid","N/A (No Retail Customers)"],
+  },
+  {
+    own_mini_grid: ["Up to 1 MW", "1 to 10 MW"]
+  }
+]
 
 class LicensingSidebar extends Component {
 
@@ -40,6 +48,7 @@ class LicensingSidebar extends Component {
   }
 
   formControls = (props) => {
+
     return (
       <FormControl variant="outlined" className={props.classes.formControl}>
         <InputLabel
@@ -63,9 +72,15 @@ class LicensingSidebar extends Component {
           }
         >
           <option value=""></option>
-          {props.names.map(name => (
-            <option key={name} value={name}>{name}</option>
-          ))}
+          {props.intended.map((object) => {
+
+            return object[Object.keys(object)[0]].map((name, key) => {
+
+              return <option key={key} value={name}>{name}</option>;
+              
+            });
+
+          })}
         </Select>
       </FormControl>
     );
@@ -80,12 +95,12 @@ class LicensingSidebar extends Component {
           <em className={classes.emText}>
             Please select the options below which apply to the profile of your intended activity:
           </em>
-          { this.formControls({classes, names, value: "Capacity"}) }
-          { this.formControls({classes, names, value: "Technology"}) }
-          { this.formControls({classes, names, value: "Hybrid"}) }
-          { this.formControls({classes, names, value: "Wholesale Selling to"}) }
-          { this.formControls({classes, names, value: "Own Mini-Grid"}) }
-          { this.formControls({classes, names, value: "Retail Electricity Selling to"}) }
+          { this.formControls({classes, intended, value: "Capacity"}) }
+          { this.formControls({classes, intended, value: "Technology"}) }
+          { this.formControls({classes, intended, value: "Hybrid"}) }
+          { this.formControls({classes, intended, value: "Wholesale Selling to"}) }
+          { this.formControls({classes, intended, value: "Own Mini-Grid"}) }
+          { this.formControls({classes, intended, value: "Retail Electricity Selling to"}) }
         </div>
       </div>
     );
@@ -100,7 +115,7 @@ const styles = theme => ({
     display: 'flex',
     flexWrap: 'wrap',
     width: `100%`,
-    height: `100%`
+    height: `100%`,
   },
   emText: {
     margin: theme.spacing.unit * 2,

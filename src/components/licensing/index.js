@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import LicensingProfile from './LicensingProfileActivity';
+import LicensingProfile from './LicensingProfile';
 import LicensingSidebar from './LicensingSidebar';
 
 class Licensing extends Component {
@@ -38,6 +38,13 @@ const styles = theme => ({
     overflow: 'hidden',
     position: 'relative',
     display: 'flex',
+  },
+  button: {
+    width: '100%',
+    textAlign: 'left',
+    borderRadius: '0',
+    background: '#BFCCD6',
+    fontSize: '1.2em'
   }
 });
 

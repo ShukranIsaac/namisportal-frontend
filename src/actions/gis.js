@@ -4,7 +4,7 @@ const gis = [{
 
 }]
 
-export const fetchLibrary = () => dispatch => {
+export const fetchGis = () => dispatch => {
 
     let action = {
         type: FETCH_GIS,
