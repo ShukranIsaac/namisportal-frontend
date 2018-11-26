@@ -12,6 +12,14 @@ import LegalRegFrameworks from './LegalRegFrameworks';
 import ResourcePlan from './ResourcePlan';
 
 class Library extends Component {
+  constructor(){
+    super()
+    this.state = {
+      navbarTabId: "Tarrifs"
+    }
+
+    this.handleNavBarChange = this.handleNavBarChange.bind(this);
+  }
 
   componentWillMount(){
     this.props.fetchLibrary()
@@ -38,7 +46,7 @@ class Library extends Component {
           >
           <Box w={1} p={1}>
           <Card elevation={Elevation.TWO}>
-          <Tabs style={{justifyContent: 'center'}} className="test" id="TabsExample" selectedTabId='Tarrifs'>
+          <Tabs style={{justifyContent: 'center'}} className="test" id="TabsExample" selectedTabId={this.state.navbarTabId} onChange={this.handleNavBarChange}>
                   <Tab id="Tarrifs" title="Tarrifs" panel={<Tarrifs/>}/>
                   <Tab id="Financing" title="Financing" panel={<Financing/>}/>
                   <Tab id="Policies-Stratigy" title="Policies and Strategies" panel={<PoliciesStratigies/>}/>
