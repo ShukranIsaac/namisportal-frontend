@@ -1,18 +1,22 @@
 var fs = require("fs");
 var contents = fs.readFileSync('marep.json');
 var polygons = fs.readFileSync('districts.json');
+var centroids = fs.readFileSync('d_centroids.geojson');
 var jsonContent = JSON.parse(contents);
 var polygonContent = JSON.parse(polygons);
+var districtCenters = JSON.parse(centroids);
 
 let districts = ['Chitipa', 'Karonga', 'Likoma', 'Mzimba', 'Nkhatabay', 'Rumphi', 'Dedza', 'Dowa', 'Kasungu', 'Lilongwe', 'Mchinji', 'Nkhotakota', 'Ntcheu', 'Ntchisi', 'Salima', 'Balaka', 'Blantyre', 'Chikhwawa', 'Chiradzulu', 'Machinga', 'Mangochi', 'Mulanje', 'Mwanza', 'Neno', 'Nsanje', 'Phalombe', 'Thyolo', 'Zomba']
 let centers = jsonContent.features;
 let newCenters = mapCenters(centers);
+let d_centroid = districtCenters.features;
 
+createJsonFile('d_centroids', districtCentroids(d_centroid))
 //districts = mapCentersToDistrict(districts, newCenters)
 //console.log(newCenters);
 //console.log(districts);
 //console.log(polygonContent.features);
-console.log(mapPolygonDistricts(polygonContent.features))
+//console.log(mapPolygonDistricts(polygonContent.features))
 //console.log(mapPolygonDistricts(polygonContent.features))
 
 function createJsonFile(fileName, content){
@@ -40,6 +44,17 @@ function mapPolygonDistricts(polygons){
     })
 }
 
+
+function districtCentroids(centers){
+    return centers.map((center) => {
+        let coordinates = mapCoordinates(center.geometry.coordinates)
+        let district = center.properties.name_1
+        return {
+            district,
+            coordinates
+        }
+    })
+}
 
 
 function mapCenters(centers){
