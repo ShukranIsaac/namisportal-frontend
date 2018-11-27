@@ -9,24 +9,31 @@ import MainContentWrapper from '../MainContentWrapper';
 import './grid.css';
 //https://tomchentw.github.io/react-google-maps/#markerclusterer
 
+//const {features} = require('../../assets/gis/regions.json');
+
+
 const CunstomGoogleMap = withScriptjs(
-    withGoogleMap(props => (
-          <GoogleMap
-            defaultZoom={7}
-            defaultCenter={{lat: -13.2512, lng: 34.30154}}
-            defaultOptions={{
-              scrollwheel: false,
-              zoomControl: true,
-            }}
-            center={props.polygonCentroid}
-          >
+    withGoogleMap(props => {
 
-            {props.onMarepCenter}
+          return <>
+            <GoogleMap
+              defaultZoom={props.zoom}
+              defaultCenter={props.onCenterChanged}
+              defaultOptions={{
+                scrollwheel: false,
+                zoomControl: true,
+              }}
+              center={props.onCenterChanged}
+              zoom={props.zoom}
+            >
 
-            {props.onRenderPolygon}
+              {props.onMarepCenter}
 
-          </GoogleMap>
-        ))
+              {props.onRenderPolygon}
+
+            </GoogleMap>
+          </>
+        })
     );
 
 /*
@@ -38,11 +45,9 @@ class MinGridMap extends Component {
     super();
     this.state = {
       zoom: 7,
-      maptype: 'roadmap',
-      place_formatted: '',
-      place_id: '',
-      place_location: '',
-      newCenter: {lat: -13.2512, lng: 34.30154}
+      newCenter: {
+        lat: -13.2512, lng: 34.30154
+      },
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -61,9 +66,6 @@ class MinGridMap extends Component {
 
       const {centers} = require('../../assets/gis/marep-centers/'+ district +'.json');
 
-      // this.setState({newCenter: });
-      this.getPolygonCentroid(this.props);
-
       return <>
         <MarkerClusterer>
           {
@@ -75,23 +77,51 @@ class MinGridMap extends Component {
       </>
     } else {
 
-      return <MarkerClusterer></MarkerClusterer>;
+      return <>
+        <MarkerClusterer></MarkerClusterer>
+      </>;
     }
 
   }
 
   renderPolygons = ({district}) => {
+
     if (district !== null && district !== undefined) {
 
       const {coordinates} = require('../../assets/gis/polygons/'+ district +'.json');
 
-      return <Polygon paths={coordinates} ></Polygon>;
+      return <>
+        <Polygon
+          paths={coordinates}
+          options={{
+            fillOpacity: 0.4,
+            strokeColor: "red",
+            strokeOpacity: 1,
+            strokeWeight: 1
+          }}
+        >
+        </Polygon>
+      </>;
     } else {
 
-      return <Polygon></Polygon>;
+      return <>
+        <Polygon></Polygon>
+      </>;
     }
   }
 
+/*  renderRegions = (regions) => {
+
+    let paths = regions.map(({geometry}) => {
+// console.log(geometry);
+    let myList = geometry.coordinates.reduce((lis, polygon) => {
+        return list.push(polygon.flat());
+      }, [])
+console.log(myList);
+    })
+
+  }
+*/
   filterDistrictsCentroids = (districts, district) => {
 
     return districts.filter((o) => {
@@ -102,39 +132,31 @@ class MinGridMap extends Component {
 
   }
 
-//   const {coordinates} = require('../../assets/gis/polygons/'+ district +'.json');
-// console.log(coordinates);
-//   let coord:any = [];
-//   coordinates.map((obj) => {
-//     coord.push([obj.lat, obj.lng]);
-//   });
-//   console.log(coord);
-//   let center = coord.reduce( (x,y) => {
-//     //console.log(x.lat);
-//       return {"lat":x[0] + y[0]/coord.length, "lng":x[1] + y[1]/coord.length}
-//   }, [0,0])
-// console.log(center);
-//
-//   return center;
-
   getPolygonCentroid = ({district}) => {
 
     if (district !== null && district !== undefined) {
-console.log(district);
+
       const d_centers = require('../../assets/gis/d-centroids/d_centroids.json');
 
-      this.filterDistrictsCentroids(d_centers, district).map(({coordinates}) => {
-console.log(coordinates);
-        this.setState({newCenter: coordinates})
+      let centroid = this.filterDistrictsCentroids(d_centers, district).map(({coordinates}) => {
+
+        return coordinates;
       })
+
+      return centroid[0];
     } else {
 
+      return this.state.newCenter;
     }
 
   }
 
   render() {
-    const { search } = this.props;
+    const { district, region } = this.props;
+
+    if (district !== null && district !== undefined || region !== null && region !== undefined) {
+      //this.setState({ zoom: 9})
+    }
 
     return (
       <div>
@@ -145,7 +167,8 @@ console.log(coordinates);
           mapElement={<div id="map" style={{ height: `100%` }} />}
           onRenderPolygon={this.renderPolygons(this.props)}
           onMarepCenter ={this.renderMarepCenters(this.props)}
-          polygonCentroid= {this.state.newCenter}
+          onCenterChanged= {this.getPolygonCentroid(this.props)}
+          {...this.state}
         >
         </CunstomGoogleMap>
       </div>

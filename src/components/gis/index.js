@@ -149,10 +149,6 @@ class GIS extends Component {
             name: "Mzimba",
             coord: {}
           },
-          {
-            name: "Mzuzu",
-            coord: {}
-          },
         ]
       },
     ];
