@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker  } from "react-google-maps";
+import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
+import zombaGrids from '../../assets/gis/marep-centers/Zomba.json'
 
 import MainContentWrapper from '../MainContentWrapper';
 
 import './grid.css';
+//https://tomchentw.github.io/react-google-maps/#markerclusterer
 
+const marker = zombaGrids.centers[0].coordinates;
 const CunstomGoogleMap = withScriptjs(
     withGoogleMap(props => (
       <GoogleMap
@@ -17,7 +21,18 @@ const CunstomGoogleMap = withScriptjs(
           zoomControl: true,
         }}
       >
-        <Marker position={{lat: -13.2512, lng: 34.3015}} />
+      <MarkerClusterer>
+        {
+          zombaGrids.centers.map(center => {
+            return <Marker position={center.coordinates}/>
+          })
+        }
+      </MarkerClusterer>
+      {console.log(marker)}
+          
+        )) }
+       
+        
       </GoogleMap>
     ))
   );
@@ -44,6 +59,7 @@ class MinGridMap extends Component {
 
   render() {
     const { search } = this.props;
+    console.log(zombaGrids.centers[2])
 
     return (
       <div>

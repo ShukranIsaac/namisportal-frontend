@@ -1,5 +1,5 @@
 var fs = require("fs");
-var contents = fs.readFileSync('marep_centres.json');
+var contents = fs.readFileSync('marep.json');
 var polygons = fs.readFileSync('districts.json');
 var jsonContent = JSON.parse(contents);
 var polygonContent = JSON.parse(polygons);
@@ -34,7 +34,8 @@ function mapPolygonDistricts(polygons){
             },
             coordinates: mapPolygonCoordinates(polygon.geometry.coordinates)
         }
-        createJsonFile(res.properties.name, res);
+        console.log(res.coordinates)
+        //createJsonFile(res.properties.name, res);
         return res;
     })
 }
@@ -67,8 +68,8 @@ function filterPolygonDistricts(district, polygons){
 
 function mapCoordinates(coordinates){
     return {
-        lat: coordinates[0],
-        lng: coordinates[1]
+        lat: coordinates[1],
+        lng: coordinates[0]
     }
 }
 
@@ -93,6 +94,7 @@ function mapCentersToDistrict(districts, centers){
             },
             centers: districtCenters
         }
+        console.log(res.centers)
         createJsonFile(district, res);
         return res;
     })
