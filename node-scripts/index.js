@@ -8,11 +8,11 @@ let districts = ['Chitipa', 'Karonga', 'Likoma', 'Mzimba', 'Nkhatabay', 'Rumphi'
 let centers = jsonContent.features;
 let newCenters = mapCenters(centers);
 
-districts = mapCentersToDistrict(districts, newCenters)
+//districts = mapCentersToDistrict(districts, newCenters)
 //console.log(newCenters);
-console.log(districts);
+//console.log(districts);
 //console.log(polygonContent.features);
-//console.log(mapPolygonDistricts(polygonContent.features))
+console.log(mapPolygonDistricts(polygonContent.features))
 //console.log(mapPolygonDistricts(polygonContent.features))
 
 function createJsonFile(fileName, content){
@@ -34,8 +34,8 @@ function mapPolygonDistricts(polygons){
             },
             coordinates: mapPolygonCoordinates(polygon.geometry.coordinates)
         }
-        console.log(res.coordinates)
-        //createJsonFile(res.properties.name, res);
+        //console.log(res.coordinates)
+        createJsonFile(res.properties.name, res);
         return res;
     })
 }
@@ -64,7 +64,7 @@ function filterPolygonDistricts(district, polygons){
     console.log(res)
     return res
 }
-     
+
 
 function mapCoordinates(coordinates){
     return {
@@ -74,7 +74,7 @@ function mapCoordinates(coordinates){
 }
 
 function mapPolygonCoordinates(coordinates){
-    
+
     return coordinates.map((coordinate) => {
 
         //console.log(coordinate)

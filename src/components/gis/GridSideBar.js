@@ -43,7 +43,7 @@ class GridSideBar extends Component {
         return region;
       }
     });
-    
+
   }
 
   renderDistricts = ({regions}) => {
@@ -79,41 +79,6 @@ class GridSideBar extends Component {
             </div>
           </div>
         </div>
-        <div className={classes.grow} />
-        <FormGroup row>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={this.props.electrified}
-                onChange={ (e) => { this.props.onChecked(e) } }
-                value="Electrified"
-                color="primary"
-                name="electrified"
-                classes={{
-                  root: classes.root,
-                  checked: classes.checked,
-                }}
-              />
-            }
-            label="Electrified"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={this.props.to_be_electrified}
-                onChange={ (e) => { this.props.onChecked(e) } }
-                value="To be electrified"
-                color="primary"
-                name="to_be_electrified"
-                classes={{
-                  root: classes.root,
-                  checked: classes.checked,
-                }}
-              />
-            }
-            label="To be electrified"
-          />
-        </FormGroup>
 
         <div className={classes.grow} />
 
@@ -149,38 +114,40 @@ class GridSideBar extends Component {
           <FormHelperText><em>Add district filter</em></FormHelperText>
         </FormControl>
 
+        <div className={classes.grow} />
+
         <FormGroup row>
           <FormControlLabel
             control={
               <Checkbox
-                checked={this.props.checked_33_line}
+                checked={this.props.electrified}
                 onChange={ (e) => { this.props.onChecked(e) } }
-                value="checked_lines"
+                value="Electrified"
                 color="primary"
-                name="checked_33_line"
+                name="electrified"
                 classes={{
                   root: classes.root,
                   checked: classes.checked,
                 }}
               />
             }
-            label={ `${"33/11kV Lines"}` }
+            label="Electrified"
           />
           <FormControlLabel
             control={
               <Checkbox
-                checked={this.props.checked_proposed}
+                checked={this.props.to_be_electrified}
                 onChange={ (e) => { this.props.onChecked(e) } }
-                value="proposed"
+                value="To be electrified"
                 color="primary"
-                name="checked_proposed"
+                name="to_be_electrified"
                 classes={{
                   root: classes.root,
                   checked: classes.checked,
                 }}
               />
             }
-            label={ `${"Proposed 33/11kV Lines"}` }
+            label="To be electrified"
           />
         </FormGroup>
       </div>

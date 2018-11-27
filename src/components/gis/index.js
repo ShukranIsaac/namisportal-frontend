@@ -28,12 +28,6 @@ class GIS extends Component {
     this.setState({ [event.target.name]: event.target.checked });
   }
 
-  handleSignUp = (redirect) => {
-    if (redirect) {
-      return (<Redirect to="/home" />);
-    }
-  }
-
   render(){
 
     let regions = [
@@ -53,7 +47,7 @@ class GIS extends Component {
             coord: {}
           },
           {
-            name: "Ntchinji",
+            name: "Mchinji",
             coord: {}
           },
           {
@@ -82,7 +76,7 @@ class GIS extends Component {
             coord: {}
           },
           {
-            name: "Chikhwawa",
+            name: "Chikwawa",
             coord: {}
           },
           {
