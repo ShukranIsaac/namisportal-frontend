@@ -38,8 +38,8 @@ export default class Tarrifs extends Component {
     }
 
     renderDocuments(docs){
-        return docs.map(({name, path, summary}) => {
-            return <Document name={name} path={path} summary={summary}/>
+        return docs.map(({name, path, summary}, key) => {
+            return <Document key={key} name={name} path={path} summary={summary}/>
         })
     }
 

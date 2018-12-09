@@ -33,8 +33,8 @@ export default class PoliciesStratigies extends Component {
     }
 
     renderDocuments(docs){
-        return docs.map(({name, path, summary}) => {
-            return <Document name={this.toTitleCase(name)} path={path} summary={summary}/>
+        return docs.map(({name, path, summary}, key) => {
+            return <Document key={key} name={this.toTitleCase(name)} path={path} summary={summary}/>
         })
     }
 

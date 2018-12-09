@@ -19,6 +19,9 @@ createJsonFile('d_centroids', districtCentroids(d_centroid))
 //console.log(mapPolygonDistricts(polygonContent.features))
 //console.log(mapPolygonDistricts(polygonContent.features))
 
+
+//const {features} = require('../../assets/gis/regions.json');
+
 function createJsonFile(fileName, content){
     fileName = './'+fileName+'.json';
     fs.writeFile(fileName, JSON.stringify(content), (err) => {
