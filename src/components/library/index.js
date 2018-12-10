@@ -26,8 +26,7 @@ class Library extends Component {
   }
 
   render(){
-    const { library } = this.props;
-
+    
     const flexStyle = {
       margin: 'auto',
       background: '#15B371',

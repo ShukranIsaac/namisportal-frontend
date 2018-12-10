@@ -25,6 +25,9 @@ var mapped = mapRegionToPolygon(flattened);
 //createJsonFile('regionsMapped', mapped);
 //console.log(mapPolygonDistricts(polygonContent.features))
 
+
+//const {features} = require('../../assets/gis/regions.json');
+
 function createJsonFile(fileName, content){
     fileName = './'+fileName+'.json';
     fs.writeFile(fileName, JSON.stringify(content), (err) => {

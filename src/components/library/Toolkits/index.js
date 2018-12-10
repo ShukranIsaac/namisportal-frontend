@@ -58,8 +58,8 @@ export default class Toolkits extends Component {
     }
 
     renderDocuments(docs){
-        return docs.map(({name, path, summary}) => {
-            return <Document key={name} name={name} path={path} summary={summary}/>
+        return docs.map(({name, path, summary}, key) => {
+            return <Document key={key} name={name} path={path} summary={summary}/>
         })
     }
 

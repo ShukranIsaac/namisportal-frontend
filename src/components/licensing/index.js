@@ -9,9 +9,7 @@ class Licensing extends Component {
 
   constructor() {
     super();
-    this.state = {
-      capacity: '',
-    }
+    this.state = {}
   }
 
   handleChange = name => event => {
@@ -22,10 +20,12 @@ class Licensing extends Component {
     const { classes } = this.props;
 
     return (
-      <div className={classes.root}>
-        <LicensingSidebar onChange={ this.handleChange } {...this.state}/>
-        <LicensingProfile onChange={ this.handleChange } {...this.state}/>
-      </div>
+      <>
+        <div className={classes.root}>
+          <LicensingSidebar onChange={ this.handleChange } />
+          <LicensingProfile onChange={ this.handleChange } />
+        </div>
+      </>
     );
   }
 }

@@ -1,114 +1,103 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import { ControlGroup, FormGroup } from '@blueprintjs/core';
+
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 
 import SideBarWrapper from '../SideBarWrapper';
+import SelectDropdown from '../SelectDropdown';
 
-const intended = [
+const profileActivities = [
   {
-    capacity: ["Up to 1 MW", "1 to 10 MW", "No generation"],
+    name: 'Capacity',
+    options: [
+      { option: "Up to 1 MW" },
+      { option: "1 to 10 MW" },
+      { option:"No generation" }
+    ]
   },
   {
-    technology: ["Solar","Wind","Hydro","Biomass"]
+    name: 'Technology',
+    options: [
+      { option: "Solar" },
+      { option: "Wind"},
+      { option: "Hydro" },
+      { option: "Biomass" }
+    ]
   },
   {
-    hybrid: ["Yes","No"],
+    name: 'Hybrid',
+    options: [
+      { option: "Yes" } ,
+      { option: "No" }
+    ]
   },
   {
-    wholesale_selling: ["DNO (Without SPPA)","DNO (Without SPPA)","N/A (Retail Only)","N/A (Own Use)"],
+    name: 'Wholesale Selling',
+    options: [
+      { option: "DNO (With SPPA)" },
+      { option: "DNO (Without SPPA)" },
+      { option: "N/A (Retail Only)" },
+      { option: "N/A (Own Use)" }
+    ],
   },
   {
-    retail_selling: ["Customers in own grid"," Customers in other DNO grid","Customers in own grid and in other DNO grid","N/A (No Retail Customers)"],
+    name: 'Retail Selling',
+    options: [
+      { option: "Customers in own grid" },
+      { option: " Customers in other DNO grid" },
+      { option: "Customers in own grid and in other DNO grid" },
+      { option: "N/A (No Retail Customers)" }
+    ],
   },
   {
-    own_mini_grid: ["Up to 1 MW", "1 to 10 MW"]
+    name: 'Own Mini Grid',
+    options: [
+      { option: "Up to 1 MW" },
+      { option: "1 to 10 MW" }
+    ]
   }
-]
+];
 
 class LicensingSidebar extends Component {
 
   constructor() {
     super();
-    this.state = {
-      name: [],
-      labelWidth: 0,
-    };
+    this.state = { };
   }
-
-  componentDidMount() {
-    this.setState({
-      labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
-    });
-  }
-
-  formControls = (props) => {
-
-    return (
-      <FormControl variant="outlined" className={props.classes.formControl}>
-        <InputLabel
-            ref={ref => {
-              this.InputLabelRef = ref;
-            }}
-            htmlFor="select-outlined-placeholder"
-          >
-            { props.value }
-        </InputLabel>
-        <Select
-          native
-          value={this.state.capacity}
-          onChange={this.props.onChange("capacity")}
-          input={
-            <OutlinedInput
-              id="select-outlined-placeholder"
-              name="capacity"
-              labelWidth={this.state.labelWidth}
-            />
-          }
-        >
-          <option value=""></option>
-          {props.intended.map((object) => {
-
-            return object[Object.keys(object)[0]].map((name, key) => {
-
-              return <option key={key} value={name}>{name}</option>;
-              
-            });
-
-          })}
-        </Select>
-      </FormControl>
-    );
-  };
 
   render(){
-    const { classes } = this.props;
+    const { classes, onChange } = this.props;
 
     return (
-      <div>
+      <>
         <div className={classes.root}>
           <em className={classes.emText}>
             Please select the options below which apply to the profile of your intended activity:
           </em>
-          { this.formControls({classes, intended, value: "Capacity"}) }
-          { this.formControls({classes, intended, value: "Technology"}) }
-          { this.formControls({classes, intended, value: "Hybrid"}) }
-          { this.formControls({classes, intended, value: "Wholesale Selling to"}) }
-          { this.formControls({classes, intended, value: "Own Mini-Grid"}) }
-          { this.formControls({classes, intended, value: "Retail Electricity Selling to"}) }
+
+          <ControlGroup fill={false} vertical={true}>
+
+            { profileActivities.map((p, key) => {
+
+              return (
+                <FormGroup key={key} label={p.name}>
+
+                  <SelectDropdown onChange={onChange} key={key} profiles={p} />
+
+                </FormGroup>
+              );
+
+            })}
+
+          </ControlGroup>
+
         </div>
-      </div>
+      </>
     );
   }
 
 }
-
-// style={getStyles(name, this)}
 
 const styles = theme => ({
   root: {
@@ -118,7 +107,7 @@ const styles = theme => ({
     height: `100%`,
   },
   emText: {
-    margin: theme.spacing.unit * 2,
+    marginBottom: theme.spacing.unit * 1,
   },
   formControl: {
     margin: theme.spacing.unit,

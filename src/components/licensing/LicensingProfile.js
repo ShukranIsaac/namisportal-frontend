@@ -21,7 +21,8 @@ class LicensingProfile extends Component {
           <Typography className={ props.classes.heading }>
             {
               props.capacity !== undefined && props.capacity !== null ?
-              <div>{ props.capacity }</div> : <div>{`Step`}</div>
+              <>{ props.capacity }</>
+              : <>`${ 'Step' }`</>
             }
           </Typography>
         </ExpansionPanelSummary>

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button, Card, Callout, Collapse, Elevation, Icon } from "@blueprintjs/core"
 
 export default class Document extends Component {
+
     constructor(){
         super();
         this.state = {
@@ -10,6 +11,7 @@ export default class Document extends Component {
 
         this.handleClick = this.handleClick.bind(this);
     }
+    
     render(){
         const button = {
             display: 'flex',
@@ -32,15 +34,16 @@ export default class Document extends Component {
         }
 
         let { name, path, summary } = this.props;
+
         return (
             <div style={docContainer}>
-                <Callout onClick={this.handleClick} style={button} rightIcon="download"> 
-                    <div style={{ alignSelf: 'flex-start'}}>{ name }</div> 
+                <Callout onClick={this.handleClick} style={button} rightIcon="download">
+                    <div style={{ alignSelf: 'flex-start'}}>{ name }</div>
                     <div style={{marginLeft: 'auto'}}>
                         <Icon icon="download"/>
                     </div>
                 </Callout>
-                <Collapse isOpen={this.state.isOpen}>   
+                <Collapse isOpen={this.state.isOpen}>
                 <Card interactive={true} elevation={Elevation.ZERO}>
                     <p> { summary } </p>
                     <a  href={path} download={name}>
@@ -48,7 +51,7 @@ export default class Document extends Component {
                     </a>
                 </Card>
                 </Collapse>
-                
+
             </div>
         );
     }

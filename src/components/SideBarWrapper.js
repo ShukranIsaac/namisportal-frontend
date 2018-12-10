@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import Drawer from '@material-ui/core/Drawer';
 
-import { Button as ButtonBlueprint, ControlGroup } from "@blueprintjs/core";
-
 import './wrappers.css';
 
 const SideBarWrapper = (WrappedComponent) => {
