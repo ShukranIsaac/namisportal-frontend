@@ -91,35 +91,12 @@ class MinGridMap extends Component {
 
   }
 
-<<<<<<< HEAD
   renderPolygons = ({district, region}) => {
 console.log(region)
-=======
-  renderPolygon = (paths) => {
-
-    return <>
-      <Polygon
-        paths={paths}
-        options={{
-          fillOpacity: 0.4,
-          strokeColor: "red",
-          strokeOpacity: 1,
-          strokeWeight: 1
-        }}
-      >
-      </Polygon>
-    </>;
-
-  }
-
-  renderDistrictPolygons = ({district}) => {
-
->>>>>>> b8325526c8c88e2092561698cfada9efea714fe1
     if (district !== null && district !== undefined) {
 
       const {coordinates} = require('../../assets/gis/polygons/'+ district +'.json');
 
-<<<<<<< HEAD
       return <>
         <Polygon
           paths={coordinates}
@@ -149,11 +126,6 @@ console.log(region)
         </Polygon>
       </>;
     }else {
-=======
-      return this.renderPolygon(coordinates);
-
-    } else {
->>>>>>> b8325526c8c88e2092561698cfada9efea714fe1
 
       return <>
         <Polygon></Polygon>
@@ -191,16 +163,12 @@ console.log(region)
   }
 
   render() {
-<<<<<<< HEAD
     const { district, region } = this.props;
     console.log(this.props);
     if (district !== null && district !== undefined || region !== null && region !== undefined) {
       //this.setState({ zoom: 9})
     }
 
-=======
-    
->>>>>>> b8325526c8c88e2092561698cfada9efea714fe1
     return (
       <div>
         <CunstomGoogleMap
