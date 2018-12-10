@@ -69,6 +69,8 @@ class MinGridMap extends Component {
       return <>
         <MarkerClusterer>
           {
+
+
             centers.map(center => {
               return <Marker position={center.coordinates} key={center.id}/>
             })
@@ -84,8 +86,8 @@ class MinGridMap extends Component {
 
   }
 
-  renderPolygons = ({district}) => {
-
+  renderPolygons = ({district, region}) => {
+console.log(region)
     if (district !== null && district !== undefined) {
 
       const {coordinates} = require('../../assets/gis/polygons/'+ district +'.json');
@@ -102,7 +104,23 @@ class MinGridMap extends Component {
         >
         </Polygon>
       </>;
-    } else {
+    } 
+    else if( region !== null && region !== undefined){
+      const {coordinates} = require('../../assets/gis/regions/'+ region +'.json');
+
+      return <>
+        <Polygon
+          paths={coordinates}
+          options={{
+            fillOpacity: 0.4,
+            strokeColor: "red",
+            strokeOpacity: 1,
+            strokeWeight: 1
+          }}
+        >
+        </Polygon>
+      </>;
+    }else {
 
       return <>
         <Polygon></Polygon>
@@ -133,7 +151,7 @@ console.log(myList);
   }
 
   getPolygonCentroid = ({district}) => {
-
+    
     if (district !== null && district !== undefined) {
 
       const d_centers = require('../../assets/gis/d-centroids/d_centroids.json');
@@ -153,7 +171,7 @@ console.log(myList);
 
   render() {
     const { district, region } = this.props;
-
+    console.log(this.props);
     if (district !== null && district !== undefined || region !== null && region !== undefined) {
       //this.setState({ zoom: 9})
     }

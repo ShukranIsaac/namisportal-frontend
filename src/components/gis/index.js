@@ -32,7 +32,7 @@ class GIS extends Component {
 
     let regions = [
       {
-        name: "Central",
+        name: "Central Region",
         districts: [
           {
             name: "Lilongwe",
@@ -62,14 +62,10 @@ class GIS extends Component {
             name: "Ntcheu",
             coord: {}
           },
-          {
-            name: "Balaka",
-            coord: {}
-          },
         ]
       },
       {
-        name: "Sourthern",
+        name: "Southern Region",
         districts: [
           {
             name: "Blantyre",
@@ -106,12 +102,7 @@ class GIS extends Component {
           {
             name: "Neno",
             coord: {}
-          }
-        ]
-      },
-      {
-        name: "Eastern",
-        districts: [
+          },
           {
             name: "Balaka",
             coord: {}
@@ -127,11 +118,11 @@ class GIS extends Component {
           {
             name: "Zomba",
             coord: {}
-          },
+          }
         ]
       },
       {
-        name: "Northern",
+        name: "Northern Region",
         districts: [
           {
             name: "Chitipa",

@@ -1,22 +1,28 @@
+var _ = require('lodash');
 var fs = require("fs");
 var contents = fs.readFileSync('marep.json');
 var polygons = fs.readFileSync('districts.json');
-var centroids = fs.readFileSync('d_centroids.geojson');
+var multiPolygon = fs.readFileSync('regions.json');
+
+var multiPolygonContent = JSON.parse(multiPolygon)
 var jsonContent = JSON.parse(contents);
-var polygonContent = JSON.parse(polygons);
-var districtCenters = JSON.parse(centroids);
+//var polygonContent = JSON.parse(polygons);
 
 let districts = ['Chitipa', 'Karonga', 'Likoma', 'Mzimba', 'Nkhatabay', 'Rumphi', 'Dedza', 'Dowa', 'Kasungu', 'Lilongwe', 'Mchinji', 'Nkhotakota', 'Ntcheu', 'Ntchisi', 'Salima', 'Balaka', 'Blantyre', 'Chikhwawa', 'Chiradzulu', 'Machinga', 'Mangochi', 'Mulanje', 'Mwanza', 'Neno', 'Nsanje', 'Phalombe', 'Thyolo', 'Zomba']
 let centers = jsonContent.features;
 let newCenters = mapCenters(centers);
-let d_centroid = districtCenters.features;
 
-createJsonFile('d_centroids', districtCentroids(d_centroid))
 //districts = mapCentersToDistrict(districts, newCenters)
 //console.log(newCenters);
 //console.log(districts);
 //console.log(polygonContent.features);
 //console.log(mapPolygonDistricts(polygonContent.features))
+var flattened = reduceMultiPolygon(multiPolygonContent.features);
+
+var mapped = mapRegionToPolygon(flattened);
+
+//console.log(mapped)
+//createJsonFile('regionsMapped', mapped);
 //console.log(mapPolygonDistricts(polygonContent.features))
 
 function createJsonFile(fileName, content){
@@ -38,24 +44,40 @@ function mapPolygonDistricts(polygons){
             },
             coordinates: mapPolygonCoordinates(polygon.geometry.coordinates)
         }
-        //console.log(res.coordinates)
-        createJsonFile(res.properties.name, res);
+        console.log(res.coordinates)
+        //createJsonFile(res.properties.name, res);
         return res;
     })
 }
 
-
-function districtCentroids(centers){
-    return centers.map((center) => {
-        let coordinates = mapCoordinates(center.geometry.coordinates)
-        let district = center.properties.name_1
-        return {
-            district,
-            coordinates
-        }
+function reduceMultiPolygon(features){
+    return features.map((feature) => {
+        let { coordinates } = feature.geometry
+        let { region } = feature.properties
+        let flattenedCoordinates = _.flattenDepth(coordinates, 2);
+        let res = {
+            properties: {
+                region
+            },
+            coordinates: flattenedCoordinates
+        };
+        return res
     })
 }
 
+function mapRegionToPolygon(polygons){
+    return polygons.map(polygon => {
+        let { properties } = polygon
+        console.log(polygon.coordinates)
+        let coordinates = polygon.coordinates.map((coordinate) => mapCoordinates(coordinate));
+        let res = {
+            properties,
+            coordinates
+        }
+        createJsonFile(properties.region, res);
+        return res;
+    })
+}
 
 function mapCenters(centers){
     return centers.map((center) => {
@@ -79,7 +101,7 @@ function filterPolygonDistricts(district, polygons){
     console.log(res)
     return res
 }
-
+     
 
 function mapCoordinates(coordinates){
     return {
@@ -89,7 +111,7 @@ function mapCoordinates(coordinates){
 }
 
 function mapPolygonCoordinates(coordinates){
-
+    
     return coordinates.map((coordinate) => {
 
         //console.log(coordinate)
