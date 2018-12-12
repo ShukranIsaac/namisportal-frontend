@@ -1,12 +1,11 @@
 import { FETCH_GIS } from '../action_type/index';
 
 const initialState = {
-    gis: [{
-
-    }]
+    gis: [],
 }
 
-export default (state = initialState, action) => {
+const gis = (state = initialState, action) => {
+
     switch(action.type){
         case FETCH_GIS:
             return {
@@ -17,3 +16,5 @@ export default (state = initialState, action) => {
             return state;
     }
 }
+
+export default gis;

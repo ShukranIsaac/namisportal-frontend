@@ -74,8 +74,6 @@ class MinGridMap extends Component {
       return <>
         <MarkerClusterer>
           {
-
-
             centers.map(center => {
               return <Marker position={center.coordinates} key={center.id}/>
             })
@@ -126,7 +124,7 @@ class MinGridMap extends Component {
         >
         </Polygon>
       </>;
-    } 
+    }
     else if( region !== null && region !== undefined){
       const {coordinates} = require('../../assets/gis/regions/'+ region +'.json');
 
@@ -153,15 +151,17 @@ class MinGridMap extends Component {
   filterDistrictsCentroids = (districts, district) => {
 
     return districts.filter((o) => {
+
       if (o.district === district) {
         return o;
       }
+      
     });
 
   }
 
   getPolygonCentroid = ({district}) => {
-    
+
     if (district !== null && district !== undefined) {
 
       const d_centers = require('../../assets/gis/d-centroids/d_centroids.json');
@@ -169,9 +169,11 @@ class MinGridMap extends Component {
       let centroid = this.filterDistrictsCentroids(d_centers, district).map(({coordinates}) => {
 
         return coordinates;
+
       })
 
       return centroid[0];
+
     } else {
 
       return this.state.newCenter;
@@ -180,7 +182,16 @@ class MinGridMap extends Component {
   }
 
   render() {
-    
+
+    const {
+      district,
+      fetchDistrict,
+      fetchRegion,
+      fetchMarepCenters
+    } = this.props;
+    fetchDistrict("Mzimba");
+    fetchRegion("Northern Region");
+    fetchMarepCenters("Balaka");
     return (
       <div>
         <CunstomGoogleMap

@@ -11,7 +11,7 @@ export default class Document extends Component {
 
         this.handleClick = this.handleClick.bind(this);
     }
-    
+
     render(){
         const button = {
             display: 'flex',
@@ -57,6 +57,8 @@ export default class Document extends Component {
     }
 
     handleClick(){
+
         this.setState({isOpen: !this.state.isOpen})
+        
     }
 }

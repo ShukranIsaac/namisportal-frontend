@@ -1,17 +1,19 @@
-import { FETCH_LIBRARY } from '../action_type/index';
+import { FETCH_DISTRICT } from '../action_type/index';
 
 const initialState = {
-    library: []
+    district: [],
 }
 
 export default (state = initialState, action) => {
+
     switch(action.type){
-        case FETCH_LIBRARY:
+        case FETCH_DISTRICT:
             return {
                 ...state,
-                library: action.payload
+                district: action.payload
             }
         default:
             return state;
     }
+
 }

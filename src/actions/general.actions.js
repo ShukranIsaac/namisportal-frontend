@@ -6,10 +6,14 @@ import {
   REQUEST_DELETE_SUCCESS,
   REQUEST_CREATE_SUCCESS } from '../action_type/index';
 
-export const hasErrored = (bool) => ({
-    type: REQUEST_HAS_ERRORED,
-    hasErrored: bool
-});
+export const hasErrored = (bool) => {
+
+    return {
+      type: REQUEST_HAS_ERRORED,
+      hasErrored: bool
+    }
+
+};
 
 export const isLoading = (bool) => {
     return {
@@ -42,10 +46,12 @@ export const deleteSuccess = (payload, bool) => {
     };
 }
 
-export const fetchSuccess = (payload, bool) => {
+export const fetchSuccess = (type, payload, bool) => {
+
     return {
-        type: REQUEST_FETCH_SUCCESS,
+        type: type,
         hasErrored: bool,
         payload: payload
     };
+
 }

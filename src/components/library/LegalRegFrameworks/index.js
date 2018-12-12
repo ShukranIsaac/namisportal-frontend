@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Document from '../Document'
 
 export default class LegalRegFrameworks extends Component {
+  
     constructor(){
         super();
 

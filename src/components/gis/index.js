@@ -1,14 +1,32 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import MinGridMap from './GridGoogleMap';
 import GridSideBar from './GridSideBar';
 
+import {
+  fetchRegions,
+  fetchRegion,
+  fetchDistrict,
+  fetchMarepCenters,
+} from '../../actions/index';
+
 import './grid.css';
 
 class GIS extends Component {
+
+  constructor() {
+    super();
+    this.state = {};
+  }
+
+  componentDidMount() {
+
+    this.props.fetchRegions();
+
+  }
 
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
@@ -29,121 +47,7 @@ class GIS extends Component {
 
   render(){
 
-    let regions = [
-      {
-        name: "Central Region",
-        districts: [
-          {
-            name: "Lilongwe",
-            coord: {}
-          },
-          {
-            name: "Kasungu",
-            coord: {}
-          },
-          {
-            name: "Dowa",
-            coord: {}
-          },
-          {
-            name: "Mchinji",
-            coord: {}
-          },
-          {
-            name: "Ntchisi",
-            coord: {}
-          },
-          {
-            name: "Dedza",
-            coord: {}
-          },
-          {
-            name: "Ntcheu",
-            coord: {}
-          },
-        ]
-      },
-      {
-        name: "Southern Region",
-        districts: [
-          {
-            name: "Blantyre",
-            coord: {}
-          },
-          {
-            name: "Chikwawa",
-            coord: {}
-          },
-          {
-            name: "Chiradzulu",
-            coord: {}
-          },
-          {
-            name: "Mulanje",
-            coord: {}
-          },
-          {
-            name: "Mwanza",
-            coord: {}
-          },
-          {
-            name: "Nsanje",
-            coord: {}
-          },
-          {
-            name: "Phalombe",
-            coord: {}
-          },
-          {
-            name: "Thyolo",
-            coord: {}
-          },
-          {
-            name: "Neno",
-            coord: {}
-          },
-          {
-            name: "Balaka",
-            coord: {}
-          },
-          {
-            name: "Machinga",
-            coord: {}
-          },
-          {
-            name: "Mangochi",
-            coord: {}
-          },
-          {
-            name: "Zomba",
-            coord: {}
-          }
-        ]
-      },
-      {
-        name: "Northern Region",
-        districts: [
-          {
-            name: "Chitipa",
-            coord: {}
-          },
-          {
-            name: "Karonga",
-            coord: {}
-          },
-          {
-            name: "Rumphi",
-            coord: {}
-          },
-          {
-            name: "Mzimba",
-            coord: {}
-          },
-        ]
-      },
-    ];
-
-    const { classes } = this.props;
+    const { classes, regions } = this.props;
 
     return (
       <div className={classes.root}>
@@ -156,6 +60,7 @@ class GIS extends Component {
         />
         <MinGridMap
             {...this.state}
+            {...this.props}
             onChange={this.handleChange}
             onChecked={this.handleChecked}
             onPlaceSearch={this.handlePlaceSearch}
@@ -182,4 +87,33 @@ GIS.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(GIS);
+const mapStateToProps = (state) => {
+
+    return {
+        regions: state.regions.regions,
+        hasErrored: state.hasErrored,
+        isLoading: state.isLoading
+    };
+
+}
+
+const mapDispatchToProps = (dispatch) => {
+
+    return {
+        fetchRegions: () => {
+          dispatch(fetchRegions())
+        },
+        fetchRegion: (region) => {
+          dispatch(fetchRegion(region))
+        },
+        fetchDistrict: (district) => {
+          dispatch(fetchDistrict(district))
+        },
+        fetchMarepCenters: (name) => {
+          dispatch(fetchMarepCenters(name))
+        },
+    };
+
+}
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(GIS));

@@ -34,7 +34,7 @@ class GridSideBar extends Component {
 
   renderRegions = ({regions}) => {
 
-    return regions.map( ({name}) => {
+    return regions.map(({name}) => {
 
       return <>
         <option value={ name } key={ name }>{ name }</option>

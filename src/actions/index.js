@@ -1,5 +1,5 @@
-export * from './gis';
+export * from './gis.action';
 
-export * from './library';
+export * from './library.action';
 
 export * from './general.actions';
