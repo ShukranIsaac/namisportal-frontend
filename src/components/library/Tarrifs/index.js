@@ -1,14 +1,6 @@
-import React, { Component } from 'react'
-import Document from '../Document'
+import React, { Component } from 'react';
 
 export default class Tarrifs extends Component {
-
-    constructor(){
-      
-        super();
-
-        this.renderDocuments = this.renderDocuments.bind(this);
-    }
 
     render(){
 
@@ -16,19 +8,10 @@ export default class Tarrifs extends Component {
 
         return(
             <>
-                { this.renderDocuments(library) }
+                { this.props.renderDocuments(library) }
             </>
+
         );
-    }
-
-    renderDocuments(docs){
-
-        return docs.map(({name, path, summary}, key) => {
-
-            return <Document key={key} name={name} path={path} summary={summary}/>
-
-        })
-
     }
 
 }

@@ -12,6 +12,7 @@ const filterDocLibrary = (docs, name) => {
           return o;
         }
 
+        return o;
     }));
 
 }
@@ -31,16 +32,14 @@ export const fetchLibrary = (category) => {
             dispatch(isLoading(false));
 
             return response;
-        })
-        .then((response) => {
+        }).then((response) => {
           dispatch(
             fetchSuccess(
             FETCH_LIBRARY,
             filterDocLibrary(library_docs, category)[0][1],
             false)
           )
-        })
-        .catch(() => dispatch(hasErrored(true)));
+        }).catch(() => dispatch(hasErrored(true)));
     };
 
 }

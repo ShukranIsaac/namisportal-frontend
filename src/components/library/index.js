@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchLibrary } from '../../actions/index';
 import { Card, Elevation, Tab, Tabs } from "@blueprintjs/core";
+
 import Tarrifs from './Tarrifs';
 import { Flex, Box } from 'reflexbox'
 import './library.css'
@@ -12,6 +12,8 @@ import LegalRegFrameworks from './LegalRegFrameworks';
 import ResourcePlan from './ResourcePlan';
 
 import Document from './Document';
+
+import { fetchLibrary } from '../../actions/index';
 
 class Library extends Component {
 
@@ -36,7 +38,7 @@ class Library extends Component {
       return docs.map(({name, path, summary}, key) => {
 
           return <Document key={key} name={name} path={path} summary={summary}/>
-          
+
       });
 
   }

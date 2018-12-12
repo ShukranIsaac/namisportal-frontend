@@ -54,6 +54,7 @@ class GridSideBar extends Component {
 
       }
 
+      return region;
     });
 
   }

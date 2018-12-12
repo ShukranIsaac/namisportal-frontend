@@ -155,7 +155,8 @@ class MinGridMap extends Component {
       if (o.district === district) {
         return o;
       }
-      
+
+      return o;
     });
 
   }
