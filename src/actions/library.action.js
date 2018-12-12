@@ -12,7 +12,7 @@ const filterDocLibrary = (docs, name) => {
           return o;
         }
 
-        return o;
+        return;
     }));
 
 }

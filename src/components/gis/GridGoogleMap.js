@@ -156,7 +156,7 @@ class MinGridMap extends Component {
         return o;
       }
 
-      return o;
+      return;
     });
 
   }

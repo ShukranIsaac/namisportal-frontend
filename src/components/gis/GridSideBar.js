@@ -54,7 +54,7 @@ class GridSideBar extends Component {
 
       }
 
-      return region;
+      return;
     });
 
   }
@@ -80,6 +80,7 @@ class GridSideBar extends Component {
   }
 
   render() {
+    
     const { classes } = this.props;
 
     return (
