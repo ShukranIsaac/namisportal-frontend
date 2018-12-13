@@ -221,7 +221,7 @@ export const fetchMarepCenters = (name) => {
 
 export const fetchEscomMeters = (name) => {
 
-    const {coordinates} = require('../assets/gis/polygons/'+ name +'.json');
+    const {coordinates} = require('../assets/gis/meters/'+ name +'.json');
 
     return (dispatch) => {
 
