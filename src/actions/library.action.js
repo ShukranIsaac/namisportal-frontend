@@ -1,6 +1,6 @@
 import { LibraryType } from '../action_type/index';
 
-import { isLoading, hasErrored, fetchSuccess } from './general.action';
+import * as GeneralAction from './general.action';
 
 import library_docs from '../components/library/library_docs';
 
@@ -21,7 +21,7 @@ export const fetchLibrary = (category) => {
 
     return (dispatch) => {
 
-        dispatch(isLoading(true));
+        dispatch(GeneralAction.isLoading(true));
 
         return fetch(`/gis`).then((response) => {
 
@@ -29,18 +29,18 @@ export const fetchLibrary = (category) => {
                 throw Error(response.statusText);
             }
 
-            dispatch(isLoading(false));
+            dispatch(GeneralAction.isLoading(false));
 
             return response;
         }).then((response) => {
           dispatch(
-            fetchSuccess(
+            GeneralAction.fetchSuccess(
               LibraryType.FETCH_LIBRARY,
               filterDocLibrary(library_docs, category)[0][1],
               false
             )
           )
-        }).catch(() => dispatch(hasErrored(true)));
+        }).catch(() => dispatch(GeneralAction.hasErrored(true)));
     };
 
 }

@@ -1,5 +1,6 @@
 import { UserType } from '../action_type/index';
-import { isLoading, hasErrored, fetchSuccess } from './general.action';
+
+import * as GeneralAction from './general.action';
 
 import Config from '../config';
 
@@ -7,7 +8,7 @@ export const fetchHomeData = () => {
 
     return (dispatch) => {
 
-        dispatch(isLoading(true));
+        dispatch(GeneralAction.isLoading(true));
 
         return fetch(`/home`).then((response) => {
 
@@ -15,14 +16,14 @@ export const fetchHomeData = () => {
                 throw Error(response.statusText);
             }
 
-            dispatch(isLoading(false));
+            dispatch(GeneralAction.isLoading(false));
 
             return response;
-        })
-        .then((response) => {
-          dispatch(fetchSuccess(UserType.REQUECT_HOME_DATA, ["home huhu"], false))
-        })
-        .catch(() => dispatch(hasErrored(true)));
+        }).then((response) => {
+
+          dispatch(GeneralAction.fetchSuccess(UserType.REQUECT_HOME_DATA, ["home huhu"], false))
+
+        }).catch(() => dispatch(GeneralAction.hasErrored(true)));
     };
 
 }

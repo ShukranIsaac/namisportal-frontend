@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 
 import LicensingProfile from './LicensingProfile';
 import LicensingSidebar from './LicensingSidebar';
+
+import * as LicensingAction from '../../actions/index';
 
 class Licensing extends Component {
 
@@ -13,8 +16,16 @@ class Licensing extends Component {
   }
 
   handleChange = name => event => {
+
     this.setState({ [name]: event.target.value });
+
   };
+
+  componentDidMount() {
+
+    this.props.fetchLicencingFilters();
+
+  }
 
   render(){
     const { classes } = this.props;
@@ -22,8 +33,8 @@ class Licensing extends Component {
     return (
       <>
         <div className={classes.root}>
-          <LicensingSidebar onChange={ this.handleChange } />
-          <LicensingProfile onChange={ this.handleChange } />
+          <LicensingSidebar onChange={ this.handleChange } {...this.props} {...this.state}/>
+          <LicensingProfile onChange={ this.handleChange } {...this.props} {...this.state}/>
         </div>
       </>
     );
@@ -48,8 +59,22 @@ const styles = theme => ({
   }
 });
 
-Licensing.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+const mapStateToProps = (state) => {
 
-export default withStyles(styles)(Licensing);
+    return {
+        filters: state.l_filters.filters,
+        hasErrored: state.hasErrored,
+        isLoading: state.isLoading
+    };
+
+}
+
+const mapDispatchToProps = (dispatch) => {
+
+    return {
+        fetchLicencingFilters: () => { dispatch(LicensingAction.fetchLicencingFilters()) },
+    };
+
+}
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Licensing));

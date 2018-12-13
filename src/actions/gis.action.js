@@ -1,6 +1,6 @@
 import { GisType } from '../action_type/index';
 
-import { isLoading, hasErrored, fetchSuccess } from './general.action';
+import * as GeneralAction from './general.action';
 
 import Config from '../config';
 
@@ -124,7 +124,7 @@ export const fetchRegion = (region) => {
 
     return (dispatch) => {
 
-        dispatch(isLoading(true));
+        dispatch(GeneralAction.isLoading(true));
 
         return fetch(`/gis`).then((response) => {
 
@@ -132,14 +132,14 @@ export const fetchRegion = (region) => {
                 throw Error(response.statusText);
             }
 
-            dispatch(isLoading(false));
+            dispatch(GeneralAction.isLoading(false));
 
             return response;
-        })
-        .then((response) => {
-          dispatch(fetchSuccess(GisType.FETCH_REGION, coordinates, false))
-        })
-        .catch(() => dispatch(hasErrored(true)));
+        }).then((response) => {
+
+          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_REGION, coordinates, false))
+
+        }).catch(() => dispatch(GeneralAction.hasErrored(true)));
     };
 
 }
@@ -150,7 +150,7 @@ export const fetchDistrict = (district) => {
 
     return (dispatch) => {
 
-        dispatch(isLoading(true));
+        dispatch(GeneralAction.isLoading(true));
 
         return fetch(`/gis`).then((response) => {
 
@@ -158,14 +158,14 @@ export const fetchDistrict = (district) => {
                 throw Error(response.statusText);
             }
 
-            dispatch(isLoading(false));
+            dispatch(GeneralAction.isLoading(false));
 
             return response;
-        })
-        .then((response) => {
-          dispatch(fetchSuccess(GisType.FETCH_DISTRICT, coordinates, false))
-        })
-        .catch(() => dispatch(hasErrored(true)));
+        }).then((response) => {
+
+          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_DISTRICT, coordinates, false))
+
+        }).catch(() => dispatch(GeneralAction.hasErrored(true)));
     };
 
 }
@@ -174,7 +174,7 @@ export const fetchRegions = () => {
 
     return (dispatch) => {
 
-        dispatch(isLoading(true));
+        dispatch(GeneralAction.isLoading(true));
 
         return fetch(`/gis`).then((response) => {
 
@@ -182,14 +182,14 @@ export const fetchRegions = () => {
                 throw Error(response.statusText);
             }
 
-            dispatch(isLoading(false));
+            dispatch(GeneralAction.isLoading(false));
 
             return response;
-        })
-        .then((response) => {
-          dispatch(fetchSuccess(GisType.FETCH_REGIONS, regions, false))
-        })
-        .catch(() => dispatch(hasErrored(true)));
+        }).then((response) => {
+
+          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_REGIONS, regions, false))
+
+        }).catch(() => dispatch(GeneralAction.hasErrored(true)));
     };
 }
 
@@ -199,7 +199,7 @@ export const fetchMarepCenters = (name) => {
 
     return (dispatch) => {
 
-        dispatch(isLoading(true));
+        dispatch(GeneralAction.isLoading(true));
 
         return fetch(`/gis`).then((response) => {
 
@@ -207,14 +207,14 @@ export const fetchMarepCenters = (name) => {
                 throw Error(response.statusText);
             }
 
-            dispatch(isLoading(false));
+            dispatch(GeneralAction.isLoading(false));
 
             return response;
-        })
-        .then((response) => {
-          dispatch(fetchSuccess(GisType.FETCH_MAREP_CENTERS, coordinates, false))
-        })
-        .catch(() => dispatch(hasErrored(true)));
+        }).then((response) => {
+
+          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_MAREP_CENTERS, coordinates, false))
+
+        }).catch(() => dispatch(GeneralAction.hasErrored(true)));
     };
 
 }
@@ -225,7 +225,7 @@ export const fetchEscomMeters = (name) => {
 
     return (dispatch) => {
 
-        dispatch(isLoading(true));
+        dispatch(GeneralAction.isLoading(true));
 
         return fetch(`/gis`).then((response) => {
 
@@ -233,14 +233,14 @@ export const fetchEscomMeters = (name) => {
                 throw Error(response.statusText);
             }
 
-            dispatch(isLoading(false));
+            dispatch(GeneralAction.isLoading(false));
 
             return response;
-        })
-        .then((response) => {
-          dispatch(fetchSuccess(GisType.FETCH_ESCOM_METERS, coordinates, false))
-        })
-        .catch(() => dispatch(hasErrored(true)));
+        }).then((response) => {
+
+          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_ESCOM_METERS, coordinates, false))
+
+        }).catch(() => dispatch(GeneralAction.hasErrored(true)));
     };
 
 }
@@ -251,7 +251,7 @@ export const fetchPolygonCentroids = () => {
 
     return (dispatch) => {
 
-        dispatch(isLoading(true));
+        dispatch(GeneralAction.isLoading(true));
 
         return fetch(`/centroids`).then((response) => {
 
@@ -259,14 +259,14 @@ export const fetchPolygonCentroids = () => {
                 throw Error(response.statusText);
             }
 
-            dispatch(isLoading(false));
+            dispatch(GeneralAction.isLoading(false));
 
             return response;
-        })
-        .then((response) => {
-          dispatch(fetchSuccess(GisType.FETCH_POLYGON_CENTROID, d_centers, false))
-        })
-        .catch(() => dispatch(hasErrored(true)));
+        }).then((response) => {
+
+          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_POLYGON_CENTROID, d_centers, false))
+
+        }).catch(() => dispatch(GeneralAction.hasErrored(true)));
     };
 
 }

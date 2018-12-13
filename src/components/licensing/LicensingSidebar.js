@@ -67,7 +67,13 @@ class LicensingSidebar extends Component {
   }
 
   render(){
-    const { classes, onChange } = this.props;
+    const { classes, onChange, filters } = this.props;
+
+    if (filters === undefined && filters === null) {
+
+        return <></>;
+
+    }
 
     return (
       <>
@@ -78,17 +84,19 @@ class LicensingSidebar extends Component {
 
           <ControlGroup fill={false} vertical={true}>
 
-            { profileActivities.map((p, key) => {
+            {
+              filters.map((p, key) => {
 
-              return (
-                <FormGroup key={key} label={p.name}>
+                  return (
+                    <FormGroup key={key} label={p.name}>
 
-                  <SelectDropdown onChange={onChange} key={key} profiles={p} />
+                      <SelectDropdown onChange={onChange} key={key} profiles={p} />
 
-                </FormGroup>
-              );
+                    </FormGroup>
+                  );
 
-            })}
+              })
+            }
 
           </ControlGroup>
 

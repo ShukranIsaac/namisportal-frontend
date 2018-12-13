@@ -1,4 +1,4 @@
-import { FETCH_DISTRICT } from '../action_type/index';
+import { GisType } from '../action_type/index';
 
 const initialState = {
     district: [],
@@ -7,7 +7,7 @@ const initialState = {
 export default (state = initialState, action) => {
 
     switch(action.type){
-        case FETCH_DISTRICT:
+        case GisType.FETCH_DISTRICT:
             return {
                 ...state,
                 district: action.payload
