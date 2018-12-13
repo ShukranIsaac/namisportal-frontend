@@ -1,5 +1,5 @@
-import { REQUECT_HOME_DATA } from '../action_type/index';
-import { isLoading, hasErrored, fetchSuccess } from './general.actions';
+import { UserType } from '../action_type/index';
+import { isLoading, hasErrored, fetchSuccess } from './general.action';
 
 import Config from '../config';
 
@@ -20,7 +20,7 @@ export const fetchHomeData = () => {
             return response;
         })
         .then((response) => {
-          dispatch(fetchSuccess(REQUECT_HOME_DATA, ["home huhu"], false))
+          dispatch(fetchSuccess(UserType.REQUECT_HOME_DATA, ["home huhu"], false))
         })
         .catch(() => dispatch(hasErrored(true)));
     };

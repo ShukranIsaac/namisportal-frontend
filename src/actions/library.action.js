@@ -1,6 +1,6 @@
-import { FETCH_LIBRARY } from '../action_type/index';
+import { LibraryType } from '../action_type/index';
 
-import { isLoading, hasErrored, fetchSuccess } from './general.actions';
+import { isLoading, hasErrored, fetchSuccess } from './general.action';
 
 import library_docs from '../components/library/library_docs';
 
@@ -35,9 +35,10 @@ export const fetchLibrary = (category) => {
         }).then((response) => {
           dispatch(
             fetchSuccess(
-            FETCH_LIBRARY,
-            filterDocLibrary(library_docs, category)[0][1],
-            false)
+              LibraryType.FETCH_LIBRARY,
+              filterDocLibrary(library_docs, category)[0][1],
+              false
+            )
           )
         }).catch(() => dispatch(hasErrored(true)));
     };

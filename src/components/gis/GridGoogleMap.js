@@ -186,16 +186,6 @@ class MinGridMap extends Component {
 
   render() {
 
-    const {
-      district,
-      fetchDistrict,
-      fetchRegion,
-      fetchMarepCenters,
-      fetchPolygonCentroid
-    } = this.props;
-console.log(this.props);
-    fetchPolygonCentroid();
-
     return (
       <div>
         <CunstomGoogleMap

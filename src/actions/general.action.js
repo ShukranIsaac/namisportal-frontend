@@ -1,14 +1,9 @@
-import {
-  REQUEST_HAS_ERRORED,
-  REQUEST_IS_LOADING,
-  REQUEST_UPDATE_SUCCESS,
-  REQUEST_DELETE_SUCCESS,
-  REQUEST_CREATE_SUCCESS } from '../action_type/index';
+import { GeneralType } from '../action_type/index';
 
 export const hasErrored = (bool) => {
 
     return {
-      type: REQUEST_HAS_ERRORED,
+      type: GeneralType.REQUEST_HAS_ERRORED,
       hasErrored: bool
     }
 
@@ -16,14 +11,14 @@ export const hasErrored = (bool) => {
 
 export const isLoading = (bool) => {
     return {
-        type: REQUEST_IS_LOADING,
+        type: GeneralType.REQUEST_IS_LOADING,
         isLoading: bool
     };
 }
 
 export const updateSuccess = (payload, bool) => {
     return {
-      type: REQUEST_UPDATE_SUCCESS,
+      type: GeneralType.REQUEST_UPDATE_SUCCESS,
       hasErrored: bool,
       payload: payload
     };
@@ -31,7 +26,7 @@ export const updateSuccess = (payload, bool) => {
 
 export const createSuccess = (payload, bool) => {
     return {
-        type: REQUEST_CREATE_SUCCESS,
+        type: GeneralType.REQUEST_CREATE_SUCCESS,
         hasErrored: bool,
         payload: payload
     };
@@ -39,7 +34,7 @@ export const createSuccess = (payload, bool) => {
 
 export const deleteSuccess = (payload, bool) => {
     return {
-        type: REQUEST_DELETE_SUCCESS,
+        type: GeneralType.REQUEST_DELETE_SUCCESS,
         hasErrored: bool,
         payload: payload
     };

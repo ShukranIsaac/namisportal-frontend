@@ -2,6 +2,6 @@ export * from './general.types';
 
 export * from './user.types';
 
-export * from './library';
+export * from './library.types';
 
-export * from './gis';
+export * from './gis.types';

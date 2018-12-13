@@ -1,11 +1,6 @@
-import {
-  FETCH_REGIONS,
-  FETCH_REGION,
-  FETCH_DISTRICT,
-  FETCH_MAREP_CENTERS,
-  FETCH_POLYGON_CENTROID } from '../action_type/index';
-  
-import { isLoading, hasErrored, fetchSuccess } from './general.actions';
+import { GisType } from '../action_type/index';
+
+import { isLoading, hasErrored, fetchSuccess } from './general.action';
 
 import Config from '../config';
 
@@ -142,7 +137,7 @@ export const fetchRegion = (region) => {
             return response;
         })
         .then((response) => {
-          dispatch(fetchSuccess(FETCH_REGION, coordinates, false))
+          dispatch(fetchSuccess(GisType.FETCH_REGION, coordinates, false))
         })
         .catch(() => dispatch(hasErrored(true)));
     };
@@ -168,7 +163,7 @@ export const fetchDistrict = (district) => {
             return response;
         })
         .then((response) => {
-          dispatch(fetchSuccess(FETCH_DISTRICT, coordinates, false))
+          dispatch(fetchSuccess(GisType.FETCH_DISTRICT, coordinates, false))
         })
         .catch(() => dispatch(hasErrored(true)));
     };
@@ -192,7 +187,7 @@ export const fetchRegions = () => {
             return response;
         })
         .then((response) => {
-          dispatch(fetchSuccess(FETCH_REGIONS, regions, false))
+          dispatch(fetchSuccess(GisType.FETCH_REGIONS, regions, false))
         })
         .catch(() => dispatch(hasErrored(true)));
     };
@@ -217,7 +212,7 @@ export const fetchMarepCenters = (name) => {
             return response;
         })
         .then((response) => {
-          dispatch(fetchSuccess(FETCH_MAREP_CENTERS, coordinates, false))
+          dispatch(fetchSuccess(GisType.FETCH_MAREP_CENTERS, coordinates, false))
         })
         .catch(() => dispatch(hasErrored(true)));
     };
@@ -243,7 +238,7 @@ export const fetchPolygonCentroids = () => {
             return response;
         })
         .then((response) => {
-          dispatch(fetchSuccess(FETCH_POLYGON_CENTROID, d_centers, false))
+          dispatch(fetchSuccess(GisType.FETCH_POLYGON_CENTROID, d_centers, false))
         })
         .catch(() => dispatch(hasErrored(true)));
     };

@@ -1,6 +1,6 @@
-import { REQUEST_USER_LOGIN, REQUEST_USER_LOGOUT } from '../action_type/index';
+import { UserType } from '../action_type/index';
 
-import { isLoading, hasErrored, fetchSuccess } from './general.actions';
+import { isLoading, hasErrored, fetchSuccess } from './general.action';
 
 export const login = (user) => {
 
@@ -19,7 +19,7 @@ export const login = (user) => {
             return response;
         })
         .then((response) => {
-          dispatch(fetchSuccess(REQUEST_USER_LOGIN, user, false))
+          dispatch(fetchSuccess(UserType.REQUEST_USER_LOGIN, user, false))
         })
         .catch(() => dispatch(hasErrored(true)));
     };
@@ -43,7 +43,7 @@ export const logout = (user) => {
             return response;
         })
         .then((response) => {
-          dispatch(fetchSuccess(REQUEST_USER_LOGOUT, user, false))
+          dispatch(fetchSuccess(UserType.REQUEST_USER_LOGOUT, user, false))
         })
         .catch(() => dispatch(hasErrored(true)));
     };
