@@ -1,4 +1,4 @@
-import { FETCH_GIS } from '../action_type/index';
+import { GisType } from '../action_type/index';
 
 const initialState = {
     gis: [],
@@ -7,7 +7,7 @@ const initialState = {
 const gis = (state = initialState, action) => {
 
     switch(action.type){
-        case FETCH_GIS:
+        case GisType.FETCH_GIS:
             return {
                 ...state,
                 gis: [...state.gis, action.payload]

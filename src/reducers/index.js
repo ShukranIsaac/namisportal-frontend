@@ -8,6 +8,7 @@ import marep_centers from './marep_centers.reducer';
 import home from './home.reducer';
 import user from './user.reducer';
 import polygonCentroids from './centroids.reducer';
+import meters from './meters.reducer';
 
 export default combineReducers({
     user: user,

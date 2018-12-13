@@ -1,4 +1,4 @@
-import { FETCH_POLYGON_CENTROID } from '../action_type/index';
+import { GisType } from '../action_type/index';
 
 const initialState = {
     centroids: [],
@@ -7,7 +7,7 @@ const initialState = {
 const polygonCentroids = (state = initialState, action) => {
 
     switch(action.type){
-        case FETCH_POLYGON_CENTROID:
+        case GisType.FETCH_POLYGON_CENTROID:
             return {
                 ...state,
                 centroids: action.payload

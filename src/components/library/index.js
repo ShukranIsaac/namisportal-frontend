@@ -13,7 +13,7 @@ import ResourcePlan from './ResourcePlan';
 
 import Document from './Document';
 
-import { fetchLibrary } from '../../actions/index';
+import * as LibraryAction from '../../actions/index';
 
 class Library extends Component {
 
@@ -63,8 +63,7 @@ class Library extends Component {
           >
             <Box w={1} p={1}>
               <Card elevation={Elevation.TWO}>
-                <Tabs style={{justifyContent: 'center'}} className="test" id="TabsExample"
-                  selectedTabId={this.state.navbarTabId} onChange={this.handleNavBarChange}>
+                <Tabs style={{justifyContent: 'center'}} className="test" id="TabsExample" selectedTabId={this.state.navbarTabId} onChange={this.handleNavBarChange}>
                   <Tab id="tarrifs" title="Tarrifs" panel={<Tarrifs {...this.props} renderDocuments={this.renderDocuments}/>}/>
                   <Tab id="financing" title="Financing" panel={<Financing {...this.props} renderDocuments={this.renderDocuments}/>}/>
                   <Tab id="policies_stratigy" title="Policies and Strategies" panel={<PoliciesStratigies {...this.props} renderDocuments={this.renderDocuments}/>}/>
@@ -102,9 +101,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => {
 
     return {
-        fetchLibrary: (name) => {
-            dispatch(fetchLibrary(name))
-        },
+        fetchLibrary: (name) => { dispatch(LibraryAction.fetchLibrary(name)) },
     }
 
 }

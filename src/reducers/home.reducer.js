@@ -1,4 +1,4 @@
-import { REQUECT_HOME_DATA } from '../action_type/index';
+import { GeneralType } from '../action_type/index';
 
 const initialState = {
     home: [],
@@ -7,7 +7,7 @@ const initialState = {
 const home = (state = initialState, action) => {
 
     switch(action.type){
-        case REQUECT_HOME_DATA:
+        case GeneralType.REQUECT_HOME_DATA:
             return {
                 ...state,
                 home: action.payload

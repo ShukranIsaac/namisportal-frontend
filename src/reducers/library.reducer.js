@@ -1,4 +1,4 @@
-import { FETCH_LIBRARY } from '../action_type/index';
+import { LibraryType } from '../action_type/index';
 
 const initialState = {
     library: []
@@ -7,7 +7,7 @@ const initialState = {
 export default (state = initialState, action) => {
 
     switch(action.type){
-        case FETCH_LIBRARY:
+        case LibraryType.FETCH_LIBRARY:
             return {
                 ...state,
                 library: action.payload
@@ -15,5 +15,5 @@ export default (state = initialState, action) => {
         default:
             return state;
     }
-    
+
 }

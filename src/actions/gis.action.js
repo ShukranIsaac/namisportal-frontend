@@ -219,6 +219,32 @@ export const fetchMarepCenters = (name) => {
 
 }
 
+export const fetchEscomMeters = (name) => {
+
+    const {coordinates} = require('../assets/gis/polygons/'+ name +'.json');
+
+    return (dispatch) => {
+
+        dispatch(isLoading(true));
+
+        return fetch(`/gis`).then((response) => {
+
+            if (response.status !== 200) {
+                throw Error(response.statusText);
+            }
+
+            dispatch(isLoading(false));
+
+            return response;
+        })
+        .then((response) => {
+          dispatch(fetchSuccess(GisType.FETCH_ESCOM_METERS, coordinates, false))
+        })
+        .catch(() => dispatch(hasErrored(true)));
+    };
+
+}
+
 export const fetchPolygonCentroids = () => {
 
     const d_centers = require('../assets/gis/d-centroids/d_centroids.json');

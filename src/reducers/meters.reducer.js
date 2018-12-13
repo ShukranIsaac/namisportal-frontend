@@ -1,20 +1,20 @@
 import { GisType } from '../action_type/index';
 
 const initialState = {
-    regions: [],
+    meters: [],
 }
 
-const regions = (state = initialState, action) => {
+const meters = (state = initialState, action) => {
 
     switch(action.type){
-        case GisType.FETCH_REGIONS:
+        case GisType.FETCH_ESCOM_METERS:
             return {
                 ...state,
-                regions: action.payload
+                meters: action.payload
             }
         default:
             return state;
     }
 }
 
-export default regions;
+export default meters;

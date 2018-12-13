@@ -6,12 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import MinGridMap from './GridGoogleMap';
 import GridSideBar from './GridSideBar';
 
-import {
-  fetchRegions,
-  fetchRegion,
-  fetchDistrict,
-  fetchMarepCenters,
-  fetchPolygonCentroids } from '../../actions/index';
+import * as GisAction from '../../actions/index';
 
 import './grid.css';
 
@@ -100,21 +95,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 
     return {
-        fetchRegions: () => {
-          dispatch(fetchRegions())
-        },
-        fetchRegion: (region) => {
-          dispatch(fetchRegion(region))
-        },
-        fetchDistrict: (district) => {
-          dispatch(fetchDistrict(district))
-        },
-        fetchMarepCenters: (name) => {
-          dispatch(fetchMarepCenters(name))
-        },
-        fetchPolygonCentroid: () => {
-          dispatch(fetchPolygonCentroids())
-        }
+        fetchRegions: () => { dispatch(GisAction.fetchRegions()) },
+        fetchRegion: (region) => { dispatch(GisAction.fetchRegion(region)) },
+        fetchDistrict: (district) => { dispatch(GisAction.fetchDistrict(district))},
+        fetchMarepCenters: (name) => { dispatch(GisAction.fetchMarepCenters(name)) },
+        fetchPolygonCentroid: () => { dispatch(GisAction.fetchPolygonCentroids()) },
+        fetchMeters: (name) => { dispatch(GisAction.fetchEscomMeters(name)) },
     };
 
 }
