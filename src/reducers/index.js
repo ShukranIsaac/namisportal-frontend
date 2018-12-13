@@ -7,6 +7,7 @@ import district from './district.reducer';
 import marep_centers from './marep_centers.reducer';
 import home from './home.reducer';
 import user from './user.reducer';
+import polygonCentroids from './centroids.reducer';
 
 export default combineReducers({
     user: user,
@@ -16,4 +17,5 @@ export default combineReducers({
     regions: regions,
     district: district,
     m_centers: marep_centers,
+    p_centroids: polygonCentroids,
 })

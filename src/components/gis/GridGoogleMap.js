@@ -69,22 +69,27 @@ class MinGridMap extends Component {
 
     if (district !== null && district !== undefined && electrified) {
 
-      const {centers} = require('../../assets/gis/marep-centers/'+ district +'.json');
+      return (
+        <>
+          <MarkerClusterer>
+            {
+              this.props.fetchMarepCenters(district).map(center => {
 
-      return <>
-        <MarkerClusterer>
-          {
-            centers.map(center => {
-              return <Marker position={center.coordinates} key={center.id}/>
-            })
-          }
-        </MarkerClusterer>
-      </>
+                return <Marker position={center.coordinates} key={center.id}/>
+
+              })
+            }
+          </MarkerClusterer>
+        </>
+      );
+
     } else {
 
-      return <>
-        <MarkerClusterer></MarkerClusterer>
-      </>;
+      return (
+        <>
+          <MarkerClusterer></MarkerClusterer>
+        </>
+      );
     }
 
   }
@@ -110,11 +115,9 @@ class MinGridMap extends Component {
 
     if (district !== null && district !== undefined) {
 
-      const {coordinates} = require('../../assets/gis/polygons/'+ district +'.json');
-
       return <>
         <Polygon
-          paths={coordinates}
+          paths={this.props.fetchDistrict(district)}
           options={{
             fillOpacity: 0.4,
             strokeColor: "red",
@@ -126,11 +129,10 @@ class MinGridMap extends Component {
       </>;
     }
     else if( region !== null && region !== undefined){
-      const {coordinates} = require('../../assets/gis/regions/'+ region +'.json');
 
       return <>
         <Polygon
-          paths={coordinates}
+          paths={this.props.fetchRegion(region)}
           options={{
             fillOpacity: 0.4,
             strokeColor: "red",
@@ -165,7 +167,7 @@ class MinGridMap extends Component {
 
     if (district !== null && district !== undefined) {
 
-      const d_centers = require('../../assets/gis/d-centroids/d_centroids.json');
+      const d_centers = this.props.fetchPolygonCentroids();
 
       let centroid = this.filterDistrictsCentroids(d_centers, district).map(({coordinates}) => {
 
@@ -188,11 +190,12 @@ class MinGridMap extends Component {
       district,
       fetchDistrict,
       fetchRegion,
-      fetchMarepCenters
+      fetchMarepCenters,
+      fetchPolygonCentroid
     } = this.props;
-    fetchDistrict("Mzimba");
-    fetchRegion("Northern Region");
-    fetchMarepCenters("Balaka");
+console.log(this.props);
+    fetchPolygonCentroid();
+
     return (
       <div>
         <CunstomGoogleMap

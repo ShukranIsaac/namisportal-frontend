@@ -11,7 +11,7 @@ import {
   fetchRegion,
   fetchDistrict,
   fetchMarepCenters,
-} from '../../actions/index';
+  fetchPolygonCentroids } from '../../actions/index';
 
 import './grid.css';
 
@@ -112,6 +112,9 @@ const mapDispatchToProps = (dispatch) => {
         fetchMarepCenters: (name) => {
           dispatch(fetchMarepCenters(name))
         },
+        fetchPolygonCentroid: () => {
+          dispatch(fetchPolygonCentroids())
+        }
     };
 
 }

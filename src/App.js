@@ -2,19 +2,23 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { Button, Navbar, Alignment } from "@blueprintjs/core";
 
-import Home from './components/home'
-import Contact from './components/contact'
-import Directory from './components/directory'
-import FAQ from './components/faq'
-import GIS from './components/gis'
-import TASF from './components/tasf'
-import News from './components/news'
-import Financing from './components/financing'
-import Library from './components/library'
-import Licensing from './components/licensing'
+import Home from './components/home';
+import Contact from './components/contact';
+import Directory from './components/directory';
+import FAQ from './components/faq';
+import GIS from './components/gis';
+import TASF from './components/tasf';
+import News from './components/news';
+import Financing from './components/financing';
+import Library from './components/library';
+import Licensing from './components/licensing';
+import User from './components/user';
 
-import "./App.css"
+import UserPrivateRoute from './components/user/private.route';
+
+import "./App.css";
 import Footer from './components/footer';
+
 class App extends Component {
   constructor(){
     super()
@@ -86,6 +90,7 @@ class App extends Component {
             </Navbar.Group>
           </Navbar>
           <Route exact path="/" component={Home} />
+          <UserPrivateRoute exact path="/user" component={User} />
           <Route path="/licensing" component={Licensing} />
           <Route path="/financing" component={Financing} />
           <Route path="/library" component={Library} />

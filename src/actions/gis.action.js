@@ -2,7 +2,8 @@ import {
   FETCH_REGIONS,
   FETCH_REGION,
   FETCH_DISTRICT,
-  FETCH_MAREP_CENTERS } from '../action_type/index';
+  FETCH_MAREP_CENTERS,
+  FETCH_POLYGON_CENTROID } from '../action_type/index';
 import {
   isLoading,
   hasErrored,
@@ -219,6 +220,32 @@ export const fetchMarepCenters = (name) => {
         })
         .then((response) => {
           dispatch(fetchSuccess(FETCH_MAREP_CENTERS, coordinates, false))
+        })
+        .catch(() => dispatch(hasErrored(true)));
+    };
+
+}
+
+export const fetchPolygonCentroids = () => {
+
+    const d_centers = require('../assets/gis/d-centroids/d_centroids.json');
+
+    return (dispatch) => {
+
+        dispatch(isLoading(true));
+
+        return fetch(`/centroids`).then((response) => {
+
+            if (response.status !== 200) {
+                throw Error(response.statusText);
+            }
+
+            dispatch(isLoading(false));
+
+            return response;
+        })
+        .then((response) => {
+          dispatch(fetchSuccess(FETCH_POLYGON_CENTROID, d_centers, false))
         })
         .catch(() => dispatch(hasErrored(true)));
     };
