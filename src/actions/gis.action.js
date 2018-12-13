@@ -4,10 +4,8 @@ import {
   FETCH_DISTRICT,
   FETCH_MAREP_CENTERS,
   FETCH_POLYGON_CENTROID } from '../action_type/index';
-import {
-  isLoading,
-  hasErrored,
-  fetchSuccess } from './general.actions';
+  
+import { isLoading, hasErrored, fetchSuccess } from './general.actions';
 
 import Config from '../config';
 
