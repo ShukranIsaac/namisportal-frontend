@@ -20,5 +20,6 @@ export default combineReducers({
     district: district,
     m_centers: marep_centers,
     centroids: polygonCentroids,
+    meters: meters,
     l_filters: l_filters
 });

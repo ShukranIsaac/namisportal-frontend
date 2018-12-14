@@ -221,7 +221,7 @@ export const fetchMarepCenters = (name) => {
 
 export const fetchEscomMeters = (name) => {
 
-    const {coordinates} = require('../assets/gis/meters/'+ name +'.json');
+    const {points} = require('../assets/gis/meters/'+ name +'.json');
 
     return (dispatch) => {
 
@@ -238,7 +238,7 @@ export const fetchEscomMeters = (name) => {
             return response;
         }).then((response) => {
 
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_ESCOM_METERS, coordinates, false))
+          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_ESCOM_METERS, points, false))
 
         }).catch(() => dispatch(GeneralAction.hasErrored(true)));
     };

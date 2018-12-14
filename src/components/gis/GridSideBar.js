@@ -29,6 +29,7 @@ class GridSideBar extends Component {
       electrified: false,
       checked_proposed: false,
       checked_33_line: false,
+      meters: false
     };
   }
 
@@ -125,7 +126,7 @@ class GridSideBar extends Component {
             value={this.state.district}
             name="district"
             onChange={ (e) => { this.props.onChange(e) } }
-            input={<Input name="district" id="district-open-select" />}
+            input={<Input key={this.state.district} name="district" id="district-open-select" />}
           >
             <option value="">{ `${"--Select district--"}` }</option>
             { this.renderDistricts(this.props) }
@@ -167,6 +168,27 @@ class GridSideBar extends Component {
               />
             }
             label="To be electrified"
+          />
+        </FormGroup>
+
+        <div className={classes.grow} />
+
+        <FormGroup row>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={this.props.meters}
+                onChange={ (e) => { this.props.onChecked(e) } }
+                value="Meters"
+                color="primary"
+                name="meters"
+                classes={{
+                  root: classes.root,
+                  checked: classes.checked,
+                }}
+              />
+            }
+            label="Meters"
           />
         </FormGroup>
       </div>

@@ -14,9 +14,7 @@ class GIS extends Component {
 
   constructor() {
     super();
-    this.state = {
-      coordinates: [],
-    };
+    this.state = {};
   }
 
   componentDidMount() {
@@ -29,7 +27,7 @@ class GIS extends Component {
 
       const { district, region } = this.state;
 
-      const { fetchRegion, fetchDistrict, fetchPolygonCentroid } = this.props;
+      const { fetchMeters, fetchRegion, fetchDistrict, fetchPolygonCentroid } = this.props;
 
       if (district !== undefined && district !== null) {
 
@@ -42,6 +40,22 @@ class GIS extends Component {
       if (region !== undefined && region !== null) {
 
           fetchRegion(region);
+
+      }
+
+      if (this.state.meters) {
+
+          if (district !== undefined && district !== null) {
+
+              fetchMeters(district);
+
+          } else if (region !== undefined && region !== null) {
+
+              fetchMeters(region);
+
+          } else {
+
+          }
 
       }
 
@@ -69,26 +83,27 @@ class GIS extends Component {
     const { classes, gis_filters } = this.props;
 
     return (
-      <div className={classes.root}>
+      <>
+        <div className={classes.root}>
 
-        <GridSideBar
-            {...this.state}
-            onChange={this.handleChange}
-            onChecked={this.handleChecked}
-            gis_filters={gis_filters}
-        />
-        <MinGridMap
-            {...this.state}
-            {...this.props}
-            onChange={this.handleChange}
-            onChecked={this.handleChecked}
-            onPlaceSearch={this.handlePlaceSearch}
-            r_coordinates={this.props.region}
-            d_coordinates={this.props.district}
-            centroids={this.props.centroids}
-        />
+          <GridSideBar
+              {...this.state} onChange={this.handleChange}
+              onChecked={this.handleChecked} gis_filters={gis_filters}
+          />
 
-      </div>
+          <MinGridMap
+              {...this.state}
+              onChange={this.handleChange}
+              onChecked={this.handleChecked}
+              onPlaceSearch={this.handlePlaceSearch}
+              r_coordinates={this.props.region}
+              d_coordinates={this.props.district}
+              centroids={this.props.centroids}
+              meters={this.props.meters}
+          />
+
+        </div>
+      </>
     );
   }
 }
@@ -110,11 +125,12 @@ GIS.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-
+console.log(state);
     return {
         region: state.region.region,
         gis_filters: state.gis_filters.gis_filters,
         district: state.district.district,
+        meters: state.meters.meters,
         centroids: state.centroids.centroids,
         hasErrored: state.hasErrored,
         isLoading: state.isLoading
