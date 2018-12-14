@@ -4,7 +4,7 @@ const initialState = {
     district: [],
 }
 
-export default (state = initialState, action) => {
+const district = (state = initialState, action) => {
 
     switch(action.type){
         case GisType.FETCH_DISTRICT:
@@ -17,3 +17,5 @@ export default (state = initialState, action) => {
     }
 
 }
+
+export default district;

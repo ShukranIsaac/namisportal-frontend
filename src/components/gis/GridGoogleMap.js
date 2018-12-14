@@ -94,6 +94,51 @@ class MinGridMap extends Component {
 
   }
 
+  renderMeters = ({district, region}) => {
+
+    if (district !== null && district !== undefined) {
+
+      return (
+        <>
+          <MarkerClusterer>
+            {
+              this.props.fetchMeters(district).map(center => {
+
+                return <Marker position={center.coordinates} key={center.id}/>
+
+              })
+            }
+          </MarkerClusterer>
+        </>
+      );
+
+    } else if (region !== null && region !== undefined) {
+
+      return (
+        <>
+          <MarkerClusterer>
+            {
+              this.props.fetchMeters(region).map(center => {
+
+                return <Marker position={center.coordinates} key={center.id}/>
+
+              })
+            }
+          </MarkerClusterer>
+        </>
+      );
+
+    } else {
+
+      return (
+        <>
+          <MarkerClusterer></MarkerClusterer>
+        </>
+      );
+    }
+
+  }
+
   renderPolygon = (paths) => {
 
     return <>
@@ -111,16 +156,16 @@ class MinGridMap extends Component {
 
   }
 
-  renderDistrictPolygons = ({district, region}) => {
+  renderDistrictPolygons = ({district, region, r_coordinates, d_coordinates}) => {
 
     if (district !== null && district !== undefined) {
 
       return <>
         <Polygon
-          paths={this.props.fetchDistrict(district)}
+          paths={d_coordinates}
           options={{
-            fillOpacity: 0.4,
-            strokeColor: "red",
+            fillOpacity: 0.8,
+            strokeColor: "yellow",
             strokeOpacity: 1,
             strokeWeight: 1
           }}
@@ -132,7 +177,7 @@ class MinGridMap extends Component {
 
       return <>
         <Polygon
-          paths={this.props.fetchRegion(region)}
+          paths={r_coordinates}
           options={{
             fillOpacity: 0.4,
             strokeColor: "red",
@@ -163,19 +208,21 @@ class MinGridMap extends Component {
 
   }
 
-  getPolygonCentroid = ({district}) => {
+  getPolygonCentroid = ({district, centroids}) => {
 
     if (district !== null && district !== undefined) {
 
-      const d_centers = this.props.fetchPolygonCentroids();
+      if (centroids !== undefined && centroids !== null) {
 
-      let centroid = this.filterDistrictsCentroids(d_centers, district).map(({coordinates}) => {
+          let centroid = this.filterDistrictsCentroids(centroids, district).map(({coordinates}) => {
 
-        return coordinates;
+            return coordinates;
 
-      })
+          })
 
-      return centroid[0];
+          return centroid[0];
+
+      }
 
     } else {
 
@@ -198,7 +245,8 @@ class MinGridMap extends Component {
           onCenterChanged= {this.getPolygonCentroid(this.props)}
           polygon = {this.renderPolygon}
           {...this.state}
-        >
+          {...this.props}
+        > 
         </CunstomGoogleMap>
       </div>
     );

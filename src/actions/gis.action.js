@@ -170,7 +170,7 @@ export const fetchDistrict = (district) => {
 
 }
 
-export const fetchRegions = () => {
+export const fetchGisFilters = () => {
 
     return (dispatch) => {
 

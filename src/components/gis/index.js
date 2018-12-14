@@ -14,12 +14,36 @@ class GIS extends Component {
 
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      coordinates: [],
+    };
   }
 
   componentDidMount() {
 
-    this.props.fetchRegions();
+    this.props.fetchFilters();
+
+  }
+
+  componentDidUpdate() {
+
+      const { district, region } = this.state;
+
+      const { fetchRegion, fetchDistrict, fetchPolygonCentroid } = this.props;
+
+      if (district !== undefined && district !== null) {
+
+          fetchDistrict(district);
+
+          fetchPolygonCentroid();
+
+      }
+
+      if (region !== undefined && region !== null) {
+
+          fetchRegion(region);
+
+      }
 
   }
 
@@ -42,7 +66,7 @@ class GIS extends Component {
 
   render(){
 
-    const { classes, regions } = this.props;
+    const { classes, gis_filters } = this.props;
 
     return (
       <div className={classes.root}>
@@ -51,7 +75,7 @@ class GIS extends Component {
             {...this.state}
             onChange={this.handleChange}
             onChecked={this.handleChecked}
-            regions={regions}
+            gis_filters={gis_filters}
         />
         <MinGridMap
             {...this.state}
@@ -59,6 +83,9 @@ class GIS extends Component {
             onChange={this.handleChange}
             onChecked={this.handleChecked}
             onPlaceSearch={this.handlePlaceSearch}
+            r_coordinates={this.props.region}
+            d_coordinates={this.props.district}
+            centroids={this.props.centroids}
         />
 
       </div>
@@ -85,7 +112,10 @@ GIS.propTypes = {
 const mapStateToProps = (state) => {
 
     return {
-        regions: state.regions.regions,
+        region: state.region.region,
+        gis_filters: state.gis_filters.gis_filters,
+        district: state.district.district,
+        centroids: state.centroids.centroids,
         hasErrored: state.hasErrored,
         isLoading: state.isLoading
     };
@@ -95,7 +125,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 
     return {
-        fetchRegions: () => { dispatch(GisAction.fetchRegions()) },
+        fetchFilters: () => { dispatch(GisAction.fetchGisFilters()) },
         fetchRegion: (region) => { dispatch(GisAction.fetchRegion(region)) },
         fetchDistrict: (district) => { dispatch(GisAction.fetchDistrict(district))},
         fetchMarepCenters: (name) => { dispatch(GisAction.fetchMarepCenters(name)) },

@@ -1,20 +1,20 @@
 import { GisType } from '../action_type/index';
 
 const initialState = {
-    gis: [],
+    gis_filters: [],
 }
 
-const gis = (state = initialState, action) => {
+const gis_filters = (state = initialState, action) => {
 
     switch(action.type){
-        case GisType.FETCH_GIS:
+        case GisType.FETCH_REGIONS:
             return {
                 ...state,
-                gis: [...state.gis, action.payload]
+                gis_filters: action.payload
             }
         default:
             return state;
     }
 }
 
-export default gis;
+export default gis_filters;

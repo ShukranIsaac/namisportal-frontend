@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 
 import library from './library.reducer';
-import gis from './gis.reducer';
-import regions from './region.reducer';
+import gis_filters from './gis_filters.reducer';
+import region from './region.reducer';
 import district from './district.reducer';
 import marep_centers from './marep_centers.reducer';
 import home from './home.reducer';
@@ -15,10 +15,10 @@ export default combineReducers({
     user: user,
     home: home,
     library: library,
-    gis: gis,
-    regions: regions,
+    gis_filters: gis_filters,
+    region: region,
     district: district,
     m_centers: marep_centers,
-    p_centroids: polygonCentroids,
+    centroids: polygonCentroids,
     l_filters: l_filters
 });
