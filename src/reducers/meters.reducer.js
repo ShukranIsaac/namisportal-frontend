@@ -1,7 +1,7 @@
 import { GisType } from '../action_type/index';
 
 const initialState = {
-    meters: [],
+    meters: null,
 }
 
 const meters = (state = initialState, action) => {

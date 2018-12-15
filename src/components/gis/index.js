@@ -27,9 +27,14 @@ class GIS extends Component {
 
       const { district, region } = this.state;
 
-      const { fetchMeters, fetchRegion, fetchDistrict, fetchPolygonCentroid } = this.props;
+      const {
+          fetchMeters,
+          fetchRegion,
+          fetchDistrict,
+          fetchPolygonCentroid,
+          fetchMarepCenters } = this.props;
 
-      if (district !== undefined && district !== null) {
+      if (district !== undefined && district !== null && district !== "--Select district--") {
 
           fetchDistrict(district);
 
@@ -45,13 +50,25 @@ class GIS extends Component {
 
       if (this.state.meters) {
 
-          if (district !== undefined && district !== null) {
+          if (district !== undefined && district !== null && district !== "--Select district--") {
 
               fetchMeters(district);
 
-          } else if (region !== undefined && region !== null) {
+          } else if (region !== undefined && region !== null && district !== "--Select district--") {
 
               fetchMeters(region);
+
+          } else {
+
+          }
+
+      }
+
+      if (this.state.marep_centers) {
+
+          if (district !== undefined && district !== null  && district !== "--Select district--") {
+
+              fetchMarepCenters(district);
 
           } else {
 
@@ -62,6 +79,13 @@ class GIS extends Component {
   }
 
   handleChange = (event) => {
+
+    if (this.state.district !== null) {
+
+        this.setState({ district: "--Select district--" });
+
+    }
+
     this.setState({ [event.target.name]: event.target.value });
   }
 
@@ -100,6 +124,7 @@ class GIS extends Component {
               d_coordinates={this.props.district}
               centroids={this.props.centroids}
               meters={this.props.meters}
+              m_centers={this.props.m_centers}
           />
 
         </div>
@@ -125,13 +150,14 @@ GIS.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-console.log(state);
+
     return {
         region: state.region.region,
         gis_filters: state.gis_filters.gis_filters,
         district: state.district.district,
         meters: state.meters.meters,
         centroids: state.centroids.centroids,
+        m_centers: state.m_centers.coordinates,
         hasErrored: state.hasErrored,
         isLoading: state.isLoading
     };

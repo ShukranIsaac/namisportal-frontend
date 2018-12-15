@@ -26,7 +26,7 @@ class GridSideBar extends Component {
     super();
     this.state = {
       to_be_electrified: false,
-      electrified: false,
+      marep_centers: false,
       checked_proposed: false,
       checked_33_line: false,
       meters: false
@@ -140,18 +140,18 @@ class GridSideBar extends Component {
           <FormControlLabel
             control={
               <Checkbox
-                checked={this.props.electrified}
+                checked={this.props.marep_centers}
                 onChange={ (e) => { this.props.onChecked(e) } }
-                value="Electrified"
+                value="Marep Centers"
                 color="primary"
-                name="electrified"
+                name="marep_centers"
                 classes={{
                   root: classes.root,
                   checked: classes.checked,
                 }}
               />
             }
-            label="Electrified"
+            label="Marep Centers"
           />
           <FormControlLabel
             control={

@@ -1,7 +1,7 @@
 import { GisType } from '../action_type/index';
 
 const initialState = {
-    coordinates: [],
+    coordinates: null,
 }
 
 const marep_centers = (state = initialState, action) => {

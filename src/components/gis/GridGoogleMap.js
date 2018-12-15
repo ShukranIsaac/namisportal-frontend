@@ -8,7 +8,7 @@ import MainContentWrapper from '../MainContentWrapper';
 
 import './grid.css';
 
-const CunstomGoogleMap = withScriptjs(
+const CustomGoogleMap = withScriptjs(
     withGoogleMap(props => {
 
           return <>
@@ -27,7 +27,11 @@ const CunstomGoogleMap = withScriptjs(
 
               {props.onDistrictChanged}
 
-              {props.onMeters}
+              {props.onRegionChanged}
+
+              {props.onDistrictMeters}
+
+              {props.onRegionMeters}
 
             </GoogleMap>
           </>
@@ -49,11 +53,13 @@ class MinGridMap extends Component {
     };
 
     this.handleClick = this.handleClick.bind(this);
-    this.renderMarepCenters = this.renderMarepCenters.bind(this);
-    this.renderDistrictPolygons = this.renderDistrictPolygons.bind(this);
+    this.renderDistrictMarepCenters = this.renderDistrictMarepCenters.bind(this);
+    this.renderDistrictPolygon = this.renderDistrictPolygon.bind(this);
+    this.renderRegionPolygon = this.renderRegionPolygon.bind(this);
     this.getPolygonCentroid = this.getPolygonCentroid.bind(this);
-    // this.renderRegions = this.renderRegions.bind(this);
     this.renderPolygon = this.renderPolygon.bind(this);
+    this.renderRegionMeters = this.renderRegionMeters.bind(this);
+    this.renderDistrictMeters = this.renderDistrictMeters.bind(this);
 
   }
 
@@ -63,68 +69,60 @@ class MinGridMap extends Component {
 
   }
 
-  renderMarepCenters = ({district, electrified}) => {
+  renderDistrictMarepCenters = ({district, electrified, m_centers}) => {
 
     if (district !== null && district !== undefined && electrified) {
 
-      return (
-        <>
-          <MarkerClusterer>
-            {
-              this.props.fetchMarepCenters(district).map(center => {
+      if (m_centers !== null && m_centers !== undefined) {
 
-                return <Marker position={center.coordinates} key={center.id}/>
+        return this.markerClusterer(m_centers);
 
-              })
-            }
-          </MarkerClusterer>
-        </>
-      );
+      }
 
     } else {
 
       return (
         <>
-          <MarkerClusterer></MarkerClusterer>
+          <MarkerClusterer />
         </>
       );
     }
 
   }
 
-  renderMeters = ({district, region, meters}) => {
+  markerClusterer = (clusters) => {
 
-    if (district !== null && district !== undefined) {
+    return (
+      <>
+        <MarkerClusterer>
+          {
+            clusters.map((point, key) => {
 
-      return (
-        <>
-          <MarkerClusterer>
-            {
-              meters.map((meter, key) => {
+              return <Marker position={point.coordinates} key={key}/>
 
-                return <Marker position={meter.coordinates} key={key}/>
+            })
+          }
+        </MarkerClusterer>
+      </>
+    );
 
-              })
-            }
-          </MarkerClusterer>
-        </>
-      );
+  }
 
-    }
+  renderRegionMeters = ({region, meters}) => {
 
     if (region !== null && region !== undefined) {
 
+      if (meters !== null && meters !== undefined) {
+
+        return this.markerClusterer(meters);
+
+      }
+
+    } else {
+
       return (
         <>
-          <MarkerClusterer>
-            {
-              meters.map((meter, key) => {
-
-                return <Marker position={meter.coordinates} key={key}/>
-
-              })
-            }
-          </MarkerClusterer>
+          <MarkerClusterer />
         </>
       );
 
@@ -132,14 +130,38 @@ class MinGridMap extends Component {
 
   }
 
-  renderPolygon = (paths) => {
+
+  renderDistrictMeters = ({district, meters}) => {
+
+    if (district !== null && district !== undefined) {
+
+      if (meters !== null && meters !== undefined) {
+
+          return this.markerClusterer(meters);
+
+      }
+
+    } else {
+
+      return (
+        <>
+          <MarkerClusterer />
+        </>
+      );
+
+    }
+
+  }
+
+
+  renderPolygon = (coordinates, color, opacity) => {
 
     return <>
       <Polygon
-        paths={paths}
+        paths={coordinates}
         options={{
-          fillOpacity: 0.4,
-          strokeColor: "red",
+          fillOpacity: opacity,
+          strokeColor: color,
           strokeOpacity: 1,
           strokeWeight: 1
         }}
@@ -149,38 +171,22 @@ class MinGridMap extends Component {
 
   }
 
-  renderDistrictPolygons = ({district, region, r_coordinates, d_coordinates}) => {
-
-    if (district !== null && district !== undefined) {
-
-      return <>
-        <Polygon
-          paths={d_coordinates}
-          options={{
-            fillOpacity: 0.8,
-            strokeColor: "red",
-            strokeOpacity: 1,
-            strokeWeight: 1
-          }}
-        >
-        </Polygon>
-      </>;
-    }
+  renderRegionPolygon = ({region, r_coordinates}) => {
 
     if( region !== null && region !== undefined){
 
-      return <>
-        <Polygon
-          paths={r_coordinates}
-          options={{
-            fillOpacity: 0.4,
-            strokeColor: "red",
-            strokeOpacity: 1,
-            strokeWeight: 1
-          }}
-        >
-        </Polygon>
-      </>;
+      return this.renderPolygon(r_coordinates, "red", 0.4);
+
+    }
+
+  }
+
+  renderDistrictPolygon = ({district, d_coordinates}) => {
+
+    if (district !== null && district !== undefined) {
+
+      return this.renderPolygon(d_coordinates, "yellow", 0.8);
+
     }
 
   }
@@ -227,18 +233,19 @@ class MinGridMap extends Component {
 
     return (
       <>
-        <CunstomGoogleMap
+        <CustomGoogleMap
           googleMapURL={google} loadingElement={<div style={{ height: `100%` }} />}
           containerElement={<div id="map-canvas" style={{ height: `900px` }} />}
           mapElement={<div id="map" style={{ height: `100%` }} />}
-          onDistrictChanged={this.renderDistrictPolygons(this.props)}
-          onMarepCenter ={this.renderMarepCenters(this.props)}
-          onMeters={this.renderMeters(this.props)}
+          onDistrictChanged={this.renderDistrictPolygon(this.props)}
+          onRegionChanged={this.renderRegionPolygon(this.props)}
+          onMarepCenter ={this.renderDistrictMarepCenters(this.props)}
+          onDistrictMeters={this.renderDistrictMeters(this.props)}
+          onRegionMeters={this.renderRegionMeters(this.props)}
           onCenterChanged= {this.getPolygonCentroid(this.props)}
-          polygon = {this.renderPolygon}
           {...this.state}
         >
-        </CunstomGoogleMap>
+        </CustomGoogleMap>
       </>
     );
   }
