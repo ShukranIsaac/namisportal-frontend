@@ -34,7 +34,7 @@ class GIS extends Component {
           fetchPolygonCentroid,
           fetchMarepCenters } = this.props;
 
-      if (district !== undefined && district !== null && district !== "--Select district--") {
+      if (district !== undefined && district !== null) {
 
           fetchDistrict(district);
 
@@ -50,11 +50,11 @@ class GIS extends Component {
 
       if (this.state.meters) {
 
-          if (district !== undefined && district !== null && district !== "--Select district--") {
+          if (district !== undefined && district !== null) {
 
               fetchMeters(district);
 
-          } else if (region !== undefined && region !== null && district !== "--Select district--") {
+          } else if (region !== undefined && region !== null) {
 
               fetchMeters(region);
 
@@ -66,7 +66,7 @@ class GIS extends Component {
 
       if (this.state.marep_centers) {
 
-          if (district !== undefined && district !== null  && district !== "--Select district--") {
+          if (district !== undefined && district !== null) {
 
               fetchMarepCenters(district);
 
@@ -82,7 +82,7 @@ class GIS extends Component {
 
     if (this.state.district !== null) {
 
-        this.setState({ district: "--Select district--" });
+        // this.setState({ district: "--Select district--" });
 
     }
 

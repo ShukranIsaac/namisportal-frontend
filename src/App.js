@@ -82,7 +82,7 @@ class App extends Component {
               </Link>
 
               <Navbar.Divider />
-              <Link to="/user">
+              <Link to="/cms">
                 <Button className="bp3-minimal" icon="user" />
               </Link>
               <Button className="bp3-minimal" icon="notifications" />
@@ -90,7 +90,7 @@ class App extends Component {
             </Navbar.Group>
           </Navbar>
           <Route exact path="/" component={Home} />
-          <UserPrivateRoute exact path="/user" component={User} />
+          <UserPrivateRoute exact path="/cms" component={User} />
           <Route path="/licensing" component={Licensing} />
           <Route path="/financing" component={Financing} />
           <Route path="/library" component={Library} />
