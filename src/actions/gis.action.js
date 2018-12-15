@@ -6,6 +6,31 @@ import Config from '../config';
 
 let regions = [
   {
+    name: "Northern Region",
+    districts: [
+      {
+        name: "Chitipa",
+        coord: {}
+      },
+      {
+        name: "Karonga",
+        coord: {}
+      },
+      {
+        name: "Rumphi",
+        coord: {}
+      },
+      {
+        name: "Mzimba",
+        coord: {}
+      },
+      {
+        name: "Nkhatabay",
+        coord: {}
+      },
+    ]
+  },
+  {
     name: "Central Region",
     districts: [
       {
@@ -93,27 +118,6 @@ let regions = [
         name: "Zomba",
         coord: {}
       }
-    ]
-  },
-  {
-    name: "Northern Region",
-    districts: [
-      {
-        name: "Chitipa",
-        coord: {}
-      },
-      {
-        name: "Karonga",
-        coord: {}
-      },
-      {
-        name: "Rumphi",
-        coord: {}
-      },
-      {
-        name: "Mzimba",
-        coord: {}
-      },
     ]
   },
 ];
