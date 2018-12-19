@@ -10,6 +10,7 @@ import user from './user.reducer';
 import polygonCentroids from './centroids.reducer';
 import meters from './meters.reducer';
 import l_filters from './licencing_filters.reducer';
+import distributionlines from './distribution.reducer';
 
 export default combineReducers({
     user: user,
@@ -21,5 +22,6 @@ export default combineReducers({
     m_centers: marep_centers,
     centroids: polygonCentroids,
     meters: meters,
-    l_filters: l_filters
+    l_filters: l_filters,
+    lines: distributionlines,
 });

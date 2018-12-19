@@ -86,14 +86,14 @@ class MinGridMap extends Component {
 
   }
 
-  renderPolyline = ({path, opacity, color, district, region, distribution_lines}) => {
+  renderPolyline = ({polyline, district, region, distribution_lines}) => {
 
-      if (distribution_lines && path !== null && path !== undefined) {
+      if (distribution_lines && polyline !== null && polyline !== undefined) {
 
         return (
           <>
             <Polyline
-              path={path}
+              path={polyline}
               geodesic={true}
               options={{
                 strokeColor: "#ff2527",
@@ -164,7 +164,7 @@ class MinGridMap extends Component {
 
 
   renderDistrictMeters = ({district, meters}) => {
-console.log(meters);
+
     if (district !== null && district !== undefined) {
 
       if (meters !== null && meters !== undefined) {
@@ -207,7 +207,7 @@ console.log(meters);
 
     if( region !== null && region !== undefined){
 
-      return this.renderPolygon(r_coordinates, "red", 0.4);
+      return this.renderPolygon(r_coordinates, "red", 0.3);
 
     }
 
@@ -217,7 +217,7 @@ console.log(meters);
 
     if (district !== null && district !== undefined) {
 
-      return this.renderPolygon(d_coordinates, "yellow", 0.8);
+      return this.renderPolygon(d_coordinates, "yellow", 0.31);
 
     }
 

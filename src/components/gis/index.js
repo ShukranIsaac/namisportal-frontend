@@ -32,7 +32,8 @@ class GIS extends Component {
           fetchRegion,
           fetchDistrict,
           fetchPolygonCentroid,
-          fetchMarepCenters } = this.props;
+          fetchMarepCenters,
+          fetchDistributionLines } = this.props;
 
       if (district !== undefined && district !== null) {
 
@@ -72,6 +73,15 @@ class GIS extends Component {
 
           }
 
+      }
+
+      if (this.state.distribution_lines) {
+
+          if (district !== undefined && district !== null) {
+
+              fetchDistributionLines(district);
+
+          }
       }
 
   }
@@ -121,6 +131,7 @@ class GIS extends Component {
               centroids={this.props.centroids}
               meters={this.props.meters}
               m_centers={this.props.m_centers}
+              polyline={this.props.distr_lines}
           />
 
         </div>
@@ -152,10 +163,11 @@ const mapStateToProps = (state) => {
         gis_filters: state.gis_filters.gis_filters,
         district: state.district.district,
         meters: state.meters.meters,
+        distr_lines: state.lines.lines,
         centroids: state.centroids.centroids,
         m_centers: state.m_centers.coordinates,
         hasErrored: state.hasErrored,
-        isLoading: state.isLoading
+        isLoading: state.isLoading,
     };
 
 }
@@ -169,6 +181,7 @@ const mapDispatchToProps = (dispatch) => {
         fetchMarepCenters: (name) => { dispatch(GisAction.fetchMarepCenters(name)) },
         fetchPolygonCentroid: () => { dispatch(GisAction.fetchPolygonCentroids()) },
         fetchMeters: (name) => { dispatch(GisAction.fetchEscomMeters(name)) },
+        fetchDistributionLines: (name) => { dispatch(GisAction.fetchDistributionLines(name)) },
     };
 
 }
