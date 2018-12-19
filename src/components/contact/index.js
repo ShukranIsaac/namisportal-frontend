@@ -8,7 +8,7 @@ class Contact extends Component {
     return (
       <>
 
-        <ContactForm />
+        <div>Contact</div>
 
       </>
     );

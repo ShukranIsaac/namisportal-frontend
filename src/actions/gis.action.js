@@ -199,7 +199,7 @@ export const fetchGisFilters = () => {
 
 export const fetchMarepCenters = (name) => {
 
-    const {coordinates} = require('../assets/gis/polygons/'+ name +'.json');
+    const coordinates = require('../assets/gis/marep-centers/'+ name +'.json');
 
     return (dispatch) => {
 
@@ -225,7 +225,7 @@ export const fetchMarepCenters = (name) => {
 
 export const fetchEscomMeters = (name) => {
 
-    const {points} = require('../assets/gis/meters/'+ name +'.json');
+    const points = require('../assets/gis/meters/'+ name +'.json');
 
     return (dispatch) => {
 

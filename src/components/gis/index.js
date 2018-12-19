@@ -64,13 +64,11 @@ class GIS extends Component {
 
       }
 
-      if (this.state.marep_centers) {
+      if (this.state.marep_center) {
 
           if (district !== undefined && district !== null) {
 
               fetchMarepCenters(district);
-
-          } else {
 
           }
 
@@ -88,7 +86,6 @@ class GIS extends Component {
   }
 
   handleChecked = (event) => {
-    console.log(this.state);
     this.setState({ [event.target.name]: event.target.checked });
   }
 

@@ -54,7 +54,6 @@ class MinGridMap extends Component {
       },
     };
 
-    this.handleClick = this.handleClick.bind(this);
     this.renderDistrictMarepCenters = this.renderDistrictMarepCenters.bind(this);
     this.renderDistrictPolygon = this.renderDistrictPolygon.bind(this);
     this.renderRegionPolygon = this.renderRegionPolygon.bind(this);
@@ -66,17 +65,11 @@ class MinGridMap extends Component {
 
   }
 
-  handleClick = (event) => {
+  renderDistrictMarepCenters = ({district, marep_center, m_centers}) => {
 
-    this.setState({ [event.target.name]: event.target.value });
+    if (district !== null && district !== undefined && marep_center) {
 
-  }
-
-  renderDistrictMarepCenters = ({district, electrified, m_centers}) => {
-
-    if (district !== null && district !== undefined && electrified) {
-
-      if (m_centers !== null && m_centers !== undefined) {
+      if (m_centers !== null && m_centers !== undefined && m_centers.length !== null) {
 
         return this.markerClusterer(m_centers);
 
@@ -135,7 +128,7 @@ class MinGridMap extends Component {
       <>
         <MarkerClusterer>
           {
-            clusters.map((point, key) => {
+            clusters.centers.map((point, key) => {
 
               return <Marker position={point.coordinates} key={key}/>
 
@@ -171,7 +164,7 @@ class MinGridMap extends Component {
 
 
   renderDistrictMeters = ({district, meters}) => {
-
+console.log(meters);
     if (district !== null && district !== undefined) {
 
       if (meters !== null && meters !== undefined) {
