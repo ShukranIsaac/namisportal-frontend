@@ -82,14 +82,13 @@ class GIS extends Component {
 
     if (this.state.district !== null) {
 
-        // this.setState({ district: "--Select district--" });
-
     }
 
     this.setState({ [event.target.name]: event.target.value });
   }
 
   handleChecked = (event) => {
+    console.log(this.state);
     this.setState({ [event.target.name]: event.target.checked });
   }
 

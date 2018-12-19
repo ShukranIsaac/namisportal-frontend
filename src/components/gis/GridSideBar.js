@@ -29,7 +29,8 @@ class GridSideBar extends Component {
       marep_centers: false,
       checked_proposed: false,
       checked_33_line: false,
-      meters: false
+      meters: false,
+      distribution_lines: false
     };
   }
 
@@ -189,6 +190,27 @@ class GridSideBar extends Component {
               />
             }
             label="Meters"
+          />
+        </FormGroup>
+
+        <div className={classes.grow} />
+
+        <FormGroup row>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={this.props.distribution_lines}
+                onChange={ (e) => { this.props.onChecked(e) } }
+                value="Lines"
+                color="primary"
+                name="distribution_lines"
+                classes={{
+                  root: classes.root,
+                  checked: classes.checked,
+                }}
+              />
+            }
+            label="Distribution Lines"
           />
         </FormGroup>
       </div>

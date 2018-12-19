@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { withScriptjs, withGoogleMap, GoogleMap, Marker, Polygon } from "react-google-maps";
+import { withScriptjs, withGoogleMap, GoogleMap, Marker, Polygon, Polyline } from "react-google-maps";
 import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 
 import MainContentWrapper from '../MainContentWrapper';
@@ -33,6 +33,8 @@ const CustomGoogleMap = withScriptjs(
 
               {props.onRegionMeters}
 
+              {props.onPolyline}
+
             </GoogleMap>
           </>
         })
@@ -60,6 +62,7 @@ class MinGridMap extends Component {
     this.renderPolygon = this.renderPolygon.bind(this);
     this.renderRegionMeters = this.renderRegionMeters.bind(this);
     this.renderDistrictMeters = this.renderDistrictMeters.bind(this);
+    this.renderPolyline = this.renderPolyline.bind(this);
 
   }
 
@@ -87,6 +90,42 @@ class MinGridMap extends Component {
         </>
       );
     }
+
+  }
+
+  renderPolyline = ({path, opacity, color, district, region, distribution_lines}) => {
+
+      if (distribution_lines && path !== null && path !== undefined) {
+
+        return (
+          <>
+            <Polyline
+              path={path}
+              geodesic={true}
+              options={{
+                strokeColor: "#ff2527",
+                strokeOpacity: 0.75,
+                strokeWeight: 2,
+                icons: [
+                    {
+                        offset: "0",
+                        repeat: "20px"
+                    }
+                ]
+              }}
+            />
+          </>
+        );
+
+      } else {
+
+        return (
+          <>
+            <Polyline geodesic={true} />
+          </>
+        );
+
+      }
 
   }
 
@@ -243,7 +282,9 @@ class MinGridMap extends Component {
           onDistrictMeters={this.renderDistrictMeters(this.props)}
           onRegionMeters={this.renderRegionMeters(this.props)}
           onCenterChanged= {this.getPolygonCentroid(this.props)}
+          onPolyline={this.renderPolyline(this.props)}
           {...this.state}
+          {...this.props}
         >
         </CustomGoogleMap>
       </>
