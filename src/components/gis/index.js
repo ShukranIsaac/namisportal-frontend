@@ -111,7 +111,7 @@ class GIS extends Component {
   render(){
 
     const { classes, gis_filters } = this.props;
-
+console.log(this.props.distr_lines);
     return (
       <>
         <div className={classes.root}>

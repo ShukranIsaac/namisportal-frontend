@@ -90,13 +90,15 @@ class MinGridMap extends Component {
 
       if (distribution_lines && polyline !== null && polyline !== undefined) {
 
+        return polyline.map((line, key) => {
+
         return (
           <>
             <Polyline
-              path={polyline}
+              path={line.coordinates[0]}
               geodesic={true}
               options={{
-                strokeColor: "#ff2527",
+                strokeColor: "blue",
                 strokeOpacity: 0.75,
                 strokeWeight: 2,
                 icons: [
@@ -110,13 +112,7 @@ class MinGridMap extends Component {
           </>
         );
 
-      } else {
-
-        return (
-          <>
-            <Polyline geodesic={true} />
-          </>
-        );
+        });
 
       }
 
@@ -277,7 +273,6 @@ class MinGridMap extends Component {
           onCenterChanged= {this.getPolygonCentroid(this.props)}
           onPolyline={this.renderPolyline(this.props)}
           {...this.state}
-          {...this.props}
         >
         </CustomGoogleMap>
       </>

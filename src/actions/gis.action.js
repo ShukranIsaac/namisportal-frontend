@@ -277,8 +277,8 @@ export const fetchPolygonCentroids = () => {
 
 export const fetchDistributionLines = (district) => {
 
-    const {coordinates} = require('../assets/gis/polygons/'+ district +'.json');
-console.log(coordinates);
+    const {lines} = require('../assets/gis/distribution-lines/'+ district +'.json');
+
     return (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
@@ -294,7 +294,7 @@ console.log(coordinates);
             return response;
         }).then((response) => {
 
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_DISTRIBUTION_LINES, coordinates, false))
+          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_DISTRIBUTION_LINES, lines, false))
 
         }).catch(() => dispatch(GeneralAction.hasErrored(true)));
     };
