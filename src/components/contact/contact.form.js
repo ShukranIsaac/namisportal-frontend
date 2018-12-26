@@ -11,54 +11,11 @@ import purple from '@material-ui/core/colors/purple';
 
 import { Button } from '@blueprintjs/core';
 
-import asyncValidate from './async-validate';
+import RenderBootstrapField from './form.bootstrap.field';
+import AsyncValidate from './form.async-validate';
+import Validate from './email.validate';
 
-const validate = values => {
-
-    const errors = {};
-    const requiredFields = ['name', 'email', 'message'];
-
-    requiredFields.forEach(field => {
-
-        if (!values[field]) {
-
-            errors[field] = 'Required';
-
-        }
-
-    });
-
-    if (values.email && /!^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-
-        errors.email = 'Invalid email';
-
-    }
-
-    return errors;
-}
-
-const renderBootstrapField = ({classes, label, defaultValue, name}) => {
-
-    return (
-      <>
-        <FormControl className={classes.margin}>
-          <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
-            {label}
-          </InputLabel>
-          <InputBase
-            id="text-input"
-            name={name}
-            placeholder={defaultValue}
-            type={name}
-            classes={{
-              root: classes.bootstrapRoot,
-              input: classes.bootstrapInput,
-            }}
-          />
-        </FormControl>
-      </>
-    );
-}
+import styles from './form.styles';
 
 const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => {
 
@@ -139,19 +96,19 @@ class ContactForm extends Component {
           <form className={{style: 'center'}} onSubmit={handleSubmit}>
             <div>
               {
-                renderBootstrapField({
+                RenderBootstrapField({
                   classes, label:'Full name', defaultValue: "Your full name...", name
                 })
               }
             </div>
             <div>
               {
-                renderBootstrapField({classes, label:'Email', defaultValue: "Your email...", name: email})
+                RenderBootstrapField({classes, label:'Email', defaultValue: "Your email...", name: email})
               }
             </div>
             <div>
               {
-                renderBootstrapField({classes, label:'Message', defaultValue: "Your message...", name: message})
+                RenderBootstrapField({classes, label:'Message', defaultValue: "Your message...", name: message})
               }
             </div>
             <div className={classes.margin}>
@@ -164,69 +121,8 @@ class ContactForm extends Component {
 
 }
 
-const styles = theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  margin: {
-    margin: theme.spacing.unit,
-  },
-  cssLabel: {
-    '&$cssFocused': {
-      color: purple[500],
-    },
-  },
-  cssFocused: {},
-  cssUnderline: {
-    '&:after': {
-      borderBottomColor: purple[500],
-    },
-  },
-  cssOutlinedInput: {
-    '&$cssFocused $notchedOutline': {
-      borderColor: purple[500],
-    },
-  },
-  notchedOutline: {},
-  bootstrapRoot: {
-    'label + &': {
-      marginTop: theme.spacing.unit * 3,
-    },
-  },
-  bootstrapInput: {
-    width: theme.spacing.unit * 50,
-    borderRadius: 4,
-    backgroundColor: theme.palette.common.white,
-    border: '1px solid #ced4da',
-    fontSize: 16,
-    padding: '10px 12px',
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
-    // Use the system font instead of the default Roboto font.
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
-    '&:focus': {
-      borderColor: '#80bdff',
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-    },
-  },
-  bootstrapFormLabel: {
-    fontSize: 18,
-  },
-});
-
 ContactForm.propTypes = {
    classes: PropTypes.object.isRequired,
 }
 
-export default reduxForm({ form: "ContactForm", validate, asyncValidate})(withStyles(styles)(ContactForm));
+export default reduxForm({ form: "ContactForm", Validate, AsyncValidate})(withStyles(styles)(ContactForm));
