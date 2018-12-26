@@ -2,18 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { reduxForm } from 'redux-form';
-import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
-import InputBase from '@material-ui/core/InputBase';
-import InputLabel from '@material-ui/core/InputLabel';
-import purple from '@material-ui/core/colors/purple';
 
 import { Button } from '@blueprintjs/core';
 
 import RenderBootstrapField from './form.bootstrap.field';
 import AsyncValidate from './form.async-validate';
 import Validate from './email.validate';
+import UserFormCheckbox from '../user/form.checkbox';
 
 import styles from './form.styles';
 
@@ -31,19 +27,6 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
       </>
     );
 
-}
-
-const renderCheckbox = ({ input, label }) => {
-
-    return (
-      <>
-        <Checkbox
-          label={label}
-          checked={input.value ? true : false}
-          onCheck={input.onChange}
-        />
-      </>
-    );
 }
 
 // const renderRadioGroup = ({ input, ...rest }) => {

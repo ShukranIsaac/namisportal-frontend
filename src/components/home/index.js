@@ -1,14 +1,7 @@
 import React, { Component } from 'react';
 import { Elevation, Button, Card } from "@blueprintjs/core";
-import { BrowserRouter as Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Flex, Box } from 'reflexbox';
-
-import Directory from '../directory'
-import GIS from '../gis'
-import TASF from '../tasf'
-import Financing from '../financing'
-import Library from '../library'
-import Licensing from '../licensing'
 
 import './home.css'
 import Footer from '../footer';

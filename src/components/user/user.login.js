@@ -5,14 +5,9 @@ import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { reduxForm } from 'redux-form';
-import FormControl from '@material-ui/core/FormControl';
-import InputBase from '@material-ui/core/InputBase';
-import InputLabel from '@material-ui/core/InputLabel';
 
 import { Elevation, Button, Card } from "@blueprintjs/core";
 import { Flex, Box } from 'reflexbox';
-
-import UserRegistration from './user.register';
 
 import RenderBootstrapField from '../contact/form.bootstrap.field';
 import AsyncValidate from '../contact/form.async-validate';
@@ -71,7 +66,7 @@ class ContactForm extends Component {
                         <Link to="/register">
                           <div>Register? </div>
                         </Link>
-                        
+
                       </div>
                     </form>
 
