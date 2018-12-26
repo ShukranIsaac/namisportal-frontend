@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Elevation, Button, Card } from "@blueprintjs/core";
 import { BrowserRouter as Route, Link } from "react-router-dom";
-import { Flex, Box } from 'reflexbox'
+import { Flex, Box } from 'reflexbox';
 
 import Directory from '../directory'
 import GIS from '../gis'
@@ -16,7 +16,7 @@ import Footer from '../footer';
 class Home extends Component {
   render(){
     const containerStyle = {
-      width: '80%',
+      width: '90%',
       margin: '0 auto',
     }
     return (
@@ -28,20 +28,20 @@ class Home extends Component {
           m={1}
           w={1}
           className='landing-info'>
-          <Box w={1/2} p={1} align='center'>
-          <Card elevation={Elevation.TWO}>
-            <h4 className="heading"><a href="/">Information for Mini-Grid Developers</a></h4>
-            <p>
-              An information portal is a customized website that immerses information from a wide
-              range of sources in a consistent and uniform manner. For this purpose, UNDP and
-              Department of Energy Affairs (DoEA) seek to establish an information clearing house
-              portal to make available information that includes: current electricity grid network,
-              planned and known rural electrification efforts of Malawi Rural Electrification Project
-              (MAREP); existing off-grid systems; population centres; renewable energy resource
-              information; infrastructure; location of government public service institutions; location
-              of other rural infrastructure, land use, environmental and social issues.
-            </p>
-          </Card>
+          <Box w={1} p={1} align='center'>
+            <Card elevation={Elevation.TWO}>
+              <h4 className="heading"><a href="/">Information for Mini-Grid Developers</a></h4>
+              <p>
+                An information portal is a customized website that immerses information from a wide
+                range of sources in a consistent and uniform manner. For this purpose, UNDP and
+                Department of Energy Affairs (DoEA) seek to establish an information clearing house
+                portal to make available information that includes: current electricity grid network,
+                planned and known rural electrification efforts of Malawi Rural Electrification Project
+                (MAREP); existing off-grid systems; population centres; renewable energy resource
+                information; infrastructure; location of government public service institutions; location
+                of other rural infrastructure, land use, environmental and social issues.
+              </p>
+            </Card>
           </Box>
         </Flex>
       <div style={containerStyle}>

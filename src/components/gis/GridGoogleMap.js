@@ -18,6 +18,9 @@ const CustomGoogleMap = withScriptjs(
               defaultOptions={{
                 scrollwheel: false,
                 zoomControl: true,
+                zoomControlOptions: {
+                  
+                }
               }}
               center={props.onCenterChanged}
               zoom={props.zoom}

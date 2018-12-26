@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 
+import { Flex, Box } from 'reflexbox';
+import { Card } from "@blueprintjs/core";
+
 import LicensingProfile from './LicensingProfile';
 import LicensingSidebar from './LicensingSidebar';
 
@@ -32,10 +35,21 @@ class Licensing extends Component {
 
     return (
       <>
-        <div className={classes.root}>
-          <LicensingSidebar onChange={ this.handleChange } {...this.props} {...this.state}/>
-          <LicensingProfile onChange={ this.handleChange } {...this.props} {...this.state}/>
-        </div>
+
+        <Flex
+            p={4}
+            align='top'
+            justify='center'
+            m={1}
+            w={1}
+            className='landing-info'>
+
+              <LicensingSidebar onChange={ this.handleChange } {...this.props} {...this.state}/>
+
+              <LicensingProfile onChange={ this.handleChange } {...this.props} {...this.state}/>
+
+        </Flex>
+
       </>
     );
   }
@@ -56,6 +70,9 @@ const styles = theme => ({
     borderRadius: '0',
     background: '#BFCCD6',
     fontSize: '1.2em'
+  },
+  space: {
+    width: '10%',
   }
 });
 
