@@ -11,7 +11,8 @@ import News from './components/news';
 import Financing from './components/financing';
 import Library from './components/library';
 import Licensing from './components/licensing';
-import User from './components/user';
+import UserLogin from './components/user/user.login';
+import UserRegistration from './components/user/user.register';
 
 import UserPrivateRoute from './components/user/private.route';
 
@@ -86,7 +87,7 @@ class App extends Component {
             </Navbar.Group>
           </Navbar>
           <Route exact path="/" component={Home} />
-          <UserPrivateRoute exact path="/cms" component={User} />
+          <UserPrivateRoute exact path="/cms" component={Home} />
           <Route path="/licensing" component={Licensing} />
           <Route path="/financing" component={Financing} />
           <Route path="/library" component={Library} />
@@ -95,6 +96,8 @@ class App extends Component {
           <Route path="/news" component={News} />
           <Route path="/faq" component={FAQ} />
           <Route path="/contact" component={Contact} />
+          <Route path="/login" component={UserLogin} />
+          <Route path="/register" component={UserRegistration} />
         </div>
 
       </Router>

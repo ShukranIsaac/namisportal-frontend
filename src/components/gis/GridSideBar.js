@@ -11,6 +11,12 @@ import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import FormLabel from '@material-ui/core/FormLabel';
+
+import Icon from '@material-ui/core/Icon';
+import red from '@material-ui/core/colors/red';
+import blue from '@material-ui/core/colors/blue';
+import yellow from '@material-ui/core/colors/yellow';
 
 import SideBarWrapper from '../SideBarWrapper';
 
@@ -246,6 +252,18 @@ class GridSideBar extends Component {
 
         </FormGroup>
 
+        <div className={classes.grow} />
+
+        <div className={classes.legend}>
+
+          <FormLabel component="legend">Legend (Key)</FormLabel>
+          <FormGroup row>
+
+            <Icon>colour-helper</Icon>
+
+          </FormGroup>
+
+        </div>
       </div>
     );
   }
@@ -271,6 +289,9 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit * 2,
     minWidth: 'auto',
   },
+  legend: {
+    marginTop: theme.spacing.unit * 3,
+  }
 });
 
 GridSideBar.propTypes = {

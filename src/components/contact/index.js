@@ -23,7 +23,7 @@ class Contact extends Component {
         <Flex
           wrap
           align='top'
-          justify='top'
+          justify='center'
           m={1}
           w={1}
           p={3}
@@ -34,19 +34,19 @@ class Contact extends Component {
                 Contact Us
               </Typography>
               <br />
-              <Typography className={classes.column} variant="caption">
+              <Typography variant="caption">
               The Working Group welcomes questions and comments about this site.
-              Please use the form to contact us.
+              Please use the form or contacts here given to contact us.
               </Typography>
-              <Typography className={classes.column} variant="caption">
-                Connect with us:
-                <br /><br />
-                For any questions
+              <Typography variant="caption">
+                <br />
+                For any questions:
                 <br />
                 Email us at <a href="#sub-labels-and-columns" className={classes.link}>
                   questions@grid.mw
                 </a>
                 <br /><br />
+                Physical Address:<br />
                 Mini-grids Malawi,<br />890 West Point<br />Blantyre
               </Typography>
             </Card>
@@ -77,9 +77,6 @@ const styles = theme => ({
   },
   details: {
     alignItems: 'center',
-  },
-  column: {
-    flexBasis: '33.33%',
   },
   helper: {
     borderLeft: `1px solid ${theme.palette.divider}`,

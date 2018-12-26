@@ -1,4 +1,6 @@
 import React from 'react';
+import { Elevation, Button, Card } from "@blueprintjs/core";
+import { Flex, Box } from 'reflexbox';
 
 const UserRegistration = () => {
 
@@ -16,7 +18,7 @@ const UserRegistration = () => {
           <Box w={1/2} p={1}>
 
             bhvrvbble;o
-            
+
           </Box>
           <Box w={1/2} p={1}>
 
