@@ -70,7 +70,7 @@ class GridSideBar extends Component {
         return districts.map(({name}, key) => {
 
             return <>
-              <option value={ name } key={ key }>{ name }</option>
+              <option value={ name } key={ name }>{ name }</option>
             </>
 
           }
@@ -171,7 +171,7 @@ class GridSideBar extends Component {
 
         <div className={classes.grow} />
 
-        <FormControl className={classes.formControl}>
+        <FormControl className={classes.formControl} key="region">
 
           {
             this.selectInputControl({
@@ -182,7 +182,7 @@ class GridSideBar extends Component {
 
         </FormControl>
 
-        <FormControl className={classes.formControl}>
+        <FormControl className={classes.formControl} key="district">
 
           {
             this.selectInputControl({
@@ -219,7 +219,7 @@ class GridSideBar extends Component {
 
         <div className={classes.grow} />
 
-        <FormGroup row>
+        <FormGroup row key="meters">
 
           {
              this.checkBoxControl({
@@ -234,7 +234,7 @@ class GridSideBar extends Component {
 
         <div className={classes.grow} />
 
-        <FormGroup row>
+        <FormGroup row key="distribution_lines">
 
           {
              this.checkBoxControl({

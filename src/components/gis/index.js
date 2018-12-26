@@ -91,7 +91,7 @@ class GIS extends Component {
   handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
-      regionChanged: event.target.name === 'region' ? true : false 
+      regionChanged: event.target.name === 'region' ? true : false
     });
   }
 
@@ -129,7 +129,7 @@ class GIS extends Component {
               r_coordinates={this.props.region}
               d_coordinates={this.props.district}
               centroids={this.props.centroids}
-              meters={ this.state.meters_checked ? this.props.meters : null }
+              meters={this.state.meters_checked ? this.props.meters : null}
               m_centers={this.props.m_centers}
               polyline={this.props.distr_lines}
           />
