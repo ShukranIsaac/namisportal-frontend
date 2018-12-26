@@ -7,58 +7,6 @@ import { withStyles } from '@material-ui/core/styles';
 import SideBarWrapper from '../SideBarWrapper';
 import SelectDropdown from '../SelectDropdown';
 
-const profileActivities = [
-  {
-    name: 'Capacity',
-    options: [
-      { option: "Up to 1 MW" },
-      { option: "1 to 10 MW" },
-      { option:"No generation" }
-    ]
-  },
-  {
-    name: 'Technology',
-    options: [
-      { option: "Solar" },
-      { option: "Wind"},
-      { option: "Hydro" },
-      { option: "Biomass" }
-    ]
-  },
-  {
-    name: 'Hybrid',
-    options: [
-      { option: "Yes" } ,
-      { option: "No" }
-    ]
-  },
-  {
-    name: 'Wholesale Selling',
-    options: [
-      { option: "DNO (With SPPA)" },
-      { option: "DNO (Without SPPA)" },
-      { option: "N/A (Retail Only)" },
-      { option: "N/A (Own Use)" }
-    ],
-  },
-  {
-    name: 'Retail Selling',
-    options: [
-      { option: "Customers in own grid" },
-      { option: " Customers in other DNO grid" },
-      { option: "Customers in own grid and in other DNO grid" },
-      { option: "N/A (No Retail Customers)" }
-    ],
-  },
-  {
-    name: 'Own Mini Grid',
-    options: [
-      { option: "Up to 1 MW" },
-      { option: "1 to 10 MW" }
-    ]
-  }
-];
-
 class LicensingSidebar extends Component {
 
   constructor() {
@@ -90,7 +38,7 @@ class LicensingSidebar extends Component {
                   return (
                     <FormGroup key={key} label={p.name}>
 
-                      <SelectDropdown onChange={onChange} key={key} profiles={p} />
+                      <SelectDropdown onChange={ (e) => onChange(e) } key={key} profiles={p} />
 
                     </FormGroup>
                   );

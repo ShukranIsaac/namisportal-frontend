@@ -1,27 +1,42 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 
-import { Flex, Box } from 'reflexbox';
-import { Card } from "@blueprintjs/core";
+import { Flex } from 'reflexbox';
 
 import LicensingProfile from './LicensingProfile';
 import LicensingSidebar from './LicensingSidebar';
 
 import * as LicensingAction from '../../actions/index';
 
+const steps = [
+  {
+    "type": "Generating",
+    "steps": []
+  },
+  {
+    "type": "Distribution",
+    "steps": []
+  },
+  {
+    "type": "Licensing",
+    "steps": []
+  },
+];
+
 class Licensing extends Component {
 
   constructor() {
     super();
-    this.state = {}
+    this.state = {
+        steps: steps,
+    }
+
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange = name => event => {
-
-    this.setState({ [name]: event.target.value });
-
+  handleChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
   };
 
   componentDidMount() {
@@ -31,7 +46,6 @@ class Licensing extends Component {
   }
 
   render(){
-    const { classes } = this.props;
 
     return (
       <>
@@ -71,9 +85,6 @@ const styles = theme => ({
     background: '#BFCCD6',
     fontSize: '1.2em'
   },
-  space: {
-    width: '10%',
-  }
 });
 
 const mapStateToProps = (state) => {

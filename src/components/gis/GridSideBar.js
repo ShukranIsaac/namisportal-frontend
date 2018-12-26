@@ -11,7 +11,6 @@ import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import { fade } from '@material-ui/core/styles/colorManipulator';
 
 import SideBarWrapper from '../SideBarWrapper';
 

@@ -2,8 +2,6 @@ import { GisType } from '../action_type/index';
 
 import * as GeneralAction from './general.action';
 
-import Config from '../config';
-
 let regions = [
   {
     name: "Northern Region",

@@ -39,7 +39,7 @@ class LicensingProfile extends Component {
     return (
       <Card className={props.classes.card}>
         <CardContent>
-          <Typography variant="h5" component="h2">
+          <Typography variant="h5" component="h5">
             <b>{ props.headerText }</b>
           </Typography>
           <Typography className={props.classes.title} color="textSecondary" gutterBottom>
@@ -64,6 +64,10 @@ class LicensingProfile extends Component {
           { this.expPanel({classes, capacity})}
         </div>
         { this.licenseTypeHeading({classes, headerText: "Distribution Licence"}) }
+        <div className={classes.expPanel}>
+          { this.expPanel({classes, capacity})}
+        </div>
+        { this.licenseTypeHeading({classes, headerText: "Supply Licence"}) }
         <div className={classes.expPanel}>
           { this.expPanel({classes, capacity})}
         </div>
@@ -92,7 +96,7 @@ const styles = theme => ({
     minWidth: 0, // So the Typography noWrap works
   },
   expPanel: {
-    margin: theme.spacing.unit * 2,
+    margin: theme.spacing.unit * 1,
   },
   title: {
     fontSize: 14,

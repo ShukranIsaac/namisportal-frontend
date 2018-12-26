@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Field, reduxForm } from 'redux-form';
+import { reduxForm } from 'redux-form';
 import Checkbox from '@material-ui/core/Checkbox';
-import { RadioButton } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import InputBase from '@material-ui/core/InputBase';
 import InputLabel from '@material-ui/core/InputLabel';
 import purple from '@material-ui/core/colors/purple';
-import green from '@material-ui/core/colors/green';
 
 import asyncValidate from './async-validate';
 
@@ -132,16 +129,17 @@ class ContactForm extends Component {
 
     render() {
 
-        const { handleSubmit, pristine, reset, submitting, classes } = this.props;
+        const { handleSubmit, pristine, submitting, classes } = this.props;
 
-        const { name, email, text, message } = this.state;
+        const { name, email, message } = this.state;
 
         return (
           <form className={{style: 'center'}} onSubmit={handleSubmit}>
             <div>
               {
                 renderBootstrapField({
-                  classes, label:'Full name', defaultValue: "Your full name...", name})
+                  classes, label:'Full name', defaultValue: "Your full name...", name
+                })
               }
             </div>
             <div>
@@ -195,6 +193,7 @@ const styles = theme => ({
     },
   },
   bootstrapInput: {
+    width: theme.spacing.unit * 50,
     borderRadius: 4,
     backgroundColor: theme.palette.common.white,
     border: '1px solid #ced4da',

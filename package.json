@@ -22,9 +22,11 @@
     "redux": "^4.0.1",
     "redux-form": "^8.0.4",
     "redux-thunk": "^2.3.0",
-    "reflexbox": "^3.0.1"
+    "reflexbox": "^3.0.1",
+    "source-map-explorer": "^1.6.0"
   },
   "scripts": {
+    "analyze": "source-map-explorer build/static/js/main.*",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

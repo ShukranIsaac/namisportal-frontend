@@ -2,8 +2,6 @@ import { UserType } from '../action_type/index';
 
 import * as GeneralAction from './general.action';
 
-import Config from '../config';
-
 export const fetchHomeData = () => {
 
     return (dispatch) => {
