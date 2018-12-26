@@ -89,7 +89,7 @@ class GIS extends Component {
   handleChange = (event) => {
 
     if (this.state.district !== null) {
-
+        this.setState({district: null})
     }
 
     this.setState({ [event.target.name]: event.target.value });
@@ -111,7 +111,7 @@ class GIS extends Component {
   render(){
 
     const { classes, gis_filters } = this.props;
-console.log(this.props.distr_lines);
+
     return (
       <>
         <div className={classes.root}>

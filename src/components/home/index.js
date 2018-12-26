@@ -37,7 +37,7 @@ class Home extends Component {
               Department of Energy Affairs (DoEA) seek to establish an information clearing house
               portal to make available information that includes: current electricity grid network,
               planned and known rural electrification efforts of Malawi Rural Electrification Project
-              (MAEP); existing off-grid systems; population centres; renewable energy resource
+              (MAREP); existing off-grid systems; population centres; renewable energy resource
               information; infrastructure; location of government public service institutions; location
               of other rural infrastructure, land use, environmental and social issues.
             </p>

@@ -81,12 +81,9 @@ class GridSideBar extends Component {
 
   }
 
-  render() {
+  searchInputControl = ({classes}) => {
 
-    const { classes } = this.props;
-
-    return (
-      <div>
+      return <>
         <div className={ classes.search }>
           <div className="form-group row">
             <div className="bp3-input-group">
@@ -100,119 +97,156 @@ class GridSideBar extends Component {
             </div>
           </div>
         </div>
+      </>
+
+  }
+
+  selectInputControl = ({ helperText, name }) => {
+
+      return <>
+        <InputLabel shrink htmlFor="region-open-select">
+          { name }
+        </InputLabel>
+
+        {
+            name === "Region" ? (
+              <NativeSelect
+                value={this.state.region}
+                name="region"
+                onChange={ (e) => { this.props.onChange(e) } }
+                input={<Input name="region" id="region-open-select" />}
+              >
+                <option value="">{ `${"--Select region--"}` }</option>
+                { this.renderRegions(this.props) }
+              </NativeSelect>
+            ) : (
+              <NativeSelect
+                value={this.state.district}
+                name="district"
+                onChange={ (e) => { this.props.onChange(e) } }
+                input={<Input key={this.state.district} name="district" id="district-open-select" />}
+              >
+                <option value="">{ `${"--Select district--"}` }</option>
+                { this.renderDistricts(this.props) }
+              </NativeSelect>
+            )
+        }
+
+        <FormHelperText><em>{ helperText }</em></FormHelperText>
+      </>
+
+  }
+
+  checkBoxControl = ({ name, value, isChecked, classes }) => {
+
+      return <>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={ isChecked }
+              onChange={ (e) => { this.props.onChecked(e) } }
+              value={ value }
+              color="primary"
+              name={ name }
+              classes={{
+                root: classes.root,
+                checked: classes.checked,
+              }}
+            />
+          }
+          label={ value }
+        />
+      </>
+
+  }
+
+  render() {
+
+    const { classes } = this.props;
+
+    return (
+      <div>
+
+        { this.searchInputControl(this.props)}
 
         <div className={classes.grow} />
 
         <FormControl className={classes.formControl}>
-          <InputLabel shrink htmlFor="region-open-select">
-            Region
-          </InputLabel>
-          <NativeSelect
-            value={this.state.region}
-            name="region"
-            onChange={ (e) => { this.props.onChange(e) } }
-            input={<Input name="region" id="region-open-select" />}
-          >
-            <option value="">{ `${"--Select region--"}` }</option>
-            { this.renderRegions(this.props) }
-          </NativeSelect>
-          <FormHelperText><em>Add region filter</em></FormHelperText>
+
+          {
+            this.selectInputControl({
+              helperText: "Add region filter",
+              name: "Region"
+            })
+          }
+
         </FormControl>
 
         <FormControl className={classes.formControl}>
-          <InputLabel shrink htmlFor="district-open-select">
-            District
-          </InputLabel>
-          <NativeSelect
-            value={this.state.district}
-            name="district"
-            onChange={ (e) => { this.props.onChange(e) } }
-            input={<Input key={this.state.district} name="district" id="district-open-select" />}
-          >
-            <option value="">{ `${"--Select district--"}` }</option>
-            { this.renderDistricts(this.props) }
-          </NativeSelect>
-          <FormHelperText><em>Add district filter</em></FormHelperText>
+
+          {
+            this.selectInputControl({
+              helperText: "Add district filter",
+              name: "District"
+            })
+          }
+
         </FormControl>
 
         <div className={classes.grow} />
 
         <FormGroup row>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={this.props.marep_center}
-                onChange={ (e) => { this.props.onChecked(e) } }
-                value="Marep Centers"
-                color="primary"
-                name="marep_center"
-                classes={{
-                  root: classes.root,
-                  checked: classes.checked,
-                }}
-              />
-            }
-            label="Marep Centers"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={this.props.to_be_electrified}
-                onChange={ (e) => { this.props.onChecked(e) } }
-                value="To be electrified"
-                color="primary"
-                name="to_be_electrified"
-                classes={{
-                  root: classes.root,
-                  checked: classes.checked,
-                }}
-              />
-            }
-            label="To be electrified"
-          />
+
+          {
+             this.checkBoxControl({
+               name: 'marep_center',
+               value: 'Marep Centers',
+               isChecked: this.props.marep_center,
+               classes: classes
+             })
+          }
+
+          {
+             this.checkBoxControl({
+               name: 'to_be_electrified',
+               value: 'To be electrified',
+               isChecked: this.props.to_be_electrified,
+               classes: classes
+             })
+          }
+
         </FormGroup>
 
         <div className={classes.grow} />
 
         <FormGroup row>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={this.props.meters}
-                onChange={ (e) => { this.props.onChecked(e) } }
-                value="Meters"
-                color="primary"
-                name="meters"
-                classes={{
-                  root: classes.root,
-                  checked: classes.checked,
-                }}
-              />
-            }
-            label="Meters"
-          />
+
+          {
+             this.checkBoxControl({
+               name: 'meters',
+               value: 'Meters',
+               isChecked: this.props.meters,
+               classes: classes
+             })
+          }
+
         </FormGroup>
 
         <div className={classes.grow} />
 
         <FormGroup row>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={this.props.distribution_lines}
-                onChange={ (e) => { this.props.onChecked(e) } }
-                value="Lines"
-                color="primary"
-                name="distribution_lines"
-                classes={{
-                  root: classes.root,
-                  checked: classes.checked,
-                }}
-              />
-            }
-            label="Distribution Lines"
-          />
+
+          {
+             this.checkBoxControl({
+               name: 'distribution_lines',
+               value: 'Distribution Lines',
+               isChecked: this.props.distribution_lines,
+               classes: classes
+             })
+          }
+
         </FormGroup>
+
       </div>
     );
   }
@@ -237,21 +271,6 @@ const styles = theme => ({
   formControl: {
     marginBottom: theme.spacing.unit * 2,
     minWidth: 'auto',
-  },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginLeft: theme.spacing.unit * 1,
-    marginRight: theme.spacing.unit * 2,
-    marginBottom: theme.spacing.unit * 1,
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing.unit * 0,
-      width: 'auto',
-    },
   },
 });
 
