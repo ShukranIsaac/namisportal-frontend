@@ -14,7 +14,9 @@ class GIS extends Component {
 
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+        regionChanged: false,
+    };
   }
 
   componentDidMount() {
@@ -49,7 +51,7 @@ class GIS extends Component {
 
       }
 
-      if (this.state.meters) {
+      if (this.state.meters_checked) {
 
           if (district !== undefined && district !== null) {
 
@@ -87,12 +89,10 @@ class GIS extends Component {
   }
 
   handleChange = (event) => {
-
-    if (this.state.district !== null) {
-        this.setState({district: null})
-    }
-
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({
+      [event.target.name]: event.target.value,
+      regionChanged: event.target.name === 'region' ? true : false 
+    });
   }
 
   handleChecked = (event) => {
@@ -129,7 +129,7 @@ class GIS extends Component {
               r_coordinates={this.props.region}
               d_coordinates={this.props.district}
               centroids={this.props.centroids}
-              meters={this.props.meters}
+              meters={ this.state.meters_checked ? this.props.meters : null }
               m_centers={this.props.m_centers}
               polyline={this.props.distr_lines}
           />

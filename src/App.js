@@ -7,7 +7,6 @@ import Contact from './components/contact';
 import Directory from './components/directory';
 import FAQ from './components/faq';
 import GIS from './components/gis';
-import TASF from './components/tasf';
 import News from './components/news';
 import Financing from './components/financing';
 import Library from './components/library';
@@ -74,9 +73,6 @@ class App extends Component {
               <Link to="/faq">
                 <Button className="bp3-minimal" icon="help" text="FAQ" />
               </Link>
-              <Link to="/tasf">
-                <Button className="bp3-minimal" icon="briefcase" text="TASF" />
-              </Link>
               <Link to="/contact">
                 <Button className="bp3-minimal" icon="id-number" text="Contact" />
               </Link>
@@ -98,7 +94,6 @@ class App extends Component {
           <Route path="/gis" component={GIS} />
           <Route path="/news" component={News} />
           <Route path="/faq" component={FAQ} />
-          <Route path="/tasf" component={TASF} />
           <Route path="/contact" component={Contact} />
         </div>
 

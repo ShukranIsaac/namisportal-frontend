@@ -29,7 +29,7 @@ class GridSideBar extends Component {
       marep_center: false,
       checked_proposed: false,
       checked_33_line: false,
-      meters: false,
+      meters_checked: false,
       distribution_lines: false
     };
   }
@@ -223,9 +223,9 @@ class GridSideBar extends Component {
 
           {
              this.checkBoxControl({
-               name: 'meters',
+               name: 'meters_checked',
                value: 'Meters',
-               isChecked: this.props.meters,
+               isChecked: this.props.meters_checked,
                classes: classes
              })
           }

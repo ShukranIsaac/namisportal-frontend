@@ -120,19 +120,23 @@ class MinGridMap extends Component {
 
   markerClusterer = (clusters) => {
 
-    return (
-      <>
-        <MarkerClusterer>
-          {
-            clusters.centers.map((point, key) => {
+    if (clusters !== null) {
 
-              return <Marker position={point.coordinates} key={key}/>
+        return (
+          <>
+            <MarkerClusterer>
+              {
+                clusters.centers.map((point, key) => {
 
-            })
-          }
-        </MarkerClusterer>
-      </>
-    );
+                  return <Marker position={point.coordinates} key={key}/>
+
+                })
+              }
+            </MarkerClusterer>
+          </>
+        );
+
+    }
 
   }
 
