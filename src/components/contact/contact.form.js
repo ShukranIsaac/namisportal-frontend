@@ -9,6 +9,8 @@ import InputBase from '@material-ui/core/InputBase';
 import InputLabel from '@material-ui/core/InputLabel';
 import purple from '@material-ui/core/colors/purple';
 
+import { Button } from '@blueprintjs/core';
+
 import asyncValidate from './async-validate';
 
 const validate = values => {
@@ -152,8 +154,8 @@ class ContactForm extends Component {
                 renderBootstrapField({classes, label:'Message', defaultValue: "Your message...", name: message})
               }
             </div>
-            <div>
-              <button type="submit" disabled={pristine || submitting}>Submit</button>
+            <div className={classes.margin}>
+              <Button type="submit" disabled={pristine || submitting} intent="success" text="Send" />
             </div>
           </form>
         );
