@@ -37,7 +37,7 @@ class UserRegistration extends Component {
     }
 
     handleChange = (event) => {
-      
+
       this.setState({[event.target.name]: event.target.value});
 
     }
@@ -175,7 +175,7 @@ class UserRegistration extends Component {
             p={3}
             className='landing-info'>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} autoComplete="off">
 
               <Card elevation={Elevation.TWO}>
 

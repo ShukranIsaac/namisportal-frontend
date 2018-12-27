@@ -29,7 +29,7 @@ class UserLogin extends Component {
     }
 
     handleChange = (event) => {
-      console.log(event.target.name);
+
       this.setState({[event.target.name]: event.target.value});
 
     }
@@ -54,7 +54,7 @@ class UserLogin extends Component {
                   <Card elevation={Elevation.TWO}>
 
 
-                    <form className={{style: 'center'}} onSubmit={handleSubmit}>
+                    <form className={{style: 'center'}} onSubmit={handleSubmit} autoComplete="off">
                       <div>
                         <RenderBootstrapField
                           { ...this.props }
@@ -79,9 +79,7 @@ class UserLogin extends Component {
 
                         <Button type="submit" disabled={pristine || submitting} intent="success" text="Login" />
 
-                        <Link to="/register">
-                          <div>Register? </div>
-                        </Link>
+                        <Link to="/register"><div>Register? </div></Link>
 
                       </div>
                     </form>
