@@ -17,100 +17,143 @@ import styles from '../contact/form.styles';
 
 class UserRegistration extends Component {
 
-    state = {
-       email: 'email',
-       text: 'text',
-       name: 'username',
-       password: 'password',
-       confirmPassword: 'confirmPassword',
-       website: 'website',
-       telephone: 'telephone',
-       fax: 'fax',
-       company_name: 'Legal name',
-       physical_address: 'address',
-       stakeholder_type: [],
+    constructor() {
+      super();
+      this.state = {
+         email: '',
+         user_name: '',
+         password: '',
+         confirmPassword: '',
+         website: '',
+         telephone: '',
+         fax: '',
+         company_name: '',
+         physical_address: '',
+         stakeholder_type: [],
+      }
+
+      this.handleChange = this.handleChange.bind(this);
+
     }
 
-    personal = ({ classes }, { name, password, email, confirmPassword }) => {
+    handleChange = (event) => {
+      
+      this.setState({[event.target.name]: event.target.value});
+
+    }
+
+    personal = (props) => {
 
         return (
           <>
             <div>
-              {
-                RenderBootstrapField({
-                  classes, label:'Username', defaultValue: "Your username...", name
-                })
-              }
+              <RenderBootstrapField
+                { ...props }
+                label='Username'
+                defaultValue= "Your username..."
+                name="user_name"
+                type="text"
+                onChange={ this.handleChange }
+              />
             </div>
             <div>
-              {
-                RenderBootstrapField({
-                  classes, label:'Email', defaultValue: "Your email...", email: email
-                })
-              }
+              <RenderBootstrapField
+                { ...props }
+                label='Email'
+                defaultValue= "Your email..."
+                name="email"
+                type="email"
+                onChange={ this.handleChange }
+              />
             </div>
             <div>
-              {
-                RenderBootstrapField({classes, label:'Password', defaultValue: "Your password...", name: password})
-              }
+              <RenderBootstrapField
+                { ...props }
+                label='Password'
+                defaultValue= "Your password..."
+                name="password"
+                type="password"
+                onChange={ this.handleChange }
+              />
             </div>
             <div>
-              {
-                RenderBootstrapField({classes, label:'Confirm Password', defaultValue: "Confirm your password...", name: password})
-              }
+              <RenderBootstrapField
+                { ...props }
+                label='Confirm Password'
+                defaultValue= "Confirm your password..."
+                name="password"
+                type="password"
+                onChange={ this.handleChange }
+              />
             </div>
           </>
         );
 
     }
 
-    company = ({ classes }, state) => {
-
-      const { company_name, physical_address, email, fax, telephone, website, stakeholder_type } = state;
+    company = (props) => {
 
       return (
         <>
           <div>
-            {
-              RenderBootstrapField({
-                classes, label:'Company name(Legal)', defaultValue: "Campany name...", company_name
-              })
-            }
+            <RenderBootstrapField
+              { ...props }
+              label='Company name(Legal)'
+              defaultValue= "Campany name..."
+              name="company_name"
+              type="text"
+              onChange={ this.handleChange }
+            />
           </div>
           <div>
-            {
-              RenderBootstrapField({
-                classes, label:'Address', defaultValue: "Physical address...", physical_address
-              })
-            }
+            <RenderBootstrapField
+              { ...props }
+              label='Address'
+              defaultValue= "Physical address..."
+              name="physical_address"
+              type="text"
+              onChange={ this.handleChange }
+            />
           </div>
           <div>
-            {
-              RenderBootstrapField({
-                classes, label:'Telephone', defaultValue: "Campany telephone number...", telephone
-              })
-            }
+            <RenderBootstrapField
+              { ...props }
+              label='Telephone'
+              defaultValue= "Campany telephone number..."
+              name="telephone"
+              type="text"
+              onChange={ this.handleChange }
+            />
           </div>
           <div>
-            {
-              RenderBootstrapField({
-                classes, label:'Fax', defaultValue: "Campany fax number...", fax
-              })
-            }
+            <RenderBootstrapField
+              { ...props }
+              label='Fax'
+              defaultValue= "Campany fax number..."
+              name="fax"
+              type="text"
+              onChange={ this.handleChange }
+            />
           </div>
           <div>
-            {
-              RenderBootstrapField({
-                classes, label:'Email', defaultValue: "Campany email address...", email
-              })
-            }
+            <RenderBootstrapField
+              { ...props }
+              label='Email'
+              defaultValue= "Campany email address..."
+              name="email"
+              type="email"
+              onChange={ this.handleChange }
+            />
           </div>
           <div>
-            {
-              RenderBootstrapField({
-                classes, label:'Website URL', defaultValue: "Campany website...", website
-              })
-            }
+            <RenderBootstrapField
+              { ...props }
+              label='Website URL'
+              defaultValue= "Campany website..."
+              name="website"
+              type="text"
+              onChange={ this.handleChange }
+            />
           </div>
         </>
       );
@@ -136,14 +179,14 @@ class UserRegistration extends Component {
 
               <Card elevation={Elevation.TWO}>
 
-                <Box w={1} p={2}>
+                <Box w={1/2} p={1}>
                   <FormLabel component="legend">Personal Account</FormLabel>
-                  { this.personal(this.props, this.state) }
+                  { this.personal(this.props) }
                 </Box>
 
-                <Box w={1} p={2}>
+                <Box w={1/2} p={1}>
                   <FormLabel component="legend">Company Account</FormLabel>
-                  { this.company(this.props, this.state) }
+                  { this.company(this.props) }
                 </Box>
                 <div className={classes.margin}>
 
@@ -166,4 +209,8 @@ UserRegistration.propTypes = {
    classes: PropTypes.object.isRequired,
 }
 
-export default reduxForm({ form: "ContactForm", Validate, AsyncValidate})(withStyles(styles)(UserRegistration));
+export default reduxForm({
+  form: "UserRegistrationForm",
+  Validate,
+  AsyncValidate
+})(withStyles(styles)(UserRegistration));

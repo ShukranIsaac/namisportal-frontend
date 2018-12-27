@@ -1,13 +1,11 @@
 import React from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 
-const UserFormCheckbox = ({ input, label }) => {
+const UserFormCheckbox = ({ value, label, onChecked,  }) => {
 
     return (
       <>
-        <Checkbox
-          label={label}
-        />
+        <Checkbox label={label} />
       </>
     );
 

@@ -62,37 +62,59 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 
 class ContactForm extends Component {
 
-    state = {
-       email: 'email',
-       text: 'text',
-       message: 'message',
-       name: 'fullname'
+    constructor() {
+      super();
+      this.state = {
+         email: '',
+         message: '',
+         fullname: ''
+      }
+
+      this.handleChange = this.handleChange.bind(this);
+
+    }
+
+    handleChange = (event) => {
+      
+      this.setState({[event.target.name]: event.target.value});
+
     }
 
     render() {
 
         const { handleSubmit, pristine, submitting, classes } = this.props;
 
-        const { name, email, message } = this.state;
-
         return (
           <form className={{style: 'center'}} onSubmit={handleSubmit}>
             <div>
-              {
-                RenderBootstrapField({
-                  classes, label:'Full name', defaultValue: "Your full name...", name
-                })
-              }
+              <RenderBootstrapField
+                { ...this.props }
+                label='Full name'
+                defaultValue= "Your full name..."
+                name="fullname"
+                type="text"
+                onChange={ this.handleChange }
+              />
             </div>
             <div>
-              {
-                RenderBootstrapField({classes, label:'Email', defaultValue: "Your email...", name: email})
-              }
+              <RenderBootstrapField
+                { ...this.props }
+                label='Email'
+                defaultValue= "Your email..."
+                name="email"
+                type="email"
+                onChange={ this.handleChange }
+              />
             </div>
             <div>
-              {
-                RenderBootstrapField({classes, label:'Message', defaultValue: "Your message...", name: message})
-              }
+              <RenderBootstrapField
+                { ...this.props }
+                label='Message'
+                defaultValue= "Your message..."
+                name="message"
+                type="text"
+                onChange={ this.handleChange }
+              />
             </div>
             <div className={classes.margin}>
               <Button type="submit" disabled={pristine || submitting} intent="success" text="Send" />
@@ -108,4 +130,7 @@ ContactForm.propTypes = {
    classes: PropTypes.object.isRequired,
 }
 
-export default reduxForm({ form: "ContactForm", Validate, AsyncValidate})(withStyles(styles)(ContactForm));
+export default reduxForm({
+  form: "ContactForm",
+  Validate, AsyncValidate
+})(withStyles(styles)(ContactForm));

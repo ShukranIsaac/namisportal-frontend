@@ -15,20 +15,28 @@ import Validate from '../contact/email.validate';
 
 import styles from '../contact/form.styles';
 
-class ContactForm extends Component {
+class UserLogin extends Component {
 
-    state = {
-       email: 'email',
-       text: 'text',
-       name: 'username',
-       password: 'password',
+    constructor() {
+      super();
+      this.state = {
+         user_name: '',
+         password: ''
+      }
+
+      this.handleChange = this.handleChange.bind(this);
+
+    }
+
+    handleChange = (event) => {
+      console.log(event.target.name);
+      this.setState({[event.target.name]: event.target.value});
+
     }
 
     render() {
 
         const { handleSubmit, pristine, submitting, classes } = this.props;
-
-        const { name, password } = this.state;
 
         return (
           <>
@@ -48,16 +56,24 @@ class ContactForm extends Component {
 
                     <form className={{style: 'center'}} onSubmit={handleSubmit}>
                       <div>
-                        {
-                          RenderBootstrapField({
-                            classes, label:'Username', defaultValue: "Your username or email...", name
-                          })
-                        }
+                        <RenderBootstrapField
+                          { ...this.props }
+                          label='Username'
+                          defaultValue= "Your username or email..."
+                          name="user_name"
+                          type="text"
+                          onChange={ this.handleChange }
+                        />
                       </div>
                       <div>
-                        {
-                          RenderBootstrapField({classes, label:'Password', defaultValue: "Your password...", name: password})
-                        }
+                        <RenderBootstrapField
+                          { ...this.props }
+                          label='Password'
+                          defaultValue= "Your password..."
+                          name="password"
+                          type="password"
+                          onChange={ this.handleChange }
+                        />
                       </div>
                       <div className={classes.margin}>
 
@@ -82,8 +98,12 @@ class ContactForm extends Component {
 
 }
 
-ContactForm.propTypes = {
+UserLogin.propTypes = {
    classes: PropTypes.object.isRequired,
 }
 
-export default reduxForm({ form: "ContactForm", Validate, AsyncValidate})(withStyles(styles)(ContactForm));
+export default reduxForm({
+  form: "UserLoginForm",
+  Validate,
+  AsyncValidate
+})(withStyles(styles)(UserLogin));
