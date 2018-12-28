@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Elevation, Card } from "@blueprintjs/core";
 import { Flex, Box } from 'reflexbox';
 
@@ -15,7 +15,7 @@ class Contact extends Component {
     const { classes } = this.props;
 
     return (
-      <>
+      <Fragment>
 
         <Flex
           wrap
@@ -39,7 +39,7 @@ class Contact extends Component {
                 <br />
                 For any questions:
                 <br />
-                Email us at <a href="#sub-labels-and-columns" className={classes.link}>
+                Email us at <a href="mailto:questions@grid.mw" className={classes.link}>
                   questions@grid.mw
                 </a>
                 <br /><br />
@@ -59,7 +59,7 @@ class Contact extends Component {
           </Box>
         </Flex>
 
-      </>
+      </Fragment>
     );
 
   }
