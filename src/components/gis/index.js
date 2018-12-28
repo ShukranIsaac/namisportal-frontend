@@ -16,6 +16,8 @@ class GIS extends Component {
     super();
     this.state = {
         regionChanged: false,
+        regionDefault: "--Select region--",
+        districtDefault: "--Select district--",
     };
   }
 
@@ -27,7 +29,7 @@ class GIS extends Component {
 
   componentDidUpdate() {
 
-      const { district, region } = this.state;
+      const { district, region, regionDefault, districtDefault } = this.state;
 
       const {
           fetchMeters,
@@ -37,7 +39,7 @@ class GIS extends Component {
           fetchMarepCenters,
           fetchDistributionLines } = this.props;
 
-      if (district !== undefined && district !== null) {
+      if (district !== undefined && district !== null && district !== districtDefault) {
 
           fetchDistrict(district);
 
@@ -45,7 +47,7 @@ class GIS extends Component {
 
       }
 
-      if (region !== undefined && region !== null) {
+      if (region !== undefined && region !== null && region !== regionDefault) {
 
           fetchRegion(region);
 
@@ -53,11 +55,11 @@ class GIS extends Component {
 
       if (this.state.meters_checked) {
 
-          if (district !== undefined && district !== null) {
+          if (district !== undefined && district !== null && district !== districtDefault) {
 
               fetchMeters(district);
 
-          } else if (region !== undefined && region !== null) {
+          } else if (region !== undefined && region !== null && region !== regionDefault) {
 
               fetchMeters(region);
 
@@ -69,7 +71,7 @@ class GIS extends Component {
 
       if (this.state.marep_center) {
 
-          if (district !== undefined && district !== null) {
+          if (district !== undefined && district !== null && district !== districtDefault) {
 
               fetchMarepCenters(district);
 
@@ -79,7 +81,7 @@ class GIS extends Component {
 
       if (this.state.distribution_lines) {
 
-          if (district !== undefined && district !== null) {
+          if (district !== undefined && district !== null && district !== districtDefault) {
 
               fetchDistributionLines(district);
 
