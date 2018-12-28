@@ -19,7 +19,7 @@ const SideBarWrapper = (WrappedComponent) => {
               }}
             >
               <div id="side-bar-container">
-                <form autoComplete="on">
+                <form autoComplete="off">
 
                   <WrappedComponent { ...this.props } />
 

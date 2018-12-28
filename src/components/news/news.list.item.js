@@ -59,13 +59,7 @@ class NewsListItem extends Component {
                         of other rural infrastructure, land use, environmental and social issues.
                     </Typography>
                 </Collapse>
-                <a onClick={(e) => this.toogleNewsItem(e)} style={{
-                    width:'30px',
-                    textAlign: 'left',
-                    borderRadius: '0',
-                    background: '#BFCCD6',
-                    fontSize: '1.2em'
-                }}>
+                <a onClick={(e) => this.toogleNewsItem(e)} className={classes.moreOrLess}>
                     { 
                         !this.state.isOpen ? <div><em>more>></em></div> : <div>less>></div>
                     }
@@ -93,6 +87,13 @@ const styles = theme => ({
     },
     margin: {
         marginBotton: theme.spacing.unit * 10,
+    },
+    moreOrLess: {
+        width:'30px',
+        textAlign: 'left',
+        borderRadius: '0',
+        background: '#BFCCD6',
+        fontSize: '1.2em'
     }
 });
 

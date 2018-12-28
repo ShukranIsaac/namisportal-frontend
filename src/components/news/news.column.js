@@ -1,24 +1,22 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Box } from 'reflexbox';
 
-import NewsListItem from './news.list.item';
+class NewsColumn extends Component {
 
-const NewsColumn = ({w, p, props}) => {
+    render() {
 
-    return (
-        <>
-            <Box w={w} p={p}>
-                
-                <NewsListItem {...props} />
+        return (
+            <>
+                <Box w={this.props.w} p={this.props.p}>
+                    
+                    { this.props.children }
+    
+                </Box>
+    
+            </>
+        );
 
-                <NewsListItem {...props} />
-
-                <NewsListItem {...props} />
-
-            </Box>
-
-        </>
-    );
+    }
 
 }
 
