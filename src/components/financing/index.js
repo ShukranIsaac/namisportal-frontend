@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Collapse, Button, Card, Elevation } from '@blueprintjs/core'
-import { Flex, Box } from 'reflexbox'
+import { Collapse, Button, Card, Elevation } from '@blueprintjs/core';
+import { Flex, Box } from 'reflexbox';
 
 class Financing extends Component {
+
   constructor(){
     super()
     this.state = {
@@ -10,14 +11,18 @@ class Financing extends Component {
     }
     this.handleClick = this.handleClick.bind(this);
   }
+
   render(){
+
     const containerStyle = {
       width: '80%',
       margin: '0 auto',
     }
+
     const header = {
       textAlign: 'center',
     }
+
     const button = {
       width: '100%',
       textAlign: 'left',
@@ -29,6 +34,7 @@ class Financing extends Component {
     const factsBack = {
       background: '#CED9E0',
     }
+
     return (
       <div style={containerStyle}>
         <div style={header}>
@@ -67,14 +73,14 @@ class Financing extends Component {
                   <li>The background of the prospected project</li>
                 </ul>
                 <Card interactive={false} elevation={Elevation.ZERO} style={factsBack}>
-                    <p><strong>Key Facts</strong></p>
-                    <hr/>
-                    <p>
-                      The Project Developer should submit a Concept Note to the Rural 
-                      Energy Agency (REA) in order to get a preliminary assessment of 
-                      whether the planned project is eligible for support from the 
-                      REA. The Concept note should, inter alia, include:
-                    </p>
+                  <p><strong>Key Facts</strong></p>
+                  <hr/>
+                  <p>
+                    The Project Developer should submit a Concept Note to the Rural 
+                    Energy Agency (REA) in order to get a preliminary assessment of 
+                    whether the planned project is eligible for support from the 
+                    REA. The Concept note should, inter alia, include:
+                  </p>
                 </Card>
             </Card>
           </Collapse>
@@ -87,6 +93,7 @@ class Financing extends Component {
   handleClick(){
     this.setState({isOpen: !this.state.isOpen})
   }
+  
 }
 
 export default Financing;
