@@ -95,7 +95,7 @@ class App extends Component {
           <Route path="/directory" component={Directory} />
           <Route path="/gis" component={GIS} />
           <Route exact path="/news" component={News} />
-          <Route exact path="/news/id" component={NewsItemDetails} />
+          <Route exact path="/news/:id" component={NewsItemDetails} />
           <Route path="/faq" component={FAQ} />
           <Route path="/contact" component={Contact} />
           <Route path="/login" component={UserLogin} />

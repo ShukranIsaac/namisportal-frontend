@@ -34,7 +34,7 @@ class NewsListItem extends Component {
             <>
                 <div>
                     <h4 className="heading">
-                        <NavLink to="/news/id">Information clearing house, Department of Energy</NavLink>
+                        <NavLink to="/news/e8g9tyjGh">Information clearing house, Department of Energy</NavLink>
                     </h4>
                     <Typography variant="caption">
                         <div className={classes.when}>2hr ago</div>
