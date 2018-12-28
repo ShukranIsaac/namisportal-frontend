@@ -17,7 +17,7 @@ class GIS extends Component {
     this.state = {
         regionChanged: false,
         regionDefault: "--Select region--",
-        districtDefault: "--Select district--",
+        districtDefault: "--Select district--"
     };
   }
 
