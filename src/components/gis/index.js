@@ -39,7 +39,8 @@ class GIS extends Component {
           fetchMarepCenters,
           fetchDistributionLines } = this.props;
 
-      if (district !== undefined && district !== null && district !== districtDefault) {
+      if (district !== undefined && district !== null 
+        && district !== '' && district !== districtDefault) {
 
           fetchDistrict(district);
 
@@ -47,7 +48,8 @@ class GIS extends Component {
 
       }
 
-      if (region !== undefined && region !== null && region !== regionDefault) {
+      if (region !== undefined && region !== null 
+        && region !== '' && region !== regionDefault) {
 
           fetchRegion(region);
 
