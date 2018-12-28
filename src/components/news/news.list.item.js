@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
@@ -33,7 +34,7 @@ class NewsListItem extends Component {
             <>
                 <div>
                     <h4 className="heading">
-                        <a href="/news/id">Information clearing house, Department of Energy</a>
+                        <NavLink to="/news/id">Information clearing house, Department of Energy</NavLink>
                     </h4>
                     <Typography variant="caption">
                         <div className={classes.when}>2hr ago</div>

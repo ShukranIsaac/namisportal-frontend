@@ -16,6 +16,7 @@ const NewsColumn = ({w, p, props}) => {
                 <NewsListItem {...props} />
 
             </Box>
+
         </>
     );
 
