@@ -88,7 +88,9 @@ class News extends Component {
 
           </NewsColumn>
 
-          <NewsColumn w={1/5} p={3} />
+          <NewsColumn w={1/5} p={3}>
+            
+          </NewsColumn>
 
         </Flex>
       </Fragment>

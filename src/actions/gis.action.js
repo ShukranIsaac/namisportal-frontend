@@ -26,6 +26,10 @@ let regions = [
         name: "Nkhatabay",
         coord: {}
       },
+      {
+        name: "Likoma",
+        coord: {}
+      },
     ]
   },
   {
@@ -57,6 +61,14 @@ let regions = [
       },
       {
         name: "Ntcheu",
+        coord: {}
+      },
+      {
+        name: "Nkhotakota",
+        coord: {}
+      },
+      {
+        name: "Salima",
         coord: {}
       },
     ]
