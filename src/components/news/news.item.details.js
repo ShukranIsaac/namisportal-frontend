@@ -15,7 +15,7 @@ const NewsItemDetails = ({headline, summary, time, editor, classes}) => {
                         Information clearing house, Department of Energy
                     </h4>
                     <Typography variant="caption">
-                        <div className={classes.when}>2hr ago</div>
+                        <div className={classes.when}>2hrs ago</div>
                         By John Doe
                     </Typography>
 

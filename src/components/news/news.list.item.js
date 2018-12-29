@@ -37,7 +37,7 @@ class NewsListItem extends Component {
                         <NavLink to="/news/e8g9tyjGh">Information clearing house, Department of Energy</NavLink>
                     </h4>
                     <Typography variant="caption">
-                        <div className={classes.when}>2hr ago</div>
+                        <div className={classes.when}>2hrs ago</div>
                         By John Doe(<a href="mailto:newseditor@grid.mw" className={classes.link}>newseditor@grid.mw</a>)
                     </Typography>
                 </div>
@@ -59,11 +59,14 @@ class NewsListItem extends Component {
                         of other rural infrastructure, land use, environmental and social issues.
                     </Typography>
                 </Collapse>
-                <a onClick={(e) => this.toogleNewsItem(e)} className={classes.moreOrLess}>
+                <h6 style={{ marginTop: '0px' }}>
+                    <a onClick={(e) => this.toogleNewsItem(e)} className={classes.moreOrLess}>
                     { 
-                        !this.state.isOpen ? <div><em>more>></em></div> : <div>less>></div>
+                        !this.state.isOpen ? 
+                            <div><em>more...</em></div> : <em><div>less...</div></em>
                     }
-                </a>
+                    </a>
+                </h6>
 
                 <Divider style={{ margin: '20px' }} />
             </>
@@ -93,7 +96,6 @@ const styles = theme => ({
         textAlign: 'left',
         borderRadius: '0',
         background: '#BFCCD6',
-        fontSize: '1.2em'
     }
 });
 

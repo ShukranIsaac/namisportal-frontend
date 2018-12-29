@@ -4,6 +4,7 @@ import { Flex } from 'reflexbox';
 import NewsColumn from './news.column';
 import NewsListItem from './news.list.item';
 import SearchInputControl from './search.form.field';
+import FormLegendField from './form.legend.field';
 
 class News extends Component {
 
@@ -37,11 +38,12 @@ class News extends Component {
       <Fragment>
         <Flex
           wrap
+          row
           align='top'
           justify='left'
           m={1}
           w={1}
-          p={2}
+          p={1}
           style={{ margin: '0px' }}
         >
 
@@ -52,6 +54,27 @@ class News extends Component {
               placeholder="Search for news items..."
               name="news"
             />
+
+            <Flex
+              wrap
+              column
+              align='top'
+              justify='left'
+              m={1}
+              w={1}
+              p={1}
+              style={{ borderLeft: 'solid #fff000'}}
+            >
+
+              <FormLegendField value="Latest news"/>
+
+              <FormLegendField value="Ask questions"/>
+
+              <FormLegendField value="Contact us"/>
+
+              <FormLegendField value="Support"/>
+
+            </Flex>
 
           </NewsColumn>
 

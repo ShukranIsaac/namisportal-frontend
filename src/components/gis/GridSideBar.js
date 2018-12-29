@@ -256,6 +256,7 @@ class GridSideBar extends Component {
         <div className={classes.legend}>
 
           <FormLabel component="legend">Legend (Key)</FormLabel>
+          
           <FormGroup row>
 
             <Icon>colour-helper</Icon>
