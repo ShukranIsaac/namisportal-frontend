@@ -40,7 +40,7 @@ class GIS extends Component {
           fetchDistributionLines } = this.props;
 
       if (district !== undefined && district !== null 
-        && district !== '' && district !== districtDefault) {
+        && district.trim() !== '' && district !== districtDefault) {
 
           fetchDistrict(district);
 
@@ -49,7 +49,7 @@ class GIS extends Component {
       }
 
       if (region !== undefined && region !== null 
-        && region !== '' && region !== regionDefault) {
+        && region.trim() !== '' && region !== regionDefault) {
 
           fetchRegion(region);
 
@@ -57,11 +57,13 @@ class GIS extends Component {
 
       if (this.state.meters_checked) {
 
-          if (district !== undefined && district !== null && district !== districtDefault) {
+          if (district !== undefined && district !== null
+            && district.trim() !== '' && district !== districtDefault) {
 
               fetchMeters(district);
 
-          } else if (region !== undefined && region !== null && region !== regionDefault) {
+          } else if (region !== undefined && region !== null 
+            && region.trim() !== ''&& region !== regionDefault) {
 
               fetchMeters(region);
 
@@ -73,7 +75,8 @@ class GIS extends Component {
 
       if (this.state.marep_center) {
 
-          if (district !== undefined && district !== null && district !== districtDefault) {
+          if (district !== undefined && district !== null 
+            && district.trim() !== '' && district !== districtDefault) {
 
               fetchMarepCenters(district);
 
@@ -83,7 +86,8 @@ class GIS extends Component {
 
       if (this.state.distribution_lines) {
 
-          if (district !== undefined && district !== null && district !== districtDefault) {
+          if (district !== undefined && district !== null 
+            && district.trim() !== '' && district !== districtDefault) {
 
               fetchDistributionLines(district);
 

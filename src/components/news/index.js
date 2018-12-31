@@ -36,16 +36,7 @@ class News extends Component {
 
     return (
       <Fragment>
-        <Flex
-          wrap
-          row
-          align='top'
-          justify='left'
-          m={1}
-          w={1}
-          p={1}
-          style={{ margin: '0px' }}
-        >
+        <Flex wrap row align='top' justify='center' m={1} w={1} p={1} style={{ margin: '0px' }}>
 
           <NewsColumn w={1/4} p={2} {...this.state}>
 
@@ -55,16 +46,7 @@ class News extends Component {
               name="news"
             />
 
-            <Flex
-              wrap
-              column
-              align='top'
-              justify='left'
-              m={1}
-              w={1}
-              p={1}
-              style={{ borderLeft: 'solid #fff000'}}
-            >
+            <Flex wrap column align='top' justify='left' m={1} w={1} p={1} style={{ borderLeft: 'solid #fff000'}}>
 
               <FormLegendField value="Latest news"/>
 
