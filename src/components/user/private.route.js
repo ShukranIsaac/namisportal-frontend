@@ -38,10 +38,18 @@ const UserPrivateRoute = ({ component: Component, ...rest }) => {
     return (
         <Fragment>
 
-            <Route {...rest} render={props => (<UserLoggedIn props={props} component={Component }/>)}/>
+            <Route 
+                {...rest} 
+                render={props => {
+
+                    return <UserLoggedIn props={props} component={Component } />
+
+                }}
+            />
 
         </Fragment>
     );
+    
 };
 
 export default UserPrivateRoute;
