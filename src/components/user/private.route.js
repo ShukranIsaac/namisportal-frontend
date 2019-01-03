@@ -15,8 +15,7 @@ const UserLoggedIn = ({component, props}) => {
     return (
         <Fragment>
             
-            {
-                
+            {   
                 localStorage.getItem('user') ? <component {...props} /> : 
                 <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
             }
