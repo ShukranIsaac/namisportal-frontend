@@ -5,6 +5,7 @@ import { Flex } from "reflexbox";
 
 const AppHeader = () => {
 
+    //styles, global styles
     const navOption = {
         
     }
@@ -12,7 +13,7 @@ const AppHeader = () => {
     return (
         <Fragment>
 
-            <Flex wrap row p={0} w={[1, 1, 1]} m={0}>
+            <Flex wrap row p={[0,0,0]} w={[1, 1, 1]} m={[0,0,0]}>
                 <Navbar>
                     <Navbar.Group align={Alignment.LEFT}>
                         <Link to="/">
