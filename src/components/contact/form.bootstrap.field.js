@@ -3,7 +3,9 @@ import FormControl from '@material-ui/core/FormControl';
 import InputBase from '@material-ui/core/InputBase';
 import InputLabel from '@material-ui/core/InputLabel';
 
-const RenderBootstrapField = ({classes, label, defaultValue, name, type, onChange}) => {
+const RenderBootstrapField = ({
+  classes, label, rows, defaultValue, name, type, multiline, onChange
+}) => {
 
     return (
       <>
@@ -21,6 +23,8 @@ const RenderBootstrapField = ({classes, label, defaultValue, name, type, onChang
               root: classes.bootstrapRoot,
               input: classes.bootstrapInput,
             }}
+            multiline={multiline}
+            rowsMax={rows}
           />
         </FormControl>
       </>

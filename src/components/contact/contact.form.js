@@ -66,6 +66,8 @@ class ContactForm extends Component {
                 name="message"
                 type="text"
                 onChange={ this.handleChange }
+                multiline="true"
+                rows="10"
               />
             </div>
             <div className={classes.margin}>
