@@ -316,19 +316,29 @@ export default class TextEditor extends Component {
 		editor.command(this.wrapLink, text)
 	}
 
+	renderMenu = () => {
+
+		return (
+			<FormatToolbar>
+				{this.renderMarkIcon('title', ic_title)}
+				{this.renderMarkIcon('bold', bold)}
+				{this.renderMarkIcon('italic', italic)}
+				{this.renderMarkIcon('code', code)}
+				{this.renderMarkIcon('list', list)}
+				{this.renderMarkIcon('underline', underline)}
+				{this.renderMarkIcon('quote', ic_format_quote)}
+				{this.renderLinkIcon('link', link2)}
+			</FormatToolbar>
+		);
+
+	}
+
 	render() {
 		return (
 			<Fragment>
-				<FormatToolbar>
-					{this.renderMarkIcon('title', ic_title)}
-					{this.renderMarkIcon('bold', bold)}
-					{this.renderMarkIcon('italic', italic)}
-					{this.renderMarkIcon('code', code)}
-					{this.renderMarkIcon('list', list)}
-					{this.renderMarkIcon('underline', underline)}
-					{this.renderMarkIcon('quote', ic_format_quote)}
-					{this.renderLinkIcon('link', link2)}
-				</FormatToolbar>
+				{
+					this.renderMenu()
+				}
 				<Editor
 					placeholder="Enter text..."
 					readOnly={false}
