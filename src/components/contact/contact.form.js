@@ -5,7 +5,7 @@ import { reduxForm } from 'redux-form';
 
 import { Button } from '@blueprintjs/core';
 
-import RenderBootstrapField from './form.bootstrap.field';
+import RenderBootstrapField from '../forms/form.bootstrap.field';
 import AsyncValidate from './form.async-validate';
 import Validate from './email.validate';
 import UserFormCheckbox from '../user/form.checkbox';

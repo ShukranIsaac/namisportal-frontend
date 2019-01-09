@@ -8,7 +8,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import { Elevation, Button, Card } from "@blueprintjs/core";
 import { Flex, Box } from 'reflexbox';
 
-import RenderBootstrapField from '../contact/form.bootstrap.field';
+import RenderBootstrapField from '../forms/form.bootstrap.field';
 import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
 import UserFormCheckbox from './form.checkbox';

@@ -1,14 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import { Box } from 'reflexbox';
 
-class NewsColumn extends Component {
+class CustomColumn extends Component {
 
     render() {
 
         return (
             <Fragment>
                 
-                <Box w={this.props.w} p={this.props.p}>
+                <Box w={this.props.w} p={this.props.p} m={this.props.m || 0} style={this.props.style}>
                     
                     { this.props.children }
     
@@ -21,4 +21,4 @@ class NewsColumn extends Component {
 
 }
 
-export default NewsColumn;
+export default CustomColumn;

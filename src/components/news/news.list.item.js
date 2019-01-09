@@ -20,8 +20,9 @@ class NewsListItem extends Component {
     
     }
     
-    toogleNewsItem(){
-    
+    toogleNewsItem(e){
+        
+        e.preventDefault();
         this.setState({isOpen: !this.state.isOpen});
     
     }
@@ -60,11 +61,15 @@ class NewsListItem extends Component {
                     </Typography>
                 </Collapse>
                 <h6 style={{ marginTop: '0px' }}>
-                    <a onClick={(e) => this.toogleNewsItem(e)} className={classes.moreOrLess}>
-                    { 
-                        !this.state.isOpen ? 
-                            <div><em>more...</em></div> : <em><div>less...</div></em>
-                    }
+                    <a 
+                        href="/#"
+                        onClick={(e) => this.toogleNewsItem(e)} 
+                        className={classes.moreOrLess}
+                    >
+                        { 
+                            !this.state.isOpen ? 
+                                <div><em>more...</em></div> : <em><div>less...</div></em>
+                        }
                     </a>
                 </h6>
 
