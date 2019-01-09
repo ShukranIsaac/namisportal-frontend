@@ -3,6 +3,8 @@ import { Button, Navbar, Alignment } from "@blueprintjs/core";
 import { Link } from "react-router-dom";
 import { Flex } from "reflexbox";
 
+import './header.css'
+
 const AppHeader = () => {
 
     //styles, global styles
@@ -13,56 +15,82 @@ const AppHeader = () => {
     return (
         <Fragment>
 
-            <Flex wrap row p={[0,0,0]} w={[1, 1, 1]} m={[0,0,0]}>
-                <Navbar>
-                    <Navbar.Group align={Alignment.LEFT}>
-                        <Link to="/">
-                            <Navbar.Heading>Malawi Mini Grids</Navbar.Heading>
-                        </Link>
-                    </Navbar.Group>
-                    <Navbar.Group align={Alignment.RIGHT}>
+           <div>
+            <nav className="navbar">
+                <div className="container-fluid">
+                    <div className="navbar-header">
+                        <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            <span className="icon-bar"></span>
+                            <span className="icon-bar"></span>
+                            <span className="icon-bar"></span> 
+                        </button>
+                    
+                        <Link to="/" className = "navbar-brand">Malawi Mini Grids</Link>
+                    </div>
+                    <div className="collapse navbar-collapse" id="myNavbar">
+                        <ul className="nav navbar-nav navbar-right">
+                            <li className="active">
+                                <Link to="/">
+                                    <Button className="bp3-minimal" icon="home" text="Home" />
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/licensing">
+                                    <Button className="bp3-minimal" icon="take-action" text="Licensing" />
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/financing">
+                                    <Button className="bp3-minimal" icon="dollar" text="Financing" />
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/library">
+                                    <Button className="bp3-minimal" icon="document" text="Library" />
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/directory">
+                                    <Button className="bp3-minimal" icon="manual" text="Directory" />
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/gis">
+                                    <Button className="bp3-minimal" icon="geosearch" text="GIS" />
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/news">
+                                    <Button className="bp3-minimal" icon="applications" text="News" />
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/faq">
+                                    <Button className="bp3-minimal" icon="help" text="FAQ" />
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/contact">
+                                    <Button className="bp3-minimal" icon="id-number" text="Contact" />
+                                </Link>
+                            </li>
 
-                        <Navbar.Divider />
+                           
+                                <Link to="/cms">
+                                    <Button className="bp3-minimal" icon="user" />
+                                </Link>
+                            
+                           
+                                <Button className="bp3-minimal" icon="notifications" />
+                            
+                                <Button className="bp3-minimal" icon="cog" />
+                            
 
-                        <Link to="/">
-                            <Button className="bp3-minimal" icon="home" text="Home" />
-                        </Link>
-                        <Link to="/licensing">
-                            <Button className="bp3-minimal" icon="take-action" text="Licensing" />
-                        </Link>
-                        <Link to="/financing">
-                            <Button className="bp3-minimal" icon="dollar" text="Financing" />
-                        </Link>
-                        <Link to="/library">
-                            <Button className="bp3-minimal" icon="document" text="Library" />
-                        </Link>
-                        <Link to="/directory">
-                            <Button className="bp3-minimal" icon="manual" text="Directory" />
-                        </Link>
-                        <Link to="/gis">
-                            <Button className="bp3-minimal" icon="geosearch" text="GIS" />
-                        </Link>
-                        <Link to="/news">
-                            <Button className="bp3-minimal" icon="applications" text="News" />
-                        </Link>
-                        <Link to="/faq">
-                            <Button className="bp3-minimal" icon="help" text="FAQ" />
-                        </Link>
-                        <Link to="/contact">
-                            <Button className="bp3-minimal" icon="id-number" text="Contact" />
-                        </Link>
-
-                        <Navbar.Divider />
-
-                        <Link to="/cms">
-                            <Button className="bp3-minimal" icon="user" />
-                        </Link>
-                        <Button className="bp3-minimal" icon="notifications" />
-                        <Button className="bp3-minimal" icon="cog" />
-
-                    </Navbar.Group>
-                </Navbar>
-            </Flex>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
 
         </Fragment>
     );
