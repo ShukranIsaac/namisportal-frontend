@@ -53,13 +53,7 @@ const UserPrivateRoute = ({ component: Component, ...rest }) => {
                         <Fragment>
                             
                             {   
-                                !localStorage.getItem('user') ? 
-
-                                <UserProvider>
-
-                                    <Component {...props} />
-
-                                </UserProvider> : 
+                                !localStorage.getItem('user') ? <Component {...props} /> : 
 
                                 <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
                             }

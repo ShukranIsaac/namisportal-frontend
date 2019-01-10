@@ -1,10 +1,16 @@
 import React, { Fragment } from 'react';
+import { Button } from '@blueprintjs/core';
 
-const ButtonControl = ({ value, icon, handleClick }) => {
+const ButtonControl = ({ value, intent, icon, handleClick }) => {
 
     return (
         <Fragment>
-            <button text={value} value={value} onClick={ (e) => handleClick(e) } />
+            <Button 
+                intent={intent} 
+                text={value} 
+                value={value} 
+                onClick={ (e) => handleClick(e) } 
+            />
         </Fragment>
     );
 

@@ -19,8 +19,9 @@ import "./App.css";
 import Footer from './components/footer';
 import NewsItemDetails from './components/news/news.item.details';
 
-import AppHeader from './components/header/index';
+import AppHeader, { CMSHeader } from './components/header/index';
 import CMSIndex from './components/cms';
+import { UserContext } from './components/user/user.context';
 
 class App extends Component {
 
@@ -51,7 +52,15 @@ class App extends Component {
 
           <div style={content}>
 
-            <AppHeader />
+            <UserContext.Consumer>
+              {  
+                context => {
+
+                  return !context.isLoggedIn ? <AppHeader /> : <CMSHeader/>;
+                  
+                }
+              }
+            </UserContext.Consumer>
 
             <Route exact path="/" component={Home} />
             <UserPrivateRoute exact path="/cms" component={CMSIndex} />

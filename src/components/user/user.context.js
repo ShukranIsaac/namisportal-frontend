@@ -16,7 +16,7 @@ class UserProvider extends Component {
         super();
 
         this.state = {
-            isLoggedIn: true,
+            isLoggedIn: false,
         }
 
     }

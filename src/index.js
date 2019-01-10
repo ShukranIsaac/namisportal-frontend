@@ -7,10 +7,13 @@ import { Provider } from 'react-redux';
 
 import store from './store';
 import * as serviceWorker from './serviceWorker';
+import UserProvider from './components/user/user.context';
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <UserProvider>
+      <App />
+    </UserProvider>
   </Provider>,
   document.getElementById('root')
 );
