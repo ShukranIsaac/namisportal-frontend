@@ -4,8 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { Flex } from 'reflexbox';
 
-import LicensingProfile from './LicensingProfile';
-import LicensingSidebar from './LicensingSidebar';
+import LicensingProfile from './licensing.profile';
+import LicensingSidebar from './licensing.sidebar';
 
 import * as LicensingAction from '../../actions/index';
 

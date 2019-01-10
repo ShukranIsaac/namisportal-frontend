@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import green from '@material-ui/core/colors/green';
@@ -20,6 +20,7 @@ import Icon from '@material-ui/core/Icon';
 import SideBarWrapper from '../SideBarWrapper';
 
 import './grid.css';
+import SearchInputControl from '../forms/search.form.field';
 
 /*
  *  To accept props from main grid
@@ -87,21 +88,18 @@ class GridSideBar extends Component {
 
   searchInputControl = ({classes}) => {
 
-      return <>
-        <div className={ classes.search }>
-          <div className="form-group row">
-            <div className="bp3-input-group">
-              <span className="bp3-icon bp3-icon-search"></span>
-              <input
-                  className="bp3-input"
-                  type="search" name="search"
-                  placeholder="Search for min-grid location"
-                  dir="auto" id="search_place"
-                  onChange={ (e) => { this.props.onChange(e) } } />
-            </div>
+      return (
+        <Fragment>
+          <div className={ classes.search }>
+            <SearchInputControl
+              id="search_place"
+              name="search"
+              placeholder="Search for min-grid location"  
+              handleChange={ (e) => { this.props.onChange(e) } }
+            />
           </div>
-        </div>
-      </>
+        </Fragment>
+      );
 
   }
 

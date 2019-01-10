@@ -1,10 +1,14 @@
 import React, { Fragment } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
+import UserProvider from './user.context';
+
 /**
- * Checks if the user is logged in
- * if yes show cms landing page else
- * show loggin form.
+ * This function is giving a staticcontext error: cannot pass component down from 
+ *  parent component.
+ * 
+ * Checks if the user is logged in, if yes show cms landing page else, 
+ *  show loggin form.
  * 
  * @param component
  * @param  props 
@@ -28,6 +32,9 @@ const UserLoggedIn = ({component, props}) => {
 /**
  * Directs the user to the right route depending 
  * on the user credentials if any provided else loggin form.
+ * 
+ * Checks if the user is logged in, if yes show cms landing page else, 
+ *  show loggin form.
  *  
  * @param component
  * @param rest
@@ -42,7 +49,23 @@ const UserPrivateRoute = ({ component: Component, ...rest }) => {
                 {...rest} 
                 render={props => {
 
-                    return <UserLoggedIn props={props} component={Component } />
+                    return (
+                        <Fragment>
+                            
+                            {   
+                                !localStorage.getItem('user') ? 
+
+                                <UserProvider>
+
+                                    <Component {...props} />
+
+                                </UserProvider> : 
+
+                                <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+                            }
+                
+                        </Fragment>
+                    );
 
                 }}
             />

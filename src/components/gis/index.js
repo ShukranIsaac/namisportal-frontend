@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import MinGridMap from './GridGoogleMap';
-import GridSideBar from './GridSideBar';
+import MinGridMap from './grid.google.map';
+import GridSideBar from './grid.sidebar';
 
 import * as GisAction from '../../actions/index';
 

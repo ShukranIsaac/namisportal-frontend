@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { Flex } from 'reflexbox';
 
-import NewsColumn from './news.column';
+import CustomColumn from './custom.column';
 import NewsListItem from './news.list.item';
-import SearchInputControl from './search.form.field';
-import FormLegendField from './form.legend.field';
+import SearchInputControl from '../forms/search.form.field';
+import FormLegendField from '../forms/form.legend.field';
 
 class News extends Component {
 
@@ -38,7 +38,7 @@ class News extends Component {
       <Fragment>
         <Flex wrap row align='top' justify='center' m={1} w={1} p={1} style={{ margin: '0px' }}>
 
-          <NewsColumn w={1/4} p={2} {...this.state}>
+          <CustomColumn w={1/4} p={2} {...this.state}>
 
             <SearchInputControl 
               handleChange={this.handleChange} 
@@ -48,31 +48,31 @@ class News extends Component {
 
             <Flex wrap column align='top' justify='left' m={1} w={1} p={1} style={{ borderLeft: 'solid #fff000'}}>
 
-              <FormLegendField value="Latest news"/>
+              <a href="/news"><FormLegendField value="Latest news"/></a>
 
-              <FormLegendField value="Ask questions"/>
+              <a href="/faq"><FormLegendField value="Ask questions"/></a>
 
-              <FormLegendField value="Contact us"/>
+              <a href="/contact"><FormLegendField value="Contact us"/></a>
 
-              <FormLegendField value="Support"/>
+              <a href="/contact"><FormLegendField value="Support"/></a>
 
             </Flex>
 
-          </NewsColumn>
+          </CustomColumn>
 
-          <NewsColumn w={1/2} p={1} onClick={this.toggleMainItem} {...this.state}>
-
-            <NewsListItem {...this.props} />
+          <CustomColumn w={1/2} p={1} onClick={this.toggleMainItem} {...this.state}>
 
             <NewsListItem {...this.props} />
 
             <NewsListItem {...this.props} />
 
-          </NewsColumn>
+            <NewsListItem {...this.props} />
 
-          <NewsColumn w={1/5} p={3}>
+          </CustomColumn>
+
+          <CustomColumn w={1/5} p={3}>
             
-          </NewsColumn>
+          </CustomColumn>
 
         </Flex>
       </Fragment>
