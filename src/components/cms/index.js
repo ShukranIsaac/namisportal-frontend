@@ -1,7 +1,6 @@
 import React, { Fragment, Component } from 'react';
 import { Flex } from 'reflexbox';
-import { Intent, Button } from "@blueprintjs/core";
-import { Link } from "react-router-dom";
+import { Button } from "@blueprintjs/core";
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -13,7 +12,9 @@ import FormTextareaField from '../forms/form.textarea.field';
 import FormTextInputField from '../forms/form.textinput.field';
 import FormFileinputField from '../forms/form.fileinput.field';
 import ButtonControl from '../forms/buttons/button.default.control';
-import { TextEditor } from '../forms/editor';
+
+import EditNewsItem from '../news/news.edit.item';
+import ResourceSection from './section.cms';
 
 const items = [
     { name: 'licencing', button: <Button className="bp3-minimal" icon="take-action" text="Licencing"/>},
@@ -104,25 +105,14 @@ const RenderSection = ({ link }) => {
             
             return (
                 <Fragment>
-                    <TextEditor />
 
-                    <ButtonControl
-                        intent={Intent.PRIMARY}
-                        value="Edit"
-                        handleClick={e => {
-                            
-                        }}
+                    <ResourceSection 
+                        option="edit" 
+                        name="news" 
+                        Edit={ () => <EditNewsItem /> }
                     />
 
-                    <ButtonControl
-                        intent={Intent.PRIMARY}
-                        value="Save"
-                        handleClick={e => {
-                            
-                        }}
-                    />
-
-                    <ButtonControl
+                    {/* <ButtonControl
                         intent={Intent.SUCCESS}
                         value="Publish"
                         handleClick={e => {
@@ -144,7 +134,8 @@ const RenderSection = ({ link }) => {
                         handleClick={e => {
                             
                         }}
-                    />
+                    /> */}
+
                 </Fragment>
             );
 
@@ -170,7 +161,7 @@ class CMSIndex extends Component {
     constructor() {
         super();
         this.state = {
-            link: 'licencing',
+            link: 'news',
         }
 
         this.handleLink = this.handleLink.bind(this);

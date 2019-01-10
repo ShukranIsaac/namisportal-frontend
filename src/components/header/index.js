@@ -10,7 +10,7 @@ class NavBarGroup extends Component {
         return (
             <Fragment>
     
-                <Flex wrap row p={[0,0,0]} w={[1, 1, 1]} m={[0,0,0]}>
+                <Flex wrap row={true} p={[0,0,0]} w={[1, 1, 1]} m={[0,0,0]}>
                     <Navbar>
                         
                         { this.props.children }

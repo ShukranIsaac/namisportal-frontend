@@ -11,6 +11,7 @@ import polygonCentroids from './centroids.reducer';
 import meters from './meters.reducer';
 import l_filters from './licencing_filters.reducer';
 import distributionlines from './distribution.reducer';
+import userEvent from './event.reducer';
 
 export default combineReducers({
     user: user,
@@ -24,4 +25,5 @@ export default combineReducers({
     meters: meters,
     l_filters: l_filters,
     lines: distributionlines,
+    event: userEvent
 });

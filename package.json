@@ -30,6 +30,8 @@
     "redux-thunk": "^2.3.0",
     "reflexbox": "^3.0.1",
     "slate": "^0.44.9",
+    "slate-html-serializer": "^0.7.33",
+    "slate-plain-serializer": "^0.6.33",
     "slate-react": "^0.21.15",
     "source-map-explorer": "^1.6.0"
   },
