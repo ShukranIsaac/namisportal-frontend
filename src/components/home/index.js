@@ -14,29 +14,25 @@ class Home extends Component {
     }
     return (
       <>
-        <Flex
-            p={4}
-            align='center'
-            justify='center'
-            m={1}
-            w={1}
-            className='landing-info'>
-            <Box w={1} p={1} align='center'>
-              <Card elevation={Elevation.TWO}>
-                <h4 className="heading"><a href="/">Information for Mini-Grid Developers</a></h4>
-                <p>
-                  An information portal is a customized website that immerses information from a wide
-                  range of sources in a consistent and uniform manner. For this purpose, UNDP and
-                  Department of Energy Affairs (DoEA) seek to establish an information clearing house
-                  portal to make available information that includes: current electricity grid network,
-                  planned and known rural electrification efforts of Malawi Rural Electrification Project
-                  (MAREP); existing off-grid systems; population centres; renewable energy resource
-                  information; infrastructure; location of government public service institutions; location
-                  of other rural infrastructure, land use, environmental and social issues.
-                </p>
-              </Card>
-            </Box>
-          </Flex>
+        <div className='landing-info'>
+              <div className = "row top-card">
+                <div className="card">
+                  <div className="card-body">
+                    <h4 className="heading"><a href="/">Information for Mini-Grid Developers</a></h4>
+                    <p>
+                      An information portal is a customized website that immerses information from a wide
+                      range of sources in a consistent and uniform manner. For this purpose, UNDP and
+                      Department of Energy Affairs (DoEA) seek to establish an information clearing house
+                      portal to make available information that includes: current electricity grid network,
+                      planned and known rural electrification efforts of Malawi Rural Electrification Project
+                      (MAREP); existing off-grid systems; population centres; renewable energy resource
+                      information; infrastructure; location of government public service institutions; location
+                      of other rural infrastructure, land use, environmental and social issues.
+                    </p>
+                  </div>
+                </div>
+            </div>
+          </div>
         {/* <div style={containerStyle}> */}
         <div className = "card-container">
           <div className = "row">

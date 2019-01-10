@@ -9,7 +9,10 @@
 }
 .landing-info {
     background: #15B371;
-    margin: -3px;
+    padding: 20px;
+}
+.top-card{
+    padding: 10px;
 }
 .card-container{
     padding:30px;
