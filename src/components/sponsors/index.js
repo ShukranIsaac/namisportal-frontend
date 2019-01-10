@@ -25,29 +25,24 @@ export default class Sponsors extends Component{
             <div>
                 <div style={container}>
                     <h3 style={heading}>Sponsors</h3>
-                    <Flex
-                        wrap 
-                        align='center' 
-                        justify='center'
-                        m={1}
-                        w={1}
-                        p={3}>
-                        <Box  w={1/3} p={1}>
+                    <div className = "row">
+                        <div className = "col-sm-4">
                             <div style={imageContainer}>
                                 <img style={imageElement} src={require("../../assets/img/malawi.png")} alt="Malawi Coat of Arms"/>
                             </div>
-                        </Box>
-                        <Box  w={1/3} p={1}>
-                             <div style={imageContainer}>
+                        </div>
+                        <div className = "col-sm-4">
+                            <div style={imageContainer}>
                                 <img style={imageElement} src={require("../../assets/img/undp.png")} alt="UNDP logo"/>
                             </div>
-                        </Box>
-                        <Box  w={1/3} p={1}>
+                        </div>
+                        <div className = "col-sm-4">
                             <div style={imageContainer}>
                                 <img style={imageElement} src={require("../../assets/img/gef.png")} alt="gef logo"/>
                             </div>
-                        </Box>
-                    </Flex>
+                        </div>
+                    </div>
+                    <br></br>
                 </div>
             </div>
         );
