@@ -19,7 +19,7 @@ import "./App.css";
 import Footer from './components/footer';
 import NewsItemDetails from './components/news/news.item.details';
 
-import AppHeader from './components/header/index';
+import AppHeader, { CMSCustomHeader } from './components/header/index';
 import CMSIndex from './components/cms';
 import { UserContext } from './components/user/user.context';
 
@@ -56,7 +56,7 @@ class App extends Component {
               {  
                 context => {
 
-                  return !context.isLoggedIn ? <AppHeader /> : <AppHeader/>;
+                  return !context.isLoggedIn ? <AppHeader /> : <CMSCustomHeader />;
                   
                 }
               }
