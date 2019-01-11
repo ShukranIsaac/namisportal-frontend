@@ -14,6 +14,7 @@ import FormFileinputField from '../forms/form.fileinput.field';
 import ButtonControl from '../forms/buttons/button.default.control';
 
 import EditNewsItem from '../news/news.edit.item';
+import CreateNewsItem from '../news/news.create.item';
 import ResourceSection from './section.cms';
 
 const items = [
@@ -107,9 +108,10 @@ const RenderSection = ({ link }) => {
                 <Fragment>
 
                     <ResourceSection 
-                        option="edit" 
+                        option="create" 
                         name="news" 
                         Edit={ () => <EditNewsItem /> }
+                        Create={ () => <CreateNewsItem />}
                     />
 
                     {/* <ButtonControl

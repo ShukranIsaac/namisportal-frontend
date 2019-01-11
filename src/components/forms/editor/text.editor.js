@@ -539,7 +539,7 @@ export default class TextEditor extends Component {
 					this.renderMenu()
 				}
 				<Editor
-					placeholder="Enter text..."
+					placeholder={ `${ "Enter text to create or edit item (Hint: use editor controls above)..."}` }
 					readOnly={false}
 					autoCorrect={true}
 					value={this.props.content}

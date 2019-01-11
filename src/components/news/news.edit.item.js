@@ -121,12 +121,7 @@ class EditNewsItem extends Component {
 
     render() {
 
-        const { 
-            item: { 
-                article: { article_id, content }, 
-                author: { author_id, name, email, roles }
-            }
-        } = this.state;
+        const { item: { author: { author_id } } } = this.state;
 
         const { classes } = this.props;
         
@@ -148,6 +143,7 @@ class EditNewsItem extends Component {
 
                     <TextEditor name="content" content={ this.state.content } editorChange={ this.handleEditorChange } />
 
+                    <div className={ classes.margin }/>
                     <div className={ classes.margin }/>
                     <div className={ classes.margin }/>
 
