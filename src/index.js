@@ -8,6 +8,10 @@ import { Provider } from 'react-redux';
 import store from './store';
 import * as serviceWorker from './serviceWorker';
 import UserProvider from './components/user/user.context';
+import enviromentalVariable from 'dotenv';
+
+//env fn
+enviromentalVariable.config();
 
 ReactDOM.render(
   <Provider store={store}>

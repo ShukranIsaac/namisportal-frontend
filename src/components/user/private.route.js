@@ -1,8 +1,6 @@
 import React, { Fragment } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-import UserProvider from './user.context';
-
 /**
  * This function is giving a staticcontext error: cannot pass component down from 
  *  parent component.

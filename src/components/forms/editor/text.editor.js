@@ -53,29 +53,31 @@ const rules = [
 		deserialize(el, next) {
 			const type = BLOCK_TAGS[el.tagName.toLowerCase()]
 			if (type) {
-			return {
-				object: 'block',
-				type: type,
-				data: {
-				className: el.getAttribute('class'),
-				},
-				nodes: next(el.childNodes),
-			}
+				return {
+					object: 'block',
+					type: type,
+					data: {
+						className: el.getAttribute('class'),
+					},
+					nodes: next(el.childNodes),
+				}
 			}
 		},
 		serialize(obj, children) {
-			if (obj.object == 'block') {
+			if (obj.object === 'block') {
 				switch (obj.type) {
 					case 'code':
-					return (
-						<pre>
-						<code>{children}</code>
-						</pre>
-					)
+						return (
+							<pre>
+								<code>{children}</code>
+							</pre>
+						)
 					case 'paragraph':
-					return <p className={obj.data.get('className')}>{children}</p>
+						return <p className={obj.data.get('className')}>{children}</p>
 					case 'quote':
-					return <blockquote>{children}</blockquote>
+						return <blockquote>{children}</blockquote>
+					default:
+						return;
 				}
 			}
 		},
@@ -93,14 +95,16 @@ const rules = [
 			}
 		},
 		serialize(obj, children) {
-			if (obj.object == 'mark') {
+			if (obj.object === 'mark') {
 				switch (obj.type) {
 					case 'bold':
-					return <strong>{children}</strong>
+						return <strong>{children}</strong>
 					case 'italic':
-					return <em>{children}</em>
+						return <em>{children}</em>
 					case 'underline':
-					return <u>{children}</u>
+						return <u>{children}</u>
+					default:
+						return
 				}
 			}
 		},
@@ -176,7 +180,7 @@ export default class TextEditor extends Component {
 		 * Check key value, we want all our commands 
 		 * to start with the user pressing ctrl, if they don't--we cancel the action.
 		 */
-		if (e.key != '`' || !e.ctrlKey) return next();
+		if (e.key !== '`' || !e.ctrlKey) return next();
 
 		/**
 		 *  Decide what to do based on the key code...
@@ -498,7 +502,7 @@ export default class TextEditor extends Component {
 	
 		const transfer = getEventTransfer(event)
 		const { type, text } = transfer
-		if (type != 'text' && type != 'html') return next()
+		if (type !== 'text' && type !== 'html') return next()
 		if (!isUrl(text)) return next()
 	
 		if (this.hasLinks()) {
