@@ -1,4 +1,5 @@
 import React, { Fragment, Component } from 'react';
+import { connect } from 'react-redux';
 import { Flex } from 'reflexbox';
 import { Button } from "@blueprintjs/core";
 
@@ -16,6 +17,8 @@ import ButtonControl from '../forms/buttons/button.default.control';
 import EditNewsItem from '../news/news.edit.item';
 import CreateNewsItem from '../news/news.create.item';
 import ResourceSection from './section.cms';
+
+import * as UserEventActions from '../../actions/event.action';
 
 const items = [
     { name: 'licencing', button: <Button className="bp3-minimal" icon="take-action" text="Licencing"/>},
@@ -70,7 +73,7 @@ const CustomDrawer = ({ classes, handleLink }) => {
 
 }
 
-const RenderSection = ({ link }) => {
+const RenderSection = ({ link, props, handleClick }) => {
 
     switch (link) {
 
@@ -108,9 +111,9 @@ const RenderSection = ({ link }) => {
                 <Fragment>
 
                     <ResourceSection 
-                        option="create" 
+                        option="edit" 
                         name="news" 
-                        Edit={ () => <EditNewsItem /> }
+                        Edit={ () => <EditNewsItem handleClick={ handleClick } /> }
                         Create={ () => <CreateNewsItem />}
                     />
 
@@ -158,6 +161,9 @@ const RenderSection = ({ link }) => {
     }
 }
 
+/**
+ * connected component, state management
+ */
 class CMSIndex extends Component {
 
     constructor() {
@@ -167,14 +173,35 @@ class CMSIndex extends Component {
         }
 
         this.handleLink = this.handleLink.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    /**
+     * Test - Unit: redux connected working perfect
+     */
+    componentDidMount() {
+
+        this.props.edit();
+
     }
 
     handleLink = (e, link) => {
-
+		/**
+		 *  disabling browser default behavior like page refresh, etc 
+		 */
         e.preventDefault();
         this.setState({ link })
 
     } 
+
+    handleClick = (event) => {
+		/**
+		 *  disabling browser default behavior like page refresh, etc 
+		 */
+		event.preventDefault();
+        console.log(event.target.name);
+        
+    }
 
     render() {
         const { classes } = this.props;
@@ -201,7 +228,10 @@ class CMSIndex extends Component {
                     
                                     <CustomColumn w={1/2} p={1} style={{}}>
 
-                                        <RenderSection link={this.state.link} />
+                                        <RenderSection 
+                                            link={this.state.link} 
+                                            handleClick={ (e) => this.handleClick(e) } 
+                                            props={this.props} />
     
                                     </CustomColumn>
                     
@@ -215,6 +245,28 @@ class CMSIndex extends Component {
             </UserContext.Consumer>
         );
     }
+
+}
+
+const mapStateToProps = (state) => {
+
+    return {
+        edit: state.event.edit,
+        save: state.event.save,
+        default: state.event.default,
+        archive: state.event.archive,
+        publish: state.event.publish,
+        unpublish: state.event.unpublish,
+        delete: state.event.delete,
+    };
+
+}
+
+const mapDispatchToProps = (dispatch) => {
+
+    return {
+        edit : () => { dispatch(UserEventActions.edit()) },
+    };
 
 }
 
@@ -234,10 +286,10 @@ const styles = theme => ({
       backgroundColor: theme.palette.background.default,
       padding: theme.spacing.unit * 3,
     },
-  });
+});
 
 CMSIndex.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(CMSIndex);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(CMSIndex));

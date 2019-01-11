@@ -3,31 +3,13 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import RenderBootstrapField from '../forms/form.bootstrap.field';
-import { Typography } from '@material-ui/core';
+import { Divider } from '@material-ui/core';
 import { TextEditor } from '../forms/editor';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 
 import initialValue from '../forms/utils/initial.value';
-
-class ItemTypography extends Component {
-
-    render() {
-
-        const { variant, children } = this.props;
-
-        return (
-            <Typography variant={ variant }>
-
-                { children }
-
-            </Typography>
-        );
-
-    }
-
-}
 
 class EditNewsItem extends Component {
 
@@ -123,12 +105,27 @@ class EditNewsItem extends Component {
 
         const { item: { author: { author_id } } } = this.state;
 
-        const { classes } = this.props;
+        const { classes, handleClick } = this.props;
         
         return (
             <Fragment>
 
                 <form onSubmit = { this.handleSubmit }>
+
+                    <ButtonControl 
+                        intent={Intent.NONE} 
+                        value="Create New Article"
+                        name="create"
+                        handleClick={e => this.handleSubmit(e) }
+                    />
+
+                    <div className={ classes.margin }/>
+                    <div className={ classes.margin }/>
+                    <div className={ classes.margin }/>
+                    <div className={ classes.margin }/>
+                    <div className={ classes.margin }/>
+
+                    <Divider />
 
                     <RenderBootstrapField
                         classes={ classes }
@@ -141,15 +138,36 @@ class EditNewsItem extends Component {
                         onChange={ this.handleChange }
                     />
 
-                    <TextEditor name="content" content={ this.state.content } editorChange={ this.handleEditorChange } />
+                    <TextEditor 
+                        name="content" 
+                        content={ this.state.content } 
+                        editorChange={ this.handleEditorChange } 
+                    />
 
                     <div className={ classes.margin }/>
                     <div className={ classes.margin }/>
                     <div className={ classes.margin }/>
 
-                    <ButtonControl intent={Intent.PRIMARY} value="Save" handleClick={e => this.handleSubmit(e) }/>
+                    <ButtonControl 
+                        intent={Intent.PRIMARY} 
+                        value="Save"
+                        name="save"
+                        handleClick={e => this.handleSubmit(e) }
+                    />
 
-                    <ButtonControl intent={Intent.SUCCESS} value="Publish" handleClick={e => this.handleChange(e) } />
+                    <ButtonControl 
+                        intent={Intent.SUCCESS} 
+                        value="Publish" 
+                        name="publish"
+                        handleClick={e => handleClick(e) } />
+
+                    <ButtonControl 
+                        intent={Intent.WARNING} 
+                        value="Archive" 
+                        name="archive"
+                        handleClick={e => this.handleClick(e) } 
+                    />
+                
                 </form>
 
             </Fragment>

@@ -1,7 +1,7 @@
 import { UserEventType } from "../action_type";
 
 const initialState = {
-    event: '',
+    event: 'default',
 }
 
 const firedAction = (state, action) => {
@@ -14,7 +14,7 @@ const firedAction = (state, action) => {
 }
 
 const userEvent = (state = initialState, action) => {
-
+    
     switch(action.type){
         case UserEventType.EVENT_USER_EDIT:
 

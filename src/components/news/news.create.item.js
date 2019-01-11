@@ -39,11 +39,11 @@ class CreateNewsItem extends Component {
 	 */
     componentDidMount() {
 
-        this.setState(
-            { 
+        this.setState( () => {
+            return { 
                 content: InitialSchema
             }
-        );
+        });
 
     }
 
