@@ -8,6 +8,13 @@ const action = (type, event) => {
     };
 
 }
+
+export const create = () => {
+
+    return action(UserEventType.EVENT_USER_EDIT, 'create');
+
+}
+
 export const edit = () => {
 
     return action(UserEventType.EVENT_USER_EDIT, 'edit');
@@ -41,5 +48,11 @@ export const unpublish = () => {
 export const archive = () => {
 
     return action(UserEventType.EVENT_USER_ARCHIVE, 'archive');
+
+}
+
+export const remove = () => {
+
+    return action(UserEventType.EVENT_USER_ARCHIVE, 'delete');
 
 }

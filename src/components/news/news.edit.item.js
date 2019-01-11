@@ -116,7 +116,7 @@ class EditNewsItem extends Component {
                         intent={Intent.NONE} 
                         value="Create New Article"
                         name="create"
-                        handleClick={e => this.handleSubmit(e) }
+                        handleClick={e => handleClick(e) }
                     />
 
                     <div className={ classes.margin }/>
@@ -165,7 +165,7 @@ class EditNewsItem extends Component {
                         intent={Intent.WARNING} 
                         value="Archive" 
                         name="archive"
-                        handleClick={e => this.handleClick(e) } 
+                        handleClick={e => handleClick(e) } 
                     />
                 
                 </form>

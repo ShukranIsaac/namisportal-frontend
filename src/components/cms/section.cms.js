@@ -75,7 +75,7 @@ const ResourceSection = ({ option, name, List, Create, Edit, Remove, Archive }) 
             // default, list all
             return (
                 <Fragment>
-                    { section && <List /> }
+                    { section && <Edit /> }
                 </Fragment>
             );
 

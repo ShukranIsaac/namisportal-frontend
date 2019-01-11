@@ -10,6 +10,7 @@ import { Intent } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 
 import InitialSchema from '../forms/utils/initial.schema';
+import { Divider } from '@material-ui/core';
 
 class CreateNewsItem extends Component {
 
@@ -88,12 +89,27 @@ class CreateNewsItem extends Component {
 
     render() {
 
-        const { classes } = this.props;
+        const { classes, handleClick } = this.props;
         
         return (
             <Fragment>
 
                 <form onSubmit = { this.handleSubmit }>
+
+                    <ButtonControl 
+                        intent={Intent.NONE} 
+                        value="List All Articles"
+                        name="list"
+                        handleClick={e => handleClick(e) }
+                    />
+
+                    <div className={ classes.margin }/>
+                    <div className={ classes.margin }/>
+                    <div className={ classes.margin }/>
+                    <div className={ classes.margin }/>
+                    <div className={ classes.margin }/>
+
+                    <Divider />
 
                     <RenderBootstrapField
                         classes={ classes }

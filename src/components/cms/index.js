@@ -12,7 +12,6 @@ import { UserContext } from '../user/user.context';
 import FormTextareaField from '../forms/form.textarea.field';
 import FormTextInputField from '../forms/form.textinput.field';
 import FormFileinputField from '../forms/form.fileinput.field';
-import ButtonControl from '../forms/buttons/button.default.control';
 
 import EditNewsItem from '../news/news.edit.item';
 import CreateNewsItem from '../news/news.create.item';
@@ -74,7 +73,7 @@ const CustomDrawer = ({ classes, handleLink }) => {
 }
 
 const RenderSection = ({ link, props, handleClick }) => {
-
+    
     switch (link) {
 
         case 'licencing':
@@ -111,19 +110,13 @@ const RenderSection = ({ link, props, handleClick }) => {
                 <Fragment>
 
                     <ResourceSection 
-                        option="edit" 
+                        option={props.user_event} 
                         name="news" 
-                        Edit={ () => <EditNewsItem handleClick={ handleClick } /> }
-                        Create={ () => <CreateNewsItem />}
+                        Edit={ () => <EditNewsItem handleClick={ (e) => handleClick(e) } /> }
+                        Create={ () => <CreateNewsItem handleClick={ (e) => handleClick(e) } />}
                     />
 
-                    {/* <ButtonControl
-                        intent={Intent.SUCCESS}
-                        value="Publish"
-                        handleClick={e => {
-                            
-                        }}
-                    />
+                    {/*
 
                     <ButtonControl
                         intent={Intent.WARNING}
@@ -132,14 +125,7 @@ const RenderSection = ({ link, props, handleClick }) => {
                             
                         }}
                     />
-
-                    <ButtonControl
-                        intent={Intent.DANGER}
-                        value="Archive"
-                        handleClick={e => {
-                            
-                        }}
-                    /> */}
+                    */}
 
                 </Fragment>
             );
@@ -170,6 +156,7 @@ class CMSIndex extends Component {
         super();
         this.state = {
             link: 'news',
+            event: 'edit',  // default value required when rendering a single resource section
         }
 
         this.handleLink = this.handleLink.bind(this);
@@ -178,10 +165,12 @@ class CMSIndex extends Component {
 
     /**
      * Test - Unit: redux connected working perfect
+     * this.props.editItem();
      */
     componentDidMount() {
 
-        this.props.edit();
+        // this.props.editItem();
+        // console.log(this.props.user_event);
 
     }
 
@@ -192,20 +181,53 @@ class CMSIndex extends Component {
         e.preventDefault();
         this.setState({ link })
 
-    } 
+    }
 
     handleClick = (event) => {
 		/**
 		 *  disabling browser default behavior like page refresh, etc 
 		 */
-		event.preventDefault();
-        console.log(event.target.name);
+        event.preventDefault();
+        
+        /**
+         * change state depending on the button the user clicked in the UI
+         * 
+         */
+        switch(event.currentTarget.name) {
+            case 'publish':
+                this.props.publishItem();
+                break;
+            case 'edit':
+                this.props.editItem();
+                break;
+            case 'unpublish':
+                this.props.unpublishItem();
+                break;
+            case 'archive':
+                this.props.archiveItem();
+                break;
+            case 'delete':
+                this.props.removeItem();
+                break;
+            case 'save':
+                this.props.saveItem();
+                break;
+            case 'create':
+                this.props.createItem();
+                break;
+            default:
+                this.props.defaultItem();
+                break;
+        }
         
     }
 
     render() {
         const { classes } = this.props;
 
+        // console.log(this.state);
+        // console.log(this.props);
+        
         return (
             <UserContext.Consumer>
                 {
@@ -231,7 +253,8 @@ class CMSIndex extends Component {
                                         <RenderSection 
                                             link={this.state.link} 
                                             handleClick={ (e) => this.handleClick(e) } 
-                                            props={this.props} />
+                                            props={this.props}
+                                        />
     
                                     </CustomColumn>
                     
@@ -250,14 +273,11 @@ class CMSIndex extends Component {
 
 const mapStateToProps = (state) => {
 
+// console.log(state.event.event);
+
+
     return {
-        edit: state.event.edit,
-        save: state.event.save,
-        default: state.event.default,
-        archive: state.event.archive,
-        publish: state.event.publish,
-        unpublish: state.event.unpublish,
-        delete: state.event.delete,
+        user_event: state.event.event,
     };
 
 }
@@ -265,7 +285,14 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 
     return {
-        edit : () => { dispatch(UserEventActions.edit()) },
+        editItem : () => { dispatch(UserEventActions.edit()) },
+        publishItem : () => { dispatch(UserEventActions.publish()) },
+        saveItem : () => { dispatch(UserEventActions.save()) },
+        defaultItem : () => { dispatch(UserEventActions.initial()) },
+        unpublishItem : () => { dispatch(UserEventActions.unpublish()) },
+        deleteItem : () => { dispatch(UserEventActions.remove()) },
+        archiveItem : () => { dispatch(UserEventActions.archive()) },
+        createItem : () => { dispatch(UserEventActions.create()) },
     };
 
 }
