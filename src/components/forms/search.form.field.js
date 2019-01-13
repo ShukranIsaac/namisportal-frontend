@@ -13,7 +13,7 @@ const  SearchInputControl = ({ placeholder, name, handleChange }) => {
                 name={ `${ 'search_' + name}` }
                 placeholder={placeholder}
                 id={ `${ 'search_' + name}`}
-                onChange={ (e) => { handleChange(e) } } />
+                onChange={ (e) => handleChange(e)  } />
           </div>
         </div>
       </Fragment>

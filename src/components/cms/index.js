@@ -16,6 +16,7 @@ import FormFileinputField from '../forms/form.fileinput.field';
 import EditNewsItem from '../news/news.edit.item';
 import CreateNewsItem from '../news/news.create.item';
 import ResourceSection from './section.cms';
+import ListNewsArticles from '../news/news.list.items';
 
 import * as UserEventActions from '../../actions/event.action';
 
@@ -72,7 +73,7 @@ const CustomDrawer = ({ classes, handleLink }) => {
 
 }
 
-const RenderSection = ({ link, props, handleClick }) => {
+const RenderSection = ({ link, props, handleClick, handleChange }) => {
     
     switch (link) {
 
@@ -112,20 +113,10 @@ const RenderSection = ({ link, props, handleClick }) => {
                     <ResourceSection 
                         option={props.user_event} 
                         name="news" 
+                        List={ () => <ListNewsArticles handleClick={ (e) => handleClick(e) } handleChange={ e => handleChange(e) } /> }
                         Edit={ () => <EditNewsItem handleClick={ (e) => handleClick(e) } /> }
                         Create={ () => <CreateNewsItem handleClick={ (e) => handleClick(e) } />}
                     />
-
-                    {/*
-
-                    <ButtonControl
-                        intent={Intent.WARNING}
-                        value="Unpublish"
-                        handleClick={e => {
-                            
-                        }}
-                    />
-                    */}
 
                 </Fragment>
             );
@@ -155,12 +146,20 @@ class CMSIndex extends Component {
     constructor() {
         super();
         this.state = {
-            link: 'news',
-            event: 'edit',  // default value required when rendering a single resource section
+            link: 'licencing',
+            event: 'default',  // default value required when rendering a single resource section
+            searchTerm: '',
         }
 
+        /**
+         * Bind events to each Function, so that they can be passed without args 
+         * i.e this.handleChange
+         * 
+         */
         this.handleLink = this.handleLink.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+
     }
 
     /**
@@ -175,12 +174,21 @@ class CMSIndex extends Component {
     }
 
     handleLink = (e, link) => {
+
 		/**
 		 *  disabling browser default behavior like page refresh, etc 
 		 */
         e.preventDefault();
-        this.setState({ link })
+        this.setState({ link });
 
+    }
+
+    handleChange = (e) => {
+
+        this.setState({ searchTerm: e.target.value });
+
+        console.log("Reached this far");
+        
     }
 
     handleClick = (event) => {
@@ -226,7 +234,7 @@ class CMSIndex extends Component {
         const { classes } = this.props;
 
         // console.log(this.state);
-        // console.log(this.props);
+        console.log(this.props);
         
         return (
             <UserContext.Consumer>
@@ -252,7 +260,8 @@ class CMSIndex extends Component {
 
                                         <RenderSection 
                                             link={this.state.link} 
-                                            handleClick={ (e) => this.handleClick(e) } 
+                                            handleClick={ this.handleClick } 
+                                            handleChange={ this.handleChange }
                                             props={this.props}
                                         />
     

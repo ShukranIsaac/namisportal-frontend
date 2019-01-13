@@ -43,9 +43,9 @@ class GridSideBar extends Component {
 
     return gis_filters.map(({name}, key) => {
 
-      return <>
+      return <Fragment>
         <option value={ name } key={ name }>{ name }</option>
-      </>
+      </Fragment>
 
     });
 
@@ -74,9 +74,9 @@ class GridSideBar extends Component {
 
         return districts.map(({name}, key) => {
 
-            return <>
+            return <Fragment>
               <option value={ name } key={ name }>{ name }</option>
-            </>
+            </Fragment>
 
           }
         );
@@ -141,25 +141,24 @@ class GridSideBar extends Component {
 
   checkBoxControl = ({ name, value, isChecked, classes }) => {
 
-      return <>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={ isChecked }
-              onChange={ (e) => { this.props.onChecked(e) } }
-              value={ value }
-              color="primary"
-              name={ name }
-              classes={{
-                root: classes.root,
-                checked: classes.checked,
-              }}
-            />
-          }
-          label={ value }
-        />
-      </>
-
+    return <>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={ isChecked }
+            onChange={ (e) => { this.props.onChecked(e) } }
+            value={ value }
+            color="primary"
+            name={ name }
+            classes={{
+              root: classes.root,
+              checked: classes.checked,
+            }}
+          />
+        }
+        label={ value }
+      />
+    </>
   }
 
   render() {

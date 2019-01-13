@@ -56,3 +56,9 @@ export const remove = () => {
     return action(UserEventType.EVENT_USER_ARCHIVE, 'delete');
 
 }
+
+export const list = () => {
+
+    return action(UserEventType.EVENT_USER_LIST, 'list');
+
+}

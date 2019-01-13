@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -16,11 +16,11 @@ class NewsListItem extends Component {
             isOpen: false
         }
     
-        this.toogleNewsItem = this.toogleNewsItem.bind(this);
+        this.toggleNewsItem = this.toggleNewsItem.bind(this);
     
     }
     
-    toogleNewsItem(e){
+    toggleNewsItem = (e) => {
         
         e.preventDefault();
         this.setState({isOpen: !this.state.isOpen});
@@ -32,7 +32,7 @@ class NewsListItem extends Component {
         const { classes } = this.props;
     
         return (
-            <>
+            <Fragment>
                 <div>
                     <h4 className="heading">
                         <NavLink to="/news/e8g9tyjGh">Information clearing house, Department of Energy</NavLink>
@@ -63,7 +63,7 @@ class NewsListItem extends Component {
                 <h6 style={{ marginTop: '0px' }}>
                     <a 
                         href="/#"
-                        onClick={(e) => this.toogleNewsItem(e)} 
+                        onClick={(e) => this.toggleNewsItem(e)} 
                         className={classes.moreOrLess}
                     >
                         { 
@@ -74,7 +74,7 @@ class NewsListItem extends Component {
                 </h6>
 
                 <Divider style={{ margin: '20px' }} />
-            </>
+            </Fragment>
         );
 
     }

@@ -28,7 +28,6 @@ class CreateNewsItem extends Component {
          */
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleClick = this.handleClick.bind(this);
         this.handleEditorChange = this.handleEditorChange.bind(this);
 
     }
@@ -70,15 +69,6 @@ class CreateNewsItem extends Component {
 
     }
 
-    handleClick = (event) => {
-		/**
-		 *  disabling browser default behavior like page refresh, etc 
-		 */
-		event.preventDefault();
-        console.log(event.target.name);
-        
-    }
-
     handleSubmit = (event) => {
 		/**
 		 *  disabling browser default behavior like page refresh, etc 
@@ -99,7 +89,7 @@ class CreateNewsItem extends Component {
                     <ButtonControl 
                         intent={Intent.NONE} 
                         value="List All Articles"
-                        name="list"
+                        name="default"
                         handleClick={e => handleClick(e) }
                     />
 
@@ -129,7 +119,7 @@ class CreateNewsItem extends Component {
 
                     <ButtonControl intent={Intent.PRIMARY} value="Save" handleClick={e => this.handleSubmit(e) } />
 
-                    <ButtonControl intent={Intent.SUCCESS} value="Publish" handleClick={e => this.handleChange(e) } />
+                    <ButtonControl intent={Intent.SUCCESS} value="Publish" handleClick={e => handleClick(e) } />
                 
                 </form>
 

@@ -1,9 +1,13 @@
 import React, { Fragment } from 'react';
 
-const ListNewsArticles = () => {
+import NewsArticleItem from '../news/news.article.item';
+
+const ListNewsArticles = ({ articles, handleClick, handleChange }) => {
 
     return (
         <Fragment>
+
+            <NewsArticleItem handleClick={ handleClick } handleChange={ handleChange }/>
 
         </Fragment>
     );

@@ -42,7 +42,6 @@ class EditNewsItem extends Component {
          */
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleClick = this.handleClick.bind(this);
         this.handleEditorChange = this.handleEditorChange.bind(this);
 
     }
@@ -82,15 +81,6 @@ class EditNewsItem extends Component {
         
         this.setState({ content: value});
 
-    }
-
-    handleClick = (event) => {
-		/**
-		 *  disabling browser default behavior like page refresh, etc 
-		 */
-		event.preventDefault();
-        console.log(event.target.name);
-        
     }
 
     handleSubmit = (event) => {
@@ -159,11 +149,19 @@ class EditNewsItem extends Component {
                         intent={Intent.SUCCESS} 
                         value="Publish" 
                         name="publish"
-                        handleClick={e => handleClick(e) } />
+                        handleClick={e => handleClick(e) } 
+                    />
 
                     <ButtonControl 
                         intent={Intent.WARNING} 
-                        value="Archive" 
+                        value="Unpublish" 
+                        name="unpublish"
+                        handleClick={e => handleClick(e) } 
+                    />
+
+                    <ButtonControl 
+                        intent={Intent.DANGER} 
+                        value="Archive"
                         name="archive"
                         handleClick={e => handleClick(e) } 
                     />

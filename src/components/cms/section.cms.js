@@ -70,12 +70,28 @@ const ResourceSection = ({ option, name, List, Create, Edit, Remove, Archive }) 
                     { section && <Edit /> }
                 </Fragment>
             );
+
+        case 'publish':
+            // edit
+            return (
+                <Fragment>
+                    { section && <Edit /> }
+                </Fragment>
+            );
+
+        case 'unpublish':
+            // edit
+            return (
+                <Fragment>
+                    { section && <Edit /> }
+                </Fragment>
+            );
         
         default:
             // default, list all
             return (
                 <Fragment>
-                    { section && <Edit /> }
+                    { section && <List /> }
                 </Fragment>
             );
 
