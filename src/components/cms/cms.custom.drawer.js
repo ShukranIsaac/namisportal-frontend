@@ -1,5 +1,6 @@
 import React from 'react';
 import { ListItem, List, Divider, Drawer } from '@material-ui/core';
+import { Button } from '@blueprintjs/core';
 
 const items = [
     { name: 'licencing', button: <Button className="bp3-minimal" icon="take-action" text="Licencing"/>},
