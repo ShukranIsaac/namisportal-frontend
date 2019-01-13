@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 
 /**
- * Renders section
+ * Renders a single resource
  * 
  * @param {String} name
  * @param {String} option 

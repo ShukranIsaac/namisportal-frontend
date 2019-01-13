@@ -7,7 +7,6 @@ import { withStyles } from '@material-ui/core/styles';
 
 import CustomColumn from '../news/custom.column';
 import { UserContext } from '../user/user.context';
-
 import * as UserEventActions from '../../actions/event.action';
 import CustomDrawer from './cms.custom.drawer';
 import { RenderSection } from './cms.render.section';
@@ -108,7 +107,7 @@ class CMSIndex extends Component {
         const { classes } = this.props;
 
         // console.log(this.state);
-        console.log(this.props);
+        // console.log(this.props);
         
         return (
             <UserContext.Consumer>
@@ -155,9 +154,6 @@ class CMSIndex extends Component {
 }
 
 const mapStateToProps = (state) => {
-
-// console.log(state.event.event);
-
 
     return {
         user_event: state.event.event,

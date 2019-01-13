@@ -498,18 +498,19 @@ export default class TextEditor extends Component {
 
 	onPaste = (event, editor, next) => {
 
-		if (editor.value.selection.isCollapsed) return next()
+		if (editor.value.selection.isCollapsed) return next();
 	
-		const transfer = getEventTransfer(event)
-		const { type, text } = transfer
-		if (type !== 'text' && type !== 'html') return next()
-		if (!isUrl(text)) return next()
+		const transfer = getEventTransfer(event);
+
+		const { type, text } = transfer;
+
+		if (type !== 'text' && type !== 'html') return next();
+
+		if (!isUrl(text)) return next();
 	
-		if (this.hasLinks()) {
-		  editor.command(this.unwrapLink)
-		}
+		if (this.hasLinks()) editor.command(this.unwrapLink);
 	
-		editor.command(this.wrapLink, text)
+		editor.command(this.wrapLink, text);
 	}
 
 	renderMenu = () => {
@@ -539,7 +540,7 @@ export default class TextEditor extends Component {
 					this.renderMenu()
 				}
 				<Editor
-					placeholder={ `${ "Enter text to create or edit item (Hint: use editor controls above)..."}` }
+					placeholder={ `${ "Hint: use editor controls above to style your content..."}` }
 					autoCorrect={true}
 					value={this.props.content}
 					onChange={ () => editorChange(this.editor) }

@@ -9,6 +9,17 @@ import CreateNewsItem from '../news/news.create.item';
 import ResourceSection from './cms.section.resource';
 import ListNewsArticles from '../news/news.list.items';
 
+/**
+ * Renders a single section resource i.e. licencing, library at cms index
+ * which can be edited, published or unpublished, archived or soft deleted
+ * 
+ * @param {Component} link 
+ * @param {Props} props 
+ * @param {Function} handleClick 
+ * @param {Function} handleChange
+ * 
+ * @returns {Component} resource  
+ */
 export const RenderSection = ({ link, props, handleClick, handleChange }) => {
     
     switch (link) {
