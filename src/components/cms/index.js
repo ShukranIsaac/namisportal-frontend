@@ -5,7 +5,6 @@ import { Button } from "@blueprintjs/core";
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Drawer, Divider, List, ListItem } from '@material-ui/core';
 
 import CustomColumn from '../news/custom.column';
 import { UserContext } from '../user/user.context';
@@ -19,59 +18,7 @@ import ResourceSection from './section.cms';
 import ListNewsArticles from '../news/news.list.items';
 
 import * as UserEventActions from '../../actions/event.action';
-
-const items = [
-    { name: 'licencing', button: <Button className="bp3-minimal" icon="take-action" text="Licencing"/>},
-    { name: 'financing', button: <Button className="bp3-minimal" icon="dollar" text="Financing"/>},
-    { name: 'directory', button: <Button className="bp3-minimal" icon="manual" text="Directory"/>},
-    { name: 'library', button: <Button className="bp3-minimal" icon="document" text="Library"/>},
-    { name: 'news', button: <Button className="bp3-minimal" icon="applications" text="News"/>},
-    { name: 'contact', button: <Button className="bp3-minimal" icon="id-number" text="Contact"/>}
-];
-
-const config = [
-    { name: 'settings', button: <Button className="bp3-minimal" icon="settings" text="Settings"/>},
-    { name: 'notifications', button: <Button className="bp3-minimal" icon="notifications" text="Notifications"/>},
-    { name: 'user', button: <Button className="bp3-minimal" icon="user" text="Logout"/>},
-];
-
-const CustomDrawer = ({ classes, handleLink }) => {
-
-    return (
-        <Drawer
-            className={classes.drawer}
-            variant="permanent"
-            classes={{
-                paper: classes.drawerPaper,
-            }}
-        >
-
-            <List>
-                {
-                    items.map((item, index) => (
-                        <ListItem button key={item.name} onClick={(e) => handleLink(e, item.name)}>
-                            { 
-                                item.button 
-                            }
-                        </ListItem>
-                    ))
-                }
-            </List>
-
-            <Divider />
-
-            <List>
-                {config.map((item, index) => (
-                    <ListItem button key={item.name} onClick={(e) => handleLink(e, item.name)}>
-                        { item.button }
-                    </ListItem>
-                ))}
-            </List>
-
-        </Drawer>
-    );
-
-}
+import CustomDrawer from './custom.drawer';
 
 const RenderSection = ({ link, props, handleClick, handleChange }) => {
     
@@ -104,6 +51,21 @@ const RenderSection = ({ link, props, handleClick, handleChange }) => {
 
         case 'directory':
         case 'library':
+
+            return (
+                <Fragment>
+
+                    <ResourceSection 
+                        option={props.user_event} 
+                        name="library" 
+                        List={ () => <ListNewsArticles handleClick={ (e) => handleClick(e) } handleChange={ e => handleChange(e) } /> }
+                        Edit={ () => <EditNewsItem handleClick={ (e) => handleClick(e) } /> }
+                        Create={ () => <CreateNewsItem handleClick={ (e) => handleClick(e) } />}
+                    />
+
+                </Fragment>
+            );
+
         case 'notifications':
         case 'news':
             
