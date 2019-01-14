@@ -118,6 +118,7 @@ class EditLibraryItem extends Component {
                         id="pdf_document"
                         placeholder="Upload pdf document.."
                         handleInputChange={ (e) => handleChange(e) }
+                        classes={ classes }
                     />
 
                     <div className={ classes.margin } />

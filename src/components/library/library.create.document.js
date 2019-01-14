@@ -7,7 +7,7 @@ import { Divider } from '@material-ui/core';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
-import FormFileinputField from '../forms/form.fileinput.field';
+import FormFileinputField, { MuiFormFileinputField } from '../forms/form.fileinput.field';
 
 /**
  * @author Isaac S. Mwakabira
@@ -106,10 +106,17 @@ class CreateLibraryItem extends Component {
                         onChange={ this.handleChange }
                     />
 
-                    <FormFileinputField
+                    {/* <FormFileinputField
                         id="library_document"
                         name="library_document"
                         handleInputChange={ (e) => handleChange(e) }  
+                    /> */}
+
+                    <MuiFormFileinputField
+                        id="pdf_document"
+                        placeholder="Upload pdf document.."
+                        handleInputChange={ (e) => handleChange(e) }
+                        classes={ classes }
                     />
 
                     <div className={ classes.margin } />
