@@ -5,9 +5,12 @@ import FormTextInputField from '../forms/form.textinput.field';
 import FormFileinputField from '../forms/form.fileinput.field';
 
 import EditNewsItem from '../news/news.edit.item';
+import EditLibraryItem from '../library/library.edit.document';
 import CreateNewsItem from '../news/news.create.item';
+import CreateLibraryItem from '../library/library.create.document';
 import ResourceSection from './cms.section.resource';
 import ListNewsArticles from '../news/news.list.items';
+import { ListLibraryDocuments } from '../library/library.list.documents';
 
 /**
  * Renders a single section resource i.e. licencing, library at cms index
@@ -58,9 +61,12 @@ export const RenderSection = ({ link, props, handleClick, handleChange }) => {
                     <ResourceSection 
                         option={props.user_event} 
                         name="library" 
-                        List={ () => <ListNewsArticles handleClick={ (e) => handleClick(e) } handleChange={ e => handleChange(e) } /> }
-                        Edit={ () => <EditNewsItem handleClick={ (e) => handleClick(e) } /> }
-                        Create={ () => <CreateNewsItem handleClick={ (e) => handleClick(e) } />}
+                        List={ () => <ListLibraryDocuments handleClick={ (e) => handleClick(e) } 
+                                        docs={props.library} handleChange={ (e) => handleChange(e) }
+                                    /> 
+                            }
+                        Edit={ () => <EditLibraryItem handleClick={ (e) => handleClick(e) } /> }
+                        Create={ () => <CreateLibraryItem handleClick={ (e) => handleClick(e) } />}
                     />
 
                 </Fragment>

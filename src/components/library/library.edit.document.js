@@ -4,35 +4,17 @@ import { withStyles } from '@material-ui/core/styles';
 
 import RenderBootstrapField from '../forms/form.bootstrap.field';
 import { Divider } from '@material-ui/core';
-import { TextEditor } from '../forms/editor';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
+import FormFileinputField from '../forms/form.fileinput.field';
 
-import initialValue from '../forms/utils/initial.value';
-
-class EditNewsItem extends Component {
+class EditLibraryItem extends Component {
 
     constructor() {
         super();
         this.state = {
-            item: {
-                article: {
-                    article_id: 'e8g9tyjGh',
-                    article_url: require('../../assets/docs/resource-plan/Malawi IRP - Vol I - Main Report - Appendices.pdf'),
-                    title: 'Information clearing house, Department of Energy',
-                    content: "The Project Developer should submit a Concept Note to the Rural Energy Agency (REA) in order to get a preliminary assessment of whether the planned project is eligible for support from the REA. The Concept note should, inter alia, include: An information portal is a customized website that immerses information from a wide range of sources in a consistent and uniform manner. For this purpose, UNDP and Department of Energy Affairs (DoEA) seek to establish an information clearing house portal to make available information that includes: current electricity grid network, planned and known rural electrification efforts of Malawi Rural Electrification Project (MAREP); existing off-grid systems; population centres; renewable energy resource information; infrastructure; location of government public service institutions; location of other rural infrastructure, land use, environmental and social issues."
-                },
-                author: {
-                    author_id: 'e8gtyujG',
-                    name: 'John Doe',
-                    email: 'newseditor@grid.mw',
-                    thumbnail: '',
-                    roles: ['edit', 'publish', 'unpublish', 'create', 'delete']
-                }
-            },
-            title: '',
-            content: initialValue,
+            document
         }
 
         /**
@@ -42,22 +24,6 @@ class EditNewsItem extends Component {
          */
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleEditorChange = this.handleEditorChange.bind(this);
-
-    }
-
-	/**
-	 * On component did mount, update the app's React state/props with new values.
-	 *
-	 * @param {Props} props
-	 */
-    componentDidMount() {
-
-        this.setState(
-            { 
-                title: this.state.item.article.title,
-            }
-        );
 
     }
 
@@ -72,17 +38,6 @@ class EditNewsItem extends Component {
   
     }
 
-	/**
-	 * On change, update the app's React state with the new editor value.
-	 *
-	 * @param {Editor} editor
-	 */
-    handleEditorChange = ({ value }) => {
-        
-        this.setState({ content: value});
-
-    }
-
     handleSubmit = (event) => {
 		/**
 		 *  disabling browser default behavior like page refresh, etc 
@@ -93,9 +48,9 @@ class EditNewsItem extends Component {
 
     render() {
 
-        const { item: { author: { author_id } } } = this.state;
+        const { document } = this.state;
 
-        const { classes, handleClick } = this.props;
+        const { classes, handleClick, handleChange } = this.props;
         
         return (
             <Fragment>
@@ -104,7 +59,7 @@ class EditNewsItem extends Component {
 
                     <ButtonControl 
                         intent={Intent.NONE} 
-                        value="New Article"
+                        value="New Library Document"
                         name="create"
                         handleClick={e => handleClick(e) }
                     />
@@ -119,24 +74,41 @@ class EditNewsItem extends Component {
 
                     <RenderBootstrapField
                         classes={ classes }
-                        id={ author_id }
-                        label='Article Title'
-                        defaultValue="Edit article title..."
-                        value={this.state.title}
+                        id="document1"
+                        label='Category'
+                        defaultValue="Edit document category..."
+                        name="category"
+                        type="text"
+                        onChange={ this.handleChange }
+                    />
+
+                    <RenderBootstrapField
+                        classes={ classes }
+                        id="document2"
+                        label='Title'
+                        defaultValue="Edit document title..."
                         name="title"
                         type="text"
                         onChange={ this.handleChange }
                     />
 
-                    <TextEditor 
-                        name="content" 
-                        content={ this.state.content } 
-                        editorChange={ this.handleEditorChange } 
+                    <RenderBootstrapField
+                        classes={ classes }
+                        id="summary"
+                        label='Summary'
+                        defaultValue="Edit document summary..."
+                        name="summary"
+                        type="text"
+                        onChange={ this.handleChange }
                     />
 
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
+                    <FormFileinputField
+                        handleInputChange={ (e) => handleChange(e) }    
+                    />
+
+                    <div className={ classes.margin } />
+                    <div className={ classes.margin } />
+                    <div className={ classes.margin } />
 
                     <ButtonControl 
                         intent={Intent.PRIMARY} 
@@ -175,8 +147,8 @@ class EditNewsItem extends Component {
 
 }
 
-EditNewsItem.propTypes = {
+EditLibraryItem.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(EditNewsItem);
+export default withStyles(styles)(EditLibraryItem);

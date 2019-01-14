@@ -5,9 +5,11 @@ import { Flex } from 'reflexbox';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
+import * as UserEventActions from '../../actions/event.action';
+import * as LibraryAction from '../../actions/index';
+
 import CustomColumn from '../news/custom.column';
 import { UserContext } from '../user/user.context';
-import * as UserEventActions from '../../actions/event.action';
 import CustomDrawer from './cms.custom.drawer';
 import { RenderSection } from './cms.render.section';
 
@@ -22,6 +24,7 @@ class CMSIndex extends Component {
             link: 'licencing',
             event: 'default',  // default value required when rendering a single resource section
             searchTerm: '',
+            doc_title: '',
         }
 
         /**
@@ -30,6 +33,7 @@ class CMSIndex extends Component {
          * 
          */
         this.handleLink = this.handleLink.bind(this);
+        this.libraryLinkClick = this.libraryLinkClick.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
 
@@ -52,6 +56,13 @@ class CMSIndex extends Component {
 		 *  disabling browser default behavior like page refresh, etc 
 		 */
         e.preventDefault();
+        
+        /**
+         * Fetch all library docs
+         */
+        if (link === 'library' ) this.props.fetchLibraryDocs();
+
+        // Set state
         this.setState({ link });
 
     }
@@ -62,6 +73,12 @@ class CMSIndex extends Component {
 
         console.log("Reached this far");
         
+    }
+
+    libraryLinkClick = (event) => {
+
+        this.setState({ doc_title: event.target.value });
+
     }
 
     handleClick = (event) => {
@@ -117,7 +134,7 @@ class CMSIndex extends Component {
                         return (
                             <Fragment>
                 
-                                <Flex wrap row align='top' justify='left' m={1} w={1} p={1} style={{ margin: '0px' }}>
+                                <Flex row="true" align='top' justify='left' m={1} w={1} p={1} style={{ margin: '0px' }}>
                     
                                     <CustomColumn
                                         m={2}
@@ -125,7 +142,10 @@ class CMSIndex extends Component {
                                         p={1}
                                         className="format-cms-sidebar">
                                         
-                                        <CustomDrawer classes={classes} handleLink={this.handleLink} />
+                                        <CustomDrawer 
+                                            classes={classes} 
+                                            handleLink={this.handleLink}
+                                        />
                     
                                     </CustomColumn>
                     
@@ -157,6 +177,7 @@ const mapStateToProps = (state) => {
 
     return {
         user_event: state.event.event,
+        library: state.library.library,
     };
 
 }
@@ -164,6 +185,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 
     return {
+        // general category
         editItem : () => { dispatch(UserEventActions.edit()) },
         publishItem : () => { dispatch(UserEventActions.publish()) },
         saveItem : () => { dispatch(UserEventActions.save()) },
@@ -172,6 +194,8 @@ const mapDispatchToProps = (dispatch) => {
         deleteItem : () => { dispatch(UserEventActions.remove()) },
         archiveItem : () => { dispatch(UserEventActions.archive()) },
         createItem : () => { dispatch(UserEventActions.create()) },
+        // Library category
+        fetchLibraryDocs: () => { dispatch(LibraryAction.fetchAllLibraryDocs()) },
     };
 
 }

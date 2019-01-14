@@ -4,7 +4,8 @@ import { Card, Elevation, Tab, Tabs } from "@blueprintjs/core";
 
 import Tarrifs from './Tarrifs';
 import { Flex, Box } from 'reflexbox'
-import './library.css'
+import './library.css';
+
 import Toolkits from './Toolkits';
 import Financing from './Financing';
 import PoliciesStratigies from './PoliciesStratigies';

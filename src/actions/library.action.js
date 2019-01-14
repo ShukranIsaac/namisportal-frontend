@@ -44,3 +44,25 @@ export const fetchLibrary = (category) => {
     };
 
 }
+
+export const fetchAllLibraryDocs = () => {
+
+    return (dispatch) => {
+
+        dispatch(GeneralAction.isLoading(true));
+
+        return fetch(`/gis`).then((response) => {
+
+            if (response.status !== 200) {
+                throw Error(response.statusText);
+            }
+
+            dispatch(GeneralAction.isLoading(false));
+
+            return response;
+        }).then((response) => {
+           dispatch(GeneralAction.fetchSuccess(LibraryType.FETCH_LIBRARY_DOCS, library_docs, false));
+        }).catch(() => dispatch(GeneralAction.hasErrored(true)));
+    };
+
+}

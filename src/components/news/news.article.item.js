@@ -1,18 +1,9 @@
 import React, { Fragment } from 'react';
-import SearchInputControl from '../forms/search.form.field';
 
-const NewsArticleItem = ({ article, handleClick, handleChange }) => {
+const NewsArticleItem = ({ article, handleClick }) => {
 
     return (
         <Fragment>
-
-            <SearchInputControl 
-                id="search_id"
-                name="search_article"
-                placeholder="Search for specific article..."
-                handleClick={ handleClick }
-                handleChange={ (e) => handleChange(e) }
-            />
 
             <ul>
                 <li>
