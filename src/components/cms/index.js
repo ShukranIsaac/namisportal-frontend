@@ -14,7 +14,10 @@ import CustomDrawer from './cms.custom.drawer';
 import { RenderSection } from './cms.render.section';
 
 /**
- * connected component, state management
+ * @author Isaac S. Mwakabira
+ * 
+ * Connected component, state management
+ * 
  */
 class CMSIndex extends Component {
 

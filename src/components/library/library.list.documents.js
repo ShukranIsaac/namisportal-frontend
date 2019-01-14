@@ -6,6 +6,7 @@ import './library.css';
 
 /**
  * List all documents by category groups
+ * @author Isaac S. Mwakabira
  * 
  * @param {JSON} docs
  * @param {Function} handleClick

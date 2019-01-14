@@ -7,8 +7,12 @@ import { Divider } from '@material-ui/core';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
-import FormFileinputField from '../forms/form.fileinput.field';
+import { MuiFormFileinputField } from '../forms/form.fileinput.field';
 
+/**
+ * @author Isaac S. Mwakabira
+ * 
+ */
 class EditLibraryItem extends Component {
 
     constructor() {
@@ -50,7 +54,7 @@ class EditLibraryItem extends Component {
 
         const { document } = this.state;
 
-        const { classes, handleClick, handleChange } = this.props;
+        const { classes, handleClick, handleChange, docs: { resource_plan } } = this.props;
         
         return (
             <Fragment>
@@ -74,9 +78,10 @@ class EditLibraryItem extends Component {
 
                     <RenderBootstrapField
                         classes={ classes }
-                        id="document1"
+                        id={ resource_plan.name }
                         label='Category'
                         defaultValue="Edit document category..."
+                        value={ `${ "Tarrifs" }` }
                         name="category"
                         type="text"
                         onChange={ this.handleChange }
@@ -84,9 +89,10 @@ class EditLibraryItem extends Component {
 
                     <RenderBootstrapField
                         classes={ classes }
-                        id="document2"
+                        id={ resource_plan.name }
                         label='Title'
                         defaultValue="Edit document title..."
+                        value={ resource_plan.name }
                         name="title"
                         type="text"
                         onChange={ this.handleChange }
@@ -94,16 +100,24 @@ class EditLibraryItem extends Component {
 
                     <RenderBootstrapField
                         classes={ classes }
-                        id="summary"
+                        id={ resource_plan.name }
                         label='Summary'
                         defaultValue="Edit document summary..."
+                        value={ resource_plan.summary }
                         name="summary"
                         type="text"
                         onChange={ this.handleChange }
                     />
 
-                    <FormFileinputField
-                        handleInputChange={ (e) => handleChange(e) }    
+                    {/* <FormFileinputField
+                        handleInputChange={ (e) => handleChange(e) }
+                        text="Choose pdf document..."   
+                    /> */}
+
+                    <MuiFormFileinputField
+                        id="pdf_document"
+                        placeholder="Upload pdf document.."
+                        handleInputChange={ (e) => handleChange(e) }
                     />
 
                     <div className={ classes.margin } />

@@ -9,6 +9,10 @@ import { Intent } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 import FormFileinputField from '../forms/form.fileinput.field';
 
+/**
+ * @author Isaac S. Mwakabira
+ * 
+ */
 class CreateLibraryItem extends Component {
 
     constructor() {

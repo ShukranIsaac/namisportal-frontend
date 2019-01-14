@@ -16,6 +16,8 @@ import { ListLibraryDocuments } from '../library/library.list.documents';
  * Renders a single section resource i.e. licencing, library at cms index
  * which can be edited, published or unpublished, archived or soft deleted
  * 
+ * @author Isaac S. Mwakabira
+ * 
  * @param {Component} link 
  * @param {Props} props 
  * @param {Function} handleClick 
@@ -65,7 +67,10 @@ export const RenderSection = ({ link, props, handleClick, handleChange }) => {
                                         docs={props.library} handleChange={ (e) => handleChange(e) }
                                     /> 
                             }
-                        Edit={ () => <EditLibraryItem handleClick={ (e) => handleClick(e) } /> }
+                        Edit={ () => <EditLibraryItem handleClick={ (e) => handleClick(e) }
+                                        docs={props.library}
+                                    />
+                            }
                         Create={ () => <CreateLibraryItem handleClick={ (e) => handleClick(e) } />}
                     />
 
