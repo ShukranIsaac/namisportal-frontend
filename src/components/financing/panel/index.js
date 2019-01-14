@@ -1,6 +1,6 @@
  import React, { Component } from 'react'
  import { Collapse, Callout, Icon, Button, Card, Elevation } from '@blueprintjs/core'
- import '../style.css'
+//  import '../style.css'
  
 class Panel extends Component{
     constructor(){
