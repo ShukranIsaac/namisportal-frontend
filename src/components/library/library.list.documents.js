@@ -13,7 +13,11 @@ import './library.css';
  * @param {Function} handleChange
  * @returns {Fragment} fragment
  */
-export const ListLibraryDocuments = ({ docs: { resource_plan }, handleClick, handleChange }) => {
+export const ListLibraryDocuments = ({ 
+    docs: { resource_plan }, 
+    handleClick, 
+    handleChange 
+}) => {
     
     return (
         <Fragment>

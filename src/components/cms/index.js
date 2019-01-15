@@ -53,6 +53,20 @@ class CMSIndex extends Component {
 
     }
 
+    componentWillUnmount() {
+
+        /**
+         * Set back state to default, to reproduce, uncheck this
+         *  and see the effects when moving from one resource to another i.e. edit or create new 
+         *  resource in the CMS.
+         * 
+         */
+        this.setState({
+            event: 'default',
+        });
+
+    }
+
     handleLink = (e, link) => {
 
 		/**

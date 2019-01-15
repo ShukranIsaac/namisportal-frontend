@@ -3,6 +3,8 @@ import React, { Fragment } from "react";
 /**
  * Renders a single resource
  * 
+ * @author Isaac S. Mwakabira
+ * 
  * @param {String} name
  * @param {String} option 
  * @param {Component} list
@@ -10,6 +12,8 @@ import React, { Fragment } from "react";
  * @param {Component} edit
  * @param {Component} remove
  * @param {Component} archive
+ * 
+ * @returns {ResourceSection} component
  */
 const ResourceSection = ({ option, name, List, Create, Edit, Remove, Archive }) => {
 
