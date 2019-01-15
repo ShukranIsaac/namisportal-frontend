@@ -73,6 +73,11 @@ const styles = theme => ({
   iconSmall: {
     fontSize: 20,
   },
+
+  // form control
+  formControl: {
+    margin: theme.spacing.unit * 1,
+  },
 });
 
 export default styles;

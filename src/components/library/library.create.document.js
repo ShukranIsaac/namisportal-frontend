@@ -7,7 +7,7 @@ import { Divider } from '@material-ui/core';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
-import FormFileinputField, { MuiFormFileinputField } from '../forms/form.fileinput.field';
+import { MuiFormFileinputField } from '../forms/form.fileinput.field';
 
 /**
  * @author Isaac S. Mwakabira
@@ -103,6 +103,8 @@ class CreateLibraryItem extends Component {
                         defaultValue="Edit document summary..."
                         name="summary"
                         type="text"
+                        multiline="true"
+                        rows="100"
                         onChange={ this.handleChange }
                     />
 

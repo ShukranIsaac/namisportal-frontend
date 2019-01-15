@@ -14,6 +14,8 @@ import Validate from '../contact/email.validate';
 import UserFormCheckbox from './form.checkbox';
 
 import styles from '../contact/form.styles';
+import { FormControl, FormGroup } from '@material-ui/core';
+import { FormCheckboxControl } from '../forms/form.checkbox.field';
 
 class UserRegistration extends Component {
 
@@ -33,10 +35,19 @@ class UserRegistration extends Component {
       }
 
       this.handleChange = this.handleChange.bind(this);
+      this.handleClick = this.handleClick.bind(this);
 
     }
 
     handleChange = (event) => {
+
+      this.setState({
+        [event.target.name]: event.target !== 'checked' ? event.target.value : event.target.checked 
+      });
+
+    }
+
+    handleClick = (event) => {
 
       this.setState({[event.target.name]: event.target.value});
 
@@ -154,6 +165,41 @@ class UserRegistration extends Component {
               type="text"
               onChange={ this.handleChange }
             />
+          </div>
+          <div>
+            <FormControl component="fieldset" className={props.classes.formControl}>
+              <FormGroup>
+                <FormLabel component="legend"><b>Stakeholder Type</b></FormLabel>
+
+                <FormCheckboxControl 
+                  value="financing"
+                  label="Financing Institution"
+                  handleChange={ this.handleChange }
+                  checked={this.state.financing}
+                />
+
+                <FormCheckboxControl 
+                  value="local_authority"
+                  label="Local Authority"
+                  handleChange={ this.handleChange }
+                  checked={this.state.local_authority}
+                />
+
+                <FormCheckboxControl 
+                  value="state_authority"
+                  label="State Authority or Government Agency"
+                  handleChange={ this.handleChange }
+                  checked={this.state.state_authority}
+                />
+
+                <FormCheckboxControl 
+                  value="nongovernmental_org"
+                  label="Non-Governmental Organisation(N.G.O)"
+                  handleChange={ this.handleChange }
+                  checked={this.state.nongovernmental_org}
+                />
+              </FormGroup>
+            </FormControl>
           </div>
         </>
       );
