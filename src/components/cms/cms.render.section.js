@@ -105,6 +105,11 @@ export const RenderSection = ({
             return (
                 <Fragment>
 
+                    {/* <ResourceSection 
+                        option={props.user_event} 
+                        name="gis"
+                    /> */}
+
                 </Fragment>
             );
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, Polygon, Polyline } from "react-google-maps";
@@ -267,10 +267,10 @@ class MinGridMap extends Component {
     const google = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyA8-4amVHsfL-PCglVdff9yauniqT4hVQk&libraries=places';
 
     return (
-      <>
+      <Fragment>
         <CustomGoogleMap
           googleMapURL={google} loadingElement={<div style={{ height: `100%` }} />}
-          containerElement={<div id="map-canvas" style={{ height: `900px` }} />}
+          containerElement={<div id="map-canvas" style={{ height: `800px` }} />}
           mapElement={<div id="map" style={{ height: `100%` }} />}
           onDistrictChanged={this.renderDistrictPolygon(this.props)}
           onRegionChanged={this.renderRegionPolygon(this.props)}
@@ -282,7 +282,7 @@ class MinGridMap extends Component {
           {...this.state}
         >
         </CustomGoogleMap>
-      </>
+      </Fragment>
     );
   }
 }
