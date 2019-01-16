@@ -27,7 +27,7 @@ export const ListLibraryDocuments = ({
                 name="search_docs"
                 placeholder="Search for specific document..."
                 handleClick={ handleClick }
-                handleChange={ (e) => handleChange(e) }
+                handleChange={ handleChange }
             />
 
             <ul>

@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
+import SearchInputControl from '../forms/search.form.field';
 
 /**
  * Lists all institutions in the directory
- * or registered with the Department of energy through the system
+ * or registered with the Department of Energy through the system
  * 
  * @author Isaac S. Mwakabira
  * 
@@ -20,7 +21,38 @@ export const ListDirectoryInstitution = ({
 
     return (
         <Fragment>
-        
+
+            <SearchInputControl 
+                id="search_id"
+                name="directory"
+                placeholder="Search for specific institution..."
+                handleClick={ handleClick }
+                handleChange={ handleChange }
+            />
+
+            <ul>
+                {
+                    directory && directory.map( (object, index) => {
+                        
+                        return (
+                            <Fragment>
+                                <li id={index}>
+                                    <a 
+                                        href="/directory/e8g9tyjGh" 
+                                        onClick={ (e) => handleClick(e) }
+                                        name="edit"
+                                        id={object.name}
+                                    >
+                                        { object.name }
+                                    </a>
+                                </li>
+                            </Fragment>
+                        );
+
+                    })
+                }
+            </ul>
+
         </Fragment>
     );
 

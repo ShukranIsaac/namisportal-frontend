@@ -1,5 +1,16 @@
 import React, { Fragment } from "react";
 
+/**
+ * Search input
+ * 
+ * @author Isaac S. Mwakabira
+ * 
+ * @param {String} placeholder
+ * @param {String} name
+ * @param {Function} handleChange 
+ * 
+ * @returns {Object} results
+ */
 const  SearchInputControl = ({ placeholder, name, handleChange }) => {
 
     return <>

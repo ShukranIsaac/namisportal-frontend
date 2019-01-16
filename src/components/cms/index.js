@@ -86,7 +86,7 @@ class CMSIndex extends Component {
 
     handleChange = (e) => {
 
-        this.setState({ searchTerm: e.target.value });
+        this.setState({ [e.target.name]: e.target.value });
 
         console.log("Reached this far");
         
