@@ -64,8 +64,8 @@ class CreateLibraryItem extends Component {
 
                     <ButtonControl 
                         intent={Intent.NONE} 
-                        value="New Library Document"
-                        name="create"
+                        value="List All Documents"
+                        name="default"
                         handleClick={e => handleClick(e) }
                     />
 

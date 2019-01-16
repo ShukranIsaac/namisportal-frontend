@@ -27,7 +27,7 @@ export const ListDirectoryInstitution = ({
                 name="directory"
                 placeholder="Search for specific institution..."
                 handleClick={ handleClick }
-                handleChange={ handleChange }
+                handleChange={ (e) => { handleChange(e) } }
             />
 
             <ul>
@@ -39,7 +39,7 @@ export const ListDirectoryInstitution = ({
                                 <li id={index}>
                                     <a 
                                         href="/directory/e8g9tyjGh" 
-                                        onClick={ (e) => handleClick(e) }
+                                        onClick={ (e) => { handleClick(e) } }
                                         name="edit"
                                         id={object.name}
                                     >

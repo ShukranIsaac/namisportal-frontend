@@ -1,9 +1,5 @@
 import React, { Fragment } from 'react';
 
-import FormTextareaField from '../forms/form.textarea.field';
-import FormTextInputField from '../forms/form.textinput.field';
-import FormFileinputField from '../forms/form.fileinput.field';
-
 import EditNewsItem from '../news/news.edit.item';
 import EditLibraryItem from '../library/library.edit.document';
 import CreateNewsItem from '../news/news.create.item';
@@ -12,6 +8,66 @@ import ResourceSection from './cms.section.resource';
 import ListNewsArticles from '../news/news.list.items';
 import { ListLibraryDocuments } from '../library/library.list.documents';
 import { ListDirectoryInstitution } from '../directory/directory.list.institutions';
+import { EditDirectoryInstitution } from '../directory/directory.edit.institution';
+import { CreateDirectoryInstitution } from '../directory/directory.create.institution';
+
+const directory = [
+    {
+        id: '12',
+        name: 'Department of Energy (Marep)',
+        type: '',
+        details: {
+            address: '',
+            mission: '',
+            vision: '',
+            summary: '',
+        }
+    },
+    {
+        id: '56',
+        name: 'Malawi Energy Regulatory Authority',
+        type: '',
+        details: {
+            address: '',
+            mission: '',
+            vision: '',
+            summary: '',
+        }
+    },
+    {
+        id: '31',
+        name: 'Ministry of Energy and Natural Resources',
+        type: '',
+        details: {
+            address: '',
+            mission: '',
+            vision: '',
+            summary: '',
+        }
+    },
+    {
+        id: '34',
+        name: 'UNDP',
+        type: '',
+        details: {
+            address: '',
+            mission: '',
+            vision: '',
+            summary: '',
+        }
+    },
+    {
+        id: '100',
+        name: 'Mulanje Electricity Generation Agency',
+        type: '',
+        details: {
+            address: '',
+            mission: '',
+            vision: '',
+            summary: '',
+        }
+    }
+];
 
 /**
  * Renders a single section resource i.e. licencing, library at cms index
@@ -62,16 +118,15 @@ export const RenderSection = ({
                         name="directory" 
                         List={ () => <ListDirectoryInstitution 
                                         handleClick={ (e) => handleClick(e) } 
-                                        directory={ props.directory } 
-                                        handleChange={ (e) => handleChange(e) }
+                                        directory={ directory } 
+                                        handleChange={ (e) => { handleChange(e) } }
                                     /> 
                             }
-                        Edit={ () => <EditLibraryItem 
+                        Edit={ () => <EditDirectoryInstitution 
                                         handleClick={ (e) => handleClick(e) }
-                                        docs={props.library}
                                     />
                             }
-                        Create={ () => <CreateLibraryItem 
+                        Create={ () => <CreateDirectoryInstitution 
                                             handleClick={ (e) => handleClick(e) } 
                                         />
                                 }

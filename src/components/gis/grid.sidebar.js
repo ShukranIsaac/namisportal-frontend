@@ -12,7 +12,6 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormLabel from '@material-ui/core/FormLabel';
 
-import Icon from '@material-ui/core/Icon';
 // import red from '@material-ui/core/colors/red';
 // import blue from '@material-ui/core/colors/blue';
 // import yellow from '@material-ui/core/colors/yellow';
@@ -22,8 +21,11 @@ import SideBarWrapper from '../SideBarWrapper';
 import './grid.css';
 import SearchInputControl from '../forms/search.form.field';
 
-/*
- *  To accept props from main grid
+/**
+ *  Side bar, renders gis sidebar with form filters.
+ * 
+ * @author Isaac S. Mwakabira
+ * 
  */
 class GridSideBar extends Component {
 
@@ -34,11 +36,23 @@ class GridSideBar extends Component {
       marep_center: false,
       checked_proposed: false,
       checked_33_line: false,
+      checked_potential: false,
+      checked_existing: false,
       meters_checked: false,
-      distribution_lines: false
+      distribution_lines: false,
+      proposed_distr_lines: false,
+      ground_transformers: false,
+      up_transformers: false,
     };
   }
 
+  /**
+   * Renders mapped object filter options (regions)
+   * 
+   * @param {Object} gis_filters
+   * @returns {Option} fragment
+   * 
+   */
   renderRegions = ({gis_filters}) => {
 
     return gis_filters.map(({name}, key) => {
@@ -51,6 +65,14 @@ class GridSideBar extends Component {
 
   }
 
+  /**
+   * Filter and return chosen region with itsdistricts
+   * else return nothing.
+   * 
+   * @param {Object} gis_filters
+   * @returns {Object} region
+   * 
+   */
   filterDistrictsPerRegion = (gis_filters) => {
 
     return gis_filters.filter((region) => {
@@ -66,6 +88,13 @@ class GridSideBar extends Component {
 
   }
 
+  /**
+   * Renders mapped object filter options (districts)
+   * 
+   * @param {Object} gis_filters
+   * @returns {Option} fragment
+   * 
+   */
   renderDistricts = ({gis_filters}) => {
 
     if (this.props.region !== undefined && this.props.region !== null) {
@@ -86,6 +115,13 @@ class GridSideBar extends Component {
 
   }
 
+  /**
+   * Renders search input control
+   * 
+   * @param {Object} classes
+   * @returns {Option} fragment
+   * 
+   */
   searchInputControl = ({classes}) => {
 
       return (
@@ -103,9 +139,16 @@ class GridSideBar extends Component {
 
   }
 
+  /**
+   * Renders districts and regions component parts
+   * 
+   * @param {String} helperText
+   * @param {String} name
+   * @returns {Fragment} district || region
+   */
   selectInputControl = ({ helperText, name }) => {
 
-      return <>
+      return <Fragment>
         <InputLabel shrink htmlFor="region-open-select">
           { name }
         </InputLabel>
@@ -135,7 +178,7 @@ class GridSideBar extends Component {
         }
 
         <FormHelperText><em>{ helperText }</em></FormHelperText>
-      </>
+      </Fragment>
 
   }
 
@@ -196,7 +239,7 @@ class GridSideBar extends Component {
 
         <div className={classes.grow} />
 
-        <FormGroup row>
+        <FormGroup row className={classes.margin}>
 
           {
              this.checkBoxControl({
@@ -220,7 +263,7 @@ class GridSideBar extends Component {
 
         <div className={classes.grow} />
 
-        <FormGroup row key="meters">
+        <FormGroup row key="meters" className={classes.margin}>
 
           {
              this.checkBoxControl({
@@ -233,9 +276,9 @@ class GridSideBar extends Component {
 
         </FormGroup>
 
-        <div className={classes.grow} />
+        {/* <div className={classes.grow} />
 
-        <FormGroup row key="distribution_lines">
+        <FormGroup row key="distribution_lines" className={classes.margin}>
 
           {
              this.checkBoxControl({
@@ -246,21 +289,95 @@ class GridSideBar extends Component {
              })
           }
 
-        </FormGroup>
+        </FormGroup> */}
 
         <div className={classes.grow} />
 
-        <div className={classes.legend}>
+        <FormControl>
+
+          <FormLabel component="legend"><b>Mini Grids</b></FormLabel>
+          <FormGroup row key="mini_hydros" className={classes.margin}>
+
+            {
+              this.checkBoxControl({
+                name: 'existing',
+                value: 'Existing',
+                isChecked: this.props.checked_existing,
+                classes: classes
+              })
+            }
+
+            {
+              this.checkBoxControl({
+                name: 'potential',
+                value: 'Potential',
+                isChecked: this.props.checked_potential,
+                classes: classes
+              })
+            }
+
+          </FormGroup>
+
+          <FormLabel component="legend"><b>Distribution Lines</b></FormLabel>
+          <FormGroup row key="distribution_lines" className={classes.margin}>
+            
+            {
+              this.checkBoxControl({
+                name: 'distribution_lines',
+                value: '33/11 kV Lines',
+                isChecked: this.props.distribution_lines,
+                classes: classes
+              })
+            }
+
+            {
+              this.checkBoxControl({
+                name: 'proposed_distr_lines',
+                value: 'Proposed Lines(various plans)',
+                isChecked: this.props.proposed_distr_lines,
+                classes: classes
+              })
+            }
+
+          </FormGroup>
+
+          <FormLabel component="legend"><b>Transformers</b></FormLabel>
+          <FormGroup row key="transformers" className={classes.margin}>
+            
+            {
+              this.checkBoxControl({
+                name: 'ground_transformers',
+                value: 'Type 1',
+                isChecked: this.props.ground_transformers,
+                classes: classes
+              })
+            }
+
+            {
+              this.checkBoxControl({
+                name: 'up_transformers',
+                value: 'Type 2',
+                isChecked: this.props.up_transformers,
+                classes: classes
+              })
+            }
+
+          </FormGroup>
+
+        </FormControl>
+
+        {/* <div className={classes.legend}>
 
           <FormLabel component="legend">Legend (Key)</FormLabel>
           
           <FormGroup row>
 
-            <Icon>colour-helper</Icon>
+            <Icon></Icon>
 
           </FormGroup>
 
-        </div>
+        </div> */}
+
       </div>
     );
   }
@@ -288,7 +405,10 @@ const styles = theme => ({
   },
   legend: {
     marginTop: theme.spacing.unit * 3,
-  }
+  },
+  margin: {
+    marginLeft: theme.spacing.unit * 2,
+  },
 });
 
 GridSideBar.propTypes = {

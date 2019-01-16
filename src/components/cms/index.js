@@ -92,6 +92,14 @@ class CMSIndex extends Component {
         
     }
 
+    /**
+     * Handle cms sidebar button click ie. Licencing, News etc.
+     * And renders specific component based on the state that has been set from
+     * the user click event.
+     * 
+     * @param {Event} event
+     * 
+     */
     libraryLinkClick = (event) => {
 
         this.setState({ doc_title: event.target.value });
@@ -159,10 +167,7 @@ class CMSIndex extends Component {
                                         p={1}
                                         className="format-cms-sidebar">
                                         
-                                        <CustomDrawer 
-                                            classes={classes} 
-                                            handleLink={this.handleLink}
-                                        />
+                                        <CustomDrawer classes={classes} handleLink={this.handleLink} />
                     
                                     </CustomColumn>
                     
@@ -171,7 +176,7 @@ class CMSIndex extends Component {
                                         <RenderSection 
                                             link={this.state.link} 
                                             handleClick={ this.handleClick } 
-                                            handleChange={ this.handleChange }
+                                            handleChange={ (e) => { this.handleChange(e) } }
                                             props={this.props}
                                         />
     
