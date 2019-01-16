@@ -10,6 +10,12 @@ import * as GisAction from '../../actions/index';
 
 import './grid.css';
 
+/**
+ * Renders Client GIS component
+ * 
+ * @author Isaac S. MWakabira
+ * 
+ */
 class GIS extends Component {
 
   constructor() {
@@ -29,16 +35,24 @@ class GIS extends Component {
 
   componentDidUpdate() {
 
+      // ES6 destructure different objects from state
       const { district, region, regionDefault, districtDefault } = this.state;
 
+      // ES6 destructure different objects and functions from props
       const {
           fetchMeters,
           fetchRegion,
           fetchDistrict,
           fetchPolygonCentroid,
           fetchMarepCenters,
-          fetchDistributionLines } = this.props;
+          fetchDistributionLines 
+      } = this.props;
 
+      /**
+       * Fetch district and all its properties: if district is defined and not null and not equal
+       * to default value and does not have trailing spaces.
+       * 
+       */
       if (district !== undefined && district !== null 
         && district.trim() !== '' && district !== districtDefault) {
 
@@ -47,7 +61,12 @@ class GIS extends Component {
           fetchPolygonCentroid();
 
       }
-
+      
+      /**
+       * Fetch region and all its properties: if region name is defined and not null and not equal
+       * to default value
+       * 
+       */
       if (region !== undefined && region !== null 
         && region.trim() !== '' && region !== regionDefault) {
 
@@ -55,6 +74,11 @@ class GIS extends Component {
 
       }
 
+      /**
+       * Fetch meters and all its properties: if region or district name is defined and not null and not equal
+       * to default values
+       * 
+       */
       if (this.state.meters_checked) {
 
           if (district !== undefined && district !== null
@@ -73,6 +97,11 @@ class GIS extends Component {
 
       }
 
+      /**
+       * Fetch marep centers and all its properties: if district name is defined and not null and not equal
+       * to default value
+       * 
+       */
       if (this.state.marep_center) {
 
           if (district !== undefined && district !== null 
@@ -84,6 +113,11 @@ class GIS extends Component {
 
       }
 
+      /**
+       * Fetch distribution lines and all its properties: 
+       * if district name is defined and not null and not equal to default value
+       * 
+       */
       if (this.state.distribution_lines) {
 
           if (district !== undefined && district !== null 
