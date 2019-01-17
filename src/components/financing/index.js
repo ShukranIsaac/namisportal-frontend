@@ -1,21 +1,33 @@
 import React, { Component } from 'react';
-import { Callout,Collapse, Button, Card, Elevation } from '@blueprintjs/core'
+import { Card, Elevation } from '@blueprintjs/core'
 import { Flex, Box } from 'reflexbox';
+
 import Panel from './panel';
 
+/**
+ * Renders financing component
+ * 
+ * @author Paul Sembereka (Pablo)
+ * 
+ */
 class Financing extends Component {
+
   render(){
+
     const containerStyle = {
       width: '80%',
       margin: '0 auto',
     }
+
     const header = {
       textAlign: 'center',
     }
+
     const financing = {
       marginBottom: 8,
       borderRadius: 0
     }
+    
     const flexStyle = {
       margin: 'auto',
       background: '#15B371',

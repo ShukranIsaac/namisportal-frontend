@@ -10,6 +10,7 @@ import { ListLibraryDocuments } from '../library/library.list.documents';
 import { ListDirectoryInstitution } from '../directory/directory.list.institutions';
 import { EditDirectoryInstitution } from '../directory/directory.edit.institution';
 import { CreateDirectoryInstitution } from '../directory/directory.create.institution';
+import { FinancingRequestSupport } from '../financing/financing.request.support';
 
 const directory = [
     {
@@ -92,6 +93,15 @@ export const RenderSection = ({
     switch (link) {
 
         case 'licencing':
+
+            return (
+                <Fragment>
+                    
+                    <FinancingRequestSupport />
+                    
+                </Fragment>
+            );
+
         case 'financing':
 
             return (

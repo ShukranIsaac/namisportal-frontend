@@ -9,6 +9,11 @@ import LicensingSidebar from './licensing.sidebar';
 
 import * as LicensingAction from '../../actions/index';
 
+
+/**
+ * Licencing categories with each with different steps
+ * 
+ */
 const steps = [
   {
     "type": "Generating",
@@ -24,6 +29,12 @@ const steps = [
   },
 ];
 
+/**
+ * Index file to render licencing component
+ * 
+ * @author Isaac S. Mwakabira
+ * 
+ */
 class Licensing extends Component {
 
   constructor() {

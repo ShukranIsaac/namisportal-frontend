@@ -1,8 +1,16 @@
- import React, { Component } from 'react'
- import { Collapse, Callout, Icon, Button, Card, Elevation } from '@blueprintjs/core'
+import React, { Component } from 'react'
+import { Collapse, Callout, Icon, Card, Elevation } from '@blueprintjs/core'
+
 //  import '../style.css'
- 
+
+/**
+ * Renders a single panel
+ * 
+ * @author Paul Sembereka (Pablo)
+ * 
+ */
 class Panel extends Component{
+
     constructor(){
         super()
         this.state = {
@@ -14,6 +22,7 @@ class Panel extends Component{
    
     
     render(){
+
         const button = {
             display: 'flex',
             flexDirection: 'row',
@@ -79,10 +88,10 @@ class Panel extends Component{
             </div>
         )
     }
+
     handleClick(){
         this.setState(() => ({isOpen: !this.state.isOpen, collapsed: !this.state.collapsed}))
     }
-    
     
 }
 
