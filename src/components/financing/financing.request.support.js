@@ -38,7 +38,12 @@ export const FinancingRequestSupport = () => {
 
 }
 
-
+/**
+ * Gets current nav stage state
+ * 
+ * @param {Integer} indx 
+ * @param {Integer} length 
+ */
 const getNavStates = (indx, length) => {
 
     let styles = []
@@ -57,7 +62,13 @@ const getNavStates = (indx, length) => {
 
     return { current: indx, styles: styles }
 }
-  
+
+/**
+ * Check current stage state
+ * 
+ * @param {Integer} currentStep 
+ * @param {Integer} stepsLength 
+ */
 const checkNavState = (currentStep, stepsLength) => {
 
     if (currentStep > 0 && currentStep < stepsLength - 1) {
@@ -143,7 +154,25 @@ class MultiStepForm extends Component {
         }
 
     }
-  
+
+    /**
+     * Handle user event change
+     * 
+     * @param {Event} event
+     * 
+     */
+    handleChange= (event) => {
+
+        this.setState({ [event.target.name]: event.target.value });
+
+    }
+
+    /**
+     * Handle user event onClick navigation stage: progress bar
+     * 
+     * @param {Event} evt
+     * 
+     */
     handleOnClick = evt => {
 
         if (evt.currentTarget.value === this.props.steps.length - 1 && this.state.compState === this.props.steps.length - 1) {
