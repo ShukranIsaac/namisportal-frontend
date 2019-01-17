@@ -21,7 +21,14 @@ html, body {
 .container-fluid .col-sm-12, .col-md-12 .row {
   height: 100%;
 }
-
+.page-content{
+  margin: auto;
+  background: #15B371;
+  padding: 3%;
+}
+.licence-data{
+  background: #fff;
+}
 @media (min-width: 768px){
   main {
     -ms-flex: 0 0 80%;
@@ -36,7 +43,9 @@ html, body {
   }
 }
 
-@media (min-width: 576px){
+
+
+/* @media (min-width: 576px){
   main {
     -ms-flex: 0 0 80%;
     flex: 0 0 80%;
@@ -48,4 +57,4 @@ html, body {
     flex: 0 0 20%;
     max-width: 20%;
   }
-}
+} */
