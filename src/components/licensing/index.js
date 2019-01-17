@@ -9,6 +9,8 @@ import LicensingSidebar from './licensing.sidebar';
 
 import * as LicensingAction from '../../actions/index';
 
+import './licensing.css'
+
 const steps = [
   {
     "type": "Generating",
@@ -49,8 +51,15 @@ class Licensing extends Component {
 
     return (
       <>
-
-        <Flex
+        <div className = "row page-content">
+          <div className = "col-sm-3">
+            <LicensingSidebar onChange={ this.handleChange } {...this.props} {...this.state}/>
+          </div>
+          <div className = "col-sm-9 licence-data">
+            <LicensingProfile onChange={ this.handleChange } {...this.props} {...this.state}/>
+          </div>
+        </div>
+        {/* <Flex
             p={4}
             align='top'
             justify='center'
@@ -62,7 +71,7 @@ class Licensing extends Component {
 
               <LicensingProfile onChange={ this.handleChange } {...this.props} {...this.state}/>
 
-        </Flex>
+        </Flex> */}
 
       </>
     );

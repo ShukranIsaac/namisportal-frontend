@@ -58,7 +58,7 @@ class LicensingProfile extends Component {
     const { classes, capacity } = this.props;
 
     return (
-      <div>
+      <div className = "col-sm-12">
         { this.licenseTypeHeading({classes, headerText: "Generation Licence"}) }
         <div className={classes.expPanel}>
           { this.expPanel({classes, capacity})}
