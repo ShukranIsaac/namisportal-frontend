@@ -15,8 +15,9 @@ class Financing extends Component {
   render(){
 
     const containerStyle = {
-      width: '80%',
+      // width: '80%',
       margin: '0 auto',
+      background: '#fff',
     }
 
     const header = {
@@ -36,15 +37,17 @@ class Financing extends Component {
     }
 
     return (
+      <div className = "row page-content">
+     
       <div style={containerStyle}>
         <div style={header}>
         <Flex 
-          p={4} 
+          p={2} 
           align='center' 
           justify='center'
           m={1}
           w={1}>
-          <Box w={1/2} p={1} align='center'>
+          <Box >
           <h5 >Financing</h5>
           <p>
             User interfaces that enable people to interact smoothly 
@@ -86,6 +89,7 @@ class Financing extends Component {
           </Collapse>
           
         </div>
+      </div>
       </div>
     );
   }
