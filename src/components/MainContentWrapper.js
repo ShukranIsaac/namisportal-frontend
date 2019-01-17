@@ -10,11 +10,11 @@ const MainContentWrapper = (WrappedComponent) => {
       const { classes } = this.props;
 
       return (
-        <main className={classes.content}>
+        <div>
 
           <WrappedComponent { ...this.props } />
 
-        </main>
+        </div>
       );
     }
   }
