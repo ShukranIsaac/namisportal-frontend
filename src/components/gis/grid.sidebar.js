@@ -366,18 +366,6 @@ class GridSideBar extends Component {
 
         </FormControl>
 
-        {/* <div className={classes.legend}>
-
-          <FormLabel component="legend">Legend (Key)</FormLabel>
-          
-          <FormGroup row>
-
-            <Icon></Icon>
-
-          </FormGroup>
-
-        </div> */}
-
       </div>
     );
   }

@@ -1,6 +1,10 @@
-import React from 'react';
-import { ListItem, List, Divider, Drawer } from '@material-ui/core';
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import green from '@material-ui/core/colors/green';
+import { ListItem, List, Divider } from '@material-ui/core';
 import { Button } from '@blueprintjs/core';
+import SideBarWrapper from '../SideBarWrapper';
 
 const drawer_controls = [
     { name: 'licencing', button: <Button className="bp3-minimal" icon="take-action" text="Licencing"/>},
@@ -21,13 +25,7 @@ const config = [
 const CustomDrawer = ({ classes, handleLink }) => {
 
     return (
-        <Drawer
-            className={classes.drawer}
-            variant="permanent"
-            classes={{
-                paper: classes.drawerPaper,
-            }}
-        >
+        <Fragment>
 
             <List>
                 {
@@ -51,9 +49,41 @@ const CustomDrawer = ({ classes, handleLink }) => {
                 ))}
             </List>
 
-        </Drawer>
+        </Fragment>
     );
 
 }
 
-export default CustomDrawer;
+const styles = theme => ({
+    drawerPaper: {
+        position: 'relative',
+        width: `100%`,
+    },
+    root: {
+        color: green[600],
+        '&$checked': {
+            color: green[500],
+        },
+    },
+    checked: {},
+    button: {
+        display: 'block',
+        marginTop: theme.spacing.unit * 2,
+    },
+    formControl: {
+        marginBottom: theme.spacing.unit * 2,
+        minWidth: 'auto',
+    },
+    legend: {
+        marginTop: theme.spacing.unit * 3,
+    },
+    margin: {
+        marginLeft: theme.spacing.unit * 2,
+    },
+});
+  
+CustomDrawer.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+  
+  export default withStyles(styles)(SideBarWrapper(CustomDrawer));

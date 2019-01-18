@@ -11,7 +11,7 @@ import * as LibraryAction from '../../actions/index';
 import CustomColumn from '../news/custom.column';
 import { UserContext } from '../user/user.context';
 import CustomDrawer from './cms.custom.drawer';
-import { RenderSection } from './cms.render.section';
+import RenderSection from './cms.render.section';
 
 /**
  * @author Isaac S. Mwakabira
@@ -158,31 +158,19 @@ class CMSIndex extends Component {
     
                         return (
                             <Fragment>
-                
-                                <Flex row="true" align='top' justify='left' m={1} w={1} p={1} style={{ margin: '0px' }}>
-                    
-                                    <CustomColumn
-                                        m={2}
-                                        w={1/5}
-                                        p={1}
-                                        className="format-cms-sidebar">
-                                        
-                                        <CustomDrawer classes={classes} handleLink={this.handleLink} />
-                    
-                                    </CustomColumn>
-                    
-                                    <CustomColumn w={1/2} p={1} style={{}}>
+            
+                                <div className={classes.root}>
 
-                                        <RenderSection 
-                                            link={this.state.link} 
-                                            handleClick={ this.handleClick } 
-                                            handleChange={ (e) => { this.handleChange(e) } }
-                                            props={this.props}
-                                        />
-    
-                                    </CustomColumn>
-                    
-                                </Flex>
+                                    <CustomDrawer classes={classes} handleLink={this.handleLink} />
+                                    
+                                    <RenderSection 
+                                        link={this.state.link} 
+                                        handleClick={ this.handleClick } 
+                                        handleChange={ (e) => { this.handleChange(e) } }
+                                        props={this.props}
+                                    />
+
+                                </div>
                 
                             </Fragment>
                         );
@@ -225,6 +213,15 @@ const mapDispatchToProps = (dispatch) => {
 const drawerWidth = 240;
 
 const styles = theme => ({
+    root: {
+        flexGrow: 1,
+        height: `100%`,
+        width: `100%`,
+        zIndex: 1,
+        overflow: 'hidden',
+        position: 'relative',
+        display: 'flex',
+    },
     drawer: {
       width: drawerWidth,
       flexShrink: 0,
@@ -235,7 +232,7 @@ const styles = theme => ({
     toolbar: theme.mixins.toolbar,
     content: {
       flexGrow: 1,
-      backgroundColor: theme.palette.background.default,
+    //   backgroundColor: theme.palette.background.default,
       padding: theme.spacing.unit * 3,
     },
 });
