@@ -11,7 +11,7 @@ import ListNewsArticles from '../news/news.list.items';
 import { ListLibraryDocuments } from '../library/library.list.documents';
 import { ListDirectoryInstitution } from '../directory/directory.list.institutions';
 import EditDirectoryInstitution from '../directory/directory.edit.institution';
-import { CreateDirectoryInstitution } from '../directory/directory.create.institution';
+import CreateDirectoryInstitution from '../directory/directory.create.institution';
 import { FinancingRequestSupport } from '../financing/financing.request.support';
 import MainContentWrapper from '../MainContentWrapper';
 

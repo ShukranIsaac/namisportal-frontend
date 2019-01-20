@@ -27,7 +27,7 @@ const CustomDrawer = ({ classes, handleLink }) => {
     return (
         <Fragment>
 
-            <List>
+            <List className={classes.margin}>
                 {
                     drawer_controls.map((control, index) => (
                         <ListItem button key={control.name} onClick={(e) => handleLink(e, control.name)}>
@@ -78,7 +78,7 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 3,
     },
     margin: {
-        marginLeft: theme.spacing.unit * 2,
+        marginLeft: theme.spacing.unit * 0,
     },
 });
   

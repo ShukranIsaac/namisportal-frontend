@@ -1,6 +1,5 @@
 import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
-import { Flex } from 'reflexbox';
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -8,7 +7,6 @@ import { withStyles } from '@material-ui/core/styles';
 import * as UserEventActions from '../../actions/event.action';
 import * as LibraryAction from '../../actions/index';
 
-import CustomColumn from '../news/custom.column';
 import { UserContext } from '../user/user.context';
 import CustomDrawer from './cms.custom.drawer';
 import RenderSection from './cms.render.section';
