@@ -244,7 +244,7 @@ class GridSideBar extends Component {
           {
              this.checkBoxControl({
                name: 'marep_center',
-               value: 'Marep Centers',
+               value: 'Electrified(Marep)',
                isChecked: this.props.marep_center,
                classes: classes
              })
@@ -347,7 +347,7 @@ class GridSideBar extends Component {
             {
               this.checkBoxControl({
                 name: 'ground_transformers',
-                value: 'Type 1',
+                value: 'Ground',
                 isChecked: this.props.ground_transformers,
                 classes: classes
               })
@@ -356,7 +356,7 @@ class GridSideBar extends Component {
             {
               this.checkBoxControl({
                 name: 'up_transformers',
-                value: 'Type 2',
+                value: 'Overhead',
                 isChecked: this.props.up_transformers,
                 classes: classes
               })

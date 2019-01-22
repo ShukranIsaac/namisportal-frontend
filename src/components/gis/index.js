@@ -23,7 +23,7 @@ class GIS extends Component {
     this.state = {
         regionChanged: false,
         regionDefault: "--Select region--",
-        districtDefault: "--Select district--"
+        districtDefault: "--Select district--",
     };
   }
 
@@ -43,7 +43,6 @@ class GIS extends Component {
           fetchMeters,
           fetchRegion,
           fetchDistrict,
-          fetchPolygonCentroid,
           fetchMarepCenters,
           fetchDistributionLines 
       } = this.props;
@@ -57,8 +56,6 @@ class GIS extends Component {
         && district.trim() !== '' && district !== districtDefault) {
 
           fetchDistrict(district);
-
-          fetchPolygonCentroid();
 
       }
       
@@ -106,7 +103,7 @@ class GIS extends Component {
 
           if (district !== undefined && district !== null 
             && district.trim() !== '' && district !== districtDefault) {
-
+              
               fetchMarepCenters(district);
 
           }
@@ -152,7 +149,14 @@ class GIS extends Component {
 
   render(){
 
-    const { classes, gis_filters } = this.props;
+    const { 
+      classes, 
+      gis_filters, 
+      district: { polygons, centroids } 
+    } = this.props;
+
+    // if(polygons !== undefined && polygons !== null)
+    //   console.log(this.props.district);
 
     return (
       <>
@@ -169,8 +173,8 @@ class GIS extends Component {
               onChecked={this.handleChecked}
               onPlaceSearch={this.handlePlaceSearch}
               r_coordinates={this.props.region}
-              d_coordinates={this.props.district}
-              centroids={this.props.centroids}
+              d_coordinates={ polygons !== undefined && polygons !== null ? polygons[0].geometry.coordinates : [] }
+              centroids={ centroids }
               meters={this.state.meters_checked ? this.props.meters : null}
               m_centers={this.props.m_centers}
               polyline={this.props.distr_lines}
@@ -206,7 +210,6 @@ const mapStateToProps = (state) => {
         district: state.district.district,
         meters: state.meters.meters,
         distr_lines: state.lines.lines,
-        centroids: state.centroids.centroids,
         m_centers: state.m_centers.coordinates,
         hasErrored: state.hasErrored,
         isLoading: state.isLoading,
@@ -221,7 +224,6 @@ const mapDispatchToProps = (dispatch) => {
         fetchRegion: (region) => { dispatch(GisAction.fetchRegion(region)) },
         fetchDistrict: (district) => { dispatch(GisAction.fetchDistrict(district))},
         fetchMarepCenters: (name) => { dispatch(GisAction.fetchMarepCenters(name)) },
-        fetchPolygonCentroid: () => { dispatch(GisAction.fetchPolygonCentroids()) },
         fetchMeters: (name) => { dispatch(GisAction.fetchEscomMeters(name)) },
         fetchDistributionLines: (name) => { dispatch(GisAction.fetchDistributionLines(name)) },
     };

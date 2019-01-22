@@ -1,50 +1,18 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { withScriptjs, withGoogleMap, GoogleMap, Marker, Polygon, Polyline } from "react-google-maps";
+import { Marker, Polygon, Polyline, InfoWindow } from "react-google-maps";
 import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 
 import MainContentWrapper from '../MainContentWrapper';
 
 import './grid.css';
+import { CustomGoogleMap } from './grid.custom.map';
 
-const CustomGoogleMap = withScriptjs(
-    withGoogleMap(props => {
-
-          return <>
-            <GoogleMap
-              defaultZoom={props.zoom}
-              defaultCenter={props.onCenterChanged}
-              defaultOptions={{
-                scrollwheel: false,
-                zoomControl: true,
-                zoomControlOptions: {
-                  
-                }
-              }}
-              center={props.onCenterChanged}
-              zoom={props.zoom}
-            >
-
-              {props.onMarepCenter}
-
-              {props.onDistrictChanged}
-
-              {props.onRegionChanged}
-
-              {props.onDistrictMeters}
-
-              {props.onRegionMeters}
-
-              {props.onPolyline}
-
-            </GoogleMap>
-          </>
-        })
-    );
-
-/*
- *  Main gis grid view
+/**
+ * Main gis grid view
+ * 
+ * @author Isaac S. Mwakabira
  */
 class MinGridMap extends Component {
 
@@ -55,6 +23,7 @@ class MinGridMap extends Component {
       newCenter: {
         lat: -13.2512, lng: 34.30154
       },
+      show: true,
     };
 
     this.renderDistrictMarepCenters = this.renderDistrictMarepCenters.bind(this);
@@ -65,15 +34,37 @@ class MinGridMap extends Component {
     this.renderRegionMeters = this.renderRegionMeters.bind(this);
     this.renderDistrictMeters = this.renderDistrictMeters.bind(this);
     this.renderPolyline = this.renderPolyline.bind(this);
+    this.showInforWindow = this.showInforWindow.bind(this);
+    this.handleMarkerClick = this.handleMarkerClick.bind(this);
 
   }
 
+  /**
+   * handle UI click event
+   */
+  handleMarkerClick = ({ show }) => {
+
+    if (show) {
+      this.setState({ show: false });
+    } else {
+      this.setState({ show: true} );
+    }
+
+  }
+
+  /**
+   * Render district marep centers: making sure district, m_centers(coordinates)
+   * and checkbox is set to true.
+   * 
+   * @param {Props} props
+   * @returns {MarkerClusterer} markers
+   */
   renderDistrictMarepCenters = ({district, marep_center, m_centers}) => {
 
     if (district !== null && district !== undefined && marep_center) {
 
       if (m_centers !== null && m_centers !== undefined && m_centers.length !== null) {
-
+        
         return this.markerClusterer(m_centers);
 
       }
@@ -121,35 +112,99 @@ class MinGridMap extends Component {
 
   }
 
+  /**
+   * Marker clusterer
+   * 
+   * @param {Object} clusters 
+   * @returns {MarkerClusterer} markers
+   */
   markerClusterer = (clusters) => {
 
     if (clusters !== null) {
 
         return (
-          <>
+          <Fragment>
+
             <MarkerClusterer>
               {
-                clusters.centers.map((point, key) => {
+                clusters.map((point, key) => {
 
-                  return <Marker position={point.coordinates} key={key}/>
+                  return (
+                    <Marker 
+                      position={point.geometry.coordinates} 
+                      key={point._id}
+                      onClick={ () => this.handleMarkerClick(this.state) }>
+
+                      {
+                        this.state.show && 
+                        this.showInforWindow({ 
+                          show: false,
+                          information: 'Infowindow' 
+                        })
+                      }
+
+                    </Marker>
+                  )
 
                 })
               }
             </MarkerClusterer>
-          </>
+
+          </Fragment>
         );
 
     }
 
   }
 
+  /**
+   * Marker Information window
+   * 
+   * @param {Boolean} show
+   * @param {Object} information
+   * @param {InfoWindow} window
+   */
+  showInforWindow = ({ show, information }) => {
+    
+    // Show inforwindow only if all the givwn conditions hold true
+    if(information !== undefined && information !== null && show) {
+    
+      return (
+        <InfoWindow>
+          <div>Marker Information</div>
+        </InfoWindow>
+      )
+
+    }
+
+  }
+
+  /**
+   * Renders region meters
+   * 
+   * @param {String} region
+   * @param {Object} meters
+   * @returns markers
+   */
   renderRegionMeters = ({region, meters}) => {
 
     if (region !== null && region !== undefined) {
 
       if (meters !== null && meters !== undefined) {
 
-        return this.markerClusterer(meters);
+        return (
+          <MarkerClusterer>
+
+            {
+              meters.centers.map((point, key) => {
+                
+                return <Marker position={point.coordinates} key={key} />
+
+              })
+            }
+
+          </MarkerClusterer>
+        );
 
       }
 
@@ -165,14 +220,32 @@ class MinGridMap extends Component {
 
   }
 
-
+  /**
+   * Renders district meters
+   * 
+   * @param {String} district
+   * @param {Object} meters
+   * @returns markers
+   */
   renderDistrictMeters = ({district, meters}) => {
 
     if (district !== null && district !== undefined) {
 
       if (meters !== null && meters !== undefined) {
 
-          return this.markerClusterer(meters);
+          return (
+            <MarkerClusterer>
+
+              {
+                meters.centers.map((point, key) => {
+                  
+                  return <Marker position={point.coordinates} key={key} />
+
+                })
+              }
+
+            </MarkerClusterer>
+          );
 
       }
 
@@ -188,7 +261,14 @@ class MinGridMap extends Component {
 
   }
 
-
+  /**
+   * Renders any polygon
+   * 
+   * @param coordinates
+   * @param color
+   * @param opacity
+   * @returns polygon
+   */
   renderPolygon = (coordinates, color, opacity) => {
 
     return <>
@@ -205,7 +285,14 @@ class MinGridMap extends Component {
     </>;
 
   }
-
+  
+  /**
+   * Region polygon
+   * 
+   * @param {String} region
+   * @param {Array} r_coordinates
+   * @returns renderPolygon
+   */
   renderRegionPolygon = ({region, r_coordinates}) => {
 
     if( region !== null && region !== undefined){
@@ -216,6 +303,13 @@ class MinGridMap extends Component {
 
   }
 
+  /**
+   * District polygon
+   * 
+   * @param {String} district
+   * @param {Array} d_coordinates
+   * @returns renderPolygon
+   */
   renderDistrictPolygon = ({district, d_coordinates}) => {
 
     if (district !== null && district !== undefined) {
@@ -226,6 +320,13 @@ class MinGridMap extends Component {
 
   }
 
+  /**
+   * Filter district given the condition true
+   * 
+   * @param {Array} districts
+   * @param {String} district 
+   * @returns {Object} o
+   */
   filterDistrictsCentroids = (districts, district) => {
 
     return districts.filter((o) => {
@@ -239,19 +340,24 @@ class MinGridMap extends Component {
 
   }
 
+  /**
+   * Get polygon centroid(coordinates) i.e. district or region
+   * 
+   * @returns {Array} centroid
+   */
   getPolygonCentroid = ({district, centroids}) => {
 
     if (district !== null && district !== undefined) {
 
       if (centroids !== undefined && centroids !== null) {
 
-          let centroid = this.filterDistrictsCentroids(centroids, district).map(({coordinates}) => {
+          // let centroid = this.filterDistrictsCentroids(centroids, district).map(({coordinates}) => {
 
-            return coordinates;
+          //   return coordinates;
 
-          })
+          // })
 
-          return centroid[0];
+          return centroids;
 
       }
 
@@ -280,8 +386,7 @@ class MinGridMap extends Component {
           onCenterChanged= {this.getPolygonCentroid(this.props)}
           onPolyline={this.renderPolyline(this.props)}
           {...this.state}
-        >
-        </CustomGoogleMap>
+        />
       </Fragment>
     );
   }

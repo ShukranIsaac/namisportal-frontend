@@ -1,6 +1,7 @@
 import { GisType } from '../action_type/index';
 
 import * as GeneralAction from './general.action';
+import Config from '../config';
 
 let regions = [
   {
@@ -160,26 +161,48 @@ export const fetchRegion = (region) => {
 
 export const fetchDistrict = (district) => {
 
-    const {coordinates} = require('../assets/gis/polygons/'+ district +'.json');
+    // const {coordinates} = require('../assets/gis/polygons/'+ district +'.json');
+
+    const url = Config.APIUrl + 'districts?name=' + district;
+
+    const controller = new AbortController();
+
+    const headers = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': 'http://localhost:3000',
+        },
+        signal: controller.signal,
+    }
 
     return (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return fetch(`/gis`).then((response) => {
+        return fetch(url, new Headers(headers)).then((response) => {
 
             if (response.status !== 200) {
                 throw Error(response.statusText);
             }
 
             dispatch(GeneralAction.isLoading(false));
+            
+            return response.json();
+        })
+        
+        .then((data) => {
 
-            return response;
-        }).then((response) => {
+          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_DISTRICT, data, false))
 
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_DISTRICT, coordinates, false))
+          controller.abort();
+        })
+        
+        .catch(() => {
+          dispatch(GeneralAction.hasErrored(true))
 
-        }).catch(() => dispatch(GeneralAction.hasErrored(true)));
+          controller.abort();
+        });
     };
 
 }
@@ -209,13 +232,26 @@ export const fetchGisFilters = () => {
 
 export const fetchMarepCenters = (name) => {
 
-    const coordinates = require('../assets/gis/marep-centers/'+ name +'.json');
+    // const coordinates = require('../assets/gis/marep-centers/'+ name +'.json');
+
+    const url = Config.APIUrl + 'districts/' + name + '/marep-centers';
+
+    const controller = new AbortController();
+
+    const headers = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': 'http://localhost:3000',
+        },
+        signal: controller.signal,
+    }
 
     return (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return fetch(`/gis`).then((response) => {
+        fetch(url, new Headers(headers)).then((response) => {
 
             if (response.status !== 200) {
                 throw Error(response.statusText);
@@ -223,12 +259,19 @@ export const fetchMarepCenters = (name) => {
 
             dispatch(GeneralAction.isLoading(false));
 
-            return response;
+            return response.json();
         }).then((response) => {
+          
+          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_MAREP_CENTERS, response, false))
 
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_MAREP_CENTERS, coordinates, false))
+          controller.abort();
 
-        }).catch(() => dispatch(GeneralAction.hasErrored(true)));
+        }).catch(() => {
+
+          dispatch(GeneralAction.hasErrored(true))
+
+          controller.abort();
+        });
     };
 
 }
@@ -259,41 +302,28 @@ export const fetchEscomMeters = (name) => {
 
 }
 
-export const fetchPolygonCentroids = () => {
-
-    const d_centers = require('../assets/gis/d-centroids/d_centroids.json');
-
-    return (dispatch) => {
-
-        dispatch(GeneralAction.isLoading(true));
-
-        return fetch(`/centroids`).then((response) => {
-
-            if (response.status !== 200) {
-                throw Error(response.statusText);
-            }
-
-            dispatch(GeneralAction.isLoading(false));
-
-            return response;
-        }).then((response) => {
-
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_POLYGON_CENTROID, d_centers, false))
-
-        }).catch(() => dispatch(GeneralAction.hasErrored(true)));
-    };
-
-}
-
 export const fetchDistributionLines = (district) => {
 
     const {lines} = require('../assets/gis/distribution-lines/'+ district +'.json');
 
+    const url = Config.APIUrl + 'districts/' + district + '/distribution-lines';
+
+    const controller = new AbortController();
+
+    const headers = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': 'http://localhost:3000',
+        },
+        signal: controller.signal,
+    }
+
     return (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return fetch(`/gis`).then((response) => {
+        return fetch(url, new Headers(headers)).then((response) => {
 
             if (response.status !== 200) {
                 throw Error(response.statusText);
@@ -301,12 +331,18 @@ export const fetchDistributionLines = (district) => {
 
             dispatch(GeneralAction.isLoading(false));
 
-            return response;
+            return response.json();
         }).then((response) => {
 
           dispatch(GeneralAction.fetchSuccess(GisType.FETCH_DISTRIBUTION_LINES, lines, false))
 
-        }).catch(() => dispatch(GeneralAction.hasErrored(true)));
+          controller.abort()
+        }).catch(() => {
+
+          dispatch(GeneralAction.hasErrored(true))
+
+          controller.abort()
+        });
     };
 
 }
