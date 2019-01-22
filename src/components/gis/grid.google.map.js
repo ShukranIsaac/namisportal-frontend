@@ -23,7 +23,7 @@ class MinGridMap extends Component {
       newCenter: {
         lat: -13.2512, lng: 34.30154
       },
-      show: true,
+      show: false,
     };
 
     this.renderDistrictMarepCenters = this.renderDistrictMarepCenters.bind(this);
@@ -40,13 +40,17 @@ class MinGridMap extends Component {
   }
 
   /**
-   * handle UI click event
+   * handle UI click event, sets state
+   * 
+   * @param {Boolean} show
    */
   handleMarkerClick = ({ show }) => {
 
     if (show) {
       this.setState({ show: false });
-    } else {
+    } 
+    
+    if(show) {
       this.setState({ show: true} );
     }
 
@@ -80,6 +84,15 @@ class MinGridMap extends Component {
 
   }
 
+  /**
+   * Renders any polyline
+   * 
+   * @param {Object} polyline
+   * @param {String} district
+   * @param {String} region
+   * @param {Boolean} distribution_lines
+   * @returns {Polyline} polyline
+   */
   renderPolyline = ({polyline, district, region, distribution_lines}) => {
 
       if (distribution_lines && polyline !== null && polyline !== undefined) {
@@ -138,7 +151,7 @@ class MinGridMap extends Component {
                       {
                         this.state.show && 
                         this.showInforWindow({ 
-                          show: false,
+                          show: this.state.show,
                           information: 'Infowindow' 
                         })
                       }

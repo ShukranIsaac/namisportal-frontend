@@ -161,8 +161,6 @@ export const fetchRegion = (region) => {
 
 export const fetchDistrict = (district) => {
 
-    // const {coordinates} = require('../assets/gis/polygons/'+ district +'.json');
-
     const url = Config.APIUrl + 'districts?name=' + district;
 
     const controller = new AbortController();
@@ -271,7 +269,15 @@ export const fetchMarepCenters = (name) => {
 
 export const fetchEscomMeters = (name) => {
 
-    const points = require('../assets/gis/meters/'+ name +'.json');
+    const url = Config.APIUrl + 'districts/' + name + '/meters';
+
+    const headers = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': 'http://localhost:3000',
+        },
+    }
 
     return (dispatch) => {
 
@@ -288,7 +294,7 @@ export const fetchEscomMeters = (name) => {
             return response;
         }).then((response) => {
 
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_ESCOM_METERS, points, false))
+          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_ESCOM_METERS, [], false))
 
         }).catch(() => dispatch(GeneralAction.hasErrored(true)));
     };

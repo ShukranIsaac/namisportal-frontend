@@ -121,7 +121,7 @@ class GIS extends Component {
             && district.trim() !== '' && district !== districtDefault) {
 
               const { district } = this.props;
-              // console.log(district._id);
+              
               fetchDistributionLines(district._id);
 
           }
@@ -158,9 +158,6 @@ class GIS extends Component {
       district: { polygons, centroids } 
     } = this.props;
 
-    // if(distr_lines !== undefined && distr_lines !== null)
-    //   console.log(distr_lines);
-
     return (
       <>
         <div className={classes.root}>
@@ -178,7 +175,7 @@ class GIS extends Component {
               r_coordinates={this.props.region}
               d_coordinates={ polygons !== undefined && polygons !== null ? polygons[0].geometry.coordinates : [] }
               centroids={ centroids }
-              meters={this.state.meters_checked ? this.props.meters : null}
+              // meters={this.state.meters_checked ? this.props.meters : null}
               m_centers={this.props.m_centers}
               polyline={this.props.distr_lines}
           />
