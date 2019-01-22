@@ -1,17 +1,15 @@
-import React, { Component } from 'react';
+import React, { Fragment } from 'react';
 
-export default class Toolkits extends Component {
+const Toolkits = (props) => {
 
-    render(){
+    const { library } = props;
 
-        const { library } = this.props;
-
-        return(
-            <>
-                { this.props.renderDocuments(library) }
-            </>
-
-        );
-    }
+    return(
+        <Fragment>
+            { props.renderDocuments(library) }
+        </Fragment>
+    );
 
 }
+
+export default Toolkits;

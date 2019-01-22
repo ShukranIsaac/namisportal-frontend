@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
-import { Elevation, Button, Card } from "@blueprintjs/core";
+import { Button } from "@blueprintjs/core";
 import { Link } from "react-router-dom";
-import { Flex, Box } from 'reflexbox';
 
 import './home.css'
 import Footer from '../footer';
 
 class Home extends Component {
+  
   render(){
-    const containerStyle = {
-      width: '90%',
-      margin: '0 auto',
-    }
+
+    // const containerStyle = {
+    //   width: '90%',
+    //   margin: '0 auto',
+    // }
+
     return (
       <>
         <div className='landing-info'>

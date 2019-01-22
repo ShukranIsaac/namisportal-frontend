@@ -51,7 +51,7 @@ class EditDirectoryInstitution extends Component {
 
     render() {
 
-        const { classes, directory, handleClick, handleChange  } = this.props;
+        const { classes, directory, handleClick  } = this.props;
         console.log(directory[0]);
         
         /**

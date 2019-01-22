@@ -52,8 +52,6 @@ class EditLibraryItem extends Component {
 
     render() {
 
-        const { document } = this.state;
-
         const { classes, handleClick, handleChange, docs: { resource_plan } } = this.props;
         
         return (

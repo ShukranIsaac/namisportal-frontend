@@ -154,7 +154,7 @@ class GIS extends Component {
     const { 
       classes, 
       gis_filters, 
-      distr_lines,
+      // distr_lines,
       district: { polygons, centroids } 
     } = this.props;
 

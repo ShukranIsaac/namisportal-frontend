@@ -159,7 +159,6 @@ export class MultiStepForm extends Component {
     }
   
     getClassName = (className, i) => {
-        // console.log(className + '-' + this.state.navState.styles[i]);
         
         return className + '-' + this.state.navState.styles[i];
     }
@@ -199,7 +198,7 @@ export class MultiStepForm extends Component {
         return function() {
             // fieldValues is in the initial state of the component, we are simply appending
             // to and overriding keys in `fieldValues` with the `fields` with Object.assign
-            this.state.fieldValues = Object.assign({}, this.state.fieldValues, fields);
+            this.setState({ fieldValues: Object.assign({}, this.state.fieldValues, fields) });
         }();
     }
 

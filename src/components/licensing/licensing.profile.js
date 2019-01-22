@@ -6,10 +6,11 @@ import Panel from '../financing/panel';
 class Financing extends Component {
 
   render(){
-    const containerStyle = {
-      width: '80%',
-      margin: '0 auto',
-    }
+    // const containerStyle = {
+    //   width: '80%',
+    //   margin: '0 auto',
+    // }
+    
     const header = {
       textAlign: 'center',
     }
@@ -23,13 +24,13 @@ class Financing extends Component {
       padding: '12%'
     }
 
-    const keyFacts = {
-      duration: 'time',
-      CompetentAuthority: 'string', 
-      prerequisites: [],
-      requiredDocuments: []
+    // const keyFacts = {
+    //   duration: 'time',
+    //   CompetentAuthority: 'string', 
+    //   prerequisites: [],
+    //   requiredDocuments: []
 
-    }
+    // }
 
     return (
       <div style={{width: '100%'}}>

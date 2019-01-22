@@ -39,16 +39,16 @@ class Panel extends Component{
             textAlign: 'left'
         }
 
-        const alignCenter = {
-            textAlign: 'center'
-        }
+        // const alignCenter = {
+        //     textAlign: 'center'
+        // }
 
-        const list = {
-            listStyle: 'numbered'
-        }
+        // const list = {
+        //     listStyle: 'numbered'
+        // }
         
         const factsBack = { background: '#D8E1E8'}
-        let { heading, requiredpath, summary } = this.props;
+        let { heading, /*requiredpath, summary*/ } = this.props;
 
         return (
             <div style={docContainer}>

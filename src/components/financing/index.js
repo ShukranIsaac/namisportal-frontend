@@ -14,10 +14,10 @@ class Financing extends Component {
 
   render(){
 
-    const containerStyle = {
-      width: '80%',
-      margin: '0 auto',
-    }
+    // const containerStyle = {
+    //   width: '80%',
+    //   margin: '0 auto',
+    // }
 
     const header = {
       textAlign: 'center',

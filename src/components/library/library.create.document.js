@@ -53,7 +53,7 @@ class CreateLibraryItem extends Component {
 
     render() {
 
-        const { document } = this.state;
+        // const { document } = this.state;
 
         const { classes, handleClick, handleChange } = this.props;
         

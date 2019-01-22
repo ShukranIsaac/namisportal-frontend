@@ -8,7 +8,6 @@ import { Button } from '@blueprintjs/core';
 import RenderBootstrapField from '../forms/form.bootstrap.field';
 import AsyncValidate from './form.async-validate';
 import Validate from './email.validate';
-import UserFormCheckbox from '../user/form.checkbox';
 
 import styles from './form.styles';
 

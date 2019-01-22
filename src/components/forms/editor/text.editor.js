@@ -133,6 +133,7 @@ export default class TextEditor extends Component {
 
 		// Create a new serializer instance with our `rules` from above.
 		const html = new Html({ rules });
+		html.deserialize(this.props.content)
 
 		// console.log(html.deserialize(this.props.content));
 		// console.log(html.serialize(this.props.content));

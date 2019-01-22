@@ -163,15 +163,12 @@ export const fetchDistrict = (district) => {
 
     const url = Config.APIUrl + 'districts?name=' + district;
 
-    const controller = new AbortController();
-
     const headers = {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': 'http://localhost:3000',
         },
-        signal: controller.signal,
     }
 
     return (dispatch) => {
@@ -283,7 +280,7 @@ export const fetchEscomMeters = (name) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return fetch(`/gis`).then((response) => {
+        return fetch(url, new Headers(headers)).then((response) => {
 
             if (response.status !== 200) {
                 throw Error(response.statusText);
@@ -291,7 +288,7 @@ export const fetchEscomMeters = (name) => {
 
             dispatch(GeneralAction.isLoading(false));
 
-            return response;
+            return response.json();
         }).then((response) => {
 
           dispatch(GeneralAction.fetchSuccess(GisType.FETCH_ESCOM_METERS, [], false))

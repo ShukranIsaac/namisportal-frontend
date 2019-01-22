@@ -58,9 +58,7 @@ class CreateDirectoryInstitution extends Component {
 
     render() {
 
-        const { document } = this.state;
-
-        const { classes, handleClick, handleChange } = this.props;
+        const { classes, handleClick } = this.props;
         
         return (
             <Fragment>
