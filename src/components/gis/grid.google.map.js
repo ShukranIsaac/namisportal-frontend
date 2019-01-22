@@ -85,26 +85,26 @@ class MinGridMap extends Component {
       if (distribution_lines && polyline !== null && polyline !== undefined) {
 
         return polyline.map((line, key) => {
-
-        return (
-          <>
-            <Polyline
-              path={line.coordinates[0]}
-              geodesic={true}
-              options={{
-                strokeColor: "blue",
-                strokeOpacity: 0.75,
-                strokeWeight: 2,
-                icons: [
-                    {
-                        offset: "0",
-                        repeat: "20px"
-                    }
-                ]
-              }}
-            />
-          </>
-        );
+          
+          return (
+            <>
+              <Polyline
+                path={line.geometry.coordinates[0]}
+                geodesic={true}
+                options={{
+                  strokeColor: "blue",
+                  strokeOpacity: 0.75,
+                  strokeWeight: 2,
+                  icons: [
+                      {
+                          offset: "0",
+                          repeat: "20px"
+                      }
+                  ]
+                }}
+              />
+            </>
+          );
 
         });
 

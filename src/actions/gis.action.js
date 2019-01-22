@@ -193,15 +193,14 @@ export const fetchDistrict = (district) => {
         
         .then((data) => {
 
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_DISTRICT, data, false))
+          return dispatch(GeneralAction.fetchSuccess(GisType.FETCH_DISTRICT, data, false))
 
-          controller.abort();
         })
         
         .catch(() => {
-          dispatch(GeneralAction.hasErrored(true))
+          
+          return dispatch(GeneralAction.hasErrored(true))
 
-          controller.abort();
         });
     };
 
@@ -236,17 +235,14 @@ export const fetchMarepCenters = (name) => {
 
     const url = Config.APIUrl + 'districts/' + name + '/marep-centers';
 
-    const controller = new AbortController();
-
     const headers = {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': 'http://localhost:3000',
         },
-        signal: controller.signal,
     }
-
+    
     return (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
@@ -264,13 +260,10 @@ export const fetchMarepCenters = (name) => {
           
           dispatch(GeneralAction.fetchSuccess(GisType.FETCH_MAREP_CENTERS, response, false))
 
-          controller.abort();
-
         }).catch(() => {
 
           dispatch(GeneralAction.hasErrored(true))
 
-          controller.abort();
         });
     };
 
@@ -304,11 +297,9 @@ export const fetchEscomMeters = (name) => {
 
 export const fetchDistributionLines = (district) => {
 
-    const {lines} = require('../assets/gis/distribution-lines/'+ district +'.json');
+    // const {lines} = require('../assets/gis/distribution-lines/'+ district +'.json');
 
     const url = Config.APIUrl + 'districts/' + district + '/distribution-lines';
-
-    const controller = new AbortController();
 
     const headers = {
         method: 'GET',
@@ -316,7 +307,6 @@ export const fetchDistributionLines = (district) => {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': 'http://localhost:3000',
         },
-        signal: controller.signal,
     }
 
     return (dispatch) => {
@@ -334,14 +324,12 @@ export const fetchDistributionLines = (district) => {
             return response.json();
         }).then((response) => {
 
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_DISTRIBUTION_LINES, lines, false))
+          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_DISTRIBUTION_LINES, response, false))
 
-          controller.abort()
         }).catch(() => {
 
           dispatch(GeneralAction.hasErrored(true))
 
-          controller.abort()
         });
     };
 
