@@ -16,6 +16,7 @@ import SideBarWrapper from '../SideBarWrapper';
 
 import './grid.css';
 import SearchInputControl from '../forms/search.form.field';
+import { red, blue, yellow, grey } from '@material-ui/core/colors';
 
 /**
  *  Side bar, renders gis sidebar with form filters.
@@ -201,6 +202,26 @@ class GridSideBar extends Component {
     </>
   }
 
+  legendMarkerIcon = (color) => {
+
+    return (
+      <span className={ color }>
+        <i className="material-icons md-18">location_on</i>
+      </span>
+    );
+
+  }
+
+  legendLineIcon = (color) => {
+
+    return (
+      <span className={ color }>
+        <i className="material-icons md-18">timeline</i>
+      </span>
+    );
+
+  }
+
   render() {
 
     const { classes } = this.props;
@@ -245,7 +266,10 @@ class GridSideBar extends Component {
                isChecked: this.props.marep_center,
                classes: classes
              })
+
           }
+
+          { this.legendMarkerIcon(classes.marep) }
 
           {
              this.checkBoxControl({
@@ -255,6 +279,8 @@ class GridSideBar extends Component {
                classes: classes
              })
           }
+
+          { this.legendMarkerIcon(classes.to_be_electrified) }
 
         </FormGroup>
 
@@ -270,6 +296,8 @@ class GridSideBar extends Component {
                classes: classes
              })
           }
+
+          { this.legendMarkerIcon(classes.meters) }
 
         </FormGroup>
 
@@ -289,6 +317,8 @@ class GridSideBar extends Component {
               })
             }
 
+            { this.legendMarkerIcon(classes.existing) }
+
             {
               this.checkBoxControl({
                 name: 'potential',
@@ -297,6 +327,8 @@ class GridSideBar extends Component {
                 classes: classes
               })
             }
+
+            { this.legendMarkerIcon(classes.potential) }
 
           </FormGroup>
 
@@ -312,14 +344,18 @@ class GridSideBar extends Component {
               })
             }
 
+            { this.legendLineIcon(classes.line_33_s) }
+
             {
               this.checkBoxControl({
                 name: 'proposed_distr_lines',
-                value: 'Proposed Lines(various plans)',
+                value: 'Proposed Lines',
                 isChecked: this.props.proposed_distr_lines,
                 classes: classes
               })
             }
+
+            { this.legendLineIcon(classes.proposed) }
 
           </FormGroup>
 
@@ -335,6 +371,8 @@ class GridSideBar extends Component {
               })
             }
 
+            { this.legendMarkerIcon(classes.ground) }
+
             {
               this.checkBoxControl({
                 name: 'up_transformers',
@@ -343,6 +381,8 @@ class GridSideBar extends Component {
                 classes: classes
               })
             }
+
+            { this.legendMarkerIcon(classes.overhead) }
 
           </FormGroup>
 
@@ -378,6 +418,51 @@ const styles = theme => ({
   },
   margin: {
     marginLeft: theme.spacing.unit * 2,
+  },
+  to_be_electrified: {
+    color: grey[400],
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * -2,
+  },
+  marep: {
+    color: red[400],
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * -2,
+  },
+  meters: {
+    color: `#9b59b6`,
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * -2,
+  },
+  existing: {
+    color: `#2c3e50`,
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * -2,
+  },
+  potential: {
+    color: `#1abc9c`,
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * -2,
+  },
+  line_33_s: {
+    color: blue[800],
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * -2,
+  },
+  proposed: {
+    color: `#4cd137`,
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * -2,
+  },
+  ground: {
+    color: yellow[400],
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * -2,
+  },
+  overhead: {
+    color: `#273c75`,
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * -2,
   },
 });
 

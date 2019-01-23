@@ -144,8 +144,11 @@ class MinGridMap extends Component {
 
                   return (
                     <Marker 
-                      position={point.geometry.coordinates} 
+                      position={point.geometry.coordinates}
                       key={point._id}
+                      icon={{
+                        strokeColor: '#9b59b6'
+                      }}
                       onClick={ () => this.handleMarkerClick(this.state) }>
 
                       {
@@ -199,7 +202,7 @@ class MinGridMap extends Component {
    * @param {Object} meters
    * @returns markers
    */
-  renderRegionMeters = ({region, meters}) => {
+  renderRegionMeters = ({region, meters, color}) => {
 
     if (region !== null && region !== undefined) {
 
@@ -240,7 +243,7 @@ class MinGridMap extends Component {
    * @param {Object} meters
    * @returns markers
    */
-  renderDistrictMeters = ({district, meters}) => {
+  renderDistrictMeters = ({district, meters, color}) => {
 
     if (district !== null && district !== undefined) {
 
