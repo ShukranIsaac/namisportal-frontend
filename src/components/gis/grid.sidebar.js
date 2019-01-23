@@ -445,7 +445,7 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit * -2,
   },
   line_33_s: {
-    color: blue[800],
+    color: blue[700],
     marginTop: theme.spacing.unit * 1,
     marginLeft: theme.spacing.unit * -2,
   },
