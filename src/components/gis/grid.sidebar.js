@@ -83,7 +83,8 @@ class GridSideBar extends Component {
 
       }
 
-      return region;
+      return null;
+
     });
 
   }
@@ -219,7 +220,7 @@ class GridSideBar extends Component {
 
           {
             this.selectInputControl({
-              helperText: "Add region filter",
+              helperText: "Select region filter",
               name: "Region"
             })
           }
@@ -230,7 +231,7 @@ class GridSideBar extends Component {
 
           {
             this.selectInputControl({
-              helperText: "Add district filter",
+              helperText: "Select district filter",
               name: "District"
             })
           }
@@ -275,21 +276,6 @@ class GridSideBar extends Component {
           }
 
         </FormGroup>
-
-        {/* <div className={classes.grow} />
-
-        <FormGroup row key="distribution_lines" className={classes.margin}>
-
-          {
-             this.checkBoxControl({
-               name: 'distribution_lines',
-               value: 'Distribution Lines',
-               isChecked: this.props.distribution_lines,
-               classes: classes
-             })
-          }
-
-        </FormGroup> */}
 
         <div className={classes.grow} />
 

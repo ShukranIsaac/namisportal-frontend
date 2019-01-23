@@ -154,7 +154,6 @@ class GIS extends Component {
     const { 
       classes, 
       gis_filters, 
-      // distr_lines,
       district: { polygons, centroids } 
     } = this.props;
 
@@ -175,7 +174,6 @@ class GIS extends Component {
               r_coordinates={this.props.region}
               d_coordinates={ polygons !== undefined && polygons !== null ? polygons[0].geometry.coordinates : [] }
               centroids={ centroids }
-              // meters={this.state.meters_checked ? this.props.meters : null}
               m_centers={this.props.m_centers}
               polyline={this.props.distr_lines}
           />
@@ -185,6 +183,7 @@ class GIS extends Component {
     );
   }
 }
+// meters={this.state.meters_checked ? this.props.meters : null}
 
 const styles = theme => ({
   root: {

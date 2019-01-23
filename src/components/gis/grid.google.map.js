@@ -348,7 +348,7 @@ class MinGridMap extends Component {
         return o;
       }
 
-      return o;
+      return null;
     });
 
   }
@@ -363,12 +363,6 @@ class MinGridMap extends Component {
     if (district !== null && district !== undefined) {
 
       if (centroids !== undefined && centroids !== null) {
-
-          // let centroid = this.filterDistrictsCentroids(centroids, district).map(({coordinates}) => {
-
-          //   return coordinates;
-
-          // })
 
           return centroids;
 

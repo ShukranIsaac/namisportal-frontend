@@ -1,5 +1,3 @@
-import React from 'react';
-
 /**
  * User profile, object to hold user credentials upon login and register
  * 
