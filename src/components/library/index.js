@@ -48,20 +48,20 @@ class Library extends Component {
     const flexStyle = {
       margin: 'auto',
       background: '#15B371',
-      padding: '12%'
+      padding: '3%'
     }
 
     return (
       <div>
-        <Flex
-          p={4}
-          align='center'
-          justify='center'
-          m={1}
-          w={1}
+        <div className = "row"
+          // p={4}
+          // align='center'
+          // justify='center'
+          // m={1}
+          // w={1}
           style={flexStyle}
           >
-            <Box w={1} p={1}>
+            {/* <Box w={1} p={1}> */}
               <Card elevation={Elevation.TWO}>
                 <Tabs style={{justifyContent: 'center'}} className="test" id="TabsExample" selectedTabId={this.state.navbarTabId} onChange={this.handleNavBarChange}>
                   <Tab id="tarrifs" title="Tarrifs" panel={<Tarrifs {...this.props} renderDocuments={this.renderDocuments}/>}/>
@@ -72,9 +72,9 @@ class Library extends Component {
                   <Tab id="resource_plan" title="Resource Plan" panel={<ResourcePlan {...this.props} renderDocuments={this.renderDocuments}/>}/>
                 </Tabs>
               </Card>
-            </Box>
+            {/* </Box> */}
 
-          </Flex>
+          </div>
       </div>
 
     );
