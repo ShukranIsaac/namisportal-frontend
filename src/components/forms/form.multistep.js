@@ -2,9 +2,9 @@ import React, { Fragment, Component } from 'react';
 
 import '../../assets/css/process_tracker.css';
 
-import { ConceptNote } from '../financing/process/financing.concept.note';
-import { ConceptNoteAppraisal } from '../financing/process/financing.concept.appraisal';
-import { PrefeasibilityStudy } from '../financing/process/financing.prefeasibility.study';
+import ConceptNote from '../financing/process/financing.concept.note';
+import ConceptNoteAppraisal from '../financing/process/financing.concept.appraisal';
+import PrefeasibilityStudy from '../financing/process/financing.prefeasibility.study';
 import { GrantApplication } from '../financing/process/financing.application.grant';
 import { PreliminaryEvaluation } from '../financing/process/financing.preliminary.evaluation';
 import { FeasibilityReport } from '../financing/process/financing.feasibility.report';
@@ -48,21 +48,31 @@ const checkNavState = (currentStep, stepsLength) => {
 
         return {
             showPreviousBtn: true,
-            showNextBtn: true
+            showNextBtn: true,
+            showSaveButton: false
         }
 
     } else if (currentStep === 0) {
 
         return {
             showPreviousBtn: false,
-            showNextBtn: true
+            showNextBtn: true,
+            showSaveButton: false
+        }
+
+    } else if(currentStep === stepsLength - 1) {
+
+        return {
+            showSaveButton: true,
+            showNextBtn: false,
         }
 
     } else {
 
         return {
             showPreviousBtn: true,
-            showNextBtn: false
+            showNextBtn: false,
+            showSaveButton: false
         }
 
     }
@@ -79,6 +89,7 @@ export class MultiStepForm extends Component {
     state = {
         showPreviousBtn: false,
         showNextBtn: true,
+        showSaveButton: false,
         compState: 0,
         navState: getNavStates(0, this.props.steps.length),
         formFields: {},
@@ -315,6 +326,13 @@ export class MultiStepForm extends Component {
                             onClick={this.next}
                         >
                         Next
+                        </button>
+
+                        <button
+                            style={this.state.showSaveButton ? {} : { display: 'none' }}
+                            onClick={this.save}
+                        >
+                        Save
                         </button>
 
                     </div>

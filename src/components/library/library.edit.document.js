@@ -109,14 +109,9 @@ class EditLibraryItem extends Component {
                         onChange={ this.handleChange }
                     />
 
-                    {/* <FormFileinputField
-                        handleInputChange={ (e) => handleChange(e) }
-                        text="Choose pdf document..."   
-                    /> */}
-
                     <MuiFormFileinputField
                         id="pdf_document"
-                        placeholder="Upload pdf document.."
+                        placeholder="Upload pdf document"
                         handleInputChange={ (e) => handleChange(e) }
                         classes={ classes }
                     />

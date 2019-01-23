@@ -52,7 +52,6 @@ class EditDirectoryInstitution extends Component {
     render() {
 
         const { classes, directory, handleClick  } = this.props;
-        console.log(directory[0]);
         
         /**
          * If the institution is not defined and has no data

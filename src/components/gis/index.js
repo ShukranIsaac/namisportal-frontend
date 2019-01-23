@@ -35,6 +35,7 @@ class GIS extends Component {
 
   componentDidUpdate(prevProps, prevState) {
 
+      // Check if an update to trigger a component re-render occured
       if(prevState !== this.state) {
 
         // ES6 destructure different objects from state
@@ -170,7 +171,7 @@ class GIS extends Component {
     if(isLoading !== undefined && isLoading !== null && isLoading) {
 
       return <div className="loader"></div>
-      
+
     }
 
     return (
@@ -191,6 +192,7 @@ class GIS extends Component {
               d_coordinates={ polygons !== undefined && polygons !== null ? polygons[0].geometry.coordinates : [] }
               centroids={ centroids }
               m_centers={this.props.m_centers}
+              // meters={this.state.meters_checked ? this.props.meters : null}
               polyline={this.props.distr_lines}
           />
 
@@ -199,7 +201,6 @@ class GIS extends Component {
     );
   }
 }
-// meters={this.state.meters_checked ? this.props.meters : null}
 
 const styles = theme => ({
   root: {
