@@ -158,8 +158,20 @@ class GIS extends Component {
     const { 
       classes, 
       gis_filters, 
-      district: { polygons, centroids } 
+      district: { polygons, centroids }
     } = this.props;
+
+    const { isLoading } = this.state;
+
+    /**
+     * Show progress loader if isLoading is true
+     * 
+     */
+    if(isLoading !== undefined && isLoading !== null && isLoading) {
+
+      return <div className="loader"></div>
+      
+    }
 
     return (
       <>

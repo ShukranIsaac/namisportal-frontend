@@ -5,6 +5,7 @@ const initialState = {
 }
 
 const district = (state = initialState, action) => {
+    console.log(action);
     
     switch(action.type){
         case GisType.FETCH_DISTRICT:
