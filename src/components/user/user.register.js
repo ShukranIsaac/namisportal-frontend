@@ -192,7 +192,7 @@ class UserRegistration extends Component {
             p={3}
             className='landing-info'>
 
-            <Card elevation={Elevation.TWO}>
+            <Card elevation={Elevation.ONE}>
 
               <form onSubmit={handleSubmit} autoComplete="off">
 
@@ -201,19 +201,23 @@ class UserRegistration extends Component {
                     <FormLabel component="legend">Personal Account</FormLabel>
                     { this.personal(this.props) }
                   </Box>
-                </Flex>
-
-                <Flex align='right' justify='right' w={1/2}>
                   <Box p={1}>
                     <FormLabel component="legend">Company Account</FormLabel>
                     { this.company(this.props) }
                   </Box>
                 </Flex>
 
+                {/* <Flex align='right' justify='right' w={1/2}>
+                  <Box p={1}>
+                    <FormLabel component="legend">Company Account</FormLabel>
+                    { this.company(this.props) }
+                  </Box>
+                </Flex> */}
+
                 <div className={classes.margin}>
 
                   <Button type="submit" disabled={pristine || submitting} intent="success" text="Register" />
-
+                
                 </div>
 
               </form>

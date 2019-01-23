@@ -86,7 +86,7 @@ class CMSIndex extends Component {
 
         this.setState({ [e.target.name]: e.target.value });
 
-        console.log("Reached this far");
+        // console.log("Reached this far");
         
     }
 
@@ -153,7 +153,7 @@ class CMSIndex extends Component {
             <UserContext.Consumer>
                 {
                     (context) => {
-    
+                        
                         return (
                             <Fragment>
             
@@ -161,7 +161,8 @@ class CMSIndex extends Component {
 
                                     <CustomDrawer classes={classes} handleLink={this.handleLink} />
                                     
-                                    <RenderSection 
+                                    <RenderSection
+                                        { ...context }
                                         link={this.state.link} 
                                         handleClick={ this.handleClick } 
                                         handleChange={ (e) => { this.handleChange(e) } }

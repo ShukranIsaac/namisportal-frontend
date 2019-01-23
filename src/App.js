@@ -27,7 +27,11 @@ class App extends Component {
 
   constructor(){
     super()
-    this.state = {height: 0}
+
+    this.state = {
+      height: 0
+    }
+
   }
 
   componentDidMount() {
@@ -64,17 +68,17 @@ class App extends Component {
 
             <Route exact path="/" component={Home} />
             <UserPrivateRoute exact path="/cms" component={CMSIndex} />
-            <Route path="/licensing" component={Licensing} />
-            <Route path="/financing" component={Financing} />
-            <Route path="/library" component={Library} />
-            <Route path="/directory" component={Directory} />
-            <Route path="/gis" component={GIS} />
+            <Route exact path="/licensing" component={Licensing} />
+            <Route exact path="/financing" component={Financing} />
+            <Route exact path="/library" component={Library} />
+            <Route exact path="/directory" component={Directory} />
+            <Route exact path="/gis" component={GIS} />
             <Route exact path="/news" component={News} />
             <Route exact path="/news/:id" component={NewsItemDetails} />
-            <Route path="/faq" component={FAQ} />
-            <Route path="/contact" component={Contact} />
-            <Route path="/login" component={UserLogin} />
-            <Route path="/register" component={UserRegistration} />
+            <Route exact path="/faq" component={FAQ} />
+            <Route exact path="/contact" component={Contact} />
+            <Route exact path="/login" render={ () => <UserLogin /> } />
+            <Route exact path="/register" render={ () => <UserRegistration /> } />
             
           </div>
 

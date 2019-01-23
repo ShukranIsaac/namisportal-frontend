@@ -104,7 +104,7 @@ class EditLibraryItem extends Component {
                         value={ resource_plan.summary }
                         name="summary"
                         type="text"
-                        multiline="true"
+                        multiline={true}
                         rows="100"
                         onChange={ this.handleChange }
                     />

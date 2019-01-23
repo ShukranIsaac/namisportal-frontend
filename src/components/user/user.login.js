@@ -15,6 +15,12 @@ import Validate from '../contact/email.validate';
 
 import styles from '../contact/form.styles';
 
+/**
+ * User login
+ * 
+ * @author Isaac S. Mwakabira
+ * 
+ */
 class UserLogin extends Component {
 
     constructor() {

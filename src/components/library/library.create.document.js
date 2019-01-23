@@ -8,6 +8,14 @@ import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 import { MuiFormFileinputField } from '../forms/form.fileinput.field';
+// import FormSelectMultiple from '../forms/form.multiple.options.field';
+
+// const options = [
+//     'Financing Institution', 
+//     'Local Authority', 
+//     'State Authority or Government Agency',
+//     'Non-Governmental Organisation(N.G.O)'
+// ]
 
 /**
  * @author Isaac S. Mwakabira
@@ -19,7 +27,8 @@ class CreateLibraryItem extends Component {
         super();
         
         this.state = {
-            document
+            document,
+            name: []
         }
 
         /**
@@ -42,6 +51,26 @@ class CreateLibraryItem extends Component {
         this.setState({[event.target.name]: event.target.value});
   
     }
+
+    handleChangeMultiple = event => {
+
+        const { options } = event.target;
+
+        const value = [];
+
+        for (let index = 0, optLength = options.length; index < optLength; index += 1) {
+
+            if (options[index].selected) {
+
+                value.push(options[index].value);
+                
+            }
+
+        }
+
+        this.setState({ [event.target.name]: value });
+
+    };
 
     handleSubmit = (event) => {
 		/**
@@ -76,6 +105,12 @@ class CreateLibraryItem extends Component {
                     <div className={ classes.margin }/>
 
                     <Divider />
+
+                    {/* <FormSelectMultiple 
+                        classes={classes}
+                        handleChangeMultiple={this.handleChangeMultiple}
+                        options={options}
+                    /> */}
 
                     <RenderBootstrapField
                         classes={ classes }

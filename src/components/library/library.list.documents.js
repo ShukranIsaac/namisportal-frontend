@@ -35,8 +35,8 @@ export const ListLibraryDocuments = ({
                     resource_plan && resource_plan.map( (object, index) => {
                         
                         return (
-                            <Fragment>
-                                <li id={index}>
+                            <Fragment key={object.name}>
+                                <li id={index} key={object.name}>
                                     <a 
                                         href="/library/e8g9tyjGh" 
                                         onClick={ (e) => handleClick(e) }

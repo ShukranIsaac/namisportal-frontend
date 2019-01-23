@@ -87,7 +87,7 @@ class EditDirectoryInstitution extends Component {
                         name="name"
                         type="text"
                         onChange={ this.handleChange }
-                    />
+                    /><br/>
 
                     <RenderBootstrapField
                         classes={ classes }
@@ -99,7 +99,7 @@ class EditDirectoryInstitution extends Component {
                         multiline={true}
                         rows="1000"
                         onChange={ this.handleChange }
-                    />
+                    /><br/>
 
                     <RenderBootstrapField
                         classes={ classes }
