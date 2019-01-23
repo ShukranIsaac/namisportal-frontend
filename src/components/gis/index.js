@@ -24,7 +24,6 @@ class GIS extends Component {
         regionChanged: false,
         regionDefault: "--Select region--",
         districtDefault: "--Select district--",
-        nextState: [],
     };
   }
 
@@ -217,6 +216,7 @@ const mapStateToProps = (state) => {
         m_centers: state.m_centers.coordinates,
         hasErrored: state.hasErrored,
         isLoading: state.isLoading,
+        transformers: state.transformers,
     };
 
 }

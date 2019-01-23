@@ -1,4 +1,4 @@
-import { GisType } from '../action_type/index';
+import { GisType, GeneralType } from '../action_type/index';
 
 import * as GeneralAction from './general.action';
 import Config from '../config';
@@ -214,5 +214,41 @@ export const fetchDistributionLines = (district) => {
 
         });
     };
+
+}
+
+export const fetchTransformers = (name) => {
+
+    // url api
+    const url = Config.APIUrl;
+
+    // headers
+    const headers = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': Config.ACCESS_ALLOW_ORIGIN,
+      },
+    }
+
+    return async dispatch => {
+
+      dispatch(GeneralType.isLoading(true))
+
+      return await fetchResponse(dispatch, url, headers)
+
+      .then((response) => {
+
+        dispatch(GeneralAction.fetchSuccess(GisType.FETCH_TRANSFORMERS, response, false))
+
+      })
+
+      .catch(() => {
+
+        dispatch(GeneralAction.hasErrored(true))
+
+      });
+
+    }
 
 }

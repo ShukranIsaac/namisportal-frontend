@@ -54,7 +54,7 @@ class GridSideBar extends Component {
     return gis_filters.map(({name}, key) => {
 
       return <Fragment>
-        <option value={ name } key={ name }>{ name }</option>
+        <option value={ name } key={ name + key }>{ name }</option>
       </Fragment>
 
     });
@@ -156,7 +156,7 @@ class GridSideBar extends Component {
                 value={this.state.region}
                 name="region"
                 onChange={ (e) => { this.props.onChange(e) } }
-                input={<Input name="region" id="region-open-select" />}
+                input={<Input key={this.state.region} name="region" id="region-open-select" />}
               >
                 <option value="">{ `${"--Select region--"}` }</option>
                 { this.renderRegions(this.props) }
