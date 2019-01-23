@@ -24,6 +24,7 @@ class GIS extends Component {
         regionChanged: false,
         regionDefault: "--Select region--",
         districtDefault: "--Select district--",
+        nextState: [],
     };
   }
 
@@ -33,98 +34,102 @@ class GIS extends Component {
 
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
 
-      // ES6 destructure different objects from state
-      const { district, region, regionDefault, districtDefault } = this.state;
+      if(prevState !== this.state) {
 
-      // ES6 destructure different objects and functions from props
-      const {
-          fetchMeters,
-          fetchRegion,
-          fetchDistrict,
-          fetchMarepCenters,
-          fetchDistributionLines 
-      } = this.props;
+        // ES6 destructure different objects from state
+        const { district, region, regionDefault, districtDefault } = this.state;
 
-      /**
-       * Fetch district and all its properties: if district is defined and not null and not equal
-       * to default value and does not have trailing spaces.
-       * 
-       */
-      if (district !== undefined && district !== null 
-        && district.trim() !== '' && district !== districtDefault) {
+        // ES6 destructure different objects and functions from props
+        const {
+            fetchMeters,
+            fetchRegion,
+            fetchDistrict,
+            fetchMarepCenters,
+            fetchDistributionLines 
+        } = this.props;
 
-          fetchDistrict(district);
+        /**
+         * Fetch district and all its properties: if district is defined and not null and not equal
+         * to default value and does not have trailing spaces.
+         * 
+         */
+        if (district !== undefined && district !== null 
+          && district.trim() !== '' && district !== districtDefault) {
 
-      }
-      
-      /**
-       * Fetch region and all its properties: if region name is defined and not null and not equal
-       * to default value
-       * 
-       */
-      if (region !== undefined && region !== null 
-        && region.trim() !== '' && region !== regionDefault) {
+            fetchDistrict(district);
 
-          fetchRegion(region);
+        }
+        
+        /**
+         * Fetch region and all its properties: if region name is defined and not null and not equal
+         * to default value
+         * 
+         */
+        if (region !== undefined && region !== null 
+          && region.trim() !== '' && region !== regionDefault) {
 
-      }
+            fetchRegion(region);
 
-      /**
-       * Fetch meters and all its properties: if region or district name is defined and not null and not equal
-       * to default values
-       * 
-       */
-      if (this.state.meters_checked) {
+        }
 
-          if (district !== undefined && district !== null
-            && district.trim() !== '' && district !== districtDefault) {
+        /**
+         * Fetch meters and all its properties: if region or district name is defined and not null and not equal
+         * to default values
+         * 
+         */
+        if (this.state.meters_checked) {
 
-              fetchMeters(district);
+            if (district !== undefined && district !== null
+              && district.trim() !== '' && district !== districtDefault) {
 
-          } else if (region !== undefined && region !== null 
-            && region.trim() !== ''&& region !== regionDefault) {
+                fetchMeters(district);
 
-              fetchMeters(region);
+            } else if (region !== undefined && region !== null 
+              && region.trim() !== ''&& region !== regionDefault) {
 
-          } else {
+                fetchMeters(region);
 
-          }
+            } else {
 
-      }
+            }
 
-      /**
-       * Fetch marep centers and all its properties: if district name is defined and not null and not equal
-       * to default value
-       * 
-       */
-      if (this.state.marep_center) {
+        }
 
-          if (district !== undefined && district !== null 
-            && district.trim() !== '' && district !== districtDefault) {
-              
-              fetchMarepCenters(district);
+        /**
+         * Fetch marep centers and all its properties: if district name is defined and not null and not equal
+         * to default value
+         * 
+         */
+        if (this.state.marep_center) {
 
-          }
+            if (district !== undefined && district !== null 
+              && district.trim() !== '' && district !== districtDefault) {
+                
+                fetchMarepCenters(district);
 
-      }
+            }
 
-      /**
-       * Fetch distribution lines and all its properties: 
-       * if district name is defined and not null and not equal to default value
-       * 
-       */
-      if (this.state.distribution_lines) {
+        }
 
-          if (district !== undefined && district !== null 
-            && district.trim() !== '' && district !== districtDefault) {
+        /**
+         * Fetch distribution lines and all its properties: 
+         * if district name is defined and not null and not equal to default value
+         * 
+         */
+        if (this.state.distribution_lines) {
 
-              const { district } = this.props;
-              
-              fetchDistributionLines(district._id);
+            if (district !== undefined && district !== null 
+              && district.trim() !== '' && district !== districtDefault) {
 
-          }
+                const { district } = this.props;
+                
+                fetchDistributionLines(district._id);
+
+            }
+        }
+
       }
 
   }

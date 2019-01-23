@@ -12,10 +12,6 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormLabel from '@material-ui/core/FormLabel';
 
-// import red from '@material-ui/core/colors/red';
-// import blue from '@material-ui/core/colors/blue';
-// import yellow from '@material-ui/core/colors/yellow';
-
 import SideBarWrapper from '../SideBarWrapper';
 
 import './grid.css';
