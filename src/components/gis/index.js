@@ -127,7 +127,9 @@ class GIS extends Component {
             if (district !== undefined && district !== null 
               && district.trim() !== '' && district !== districtDefault) {
                 
-                fetchMarepCenters(district);
+                const { district: { _id }} = this.props;
+                
+                fetchMarepCenters(_id);
 
             }
 
@@ -155,10 +157,12 @@ class GIS extends Component {
   }
 
   handleChange = (event) => {
+
     this.setState({
       [event.target.name]: event.target.value,
       regionChanged: event.target.name === 'region' ? true : false
     });
+
   }
 
   handleChecked = (event) => {
@@ -179,7 +183,7 @@ class GIS extends Component {
     const { 
       classes, 
       gis_filters, 
-      district: { polygons, centroids }
+      district
     } = this.props;
 
     const { isLoading } = this.state;
@@ -208,9 +212,9 @@ class GIS extends Component {
               onChange={this.handleChange}
               onChecked={this.handleChecked}
               onPlaceSearch={this.handlePlaceSearch}
-              r_coordinates={this.props.region}
-              d_coordinates={ polygons !== undefined && polygons !== null ? polygons[0].geometry.coordinates : [] }
-              centroids={ centroids }
+              r_polygons={this.props.region}
+              d_polygons={ district.polygons }
+              centroids={ district.centroids }
               m_centers={this.props.m_centers}
               // meters={this.state.meters_checked ? this.props.meters : null}
               polyline={this.props.distr_lines}

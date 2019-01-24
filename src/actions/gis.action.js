@@ -11,7 +11,6 @@ import { fetchResponse } from './fetch.service';
  * @returns {Object} region
  */
 export const fetchRegion = (region) => {
-    console.log(region);
     
     const url = Config.APIUrl + 'regions/' + region;
 
@@ -107,9 +106,9 @@ export const fetchGisFilters = () => {
     };
 }
 
-export const fetchMarepCenters = (name) => {
+export const fetchMarepCenters = (district_id) => {
 
-    const url = Config.APIUrl + 'districts/' + name + '/marep-centers';
+    const url = Config.APIUrl + 'districts/' + district_id + '/marep-centers';
 
     const headers = {
         method: 'GET',

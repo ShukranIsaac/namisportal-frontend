@@ -39,6 +39,27 @@ class MinGridMap extends Component {
 
   }
 
+  componentDidUpdate() {
+
+    // check if props or state changed
+    const { district } = this.props;
+    
+    // IF state.zoom equals 7, district equals to Likoma, then change zoom level to 12
+    if(district !== undefined && district !== null && district  === 'Likoma') {
+
+      Object.assign(this.state, { zoom: 12, district_name: district });
+
+    } 
+    
+    // IF state.zoom equals 12, district not equals to Likoma, then change zoom level to 7
+    if(district !== undefined && district !== null && district  !== 'Likoma') {
+
+      Object.assign(this.state, { zoom: 7});
+
+    }
+
+  }
+
   /**
    * handle UI click event, sets state
    * 
@@ -289,10 +310,10 @@ class MinGridMap extends Component {
 
     if (polygons !== undefined && polygons !== null) {
       
-      return polygons.map(({ geometry: { coordinates } }) => {
+      return polygons.map(({ geometry: { coordinates }, _id }) => {
 
         return (
-          <Fragment>
+          <Fragment key={_id}>
             <Polygon
               paths={coordinates}
               options={{
@@ -319,10 +340,10 @@ class MinGridMap extends Component {
    * Region polygon
    * 
    * @param {String} region
-   * @param {Array} r_coordinates
+   * @param {Array} r_polygons
    * @returns renderPolygon
    */
-  renderRegionPolygon = ({region, r_coordinates: { polygons } }) => {
+  renderRegionPolygon = ({region, r_polygons: { polygons } }) => {
 
     if( region !== null && region !== undefined){
 
@@ -336,26 +357,14 @@ class MinGridMap extends Component {
    * District polygon
    * 
    * @param {String} district
-   * @param {Array} d_coordinates
+   * @param {Array} d_polygons
    * @returns renderPolygon
    */
-  renderDistrictPolygon = ({district, d_coordinates }) => {
+  renderDistrictPolygon = ({ district, d_polygons }) => {
 
     if (district !== null && district !== undefined) {
 
-      return (
-        <Fragment>
-          <Polygon
-            paths={d_coordinates}
-            options={{
-              fillOpacity: 0.31,
-              strokeColor: "yellow",
-              strokeOpacity: 1,
-              strokeWeight: 1
-            }}
-          />
-        </Fragment>
-      );
+      return this.renderPolygon(d_polygons, "yellow", 0.31);
 
     }
 

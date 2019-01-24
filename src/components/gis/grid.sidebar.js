@@ -54,7 +54,7 @@ class GridSideBar extends Component {
 
     return gis_filters.map(({ properties, _id }) => {
 
-      return <Fragment>
+      return <Fragment key={_id}>
         <option value={ properties.name } key={ _id }>{ properties.name }</option>
       </Fragment>
 
@@ -101,7 +101,7 @@ class GridSideBar extends Component {
 
         return districts.map(({ properties, _id }) => {
 
-            return <Fragment>
+            return <Fragment key={ _id }>
               <option value={ properties.name } key={ _id }>{ properties.name }</option>
             </Fragment>
 
