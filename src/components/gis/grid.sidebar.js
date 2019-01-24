@@ -52,10 +52,10 @@ class GridSideBar extends Component {
    */
   renderRegions = ({gis_filters}) => {
 
-    return gis_filters.map(({name}, key) => {
+    return gis_filters.map(({ properties, _id }) => {
 
       return <Fragment>
-        <option value={ name } key={ name + key }>{ name }</option>
+        <option value={ properties.name } key={ _id }>{ properties.name }</option>
       </Fragment>
 
     });
@@ -74,7 +74,7 @@ class GridSideBar extends Component {
 
     return gis_filters.filter((region) => {
 
-      if (region.name === this.props.region) {
+      if (region.properties.name === this.props.region) {
 
         return region;
 
@@ -99,10 +99,10 @@ class GridSideBar extends Component {
 
       return this.filterDistrictsPerRegion(gis_filters).map(({districts}) => {
 
-        return districts.map(({name}, key) => {
+        return districts.map(({ properties, _id }) => {
 
             return <Fragment>
-              <option value={ name } key={ name }>{ name }</option>
+              <option value={ properties.name } key={ _id }>{ properties.name }</option>
             </Fragment>
 
           }

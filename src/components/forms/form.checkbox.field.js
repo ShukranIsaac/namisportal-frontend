@@ -34,7 +34,6 @@ export const FormCheckboxControl = ({
                 }
                 label={ label }
             />
-            <i className="material-icons md-18">location_on</i>
         </Fragment>
     );
 

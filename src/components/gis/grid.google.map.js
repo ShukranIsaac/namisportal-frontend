@@ -285,20 +285,33 @@ class MinGridMap extends Component {
    * @param opacity
    * @returns polygon
    */
-  renderPolygon = (coordinates, color, opacity) => {
+  renderPolygon = (polygons, color, opacity) => {
 
-    return <>
-      <Polygon
-        paths={coordinates}
-        options={{
-          fillOpacity: opacity,
-          strokeColor: color,
-          strokeOpacity: 1,
-          strokeWeight: 1
-        }}
-      >
-      </Polygon>
-    </>;
+    if (polygons !== undefined && polygons !== null) {
+      
+      return polygons.map(({ geometry: { coordinates } }) => {
+
+        return (
+          <Fragment>
+            <Polygon
+              paths={coordinates}
+              options={{
+                fillOpacity: opacity,
+                strokeColor: color,
+                strokeOpacity: 1,
+                strokeWeight: 1
+              }}
+            />
+          </Fragment>
+        );
+  
+      });
+
+    } else {
+
+      return <Polygon/>
+
+    }
 
   }
   
@@ -309,11 +322,11 @@ class MinGridMap extends Component {
    * @param {Array} r_coordinates
    * @returns renderPolygon
    */
-  renderRegionPolygon = ({region, r_coordinates}) => {
+  renderRegionPolygon = ({region, r_coordinates: { polygons } }) => {
 
     if( region !== null && region !== undefined){
 
-      return this.renderPolygon(r_coordinates, "red", 0.3);
+      return this.renderPolygon(polygons, "red", 0.3);
 
     }
 
@@ -326,11 +339,23 @@ class MinGridMap extends Component {
    * @param {Array} d_coordinates
    * @returns renderPolygon
    */
-  renderDistrictPolygon = ({district, d_coordinates}) => {
+  renderDistrictPolygon = ({district, d_coordinates }) => {
 
     if (district !== null && district !== undefined) {
 
-      return this.renderPolygon(d_coordinates, "yellow", 0.31);
+      return (
+        <Fragment>
+          <Polygon
+            paths={d_coordinates}
+            options={{
+              fillOpacity: 0.31,
+              strokeColor: "yellow",
+              strokeOpacity: 1,
+              strokeWeight: 1
+            }}
+          />
+        </Fragment>
+      );
 
     }
 

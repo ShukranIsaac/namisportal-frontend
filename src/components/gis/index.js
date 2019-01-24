@@ -70,7 +70,27 @@ class GIS extends Component {
         if (region !== undefined && region !== null 
           && region.trim() !== '' && region !== regionDefault) {
 
-            fetchRegion(region);
+            const { gis_filters } = this.props;
+            // filter the region name which was selected and 
+            // call api using the _id
+            const region_object = gis_filters.filter(({ properties, _id }) => {
+
+              // this.props.properties.name equals region name
+              // from the ui then return region object else return null
+              if(properties.name === region) {
+
+                return _id;
+              }
+
+              return null;
+
+            });
+
+            if(region_object !== undefined && region_object !== null) {
+
+              fetchRegion(region_object[0]._id);
+
+            }
 
         }
 

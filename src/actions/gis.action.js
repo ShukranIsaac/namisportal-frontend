@@ -4,30 +4,34 @@ import * as GeneralAction from './general.action';
 import Config from '../config';
 import { fetchResponse } from './fetch.service';
 
-let regions = [{name: "Northern Region",districts: [{name: "Chitipa",coord: {}},{name: "Karonga",coord: {}},{name: "Rumphi",coord: {}},{name: "Mzimba",coord: {}},{name: "Nkhatabay",coord: {}},{name: "Likoma",coord: {}},]},{name: "Central Region",districts: [{name: "Lilongwe",coord: {}},{name: "Kasungu",coord: {}},{name: "Dowa",coord: {}},{name: "Mchinji",coord: {}},{name: "Ntchisi",coord: {}},{name: "Dedza",coord: {}},{name: "Ntcheu",coord: {}},{name: "Nkhotakota",coord: {}},{name: "Salima",coord: {}},]},{name: "Southern Region",districts: [{name: "Blantyre",coord: {}},{name: "Chikwawa",coord: {}},{name: "Chiradzulu",coord: {}},{name: "Mulanje",coord: {}},{name: "Mwanza",coord: {}},{name: "Nsanje",coord: {}},{name: "Phalombe",coord: {}},{name: "Thyolo",coord: {}},{name: "Neno",coord: {}},{name: "Balaka",coord: {}},{name: "Machinga",coord: {}},{name: "Mangochi",coord: {}},{name: "Zomba",coord: {}}]},];
-
+/**
+ * Fetch region given its name or _id
+ * 
+ * @param {String} region 
+ * @returns {Object} region
+ */
 export const fetchRegion = (region) => {
+    console.log(region);
+    
+    const url = Config.APIUrl + 'regions/' + region;
 
-    const {coordinates} = require('../assets/gis/regions/'+ region +'.json');
-
+    const headers = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': Config.ACCESS_ALLOW_ORIGIN,
+        },
+    }
+    
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return await fetch(`/gis`).then((response) => {
-
-            if (response.status !== 200) {
-                throw Error(response.statusText);
-            }
-
-            dispatch(GeneralAction.isLoading(false));
-
-            return response;
-        })
+        return await fetchResponse(dispatch, url, new Headers(headers))
         
         .then((response) => {
 
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_REGION, coordinates, false))
+          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_REGION, response, false))
 
         })
         
@@ -90,7 +94,7 @@ export const fetchGisFilters = () => {
         
         .then((response) => {
 
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_REGIONS, regions, false))
+          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_REGIONS, response, false))
 
         })
         
