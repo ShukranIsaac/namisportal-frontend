@@ -7,7 +7,7 @@
  */
 export const UserProfile = (() => {
     
-    const firstname, lastname, email, username, password, roles;
+    const firstname, lastname, email, username, password, roles, token;
 
     const getFirstname = () => {
         return firstname;
@@ -60,18 +60,28 @@ export const UserProfile = (() => {
         roles = roles;
     }
 
+    const getToken = () => {
+        return token;
+    }
+
+    const setToken = (token) => {
+        token = token;
+    }
+
     return {
-        getFirstname: getFirstname,
-        setFirstname: setFirstname,
-        getLastname: getLastname,
-        setLastname: setLastname,
-        getEmail: getEmail,
-        setEmail: setEmail,
-        getUsername: getUsername,
-        setUsername: setUsername,
-        getPassword: getPassword,
-        setPassword: setPassword,
-        getUserRoles: getUserRoles,
-        setUserRoles: setUserRoles,
+        getFirstname,
+        setFirstname,
+        getLastname,
+        setLastname,
+        getEmail,
+        setEmail,
+        getUsername,
+        setUsername,
+        getPassword,
+        setPassword,
+        getUserRoles,
+        setUserRoles,
+        getToken,
+        setToken
     }
 })();

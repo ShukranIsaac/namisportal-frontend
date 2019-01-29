@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
 
 import library from './library.reducer';
 import gis_filters from './gis_filters.reducer';
@@ -15,6 +16,7 @@ import userEvent from './event.reducer';
 import transformers from './transformers.reducer';
 
 export default combineReducers({
+    form: formReducer,
     user: user,
     home: home,
     library: library,

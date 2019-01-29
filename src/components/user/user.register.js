@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -12,6 +13,8 @@ import RenderBootstrapField from '../forms/form.bootstrap.field';
 import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
 
+import * as UserAuthActions from '../../actions/user.action';
+
 import styles from '../contact/form.styles';
 
 import { DirectoryStakeholderTypes } from '../directory/directory.stakeholder.type';
@@ -22,19 +25,23 @@ class UserRegistration extends Component {
       super();
       this.state = {
          email: '',
-         user_name: '',
+         username: '',
          password: '',
+         firstName: '',
+         lastName: '',
          confirmPassword: '',
          website: '',
          telephone: '',
          fax: '',
-         company_name: '',
-         physical_address: '',
-         stakeholder_type: [],
+         companyName: '',
+         companyEmail: '',
+         physicalAddress: '',
+         stakeholderType: [],
       }
 
       this.handleChange = this.handleChange.bind(this);
       this.handleClick = this.handleClick.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
 
     }
 
@@ -52,17 +59,72 @@ class UserRegistration extends Component {
 
     }
 
+    handleSubmit = (event, values) => {
+      // Prevent default submit action
+      event.preventDefault();
+      // define user structure
+      const user = {
+        username: values.state.username,
+        firstName: values.state.firstName,
+        lastName: values.state.lastName,
+        email: values.state.email,
+        password: values.state.password
+      }
+
+      // define company structure
+      const company = {
+        companyName: values.state.companyName,
+        physicalAddress: values.state.physicalAddress,
+        telephone: values.state.telephone,
+        fax: values.state.fax,
+        companyEmail: values.state.companyEmail,
+        website: values.state.website,
+      }
+
+      if (user !== undefined && user.username !== undefined && user !== null) {
+
+        const { register } = this.props;
+        // register this user
+        register(user);
+
+      }
+
+    }
+
     personal = (props) => {
 
         return (
-          <>
+          <Fragment>
             <div>
               <RenderBootstrapField
                 { ...props }
                 label='Username'
                 defaultValue= "Your username..."
-                name="user_name"
+                name="username"
                 type="text"
+                component="input"
+                onChange={ this.handleChange }
+              />
+            </div>
+            <div>
+              <RenderBootstrapField
+                { ...props }
+                label='Firstname'
+                defaultValue= "Your firstname..."
+                name="firstName"
+                type="text"
+                component="input"
+                onChange={ this.handleChange }
+              />
+            </div>
+            <div>
+              <RenderBootstrapField
+                { ...props }
+                label='Lastname'
+                defaultValue= "Your lastname..."
+                name="lastName"
+                type="text"
+                component="input"
                 onChange={ this.handleChange }
               />
             </div>
@@ -73,6 +135,7 @@ class UserRegistration extends Component {
                 defaultValue= "Your email..."
                 name="email"
                 type="email"
+                component="input"
                 onChange={ this.handleChange }
               />
             </div>
@@ -83,6 +146,7 @@ class UserRegistration extends Component {
                 defaultValue= "Your password..."
                 name="password"
                 type="password"
+                component="input"
                 onChange={ this.handleChange }
               />
             </div>
@@ -91,12 +155,13 @@ class UserRegistration extends Component {
                 { ...props }
                 label='Confirm Password'
                 defaultValue= "Confirm your password..."
-                name="password"
+                name="confirmPassword"
                 type="password"
+                component="input"
                 onChange={ this.handleChange }
               />
             </div>
-          </>
+          </Fragment>
         );
 
     }
@@ -110,8 +175,9 @@ class UserRegistration extends Component {
               { ...props }
               label='Company name(Legal)'
               defaultValue= "Campany name..."
-              name="company_name"
+              name="companyName"
               type="text"
+              component="input"
               onChange={ this.handleChange }
             />
           </div>
@@ -120,8 +186,9 @@ class UserRegistration extends Component {
               { ...props }
               label='Address'
               defaultValue= "Physical address..."
-              name="physical_address"
+              name="physicalAddress"
               type="text"
+              component="input"
               onChange={ this.handleChange }
             />
           </div>
@@ -132,6 +199,7 @@ class UserRegistration extends Component {
               defaultValue= "Campany telephone number..."
               name="telephone"
               type="text"
+              component="input"
               onChange={ this.handleChange }
             />
           </div>
@@ -142,6 +210,7 @@ class UserRegistration extends Component {
               defaultValue= "Campany fax number..."
               name="fax"
               type="text"
+              component="input"
               onChange={ this.handleChange }
             />
           </div>
@@ -150,8 +219,9 @@ class UserRegistration extends Component {
               { ...props }
               label='Email'
               defaultValue= "Campany email address..."
-              name="email"
+              name="companyEmail"
               type="email"
+              component="input"
               onChange={ this.handleChange }
             />
           </div>
@@ -162,6 +232,7 @@ class UserRegistration extends Component {
               defaultValue= "Campany website..."
               name="website"
               type="text"
+              component="input"
               onChange={ this.handleChange }
             />
           </div>
@@ -178,11 +249,13 @@ class UserRegistration extends Component {
 
     render() {
 
-      const { handleSubmit, pristine, submitting, classes } = this.props;
+      const { 
+        pristine,
+        submitting, classes 
+      } = this.props;
 
       return (
         <>
-
           <Flex
             wrap
             align='center'
@@ -194,12 +267,15 @@ class UserRegistration extends Component {
 
             <Card elevation={Elevation.ONE}>
 
-              <form onSubmit={handleSubmit} autoComplete="off">
+              <form onSubmit={ (e) => this.handleSubmit(e, this)} autoComplete="off">
 
                 <Flex align='left' justify='left' w={1/2}>
                   <Box p={1}>
                     <FormLabel component="legend">Personal Account</FormLabel>
                     { this.personal(this.props) }
+                    <div>
+
+                    </div>
                   </Box>
                   <Box p={1}>
                     <FormLabel component="legend">Company Account</FormLabel>
@@ -232,12 +308,29 @@ class UserRegistration extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+
+  return {
+    user: state.user.user,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+
+  return {
+    register: (values) => { dispatch(UserAuthActions.register(values)) },
+    login: (user) => { dispatch(UserAuthActions.login(user)) },
+    logout: (user) => { dispatch(UserAuthActions.logout(user)) },
+  }
+
+}
+
 UserRegistration.propTypes = {
    classes: PropTypes.object.isRequired,
 }
 
 export default reduxForm({
-  form: "UserRegistrationForm",
-  Validate,
+  form: "registration",
+  Validate, 
   AsyncValidate
-})(withStyles(styles)(UserRegistration));
+})(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(UserRegistration)));
