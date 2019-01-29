@@ -37,6 +37,8 @@ export const CustomGoogleMap = withScriptjs(
 
                     {props.onPolyline}
 
+                    {props.onTransformers}
+
                 </GoogleMap>
             </Fragment>
         );

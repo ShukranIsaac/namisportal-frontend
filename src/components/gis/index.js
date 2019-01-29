@@ -8,8 +8,6 @@ import GridSideBar from './grid.sidebar';
 
 import * as GisAction from '../../actions/index';
 
-import './grid.css';
-
 /**
  * Renders Client GIS component
  * 
@@ -47,7 +45,8 @@ class GIS extends Component {
             fetchRegion,
             fetchDistrict,
             fetchMarepCenters,
-            fetchDistributionLines 
+            fetchDistributionLines,
+            fetchTransformers,
         } = this.props;
 
         /**
@@ -86,7 +85,8 @@ class GIS extends Component {
 
             });
 
-            if(region_object !== undefined && region_object !== null) {
+            if(region_object !== undefined && region_object !== null 
+              && region_object.length === 1) {
 
               fetchRegion(region_object[0]._id);
 
@@ -152,6 +152,23 @@ class GIS extends Component {
             }
         }
 
+        /**
+         * Fetch transformers and all its properties: 
+         * if district name is defined and not null and not equal to default value
+         * 
+         */
+        if (this.state.ground_transformers || this.state.up_transformers) {
+
+          if (district !== undefined && district !== null 
+            && district.trim() !== '' && district !== districtDefault) {
+
+              const { district } = this.props;
+              
+              fetchTransformers(district._id);
+              
+          }
+      }
+
       }
 
   }
@@ -216,6 +233,7 @@ class GIS extends Component {
               d_polygons={ district.polygons }
               centroids={ district.centroids }
               m_centers={this.props.m_centers}
+              transformers={this.props.transformers}
               // meters={this.state.meters_checked ? this.props.meters : null}
               polyline={this.props.distr_lines}
           />
@@ -253,7 +271,7 @@ const mapStateToProps = (state) => {
         m_centers: state.m_centers.coordinates,
         hasErrored: state.hasErrored,
         isLoading: state.isLoading,
-        transformers: state.transformers,
+        transformers: state.transformers.transformers,
     };
 
 }
@@ -266,6 +284,7 @@ const mapDispatchToProps = (dispatch) => {
         fetchDistrict: (district) => { dispatch(GisAction.fetchDistrict(district))},
         fetchMarepCenters: (name) => { dispatch(GisAction.fetchMarepCenters(name)) },
         fetchMeters: (name) => { dispatch(GisAction.fetchEscomMeters(name)) },
+        fetchTransformers: (district_id) => { dispatch(GisAction.fetchTransformers(district_id)) },
         fetchDistributionLines: (name) => { dispatch(GisAction.fetchDistributionLines(name)) },
     };
 

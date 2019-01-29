@@ -24,6 +24,7 @@ class MinGridMap extends Component {
         lat: -13.2512, lng: 34.30154
       },
       show: false,
+      activeMarker: null,
     };
 
     this.renderDistrictMarepCenters = this.renderDistrictMarepCenters.bind(this);
@@ -65,17 +66,28 @@ class MinGridMap extends Component {
    * 
    * @param {Boolean} show
    */
-  handleMarkerClick = ({ show }) => {
+  handleMarkerClick = ({ show }, e) => {
+    
+    if (!show) {
+      this.setState({ 
+        show: true
+      });
+    }
 
     if (show) {
       this.setState({ show: false });
-    } 
-    
-    if(show) {
-      this.setState({ show: true} );
     }
 
   }
+
+  inforClose = props => {
+    if (this.state.show) {
+      this.setState({
+        activeMarker: null,
+        show: false,
+      });
+    }
+  };
 
   /**
    * Render district marep centers: making sure district, m_centers(coordinates)
@@ -121,7 +133,7 @@ class MinGridMap extends Component {
         return polyline.map((line, key) => {
           
           return (
-            <>
+            <Fragment key={line._id}>
               <Polyline
                 path={line.geometry.coordinates[0]}
                 geodesic={true}
@@ -137,7 +149,7 @@ class MinGridMap extends Component {
                   ]
                 }}
               />
-            </>
+            </Fragment>
           );
 
         });
@@ -207,8 +219,18 @@ class MinGridMap extends Component {
     if(information !== undefined && information !== null && show) {
     
       return (
-        <InfoWindow>
-          <div>Marker Information</div>
+        <InfoWindow
+          marker={this.state.activeMarker}
+          visible={this.state.show}
+          onCloseClick={ this.inforClose}>
+          <div>
+            <div><b><em>Transformer's Information</em></b></div>
+            <div>Voltage: { information.voltage } </div>
+            <div>District: { information.district } </div>
+            <div>Location: { information.location } </div>
+            <div>Primary: { information.primary } </div>
+            <div>Position: { information.position } </div>
+          </div>
         </InfoWindow>
       )
 
@@ -277,6 +299,69 @@ class MinGridMap extends Component {
                 meters.centers.map((point, key) => {
                   
                   return <Marker position={point.coordinates} key={key} />
+
+                })
+              }
+
+            </MarkerClusterer>
+          );
+
+      }
+
+    } else {
+
+      return (
+        <>
+          <MarkerClusterer />
+        </>
+      );
+
+    }
+
+  }
+
+    /**
+   * Renders district transformers
+   * 
+   * @param {String} district
+   * @param {Object} transformers
+   * @param {Boolean} ground_transformers
+   * @param {Boolean} up_transformers
+   * @returns markers
+   */
+  renderTransformers = ({
+    district, transformers, 
+    color, ground_transformers,
+    up_transformers
+  }) => {
+
+    if (district !== null && district !== undefined) {
+
+      if (transformers !== null && transformers !== undefined
+        && (ground_transformers || up_transformers)) {
+        
+          return (
+            <MarkerClusterer averageCenter>
+
+              {
+                transformers.map(({ properties, geometry, _id }) => {
+
+                  return (
+                    <Marker 
+                      position={geometry.coordinates}
+                      key={_id}
+                      onClick={ (e) => this.handleMarkerClick(e, this.state) }
+                      name={properties.barcode}>
+
+                      {
+                        this.showInforWindow({ 
+                          show: this.state.show, 
+                          information: properties 
+                        })
+                      }
+
+                    </Marker>
+                  )
 
                 })
               }
@@ -427,6 +512,7 @@ class MinGridMap extends Component {
           onMarepCenter ={this.renderDistrictMarepCenters(this.props)}
           onDistrictMeters={this.renderDistrictMeters(this.props)}
           onRegionMeters={this.renderRegionMeters(this.props)}
+          onTransformers={this.renderTransformers(this.props)}
           onCenterChanged= {this.getPolygonCentroid(this.props)}
           onPolyline={this.renderPolyline(this.props)}
           {...this.state}

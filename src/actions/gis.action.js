@@ -1,4 +1,4 @@
-import { GisType, GeneralType } from '../action_type/index';
+import { GisType } from '../action_type/index';
 
 import * as GeneralAction from './general.action';
 import Config from '../config';
@@ -198,10 +198,10 @@ export const fetchDistributionLines = (district) => {
 
 }
 
-export const fetchTransformers = (name) => {
+export const fetchTransformers = (district) => {
 
     // url api
-    const url = Config.APIUrl;
+    const url = Config.APIUrl + 'districts/' + district + '/transformers';
 
     // headers
     const headers = {
@@ -214,7 +214,7 @@ export const fetchTransformers = (name) => {
 
     return async dispatch => {
 
-      dispatch(GeneralType.isLoading(true))
+      dispatch(GeneralAction.isLoading(true))
 
       return await fetchResponse(dispatch, url, headers)
 
