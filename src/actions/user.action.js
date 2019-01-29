@@ -88,15 +88,14 @@ export const logout = (user) => {
  * @returns {Function} dispatch
  */
 export const register = (body) => {
-
+    
     const url = Config.APIUrl + 'users/register';
-
+console.log(url);
     const headers = {
         method: 'POST',
         body: JSON.stringify(body),
         headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': Config.ACCESS_ALLOW_ORIGIN,
+            'Content-Type': 'application/json'
         },
         //creadentials: {},
     }
@@ -108,12 +107,16 @@ export const register = (body) => {
         return await fetchResponse(url, new Headers(headers))
         
         .then((response) => {
-
+console.log(response);
           dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_REGISTER, response, false))
 
         })
         
-        .catch(() => dispatch(GeneralAction.hasErrored(true)));
+        .catch(() => {
+            console.log("Erred here...");
+            dispatch(GeneralAction.hasErrored(true))
+
+        });
     };
 
 }

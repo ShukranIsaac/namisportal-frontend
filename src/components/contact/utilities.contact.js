@@ -5,7 +5,7 @@
  * 
  * @returns {Closure} closure
  */
-const ContactUtils = ({
+const ContactUtils = (() => {
 
     sleep: ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -47,7 +47,7 @@ const ContactUtils = ({
             }
         });
 
-    },
+    };
 
 })();
 
