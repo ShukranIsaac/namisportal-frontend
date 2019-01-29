@@ -67,7 +67,7 @@ class Library extends Component {
                 <Tabs style={{justifyContent: 'center'}} className="test" id="TabsExample" selectedTabId={this.state.navbarTabId} onChange={this.handleNavBarChange}>
                   <Tab id="tarrifs" title="Tarrifs" panel={<Tarrifs {...this.props} renderDocuments={this.renderDocuments}/>}/>
                   <Tab id="financing" title="Financing" panel={<Financing {...this.props} renderDocuments={this.renderDocuments}/>}/>
-                  <Tab id="policies_stratigy" title="Policies and Strategies" panel={<PoliciesStratigies {...this.props} renderDocuments={this.renderDocuments}/>}/>
+                  <Tab id="policy_strategy" title="Policies and Strategies" panel={<PoliciesStratigies {...this.props} renderDocuments={this.renderDocuments}/>}/>
                   <Tab id="toolkit" title="Deployment toolkit" panel={<Toolkits {...this.props} renderDocuments={this.renderDocuments}/>} />
                   <Tab id="legal_regulatory_frameworks" title="Legal and Regulatory Frameworks" panel={<LegalRegFrameworks {...this.props} renderDocuments={this.renderDocuments}/>}/>
                   <Tab id="resource_plan" title="Resource Plan" panel={<ResourcePlan {...this.props} renderDocuments={this.renderDocuments}/>}/>

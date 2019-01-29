@@ -38,11 +38,20 @@ export const fetchLibrary = (category) => {
         },
     }
 
-    return async (dispatch) => {
+    return (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return await fetchResponse(dispatch, url, headers)
+        return fetch(url, new Headers(headers)).then((response) => {
+  
+            if (response.status !== 200) {
+                throw Error(response.statusText);
+            }
+      
+            dispatch(GeneralAction.isLoading(false));
+      
+            return response;
+        })
         
         .then((response) => {
 
