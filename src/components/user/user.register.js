@@ -318,9 +318,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 
   return {
-    register: (values) => { dispatch(UserAuthActions.register(values)) },
-    login: (user) => { dispatch(UserAuthActions.login(user)) },
-    logout: (user) => { dispatch(UserAuthActions.logout(user)) },
+    register: (values) => { dispatch(UserAuthActions.register(values)) }
   }
 
 }

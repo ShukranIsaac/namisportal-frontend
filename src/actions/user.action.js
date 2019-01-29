@@ -29,8 +29,8 @@ export const login = (loginCredentials) => {
         method: 'POST',
         body: JSON.stringify(loginCredentials),
         headers: {
+            'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': Config.ACCESS_ALLOW_ORIGIN,
         },
         //creadentials: {},
     }
@@ -95,6 +95,7 @@ console.log(url);
         method: 'POST',
         body: JSON.stringify(body),
         headers: {
+            'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
         //creadentials: {},

@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -12,6 +13,8 @@ import { Flex, Box } from 'reflexbox';
 import RenderBootstrapField from '../forms/form.bootstrap.field';
 import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
+
+import * as UserAuthActions from '../../actions/user.action';
 
 import styles from '../contact/form.styles';
 
@@ -26,11 +29,12 @@ class UserLogin extends Component {
     constructor() {
       super();
       this.state = {
-         user_name: '',
+         username: '',
          password: ''
       }
 
       this.handleChange = this.handleChange.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
 
     }
 
@@ -40,12 +44,31 @@ class UserLogin extends Component {
 
     }
 
+    handleSubmit = (event, values) => {
+      // Prevent default submit action
+      event.preventDefault();
+      // define user login credentials
+      const user = {
+        username: values.state.username,
+        password: values.state.password
+      }
+
+      if (user !== undefined && user.username !== undefined && user !== null) {
+
+        // register this user
+        const { login } = this.props;
+        login(user);
+
+      }
+
+    }
+
     render() {
 
-        const { handleSubmit, pristine, submitting, classes } = this.props;
+        const { pristine, submitting, classes } = this.props;
 
         return (
-          <>
+          <Fragment>
             <div>
               <Flex
                 wrap
@@ -60,14 +83,15 @@ class UserLogin extends Component {
                   <Card elevation={Elevation.TWO}>
 
 
-                    <form className={{style: 'center'}} onSubmit={handleSubmit} autoComplete="off">
+                    <form className={{style: 'center'}} onSubmit={ (e) => this.handleSubmit(e, this)} autoComplete="off">
                       <div>
                         <RenderBootstrapField
                           { ...this.props }
                           label='Username'
                           defaultValue= "Your username or email..."
-                          name="user_name"
+                          name="username"
                           type="text"
+                          component="input"
                           onChange={ this.handleChange }
                         />
                       </div>
@@ -78,6 +102,7 @@ class UserLogin extends Component {
                           defaultValue= "Your password..."
                           name="password"
                           type="password"
+                          component="input"
                           onChange={ this.handleChange }
                         />
                       </div>
@@ -95,7 +120,7 @@ class UserLogin extends Component {
                 </Box>
               </Flex>
             </div>
-          </>
+          </Fragment>
         );
 
     }
@@ -106,8 +131,24 @@ UserLogin.propTypes = {
    classes: PropTypes.object.isRequired,
 }
 
+const mapStateToProps = state => {
+
+  return {
+    login: state.user.user,
+  }
+
+}
+
+const mapDispatchToProps = dispatch => {
+
+  return {
+    login: (user) => { dispatch(UserAuthActions.login(user)) },
+  }
+
+}
+
 export default reduxForm({
-  form: "UserLoginForm",
+  form: "login",
   Validate,
   AsyncValidate
-})(withStyles(styles)(UserLogin));
+})(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(UserLogin)));
