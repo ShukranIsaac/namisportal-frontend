@@ -167,7 +167,7 @@ const RenderSection = ({
                     <ResourceSection 
                         option={props.user_event} 
                         name="library" 
-                        List={ () => <ListLibraryDocuments 
+                        list={ () => <ListLibraryDocuments 
                                         handleClick={ (e) => handleClick(e) } 
                                         docs={props.library} 
                                         handleChange={ (e) => handleChange(e) }

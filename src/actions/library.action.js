@@ -4,7 +4,7 @@ import * as GeneralAction from './general.action';
 
 import library_docs from '../components/library/library_docs';
 import Config from '../config';
-import { fetchResponse } from './fetch.service';
+// import { fetchResponse } from './fetch.service';
 
 /**
  * Filter or return all documents in this category
@@ -86,7 +86,16 @@ export const fetchAllLibraryDocs = () => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return await fetchResponse(dispatch, url, headers)
+        return fetch(url, new Headers(headers)).then((response) => {
+  
+            if (response.status !== 200) {
+                throw Error(response.statusText);
+            }
+      
+            dispatch(GeneralAction.isLoading(false));
+      
+            return response;
+        })
         
         .then((response) => {
 
