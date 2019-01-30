@@ -7,81 +7,91 @@
  */
 export const UserProfile = (() => {
     
-    const firstname, lastname, email, username, password, roles, token;
+    /**
+     * Save user details to the local store/persist
+     * 
+     * @param {Object} user 
+     */
+    const save = (user) => {
+        // save user to local storage
+        let loggedIn = null;
+        // copy user into user object and add to it time(seconds) when they logged in
+        const u = Object.assign(user, { _l_time: ((Date.now() / 1000) / 60) });
+        
+        try {
+            
+            localStorage.setItem('cms_current_user', JSON.stringify(u));
 
-    const getFirstname = () => {
-        return firstname;
+        } catch (error) {
+
+            return error;
+
+        }
+
+        try {
+
+            loggedIn = localStorage.getItem('cms_current_user');
+            if(JSON.parse(loggedIn).token !== null) {
+
+                return JSON.parse(loggedIn);
+
+            } else {
+
+                return null;
+
+            }
+
+        } catch (error) {
+
+            return error;
+
+        }
+        
+    };
+
+    // loggedin user
+    const get = () => {
+
+        try {
+
+            const loggedIn = localStorage.getItem('cms_current_user');
+            if(JSON.parse(loggedIn).token !== null) {
+                
+                return JSON.parse(loggedIn);
+  
+            } else {
+  
+                return null;
+  
+            }
+  
+        } catch (error) {
+
+            return error;
+
+        }
+
+    };
+
+    // Logout user, set to null
+    const logout = ({ username }) => {
+
+        try {
+            const loggedIn = localStorage.getItem('cms_current_user');
+            if(JSON.parse(loggedIn).token!==null&&username!==null&&username!==undefined) {
+                // set to null
+                localStorage.setItem('cms_current_user', null);
+                // return null value
+                return localStorage.getItem('cms_current_user');
+            }
+        } catch (error) {
+
+            throw Error(error);
+
+        }
+
     }
 
-    const setFirstname = (firstname) => {
-        firstname = firstname;
-    }
+    return { save, get, logout };
 
-    const getLastname = () => {
-        return lastname;
-    }
-
-    const setLastname = (lastname) => {
-        lastname = lastname;
-    }
-
-    
-    const getUsername = () => {
-        return username;
-    }
-
-    const setUsername = (username) => {
-        username = username;
-    }
-
-    
-    const getEmail = () => {
-        return email;
-    }
-
-    const setEmail = (email) => {
-        email = email;
-    }
-
-    
-    const getPassword = () => {
-        return password;
-    }
-
-    const setPassword = (password) => {
-        password = password;
-    }
-
-    const getUserRoles = () => {
-        return roles;
-    }
-
-    const setUserRoles = (roles) => {
-        roles = roles;
-    }
-
-    const getToken = () => {
-        return token;
-    }
-
-    const setToken = (token) => {
-        token = token;
-    }
-
-    return {
-        getFirstname,
-        setFirstname,
-        getLastname,
-        setLastname,
-        getEmail,
-        setEmail,
-        getUsername,
-        setUsername,
-        getPassword,
-        setPassword,
-        getUserRoles,
-        setUserRoles,
-        getToken,
-        setToken
-    }
 })();

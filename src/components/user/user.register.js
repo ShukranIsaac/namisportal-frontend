@@ -259,7 +259,7 @@ class UserRegistration extends Component {
       if (user !== undefined && user !== null) {
 
           // check if token defined
-          return redirect.to({ user, url: '/login' })
+          return redirect.to({ url: '/login', from: this.context })
 
       }
 

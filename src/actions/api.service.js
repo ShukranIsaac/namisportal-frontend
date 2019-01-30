@@ -34,12 +34,10 @@ export const get = async (dispatch, url) => {
  * @returns {Promise} promise
  */
 export const post = async (dispatch, url, data) => {
-
+    
     return await Config.APIUrl.post(url, data)
 
         .then(response => {
-
-            console.log(response);
             
             if (response.status !== 200) {
                 throw Error(response.statusText);

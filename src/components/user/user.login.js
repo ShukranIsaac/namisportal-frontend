@@ -18,6 +18,7 @@ import * as UserAuthActions from '../../actions/user.action';
 
 import styles from '../contact/form.styles';
 import { redirect } from './user.redirect';
+import { UserProfile } from './user.profile';
 
 /**
  * User login
@@ -39,12 +40,20 @@ class UserLogin extends Component {
 
     }
 
+    /**
+     * On event change, get field name and value, set state
+     */
     handleChange = (event) => {
 
       this.setState({[event.target.name]: event.target.value});
 
     }
 
+    /**
+     * Prevent default form submit events. Get all field values 
+     * through redux-form's form reducer, construct user(username and password)
+     * login object to contain user credentials.
+     */
     handleSubmit = (event, values) => {
 
       // Prevent default submit action
@@ -65,35 +74,68 @@ class UserLogin extends Component {
 
     }
 
+    /**
+     * Is user auth token still valid?
+     * Use the time this user logged in to determine validity.
+     */
+    isTokenValid = (user) => {
+      console.log(user.token);
+      // console.log(user._l_time)
+      // console.log((Date.now() / 1000) / 60)
+      const difference = Math.floor((((Date.now() / 1000) / 60) - user._l_time));
+      console.log(difference);
+      
+      return difference < 30 ? true : false;
+    }
+
+    /**
+     * Get the user from local storage or session storage
+     * making sure their token is not accidentally unavailable.
+     * 
+     * @returns {Object} user
+     */
     getLoggedInUser = () => {
 
-      return null;
+        return UserProfile.get();
 
     }
 
-    authenticate = ({ token }) => {
+    /**
+     * Check if the user's token is still valid
+     *  else refresh or request new token with the API,
+     * If token valid load or show username only in the username
+     * field.
+     * 
+     * @param {String} token
+     * @returns {Boolean} boolean 
+     */
+    authenticate = ({ user }) => {
 
-      return true;
+      // if user, then check if token still valid
+      // else return false and render loggin form
+      return user !== undefined && user !== null ? this.isTokenValid(user) : false;
 
     }
 
     render() {
 
-        const { pristine, submitting, classes, user } = this.props;
-
-        const userr = this.getLoggedInUser();
-        const auth = this.authenticate({ token: '' });
-
-        // check if user is successfully logged in or authenticated
-        if (user !== undefined && user !== null) {
+        const { pristine, submitting, classes } = this.props;
+        
+        // use userr when the whole function is complete
+        // but for now use this.props.user
+        const user = this.getLoggedInUser();
+        const auth = this.authenticate({ user });
+        // console.log(auth);
+        
+        // if user is successfully logged in or authenticated
+        // then redirect to cms
+        if (auth && user !== undefined && user !== null) {
 
             // check if token defined and authenticated i.e. not expired
-            // or else wait for user to enter login password and username
-            if(auth) {
-
-                return redirect.to({ user, url: '/cms' });
-
-            }
+            // then redirect to cms index page
+            // or else wait for user to enter login password and username in the 
+            // form provided.
+            return redirect.to({ url: '/cms', from: this.context })
 
         }
         
@@ -111,7 +153,6 @@ class UserLogin extends Component {
                 <Box w={1/2} p={1}>
 
                   <Card elevation={Elevation.TWO}>
-
 
                     <form className={{style: 'center'}} onSubmit={ (e) => this.handleSubmit(e, this)} autoComplete="off">
                       <div>

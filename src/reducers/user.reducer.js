@@ -8,7 +8,7 @@ const user = (state = initialState, action) => {
 
     switch(action.type){
         case UserType.REQUEST_USER_LOGIN:
-
+        
             return {
                 ...state,
                 user: action.payload
