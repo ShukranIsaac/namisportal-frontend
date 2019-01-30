@@ -67,7 +67,7 @@ class App extends Component {
             </UserContext.Consumer>
 
             <Route exact path="/" component={Home} />
-            <UserPrivateRoute exact path="/cms" component={CMSIndex} />
+            <UserPrivateRoute path="/cms" component={CMSIndex} />
             <Route exact path="/licensing" component={Licensing} />
             <Route exact path="/financing" component={Financing} />
             <Route exact path="/library" component={Library} />

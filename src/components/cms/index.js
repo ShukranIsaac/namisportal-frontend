@@ -1,6 +1,6 @@
 import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
-
+// import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -80,6 +80,14 @@ class CMSIndex extends Component {
         // Set state
         this.setState({ link });
 
+        const { match, history } = this.props;
+
+        // get url navigated to
+        const prevUrl = `${match.url}/${link}`;
+        if (prevUrl) {
+            history.push(prevUrl);
+        }
+
     }
 
     handleChange = (e) => {
@@ -145,10 +153,11 @@ class CMSIndex extends Component {
 
     render() {
         const { classes } = this.props;
+        const { link } = this.state;
 
-        // console.log(this.state);
         // console.log(this.props);
-        
+        // console.log(`${match.url}/${link}`);
+
         return (
             <UserContext.Consumer>
                 {
@@ -163,14 +172,14 @@ class CMSIndex extends Component {
                                     
                                     <RenderSection
                                         { ...context }
-                                        link={this.state.link} 
+                                        link={ link } 
                                         handleClick={ this.handleClick } 
                                         handleChange={ (e) => { this.handleChange(e) } }
                                         props={this.props}
                                     />
 
                                 </div>
-                
+
                             </Fragment>
                         );
     
