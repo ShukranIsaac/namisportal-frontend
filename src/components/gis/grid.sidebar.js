@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { reduxForm, /* Field */ } from 'redux-form';
 import { withStyles } from '@material-ui/core/styles';
 import green from '@material-ui/core/colors/green';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -470,4 +471,6 @@ GridSideBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SideBarWrapper(GridSideBar));
+export default reduxForm({
+  form: 'gis_sidebar',
+})(withStyles(styles)(SideBarWrapper(GridSideBar)));

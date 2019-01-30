@@ -82,7 +82,7 @@ class CMSIndex extends Component {
 
         const { match, history } = this.props;
 
-        // get url navigated to
+        // get url navigated to, and change push to the navigation bar
         const prevUrl = `${match.url}/${link}`;
         if (prevUrl) {
             history.push(prevUrl);

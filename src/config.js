@@ -1,3 +1,5 @@
+import Axios from "axios";
+
 /**
  * Global configuration file. 
  * i.e. base url 
@@ -9,10 +11,14 @@
 const Config = (() => {
 
   // API base url
-  const APIUrl= "http://localhost:3300/";
+  const APIUrl= Axios.create({
+    baseURL: `http://localhost:3300/`
+  });
 
   // remote online api
-  const REMOTE_API_URL = "https://dry-springs-19364.herokuapp.com/";
+  const REMOTE_API_URL = Axios.create({
+    baseURL: `https://dry-springs-19364.herokuapp.com/`
+  });
 
   // Client ip address
   const ACCESS_ALLOW_ORIGIN= "HTTP_X_FORWARDED_FOR";

@@ -17,6 +17,7 @@ import Validate from '../contact/email.validate';
 import * as UserAuthActions from '../../actions/user.action';
 
 import styles from '../contact/form.styles';
+import { redirect } from './user.redirect';
 
 /**
  * User login
@@ -45,6 +46,7 @@ class UserLogin extends Component {
     }
 
     handleSubmit = (event, values) => {
+
       // Prevent default submit action
       event.preventDefault();
       // define user login credentials
@@ -55,7 +57,7 @@ class UserLogin extends Component {
 
       if (user !== undefined && user.username !== undefined && user !== null) {
 
-        // register this user
+        // Athenticate this user
         const { login } = this.props;
         login(user);
 
@@ -63,10 +65,38 @@ class UserLogin extends Component {
 
     }
 
+    getLoggedInUser = () => {
+
+      return null;
+
+    }
+
+    authenticate = ({ token }) => {
+
+      return true;
+
+    }
+
     render() {
 
-        const { pristine, submitting, classes } = this.props;
+        const { pristine, submitting, classes, user } = this.props;
 
+        const userr = this.getLoggedInUser();
+        const auth = this.authenticate({ token: '' });
+
+        // check if user is successfully logged in or authenticated
+        if (user !== undefined && user !== null) {
+
+            // check if token defined and authenticated i.e. not expired
+            // or else wait for user to enter login password and username
+            if(auth) {
+
+                return redirect.to({ user, url: '/cms' });
+
+            }
+
+        }
+        
         return (
           <Fragment>
             <div>
@@ -134,7 +164,7 @@ UserLogin.propTypes = {
 const mapStateToProps = state => {
 
   return {
-    login: state.user.user,
+    user: state.user.user,
   }
 
 }

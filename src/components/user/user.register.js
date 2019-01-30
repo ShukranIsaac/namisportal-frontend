@@ -18,6 +18,7 @@ import * as UserAuthActions from '../../actions/user.action';
 import styles from '../contact/form.styles';
 
 import { DirectoryStakeholderTypes } from '../directory/directory.stakeholder.type';
+import { redirect } from './user.redirect';
 
 class UserRegistration extends Component {
 
@@ -72,14 +73,14 @@ class UserRegistration extends Component {
       }
 
       // define company structure
-      const company = {
-        companyName: values.state.companyName,
-        physicalAddress: values.state.physicalAddress,
-        telephone: values.state.telephone,
-        fax: values.state.fax,
-        companyEmail: values.state.companyEmail,
-        website: values.state.website,
-      }
+      // const company = {
+      //   companyName: values.state.companyName,
+      //   physicalAddress: values.state.physicalAddress,
+      //   telephone: values.state.telephone,
+      //   fax: values.state.fax,
+      //   companyEmail: values.state.companyEmail,
+      //   website: values.state.website,
+      // }
 
       if (user !== undefined && user.username !== undefined && user !== null) {
 
@@ -250,9 +251,17 @@ class UserRegistration extends Component {
     render() {
 
       const { 
-        pristine,
+        pristine, user,
         submitting, classes 
       } = this.props;
+
+      // check if user is successfully logged in or authenticated
+      if (user !== undefined && user !== null) {
+
+          // check if token defined
+          return redirect.to({ user, url: '/login' })
+
+      }
 
       return (
         <>
@@ -309,16 +318,19 @@ class UserRegistration extends Component {
 }
 
 const mapStateToProps = (state) => {
+console.log(state.user.user);
 
   return {
     user: state.user.user,
   }
+
 }
 
 const mapDispatchToProps = (dispatch) => {
 
   return {
-    register: (values) => { dispatch(UserAuthActions.register(values)) }
+    register: (values) => { dispatch(UserAuthActions.register(values)) },
+    login: (user) => { dispatch(UserAuthActions.login(user)) },
   }
 
 }

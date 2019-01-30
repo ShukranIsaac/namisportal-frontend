@@ -1,8 +1,7 @@
 import { GisType } from '../action_type/index';
 
 import * as GeneralAction from './general.action';
-import Config from '../config';
-import { fetchResponse } from './fetch.service';
+import { get } from './api.service';
 
 /**
  * Fetch region given its name or _id
@@ -11,22 +10,14 @@ import { fetchResponse } from './fetch.service';
  * @returns {Object} region
  */
 export const fetchRegion = (region) => {
-    
-    const url = Config.APIUrl + 'regions/' + region;
-
-    const headers = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': Config.ACCESS_ALLOW_ORIGIN,
-        },
-    }
+    // region resource api url
+    const url = `regions/` + region;
     
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return await fetchResponse(dispatch, url, new Headers(headers))
+        return await get(dispatch, url)
         
         .then((response) => {
 
@@ -41,22 +32,14 @@ export const fetchRegion = (region) => {
 }
 
 export const fetchDistrict = (district) => {
-
-    const url = Config.APIUrl + 'districts?name=' + district;
-
-    const headers = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': Config.ACCESS_ALLOW_ORIGIN,
-        },
-    }
+    // api disrict resource url
+    const url = `districts?name=` + district;
 
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return await fetchResponse(dispatch, url, headers)
+        return await get(dispatch, url)
         
         .then((response) => {
           
@@ -74,22 +57,14 @@ export const fetchDistrict = (district) => {
 }
 
 export const fetchGisFilters = () => {
-
-    const url = Config.APIUrl + 'regions';
-
-    const headers = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': Config.ACCESS_ALLOW_ORIGIN,
-        }
-    }
+    // api resource url
+    const url = `regions`;
 
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return await fetchResponse(dispatch, url, headers)
+        return await get(dispatch, url)
         
         .then((response) => {
 
@@ -107,22 +82,14 @@ export const fetchGisFilters = () => {
 }
 
 export const fetchMarepCenters = (district_id) => {
-
-    const url = Config.APIUrl + 'districts/' + district_id + '/marep-centers';
-
-    const headers = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': Config.ACCESS_ALLOW_ORIGIN,
-        },
-    }
+    // api resource url
+    const url = `districts/` + district_id + `/marep-centers`;
     
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return await fetchResponse(dispatch, url, headers)
+        return await get(dispatch, url)
         
         .then((response) => {
           
@@ -138,26 +105,18 @@ export const fetchMarepCenters = (district_id) => {
 }
 
 export const fetchEscomMeters = (name) => {
-
-    const url = Config.APIUrl + 'districts/' + name + '/meters';
-
-    const headers = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': Config.ACCESS_ALLOW_ORIGIN,
-        },
-    }
+    // api resource url
+    const url = `districts/` + name + `/meters`;
 
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return await fetchResponse(dispatch, url, headers)
+        return await get(dispatch, url)
 
         .then((response) => {
 
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_ESCOM_METERS, [], false))
+          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_ESCOM_METERS, response, false))
 
         })
         
@@ -168,22 +127,15 @@ export const fetchEscomMeters = (name) => {
 }
 
 export const fetchDistributionLines = (district) => {
-
-    const url = Config.APIUrl + 'districts/' + district + '/distribution-lines';
-
-    const headers = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': Config.ACCESS_ALLOW_ORIGIN,
-        },
-    }
+  
+    // api resource url
+    const url = `districts/` + district + `/distribution-lines`;
 
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return await fetchResponse(dispatch, url, headers)
+        return await get(dispatch, url)
         
         .then((response) => {
 
@@ -200,23 +152,14 @@ export const fetchDistributionLines = (district) => {
 
 export const fetchTransformers = (district) => {
 
-    // url api
-    const url = Config.APIUrl + 'districts/' + district + '/transformers';
-
-    // headers
-    const headers = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': Config.ACCESS_ALLOW_ORIGIN,
-      },
-    }
+    // resource url
+    const url = `districts/` + district + `/transformers`;
 
     return async dispatch => {
 
       dispatch(GeneralAction.isLoading(true))
 
-      return await fetchResponse(dispatch, url, headers)
+      return await get(dispatch, url)
 
       .then((response) => {
 

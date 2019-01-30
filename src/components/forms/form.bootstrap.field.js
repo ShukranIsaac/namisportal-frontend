@@ -21,7 +21,6 @@ const RenderBootstrapField = ({
             { label }
           </label>
           <Field 
-            id={ `${name + defaultValue}` }
             name={name}
             placeholder={defaultValue}
             type={type}
