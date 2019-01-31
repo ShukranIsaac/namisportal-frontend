@@ -14,7 +14,6 @@ export const get = async (dispatch, url) => {
     
     .then((response) => {
         
-        console.log(response);
         if (response.status !== 200) {
             throw Error(response.statusText);
         }

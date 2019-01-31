@@ -44,6 +44,7 @@ class ContactForm extends Component {
                 defaultValue= "Your full name..."
                 name="fullname"
                 type="text"
+                component="input"
                 onChange={ this.handleChange }
               />
             </div>
@@ -54,6 +55,7 @@ class ContactForm extends Component {
                 defaultValue= "Your email..."
                 name="email"
                 type="email"
+                component="input"
                 onChange={ this.handleChange }
               />
             </div>
@@ -64,6 +66,7 @@ class ContactForm extends Component {
                 defaultValue= "Your message..."
                 name="message"
                 type="text"
+                component="textarea"
                 onChange={ this.handleChange }
                 multiline="true"
                 rows="10"
@@ -84,7 +87,7 @@ ContactForm.propTypes = {
 }
 
 export default reduxForm({
-  form: "ContactForm",
+  form: "contact",
   Validate,
   AsyncValidate
 })(withStyles(styles)(ContactForm));

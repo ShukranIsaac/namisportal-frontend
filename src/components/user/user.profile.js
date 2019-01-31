@@ -90,8 +90,20 @@ export const UserProfile = (() => {
 
         }
 
-    }
+    };
 
-    return { save, get, logout };
+    /**
+     * Is user auth token still valid?
+     * Use the time this user logged in to determine validity.
+     */
+    const isAuthenticated = (user) => {
+        console.log(user.token);
+        const difference = Math.floor((((Date.now() / 1000) / 60) - user._l_time));
+        console.log(difference);
+        // return true if difference is within 30 minutes
+        return difference < 30 ? true : false;
+    };
+
+    return { save, get, logout, isAuthenticated };
 
 })();

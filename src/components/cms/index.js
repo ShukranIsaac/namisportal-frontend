@@ -152,17 +152,18 @@ class CMSIndex extends Component {
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, match } = this.props;
         const { link } = this.state;
-
-        // console.log(this.props);
-        // console.log(`${match.url}/${link}`);
+        console.log(this.props.history.location);
+        // console.log(`${match.url}`);
 
         return (
             <UserContext.Consumer>
                 {
                     (context) => {
                         
+                        context.handleUrl({ url: match.url });
+
                         return (
                             <Fragment>
             

@@ -23,6 +23,7 @@ const ConceptNote = ({ classes, handleChange }) => {
                 defaultValue="Add concept note..."
                 name="concept_note"
                 type="text"
+                component="input"
                 multiline={true}
                 rows="1000"
             />

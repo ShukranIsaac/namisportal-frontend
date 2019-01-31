@@ -75,32 +75,6 @@ class UserLogin extends Component {
     }
 
     /**
-     * Is user auth token still valid?
-     * Use the time this user logged in to determine validity.
-     */
-    isTokenValid = (user) => {
-      console.log(user.token);
-      // console.log(user._l_time)
-      // console.log((Date.now() / 1000) / 60)
-      const difference = Math.floor((((Date.now() / 1000) / 60) - user._l_time));
-      console.log(difference);
-      
-      return difference < 30 ? true : false;
-    }
-
-    /**
-     * Get the user from local storage or session storage
-     * making sure their token is not accidentally unavailable.
-     * 
-     * @returns {Object} user
-     */
-    getLoggedInUser = () => {
-
-        return UserProfile.get();
-
-    }
-
-    /**
      * Check if the user's token is still valid
      *  else refresh or request new token with the API,
      * If token valid load or show username only in the username
@@ -113,7 +87,7 @@ class UserLogin extends Component {
 
       // if user, then check if token still valid
       // else return false and render loggin form
-      return user !== undefined && user !== null ? this.isTokenValid(user) : false;
+      return user !== undefined && user !== null ? UserProfile.isAuthenticated(user) : false;
 
     }
 
@@ -121,11 +95,10 @@ class UserLogin extends Component {
 
         const { pristine, submitting, classes } = this.props;
         
-        // use userr when the whole function is complete
-        // but for now use this.props.user
-        const user = this.getLoggedInUser();
+        // Get the user from local storage or session storage
+        // making sure their token is available.
+        const user = UserProfile.get();
         const auth = this.authenticate({ user });
-        // console.log(auth);
         
         // if user is successfully logged in or authenticated
         // then redirect to cms

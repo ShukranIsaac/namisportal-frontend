@@ -4,10 +4,20 @@ import { Link } from "react-router-dom";
 
 import './home.css'
 import Footer from '../footer';
+import { UserContext } from '../user/user.context';
 
 class Home extends Component {
   
+  constructor() {
+    super();
+    this.state = {}
+  }
+
   render(){
+
+    const { match } = this.props;
+    // console.log(history);
+    // console.log(`${match.url}`);
 
     // const containerStyle = {
     //   width: '90%',
@@ -136,6 +146,21 @@ class Home extends Component {
             </div>  
           </div>
         </div>
+        {
+          /** 
+           * Check route and render appropriate header
+           * using the context consumer
+           */
+        }
+        <UserContext.Consumer>
+          {
+            context => {
+              console.log(context.state);
+              context.handleUrl({ url: match.url });
+              
+            }
+          }
+        </UserContext.Consumer>
         <Footer/>
       </>
     );

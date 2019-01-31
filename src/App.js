@@ -48,7 +48,7 @@ class App extends Component {
     const content = {
       paddingBottom: this.state.height,
     }
-
+    // console.log(this.props.history.location)
     return (
       <div style={wrapper}>
 
@@ -59,8 +59,9 @@ class App extends Component {
             <UserContext.Consumer>
               {  
                 context => {
-
-                  return !context.isLoggedIn ? <AppHeader /> : <CMSCustomHeader />;
+                  console.log(context.state.isWebsite);
+                  
+                  return context.state.isWebsite ? <AppHeader /> : <CMSCustomHeader />;
                   
                 }
               }
