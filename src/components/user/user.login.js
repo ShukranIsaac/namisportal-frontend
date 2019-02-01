@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { reduxForm } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 
 import { Elevation, Button, Card } from "@blueprintjs/core";
 import { Flex, Box } from 'reflexbox';
@@ -19,6 +19,7 @@ import * as UserAuthActions from '../../actions/user.action';
 import styles from '../contact/form.styles';
 import { redirect } from './user.redirect';
 import { UserProfile } from './user.profile';
+import { ErrorField } from '../forms/form.error.field';
 
 /**
  * User login
@@ -44,6 +45,7 @@ class UserLogin extends Component {
      * On event change, get field name and value, set state
      */
     handleChange = (event) => {
+    console.log(event);
 
       this.setState({[event.target.name]: event.target.value});
 
@@ -54,16 +56,16 @@ class UserLogin extends Component {
      * through redux-form's form reducer, construct user(username and password)
      * login object to contain user credentials.
      */
-    handleSubmit = (event, values) => {
-
+    handleSubmit = (values) => {
+      // console.log(values);
       // Prevent default submit action
-      event.preventDefault();
+      // event.preventDefault();
       // define user login credentials
       const user = {
-        username: values.state.username,
-        password: values.state.password
+        username: values.username,
+        password: values.password
       }
-
+      // console.log(values);
       if (user !== undefined && user.username !== undefined && user !== null) {
 
         // Athenticate this user
@@ -91,10 +93,25 @@ class UserLogin extends Component {
 
     }
 
+    newField = ({
+      input,
+      type,
+      placeholder,
+      id,
+      meta: { touched, error }
+    }) => {
+      return (
+        <div>
+          <input {...input} placeholder={placeholder} type={type} id={id} />
+          {touched && error && <p style={{ color: 'red' }}>{error}</p>}
+        </div>
+      );
+    };
+
     render() {
 
-        const { pristine, submitting, classes } = this.props;
-        
+        const { valid , pristine, submitting, handleSubmit, classes } = this.props;
+        // console.log(this.context);
         // Get the user from local storage or session storage
         // making sure their token is available.
         const user = UserProfile.get();
@@ -127,32 +144,54 @@ class UserLogin extends Component {
 
                   <Card elevation={Elevation.TWO}>
 
-                    <form className={{style: 'center'}} onSubmit={ (e) => this.handleSubmit(e, this)} autoComplete="off">
+                    <form className={{style: 'center'}} onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
                       <div>
-                        <RenderBootstrapField
-                          { ...this.props }
-                          label='Username'
-                          defaultValue= "Your username or email..."
-                          name="username"
+                        {/* <label htmlFor="first-name">Your first name:</label>
+                        <Field
+                          name="firstName"
                           type="text"
-                          component="input"
-                          onChange={ this.handleChange }
-                        />
+                          component={this.newField}
+                          id="first-name"
+                          placeholder="shukurani"
+                        /> */}
+
+                        <Field name="username" component={props => {
+                          
+                          return (
+                            <div>
+                              <RenderBootstrapField
+                                { ...this.props }
+                                props={ props }
+                                label='Username'
+                                defaultValue= "Your username or email..."
+                                name="username"
+                                type="text"
+                              />
+                              <ErrorField props={ props } />
+                            </div>
+                          )
+                        }} />
                       </div>
                       <div>
-                        <RenderBootstrapField
-                          { ...this.props }
-                          label='Password'
-                          defaultValue= "Your password..."
-                          name="password"
-                          type="password"
-                          component="input"
-                          onChange={ this.handleChange }
-                        />
+                        <Field name="password" component={props => {
+                          return (
+                            <div>
+                              <RenderBootstrapField
+                                { ...this.props }
+                                props={ props }
+                                label='Password'
+                                defaultValue= "Your password..."
+                                name="password"
+                                type="password"
+                              />
+                              <ErrorField props={ props } />
+                            </div>
+                          );
+                        }} />
                       </div>
                       <div className={classes.margin}>
 
-                        <Button type="submit" disabled={pristine || submitting} intent="success" text="Login" />
+                        <Button type="submit" disabled={!valid  || pristine || submitting} intent="success" text="Login" />
 
                         <Link to="/register"><div>Register? </div></Link>
 

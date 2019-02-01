@@ -19,7 +19,7 @@ const drawer_controls = [
 const config = [
     { name: 'settings', button: <Button className="bp3-minimal" icon="settings" text="Settings"/>},
     { name: 'notifications', button: <Button className="bp3-minimal" icon="notifications" text="Notifications"/>},
-    { name: 'user', button: <Button className="bp3-minimal" icon="user" text="Logout"/>},
+    { name: 'logout', button: <Button className="bp3-minimal" icon="user" text="Logout"/>},
 ];
 
 const CustomDrawer = ({ classes, handleLink }) => {

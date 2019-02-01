@@ -1,8 +1,11 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-
+import { reduxForm } from 'redux-form';
 import RenderBootstrapField from '../../forms/form.bootstrap.field';
+import AsyncValidate from '../../contact/form.async-validate';
+import Validate from '../../contact/email.validate';
+
 import styles from '../../contact/form.styles';
 import { MuiFormFileinputField } from '../../forms/form.fileinput.field';
 /**
@@ -22,6 +25,7 @@ const ConceptNoteAppraisal = ({ classes, handleChange }) => {
                 defaultValue="Add concept note appraisal..."
                 name="concept_note_appraisal"
                 type="text"
+                component="input"
                 multiline={true}
                 rows="1000"
             />
@@ -48,4 +52,8 @@ ConceptNoteAppraisal.propTypes = {
     classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(ConceptNoteAppraisal);
+export default reduxForm({
+    form: 'conceptNoteAppraisal',
+    Validate,
+    AsyncValidate
+})(withStyles(styles)(ConceptNoteAppraisal));

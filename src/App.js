@@ -40,6 +40,7 @@ class App extends Component {
   }
 
   render() {
+
     const wrapper = {
       minHeight: '100vh',
       position: 'relative'
@@ -48,7 +49,9 @@ class App extends Component {
     const content = {
       paddingBottom: this.state.height,
     }
+
     // console.log(this.props.history.location)
+
     return (
       <div style={wrapper}>
 
@@ -56,7 +59,7 @@ class App extends Component {
 
           <div style={content}>
 
-            <UserContext.Consumer>
+            {/* <UserContext.Consumer>
               {  
                 context => {
                   console.log(context.state.isWebsite);
@@ -65,7 +68,8 @@ class App extends Component {
                   
                 }
               }
-            </UserContext.Consumer>
+            </UserContext.Consumer> */}
+            <AppHeader />
 
             <Route exact path="/" component={Home} />
             <UserPrivateRoute path="/cms" component={CMSIndex} />

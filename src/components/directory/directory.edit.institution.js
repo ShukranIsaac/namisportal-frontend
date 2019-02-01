@@ -2,7 +2,11 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
+import { reduxForm } from 'redux-form';
 import RenderBootstrapField from '../forms/form.bootstrap.field';
+import AsyncValidate from '../contact/form.async-validate';
+import Validate from '../contact/email.validate';
+
 import { Divider } from '@material-ui/core';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent } from '@blueprintjs/core';
@@ -86,6 +90,7 @@ class EditDirectoryInstitution extends Component {
                         value={ directory[0].name }
                         name="name"
                         type="text"
+                        component="input"
                         onChange={ this.handleChange }
                     /><br/>
 
@@ -96,6 +101,7 @@ class EditDirectoryInstitution extends Component {
                         value={ directory[0].details.mission }
                         name="mission"
                         type="text"
+                        component="textarea"
                         multiline={true}
                         rows="1000"
                         onChange={ this.handleChange }
@@ -108,6 +114,7 @@ class EditDirectoryInstitution extends Component {
                         value={ directory[0].details.mission }
                         name="summary"
                         type="text"
+                        component="textarea"
                         multiline={true}
                         rows="1000"
                         onChange={ this.handleChange }
@@ -158,4 +165,8 @@ EditDirectoryInstitution.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(EditDirectoryInstitution);
+export default reduxForm({
+    form: 'editdirectoryInstitution',
+    Validate,
+    AsyncValidate
+})(withStyles(styles)(EditDirectoryInstitution));

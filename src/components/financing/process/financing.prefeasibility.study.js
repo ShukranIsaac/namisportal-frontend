@@ -1,8 +1,10 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-
+import { reduxForm } from 'redux-form';
 import RenderBootstrapField from '../../forms/form.bootstrap.field';
+import AsyncValidate from '../../contact/form.async-validate';
+import Validate from '../../contact/email.validate';
 import styles from '../../contact/form.styles';
 
 /**
@@ -22,6 +24,7 @@ const PrefeasibilityStudy = ({ classes, handleChange }) => {
                 defaultValue="Add Prefeasibility Study and draft business plan..."
                 name="prefeasibility_study"
                 type="text"
+                component="textarea"
                 multiline={true}
                 rows="1000"
             />
@@ -37,4 +40,8 @@ PrefeasibilityStudy.propTypes = {
     classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(PrefeasibilityStudy);
+export default reduxForm({
+    form: 'prefeasibilityStudy',
+    Validate,
+    AsyncValidate
+})(withStyles(styles)(PrefeasibilityStudy));

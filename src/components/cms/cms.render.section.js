@@ -14,6 +14,8 @@ import EditDirectoryInstitution from '../directory/directory.edit.institution';
 import CreateDirectoryInstitution from '../directory/directory.create.institution';
 import { FinancingRequestSupport } from '../financing/financing.request.support';
 import MainContentWrapper from '../MainContentWrapper';
+import { UserProfile } from '../user/user.profile';
+import { redirect } from '../user/user.redirect';
 
 const directory = [
     {
@@ -207,7 +209,17 @@ const RenderSection = ({
                 </Fragment>
             );
 
-        case 'user':
+        case 'logout':
+            
+            // Get logged in user, then removed from local storage
+            const user = UserProfile.get();
+            // console.log(props);
+            if(user !== undefined && user !== null) {
+                props.logout(user);
+                // console.log(user);
+                return redirect.to({ url: `/login` });
+            }
+
         case 'notifications':
         case 'settings':
         case 'contact':

@@ -6,10 +6,13 @@ import { withStyles } from '@material-ui/core/styles';
 
 import * as UserEventActions from '../../actions/event.action';
 import * as LibraryAction from '../../actions/index';
+import * as UserAuthAction from '../../actions/user.action';
 
 import { UserContext } from '../user/user.context';
 import CustomDrawer from './cms.custom.drawer';
 import RenderSection from './cms.render.section';
+import { UserProfile } from '../user/user.profile';
+import { redirect } from '../user/user.redirect';
 
 /**
  * @author Isaac S. Mwakabira
@@ -83,7 +86,7 @@ class CMSIndex extends Component {
         const { match, history } = this.props;
 
         // get url navigated to, and change push to the navigation bar
-        const prevUrl = `${match.url}/${link}`;
+        const prevUrl = `${match.path}/${link}`;
         if (prevUrl) {
             history.push(prevUrl);
         }
@@ -152,17 +155,23 @@ class CMSIndex extends Component {
     }
 
     render() {
-        const { classes, match } = this.props;
+        const { classes } = this.props;
         const { link } = this.state;
-        console.log(this.props.history.location);
+        // console.log(this.props.history.location);
         // console.log(`${match.url}`);
+        const user = UserProfile.get();
+        // Check if user is logged in before rendering this page
+        // else redirect to login
+        if(user === null) {
+            return redirect.to({ url: `/login` })
+        }
 
         return (
             <UserContext.Consumer>
                 {
                     (context) => {
                         
-                        context.handleUrl({ url: match.url });
+                        // context.handleUrl({ url: match.url });
 
                         return (
                             <Fragment>
@@ -215,6 +224,8 @@ const mapDispatchToProps = (dispatch) => {
         createItem : () => { dispatch(UserEventActions.create()) },
         // Library category
         fetchLibraryDocs: () => { dispatch(LibraryAction.fetchAllLibraryDocs()) },
+        // logout
+        logout: (user) => { dispatch(UserAuthAction.logout(user)) }
     };
 
 }

@@ -2,7 +2,11 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
+import { reduxForm } from 'redux-form';
 import RenderBootstrapField from '../forms/form.bootstrap.field';
+import AsyncValidate from '../contact/form.async-validate';
+import Validate from '../contact/email.validate';
+
 import { Divider } from '@material-ui/core';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent } from '@blueprintjs/core';
@@ -119,6 +123,7 @@ class CreateLibraryItem extends Component {
                         defaultValue="Edit document category..."
                         name="category"
                         type="text"
+                        component="input"
                         onChange={ this.handleChange }
                     />
 
@@ -129,6 +134,7 @@ class CreateLibraryItem extends Component {
                         defaultValue="Edit document title..."
                         name="title"
                         type="text"
+                        component="input"
                         onChange={ this.handleChange }
                     />
 
@@ -139,6 +145,7 @@ class CreateLibraryItem extends Component {
                         defaultValue="Edit document summary..."
                         name="summary"
                         type="text"
+                        component="textarea"
                         multiline="true"
                         rows="100"
                         onChange={ this.handleChange }
@@ -188,4 +195,8 @@ CreateLibraryItem.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(CreateLibraryItem);
+export default reduxForm({
+    form: 'createNewLibraryItem',
+    Validate,
+    AsyncValidate
+})(withStyles(styles)(CreateLibraryItem));

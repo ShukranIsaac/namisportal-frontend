@@ -2,7 +2,11 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
+import { reduxForm } from 'redux-form';
 import RenderBootstrapField from '../forms/form.bootstrap.field';
+import AsyncValidate from '../contact/form.async-validate';
+import Validate from '../contact/email.validate';
+
 import { Divider } from '@material-ui/core';
 import { TextEditor } from '../forms/editor';
 import ButtonControl from '../forms/buttons/button.default.control';
@@ -125,6 +129,7 @@ class EditNewsItem extends Component {
                         value={this.state.title}
                         name="title"
                         type="text"
+                        component="input"
                         onChange={ this.handleChange }
                     />
 
@@ -179,4 +184,8 @@ EditNewsItem.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(EditNewsItem);
+export default reduxForm({
+    form: 'editNewsItem',
+    Validate,
+    AsyncValidate
+})(withStyles(styles)(EditNewsItem));

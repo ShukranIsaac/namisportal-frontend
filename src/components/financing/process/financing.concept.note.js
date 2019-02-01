@@ -1,8 +1,11 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-
+import { reduxForm } from 'redux-form';
 import RenderBootstrapField from '../../forms/form.bootstrap.field';
+import AsyncValidate from '../../contact/form.async-validate';
+import Validate from '../../contact/email.validate';
+
 import styles from '../../contact/form.styles';
 // import { MuiFormFileinputField } from '../../forms/form.fileinput.field';
 
@@ -37,4 +40,8 @@ ConceptNote.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(ConceptNote);
+export default reduxForm({
+    form: `conceptNote`,
+    Validate,
+    AsyncValidate
+})(withStyles(styles)(ConceptNote));

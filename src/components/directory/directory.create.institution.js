@@ -2,12 +2,17 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
+import { reduxForm, Field } from 'redux-form';
 import RenderBootstrapField from '../forms/form.bootstrap.field';
+import AsyncValidate from '../contact/form.async-validate';
+import Validate from '../contact/email.validate';
+
 import { Divider } from '@material-ui/core';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 import { DirectoryStakeholderTypes } from './directory.stakeholder.type';
+import { ErrorField } from '../forms/form.error.field';
 
 /**
  * @author Isaac S. Mwakabira
@@ -80,65 +85,102 @@ class CreateDirectoryInstitution extends Component {
 
                     <Divider />
 
-                    <RenderBootstrapField
-                        classes={ classes }
-                        id="name"
-                        label='Company or Department Name (Legal)'
-                        defaultValue="Legal company or department name..."
-                        name="institution"
-                        type="text"
-                        onChange={ this.handleChange }
-                    />
+                    <Field name="institution" component={props => {
+                        return (
+                        <div>
+                            <RenderBootstrapField
+                            { ...this.props }
+                            props={ props }
+                            label='Company or Department Name (Legal)'
+                            defaultValue= "Legal company or department name..."
+                            name="institution"
+                            type="text"
+                            />
+                            <ErrorField props={ props } />
+                        </div>
+                        )
+                    }} />
 
-                    <RenderBootstrapField
-                        classes={ classes }
-                        id="address"
-                        label='Address'
-                        defaultValue="Physical address..."
-                        name="address"
-                        type="text"
-                        onChange={ this.handleChange }
-                    />
+                    <Field name="physicalAddress" component={props => {
+                        return (
+                        <div>
+                            <RenderBootstrapField
+                            { ...this.props }
+                            props={ props }
+                            label='Physical Address'
+                            defaultValue= "Institution physical address..."
+                            name="physicalAddress"
+                            type="text"
+                            />
+                            <ErrorField props={ props } />
+                        </div>
+                        )
+                    }} />
 
-                    <RenderBootstrapField
-                        classes={ classes }
-                        id="telephone"
-                        label='Telephone'
-                        defaultValue="Company's or department's telephone number..."
-                        name="telephone"
-                        type="phone"
-                        onChange={ this.handleChange }
-                    />
 
-                    <RenderBootstrapField
-                        classes={ classes }
-                        id="fax"
-                        label='Fax'
-                        defaultValue="Company's or department's fax number..."
-                        name="fax"
-                        type="fax"
-                        onChange={ this.handleChange }
-                    />
+                    <Field name="telephone" component={props => {
+                        return (
+                        <div>
+                            <RenderBootstrapField
+                            { ...this.props }
+                            props={ props }
+                            label='Telephone'
+                            defaultValue= "Company's or department's telephone number..."
+                            name="telephone"
+                            type="text"
+                            />
+                            <ErrorField props={ props } />
+                        </div>
+                        )
+                    }} />
+                    
+                    <Field name="fax" component={props => {
+                        return (
+                        <div>
+                            <RenderBootstrapField
+                            { ...this.props }
+                            props={ props }
+                            label='Fax'
+                            defaultValue= "Company's or department's fax number..."
+                            name="fax"
+                            type="text"
+                            />
+                            <ErrorField props={ props } />
+                        </div>
+                        )
+                    }} />
 
-                    <RenderBootstrapField
-                        classes={ classes }
-                        id="email"
-                        label='Email'
-                        defaultValue="Company's or department's email address..."
-                        name="email"
-                        type="email"
-                        onChange={ this.handleChange }
-                    />
-
-                    <RenderBootstrapField
-                        classes={ classes }
-                        id="website URL"
-                        label='Website'
-                        defaultValue="Company's or department's website..."
-                        name="website"
-                        type="text"
-                        onChange={ this.handleChange }
-                    />
+                    <Field name="email" component={props => {
+                        return (
+                        <div>
+                            <RenderBootstrapField
+                            { ...this.props }
+                            props={ props }
+                            label='Email'
+                            defaultValue= "Company's or department's email address..."
+                            name="email"
+                            type="email"
+                            />
+                            <ErrorField props={ props } />
+                        </div>
+                        )
+                    }} />
+                    
+                    <Field name="website" component={props => {
+                        return (
+                        <div>
+                            <RenderBootstrapField
+                            { ...this.props }
+                            props={ props }
+                            label='Website'
+                            defaultValue= "Company's or department's website..."
+                            name="webite"
+                            type="text"
+                            />
+                            <ErrorField props={ props } />
+                        </div>
+                        )
+                    }} />
 
                     <DirectoryStakeholderTypes 
                         classes={ classes }
@@ -177,4 +219,8 @@ CreateDirectoryInstitution.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(CreateDirectoryInstitution);
+export default reduxForm({
+    form: 'createInstitution',
+    Validate,
+    AsyncValidate
+})(withStyles(styles)(CreateDirectoryInstitution));
