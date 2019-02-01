@@ -1,11 +1,16 @@
 import React, { Fragment } from 'react';
 import FormControl from '@material-ui/core/FormControl';
-// import { Field  } from 'redux-form';
 import { InputBase, InputLabel } from '@material-ui/core';
 
+/**
+ * Material-ui customized input: bootstrap
+ * 
+ * @author Isaac S. Mwakabira
+ * 
+ */
 const RenderBootstrapField = ({ 
   classes, label, rows, 
-  defaultValue, value, name, 
+  defaultValue, name, 
   type, multiline, props
 }) => {
 
@@ -15,21 +20,6 @@ const RenderBootstrapField = ({
           <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
             {label}
           </InputLabel>
-          {/* <label className={classes.bootstrapFormLabel}>
-            { label }
-          </label> */}
-          {/* <Field 
-            name={name}
-            placeholder={defaultValue}
-            type={type}
-            value={value}
-            onChange={ (e) => onChange(e) }
-            component={component}
-            classes={{
-              root: classes.bootstrapRoot,
-              input: classes.bootstrapInput,
-            }}
-          /> */}
           <InputBase
             id={ `${name + defaultValue}` }
             name={name}

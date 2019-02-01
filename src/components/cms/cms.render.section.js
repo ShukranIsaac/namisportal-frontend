@@ -218,6 +218,8 @@ const RenderSection = ({
                 props.logout(user);
                 // console.log(user);
                 return redirect.to({ url: `/login` });
+            } else {
+                return <Fragment />
             }
 
         case 'notifications':

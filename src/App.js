@@ -19,9 +19,9 @@ import "./App.css";
 import Footer from './components/footer';
 import NewsItemDetails from './components/news/news.item.details';
 
-import AppHeader, { CMSCustomHeader } from './components/header/index';
+import AppHeader from './components/header/index';
 import CMSIndex from './components/cms';
-import { UserContext } from './components/user/user.context';
+// import { UserContext } from './components/user/user.context';
 
 class App extends Component {
 
@@ -49,8 +49,6 @@ class App extends Component {
     const content = {
       paddingBottom: this.state.height,
     }
-
-    // console.log(this.props.history.location)
 
     return (
       <div style={wrapper}>
