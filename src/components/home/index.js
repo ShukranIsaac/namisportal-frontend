@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import './home.css'
 import Footer from '../footer';
-import { UserContext } from '../user/user.context';
+import { WhichHeaderComponent } from '../which.header.component';
 
 class Home extends Component {
   
@@ -15,7 +15,7 @@ class Home extends Component {
 
   render(){
 
-    const { match } = this.props;
+    // const { match } = this.props;
     // console.log(history);
     // console.log(`${match.url}`);
 
@@ -146,25 +146,10 @@ class Home extends Component {
             </div>  
           </div>
         </div>
-        {
-          /** 
-           * Check route and render appropriate header
-           * using the context consumer
-           */
-        }
-        <UserContext.Consumer>
-          {
-            context => {
-              console.log(context.state);
-              context.handleUrl({ url: match.url });
-              
-            }
-          }
-        </UserContext.Consumer>
         <Footer/>
       </>
     );
   }
 }
 
-export default Home;
+export default (WhichHeaderComponent('app_header')(Home));

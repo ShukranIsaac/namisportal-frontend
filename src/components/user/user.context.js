@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import { UserProfile } from './user.profile';
 
 /** 
- *  Create context 
+ * Create context 
+ * 
+ * @author Isaac S. Mwakabira
  */
 export const UserContext = React.createContext();
 
 /**
- * ContextAPI
+ * Context Provider
  * 
- * Provider
+ * @author Isaac S. Mwakabira
  */
 class UserProvider extends Component {
 
@@ -19,29 +21,25 @@ class UserProvider extends Component {
         this.state = {
             user: UserProfile.get(),
             isLoggedIn: UserProfile.isAuthenticated(UserProfile.get()),
-            isWebsite: false,
-            urlMatched: null
+            isWebsite: true,
         }
 
-        this.handleUrl = this.handleUrl.bind(this);
+        this.handleComponent = this.handleComponent.bind(this);
 
     }
 
     /**
      * Handle user navigation, CMS or Website show its custom header
      */
-    handleUrl = ({ url }) => {
-        
-        // if
-        if (url !== null&&url !== undefined) {
-            Object.assign(this.state, { urlMatched: url })
+    handleComponent = ({ component }) => {
+        // console.log(component);
+        if (component !== null&&component !== undefined) {
 
-            const { urlMatched } = this.state;
-            if (urlMatched === '/cms') {
+            if (component === 'cms_custom_header') {
                 Object.assign(this.state, { isWebsite: false })
             }
             
-            if(urlMatched === '/') {
+            if(component === 'app_header') {
                 Object.assign(this.state, { isWebsite: true })
             }
         }
@@ -54,7 +52,7 @@ class UserProvider extends Component {
             <UserContext.Provider value={{ 
                 state: this.state, 
                 next: this.props,
-                handleUrl: this.handleUrl
+                handleComponent: this.handleComponent
                 }}
             >
 

@@ -13,6 +13,7 @@ import CustomDrawer from './cms.custom.drawer';
 import RenderSection from './cms.render.section';
 import { UserProfile } from '../user/user.profile';
 import { redirect } from '../user/user.redirect';
+import { WhichHeaderComponent } from '../which.header.component';
 
 /**
  * @author Isaac S. Mwakabira
@@ -157,7 +158,7 @@ class CMSIndex extends Component {
     render() {
         const { classes } = this.props;
         const { link } = this.state;
-        // console.log(this.props.history.location);
+        // console.log(this.props);
         // console.log(`${match.url}`);
         const user = UserProfile.get();
         // Check if user is logged in before rendering this page
@@ -261,4 +262,8 @@ CMSIndex.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(CMSIndex));
+export default withStyles(styles)(
+        connect(mapStateToProps, mapDispatchToProps)(
+            WhichHeaderComponent('cms_custom_header')(CMSIndex)
+        )
+    );

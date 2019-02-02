@@ -19,9 +19,9 @@ import "./App.css";
 import Footer from './components/footer';
 import NewsItemDetails from './components/news/news.item.details';
 
-import AppHeader from './components/header/index';
+import AppHeader, { CMSCustomHeader } from './components/header/index';
 import CMSIndex from './components/cms';
-// import { UserContext } from './components/user/user.context';
+import { UserContext } from './components/user/user.context';
 
 class App extends Component {
 
@@ -49,7 +49,7 @@ class App extends Component {
     const content = {
       paddingBottom: this.state.height,
     }
-
+    console.log(this.state)
     return (
       <div style={wrapper}>
 
@@ -57,17 +57,28 @@ class App extends Component {
 
           <div style={content}>
 
-            {/* <UserContext.Consumer>
+            <UserContext.Consumer>
               {  
                 context => {
                   console.log(context.state.isWebsite);
                   
-                  return context.state.isWebsite ? <AppHeader /> : <CMSCustomHeader />;
+                  switch (context.state.isWebsite) {
+                    case true:
+                      
+                      return <AppHeader />;
+
+                    case false:
+                      
+                      return <CMSCustomHeader />;
+
+                    default:
+
+                      return <AppHeader />;
+                  }
                   
                 }
               }
-            </UserContext.Consumer> */}
-            <AppHeader />
+            </UserContext.Consumer>
 
             <Route exact path="/" component={Home} />
             <UserPrivateRoute path="/cms" component={CMSIndex} />
