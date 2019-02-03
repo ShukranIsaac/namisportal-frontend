@@ -31,8 +31,8 @@ const RenderBootstrapField = ({
               root: classes.bootstrapRoot,
               input: classes.bootstrapInput,
             }}
-            multiline={multiline}
-            rowsMax={rows}
+            // multiline={multiline}
+            // rowsMax={rows}
             {...props}
           />
         </FormControl>

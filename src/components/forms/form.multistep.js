@@ -1,4 +1,5 @@
 import React, { Fragment, Component } from 'react';
+import { reduxForm } from 'redux-form';
 
 import '../../assets/css/process_tracker.css';
 
@@ -84,7 +85,7 @@ const checkNavState = (currentStep, stepsLength) => {
  * @author Isaac S. Mwakabira
  * 
  */
-export class MultiStepForm extends Component {
+class MultiStepForm extends Component {
 
     state = {
         showPreviousBtn: false,
@@ -122,7 +123,7 @@ export class MultiStepForm extends Component {
     handleKeyDown = evt => {
 
         if (evt.which === 13) {
-            this.next()
+            // this.next()
         }
 
     }
@@ -206,18 +207,22 @@ export class MultiStepForm extends Component {
      */
     save = (fields) => {
 
-        return function() {
+        return (() => {
             // fieldValues is in the initial state of the component, we are simply appending
             // to and overriding keys in `fieldValues` with the `fields` with Object.assign
             this.setState({ fieldValues: Object.assign({}, this.state.fieldValues, fields) });
-        }();
+        })();
     }
 
     /**
      * Submit to the remote datasource
      * 
      */
-    submit = () => {}
+    submit = (values) => {
+
+        console.log(values);
+        
+    }
 
     /**
      * Each case renders a specific component
@@ -240,7 +245,10 @@ export class MultiStepForm extends Component {
             case 1:
                 return (
                     <Fragment>
-                        <ConceptNoteAppraisal next={ this.next } />
+                        <ConceptNoteAppraisal 
+                            next={ this.next }
+                            handleChange={ this.handleChange }
+                        />
                     </Fragment>
                 );
 
@@ -302,15 +310,19 @@ export class MultiStepForm extends Component {
      * renders this component
      */
     render () {
+        
+        const { handleSubmit } = this.props;
 
-      return (
+        return (
             <div onKeyDown={this.handleKeyDown}>
 
                 <ol className='progtrckr'> {this.renderSteps()} </ol>
 
                 <div className='container'>
 
-                    {this.renderComponent(this.state.compState)}
+                    <form onSubmit={ handleSubmit(values => this.handleSubmit(values)) }>
+                        {this.renderComponent(this.state.compState)}
+                    </form>
 
                     <div style={this.props.showNavigation ? {} : { display: 'none' }}>
 
@@ -349,3 +361,7 @@ export class MultiStepForm extends Component {
 MultiStepForm.defaultProps = {
     showNavigation: true
 }
+
+export default reduxForm({
+    form: 'financing',
+})(MultiStepForm);

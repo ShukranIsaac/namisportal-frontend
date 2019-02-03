@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Field } from 'redux-form';
 import { FileInput } from '@blueprintjs/core';
 import { Button } from '@material-ui/core';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
@@ -27,17 +28,30 @@ export const MuiFormFileinputField = ({
 
     return (
         <Fragment>
-            <Button variant="contained" color="default" className={classes.button} component="label">
-                { placeholder }
-                <input 
-                    id={id}
-                    type={type} 
-                    disabled={disabled}
-                    style={{ display: "none" }} 
-                    onInput={ (e) => handleInputChange(e) }
-                />
-                <CloudUploadIcon className={classes.rightIcon} />
-            </Button>
+            <Field
+                name={ placeholder }
+                component={ input => {
+                    return (
+                        <Button 
+                            variant="contained" 
+                            color="default" 
+                            className={classes.button} 
+                            component="label"
+                        >
+                            { placeholder }
+                            <input 
+                                id={id}
+                                type={type} 
+                                disabled={disabled}
+                                style={{ display: "none" }} 
+                                onInput={ (e) => handleInputChange(e) }
+                                { ...input }
+                            />
+                            <CloudUploadIcon className={classes.rightIcon} />
+                        </Button>
+                    );
+                }}
+            />
         </Fragment>
     );
 

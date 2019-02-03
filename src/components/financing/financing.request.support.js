@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import { MultiStepForm } from '../forms/form.multistep';
+import MultiStepForm from '../forms/form.multistep';
 
 /**
  * A multi-step form component for the user to fill when applying or 

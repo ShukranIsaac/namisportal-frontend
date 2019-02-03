@@ -21,7 +21,7 @@ export const CMSCustomHeader = () => {
                     </div>
                     <div className="collapse navbar-collapse" id="myNavbar">
                         <ul className="nav navbar-nav navbar-right">
-                            <li className="active">
+                            {/* <li className="active">
                                 <Link to="/">
                                     <Button className="bp3-minimal" icon="home" text="Home" />
                                 </Link>
@@ -31,7 +31,7 @@ export const CMSCustomHeader = () => {
                                 <Link to="/cms">
                                     <Button className="bp3-minimal" icon="user" />
                                 </Link>
-                            </li>
+                            </li> */}
 
                             {/* <li>
                                 <Button className="bp3-minimal" icon="notifications" />
