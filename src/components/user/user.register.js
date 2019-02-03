@@ -47,7 +47,7 @@ class UserRegistration extends Component {
     }
 
     handleChange = (event) => {
-
+      // console.log(event.target.name)
       this.setState({
         [event.target.name]: event.target !== 'checked' ? event.target.value : event.target.checked 
       });
@@ -139,7 +139,7 @@ class UserRegistration extends Component {
                     <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
                       <h3>Stakeholder Account</h3>
                     </InputLabel>
-                    <CompanyProfile props={this.props} state={this.state} />
+                    <CompanyProfile props={this.props} state={this.state} handleChange={ this.handleChange } />
                   </Box>
                 </Flex>
 

@@ -4,8 +4,6 @@ import { reduxForm, /* Field */ } from 'redux-form';
 import { withStyles } from '@material-ui/core/styles';
 import green from '@material-ui/core/colors/green';
 import FormGroup from '@material-ui/core/FormGroup';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
@@ -18,6 +16,7 @@ import SideBarWrapper from '../SideBarWrapper';
 import './grid.css';
 import SearchInputControl from '../forms/search.form.field';
 import { red, blue, yellow, grey } from '@material-ui/core/colors';
+import { FormCheckboxControl } from '../forms/form.checkbox.field';
 
 /**
  *  Side bar, renders gis sidebar with form filters.
@@ -181,28 +180,6 @@ class GridSideBar extends Component {
 
   }
 
-  checkBoxControl = ({ name, value, isChecked, classes }) => {
-
-    return <>
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={ isChecked }
-            onChange={ (e) => { this.props.onChecked(e) } }
-            value={ value }
-            color="primary"
-            name={ name }
-            classes={{
-              root: classes.root,
-              checked: classes.checked,
-            }}
-          />
-        }
-        label={ value }
-      />
-    </>
-  }
-
   legendMarkerIcon = (color) => {
 
     return (
@@ -260,26 +237,23 @@ class GridSideBar extends Component {
 
         <FormGroup row className={classes.margin}>
 
-          {
-             this.checkBoxControl({
-               name: 'marep_center',
-               value: 'Electrified(Marep)',
-               isChecked: this.props.marep_center,
-               classes: classes
-             })
-
-          }
+          <FormCheckboxControl 
+            name='marep_center' 
+            value='Electrified(Marep)' 
+            isChecked={ this.props.marep_center }
+            classes={ classes }
+            handleChange={ (e) => { this.props.onChecked(e) } }
+          />
 
           { this.legendMarkerIcon(classes.marep) }
 
-          {
-             this.checkBoxControl({
-               name: 'to_be_electrified',
-               value: 'To be electrified',
-               isChecked: this.props.to_be_electrified,
-               classes: classes
-             })
-          }
+          <FormCheckboxControl
+            name='to_be_electrified'
+            value='To be electrified'
+            isChecked={ this.props.to_be_electrified }
+            classes={ classes }
+            handleChange={ (e) => { this.props.onChecked(e) } }
+          />
 
           { this.legendMarkerIcon(classes.to_be_electrified) }
 
@@ -289,14 +263,13 @@ class GridSideBar extends Component {
 
         <FormGroup row key="meters" className={classes.margin}>
 
-          {
-             this.checkBoxControl({
-               name: 'meters_checked',
-               value: 'Meters',
-               isChecked: this.props.meters_checked,
-               classes: classes
-             })
-          }
+          <FormCheckboxControl
+            name='meters_checked'
+            value='Meters'
+            isChecked={ this.props.meters_checked }
+            classes={ classes }
+            handleChange={ (e) => { this.props.onChecked(e) } }
+          />
 
           { this.legendMarkerIcon(classes.meters) }
 
@@ -309,25 +282,23 @@ class GridSideBar extends Component {
           <FormLabel component="legend"><b>Mini Grids</b></FormLabel>
           <FormGroup row key="mini_hydros" className={classes.margin}>
 
-            {
-              this.checkBoxControl({
-                name: 'existing',
-                value: 'Existing',
-                isChecked: this.props.checked_existing,
-                classes: classes
-              })
-            }
+            <FormCheckboxControl
+              name='existing'
+              value='Existing'
+              isChecked={ this.props.checked_existing }
+              classes={ classes }
+              handleChange={ (e) => { this.props.onChecked(e) } }
+            />
 
             { this.legendMarkerIcon(classes.existing) }
 
-            {
-              this.checkBoxControl({
-                name: 'potential',
-                value: 'Potential',
-                isChecked: this.props.checked_potential,
-                classes: classes
-              })
-            }
+            <FormCheckboxControl
+              name='potential'
+              value='Potential'
+              isChecked={ this.props.checked_potential }
+              classes={ classes }
+              handleChange={ (e) => { this.props.onChecked(e) } }
+            />
 
             { this.legendMarkerIcon(classes.potential) }
 
@@ -336,25 +307,23 @@ class GridSideBar extends Component {
           <FormLabel component="legend"><b>Distribution Lines</b></FormLabel>
           <FormGroup row key="distribution_lines" className={classes.margin}>
             
-            {
-              this.checkBoxControl({
-                name: 'distribution_lines',
-                value: '33/11 kV Lines',
-                isChecked: this.props.distribution_lines,
-                classes: classes
-              })
-            }
+            <FormCheckboxControl
+              name='distribution_lines'
+              value='33kV Lines'
+              isChecked={ this.props.distribution_lines }
+              classes={ classes }
+              handleChange={ (e) => { this.props.onChecked(e) } }
+            />
 
             { this.legendLineIcon(classes.line_33_s) }
 
-            {
-              this.checkBoxControl({
-                name: 'proposed_distr_lines',
-                value: 'Proposed Lines',
-                isChecked: this.props.proposed_distr_lines,
-                classes: classes
-              })
-            }
+            <FormCheckboxControl
+              name='proposed_distr_lines'
+              value='Proposed Lines'
+              isChecked={ this.props.proposed_distr_lines }
+              classes={ classes }
+              handleChange={ (e) => { this.props.onChecked(e) } }
+            />
 
             { this.legendLineIcon(classes.proposed) }
 
@@ -363,25 +332,23 @@ class GridSideBar extends Component {
           <FormLabel component="legend"><b>Transformers</b></FormLabel>
           <FormGroup row key="transformers" className={classes.margin}>
             
-            {
-              this.checkBoxControl({
-                name: 'ground_transformers',
-                value: 'Ground',
-                isChecked: this.props.ground_transformers,
-                classes: classes
-              })
-            }
+            <FormCheckboxControl
+              name='ground_transformers'
+              value='Ground'
+              isChecked={ this.props.ground_transformers }
+              classes={ classes }
+              handleChange={ (e) => { this.props.onChecked(e) } }
+            />
 
             { this.legendMarkerIcon(classes.ground) }
 
-            {
-              this.checkBoxControl({
-                name: 'up_transformers',
-                value: 'Overhead',
-                isChecked: this.props.up_transformers,
-                classes: classes
-              })
-            }
+            <FormCheckboxControl
+              name='up_transformers'
+              value='Overhead'
+              isChecked={ this.props.up_transformers }
+              classes={ classes }
+              handleChange={ (e) => { this.props.onChecked(e) } }
+            />
 
             { this.legendMarkerIcon(classes.overhead) }
 

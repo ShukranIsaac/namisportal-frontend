@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Field } from 'redux-form';
 import RenderBootstrapField from '../forms/form.bootstrap.field';
 import { ErrorField } from '../forms/form.error.field';
@@ -8,10 +8,10 @@ import { DirectoryStakeholderTypes } from '../directory/directory.stakeholder.ty
  * Create company profile
  * @author Isaac S. Mwakabira
  */
-export const CompanyProfile = ({ props, state }) => {
-
+export const CompanyProfile = ({ props, state, handleChange }) => {
+    
     return (
-        <>
+        <Fragment>
           <div>
             <Field name="companyName" component={input => {   
               return (
@@ -115,9 +115,14 @@ export const CompanyProfile = ({ props, state }) => {
             }} />
           </div>
           <div>
-            <DirectoryStakeholderTypes classes={props.classes} handleChange={ state.handleChange } { ...state } />
+            <DirectoryStakeholderTypes 
+              classes={props.classes} 
+              handleChange={ handleChange }
+              { ...state } 
+              { ...props }
+            />
           </div>
-        </>
+        </Fragment>
     );
     
 

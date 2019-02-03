@@ -104,12 +104,16 @@ class GIS extends Component {
             if (district !== undefined && district !== null
               && district.trim() !== '' && district !== districtDefault) {
 
-                fetchMeters(district);
+                const { district } = this.props;
+
+                fetchMeters(district._id);
 
             } else if (region !== undefined && region !== null 
               && region.trim() !== ''&& region !== regionDefault) {
 
-                fetchMeters(region);
+                const { region } = this.props;
+
+                fetchMeters(region._id);
 
             } else {
 
@@ -204,7 +208,7 @@ class GIS extends Component {
     } = this.props;
 
     const { isLoading } = this.state;
-
+    // console.log(this.props.m_centers);
     /**
      * Show progress loader if isLoading is true
      * 

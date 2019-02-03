@@ -45,7 +45,6 @@ class UserLogin extends Component {
      * On event change, get field name and value, set state
      */
     handleChange = (event) => {
-    console.log(event);
 
       this.setState({[event.target.name]: event.target.value});
 

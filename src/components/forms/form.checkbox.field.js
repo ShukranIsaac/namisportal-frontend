@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { FormControlLabel, Checkbox } from '@material-ui/core';
 
 /**
@@ -14,27 +14,32 @@ import { FormControlLabel, Checkbox } from '@material-ui/core';
  * @returns {FormControlLabel} checkbox
  */
 export const FormCheckboxControl = ({ 
+    classes,
     color = 'primary', 
     value, 
+    name,
     checked, 
     label, 
     handleChange 
 }) => {
 
     return (
-        <Fragment>
-            <FormControlLabel 
-                control={
-                    <Checkbox 
-                        checked={ checked }
-                        onChange={ (e) => handleChange(e) }
-                        value={ value }
-                        color={ color }
-                    />
-                }
-                label={ label }
-            />
-        </Fragment>
+        <FormControlLabel 
+            control={
+                <Checkbox 
+                    checked={ checked }
+                    onChange={ (e) => handleChange(e) }
+                    value={ value }
+                    color={ color } 
+                    name={ name }
+                    classes={{
+                        root: classes.root,
+                        checked: classes.checked,
+                    }}
+                />
+            }
+            label={ value }
+        />
     );
 
 }
