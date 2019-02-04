@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from "prop-types";
+import { withRouter } from "react-router";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Home from './components/home';
@@ -21,6 +23,7 @@ import NewsItemDetails from './components/news/news.item.details';
 
 import AppHeader from './components/header/index';
 import CMSIndex from './components/cms';
+import store from './store';
 
 class App extends Component {
 
@@ -28,6 +31,12 @@ class App extends Component {
     super()
     this.state = {height: 0}
   }
+
+  static propTypes = {
+    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
+  };
 
   componentDidMount() {
     const height = document.getElementById('footer').clientHeight;
@@ -43,7 +52,7 @@ class App extends Component {
     const content = {
       paddingBottom: this.state.height,
     }
-
+    console.log(store.getState())
     return (
       <div style={wrapper}>
 
@@ -79,4 +88,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);

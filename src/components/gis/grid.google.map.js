@@ -269,9 +269,9 @@ class MinGridMap extends Component {
     return (
       <>
         <CustomGoogleMap
-          googleMapURL={google} loadingElement={<div style={{ height: `100%` }} />}
-          containerElement={<div id="map-canvas" style={{ height: `900px` }} />}
-          mapElement={<div id="map" style={{ height: `100%` }} />}
+          googleMapURL={google} loadingElement={<div style={{ height: `900px`, width: '100%', display: 'flex', flexFlow: 'row nowrap', justifyContent: 'center' }} />}
+          containerElement={<div id="map-canvas" style={{ width: '100%', marginLeft: 0 }} ></div>}
+          mapElement={<div id="map" style={{ height: `900px` }} />}
           onDistrictChanged={this.renderDistrictPolygon(this.props)}
           onRegionChanged={this.renderRegionPolygon(this.props)}
           onMarepCenter ={this.renderDistrictMarepCenters(this.props)}

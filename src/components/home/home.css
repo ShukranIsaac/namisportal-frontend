@@ -9,21 +9,20 @@
 }
 .landing-info {
     background: #15B371;
-    padding: 20px;
+    padding: 4em 0;
+}
+
+.app-sections {
+    padding: 4em 0;
 }
 .top-card{
-    padding: 3%;
-}
-.card-container{
-    padding:30px;
-}
-.card {
-    padding: 35px;
-    background:#fff;
-    box-shadow:0 20px 50px rgba(0,0,0,.1);
-    border-radius:10px;
-    transition:0.5s;
+    padding: 3em;
 }
 .card:hover {
-    box-shadow:0 30px 70px rgba(0,0,0,.2);
+    box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.15);
+    
+}
+
+.card:hover a{
+    text-decoration: none
 }

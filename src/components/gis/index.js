@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
+
+
+
 import MinGridMap from './grid.google.map';
 import GridSideBar from './grid.sidebar';
 
@@ -124,29 +127,33 @@ class GIS extends Component {
       <>
         <div className={classes.root}>
 
+        
+        <main>
           <GridSideBar
               {...this.state} onChange={this.handleChange}
               onChecked={this.handleChecked} gis_filters={gis_filters}
           />
-
-          <MinGridMap
-              {...this.state}
-              onChange={this.handleChange}
-              onChecked={this.handleChecked}
-              onPlaceSearch={this.handlePlaceSearch}
-              r_coordinates={this.props.region}
-              d_coordinates={this.props.district}
-              centroids={this.props.centroids}
-              meters={this.state.meters_checked ? this.props.meters : null}
-              m_centers={this.props.m_centers}
-              polyline={this.props.distr_lines}
-          />
-
+          </main>
+          <main style={{maxWidth: '100%'}}>
+            <MinGridMap
+                {...this.state}
+                onChange={this.handleChange}
+                onChecked={this.handleChecked}
+                onPlaceSearch={this.handlePlaceSearch}
+                r_coordinates={this.props.region}
+                d_coordinates={this.props.district}
+                centroids={this.props.centroids}
+                meters={this.state.meters_checked ? this.props.meters : null}
+                m_centers={this.props.m_centers}
+                polyline={this.props.distr_lines}
+            />
+          </main>
         </div>
       </>
     );
   }
 }
+
 
 const styles = theme => ({
   root: {
@@ -156,7 +163,15 @@ const styles = theme => ({
     zIndex: 1,
     overflow: 'hidden',
     position: 'relative',
-    display: 'flex',
+    display: 'grid',
+    gridTemplateColumns: '20% 80%'
+  },
+  bar: {
+    justifyContent: 'flex-start' ,
+    backgroundColor: theme.palette.background.default
+  },
+  content: {
+    justifyContent: 'flex-end'
   }
 });
 

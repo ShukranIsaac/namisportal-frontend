@@ -11,6 +11,9 @@ import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormLabel from '@material-ui/core/FormLabel';
+import { Container, Col, Row} from 'reactstrap'
+
+import Drawer from '@material-ui/core/Drawer';
 
 import Icon from '@material-ui/core/Icon';
 // import red from '@material-ui/core/colors/red';
@@ -40,7 +43,8 @@ class GridSideBar extends Component {
   }
 
   renderRegions = ({gis_filters}) => {
-
+    
+    
     return gis_filters.map(({name}, key) => {
 
       return <>
@@ -167,111 +171,143 @@ class GridSideBar extends Component {
     const { classes } = this.props;
 
     return (
-      <div>
-
-        { this.searchInputControl(this.props)}
-
-        <div className={classes.grow} />
-
-        <FormControl className={classes.formControl} key="region">
-
-          {
-            this.selectInputControl({
-              helperText: "Add region filter",
-              name: "Region"
-            })
-          }
-
-        </FormControl>
-
-        <FormControl className={classes.formControl} key="district">
-
-          {
-            this.selectInputControl({
-              helperText: "Add district filter",
-              name: "District"
-            })
-          }
-
-        </FormControl>
+      <Drawer
+        className={classes.drawer}
+        variant="permanent"
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+        anchor="left"
+        >
 
         <div className={classes.grow} />
+          <Container>
+            <Row>
+              <Col lg='12'>
+                <FormControl className={classes.formControl} key="region">
 
-        <FormGroup row>
+                  {
+                    this.selectInputControl({
+                      helperText: "Add region filter",
+                      name: "Region"
+                    })
+                  }
 
-          {
-             this.checkBoxControl({
-               name: 'marep_center',
-               value: 'Marep Centers',
-               isChecked: this.props.marep_center,
-               classes: classes
-             })
-          }
+                </FormControl>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg='12'>
+              <FormControl className={classes.formControl} key="district">
 
-          {
-             this.checkBoxControl({
-               name: 'to_be_electrified',
-               value: 'To be electrified',
-               isChecked: this.props.to_be_electrified,
-               classes: classes
-             })
-          }
+              {
+                this.selectInputControl({
+                  helperText: "Add district filter",
+                  name: "District"
+                })
+              }
 
-        </FormGroup>
+              </FormControl>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg='12'>
+                <div className={classes.grow} />
 
-        <div className={classes.grow} />
+                <FormGroup row>
 
-        <FormGroup row key="meters">
+                  {
+                    this.checkBoxControl({
+                      name: 'marep_center',
+                      value: 'Marep Centers',
+                      isChecked: this.props.marep_center,
+                      classes: classes
+                    })
+                  }
 
-          {
-             this.checkBoxControl({
-               name: 'meters_checked',
-               value: 'Meters',
-               isChecked: this.props.meters_checked,
-               classes: classes
-             })
-          }
+                  {
+                    this.checkBoxControl({
+                      name: 'to_be_electrified',
+                      value: 'To be electrified',
+                      isChecked: this.props.to_be_electrified,
+                      classes: classes
+                    })
+                  }
 
-        </FormGroup>
+                </FormGroup>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg='12'>
+                <div className={classes.grow} />
 
-        <div className={classes.grow} />
+                <FormGroup row key="meters">
 
-        <FormGroup row key="distribution_lines">
+                  {
+                    this.checkBoxControl({
+                      name: 'meters_checked',
+                      value: 'Meters',
+                      isChecked: this.props.meters_checked,
+                      classes: classes
+                    })
+                  }
 
-          {
-             this.checkBoxControl({
-               name: 'distribution_lines',
-               value: 'Distribution Lines',
-               isChecked: this.props.distribution_lines,
-               classes: classes
-             })
-          }
+                </FormGroup>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg='12'>
+                <div className={classes.grow} />
 
-        </FormGroup>
+                <FormGroup row key="distribution_lines">
 
-        <div className={classes.grow} />
+                  {
+                    this.checkBoxControl({
+                      name: 'distribution_lines',
+                      value: 'Distribution Lines',
+                      isChecked: this.props.distribution_lines,
+                      classes: classes
+                    })
+                  }
 
-        <div className={classes.legend}>
+                </FormGroup>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg='12'>
+                <div className={classes.grow} />
+                <div className={classes.legend}>
 
-          <FormLabel component="legend">Legend (Key)</FormLabel>
-          
-          <FormGroup row>
+                  <FormLabel component="legend">Legend (Key)</FormLabel>
+                  
+                  <FormGroup row>
 
-            <Icon>colour-helper</Icon>
+                    <Icon>colour-helper</Icon>
 
-          </FormGroup>
+                  </FormGroup>
 
-        </div>
-      </div>
+                </div>
+              </Col>
+            </Row>
+          </Container>
+        
+
+       
+
+        
+
+        
+
+        
+
+        
+      </Drawer>
     );
   }
 }
 
+const drawerWidth = 270;
 const styles = theme => ({
-  drawerPaper: {
-    position: 'relative',
-    width: `100%`,
-  },
   root: {
     color: green[600],
     '&$checked': {
@@ -289,7 +325,19 @@ const styles = theme => ({
   },
   legend: {
     marginTop: theme.spacing.unit * 3,
-  }
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+    top: 'unset',
+    flex: 'unset',
+    display: 'unset',
+    flexDirection: 'unset',
+  },
+  toolbar: theme.mixins.toolbar,
 });
 
 GridSideBar.propTypes = {

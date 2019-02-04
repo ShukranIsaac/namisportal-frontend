@@ -33,28 +33,13 @@ h5 a:hover, nav a:hover {
   text-decoration: none;
 }
 
-@media (min-width: 768px){
-  main {
-    -ms-flex: 0 0 80%;
-    flex: 0 0 80%;
-    max-width: 80%;
-  }
-  aside {
-    -ms-flex: 0 0 20%;
-    flex: 0 0 20%;
-    max-width: 20%;
-  }
+main {
+  max-width: 100%;
 }
 
-@media (min-width: 576px){
-  main {
-    -ms-flex: 0 0 80%;
-    flex: 0 0 80%;
-    max-width: 80%;
-  }
-  aside {
-    -ms-flex: 0 0 20%;
-    flex: 0 0 20%;
-    max-width: 20%;
-  }
+.MuiDrawer-paper-14{
+  top: unset;
+  flex: unset;
+  display: unset;
+  flex-direction: unset
 }

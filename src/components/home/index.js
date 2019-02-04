@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Elevation, Button, Card } from "@blueprintjs/core";
 import { Link } from "react-router-dom";
-import { Flex, Box } from 'reflexbox';
+import { Container, Row, Col } from 'reactstrap';
 
 import './home.css'
 import Footer from '../footer';
@@ -15,29 +15,35 @@ class Home extends Component {
     return (
       <>
         <div className='landing-info'>
-          <div className = "row top-card">
+        <Container>
+          <Row>
+            <Col sm='12' md='12' lg={{ size: 8, offset: 2 }}>
             <div className="card">
-              <div className="card-body">
-                  <h4 className="heading"><a href="/">Information for Mini-Grid Developers</a></h4>
-                  <p>
-                    An information portal is a customized website that immerses information from a wide
-                    range of sources in a consistent and uniform manner. For this purpose, UNDP and
-                    Department of Energy Affairs (DoEA) seek to establish an information clearing house
-                    portal to make available information that includes: current electricity grid network,
-                    planned and known rural electrification efforts of Malawi Rural Electrification Project
-                    (MAREP); existing off-grid systems; population centres; renewable energy resource
-                    information; infrastructure; location of government public service institutions; location
-                    of other rural infrastructure, land use, environmental and social issues.
-                  </p>
+                <div className="card-body">
+                    <h4 className="heading"><a href="/">Information for Mini-Grid Developers</a></h4>
+                    <p>
+                      An information portal is a customized website that immerses information from a wide
+                      range of sources in a consistent and uniform manner. For this purpose, UNDP and
+                      Department of Energy Affairs (DoEA) seek to establish an information clearing house
+                      portal to make available information that includes: current electricity grid network,
+                      planned and known rural electrification efforts of Malawi Rural Electrification Project
+                      (MAREP); existing off-grid systems; population centres; renewable energy resource
+                      information; infrastructure; location of government public service institutions; location
+                      of other rural infrastructure, land use, environmental and social issues.
+                    </p>
+                </div>
               </div>
-            </div>
-          </div>
+            </Col>
+          
+          </Row>
+        </Container>
         </div>
-        {/* <div style={containerStyle}> */}
-        <div className = "card-container">
-          <div className = "row">
-            <div className="col-sm-4">
-                <div className="card">
+        
+        <div className='app-sections'>
+        <Container>
+          <Row>
+            <Col sm='12' md='6' lg='4'>
+              <div className="card">
                     <div className="card-body">
                       <h4 ><a className="heading" href="/licencing">Licensing</a></h4>
                       <p>
@@ -51,24 +57,24 @@ class Home extends Component {
                         </Link>
                     </div>
                 </div>
-            </div>
-            <div className="col-sm-4">
-                <div className="card">
-                    <div className="card-body">
-                    <h4><a className="heading" href="/financing">Financing</a></h4>
-                    <p>
-                      Mini-Grid development in Tanzania may receive fincancing aid from REA.
-                      The required documentation and an overview of the procedure is
-                      presented in a dedicated relevant section of the Mini-Grids Information Portal.
-                    </p>
-                      <Link to="financing">
-                        <Button intent="primary">Financing Section</Button>
-                      </Link>
-                      
-                    </div>
-                </div>
-            </div>
-            <div className="col-sm-4">
+            </Col>
+            <Col sm='12' md='6' lg='4'>
+              <div className="card">
+                  <div className="card-body">
+                  <h4><a className="heading" href="/financing">Financing</a></h4>
+                  <p>
+                    Mini-Grid development in Tanzania may receive fincancing aid from REA.
+                    The required documentation and an overview of the procedure is
+                    presented in a dedicated relevant section of the Mini-Grids Information Portal.
+                  </p>
+                    <Link to="financing">
+                      <Button intent="primary">Financing Section</Button>
+                    </Link>
+                    
+                  </div>
+              </div>
+            </Col>
+            <Col sm='12' md='6' lg='4'>
                 <div className="card">
                     <div className="card-body">
                       <h4><a className="heading" href="/library">Library</a></h4>
@@ -83,11 +89,8 @@ class Home extends Component {
                         </Link>
                     </div>
                 </div>
-            </div>
-          </div>
-          <br></br>
-          <div className = "row">
-            <div className="col-sm-4">
+            </Col>
+            <Col sm='12' md='6' lg='4'>
                 <div className="card">
                     <div className="card-body">
                     <h4><a className="heading" href="/gis">GIS</a></h4>
@@ -101,9 +104,9 @@ class Home extends Component {
                       </Link>
                     </div>
                 </div>
-            </div> 
-            <div className="col-sm-4">
-                <div className="card">
+            </Col>
+            <Col sm='12' md='6' lg='4'>
+            <div className="card">
                     <div className="card-body">
                     <h4><a className="heading" href="tasf">TASF</a></h4>
                     <p>
@@ -116,9 +119,9 @@ class Home extends Component {
                       </Link>
                     </div>
                 </div>
-            </div> 
-            <div className="col-sm-4">
-                <div className="card">
+            </Col>
+            <Col sm='12' md='6' lg='4'>
+                 <div className="card">
                     <div className="card-body">
                     <h4><a className="heading" href="/directory">Directory</a></h4>
                     <p>
@@ -131,9 +134,12 @@ class Home extends Component {
                       </Link>
                     </div>
                 </div>
-            </div>  
-          </div>
+            </Col>
+          </Row>
+        </Container>
+        
         </div>
+
         <Footer/>
       </>
     );
