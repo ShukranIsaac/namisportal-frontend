@@ -39,8 +39,11 @@ class App extends Component {
   };
 
   componentDidMount() {
-    const height = document.getElementById('footer').clientHeight;
-    this.setState({height})
+    if (document.getElementById('footer') !== null){
+      const height = document.getElementById('footer').clientHeight;
+      this.setState({height})
+    }
+    
   }
 
   render() {
@@ -79,8 +82,6 @@ class App extends Component {
           </div>
 
         </Router>
-
-        <Footer/>
 
       </div>
     );
