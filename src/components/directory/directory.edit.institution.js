@@ -2,7 +2,7 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import { reduxForm } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import RenderBootstrapField from '../forms/form.bootstrap.field';
 import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
@@ -70,7 +70,7 @@ class EditDirectoryInstitution extends Component {
 
                     <ButtonControl 
                         intent={Intent.NONE} 
-                        value="New Institution"
+                        value="New Stakeholder"
                         name="create"
                         handleClick={e => handleClick(e) }
                     />
@@ -83,41 +83,64 @@ class EditDirectoryInstitution extends Component {
 
                     <Divider />
 
-                    <RenderBootstrapField
-                        classes={ classes }
-                        label='Institution Name'
-                        defaultValue="Edit Institution Name..."
-                        value={ directory[0].name }
-                        name="name"
-                        type="text"
-                        component="input"
-                        onChange={ this.handleChange }
-                    /><br/>
+                    <Field
+                        name='stakeholder_name'
+                        component={ input => {
+                            return (
+                                <RenderBootstrapField
+                                    classes={ classes }
+                                    label='Stakeholders Name'
+                                    defaultValue="Edit stakeholder name..."
+                                    value={ directory[0].name }
+                                    name="stakeholder_name"
+                                    type="text"
+                                    onChange={ this.handleChange }
+                                    props={ input }
+                                />
+                            );
+                        }}
+                    />
+                    <br/>
 
-                    <RenderBootstrapField
-                        classes={ classes }
-                        label='Mission Statement'
-                        defaultValue="Edit mission statement..."
-                        value={ directory[0].details.mission }
-                        name="mission"
-                        type="text"
-                        component="textarea"
-                        multiline={true}
-                        rows="1000"
-                        onChange={ this.handleChange }
-                    /><br/>
+                    <Field
+                        name='mission'
+                        component={ input => {
+                            return (
+                                <RenderBootstrapField
+                                    classes={ classes }
+                                    label='Mission Statement'
+                                    defaultValue="Edit mission statement..."
+                                    value={ directory[0].details.mission }
+                                    name="mission"
+                                    type="text"
+                                    multiline={true}
+                                    rows="10"
+                                    onChange={ this.handleChange }
+                                    props={ input }
+                                />
+                            );
+                        }}
+                    />
+                    <br/>
 
-                    <RenderBootstrapField
-                        classes={ classes }
-                        label={ directory[0].name }
-                        defaultValue="Edit institution summary..."
-                        value={ directory[0].details.mission }
-                        name="summary"
-                        type="text"
-                        component="textarea"
-                        multiline={true}
-                        rows="1000"
-                        onChange={ this.handleChange }
+                    <Field
+                        name='summary'
+                        component={ input => {
+                            return (
+                                <RenderBootstrapField
+                                    classes={ classes }
+                                    label={ directory[0].name }
+                                    defaultValue="Edit stakeholders summary..."
+                                    value={ directory[0].details.mission }
+                                    name="summary"
+                                    type="text"
+                                    multiline={true}
+                                    rows="10"
+                                    onChange={ this.handleChange }
+                                    props={ input }
+                                />
+                            );
+                        }}
                     />
 
                     <div className={ classes.margin } />

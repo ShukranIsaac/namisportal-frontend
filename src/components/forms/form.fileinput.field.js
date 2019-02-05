@@ -29,7 +29,8 @@ export const MuiFormFileinputField = ({
     return (
         <Fragment>
             <Field
-                name={ placeholder }
+                name='supporting_documents'
+                type={ type }
                 component={ input => {
                     return (
                         <Button 
@@ -40,6 +41,7 @@ export const MuiFormFileinputField = ({
                         >
                             { placeholder }
                             <input 
+                                name='supporting_documents'
                                 id={id}
                                 type={type} 
                                 disabled={disabled}

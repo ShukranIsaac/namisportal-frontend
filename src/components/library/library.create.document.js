@@ -2,7 +2,7 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import { reduxForm } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import RenderBootstrapField from '../forms/form.bootstrap.field';
 import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
@@ -13,13 +13,6 @@ import { Intent } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 import { MuiFormFileinputField } from '../forms/form.fileinput.field';
 // import FormSelectMultiple from '../forms/form.multiple.options.field';
-
-// const options = [
-//     'Financing Institution', 
-//     'Local Authority', 
-//     'State Authority or Government Agency',
-//     'Non-Governmental Organisation(N.G.O)'
-// ]
 
 /**
  * @author Isaac S. Mwakabira
@@ -76,7 +69,7 @@ class CreateLibraryItem extends Component {
 
     };
 
-    handleSubmit = (event) => {
+    handleSubmit = (event, values) => {
 		/**
 		 *  disabling browser default behavior like page refresh, etc 
 		 */
@@ -88,12 +81,12 @@ class CreateLibraryItem extends Component {
 
         // const { document } = this.state;
 
-        const { classes, handleClick, handleChange } = this.props;
+        const { classes, handleClick, handleChange, handleSubmit } = this.props;
         
         return (
             <Fragment>
 
-                <form onSubmit = { this.handleSubmit }>
+                <form onSubmit = { (e) => handleSubmit(values => this.handleSubmit(e, values)) }>
 
                     <ButtonControl 
                         intent={Intent.NONE} 
@@ -116,39 +109,60 @@ class CreateLibraryItem extends Component {
                         options={options}
                     /> */}
 
-                    <RenderBootstrapField
-                        classes={ classes }
-                        id="category"
-                        label='Category'
-                        defaultValue="Edit document category..."
-                        name="category"
-                        type="text"
-                        component="input"
-                        onChange={ this.handleChange }
+                    <Field 
+                        name='category'
+                        component={ input => {
+                            return (
+                                <RenderBootstrapField
+                                    classes={ classes }
+                                    id="category"
+                                    label='Category'
+                                    defaultValue="Edit document category..."
+                                    name="category"
+                                    type="text"
+                                    onChange={ this.handleChange }
+                                    props={ input }
+                                />
+                            );
+                        }}
                     />
 
-                    <RenderBootstrapField
-                        classes={ classes }
-                        id="title"
-                        label='Title'
-                        defaultValue="Edit document title..."
-                        name="title"
-                        type="text"
-                        component="input"
-                        onChange={ this.handleChange }
+                    <Field
+                        name='title'
+                        component={ input => {
+                            return (
+                                <RenderBootstrapField
+                                    classes={ classes }
+                                    id="title"
+                                    label='Title'
+                                    defaultValue="Edit document title..."
+                                    name="title"
+                                    type="text"
+                                    onChange={ this.handleChange }
+                                    props={ input }
+                                />
+                            );
+                        }}
                     />
 
-                    <RenderBootstrapField
-                        classes={ classes }
-                        id="summary"
-                        label='Summary'
-                        defaultValue="Edit document summary..."
-                        name="summary"
-                        type="text"
-                        component="textarea"
-                        multiline="true"
-                        rows="100"
-                        onChange={ this.handleChange }
+                    <Field 
+                        name='summary'
+                        component={ input => {
+                            return (
+                                <RenderBootstrapField
+                                    classes={ classes }
+                                    id="summary"
+                                    label='Summary'
+                                    defaultValue="Edit document summary..."
+                                    name="summary"
+                                    type="text"
+                                    multiline="true"
+                                    rows="15"
+                                    onChange={ this.handleChange }
+                                    props={ input }
+                                />
+                            );
+                        }}
                     />
 
                     {/* <FormFileinputField

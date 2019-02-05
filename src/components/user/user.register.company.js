@@ -8,20 +8,20 @@ import { DirectoryStakeholderTypes } from '../directory/directory.stakeholder.ty
  * Create company profile
  * @author Isaac S. Mwakabira
  */
-export const CompanyProfile = ({ props, state, handleChange }) => {
+export const StakeholderProfile = ({ props, state, handleChange }) => {
     
     return (
         <Fragment>
           <div>
-            <Field name="companyName" component={input => {   
+            <Field name="stakeholderName" component={input => {   
               return (
                 <div>
                   <RenderBootstrapField
                     { ...props }
                     props={ input }
-                    label='Company name(Legal)'
-                    defaultValue= "Campany name..."
-                    name="companyName"
+                    label="Stakeholder's name(Legal)"
+                    defaultValue= "Stakeholder's name..."
+                    name="stakeholderName"
                     type="text"
                   />
                   <ErrorField props={ input } />
@@ -37,7 +37,7 @@ export const CompanyProfile = ({ props, state, handleChange }) => {
                     { ...props }
                     props={ input }
                     label='Physical address'
-                    defaultValue= "Campany physical address..."
+                    defaultValue= "Stakeholder's physical address..."
                     name="physicalAddress"
                     type="text"
                   />
@@ -54,7 +54,7 @@ export const CompanyProfile = ({ props, state, handleChange }) => {
                         { ...props }
                         props={ input }
                         label='Telephone'
-                        defaultValue= "Campany telephone number..."
+                        defaultValue= "Stakeholder's telephone number..."
                         name="telephone"
                         type="text"
                     />
@@ -71,7 +71,7 @@ export const CompanyProfile = ({ props, state, handleChange }) => {
                         { ...props }
                         props={ input }
                         label='Fax'
-                        defaultValue= "Campany fax number..."
+                        defaultValue= "Stakeholder's fax number..."
                         name="fax"
                         type="text"
                     />
@@ -81,15 +81,15 @@ export const CompanyProfile = ({ props, state, handleChange }) => {
             }} />
           </div>
           <div>
-            <Field name="companyEmail" component={input => {   
+            <Field name="stakeholderEmail" component={input => {   
               return (
                 <div>
                     <RenderBootstrapField
                         { ...props }
                         props={ input }
                         label='Email'
-                        defaultValue= "Campany email address..."
-                        name="companyEmail"
+                        defaultValue= "Stakeholder's email address..."
+                        name="stakeholderEmail"
                         type="text"
                     />
                     <ErrorField props={ input } />
@@ -105,7 +105,7 @@ export const CompanyProfile = ({ props, state, handleChange }) => {
                         { ...props }
                         props={ input }
                         label='Web URL'
-                        defaultValue= "Campany website ..."
+                        defaultValue= "Stakeholder's website ..."
                         name="telephone"
                         type="text"
                     />

@@ -2,7 +2,7 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import { reduxForm } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import RenderBootstrapField from '../forms/form.bootstrap.field';
 import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
@@ -46,7 +46,7 @@ class EditLibraryItem extends Component {
   
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = (event, values) => {
 		/**
 		 *  disabling browser default behavior like page refresh, etc 
 		 */
@@ -56,12 +56,17 @@ class EditLibraryItem extends Component {
 
     render() {
 
-        const { classes, handleClick, handleChange, docs: { resource_plan } } = this.props;
+        const { 
+            classes, 
+            handleClick,
+            handleSubmit, 
+            docs: { resource_plan } 
+        } = this.props;
         
         return (
             <Fragment>
 
-                <form onSubmit = { this.handleSubmit }>
+                <form onSubmit = { (e) => handleSubmit(values => this.handleSubmit(e, values)) }>
 
                     <ButtonControl 
                         intent={Intent.NONE} 
@@ -78,48 +83,67 @@ class EditLibraryItem extends Component {
 
                     <Divider />
 
-                    <RenderBootstrapField
-                        classes={ classes }
-                        id={ resource_plan.name }
-                        label='Category'
-                        defaultValue="Edit document category..."
-                        value={ `${ "Tarrifs" }` }
-                        name="category"
-                        type="text"
-                        component="input"
-                        onChange={ this.handleChange }
+                    <Field
+                        name='category'
+                        component={ input => {
+                            return (
+                                <RenderBootstrapField
+                                    classes={ classes }
+                                    id={ resource_plan.name }
+                                    label='Category'
+                                    defaultValue="Edit document category..."
+                                    value={ `${ "Tarrifs" }` }
+                                    name="category"
+                                    type="text"
+                                    onChange={ this.handleChange }
+                                    props={ input }
+                                />
+                            );
+                        }}
                     />
 
-                    <RenderBootstrapField
-                        classes={ classes }
-                        id={ resource_plan.name }
-                        label='Title'
-                        defaultValue="Edit document title..."
-                        value={ resource_plan.name }
-                        name="title"
-                        type="text"
-                        component="input"
-                        onChange={ this.handleChange }
+                    <Field
+                        name='title'
+                        component={ input => {
+                            return (
+                                <RenderBootstrapField
+                                    classes={ classes }
+                                    id={ resource_plan.name }
+                                    label='Title'
+                                    defaultValue="Edit document title..."
+                                    value={ resource_plan.name }
+                                    name="title"
+                                    type="text"
+                                    onChange={ this.handleChange }
+                                    props={ input }
+                                />
+                            );
+                        }}
                     />
 
-                    <RenderBootstrapField
-                        classes={ classes }
-                        id={ resource_plan.name }
-                        label='Summary'
-                        defaultValue="Edit document summary..."
-                        value={ resource_plan.summary }
-                        name="summary"
-                        type="text"
-                        component="textarea"
-                        multiline={true}
-                        rows="100"
-                        onChange={ this.handleChange }
+                    <Field
+                        name='summary'
+                        component={ input => {
+                            return (
+                                <RenderBootstrapField
+                                    classes={ classes }
+                                    label='Summary'
+                                    defaultValue="Edit document summary..."
+                                    value={ resource_plan.summary }
+                                    name="summary"
+                                    type="textarea"
+                                    multiline={true}
+                                    rows="10"
+                                    props={ input }
+                                />
+                            );
+                        }}
                     />
 
                     <MuiFormFileinputField
                         id="pdf_document"
                         placeholder="Upload pdf document"
-                        handleInputChange={ (e) => handleChange(e) }
+                        handleInputChange={ (e) => this.handleChange(e) }
                         classes={ classes }
                     />
 

@@ -16,7 +16,7 @@ import * as UserAuthActions from '../../actions/user.action';
 import styles from '../contact/form.styles';
 
 import { redirect } from './user.redirect';
-import { CompanyProfile } from './user.register.company';
+import { StakeholderProfile } from './user.register.company';
 import { PersonalProfile } from './user.register.personal';
 import { InputLabel } from '@material-ui/core';
 
@@ -34,8 +34,8 @@ class UserRegistration extends Component {
          website: '',
          telephone: '',
          fax: '',
-         companyName: '',
-         companyEmail: '',
+         stakeholderName: '',
+         stakeholderEmail: '',
          physicalAddress: '',
          stakeholderType: [],
       }
@@ -72,16 +72,16 @@ class UserRegistration extends Component {
         password: values.password
       }
       // console.log(user);
-      // define company structure
-      const company = {
-        companyName: values.companyName,
+      // define stakeholder structure
+      const stakeholder = {
+        stakeholderName: values.stakeholderName,
         physicalAddress: values.physicalAddress,
         telephone: values.telephone,
         fax: values.fax,
-        companyEmail: values.companyEmail,
+        stakeholderEmail: values.stakeholderEmail,
         website: values.website,
       }
-      console.log(company);
+      console.log(stakeholder);
       if (user !== undefined && user.username !== undefined && user !== null) {
 
         const { register } = this.props;
@@ -139,7 +139,7 @@ class UserRegistration extends Component {
                     <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
                       <h3>Stakeholder Account</h3>
                     </InputLabel>
-                    <CompanyProfile props={this.props} state={this.state} handleChange={ this.handleChange } />
+                    <StakeholderProfile props={this.props} state={this.state} handleChange={ this.handleChange } />
                   </Box>
                 </Flex>
 

@@ -2,7 +2,7 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import { reduxForm } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import RenderBootstrapField from '../forms/form.bootstrap.field';
 import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
@@ -73,7 +73,7 @@ class CreateNewsItem extends Component {
 
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = (event, values) => {
 		/**
 		 *  disabling browser default behavior like page refresh, etc 
 		 */
@@ -83,12 +83,12 @@ class CreateNewsItem extends Component {
 
     render() {
 
-        const { classes, handleClick } = this.props;
+        const { classes, handleClick, handleSubmit } = this.props;
         
         return (
             <Fragment>
 
-                <form onSubmit = { this.handleSubmit }>
+                <form onSubmit = { (e) => handleSubmit(values => this.handleSubmit(e, values)) }>
 
                     <ButtonControl 
                         intent={Intent.NONE} 
@@ -105,15 +105,22 @@ class CreateNewsItem extends Component {
 
                     <Divider />
 
-                    <RenderBootstrapField
-                        classes={ classes }
-                        label='Article Title'
-                        defaultValue="Enter article title..."
-                        value={ this.state.title }
-                        name="title"
-                        type="text"
-                        component="input"
-                        onChange={ this.handleChange }
+                    <Field
+                        name='title'
+                        component={ input => {
+                            return (
+                                <RenderBootstrapField
+                                    classes={ classes }
+                                    label='Article Title'
+                                    defaultValue="Enter article title..."
+                                    value={ this.state.title }
+                                    name="title"
+                                    type="text"
+                                    onChange={ this.handleChange }
+                                    props={ input }
+                                />
+                            );
+                        }}
                     />
 
                     <TextEditor name="content" content={ this.state.content } editorChange={ this.handleEditorChange } />

@@ -136,7 +136,8 @@ class MultiStepForm extends Component {
      */
     handleChange= (event) => {
 
-        this.setState({ [event.target.name]: event.target.value });
+        console.log(event.target.files);
+        this.setState({ [event.target.name]: event.target === 'files' ? event.target.files : event.target.value });
 
     }
 

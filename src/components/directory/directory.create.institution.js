@@ -72,7 +72,7 @@ class CreateDirectoryInstitution extends Component {
 
                     <ButtonControl 
                         intent={Intent.NONE} 
-                        value="List Directory"
+                        value="List Stakeholders"
                         name="default"
                         handleClick={e => handleClick(e) }
                     />
@@ -85,15 +85,15 @@ class CreateDirectoryInstitution extends Component {
 
                     <Divider />
 
-                    <Field name="institution" component={props => {
+                    <Field name="stakeholder_name" component={props => {
                         return (
                         <div>
                             <RenderBootstrapField
                             { ...this.props }
                             props={ props }
-                            label='Company or Department Name (Legal)'
-                            defaultValue= "Legal company or department name..."
-                            name="institution"
+                            label='Stakeholders or Department Name (Legal)'
+                            defaultValue= "Legal stakeholder or department name..."
+                            name="stakeholder_name"
                             type="text"
                             />
                             <ErrorField props={ props } />
@@ -108,7 +108,7 @@ class CreateDirectoryInstitution extends Component {
                             { ...this.props }
                             props={ props }
                             label='Physical Address'
-                            defaultValue= "Institution physical address..."
+                            defaultValue= "Stakeholder's physical address..."
                             name="physicalAddress"
                             type="text"
                             />
@@ -125,7 +125,7 @@ class CreateDirectoryInstitution extends Component {
                             { ...this.props }
                             props={ props }
                             label='Telephone'
-                            defaultValue= "Company's or department's telephone number..."
+                            defaultValue= "Stakeholder's or department's telephone number..."
                             name="telephone"
                             type="text"
                             />
@@ -141,7 +141,7 @@ class CreateDirectoryInstitution extends Component {
                             { ...this.props }
                             props={ props }
                             label='Fax'
-                            defaultValue= "Company's or department's fax number..."
+                            defaultValue= "Stakeholder's or department's fax number..."
                             name="fax"
                             type="text"
                             />
@@ -157,7 +157,7 @@ class CreateDirectoryInstitution extends Component {
                             { ...this.props }
                             props={ props }
                             label='Email'
-                            defaultValue= "Company's or department's email address..."
+                            defaultValue= "Stakeholder's or department's email address..."
                             name="email"
                             type="email"
                             />
@@ -173,7 +173,7 @@ class CreateDirectoryInstitution extends Component {
                             { ...this.props }
                             props={ props }
                             label='Website'
-                            defaultValue= "Company's or department's website..."
+                            defaultValue= "Stakeholder's or department's website..."
                             name="webite"
                             type="text"
                             />
