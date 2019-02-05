@@ -1,25 +1,26 @@
-import { UserType } from '../action_type/index';
-
+import { HomeType } from '../action_type/index';
 import * as GeneralAction from './general.action';
+import { get } from './api.service';
 
-export const fetchHomeData = () => {
+/**
+ * Fetch home details: Components
+ * 
+ * @param Isaac S. Mwakabira
+ * 
+ */
+export const fetchHomeDetails = () => {
 
-    return (dispatch) => {
+    const url = `categories`;
+
+    return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return fetch(`/home`).then((response) => {
+        return await get(dispatch, url)
+        
+        .then((response) => {
 
-            if (response.status !== 200) {
-                throw Error(response.statusText);
-            }
-
-            dispatch(GeneralAction.isLoading(false));
-
-            return response;
-        }).then((response) => {
-
-          dispatch(GeneralAction.fetchSuccess(UserType.REQUECT_HOME_DATA, ["home huhu"], false))
+          dispatch(GeneralAction.fetchSuccess(HomeType.REQUEST_HOME_DATA, response, false))
 
         }).catch(() => dispatch(GeneralAction.hasErrored(true)));
     };
