@@ -104,7 +104,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import { Container, Row, Col } from 'reactstrap';
 
 import './style.css'
-const drawerWidth = 240;
+const drawerWidth = 250;
 
 const styles = theme => ({
   root: {
