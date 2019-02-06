@@ -102,6 +102,14 @@ const RenderSection = ({
     
     switch (link) {
 
+        case 'home':
+            
+            return (
+                <Fragment>
+                    
+                </Fragment>
+            );
+
         case 'licencing':
 
             return (

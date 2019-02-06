@@ -16,6 +16,13 @@ import Document from './Document';
 
 import * as LibraryAction from '../../actions/index';
 
+/**
+ * Renders library component and all its subcomponents or sub-categories
+ * 
+ * @author Paul Sembereka
+ * @author Isaac S. Mwakabira
+ * 
+ */
 class Library extends Component {
 
   constructor(){
@@ -31,6 +38,7 @@ class Library extends Component {
   componentDidMount(){
 
     this.props.fetchLibrary(this.state.navbarTabId);
+    // this.props.libraryCategory('Library');
 
   }
 
@@ -61,19 +69,19 @@ class Library extends Component {
           m={1}
           w={1}
           style={flexStyle}
-          >
-            <Box w={1} p={1}>
-              <Card elevation={Elevation.TWO}>
-                <Tabs style={{justifyContent: 'center'}} className="test" id="TabsExample" selectedTabId={this.state.navbarTabId} onChange={this.handleNavBarChange}>
-                  <Tab id="tarrifs" title="Tarrifs" panel={<Tarrifs {...this.props} renderDocuments={this.renderDocuments}/>}/>
-                  <Tab id="financing" title="Financing" panel={<Financing {...this.props} renderDocuments={this.renderDocuments}/>}/>
-                  <Tab id="policy_strategy" title="Policies and Strategies" panel={<PoliciesStratigies {...this.props} renderDocuments={this.renderDocuments}/>}/>
-                  <Tab id="toolkit" title="Deployment toolkit" panel={<Toolkits {...this.props} renderDocuments={this.renderDocuments}/>} />
-                  <Tab id="legal_regulatory_frameworks" title="Legal and Regulatory Frameworks" panel={<LegalRegFrameworks {...this.props} renderDocuments={this.renderDocuments}/>}/>
-                  <Tab id="resource_plan" title="Resource Plan" panel={<ResourcePlan {...this.props} renderDocuments={this.renderDocuments}/>}/>
-                </Tabs>
-              </Card>
-            </Box>
+        >
+          <Box w={1} p={1}>
+            <Card elevation={Elevation.TWO}>
+              <Tabs style={{justifyContent: 'center'}} className="test" id="TabsExample" selectedTabId={this.state.navbarTabId} onChange={this.handleNavBarChange}>
+                <Tab id="tarrifs" title="Tarrifs" panel={<Tarrifs {...this.props} renderDocuments={this.renderDocuments}/>}/>
+                <Tab id="financing" title="Financing" panel={<Financing {...this.props} renderDocuments={this.renderDocuments}/>}/>
+                <Tab id="policy_strategy" title="Policies and Strategies" panel={<PoliciesStratigies {...this.props} renderDocuments={this.renderDocuments}/>}/>
+                <Tab id="toolkit" title="Deployment toolkit" panel={<Toolkits {...this.props} renderDocuments={this.renderDocuments}/>} />
+                <Tab id="legal_regulatory_frameworks" title="Legal and Regulatory Frameworks" panel={<LegalRegFrameworks {...this.props} renderDocuments={this.renderDocuments}/>}/>
+                <Tab id="resource_plan" title="Resource Plan" panel={<ResourcePlan {...this.props} renderDocuments={this.renderDocuments}/>}/>
+              </Tabs>
+            </Card>
+          </Box>
 
           </Flex>
       </div>
@@ -86,7 +94,7 @@ class Library extends Component {
     this.setState({navbarTabId});
 
     // download library on state onChange
-    this.props.fetchLibrary(navbarTabId);
+    // this.props.fetchLibrary(navbarTabId);
 
   }
 }
@@ -102,7 +110,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => {
 
     return {
-        fetchLibrary: (name) => { dispatch(LibraryAction.fetchLibrary(name)) },
+      fetchLibrary: (name) => { dispatch(LibraryAction.fetchLibrary(name)) },
+      libraryCategory: (name) => { dispatch(LibraryAction.fetchLibraryCategory(name)) },
+      addSubCategory: (id,subcategory) => { 
+        dispatch(LibraryAction.addSubCategory(id,subcategory)) 
+      },
     }
 
 }

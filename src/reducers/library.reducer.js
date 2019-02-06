@@ -21,6 +21,13 @@ export default (state = initialState, action) => {
                 library: action.payload
             }
 
+        case LibraryType.ADD_NEW_SUB_CATEGORY_DOCS:
+            
+            return {
+                ...state,
+                library: action.payload
+            }
+
         default:
             return state;
     }

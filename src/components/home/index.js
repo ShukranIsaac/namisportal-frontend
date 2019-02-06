@@ -7,6 +7,11 @@ import { WhichHeaderComponent } from '../which.header.component';
 import * as HomeActions from '../../actions/home.action';
 import { HomeSubCategory, filterSection } from './home.subcategory';
 
+/**
+ * @author Paul Sembereka
+ * @author Isaac S. Mwakabira
+ * 
+ */
 class Home extends Component {
   
   constructor() {
@@ -23,10 +28,7 @@ class Home extends Component {
   render(){
 
     const { home } = this.props;
-    // const containerStyle = {
-    //   width: '90%',
-    //   margin: '0 auto',
-    // }
+    
     if (home.length === 0) {
       return <div className="loading">Loading...</div>
     }
@@ -39,7 +41,9 @@ class Home extends Component {
           <div className = "row top-card">
             <div className="card">
               <div className="card-body">
-                  <h4 className="heading"><a href="/">{ main_section.name }</a></h4>
+                  <h4 className="heading">
+                    <a href="/">{ main_section.name }</a>
+                  </h4>
                   <p>{ main_section.about }</p>
               </div>
             </div>

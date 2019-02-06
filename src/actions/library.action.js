@@ -4,7 +4,7 @@ import * as GeneralAction from './general.action';
 
 import library_docs from '../components/library/library_docs';
 import Config from '../config';
-// import { fetchResponse } from './fetch.service';
+import { get, post } from './api.service';
 
 /**
  * Filter or return all documents in this category
@@ -26,9 +26,57 @@ const filterDocLibrary = (docs, category_name) => {
 
 }
 
+export const addSubCategory = (id, subcategory) => {
+    console.log(subcategory)
+    // resource to post data to
+    const url = `/categoris/` + id + `/sub-categories`;
+
+    return async dispatch => {
+
+        dispatch(GeneralAction.isLoading(true));
+
+        return await post(dispatch, url, subcategory)
+
+        .then(response => {
+
+            dispatch(GeneralAction.fetchSuccess(LibraryType.ADD_NEW_SUB_CATEGORY_DOCS, response, false))
+
+        })
+
+        .catch(() => dispatch(GeneralAction.hasErrored(true)))
+    }
+
+}
+
+export const fetchLibraryCategory = (category) => {
+
+    const url = `/categories?name=` + category;
+
+    return async dispatch => {
+
+        dispatch(GeneralAction.isLoading(true));
+
+        return await get(dispatch, url)
+
+        .then(response => {
+
+            dispatch(GeneralAction.fetchSuccess(LibraryType.FETCH_LIBRARY, response, false))
+        
+        })
+
+        .catch( error => {
+
+            console.log(error);
+            dispatch(GeneralAction.hasErrored(true))
+
+        })
+    }
+
+}
+
 export const fetchLibrary = (category) => {
 
-    const url = '/gis';
+    const url = `/gis`;
 
     const headers = {
         method: 'GET',
