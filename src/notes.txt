@@ -1,0 +1,35 @@
+Dear Sir,
+
+Kindly note the following agreed tasks to be carried out until the next update
+ and the suggested technology options.
+
+    a. Database (Postgresql; may change depending on other concerns)
+        i. Db design(Monday)
+        ii. JSON output (general structure - Monday)
+
+    b. Api (Nodejs etc)
+        i. GIS - backend(Thursday)
+
+    c. CMS (Critical components only)
+        i. UI structure.
+        ii. Need to know the data output structure from the backend, to be considered 
+            after api critical components are properly designed(next week).
+        
+    d. General UI (including responsiveness, non critical requirement)
+        i. GIS legend, all concerns raised in the previous update meeting 
+        ii. News
+        iii. Licencing
+        iv. Financing
+
+Technology(2 opts. alternatives):
+    a. Hosting requirements (Digital Ocean)
+
+        Ram         SSD Disk    Transfer    Price   VcPUs
+        8GB         160GB       5TB         $40/mo  4vCPUs
+        16GB        320GB       6TB         $80/mo  6vCPUs
+
+Objective(s) - next update:
+    a.  Data driven application - from the backend
+    b.  CMS (Critical components only) - user basic functionality to upload 
+        documents containing information to appear on system respective pages.
+    c.  

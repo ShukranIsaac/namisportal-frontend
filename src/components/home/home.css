@@ -1,0 +1,29 @@
+.container{
+    width: 80%;
+    margin: 0 auto;
+}
+
+.heading {
+    padding-left: 10px;
+    border-left: solid #15B371;
+}
+.landing-info {
+    background: #15B371;
+    padding: 20px;
+}
+.top-card{
+    padding: 10px;
+}
+.card-container{
+    padding:30px;
+}
+.card {
+    padding: 35px;
+    background:#fff;
+    box-shadow:0 20px 50px rgba(0,0,0,.1);
+    border-radius:10px;
+    transition:0.5s;
+}
+.card:hover {
+    box-shadow:0 30px 70px rgba(0,0,0,.2);
+}
