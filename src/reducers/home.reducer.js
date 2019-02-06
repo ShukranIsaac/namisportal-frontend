@@ -12,6 +12,16 @@ const home = (state = initialState, action) => {
                 ...state,
                 home: action.payload
             }
+        case HomeType.REQUEST_ADD_HOME_SUB_CATE:
+            return {
+                ...state,
+                home: action.payload
+            }
+        case HomeType.REQUEST_EDIT_HOME_SUB_CATE:
+            return {
+                ...state,
+                home: action.payload
+            }
         default:
             return state;
     }

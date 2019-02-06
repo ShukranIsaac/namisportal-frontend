@@ -49,3 +49,28 @@ export const post = async (dispatch, url, data) => {
         });
   
 }
+
+/**
+ * Edit a resource via the api, and return a Promise
+ * 
+ * @param {Function} dispatch
+ * @param {String} url 
+ * @returns {Promise} promise
+ */
+export const patch = async (dispatch, url, data) => {
+    
+    return await Config.APIUrl.patch(url, data)
+
+        .then(response => {
+            
+            if (response.status !== 200) {
+                throw Error(response.statusText);
+            }
+        
+            dispatch(GeneralAction.isLoading(false));
+        
+            return response.data;
+
+        });
+  
+}
