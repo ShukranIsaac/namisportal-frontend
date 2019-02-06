@@ -1,5 +1,16 @@
 import React, { Fragment } from "react";
 
+/**
+ * Search input
+ * 
+ * @author Isaac S. Mwakabira
+ * 
+ * @param {String} placeholder
+ * @param {String} name
+ * @param {Function} handleChange 
+ * 
+ * @returns {Object} results
+ */
 const  SearchInputControl = ({ placeholder, name, handleChange }) => {
 
     return <>
@@ -13,7 +24,7 @@ const  SearchInputControl = ({ placeholder, name, handleChange }) => {
                 name={ `${ 'search_' + name}` }
                 placeholder={placeholder}
                 id={ `${ 'search_' + name}`}
-                onChange={ (e) => { handleChange(e) } } />
+                onChange={ (e) => { handleChange(e) }  } />
           </div>
         </div>
       </Fragment>

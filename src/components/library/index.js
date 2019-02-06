@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-//import { Card, Elevation, Tab, Tabs } from "@blueprintjs/core";
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 
 
 import Tarrifs from './Tarrifs';
@@ -21,106 +19,6 @@ import ResourcePlan from './ResourcePlan';
 import Document from './Document';
 
 import * as LibraryAction from '../../actions/index';
-/*
-class Library extends Component {
-
-  constructor(){
-    super()
-    this.state = {
-      navbarTabId: "tarrifs"
-    }
-
-    this.handleNavBarChange = this.handleNavBarChange.bind(this);
-    this.renderDocuments = this.renderDocuments.bind(this);
-  }
-
-  componentDidMount(){
-
-    this.props.fetchLibrary(this.state.navbarTabId);
-
-  }
-
-  renderDocuments(docs){
-
-      return docs.map(({name, path, summary}, key) => {
-
-          return <Document key={key} name={name} path={path} summary={summary}/>
-
-      });
-
-  }
-
-  render(){
-
-    const flexStyle = {
-      margin: 'auto',
-      background: '#15B371',
-      padding: '3%'
-    }
-
-    return (
-      <div className='landing-info'>
-        <Container>
-          <Row>
-            <Col sm='12' md='12' lg={{ size: 10, offset: 1 }}> 
-              <Card elevation={Elevation.TWO}>
-                <Tabs style={{justifyContent: 'center'}} className="test" id="TabsExample" selectedTabId={this.state.navbarTabId} onChange={this.handleNavBarChange}>
-                  <Tab id="tarrifs" title="Tarrifs" panel={<Tarrifs {...this.props} renderDocuments={this.renderDocuments}/>}/>
-                  <Tab id="financing" title="Financing" panel={<Financing {...this.props} renderDocuments={this.renderDocuments}/>}/>
-                  <Tab id="policies_stratigy" title="Policies and Strategies" panel={<PoliciesStratigies {...this.props} renderDocuments={this.renderDocuments}/>}/>
-                  <Tab id="toolkit" title="Deployment toolkit" panel={<Toolkits {...this.props} renderDocuments={this.renderDocuments}/>} />
-                  <Tab id="legal_regulatory_frameworks" title="Legal and Regulatory Frameworks" panel={<LegalRegFrameworks {...this.props} renderDocuments={this.renderDocuments}/>}/>
-                  <Tab id="resource_plan" title="Resource Plan" panel={<ResourcePlan {...this.props} renderDocuments={this.renderDocuments}/>}/>
-                </Tabs>
-              </Card>
-              </Col>
-          </Row>
-        </Container>
-      </div>
-
-    );
-  }
-
-  handleNavBarChange = (navbarTabId) => {
-
-    this.setState({navbarTabId});
-
-    // download library on state onChange
-    this.props.fetchLibrary(navbarTabId);
-
-  }
-}
-
-const mapStateToProps = state => {
-
-    return {
-      library: state.library.library
-    }
-
-}
-
-const mapDispatchToProps = (dispatch) => {
-
-    return {
-        fetchLibrary: (name) => { dispatch(LibraryAction.fetchLibrary(name)) },
-    }
-
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Library);
-*/
-
-function TabContainer(props) {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
-      {props.children}
-    </Typography>
-  );
-}
-
-TabContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 const styles = theme => ({
   root: {
@@ -130,7 +28,7 @@ const styles = theme => ({
   },
 });
 
-class Library extends React.Component {
+class Library extends Component {
   state = {
     value: "tarrifs"
   };
@@ -209,11 +107,14 @@ const mapStateToProps = state => {
   }
 
 }
-
 const mapDispatchToProps = (dispatch) => {
 
   return {
-      fetchLibrary: (name) => { dispatch(LibraryAction.fetchLibrary(name)) },
+    fetchLibrary: (name) => { dispatch(LibraryAction.fetchLibrary(name)) },
+    libraryCategory: (name) => { dispatch(LibraryAction.fetchLibraryCategory(name)) },
+    addSubCategory: (id,subcategory) => { 
+      dispatch(LibraryAction.addSubCategory(id,subcategory)) 
+    },
   }
 
 }

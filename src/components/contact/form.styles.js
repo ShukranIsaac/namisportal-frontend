@@ -59,6 +59,25 @@ const styles = theme => ({
   bootstrapFormLabel: {
     fontSize: 18,
   },
+
+  // buttons
+  button: {
+    margin: theme.spacing.unit,
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit,
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
+  },
+  iconSmall: {
+    fontSize: 20,
+  },
+
+  // form control
+  formControl: {
+    margin: theme.spacing.unit * 1,
+  },
 });
 
 export default styles;

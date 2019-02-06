@@ -36,7 +36,7 @@ class News extends Component {
 
     return (
       <Fragment>
-        <Flex wrap row align='top' justify='center' m={1} w={1} p={1} style={{ margin: '0px' }}>
+        <Flex wrap row={true} align='top' justify='center' m={1} w={1} p={1} style={{ margin: '0px' }}>
 
           <CustomColumn w={1/4} p={2} {...this.state}>
 

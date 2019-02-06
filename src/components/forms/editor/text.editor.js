@@ -2,8 +2,6 @@ import React, { Component, Fragment } from 'react';
 import { Editor, getEventTransfer  } from 'slate-react';
 import isUrl from 'is-url';
 
-import InitialValue from '../utils/initial.value';
-
 import Icon from 'react-icons-kit';
 import { bold } from 'react-icons-kit/feather/bold';
 import { italic } from 'react-icons-kit/feather/italic';
@@ -12,17 +10,137 @@ import { list } from 'react-icons-kit/feather/list';
 import { underline } from 'react-icons-kit/feather/underline';
 import { link2 } from 'react-icons-kit/feather/link2';
 
+import Html from 'slate-html-serializer';
+
 import { ic_title } from 'react-icons-kit/md/ic_title';
 import { ic_format_quote } from 'react-icons-kit/md/ic_format_quote';
 import { BoldMark, ItalicMark, FormatToolbar } from './index';
 
+/**
+ * What if you want to save the content as HTML?
+ * we need to add the Html serializer. And to do that, 
+ * we need to tell it a bit about the schema we plan on using. For this example,
+ *  we'll work with a schema that has a few different parts:
+ * 		
+ * 		1. A paragraph block.
+ * 		2. A code block for code samples.
+ * 		3. A quote block for quotes...
+ * 		4. And bold, italic and underline formatting.
+ * 
+ * By default, the Html serializer knows nothing about our schema, just like Slate itself. 
+ * To fix this, we need to pass it a set of rules. 
+ * Each rule defines how to serialize and deserialize a Slate object.
+ * 
+ * To start, let's create rules with a deserialize amd serialize functions for paragraph blocks.
+ */
+
+// Refactor block tags into a dictionary for cleanliness.
+const BLOCK_TAGS = {
+	p: 'paragraph',
+	blockquote: 'quote',
+	pre: 'code',
+}
+
+// Add a dictionary of mark tags.
+const MARK_TAGS = {
+	em: 'italic',
+	strong: 'bold',
+	u: 'underline',
+  }
+
+const rules = [
+	{
+		deserialize(el, next) {
+			const type = BLOCK_TAGS[el.tagName.toLowerCase()]
+			if (type) {
+				return {
+					object: 'block',
+					type: type,
+					data: {
+						className: el.getAttribute('class'),
+					},
+					nodes: next(el.childNodes),
+				}
+			}
+		},
+		serialize(obj, children) {
+			if (obj.object === 'block') {
+				switch (obj.type) {
+					case 'code':
+						return (
+							<pre>
+								<code>{children}</code>
+							</pre>
+						)
+					case 'paragraph':
+						return <p className={obj.data.get('className')}>{children}</p>
+					case 'quote':
+						return <blockquote>{children}</blockquote>
+					default:
+						return;
+				}
+			}
+		},
+	},
+	// Add a new rule that handles marks...
+	{
+		deserialize(el, next) {
+			const type = MARK_TAGS[el.tagName.toLowerCase()]
+			if (type) {
+				return {
+					object: 'mark',
+					type: type,
+					nodes: next(el.childNodes),
+				}
+			}
+		},
+		serialize(obj, children) {
+			if (obj.object === 'mark') {
+				switch (obj.type) {
+					case 'bold':
+						return <strong>{children}</strong>
+					case 'italic':
+						return <em>{children}</em>
+					case 'underline':
+						return <u>{children}</u>
+					default:
+						return
+				}
+			}
+		},
+	},
+]
+
 export default class TextEditor extends Component {
+
+	constructor() {
+		super();
+		/**
+		 * initial state
+		 */
+		this.state = {
+			value: '',
+		};
+
+	}
+
 	/**
-	 * initial state
+	 * Set the editor's initial content value
+	 * On component did mount , update the app's React state with the new editor value.
+	 * 
 	 */
-	state = {
-		value: InitialValue,
-	};
+	componentDidMount() {
+
+		// Create a new serializer instance with our `rules` from above.
+		const html = new Html({ rules });
+		html.deserialize(this.props.content)
+
+		// console.log(html.deserialize(this.props.content));
+		// console.log(html.serialize(this.props.content));
+
+		this.setState({ value: this.props.content });
+
+	}
 
 	/**
 	 * On change.update the app's React state with the new editor value.
@@ -44,6 +162,13 @@ export default class TextEditor extends Component {
 		this.editor = editor;
 	}
 
+	/**
+	 * On key down i.e Ctrl + Shift
+	 * 
+	 * @param {Event} e
+	 * @param {Editor} editor
+	 * @param {Function} next
+	 */
 	onKeyDown = (e, editor, next) => {
 		/**
 		 * Prevent default event from firing
@@ -56,7 +181,7 @@ export default class TextEditor extends Component {
 		 * Check key value, we want all our commands 
 		 * to start with the user pressing ctrl, if they don't--we cancel the action.
 		 */
-		if (e.key != '`' || !e.ctrlKey) return next();
+		if (e.key !== '`' || !e.ctrlKey) return next();
 
 		/**
 		 *  Decide what to do based on the key code...
@@ -95,6 +220,69 @@ export default class TextEditor extends Component {
 			}
 
 			case 'h': {
+				this.editor.toggleMark('title');
+				return true;
+			}
+
+			default: {
+				return next();
+			}
+		}
+	};
+
+	/**
+	 * Show a tool tip for the focused mark icon
+	 * in the editor view
+	 * 
+	 * @param {Event} e
+	 * @param {*} type
+	 * @param {Editor} editor
+	 * @param {Function} next
+	 */
+	onMarkFocus = (e, type, editor, next) => {
+		/**
+		 * Prevent default event from firing
+		 */
+		e.preventDefault();
+
+		//this.editor.insertText(e.key);
+		console.log();
+
+		/**
+		 *  Decide what to do based on the key code
+		 * 
+		 *  Show a tooltip depending on the key in focus...
+		 */
+		switch (type) {
+			case 'bold': {
+				return true;
+			}
+			case 'italic': {
+				this.editor.toggleMark('italic');
+				return true;
+			}
+
+			case 'code': {
+				this.editor.toggleMark('code');
+				return true;
+			}
+
+			case 'list': {
+				this.editor.toggleMark('list');
+				return true;
+			}
+
+			case 'underline': {
+				this.editor.toggleMark('underline');
+				return true;
+			}
+
+			case 'quote': {
+				this.editor.toggleMark('quote');
+				return true;
+			}
+
+			case 'title': {
 				this.editor.toggleMark('title');
 				return true;
 			}
@@ -254,7 +442,10 @@ export default class TextEditor extends Component {
 			  .command(this.wrapLink, href)
 		}
 
-		this.onChange(editor);
+		// this.onChange(editor);
+
+		this.props.editorChange(editor);
+
 	};
 
 	renderLinkIcon = (type, icon) => {
@@ -280,11 +471,16 @@ export default class TextEditor extends Component {
 		 * applying the formatting on the selected text which the desired formatting
 		 */
 		this.editor.toggleMark(type);
+		console.log(type);
+		
 
 		/**
 		 *  calling the  onChange method we declared 
 		 */
-		this.onChange(this.editor);
+		// this.onChange(this.editor);
+
+		this.props.editorChange(this.editor);
+
 	};
 
 	renderMarkIcon = (type, icon) => {
@@ -292,6 +488,7 @@ export default class TextEditor extends Component {
 		return (
 			<button
 				onPointerDown={(e) => this.onMarkClick(e, type)}
+				onFocus={ (e) => this.onMarkFocus(e, type) }
 				className="tooltip-icon-button"
 			>
 				<Icon icon={icon} />
@@ -302,39 +499,52 @@ export default class TextEditor extends Component {
 
 	onPaste = (event, editor, next) => {
 
-		if (editor.value.selection.isCollapsed) return next()
+		if (editor.value.selection.isCollapsed) return next();
 	
-		const transfer = getEventTransfer(event)
-		const { type, text } = transfer
-		if (type != 'text' && type != 'html') return next()
-		if (!isUrl(text)) return next()
+		const transfer = getEventTransfer(event);
+
+		const { type, text } = transfer;
+
+		if (type !== 'text' && type !== 'html') return next();
+
+		if (!isUrl(text)) return next();
 	
-		if (this.hasLinks()) {
-		  editor.command(this.unwrapLink)
-		}
+		if (this.hasLinks()) editor.command(this.unwrapLink);
 	
-		editor.command(this.wrapLink, text)
+		editor.command(this.wrapLink, text);
+	}
+
+	renderMenu = () => {
+
+		return (
+			<FormatToolbar>
+				{this.renderMarkIcon('title', ic_title)}
+				{this.renderMarkIcon('bold', bold)}
+				{this.renderMarkIcon('italic', italic)}
+				{this.renderMarkIcon('code', code)}
+				{this.renderMarkIcon('list', list)}
+				{this.renderMarkIcon('underline', underline)}
+				{this.renderMarkIcon('quote', ic_format_quote)}
+				{this.renderLinkIcon('link', link2)}
+			</FormatToolbar>
+		);
+
 	}
 
 	render() {
+
+		const { editorChange } = this.props;
+
 		return (
 			<Fragment>
-				<FormatToolbar>
-					{this.renderMarkIcon('title', ic_title)}
-					{this.renderMarkIcon('bold', bold)}
-					{this.renderMarkIcon('italic', italic)}
-					{this.renderMarkIcon('code', code)}
-					{this.renderMarkIcon('list', list)}
-					{this.renderMarkIcon('underline', underline)}
-					{this.renderMarkIcon('quote', ic_format_quote)}
-					{this.renderLinkIcon('link', link2)}
-				</FormatToolbar>
+				{
+					this.renderMenu()
+				}
 				<Editor
-					placeholder="Enter text..."
-					readOnly={false}
+					placeholder={ `${ "Hint: use editor controls above to style your content..."}` }
 					autoCorrect={true}
-					value={this.state.value}
-					onChange={this.onChange}
+					value={this.props.content}
+					onChange={ () => editorChange(this.editor) }
 					ref={this.ref}
 					onKeyDown={this.onKeyDown}
 					renderMark={this.renderMark}
@@ -344,4 +554,5 @@ export default class TextEditor extends Component {
 			</Fragment>
 		);
 	}
+
 }

@@ -1,103 +1,77 @@
 import React, { Component } from 'react';
-import { Collapse, Button, Card, Elevation } from '@blueprintjs/core';
+import { Card, Elevation } from '@blueprintjs/core'
 import { Flex, Box } from 'reflexbox';
 
-class Financing extends Component {
+import Panel from './panel';
 
-  constructor(){
-    super()
-    this.state = {
-      isOpen: false
-    }
-    this.handleClick = this.handleClick.bind(this);
-  }
+/**
+ * Renders financing component
+ * 
+ * @author Paul Sembereka (Pablo)
+ * 
+ */
+class Financing extends Component {
 
   render(){
 
-    const containerStyle = {
-      // width: '80%',
-      margin: '0 auto',
-      background: '#fff',
-    }
+    // const containerStyle = {
+    //   width: '80%',
+    //   margin: '0 auto',
+    // }
 
     const header = {
       textAlign: 'center',
     }
 
-    const button = {
-      width: '100%',
-      textAlign: 'left',
-      borderRadius: '0',
-      background: '#BFCCD6',
-      fontSize: '1.2em'
+    const financing = {
+      marginBottom: 8,
+      borderRadius: 0
     }
-
-    const factsBack = {
-      background: '#CED9E0',
+    
+    const flexStyle = {
+      margin: 'auto',
+      background: '#15B371',
+      padding: '12%'
     }
 
     return (
-      <div className = "row page-content">
-     
-      <div style={containerStyle}>
+      <div >
         <div style={header}>
         <Flex 
-          p={2} 
-          align='center' 
+          p={4}
+          align='center'
           justify='center'
           m={1}
-          w={1}>
-          <Box >
-          <h5 >Financing</h5>
-          <p>
-            User interfaces that enable people to interact smoothly 
-            with data, ask better questions, and make better decisions.
-          </p>
+          w={1}
+          style={flexStyle}>
+          <Box w={1} p={1} align='center'>
+          <Card elevation={Elevation.TWO}>
+          <Card interactive={false} elevation={Elevation.ZERO} style={financing}>
+              <p><strong>Financing</strong></p>
+              <p>
+              The process for requesting financing support entails the following 
+              steps. Further details are available by clicking on each step.
+
+              </p>
+          </Card>
+            <Panel heading="1. Concept Note"/>
+            <Panel heading="2. Concept Note Appraisal"/>
+            <Panel heading="3. Prefeasibily Study and draft Business Plan"/>
+            <Panel heading="4. Application for Grant"/>
+            <Panel heading="5. Preliminary Evaluation of Grant Application"/>
+            <Panel heading="6. Feasibility Report and Business Plan"/>
+            <Panel heading="7. Final Evaluation of Grant Application"/>
+            <Panel heading="8. Disbursement"/>
+          </Card>
+         
           </Box>
+          
+          
           </Flex>
         </div>
-        <div>
-          <Button onClick={this.handleClick} style={button}>
-            1. Concept note
-          </Button>
-          <Collapse isOpen={this.state.isOpen}>   
-            <Card interactive={true} elevation={Elevation.ZERO}>
-                <p>
-                  The Project Developer should submit a Concept Note to the Rural 
-                  Energy Agency (REA) in order to get a preliminary assessment of 
-                  whether the planned project is eligible for support from the 
-                  REA. The Concept note should, inter alia, include:
-                </p>
-                <ul>
-                  <li>The background of the prospected project</li>
-                  <li>The background of the prospected project</li>
-                  <li>The background of the prospected project</li>
-                  <li>The background of the prospected project</li>
-                  <li>The background of the prospected project</li>
-                </ul>
-                <Card interactive={false} elevation={Elevation.ZERO} style={factsBack}>
-                  <p><strong>Key Facts</strong></p>
-                  <hr/>
-                  <p>
-                    The Project Developer should submit a Concept Note to the Rural 
-                    Energy Agency (REA) in order to get a preliminary assessment of 
-                    whether the planned project is eligible for support from the 
-                    REA. The Concept note should, inter alia, include:
-                  </p>
-                </Card>
-            </Card>
-          </Collapse>
-          
-        </div>
-      </div>
       </div>
     );
   }
-
-  handleClick(){
-    this.setState({isOpen: !this.state.isOpen})
-  }
-  
 }
 
 export default Financing;

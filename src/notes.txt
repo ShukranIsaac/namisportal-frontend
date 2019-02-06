@@ -28,8 +28,10 @@ Technology(2 opts. alternatives):
         8GB         160GB       5TB         $40/mo  4vCPUs
         16GB        320GB       6TB         $80/mo  6vCPUs
 
-Objective(s) - next update:
+Goals(s) - next update[Thur 7 Jan. 2019]:
     a.  Data driven application - from the backend
     b.  CMS (Critical components only) - user basic functionality to upload 
         documents containing information to appear on system respective pages.
+        i. Create, edit, uploading documents
+        ii. User management: login and registration
     c.  

@@ -1,19 +1,24 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { reduxForm } from 'redux-form';
-import FormLabel from '@material-ui/core/FormLabel';
 
 import { Elevation, Button, Card } from "@blueprintjs/core";
 import { Flex, Box } from 'reflexbox';
 
-import RenderBootstrapField from '../forms/form.bootstrap.field';
 import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
-import UserFormCheckbox from './form.checkbox';
+
+import * as UserAuthActions from '../../actions/user.action';
 
 import styles from '../contact/form.styles';
+
+import { redirect } from './user.redirect';
+import { StakeholderProfile } from './user.register.company';
+import { PersonalProfile } from './user.register.personal';
+import { InputLabel } from '@material-ui/core';
 
 class UserRegistration extends Component {
 
@@ -21,151 +26,90 @@ class UserRegistration extends Component {
       super();
       this.state = {
          email: '',
-         user_name: '',
+         username: '',
          password: '',
+         firstName: '',
+         lastName: '',
          confirmPassword: '',
          website: '',
          telephone: '',
          fax: '',
-         company_name: '',
-         physical_address: '',
-         stakeholder_type: [],
+         stakeholderName: '',
+         stakeholderEmail: '',
+         physicalAddress: '',
+         stakeholderType: [],
       }
 
       this.handleChange = this.handleChange.bind(this);
+      this.handleClick = this.handleClick.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
 
     }
 
     handleChange = (event) => {
+      // console.log(event.target.name)
+      this.setState({
+        [event.target.name]: event.target !== 'checked' ? event.target.value : event.target.checked 
+      });
+
+    }
+
+    handleClick = (event) => {
 
       this.setState({[event.target.name]: event.target.value});
 
     }
 
-    personal = (props) => {
+    handleSubmit = (values) => {
+      // Prevent default submit action
+      // event.preventDefault();
+      // define user structure
+      const user = {
+        username: values.username,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        password: values.password
+      }
+      // console.log(user);
+      // define stakeholder structure
+      const stakeholder = {
+        stakeholderName: values.stakeholderName,
+        physicalAddress: values.physicalAddress,
+        telephone: values.telephone,
+        fax: values.fax,
+        stakeholderEmail: values.stakeholderEmail,
+        website: values.website,
+      }
+      console.log(stakeholder);
+      if (user !== undefined && user.username !== undefined && user !== null) {
 
-        return (
-          <>
-            <div>
-              <RenderBootstrapField
-                { ...props }
-                label='Username'
-                defaultValue= "Your username..."
-                name="user_name"
-                type="text"
-                onChange={ this.handleChange }
-              />
-            </div>
-            <div>
-              <RenderBootstrapField
-                { ...props }
-                label='Email'
-                defaultValue= "Your email..."
-                name="email"
-                type="email"
-                onChange={ this.handleChange }
-              />
-            </div>
-            <div>
-              <RenderBootstrapField
-                { ...props }
-                label='Password'
-                defaultValue= "Your password..."
-                name="password"
-                type="password"
-                onChange={ this.handleChange }
-              />
-            </div>
-            <div>
-              <RenderBootstrapField
-                { ...props }
-                label='Confirm Password'
-                defaultValue= "Confirm your password..."
-                name="password"
-                type="password"
-                onChange={ this.handleChange }
-              />
-            </div>
-          </>
-        );
+        const { register } = this.props;
+        // register this user
+        register(user);
 
-    }
+      }
 
-    company = (props) => {
-
-      return (
-        <>
-          <div>
-            <RenderBootstrapField
-              { ...props }
-              label='Company name(Legal)'
-              defaultValue= "Campany name..."
-              name="company_name"
-              type="text"
-              onChange={ this.handleChange }
-            />
-          </div>
-          <div>
-            <RenderBootstrapField
-              { ...props }
-              label='Address'
-              defaultValue= "Physical address..."
-              name="physical_address"
-              type="text"
-              onChange={ this.handleChange }
-            />
-          </div>
-          <div>
-            <RenderBootstrapField
-              { ...props }
-              label='Telephone'
-              defaultValue= "Campany telephone number..."
-              name="telephone"
-              type="text"
-              onChange={ this.handleChange }
-            />
-          </div>
-          <div>
-            <RenderBootstrapField
-              { ...props }
-              label='Fax'
-              defaultValue= "Campany fax number..."
-              name="fax"
-              type="text"
-              onChange={ this.handleChange }
-            />
-          </div>
-          <div>
-            <RenderBootstrapField
-              { ...props }
-              label='Email'
-              defaultValue= "Campany email address..."
-              name="email"
-              type="email"
-              onChange={ this.handleChange }
-            />
-          </div>
-          <div>
-            <RenderBootstrapField
-              { ...props }
-              label='Website URL'
-              defaultValue= "Campany website..."
-              name="website"
-              type="text"
-              onChange={ this.handleChange }
-            />
-          </div>
-        </>
-      );
     }
 
     render() {
 
-      const { handleSubmit, pristine, submitting, classes } = this.props;
+      const { 
+        pristine, user,
+        submitting, classes,
+        handleSubmit, valid
+      } = this.props;
+
+      // check if user is successfully logged in or authenticated
+      if (user !== undefined && user !== null) {
+
+          // check if token defined
+          return redirect.to({ url: '/login', from: this.context })
+
+      }
 
       return (
         <>
-
           <Flex
             wrap
             align='center'
@@ -175,28 +119,34 @@ class UserRegistration extends Component {
             p={3}
             className='landing-info'>
 
-            <Card elevation={Elevation.TWO}>
+            <Card elevation={Elevation.ONE}>
 
-              <form onSubmit={handleSubmit} autoComplete="off">
+              <Flex align='top' justify='center' w={1}>
+                <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
+                  <h2>Create Account</h2>
+                </InputLabel>
+              </Flex>
+              <form onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
 
                 <Flex align='left' justify='left' w={1/2}>
                   <Box p={1}>
-                    <FormLabel component="legend">Personal Account</FormLabel>
-                    { this.personal(this.props) }
+                    <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
+                      <h3>Personal Account</h3>
+                    </InputLabel>
+                    <PersonalProfile props={ this.props } />
                   </Box>
-                </Flex>
-
-                <Flex align='right' justify='right' w={1/2}>
                   <Box p={1}>
-                    <FormLabel component="legend">Company Account</FormLabel>
-                    { this.company(this.props) }
+                    <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
+                      <h3>Stakeholder Account</h3>
+                    </InputLabel>
+                    <StakeholderProfile props={this.props} state={this.state} handleChange={ this.handleChange } />
                   </Box>
                 </Flex>
 
                 <div className={classes.margin}>
 
-                  <Button type="submit" disabled={pristine || submitting} intent="success" text="Register" />
-
+                  <Button type="submit" disabled={!valid || pristine || submitting} intent="success" text="Register" />
+                
                 </div>
 
               </form>
@@ -211,12 +161,29 @@ class UserRegistration extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+
+  return {
+    user: state.user.user,
+  }
+
+}
+
+const mapDispatchToProps = (dispatch) => {
+
+  return {
+    register: (values) => { dispatch(UserAuthActions.register(values)) },
+    login: (user) => { dispatch(UserAuthActions.login(user)) },
+  }
+
+}
+
 UserRegistration.propTypes = {
    classes: PropTypes.object.isRequired,
 }
 
 export default reduxForm({
-  form: "UserRegistrationForm",
-  Validate,
+  form: "registration",
+  Validate, 
   AsyncValidate
-})(withStyles(styles)(UserRegistration));
+})(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(UserRegistration)));

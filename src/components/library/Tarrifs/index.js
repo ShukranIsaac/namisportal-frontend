@@ -1,17 +1,15 @@
-import React, { Component } from 'react';
+import React, { Fragment } from 'react';
 
-export default class Tarrifs extends Component {
+const Tarrifs = (props) => {
 
-    render(){
+    const { library } = props;
 
-        const { library } = this.props;
-        console.log(library)
-        return(
-            <>
-                { this.props.renderDocuments(library) }
-            </>
-
-        );
-    }
+    return(
+        <Fragment>
+            { props.renderDocuments(library) }
+        </Fragment>
+    );
 
 }
+
+export default Tarrifs;

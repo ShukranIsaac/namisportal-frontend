@@ -7,3 +7,7 @@ export * from './library.types';
 export * from './gis.types';
 
 export * from './licencing.types';
+
+export * from './event.types';
+
+export * from './home.types';

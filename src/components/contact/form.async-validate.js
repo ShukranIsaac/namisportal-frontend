@@ -1,7 +1,7 @@
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-const AsyncValidate = (values /*, dispatch*/) => {
+const AsyncValidate = async (values, dispatch) => {
 
     return sleep(1000).then(() => {
         // silmulate server latency

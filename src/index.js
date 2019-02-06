@@ -10,6 +10,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import store from './store';
 import * as serviceWorker from './serviceWorker';
+import UserProvider from './components/user/user.context';
 import enviromentalVariable from 'dotenv';
 
 //env fn
@@ -17,10 +18,9 @@ enviromentalVariable.config();
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
+    <UserProvider>
       <App />
-    </BrowserRouter>
-    
+    </UserProvider>
   </Provider>,
   document.getElementById('root')
 );

@@ -8,7 +8,12 @@ class CustomColumn extends Component {
         return (
             <Fragment>
                 
-                <Box w={this.props.w} p={this.props.p} m={this.props.m || 0} style={this.props.style}>
+                <Box 
+                    w={this.props.w} 
+                    p={this.props.p} 
+                    m={this.props.m || 0} 
+                    style={this.props.style}
+                    className={this.props.className}>
                     
                     { this.props.children }
     

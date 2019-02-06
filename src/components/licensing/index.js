@@ -11,6 +11,11 @@ import * as LicensingAction from '../../actions/index';
 
 import './licensing.css'
 
+
+/**
+ * Licencing categories with each with different steps
+ * 
+ */
 const steps = [
   {
     "type": "Generating",
@@ -26,6 +31,12 @@ const steps = [
   },
 ];
 
+/**
+ * Index file to render licencing component
+ * 
+ * @author Isaac S. Mwakabira
+ * 
+ */
 class Licensing extends Component {
 
   constructor() {
@@ -59,19 +70,6 @@ class Licensing extends Component {
             <LicensingProfile onChange={ this.handleChange } {...this.props} {...this.state}/>
           </div>
         </div>
-        {/* <Flex
-            p={4}
-            align='top'
-            justify='center'
-            m={1}
-            w={1}
-            className='landing-info'>
-
-              <LicensingSidebar onChange={ this.handleChange } {...this.props} {...this.state}/>
-
-              <LicensingProfile onChange={ this.handleChange } {...this.props} {...this.state}/>
-
-        </Flex> */}
 
       </>
     );
