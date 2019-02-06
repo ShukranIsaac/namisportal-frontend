@@ -12,7 +12,7 @@ const Config = (() => {
 
   // API base url
   const APIUrl= Axios.create({
-    baseURL: `http://localhost:3300/`
+    baseURL: `http://192.168.1.2:3300/`
   });
 
   // remote online api

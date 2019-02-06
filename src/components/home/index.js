@@ -74,7 +74,6 @@ class Home extends Component {
             </Container>
           </div>
 
-        </div>
 
         <Footer/>
       </>

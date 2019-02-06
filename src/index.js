@@ -19,7 +19,9 @@ enviromentalVariable.config();
 ReactDOM.render(
   <Provider store={store}>
     <UserProvider>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </UserProvider>
   </Provider>,
   document.getElementById('root')
