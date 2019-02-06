@@ -13,7 +13,6 @@ import { ListDirectoryInstitution } from '../directory/directory.list.institutio
 import EditDirectoryInstitution from '../directory/directory.edit.institution';
 import CreateDirectoryInstitution from '../directory/directory.create.institution';
 import { FinancingRequestSupport } from '../financing/financing.request.support';
-import MainContentWrapper from '../MainContentWrapper';
 import { UserProfile } from '../user/user.profile';
 import { redirect } from '../user/user.redirect';
 
@@ -261,4 +260,4 @@ RenderSection.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(MainContentWrapper(RenderSection));
+export default withStyles(styles)(RenderSection);

@@ -23,7 +23,7 @@ import NewsItemDetails from './components/news/news.item.details';
 
 import AppHeader from './components/header/index';
 import CMSIndex from './components/cms';
-import store from './store';
+// import store from './store';
 import { UserContext } from './components/user/user.context';
 
 class App extends Component {

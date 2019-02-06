@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 
-import { Flex } from 'reflexbox';
-
 import LicensingProfile from './licensing.profile';
 import LicensingSidebar from './licensing.sidebar';
 

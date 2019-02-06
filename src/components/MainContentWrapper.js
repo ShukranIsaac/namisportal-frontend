@@ -7,7 +7,6 @@ const MainContentWrapper = (WrappedComponent) => {
   return class MainContentWrapper extends Component {
 
     render() {
-      const { classes } = this.props;
 
       return (
         <div>
