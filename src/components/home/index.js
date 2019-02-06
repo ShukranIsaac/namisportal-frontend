@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { Elevation, Button, Card } from "@blueprintjs/core";
-import { Link } from "react-router-dom";
 import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 
