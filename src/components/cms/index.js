@@ -246,7 +246,9 @@ class CMSIndex extends React.Component {
 
         return (
             <div className={classes.root}>
+            
                 <CssBaseline />
+
                 <AppBar
                     position="fixed"
                     className={classNames(classes.appBar, {
@@ -255,18 +257,20 @@ class CMSIndex extends React.Component {
                 >
                     <Toolbar disableGutters={!this.state.open}>
                         <IconButton
-                        color="inherit"
-                        aria-label="Open drawer"
-                        onClick={this.handleDrawerOpen}
-                        className={classNames(classes.menuButton, {
-                            [classes.hide]: this.state.open,
-                        })}
+                            color="inherit"
+                            aria-label="Open drawer"
+                            onClick={this.handleDrawerOpen}
+                            className={classNames(classes.menuButton, {
+                                [classes.hide]: this.state.open,
+                            })}
                         >
-                        <MenuIcon />
+                            <MenuIcon />
                         </IconButton>
+
                         <Typography variant="h6" color="inherit" noWrap>
                             Malawi Mini Grids
                         </Typography>
+
                     </Toolbar>
                 </AppBar>
 
