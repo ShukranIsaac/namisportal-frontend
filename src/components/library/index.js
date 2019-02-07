@@ -39,7 +39,6 @@ class Library extends Component {
 
   }
   handleChange = (event, value) => {
-    console.log(value)
     this.setState({ value });
     this.props.fetchLibrary(value);
   };

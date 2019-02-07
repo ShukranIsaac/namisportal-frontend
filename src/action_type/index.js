@@ -11,3 +11,5 @@ export * from './licencing.types';
 export * from './event.types';
 
 export * from './home.types';
+
+export * from './cms.types';

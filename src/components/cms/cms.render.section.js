@@ -15,6 +15,9 @@ import CreateDirectoryInstitution from '../directory/directory.create.institutio
 import { FinancingRequestSupport } from '../financing/financing.request.support';
 import { UserProfile } from '../user/user.profile';
 import { redirect } from '../user/user.redirect';
+import { ListHomeSubcategory } from '../home/home.list.subcategory';
+import EditHomeSubcategory from '../home/home.edit.subcategory';
+import CreateHomeSubcategory from '../home/home.add.subcategory';
 
 const directory = [
     {
@@ -96,7 +99,7 @@ const RenderSection = ({
     link, 
     props, 
     handleClick, 
-    handleChange 
+    handleChange
 }) => {
     
     switch (link) {
@@ -106,6 +109,33 @@ const RenderSection = ({
             return (
                 <Fragment>
                     
+                    <ResourceSection 
+                        option={props.user_event} 
+                        name="home" 
+                        List={ () => <ListHomeSubcategory 
+                                    handleClick={ (e) => handleClick(e) } 
+                                    category={ props.home } 
+                                    handleChange={ (e) => { handleChange(e) } }
+                                /> 
+                            }
+                        Edit={ () => <EditHomeSubcategory 
+                                    handleClick={ (e) => handleClick(e) }
+                                    category={ props.home }
+                                    subcategory={ props.subcategory }
+                                    editCategory={ props.editCategory }
+                                    archiveCategory={ props.archiveCategory }
+                                    props={ props }
+                                />
+                            }
+                        Create={ () => <CreateHomeSubcategory 
+                                    handleClick={ (e) => handleClick(e) } 
+                                    category={ props.home }
+                                    createCategory={ props.createCategory }
+                                    props={ props }
+                                />
+                            }
+                    />
+
                 </Fragment>
             );
 

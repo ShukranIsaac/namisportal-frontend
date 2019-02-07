@@ -23,8 +23,6 @@ import NewsItemDetails from './components/news/news.item.details';
 
 import AppHeader from './components/header/index';
 import CMSIndex from './components/cms';
-// import store from './store';
-import { UserContext } from './components/user/user.context';
 
 class App extends Component {
 
@@ -68,24 +66,7 @@ class App extends Component {
 
           <div style={content}>
 
-            <UserContext.Consumer>
-              {  
-                context => {
-                  console.log(context.state.isWebsite);
-                  
-                  switch (context.state.isWebsite) {
-                    case true:
-                      
-                      return <AppHeader />;
-
-                    default:
-
-                      return <AppHeader />;
-                  }
-                  
-                }
-              }
-            </UserContext.Consumer>
+            <AppHeader />
 
             <Route exact path="/" component={Home} />
             <UserPrivateRoute path="/cms" component={CMSIndex} />

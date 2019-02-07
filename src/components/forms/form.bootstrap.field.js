@@ -9,9 +9,9 @@ import { InputBase, InputLabel } from '@material-ui/core';
  * 
  */
 const RenderBootstrapField = ({ 
-  classes, label, rows, 
+  classes, label, 
   defaultValue, name, 
-  type, multiline, props
+  type, props, value
 }) => {
 
     return (
@@ -25,14 +25,12 @@ const RenderBootstrapField = ({
             name={name}
             placeholder={defaultValue}
             type={type}
-            value={props.input.value}
+            value={props.input.value || value}
             onChange={(e) => props.input.onChange(e)}
             classes={{
               root: classes.bootstrapRoot,
               input: classes.bootstrapInput,
             }}
-            // multiline={multiline}
-            // rowsMax={rows}
             {...props}
           />
         </FormControl>

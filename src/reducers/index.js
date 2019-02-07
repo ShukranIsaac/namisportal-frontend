@@ -14,6 +14,7 @@ import l_filters from './licencing_filters.reducer';
 import distributionlines from './distribution.reducer';
 import userEvent from './event.reducer';
 import transformers from './transformers.reducer';
+import cms from './cms.reducer';
 
 export default combineReducers({
     form: formReducer,
@@ -30,4 +31,5 @@ export default combineReducers({
     lines: distributionlines,
     event: userEvent,
     transformers: transformers,
+    cms: cms
 });

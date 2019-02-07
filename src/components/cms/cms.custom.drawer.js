@@ -17,9 +17,11 @@ import NewsIcon from '@material-ui/icons/LibraryBooks'
 import ContactIcon from '@material-ui/icons/ContactMail'
 import NotificationsIcon from '@material-ui/icons/NotificationImportant'
 import Settings from '@material-ui/icons/Settings'
-import LogoutIcon from '@material-ui/icons/AccountCircle'
+import LogoutIcon from '@material-ui/icons/AccountCircle';
+import HomeIcon from '@material-ui/icons/Home';
 
 const drawer_controls = [
+    { name: 'home', button: <HomeIcon />},
     { name: 'licencing', button: <LicencingIcon/>},
     { name: 'financing', button: <FinancingIcon/>},
     { name: 'directory', button: <DirectoryIcon/>},
@@ -53,7 +55,8 @@ const CustomDrawer = ({
     theme, 
     handleLink, 
     capitalize,
-    drawerClose 
+    drawerClose,
+    link
 }) => {
 
     return (
@@ -70,7 +73,12 @@ const CustomDrawer = ({
             <List>
                 {
                     drawer_controls.map(({name, button}) => (
-                        <ListItem button key={name} onClick={ (e) => handleLink(e, name) }>
+                        <ListItem 
+                            button 
+                            key={name} 
+                            onClick={ (e) => handleLink(e, name) }
+                            className={ link === name && classes.highlight }
+                        >
                             <ListItemIcon>{ button }</ListItemIcon>
                             <ListItemText primary={capitalize(name)} />
                         </ListItem>
@@ -82,7 +90,12 @@ const CustomDrawer = ({
 
             <List>
                 {config.map(({name, button}) => (
-                    <ListItem button key={name} onClick={ (e) => handleLink(e, name) }>
+                    <ListItem 
+                        button 
+                        key={name} 
+                        onClick={ (e) => handleLink(e, name) }
+                        className={ link === name && classes.highlight }
+                    >
                         <ListItemIcon>{ button }</ListItemIcon>
                         <ListItemText primary={capitalize(name)} />
                     </ListItem>
