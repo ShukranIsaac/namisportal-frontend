@@ -36,10 +36,3 @@ h5 a:hover, nav a:hover {
 main {
   max-width: 100%;
 }
-
-.MuiDrawer-paper-14{
-  top: unset;
-  flex: unset;
-  display: unset;
-  flex-direction: unset
-}

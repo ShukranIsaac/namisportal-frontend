@@ -25,6 +25,7 @@ class MinGridMap extends Component {
       },
       show: false,
       activeMarker: null,
+      h: 0
     };
 
     this.renderDistrictMarepCenters = this.renderDistrictMarepCenters.bind(this);
@@ -39,7 +40,10 @@ class MinGridMap extends Component {
     this.handleMarkerClick = this.handleMarkerClick.bind(this);
 
   }
-
+  componentDidMount(){
+    const h = document.body.offsetHeight - document.querySelector('#giveHeaderHeight').offsetHeight;
+    this.setState({h})
+  }
   componentDidUpdate() {
 
     // check if props or state changed
@@ -500,13 +504,13 @@ class MinGridMap extends Component {
   render() {
 
     const google = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyA8-4amVHsfL-PCglVdff9yauniqT4hVQk&libraries=places';
-
+    const { h } = this.state
     return (
       <Fragment>
         <CustomGoogleMap
-          googleMapURL={google} loadingElement={<div style={{ height: `900px`, width: '100%', display: 'flex', flexFlow: 'row nowrap', justifyContent: 'center' }} />}
+          googleMapURL={google} loadingElement={<div style={{ height: h, width: '100%', display: 'flex', flexFlow: 'row nowrap', justifyContent: 'center' }} />}
           containerElement={<div id="map-canvas" style={{ width: '100%', marginLeft: 0 }} ></div>}
-          mapElement={<div id="map" style={{ height: `900px` }} />}
+          mapElement={<div id="map" style={{ height: h }} />}
           onDistrictChanged={this.renderDistrictPolygon(this.props)}
           onRegionChanged={this.renderRegionPolygon(this.props)}
           onMarepCenter ={this.renderDistrictMarepCenters(this.props)}

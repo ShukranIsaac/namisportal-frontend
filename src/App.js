@@ -63,25 +63,21 @@ class App extends Component {
       <div style={wrapper}>
 
         <Router>
-
-          <div style={content}>
-
-         
-            <Route exact path="/" render={() => (<><AppHeader /> <Home/> <Footer/></>)} />
+          <>
+            <Route exact path="/" render={() => (<div style={content}><AppHeader /> <Home/> <Footer/></div>)} />
             <UserPrivateRoute path="/cms" component={CMSIndex} />
-            <Route exact path="/licensing" render={() => (<><AppHeader /> <Licensing/> <Footer/></>)} />
-            <Route exact path="/financing" render={() => (<><AppHeader /> <Financing/> <Footer/></>)} />
-            <Route exact path="/library" render={() => (<><AppHeader /> <Library/> <Footer/></>)} />
-            <Route exact path="/directory" render={() => (<><AppHeader /> <Directory/> <Footer/></>)} />
+            <Route exact path="/licensing" render={() => (<div style={content}><AppHeader /> <Licensing/> <Footer/></div>)} />
+            <Route exact path="/financing" render={() => (<div style={content}><AppHeader /> <Financing/> <Footer/></div>)} />
+            <Route exact path="/library" render={() => (<div style={content}><AppHeader /> <Library/> <Footer/></div>)} />
+            <Route exact path="/directory" render={() => (<div style={content}><AppHeader /> <Directory/> <Footer/></div>)} />
             <Route exact path="/gis" render={() => (<><AppHeader /> <GIS/></>)} />
-            <Route exact path="/news" render={() => (<><AppHeader /> <News/> <Footer/></>)} />
-            <Route exact path="/news/:id" render={() => (<><AppHeader /> <NewsItemDetails/> <Footer/></>)} />
-            <Route exact path="/faq" render={() => (<><AppHeader /> <FAQ/> <Footer/></>)} />
-            <Route exact path="/contact" render={() => (<><AppHeader /> <Contact/> <Footer/></>)} />
+            <Route exact path="/news" render={() => (<div style={content}><AppHeader /> <News/> <Footer/></div>)} />
+            <Route exact path="/news/:id" render={() => (<div style={content}><AppHeader /> <NewsItemDetails/> <Footer/></div>)} />
+            <Route exact path="/faq" render={() => (<div style={content}><AppHeader /> <FAQ/> <Footer/></div>)} />
+            <Route exact path="/contact" render={() => (<div style={content}><AppHeader /> <Contact/> <Footer/></div>)} />
             <Route exact path="/login" render={ () => <UserLogin /> } />
             <Route exact path="/register" render={ () => <UserRegistration /> } />
-            
-          </div>
+          </> 
 
         </Router>
         

@@ -210,6 +210,8 @@ class GIS extends Component {
       district
     } = this.props;
 
+    
+
     const { isLoading } = this.state;
     // console.log(this.props.m_centers);
     /**

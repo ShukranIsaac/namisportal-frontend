@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Elevation } from '@blueprintjs/core'
+import { Container, Col, Row } from 'reactstrap'
 import { Flex, Box } from 'reflexbox';
 
 import Panel from './panel';
@@ -35,41 +36,35 @@ class Financing extends Component {
     }
 
     return (
-      <div >
-        <div style={header}>
-        <Flex 
-          p={4}
-          align='center'
-          justify='center'
-          m={1}
-          w={1}
-          style={flexStyle}>
-          <Box w={1} p={1} align='center'>
-          <Card elevation={Elevation.TWO}>
-          <Card interactive={false} elevation={Elevation.ZERO} style={financing}>
-              <p><strong>Financing</strong></p>
-              <p>
-              The process for requesting financing support entails the following 
-              steps. Further details are available by clicking on each step.
-
-              </p>
-          </Card>
-            <Panel heading="1. Concept Note"/>
-            <Panel heading="2. Concept Note Appraisal"/>
-            <Panel heading="3. Prefeasibily Study and draft Business Plan"/>
-            <Panel heading="4. Application for Grant"/>
-            <Panel heading="5. Preliminary Evaluation of Grant Application"/>
-            <Panel heading="6. Feasibility Report and Business Plan"/>
-            <Panel heading="7. Final Evaluation of Grant Application"/>
-            <Panel heading="8. Disbursement"/>
-          </Card>
-         
-          </Box>
-          
-          
-          </Flex>
-        </div>
+      <div className = "page-content">
+        <Container>
+          <Row>
+          <div>
+            <Card elevation={Elevation.TWO}>
+              <Card interactive={false} elevation={Elevation.ZERO} style={financing}>
+                  <p style={header}><strong>Financing</strong></p>
+                  <p>
+                    Mini-Grid development in Malawi has so far been supported financially by Donors.
+                    Though Rural electrification act of 2004 provides that the Rural electrification Levy
+                    which is part of Rural Electrification Fund can fund the Rural Electrification projects
+                    having IRR of up to 6%, there are no clear guidelines for accessing this fund so far.Once
+                    the guidelines are laid out properly by the government, all the necessary steps for
+                    accessing this fund for Minigrid and other rural electrification projects, shall be uploaded
+                    on this portal. Information Portal.
+                  </p>
+                  <p>
+                    Meanwhile, minigrid developers can grab any opportunity for minigrid development
+                    financing that may arise from the donor community. Any such opportunity that will
+                    come to the knowledge of government shall be published on this portal.
+                  </p>
+              </Card>
+            </Card>
+          </div>
+          </Row>
+        </Container>
+        
       </div>
+        
     );
   }
 }

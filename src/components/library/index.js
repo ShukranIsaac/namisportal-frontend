@@ -38,7 +38,7 @@ class Library extends Component {
     this.props.fetchLibrary(this.state.value);
 
   }
-  handleChange = (event, value) => {
+  handleChange = (event, value) => {  
     this.setState({ value });
     this.props.fetchLibrary(value);
   };

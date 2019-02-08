@@ -205,35 +205,6 @@ class Financing extends Component {
     })
   }
   render(){
-    // const containerStyle = {
-    //   width: '80%',
-    //   margin: '0 auto',
-    // }
-    const button = {
-        display: 'flex',
-        flexDirection: 'row',
-        width: '100%',
-        borderRadius: '0',
-        background: '#D8E1E8',
-        fontSize: '1.2em',
-        padding: '10px',
-        cursor: 'pointer'
-    }
-
-    const docContainer = {
-        marginBottom: '10px',
-        textAlign: 'left'
-    }
-
-    // const alignCenter = {
-    //     textAlign: 'center'
-    // }
-
-    // const list = {
-    //     listStyle: 'numbered'
-    // }
-    
-    const factsBack = { background: '#D8E1E8'}
     const header = {
       textAlign: 'center',
     }
@@ -241,14 +212,6 @@ class Financing extends Component {
       marginBottom: 8,
       borderRadius: 0
     }
-
-    // const keyFacts = {
-    //   duration: 'time',
-    //   CompetentAuthority: 'string', 
-    //   prerequisites: [],
-    //   requiredDocuments: []
-
-    // }
 
     return (
         <div style={header}>

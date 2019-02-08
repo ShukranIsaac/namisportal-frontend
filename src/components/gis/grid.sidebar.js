@@ -218,7 +218,7 @@ class GridSideBar extends Component {
         >
 
         <div className={classes.grow} />
-          <Container>
+          <div style={{width: '100%'}}>
             <Row>
               <Col lg='12'>
               <FormControl className={classes.formControl} key="region">
@@ -385,13 +385,13 @@ class GridSideBar extends Component {
 
               </Col>
             </Row> */}
-          </Container>
+          </div>
       </Drawer>
     );
   }
 }
 
-const drawerWidth = 270;
+const drawerWidth = '20%';
 const styles = theme => ({
   root: {
     color: green[600],
@@ -417,7 +417,7 @@ const styles = theme => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    top: 'unset',
+    paddingTop: '70px',
     flex: 'unset',
     display: 'unset',
     flexDirection: 'unset',

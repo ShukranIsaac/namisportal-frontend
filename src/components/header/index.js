@@ -25,7 +25,7 @@ export default class AppHeader extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div id='giveHeaderHeight'>
         <Navbar color="light" light expand="md">
           <Link to="/"><h4>Malawi Mini Grids</h4></Link>
           <NavbarToggler onClick={this.toggle} />
