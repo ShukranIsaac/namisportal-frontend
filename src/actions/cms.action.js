@@ -77,18 +77,19 @@ export const addCategory = (category_id, sub_category, token) => {
 /**
  * Edit a single category
  * 
- * @param category
+ * @param category_id
+ * @param edited_sub_category
  * @param token
  */
-export const editCategory = (category, token) => {
-
-    const url = `categories/` + category._id + `?token=` + token;
+export const editCategory = (category_id, edited_sub_category, token) => {
+    
+    const url = `categories/` + category_id + `?token=` + token;
 
     return async dispatch => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return await patch(dispatch, url, category)
+        return await patch(dispatch, url, edited_sub_category)
         
         .then((response) => {
 

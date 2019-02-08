@@ -6,6 +6,7 @@ import './home.css'
 import Footer from '../footer';
 import * as HomeActions from '../../actions/home.action';
 import { HomeSubCategory, filterSection } from './home.subcategory';
+import { ProgressLoader } from '../loader.component.wrapper';
 
 /**
  * @author Paul Sembereka
@@ -13,28 +14,23 @@ import { HomeSubCategory, filterSection } from './home.subcategory';
  * 
  */
 class Home extends Component {
-  
-  constructor() {
-    super();
-    this.state = {}
-  }
 
   componentDidMount() {
 
-    this.props.fetchHomeDetails();
+    this.props.fetchHome('Home');
 
   }
 
   render(){
-
-    const { home } = this.props;
     
-    if (home.length === 0) {
-      return <div className="loading">Loading...</div>
+    const { home } = this.props;
+
+    if (home.subCategories === null || home.subCategories === undefined) {
+      return <div className="loader"/>
     }
 
-    const main_section = filterSection(home, "Information for Mini-Grid Developers");
-
+    const main_section = filterSection(home.subCategories, "Information for Mini-Grid Developers");
+    
     return (
       <>
         <div className='landing-info'>
@@ -58,22 +54,21 @@ class Home extends Component {
             <Container>
               <Row>
 
-                <HomeSubCategory props={ home } section="Licencing" />
+                <HomeSubCategory props={ home.subCategories } section="Licencing" />
 
-                <HomeSubCategory props={ home } section="Financing" />
+                <HomeSubCategory props={ home.subCategories } section="GIS" />
 
-                <HomeSubCategory props={ home } section="Library" />
+                <HomeSubCategory props={ home.subCategories } section="Library" />
 
-                <HomeSubCategory props={ home } section="GIS" /> 
+                <HomeSubCategory props={ home.subCategories } section="Financing" />
 
-                <HomeSubCategory props={ home } section="Directory" /> 
+                <HomeSubCategory props={ home.subCategories } section="Directory" /> 
 
-                <HomeSubCategory props={ home } section="TASF" /> 
+                <HomeSubCategory props={ home.subCategories } section="News" /> 
 
               </Row>
             </Container>
           </div>
-
 
         <Footer/>
       </>
@@ -90,11 +85,11 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-
+  
   return {
-    fetchHomeDetails: () => { dispatch(HomeActions.fetchHomeDetails()) },
+    fetchHome: (name) => { dispatch(HomeActions.fetchHomeDetails(name)) },
   }
   
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(ProgressLoader('home')(Home));

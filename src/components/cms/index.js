@@ -433,7 +433,7 @@ const mapDispatchToProps = (dispatch) => {
         homeSubcategory: (categ) => { dispatch(HomeAction.fetchHomeCategories(categ)) },
         subCategory: (id) => { dispatch(CMSAction.fetchCategory(id)) },
         createCategory: (i, c, t) => { dispatch(CMSAction.addCategory(i, c, t)) },
-        editCategory: (c, t) => { dispatch(CMSAction.editCategory(c, t)) },
+        editCategory: (s, e, t) => { dispatch(CMSAction.editCategory(s, e, t)) },
         archiveCategory: (c, t) => { dispatch(CMSAction.archiveCategory(c, t)) }
     };
 
