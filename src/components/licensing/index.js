@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Container, Row } from 'reactstrap'
 
 import LicensingProfile from './licensing.profile';
-import LicensingSidebar from './licensing.sidebar';
+// import LicensingSidebar from './licensing.sidebar';
 
 import * as LicensingAction from '../../actions/index';
 

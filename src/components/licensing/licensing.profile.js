@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Card, Elevation } from '@blueprintjs/core'
-import { Flex, Box } from 'reflexbox'
 import Panel from '../financing/panel';
 
 class Financing extends Component {
@@ -18,11 +17,11 @@ class Financing extends Component {
       marginBottom: 8,
       borderRadius: 0
     }
-    const flexStyle = {
-      margin: 'auto',
-      background: '#15B371',
-      padding: '12%'
-    }
+    // const flexStyle = {
+    //   margin: 'auto',
+    //   background: '#15B371',
+    //   padding: '12%'
+    // }
 
     // const keyFacts = {
     //   duration: 'time',
