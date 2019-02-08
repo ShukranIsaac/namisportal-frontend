@@ -10,7 +10,7 @@ import Config from '../config';
  */
 export const get = async (dispatch, url) => {
 
-    return await Config.APIUrl.get(url)
+    return await Config.REMOTE_API_URL.get(url)
     
     .then((response) => {
         
@@ -35,7 +35,7 @@ export const get = async (dispatch, url) => {
  */
 export const post = async (dispatch, url, data) => {
     
-    return await Config.APIUrl.post(url, data)
+    return await Config.REMOTE_API_URL.post(url, data)
 
     .then(response => {
         
@@ -62,7 +62,7 @@ export const post = async (dispatch, url, data) => {
  */
 export const patch = async (dispatch, url, data) => {
     
-    return await Config.APIUrl.patch(url, data)
+    return await Config.REMOTE_API_URL.patch(url, data)
 
     .then(response => {
         
@@ -87,7 +87,7 @@ export const patch = async (dispatch, url, data) => {
  */
 export const _delete = async (dispatch, url) => {
     
-    return await Config.APIUrl.delete(url)
+    return await Config.REMOTE_API_URL.delete(url)
 
     .then(response => {
         

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Collapse, Callout, Icon, Card, Elevation } from '@blueprintjs/core'
+import { Card, Elevation } from '@blueprintjs/core'
 import Panel from '../financing/panel';
 
 const lincensingProcess = [

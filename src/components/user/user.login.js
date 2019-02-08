@@ -203,7 +203,11 @@ class UserLogin extends Component {
 
                           <Button type="submit" disabled={!valid  || pristine || submitting} intent="success" text="Login" />
 
-                          <Link to="/register"><div>Register? </div></Link>
+                          <Link 
+                            to="/register" 
+                            onClick={ redirect.to({ url: '/register' })}>
+                              <div>Register? </div>
+                          </Link>
 
                         </div>
                       </form>
@@ -213,15 +217,6 @@ class UserLogin extends Component {
                 
               </Container>
             </div>
-
-            
-
-            
-
-
-            
-
-                  
 
           </Fragment>
         );
@@ -254,4 +249,7 @@ export default reduxForm({
   form: "login",
   Validate,
   AsyncValidate
-})(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(UserLogin)));
+})(withStyles(styles)(
+    connect(mapStateToProps, mapDispatchToProps)(UserLogin)
+  )
+);
