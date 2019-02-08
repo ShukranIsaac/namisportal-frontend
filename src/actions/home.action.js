@@ -8,10 +8,10 @@ import { get } from './api.service';
  * @param category_id
  * 
  */
-export const fetchHomeDetails = () => {
+export const fetchHomeDetails = (name) => {
 
-    const url = `categories`;
-
+    const url = `categories?name=` + name;
+    
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
@@ -19,8 +19,8 @@ export const fetchHomeDetails = () => {
         return await get(dispatch, url)
         
         .then((response) => {
-
-          dispatch(GeneralAction.fetchSuccess(HomeType.REQUEST_HOME_DATA, response, false))
+            
+            dispatch(GeneralAction.fetchSuccess(HomeType.REQUEST_HOME_DATA, response, false))
 
         })
         

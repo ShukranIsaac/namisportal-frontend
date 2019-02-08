@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { reduxForm, Field } from 'redux-form';
 
 import { Elevation, Button, Card } from "@blueprintjs/core";
-import { Container, Col, Row } from 'reactstrap'
+import { Container } from 'reactstrap'
 
 import ParticlesComponent from './particles'
 

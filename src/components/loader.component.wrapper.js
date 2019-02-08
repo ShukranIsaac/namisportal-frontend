@@ -8,29 +8,23 @@ import React, { Component } from 'react';
  * @param {*} propName 
  * @returns {Component} component
  */
-const ComponentLoaderWrapper = (propName) => (WrappedComponent) => {
+export const ProgressLoader = (propName) => (WrappedComponent) => {
   
-    return class LoaderHOC extends Component {
+    return class ProgressLoader extends Component {
 
         isEmpty = (prop) => {
 
-            return (
-                prop === null ||
-                prop === undefined ||
-                (prop.hasOwnProperty('length') && prop.length === 0) ||
-                (prop.constructor === Object.keys(prop).length === 0)
-            );
+            return prop === null || prop === undefined;
 
         };
 
         render() {
-
-            return (this.isEmpty(this.props[propName]) ? 
-                <div className="loader"></div> : 
-                <WrappedComponent { ...this.props } />);
+            
+            return this.isEmpty(this.props[propName]) ? <div className="loader" /> : 
+                <WrappedComponent { ...this.props } />;
         
         }
+        
     }
+    
 }
-
-export default ComponentLoaderWrapper;

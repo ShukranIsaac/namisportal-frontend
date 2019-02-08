@@ -5,7 +5,7 @@ const initialState = {
 }
 
 const home = (state = initialState, action) => {
-
+    
     switch(action.type){
         case HomeType.REQUEST_HOME_DATA:
             return {

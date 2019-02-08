@@ -61,9 +61,11 @@ export const HomeSubCategory = ({ props, section }) => {
         return <Col sm='12' md='6' lg='4'/>
     }
 
-    // console.log(section);
     const my_section = filterSection(props, section);
-    // console.log(my_section)
+    
+    if (my_section === null && my_section === undefined) {
+        return <Col sm='12' md='6' lg='4' />
+    }
 
     return (
         <Col sm='12' md='6' lg='4'>

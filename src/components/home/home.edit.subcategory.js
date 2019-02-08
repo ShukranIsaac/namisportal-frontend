@@ -49,10 +49,30 @@ class EditHomeSubcategory extends Component {
     }
 
     handleSubmit = (values) => {
-        
-        console.log(values)
-        const { editCategory } = this.props;
-        console.log(editCategory)
+        // category under which this subcategory should 
+        // be uploaded to
+        const { subcategory, props } = this.props;
+        // get authenticated user token
+        const user = UserProfile.get();
+        if(user !== null && user.token !== undefined) {
+            
+            let edited_sub_category;
+            if(values !== null && values !== undefined) {
+                
+                // get sub-category structure
+                edited_sub_category = {
+                    name: values.subcategory,
+                    about: values.about
+                }
+
+                // then edit this sub category
+                this.props.editCategory(subcategory._id, edited_sub_category, user.token);
+                // then change state to default
+                // so that the page redirects and list all home items
+                props.defaultItem();
+            }
+
+        } 
 
     }
 
