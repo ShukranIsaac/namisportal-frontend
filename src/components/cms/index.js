@@ -14,6 +14,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import * as UserEventActions from '../../actions/event.action';
 import * as LibraryAction from '../../actions/index';
 import * as UserAuthAction from '../../actions/user.action';
+import * as HomeAction from '../../actions/home.action';
+import * as CMSAction from '../../actions/cms.action';
 
 import CustomDrawer from './cms.custom.drawer';
 import RenderSection from './cms.render.section';
@@ -35,11 +37,12 @@ class CMSIndex extends React.Component {
     constructor() {
         super();
         this.state = {
-            link: 'licencing',
+            link: 'home',
             event: 'default',  // default value required when rendering a single resource section
             searchTerm: '',
             doc_title: '',
             open: false,
+            subcategory: null
         }
 
         /**
@@ -54,6 +57,7 @@ class CMSIndex extends React.Component {
         this.handleDrawerClose = this.handleDrawerClose.bind(this);
         this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
         this.capitalize = this.capitalize.bind(this);
+        this.categoryClick = this.categoryClick.bind(this);
 
     }
 
@@ -73,6 +77,17 @@ class CMSIndex extends React.Component {
 
         // this.props.editItem();
         // console.log(this.props.user_event);
+        this.props.homeSubcategory("Home");
+
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+
+        // check if props or state changed
+        if (prevState !== this.state) {
+            // Object.assign(this.props, { home: prevProps })
+            // this.props.homeSubcategory("Home");
+        }
 
     }
 
@@ -97,10 +112,8 @@ class CMSIndex extends React.Component {
 		 */
         e.preventDefault();
         
-        /**
-         * Fetch all library docs
-         */
-        if (link === 'library' ) this.props.fetchLibraryDocs();
+        // fetch this component data is this link is clicked
+        this.fetchComponent(link)
 
         // Set state
         this.setState({ link });
@@ -111,6 +124,30 @@ class CMSIndex extends React.Component {
         const prevUrl = `${match.path}/${link}`;
         if (prevUrl) {
             history.push(prevUrl);
+        }
+
+    }
+
+    /**
+     * Fetch data from API depending on the link visited
+     * in the CMS index page
+     */
+    fetchComponent = (link) => {
+
+        // check which link has been visited
+        switch(link) {
+
+            case 'library':
+                /**
+                 * Fetch all library docs
+                 */
+                this.props.fetchLibraryDocs();
+                break;
+            case 'home':
+                this.props.homeSubcategory(this.capitalize(link));
+                break;
+            default:
+                break;
         }
 
     }
@@ -143,12 +180,21 @@ class CMSIndex extends React.Component {
 
     }
 
+    /**
+     * On click single category
+     */
+    categoryClick = (categoryId) => {
+
+        // fetch category
+        this.props.subCategory(categoryId);
+
+    }
+
     handleClick = (event) => {
 		/**
 		 *  disabling browser default behavior like page refresh, etc 
 		 */
         event.preventDefault();
-        
         /**
          * change state depending on the button the user clicked in the UI
          * 
@@ -159,6 +205,9 @@ class CMSIndex extends React.Component {
                 break;
             case 'edit':
                 this.props.editItem();
+                // fetch category
+                this.props.subCategory(event.currentTarget.id);
+
                 break;
             case 'unpublish':
                 this.props.unpublishItem();
@@ -197,7 +246,9 @@ class CMSIndex extends React.Component {
 
         return (
             <div className={classes.root}>
+            
                 <CssBaseline />
+
                 <AppBar
                     position="fixed"
                     className={classNames(classes.appBar, {
@@ -206,18 +257,20 @@ class CMSIndex extends React.Component {
                 >
                     <Toolbar disableGutters={!this.state.open}>
                         <IconButton
-                        color="inherit"
-                        aria-label="Open drawer"
-                        onClick={this.handleDrawerOpen}
-                        className={classNames(classes.menuButton, {
-                            [classes.hide]: this.state.open,
-                        })}
+                            color="inherit"
+                            aria-label="Open drawer"
+                            onClick={this.handleDrawerOpen}
+                            className={classNames(classes.menuButton, {
+                                [classes.hide]: this.state.open,
+                            })}
                         >
-                        <MenuIcon />
+                            <MenuIcon />
                         </IconButton>
+
                         <Typography variant="h6" color="inherit" noWrap>
-                            Content Management System
+                            Malawi Mini Grids
                         </Typography>
+
                     </Toolbar>
                 </AppBar>
 
@@ -238,6 +291,7 @@ class CMSIndex extends React.Component {
                 
                     <CustomDrawer 
                         { ...this.props } 
+                        { ...this.state }
                         drawerClose={this.handleDrawerClose}
                         handleLink={this.handleLink}
                         capitalize={this.capitalize}
@@ -251,16 +305,26 @@ class CMSIndex extends React.Component {
 
                     <div className="card">
                         <div className="card-body">
-                            <h4 >
-                                <a className="heading" href="/#"/*href={`/`+ link}*/>
-                                    { this.capitalize(link) }
-                                </a>
-                            </h4>
+                            
+                            {
+                                !this.state.open ? 
+                                <div>
+                                    <h4 >
+                                        <a className="heading" href="/#"/*href={`/`+ link}*/>
+                                            { this.capitalize(link) }
+                                        </a>
+                                    </h4>
+                                </div>
+                                : <div></div>
+                            }
+
                             <RenderSection
                                 link={ link } 
                                 handleClick={ this.handleClick } 
+                                categoryClick={ this.categoryClick }
                                 handleChange={ (e) => { this.handleChange(e) } }
                                 props={this.props}
+                                { ...this.state }
                             />
                         </div>
                     </div>
@@ -333,6 +397,9 @@ const styles = theme => ({
       flexGrow: 1,
       padding: theme.spacing.unit * 3
     },
+    highlight: {
+        background: '#dcdde1'
+    }
 });
 
 const mapStateToProps = (state) => {
@@ -340,6 +407,8 @@ const mapStateToProps = (state) => {
     return {
         user_event: state.event.event,
         library: state.library.library,
+        home: state.home.home,
+        subcategory: state.cms.subcategory,
     };
 
 }
@@ -359,7 +428,13 @@ const mapDispatchToProps = (dispatch) => {
         // Library category
         fetchLibraryDocs: () => { dispatch(LibraryAction.fetchAllLibraryDocs()) },
         // logout
-        logout: (user) => { dispatch(UserAuthAction.logout(user)) }
+        logout: (user) => { dispatch(UserAuthAction.logout(user)) },
+        // home and cms home
+        homeSubcategory: (categ) => { dispatch(HomeAction.fetchHomeCategories(categ)) },
+        subCategory: (id) => { dispatch(CMSAction.fetchCategory(id)) },
+        createCategory: (i, c, t) => { dispatch(CMSAction.addCategory(i, c, t)) },
+        editCategory: (c, t) => { dispatch(CMSAction.editCategory(c, t)) },
+        archiveCategory: (c, t) => { dispatch(CMSAction.archiveCategory(c, t)) }
     };
 
 }

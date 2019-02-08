@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import './home.css'
 import Footer from '../footer';
-import { WhichHeaderComponent } from '../which.header.component';
 import * as HomeActions from '../../actions/home.action';
 import { HomeSubCategory, filterSection } from './home.subcategory';
 
@@ -70,6 +69,7 @@ class Home extends Component {
                 <HomeSubCategory props={ home } section="Directory" /> 
 
                 <HomeSubCategory props={ home } section="TASF" /> 
+
               </Row>
             </Container>
           </div>
@@ -97,4 +97,4 @@ const mapDispatchToProps = (dispatch) => {
   
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(WhichHeaderComponent('app_header')(Home));
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
