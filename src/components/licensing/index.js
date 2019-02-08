@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
+import { Container, Row } from 'reactstrap'
 
 import LicensingProfile from './licensing.profile';
 import LicensingSidebar from './licensing.sidebar';
@@ -59,17 +60,14 @@ class Licensing extends Component {
   render(){
 
     return (
-      <>
-        <div className = "row page-content">
-          <div className = "col-sm-3">
-            <LicensingSidebar onChange={ this.handleChange } {...this.props} {...this.state}/>
-          </div>
-          <div className = "col-sm-9 licence-data">
-            <LicensingProfile onChange={ this.handleChange } {...this.props} {...this.state}/>
-          </div>
+        <div className = "page-content">
+          <Container>
+            <Row>
+                <LicensingProfile onChange={ this.handleChange } {...this.props} {...this.state}/>
+            </Row>
+          </Container>
+          
         </div>
-
-      </>
     );
   }
 }

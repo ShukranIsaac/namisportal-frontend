@@ -5,8 +5,10 @@ html, body {
   scroll-behavior: smooth;
 }
 
-#side-bar-container {
-  margin-bottom: 10px;
+.row {
+  margin: 0;
+  margin-right: 0;
+  margin-left: 0;
 }
 
 .container-fluid {
@@ -24,7 +26,7 @@ html, body {
 .page-content{
   margin: auto;
   background: #15B371;
-  padding: 3%;
+  padding: 6em 0;
 }
 .licence-data{
   background: #fff;
@@ -45,16 +47,10 @@ html, body {
 
 
 
-/* @media (min-width: 576px){
-  main {
-    -ms-flex: 0 0 80%;
-    flex: 0 0 80%;
-    max-width: 80%;
+@media (max-width: 576px){
+  .page-content{
+    margin: auto;
+    background: #15B371;
+    padding: 2.5em 0;
   }
-
-  aside {
-    -ms-flex: 0 0 20%;
-    flex: 0 0 20%;
-    max-width: 20%;
-  }
-} */
+} 

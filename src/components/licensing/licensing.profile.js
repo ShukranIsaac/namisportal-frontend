@@ -33,15 +33,8 @@ class Financing extends Component {
     // }
 
     return (
-      <div style={{width: '100%'}}>
         <div style={header}>
         
-          <Flex 
-            align='center'
-            justify='top'
-            w={1}
-            style={flexStyle}>
-            <Box w={1} p={1}>
               <Card elevation={Elevation.TWO}>
                 <Card interactive={false} elevation={Elevation.ZERO} style={financing}>
                     <p><strong>Licensing</strong></p>
@@ -59,11 +52,8 @@ class Financing extends Component {
                 <Panel heading="7. Final Evaluation of Grant Application"/>
                 <Panel heading="8. Disbursement"/>
               </Card>
-            </Box>
-
-          </Flex>
+           
         </div>
-      </div>
     );
   }
 }
