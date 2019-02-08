@@ -26,7 +26,7 @@ class Home extends Component {
     const { home } = this.props;
 
     if (home.subCategories === null || home.subCategories === undefined) {
-      return <div />
+      return <div className="loader"/>
     }
 
     const main_section = filterSection(home.subCategories, "Information for Mini-Grid Developers");
