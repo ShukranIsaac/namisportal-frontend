@@ -8,7 +8,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { reduxForm, Field } from 'redux-form';
 
 import { Elevation, Button, Card } from "@blueprintjs/core";
-import { Flex, Box } from 'reflexbox';
+import { Container, Col, Row } from 'reactstrap'
+
+import ParticlesComponent from './particles'
 
 import RenderBootstrapField from '../forms/form.bootstrap.field';
 import AsyncValidate from '../contact/form.async-validate';
@@ -20,6 +22,8 @@ import styles from '../contact/form.styles';
 import { redirect } from './user.redirect';
 import { UserProfile } from './user.profile';
 import { ErrorField } from '../forms/form.error.field';
+
+
 
 /**
  * User login
@@ -130,78 +134,95 @@ class UserLogin extends Component {
         
         return (
           <Fragment>
-            <div>
-              <Flex
-                wrap
-                align='top'
-                justify='center'
-                m={1}
-                w={1}
-                p={3}
-                className='landing-info'>
-                <Box w={1/2} p={1}>
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                background: '#15B371'
+              }}>
 
-                  <Card elevation={Elevation.TWO}>
+              <ParticlesComponent/>
+              <Container>
+                <div
+                  style={{
+                    width: '60%',
+                    margin: '0 auto',
+                    marginTop: '15%'
+                  }}>
+                    <Card elevation={Elevation.TWO}>
 
-                    <form className={{style: 'center'}} onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
-                      <div>
-                        {/* <label htmlFor="first-name">Your first name:</label>
-                        <Field
-                          name="firstName"
-                          type="text"
-                          component={this.newField}
-                          id="first-name"
-                          placeholder="shukurani"
-                        /> */}
+                      <form className={{style: 'center'}} onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
+                        <div>
+                          {/* <label htmlFor="first-name">Your first name:</label>
+                          <Field
+                            name="firstName"
+                            type="text"
+                            component={this.newField}
+                            id="first-name"
+                            placeholder="shukurani"
+                          /> */}
 
-                        <Field name="username" component={props => {
-                          
-                          return (
-                            <div>
-                              <RenderBootstrapField
-                                { ...this.props }
-                                props={ props }
-                                label='Username'
-                                defaultValue= "Your username or email..."
-                                name="username"
-                                type="text"
-                              />
-                              <ErrorField props={ props } />
-                            </div>
-                          )
-                        }} />
-                      </div>
-                      <div>
-                        <Field name="password" component={props => {
-                          return (
-                            <div>
-                              <RenderBootstrapField
-                                { ...this.props }
-                                props={ props }
-                                label='Password'
-                                defaultValue= "Your password..."
-                                name="password"
-                                type="password"
-                              />
-                              <ErrorField props={ props } />
-                            </div>
-                          );
-                        }} />
-                      </div>
-                      <div className={classes.margin}>
+                          <Field name="username" component={props => {
+                            
+                            return (
+                              <div>
+                                <RenderBootstrapField
+                                  { ...this.props }
+                                  props={ props }
+                                  label='Username'
+                                  defaultValue= "Your username or email..."
+                                  name="username"
+                                  type="text"
+                                />
+                                <ErrorField props={ props } />
+                              </div>
+                            )
+                          }} />
+                        </div>
+                        <div>
+                          <Field name="password" component={props => {
+                            return (
+                              <div>
+                                <RenderBootstrapField
+                                  { ...this.props }
+                                  props={ props }
+                                  label='Password'
+                                  defaultValue= "Your password..."
+                                  name="password"
+                                  type="password"
+                                />
+                                <ErrorField props={ props } />
+                              </div>
+                            );
+                          }} />
+                        </div>
+                        <div className={classes.margin}>
 
-                        <Button type="submit" disabled={!valid  || pristine || submitting} intent="success" text="Login" />
+                          <Button type="submit" disabled={!valid  || pristine || submitting} intent="success" text="Login" />
 
-                        <Link to="/register"><div>Register? </div></Link>
+                          <Link to="/register"><div>Register? </div></Link>
 
-                      </div>
-                    </form>
+                        </div>
+                      </form>
 
-                  </Card>
-
-                </Box>
-              </Flex>
+                      </Card>
+                  </div>
+                
+              </Container>
             </div>
+
+            
+
+            
+
+
+            
+
+                  
+
           </Fragment>
         );
 

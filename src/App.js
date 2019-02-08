@@ -28,7 +28,7 @@ import { UserContext } from './components/user/user.context';
 
 class App extends Component {
 
-  constructor(){
+  constructor({match}){
     super()
 
     this.state = {
@@ -68,43 +68,25 @@ class App extends Component {
 
           <div style={content}>
 
-            <UserContext.Consumer>
-              {  
-                context => {
-                  console.log(context.state.isWebsite);
-                  
-                  switch (context.state.isWebsite) {
-                    case true:
-                      
-                      return <AppHeader />;
-
-                    default:
-
-                      return <AppHeader />;
-                  }
-                  
-                }
-              }
-            </UserContext.Consumer>
-
-            <Route exact path="/" component={Home} />
+         
+            <Route exact path="/" render={() => (<><AppHeader /> <Home/> <Footer/></>)} />
             <UserPrivateRoute path="/cms" component={CMSIndex} />
-            <Route exact path="/licensing" component={Licensing} />
-            <Route exact path="/financing" component={Financing} />
-            <Route exact path="/library" component={Library} />
-            <Route exact path="/directory" component={Directory} />
-            <Route exact path="/gis" component={GIS} />
-            <Route exact path="/news" component={News} />
-            <Route exact path="/news/:id" component={NewsItemDetails} />
-            <Route exact path="/faq" component={FAQ} />
-            <Route exact path="/contact" component={Contact} />
+            <Route exact path="/licensing" render={() => (<><AppHeader /> <Licensing/> <Footer/></>)} />
+            <Route exact path="/financing" render={() => (<><AppHeader /> <Financing/> <Footer/></>)} />
+            <Route exact path="/library" render={() => (<><AppHeader /> <Library/> <Footer/></>)} />
+            <Route exact path="/directory" render={() => (<><AppHeader /> <Directory/> <Footer/></>)} />
+            <Route exact path="/gis" render={() => (<><AppHeader /> <GIS/></>)} />
+            <Route exact path="/news" render={() => (<><AppHeader /> <News/> <Footer/></>)} />
+            <Route exact path="/news/:id" render={() => (<><AppHeader /> <NewsItemDetails/> <Footer/></>)} />
+            <Route exact path="/faq" render={() => (<><AppHeader /> <FAQ/> <Footer/></>)} />
+            <Route exact path="/contact" render={() => (<><AppHeader /> <Contact/> <Footer/></>)} />
             <Route exact path="/login" render={ () => <UserLogin /> } />
             <Route exact path="/register" render={ () => <UserRegistration /> } />
             
           </div>
 
         </Router>
-        <Footer/>
+        
       </div>
     );
 
