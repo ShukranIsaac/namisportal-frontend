@@ -58,7 +58,7 @@ class EditHomeSubcategory extends Component {
             
             let edited_sub_category;
             if(values !== null && values !== undefined) {
-                
+                console.log(values)
                 // get sub-category structure
                 edited_sub_category = {
                     name: values.subcategory,
@@ -129,7 +129,7 @@ class EditHomeSubcategory extends Component {
                     <Divider />
 
                     <Field
-                        name='name'
+                        name='subcategory'
                         component={ input => {
                             return (
                                 <RenderBootstrapField
@@ -140,7 +140,6 @@ class EditHomeSubcategory extends Component {
                                     value={ subcategory.name }
                                     name="subcategory"
                                     type="text"
-                                    onChange={ this.handleChange }
                                     props={ input }
                                 />
                             );

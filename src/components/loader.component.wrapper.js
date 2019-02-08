@@ -5,7 +5,7 @@ import React, { Component } from 'react';
  * 
  * @author Isaac S. Mwakabira
  * 
- * @param {*} propName 
+ * @param {String} propName 
  * @returns {Component} component
  */
 export const ProgressLoader = (propName) => (WrappedComponent) => {
