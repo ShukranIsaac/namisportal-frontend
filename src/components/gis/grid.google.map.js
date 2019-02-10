@@ -373,7 +373,7 @@ class MinGridMap extends Component {
             </MarkerClusterer>
           );
 
-      }
+      } 
 
     } else {
 
@@ -419,7 +419,7 @@ class MinGridMap extends Component {
 
     } else {
 
-      return <Polygon/>
+      return <div className="loader" />
 
     }
 
