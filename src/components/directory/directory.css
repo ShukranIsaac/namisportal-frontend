@@ -1,0 +1,19 @@
+.card-img {
+    max-width: 100px;
+    max-height: 100px;
+    justify-self: center;
+}
+
+.Directory-headerCard-2 {
+    margin: 0 auto;
+}
+
+.page-item:first-child .page-link{
+    border-top-left-radius: unset;
+    border-bottom-left-radius: unset
+}
+
+.page-item:last-child .page-link {
+    border-top-right-radius: unset;
+    border-bottom-right-radius: unset;
+}

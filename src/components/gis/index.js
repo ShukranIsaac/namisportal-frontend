@@ -185,7 +185,7 @@ class GIS extends Component {
     this.setState({
       [event.target.name]: event.target.value,
       regionChanged: event.target.name === 'region' ? true : false
-    });
+    }, );
 
   }
 
