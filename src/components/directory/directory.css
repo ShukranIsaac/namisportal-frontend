@@ -17,3 +17,19 @@
     border-top-right-radius: unset;
     border-bottom-right-radius: unset;
 }
+
+.jumbotron {
+    background-color: #ffffff;
+    border-radius: unset;
+    text-align: center
+}
+
+.header-part {
+    margin-bottom: inherit;
+}
+
+@media (max-width: 993px) {
+    .col-md-12 > div, .col-sm-12 > .card{
+        min-height: unset
+    }
+}

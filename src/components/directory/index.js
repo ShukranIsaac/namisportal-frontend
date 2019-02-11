@@ -8,6 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import DirectoryItem from './item'
 
 import './directory.css'
+import ItemProfile from './item-profile';
 
 
 class Directory extends Component {
@@ -84,6 +85,7 @@ class Directory extends Component {
           </Row>
 
           <DirectoryItem />
+          
           <Row>
             
           <Pagination aria-label="Page navigation example" className={classes.paginationStuff}>
