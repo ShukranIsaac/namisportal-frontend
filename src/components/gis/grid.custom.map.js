@@ -15,11 +15,11 @@ export const CustomGoogleMap = withScriptjs(
                     defaultZoom={props.zoom}
                     defaultCenter={props.onCenterChanged}
                     defaultOptions={{
-                    scrollwheel: false,
-                    zoomControl: true,
-                    zoomControlOptions: {
-                        
-                    }
+                        scrollwheel: false,
+                        zoomControl: true,
+                        zoomControlOptions: {
+                            
+                        }
                     }}
                     center={props.onCenterChanged}
                     zoom={props.zoom}

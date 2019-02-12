@@ -1,10 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-
-
-
 
 import MinGridMap from './grid.google.map';
 import GridSideBar from './grid.sidebar';
@@ -22,9 +19,10 @@ class GIS extends Component {
   constructor() {
     super();
     this.state = {
-        regionChanged: false,
         regionDefault: "--Select region--",
         districtDefault: "--Select district--",
+        district: null,
+        transformers: null,
     };
   }
 
@@ -34,14 +32,31 @@ class GIS extends Component {
 
   }
 
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   // if state changed
+  //   if(prevState !== nextProps) {
+  //     console.log(nextProps)
+  //     console.log(prevState)
+  //     // return { distr_lines: }
+  //   }
+  // }
+
   componentDidUpdate(prevProps, prevState) {
 
+      const { district } = this.props;
       // Check if an update to trigger a component re-render occured
-      if(prevState !== this.state) {
+      if(prevState !== this.state && (!this.state.district 
+        || this.state.district || (this.state.district._id !== district._id))) {
+        
+        // if this.props.district not null
+        // empty props
+        // if(this.props.district !== null && this.props.district !== undefined) {
+        //   this.props.emptyProps();
+        // }
 
         // ES6 destructure different objects from state
-        const { district, region, regionDefault, districtDefault } = this.state;
-
+        const { district_name, region, regionDefault, districtDefault } = this.state;
+        
         // ES6 destructure different objects and functions from props
         const {
             fetchMeters,
@@ -51,18 +66,6 @@ class GIS extends Component {
             fetchDistributionLines,
             fetchTransformers,
         } = this.props;
-
-        /**
-         * Fetch district and all its properties: if district is defined and not null and not equal
-         * to default value and does not have trailing spaces.
-         * 
-         */
-        if (district !== undefined && district !== null 
-          && district.trim() !== '' && district !== districtDefault) {
-
-            fetchDistrict(district);
-
-        }
         
         /**
          * Fetch region and all its properties: if region name is defined and not null and not equal
@@ -91,10 +94,33 @@ class GIS extends Component {
             if(region_object !== undefined && region_object !== null 
               && region_object.length === 1) {
 
-              fetchRegion(region_object[0]._id);
+                fetchRegion(region_object[0]._id);
 
             }
 
+        }
+
+        /**
+         * Fetch district and all its properties: if district is defined and not null and not equal
+         * to default value and does not have trailing spaces.
+         * 
+         */
+        if (district_name !== undefined && district_name !== null 
+          && district_name.trim() !== '' && district_name !== districtDefault) {
+            
+            const { district } = this.props;
+            
+            fetchDistrict(district_name);
+            // console.log(this.state.district);
+            Object.assign(this.state, { district });
+            // console.log(this.state.district);
+
+            if (this.state.ground_transformers) {
+              fetchTransformers(district._id);
+
+              Object.assign(this.state, { transformers: this.props.transformers });
+            }
+            
         }
 
         /**
@@ -104,8 +130,8 @@ class GIS extends Component {
          */
         if (this.state.meters_checked) {
 
-            if (district !== undefined && district !== null
-              && district.trim() !== '' && district !== districtDefault) {
+            if (district_name !== undefined && district_name !== null
+              && district_name.trim() !== '' && district_name !== districtDefault) {
 
                 const { district } = this.props;
 
@@ -130,12 +156,12 @@ class GIS extends Component {
          * 
          */
         if (this.state.marep_center) {
-
-            if (district !== undefined && district !== null 
-              && district.trim() !== '' && district !== districtDefault) {
+            
+            if (district_name !== undefined && district_name !== null 
+              && district_name.trim() !== '' && district_name !== districtDefault) {
                 
                 const { district: { _id }} = this.props;
-                
+
                 fetchMarepCenters(_id);
 
             }
@@ -149,11 +175,11 @@ class GIS extends Component {
          */
         if (this.state.distribution_lines) {
 
-            if (district !== undefined && district !== null 
-              && district.trim() !== '' && district !== districtDefault) {
+            if (district_name !== undefined && district_name !== null 
+              && district_name.trim() !== '' && district_name !== districtDefault) {
 
                 const { district } = this.props;
-                
+
                 fetchDistributionLines(district._id);
 
             }
@@ -164,28 +190,27 @@ class GIS extends Component {
          * if district name is defined and not null and not equal to default value
          * 
          */
+        // console.log(this.state)
         if (this.state.ground_transformers || this.state.up_transformers) {
-
-          if (district !== undefined && district !== null 
-            && district.trim() !== '' && district !== districtDefault) {
-
+          
+          if (district_name !== undefined && district_name !== null 
+            &&district_name.trim() !== '' && district_name !== districtDefault) {
+              // console.log(this.state)
               const { district } = this.props;
               
               fetchTransformers(district._id);
-              
-          }
-      }
 
-      }
+              Object.assign(this.state, { transformers: this.props.transformers });
+
+          }
+        }
+    }
 
   }
 
   handleChange = (event) => {
-
-    this.setState({
-      [event.target.name]: event.target.value,
-      regionChanged: event.target.name === 'region' ? true : false
-    });
+    
+    this.setState({ [event.target.name]: event.target.value });
 
   }
 
@@ -207,37 +232,26 @@ class GIS extends Component {
     const { 
       classes, 
       gis_filters, 
-      district
+      district,
     } = this.props;
-
     
-
-    const { isLoading } = this.state;
-    // console.log(this.props.m_centers);
-    /**
-     * Show progress loader if isLoading is true
-     * 
-     */
-    if(isLoading !== undefined && isLoading !== null && isLoading) {
-
-      return <div className="loader"></div>
-
-    }
+    // const { isLoading } = this.state;
+    // console.log(this.state);
 
     return (
-      <>
+      <Fragment>
         <div className={classes.root}>
 
-        
-        <main>
-          <GridSideBar
-              {...this.state} onChange={this.handleChange}
-              onChecked={this.handleChecked} gis_filters={gis_filters}
-          />
+          <main>
+            <GridSideBar
+                {...this.state} onChange={this.handleChange}
+                onChecked={this.handleChecked} gis_filters={gis_filters}
+            />
           </main>
           <main style={{maxWidth: '100%'}}>
             <MinGridMap
                 {...this.state}
+                // {...this.props}
                 onChange={this.handleChange}
                 onChecked={this.handleChecked}
                 onPlaceSearch={this.handlePlaceSearch}
@@ -245,16 +259,14 @@ class GIS extends Component {
                 d_polygons={ district.polygons }
                 centroids={ district.centroids }
                 m_centers={this.props.m_centers}
-                transformers={this.props.transformers}
-                // meters={this.state.meters_checked ? this.props.meters : null}
+                transformers={this.state.transformers}
+                meters={this.state.meters_checked ? this.props.meters : null}
                 polyline={this.props.distr_lines}
             />
           </main>
 
-          
-
         </div>
-      </>
+      </Fragment>
     );
   }
 }
@@ -306,6 +318,7 @@ const mapDispatchToProps = (dispatch) => {
         fetchFilters: () => { dispatch(GisAction.fetchGisFilters()) },
         fetchRegion: (region) => { dispatch(GisAction.fetchRegion(region)) },
         fetchDistrict: (district) => { dispatch(GisAction.fetchDistrict(district))},
+        emptyProps: () => { dispatch(GisAction.emptyProps()) },
         fetchMarepCenters: (name) => { dispatch(GisAction.fetchMarepCenters(name)) },
         fetchMeters: (name) => { dispatch(GisAction.fetchEscomMeters(name)) },
         fetchTransformers: (district_id) => { dispatch(GisAction.fetchTransformers(district_id)) },

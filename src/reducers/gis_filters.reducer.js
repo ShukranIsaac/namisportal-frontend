@@ -10,7 +10,7 @@ const gis_filters = (state = initialState, action) => {
         case GisType.FETCH_REGIONS:
             return {
                 ...state,
-                gis_filters: action.payload
+                gis_filters: action.payload,
             }
         default:
             return state;

@@ -1,4 +1,4 @@
-import { GisType } from '../action_type/index';
+import { GisType, GeneralType } from '../action_type/index';
 
 import * as GeneralAction from './general.action';
 import { get } from './api.service';
@@ -176,5 +176,19 @@ export const fetchTransformers = (district) => {
       });
 
     }
+
+}
+
+/**
+ * Empty props on state change
+ * 
+ */
+export const emptyProps = () => {
+
+  return dispatch => {
+
+    dispatch(GeneralAction.fetchSuccess(GeneralType.REQUEST_CLEAR_PROPS, {}, false))
+
+  }
 
 }

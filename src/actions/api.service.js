@@ -17,7 +17,7 @@ export const get = async (dispatch, url) => {
         if (response.status !== 200) {
             throw Error(response.statusText);
         }
-  
+        
         dispatch(GeneralAction.isLoading(false));
   
         return response.data;

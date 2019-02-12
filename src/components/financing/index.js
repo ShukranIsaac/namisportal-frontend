@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Elevation } from '@blueprintjs/core'
-import { Container, Col, Row } from 'reactstrap'
-import { Flex, Box } from 'reflexbox';
-
-import Panel from './panel';
+import { Container, Row } from 'reactstrap';
 
 /**
  * Renders financing component
@@ -29,11 +26,11 @@ class Financing extends Component {
       borderRadius: 0
     }
     
-    const flexStyle = {
-      margin: 'auto',
-      background: '#15B371',
-      padding: '12%'
-    }
+    // const flexStyle = {
+    //   margin: 'auto',
+    //   background: '#15B371',
+    //   padding: '12%'
+    // }
 
     return (
       <div className = "page-content">
