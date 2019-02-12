@@ -1,12 +1,11 @@
 import React, { Component, Fragment } from 'react';
-import { Elevation, Card } from "@blueprintjs/core";
-import { Flex, Box } from 'reflexbox';
+import { Card, CardBody, Row, Container } from 'reactstrap'
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 
 import ContactForm from './contact.form';
+import './style.css'
 
 class Contact extends Component {
 
@@ -16,49 +15,44 @@ class Contact extends Component {
 
     return (
       <Fragment>
+        <div className = "page-content">
+          <Container>
+            
+            <Row>
+                <Card>
+                  <CardBody style={{textAlign: 'center'}}>
+                    <h4><strong>Contact Us</strong></h4>
+                    <p>
+                      The Working Group welcomes questions and comments about this site.
+                      Please use the form below or contacts here given to contact us.
+                    </p>
+                    <p>
+                      <br />
+                      <h4>For any questions:</h4>
+                      <p>
+                        Email us at <a href="mailto:questions@grid.mw" className={classes.link}> questions@grid.mw </a>
+                      </p>
+                      <br />
+                      <h4>Physical Address:</h4>
+                      <p>
+                        Mini-grids Malawi,<br />890 West Point<br />Blantyre
+                      </p>
+                    </p>
+                  </CardBody> 
+                </Card>
+            </Row>
 
-        <Flex
-          wrap
-          align='top'
-          justify='center'
-          m={1}
-          w={1}
-          p={3}
-          className='landing-info'>
-          <Box w={1/2} p={1}>
-            <Card elevation={Elevation.TWO}>
-              <Typography variant="h5" component="h3">
-                Contact Us
-              </Typography>
-              <br />
-              <Typography variant="caption">
-              The Working Group welcomes questions and comments about this site.
-              Please use the form or contacts here given to contact us.
-              </Typography>
-              <Typography variant="caption">
-                <br />
-                For any questions:
-                <br />
-                Email us at <a href="mailto:questions@grid.mw" className={classes.link}>
-                  questions@grid.mw
-                </a>
-                <br /><br />
-                Physical Address:<br />
-                Mini-grids Malawi,<br />890 West Point<br />Blantyre
-              </Typography>
-            </Card>
-          </Box>
-          <Box w={1/2} p={1}>
-
-            <Card elevation={Elevation.TWO}>
-
-              <ContactForm />
-
-            </Card>
-
-          </Box>
-        </Flex>
-
+            <Row>
+                <Card className={classes.width100}>
+                  <CardBody>
+                    <h4 style={{textAlign: 'center'}}>Feel free to ask anything</h4>
+                    <ContactForm />
+                  </CardBody> 
+                </Card>
+            </Row>
+          </Container>
+          
+        </div>
       </Fragment>
     );
 
@@ -66,6 +60,9 @@ class Contact extends Component {
 }
 
 const styles = theme => ({
+  width100: {
+    width: '100%'
+  },
   root: {
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,

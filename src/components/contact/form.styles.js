@@ -31,7 +31,7 @@ const styles = theme => ({
     },
   },
   bootstrapInput: {
-    width: theme.spacing.unit * 60,
+    width: '100%',
     borderRadius: 4,
     backgroundColor: theme.palette.common.white,
     border: '1px solid #ced4da',
