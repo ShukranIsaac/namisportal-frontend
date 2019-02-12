@@ -46,6 +46,15 @@ class GridSideBar extends Component {
     };
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    
+    if (prevState !== nextProps) {
+      return Object.assign(prevState, nextProps);
+    }
+
+    return null;
+  }
+
   /**
    * Renders mapped object filter options (regions)
    * 
@@ -147,7 +156,7 @@ class GridSideBar extends Component {
    * @param {String} name
    * @returns {Fragment} district || region
    */
-  selectInputControl = ({ helperText, name }) => {
+  selectInputControl = ({ helperText, name, clearFilters }) => {
 
       return <Fragment>
         <InputLabel shrink htmlFor="region-open-select">
@@ -159,7 +168,7 @@ class GridSideBar extends Component {
               <NativeSelect
                 value={this.state.region}
                 name="region"
-                onChange={ (e) => { this.props.onChange(e) } }
+                onChange={ (e) => { this.props.regionChanged(e) } }
                 input={<Input key={this.state.region} name="region" id="region-open-select" />}
               >
                 <option value="">{ `${"--Select region--"}` }</option>
@@ -169,7 +178,7 @@ class GridSideBar extends Component {
               <NativeSelect
                 value={this.state.district_name}
                 name="district_name"
-                onChange={ (e) => { this.props.onChange(e) } }
+                onChange={ (e) => { this.props.districtChanged(e) } }
                 input={<Input key={this.state.district_name} name="district_name" id="district-open-select" />}
               >
                 <option value="">{ `${"--Select district--"}` }</option>

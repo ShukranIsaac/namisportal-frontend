@@ -46,7 +46,7 @@ class MinGridMap extends Component {
     this.setState({h})
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
 
     // check if props or state changed
     const { district_name } = this.props;
@@ -65,6 +65,8 @@ class MinGridMap extends Component {
       Object.assign(this.state, { zoom: 8});
 
     }
+
+    this.props.clearFilters(this.props);
 
   }
 
