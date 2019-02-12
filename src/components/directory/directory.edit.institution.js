@@ -9,7 +9,7 @@ import Validate from '../contact/email.validate';
 
 import { Divider } from '@material-ui/core';
 import ButtonControl from '../forms/buttons/button.default.control';
-import { Intent } from '@blueprintjs/core';
+import { Intent, Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 
 /**
@@ -41,21 +41,24 @@ class EditDirectoryInstitution extends Component {
 	 */
     handleChange = (event) => {
         
-        this.setState({[event.target.name]: event.target.value});
+        const target = event.target;
+        // console.log(target);
+        this.setState({ [target.name]: target === 'checked' ? target.checked : target.value });
   
     }
 
-    handleSubmit = (event) => {
-		/**
-		 *  disabling browser default behavior like page refresh, etc 
-		 */
-		event.preventDefault();
+    handleSubmit = (values) => {
+        
+        console.log(values)
         
     }
 
     render() {
 
-        const { classes, directory, handleClick  } = this.props;
+        const { 
+            classes, directory, handleClick, handleSubmit,
+            valid, pristine, submitting
+        } = this.props;
         
         /**
          * If the institution is not defined and has no data
@@ -66,7 +69,7 @@ class EditDirectoryInstitution extends Component {
         return (
             <Fragment>
 
-                <form onSubmit = { this.handleSubmit }>
+                <form onSubmit={ handleSubmit(values => this.handleSubmit(values)) } >
 
                     <ButtonControl 
                         intent={Intent.NONE} 
@@ -94,7 +97,6 @@ class EditDirectoryInstitution extends Component {
                                     value={ directory[0].name }
                                     name="stakeholder_name"
                                     type="text"
-                                    onChange={ this.handleChange }
                                     props={ input }
                                 />
                             );
@@ -113,15 +115,14 @@ class EditDirectoryInstitution extends Component {
                                     value={ directory[0].details.mission }
                                     name="mission"
                                     type="text"
-                                    multiline={true}
-                                    rows="10"
-                                    onChange={ this.handleChange }
                                     props={ input }
                                 />
                             );
                         }}
+                        multiline={true}
+                        rows="15"
                     />
-                    <br/>
+                    {/* <br/> */}
 
                     <Field
                         name='summary'
@@ -134,46 +135,47 @@ class EditDirectoryInstitution extends Component {
                                     value={ directory[0].details.mission }
                                     name="summary"
                                     type="text"
-                                    multiline={true}
-                                    rows="10"
-                                    onChange={ this.handleChange }
                                     props={ input }
                                 />
                             );
                         }}
+                        multiline={true}
+                        rows="15"
                     />
 
                     <div className={ classes.margin } />
                     <div className={ classes.margin } />
                     <div className={ classes.margin } />
 
-                    <ButtonControl 
+                    {/* <ButtonControl 
                         intent={Intent.PRIMARY} 
                         value="Save"
                         name="save"
                         handleClick={e => this.handleSubmit(e) }
-                    />
+                    /> */}
+                    <Button type="submit" disabled={!valid  || pristine || submitting} intent="primary" text="Save" />
 
-                    <ButtonControl 
+                    {/* <ButtonControl 
                         intent={Intent.SUCCESS} 
                         value="Publish" 
                         name="publish"
                         handleClick={e => handleClick(e) } 
-                    />
+                    /> */}
 
-                    <ButtonControl 
+                    {/* <ButtonControl 
                         intent={Intent.WARNING} 
                         value="Unpublish" 
                         name="unpublish"
                         handleClick={e => handleClick(e) } 
-                    />
+                    /> */}
 
-                    <ButtonControl 
+                    {/* <ButtonControl 
                         intent={Intent.DANGER} 
                         value="Archive"
                         name="archive"
                         handleClick={e => handleClick(e) } 
-                    />
+                    /> */}
+                    <Button className={ classes.margin } intent="danger" text="Archive" onClick={ e => this.handleClick } />
                 
                 </form>
 
@@ -189,7 +191,7 @@ EditDirectoryInstitution.propTypes = {
 }
 
 export default reduxForm({
-    form: 'editdirectoryInstitution',
+    form: 'editStakeholder',
     Validate,
     AsyncValidate
 })(withStyles(styles)(EditDirectoryInstitution));

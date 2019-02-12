@@ -58,7 +58,7 @@ class EditHomeSubcategory extends Component {
             
             let edited_sub_category;
             if(values !== null && values !== undefined) {
-                console.log(values)
+                // console.log(values)
                 // get sub-category structure
                 edited_sub_category = {
                     name: values.subcategory,
