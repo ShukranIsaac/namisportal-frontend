@@ -76,7 +76,7 @@ export const HomeSubCategory = ({ props, section }) => {
                         { my_section.name }
                     </a>
                 </h4>
-                <p>{ my_section.about }</p>
+                <p>{ my_section.about.substring(0, 250) }</p>
                 {
                     my_section.name !== "Information for Mini-Grid Developers" ? linkButton(my_section) : <div></div>
                 }

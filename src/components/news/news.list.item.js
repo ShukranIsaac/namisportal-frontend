@@ -37,19 +37,22 @@ class NewsListItem extends Component {
                     <h4 className="heading">
                         <NavLink to="/news/e8g9tyjGh">Information clearing house, Department of Energy</NavLink>
                     </h4>
-                    <Typography variant="caption">
-                        <div className={classes.when}>2hrs ago</div>
-                        By John Doe(<a href="mailto:newseditor@grid.mw" className={classes.link}>newseditor@grid.mw</a>)
-                    </Typography>
+                    <p variant="caption">
+                        <i> 
+                            By John Doe (<a href="mailto:newseditor@grid.mw" className={classes.link}>newseditor@grid.mw</a>),
+                             <span className={classes.when}> 2 hrs ago</span>
+                            
+                        </i>
+                    </p>
                 </div>
-                <Typography>
+                <p>
                     The Project Developer should submit a Concept Note to the Rural 
                     Energy Agency (REA) in order to get a preliminary assessment of 
                     whether the planned project is eligible for support from the 
                     REA. The Concept note should, inter alia, include:
-                </Typography>
+                </p>
                 <Collapse isOpen={this.state.isOpen}>   
-                    <Typography>
+                    <p>
                         An information portal is a customized website that immerses information from a wide
                         range of sources in a consistent and uniform manner. For this purpose, UNDP and
                         Department of Energy Affairs (DoEA) seek to establish an information clearing house
@@ -58,7 +61,7 @@ class NewsListItem extends Component {
                         (MAREP); existing off-grid systems; population centres; renewable energy resource
                         information; infrastructure; location of government public service institutions; location
                         of other rural infrastructure, land use, environmental and social issues.
-                    </Typography>
+                    </p>
                 </Collapse>
                 <h6 style={{ marginTop: '0px' }}>
                     <a 

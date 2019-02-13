@@ -29,8 +29,8 @@ class ContactForm extends Component {
     }
 
     handleChange = (event) => {
-
       this.setState({[event.target.name]: event.target.value});
+      console.log('hello')
 
     }
 
@@ -118,7 +118,7 @@ class ContactForm extends Component {
               </Row>
               <Row>
                 <Col>
-                  <Button type="submit" disabled={pristine || submitting} intent="success" text="Send" />
+                  <Button style={{alignSelf: 'center'}} type="submit" disabled={pristine || submitting} intent="success" text="Send" />
                 </Col>
               </Row>
             </Container>
