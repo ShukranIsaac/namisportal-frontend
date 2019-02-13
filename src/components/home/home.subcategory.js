@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from "@blueprintjs/core";
 import { Col } from 'reactstrap';
 import { Link } from "react-router-dom";
+import { redirect } from '../user/user.redirect';
 
 // Filter a section from home
 export const filterSection = (sections, name) => {
@@ -31,10 +32,13 @@ export const filterSection = (sections, name) => {
 const link = (props) => {
 
     let section_name = (props.name).toLowerCase();
-    let url = '/';
+    let url;
 
     if (props.name !== "Information for Mini-Grid Developers") {
-        url += section_name;
+        url = section_name;
+        section_name = '';
+    } else {
+        url = section_name;
         section_name = '';
     }
 
@@ -44,7 +48,7 @@ const link = (props) => {
 const linkButton = (props) => {
 
     return (
-        <Link to={ `${ `/` +  link(props) }`}>
+        <Link to={ `${ '/' +  link(props) }`}>
             <Button intent="primary">{ props.name } section </Button>
         </Link>
     );
@@ -72,7 +76,10 @@ export const HomeSubCategory = ({ props, section }) => {
             <div className="card">
                 <div className="card-body">
                 <h4>
-                    <a className="heading" href={ link(my_section) }>
+                    <a className="heading" 
+                        href={ link(my_section) } 
+                        onClick={ redirect.to({ to: '/' + my_section })}
+                    >
                         { my_section.name }
                     </a>
                 </h4>
