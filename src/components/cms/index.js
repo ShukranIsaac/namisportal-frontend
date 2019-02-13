@@ -209,20 +209,24 @@ class CMSIndex extends React.Component {
          * change state depending on the button the user clicked in the UI
          * 
          */
+        console.log(event.currentTarget.id)
         switch(event.currentTarget.name) {
             case 'publish':
                 this.props.publishItem();
                 break;
             case 'edit':
-
-                const { stakeholders } = this.props;
                 
                 this.props.editItem();
-                // fetch category
-                this.props.subCategory(event.currentTarget.id);
+                // get cms component name, ie. current component
+                const { link } = this.state;
+                if(link === 'home') {
+                    // fetch category
+                    this.props.subCategory(event.currentTarget.id);
+                } else if(link === 'directory') {
+                    // fetch stakeholder
+                    this.props.fetchSingleStakeholder(event.currentTarget.id)
+                } else {
 
-                if (stakeholders && stakeholders !== null) {
-                    
                 }
 
                 break;
@@ -420,14 +424,14 @@ const styles = theme => ({
 });
 
 const mapStateToProps = (state) => {
-
+    
     return {
         user_event: state.event.event,
         library: state.library.library,
         home: state.home.home,
         subcategory: state.cms.subcategory,
-        stakeholder: state.cms.stakeholder,
-        stakeholders_list: state.cms.stakeholders_list,
+        stakeholder: state.stakeholder.stakeholder,
+        stakeholders_list: state.stakeholder.stakeholders_list,
     };
 
 }
@@ -454,8 +458,11 @@ const mapDispatchToProps = (dispatch) => {
         createCategory: (i, c, t) => { dispatch(CMSAction.addCategory(i, c, t)) },
         editCategory: (s, e, t) => { dispatch(CMSAction.editCategory(s, e, t)) },
         archiveCategory: (c, t) => { dispatch(CMSAction.archiveCategory(c, t)) },
+        // stakeholders
         createStakeholder: (s, t) => { dispatch(Stakeholder.createStakeholder(s, t)) },
+        fetchSingleStakeholder: (i) => { dispatch(Stakeholder.fetchSingleStakeholder(i)) },
         fetchStakeholders: () => { dispatch(Stakeholder.fetchAllStakeholders()) },
+        editStakeholder: (i, s, t) => { dispatch(Stakeholder.editStakeholder(i, s, t)) },
     };
 
 }

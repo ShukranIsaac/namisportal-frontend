@@ -19,69 +19,6 @@ import { ListHomeSubcategory } from '../home/home.list.subcategory';
 import EditHomeSubcategory from '../home/home.edit.subcategory';
 import CreateHomeSubcategory from '../home/home.add.subcategory';
 
-const directory = [
-    {
-        id: '12',
-        name: 'Department of Energy (Marep)',
-        type: 'Financial Institution',
-        details: {
-            mission: 'An information portal is a customized website that immerses information from a wide range of sources in a consistent and uniform manner. For this purpose, UNDP and Department of Energy Affairs (DoEA) seek to establish an information clearing house portal to make available information that includes: current electricity grid network, planned and known rural electrification efforts of Malawi Rural Electrification Project (MAREP); existing off-grid systems; population centres; renewable energy resource information; infrastructure; location of government public service institutions; location of other rural infrastructure, land use, environmental and social issues.',
-            vision: 'The Portal allows the self-registration of state authorities, local authorities, financing institutions and other entities of relevance to mini-grid development. Their details are gathered in the Directory section.',
-            summary: 'Mini-Grid development in Tanzania may receive fincancing aid from REA. The required documentation and an overview of the procedure is presented in a dedicated relevant section of the Mini-Grids Information Portal.',
-            address: {
-                name: 'Mountain City, Office Park, Lilongwe, Malawi',
-                phone: '+265 099689789',
-                email: 'doe@john.com',
-                web: 'minigrids.co.mw'
-            },
-        }
-    },
-    {
-        id: '56',
-        name: 'Malawi Energy Regulatory Authority',
-        type: '',
-        details: {
-            address: '',
-            mission: '',
-            vision: '',
-            summary: '',
-        }
-    },
-    {
-        id: '31',
-        name: 'Ministry of Energy and Natural Resources',
-        type: '',
-        details: {
-            address: '',
-            mission: '',
-            vision: '',
-            summary: '',
-        }
-    },
-    {
-        id: '34',
-        name: 'UNDP',
-        type: '',
-        details: {
-            address: '',
-            mission: '',
-            vision: '',
-            summary: '',
-        }
-    },
-    {
-        id: '100',
-        name: 'Mulanje Electricity Generation Agency',
-        type: '',
-        details: {
-            address: '',
-            mission: '',
-            vision: '',
-            summary: '',
-        }
-    }
-];
-
 /**
  * Renders a single section resource i.e. licencing, library at cms index
  * which can be edited, published or unpublished, archived or deleted
@@ -186,10 +123,10 @@ const RenderSection = ({
                             }
                         Edit={ () => <EditDirectoryInstitution 
                                         handleClick={ (e) => handleClick(e) }
-                                        directory={ directory || props.stakeholder }
-                                        // editStakeholder={ props.editStakeholder }
+                                        stakeholder={ props.stakeholder }
+                                        editStakeholder={ props.editStakeholder }
                                         // archiveStakeholder={ props.archiveStakeholder }
-                                        props={ props }
+                                        { ...props }
                                     />
                             }
                         Create={ () => <CreateDirectoryInstitution 
@@ -254,15 +191,18 @@ const RenderSection = ({
 
         case 'logout':
             
-            // Get logged in user, then removed from local storage
+            // Get logged in user, then remove from local storage
             const user = UserProfile.get();
-            // console.log(props);
             if(user !== undefined && user !== null) {
+
                 props.logout(user);
-                // console.log(user);
+                
                 return redirect.to({ url: `/login` });
+
             } else {
+
                 return <Fragment />
+
             }
 
         case 'notifications':

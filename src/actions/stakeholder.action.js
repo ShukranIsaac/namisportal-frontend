@@ -1,5 +1,5 @@
 import * as GeneralAction from './general.action';
-import { post, get } from './api.service';
+import { post, get, patch } from './api.service';
 import { CMSType } from '../action_type';
 
 /**
@@ -55,6 +55,76 @@ export const fetchAllStakeholders = () => {
         .then(response => {
 
             dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_LIST_STAKEHOLDER, response, false))
+
+        })
+
+        .catch(error => {
+
+            dispatch(GeneralAction.hasErrored(true))
+
+        });
+
+    }
+
+}
+
+/**
+ * Edit a single directory stakeholder
+ * 
+ * @param {String} id
+ * @param {Object} stakeholder
+ * @param {String} token
+ * 
+ * @returns {Function} dispatch
+ */
+export const editStakeholder = (id, stakeholder, token) => {
+
+    // url
+    const url = `stakeholders/` + id + `?token=` + token;
+
+    return async dispatch => {
+
+        dispatch(GeneralAction.isLoading(true))
+
+        return await patch(dispatch, url, stakeholder)
+
+        .then(response => {
+
+            dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_EDIT_STAKEHOLDER, response, false))
+
+        })
+
+        .catch(error => {
+
+            dispatch(GeneralAction.hasErrored(false))
+
+        });
+
+    }
+
+}
+
+/**
+ * Fetch a single directory stakeholder
+ * 
+ * @param {String} id
+ * 
+ * @returns {Function} dispatch
+ */
+export const fetchSingleStakeholder = (id) => {
+
+    // url
+    const url = `stakeholders/` + id;
+
+    return async dispatch => {
+
+        dispatch(GeneralAction.isLoading(true))
+
+        return await get(dispatch, url)
+
+        .then(response => {
+
+            dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_A_STAKEHOLDER, response, false))
 
         })
 

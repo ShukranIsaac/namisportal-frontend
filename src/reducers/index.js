@@ -15,6 +15,7 @@ import distributionlines from './distribution.reducer';
 import userEvent from './event.reducer';
 import transformers from './transformers.reducer';
 import cms from './cms.reducer';
+import stakeholder from './stakeholder.reducer';
 
 export default combineReducers({
     form: formReducer,
@@ -31,5 +32,6 @@ export default combineReducers({
     lines: distributionlines,
     event: userEvent,
     transformers: transformers,
-    cms: cms
+    cms: cms,
+    stakeholder: stakeholder
 });

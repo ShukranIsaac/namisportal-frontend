@@ -11,6 +11,7 @@ import { Divider } from '@material-ui/core';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
+import { UserProfile } from '../user/user.profile';
 
 /**
  * @author Isaac S. Mwakabira
@@ -20,9 +21,7 @@ class EditDirectoryInstitution extends Component {
 
     constructor() {
         super();
-        this.state = {
-            institution: {},
-        }
+        this.state = {}
 
         /**
          * Bind events to each Function, so that they can be passed without args 
@@ -48,23 +47,46 @@ class EditDirectoryInstitution extends Component {
     }
 
     handleSubmit = (values) => {
-        
-        console.log(values)
-        
+        // stakeholder to be edited
+        const { stakeholder } = this.props;
+        // get authenticated user token
+        const user = UserProfile.get();
+        if(user !== null && user.token !== undefined) {
+            
+            let edited_stakeholder;
+            if(values !== null && values !== undefined) {
+                
+                // stakeholder structure
+                edited_stakeholder = {
+                    name: values.subcategory,
+                    about: values.about
+                }
+                console.log(stakeholder)
+                console.log(edited_stakeholder)
+                // then edit this stakeholder
+                // this.props.editStakeholder(stakeholder._id, edited_stakeholder, user.token);
+                // then change state to default
+                // so that the page redirects and list all diretory stakeholders
+                // this.props.defaultItem();
+            }
+
+        } 
+
     }
 
     render() {
 
         const { 
-            classes, directory, handleClick, handleSubmit,
+            classes, stakeholder, handleClick, handleSubmit,
             valid, pristine, submitting
         } = this.props;
-        
+        console.log(stakeholder)
         /**
-         * If the institution is not defined and has no data
-         * just return.
+         * If the stakeholder is not defined and has no data just return.
          */
-        if( directory[0] === null && directory[0] === undefined ) return <Fragment/>;
+        if(stakeholder === null && stakeholder.name === undefined) {
+            return <Fragment/>;
+        }
         
         return (
             <Fragment>
@@ -94,7 +116,7 @@ class EditDirectoryInstitution extends Component {
                                     classes={ classes }
                                     label='Stakeholders Name'
                                     defaultValue="Edit stakeholder name..."
-                                    value={ directory[0].name }
+                                    value={ stakeholder.name }
                                     name="stakeholder_name"
                                     type="text"
                                     props={ input }
@@ -112,7 +134,7 @@ class EditDirectoryInstitution extends Component {
                                     classes={ classes }
                                     label='Mission Statement'
                                     defaultValue="Edit mission statement..."
-                                    value={ directory[0].details.mission }
+                                    value={ stakeholder.mission }
                                     name="mission"
                                     type="text"
                                     props={ input }
@@ -130,9 +152,9 @@ class EditDirectoryInstitution extends Component {
                             return (
                                 <RenderBootstrapField
                                     classes={ classes }
-                                    label={ directory[0].name }
+                                    label={ stakeholder.name }
                                     defaultValue="Edit stakeholders summary..."
-                                    value={ directory[0].details.mission }
+                                    value={ stakeholder.mission }
                                     name="summary"
                                     type="text"
                                     props={ input }
@@ -175,7 +197,7 @@ class EditDirectoryInstitution extends Component {
                         name="archive"
                         handleClick={e => handleClick(e) } 
                     /> */}
-                    <Button className={ classes.margin } intent="danger" text="Archive" onClick={ e => this.handleClick } />
+                    <Button className={ classes.margin } name="default"  intent="danger" text="Archive" onClick={ e => this.handleClick } />
                 
                 </form>
 
