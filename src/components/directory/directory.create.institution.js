@@ -48,10 +48,11 @@ class CreateDirectoryInstitution extends Component {
 	 * @param {Event} event
 	 */
     handleChange = (event) => {
-        
-        const target = event.target;
 
-        this.setState({ [target.name]: target === 'checked' ? target.checked : target.value });
+        this.setState({ 
+            [event.target.name]: event.target === 'checked' ? 
+                event.target.checked : event.target.value 
+        });
   
     }
 
