@@ -180,19 +180,25 @@ const RenderSection = ({
                         name="directory" 
                         List={ () => <ListDirectoryInstitution 
                                         handleClick={ (e) => handleClick(e) } 
-                                        directory={ directory } 
+                                        stakeholders={ props.stakeholders_list } 
                                         handleChange={ (e) => { handleChange(e) } }
                                     /> 
                             }
                         Edit={ () => <EditDirectoryInstitution 
                                         handleClick={ (e) => handleClick(e) }
-                                        directory={ directory }
+                                        directory={ directory || props.stakeholder }
+                                        // editStakeholder={ props.editStakeholder }
+                                        // archiveStakeholder={ props.archiveStakeholder }
+                                        props={ props }
                                     />
                             }
                         Create={ () => <CreateDirectoryInstitution 
-                                            handleClick={ (e) => handleClick(e) } 
-                                        />
-                                }
+                                    stakeholder={ props.stakeholder }
+                                    createStakeholder={ props.createStakeholder }
+                                    { ...props }
+                                    handleClick={ (e) => handleClick(e) } 
+                                />
+                            }
                     />
 
                 </Fragment>

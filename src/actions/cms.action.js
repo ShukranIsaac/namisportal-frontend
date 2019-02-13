@@ -31,7 +31,7 @@ export const fetchCategory = (category_id) => {
 }
 
 /**
- * Add a single subcategory
+ * Add a single subcategory to a category
  * 
  * @param category_id
  * @param sub_category

@@ -16,10 +16,14 @@ import { Intent } from '@blueprintjs/core';
  * @returns {Fragment} directory  
  */
 export const ListDirectoryInstitution = ({
-    directory,
-    handleClick, 
-    handleChange
+    stakeholders,
+    handleClick,
 }) => {
+
+    // console.log(stakeholders);
+    if(stakeholders === null && stakeholders === undefined) {
+        return <div>No stakeholders</div>
+    }
 
     return (
         <Fragment>
@@ -40,18 +44,18 @@ export const ListDirectoryInstitution = ({
 
             <ul>
                 {
-                    directory && directory.map( (object, index) => {
+                    stakeholders && stakeholders.map((stakeholder, index) => {
                         
                         return (
-                            <Fragment key={object.name}>
-                                <li id={index} key={object.name}>
+                            <Fragment key={index}>
+                                <li id={stakeholder._id} key={stakeholder._id}>
                                     <a 
-                                        href="/directory/e8g9tyjGh" 
+                                        href={ `${ 'directory/' + stakeholder.name }` } 
                                         onClick={ (e) => { handleClick(e) } }
                                         name="edit"
-                                        id={object.name}
+                                        id={stakeholder._id}
                                     >
-                                        { object.name }
+                                        { stakeholder.name }
                                     </a>
                                 </li>
                             </Fragment>

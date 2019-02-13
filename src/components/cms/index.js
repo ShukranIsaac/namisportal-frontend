@@ -16,6 +16,7 @@ import * as LibraryAction from '../../actions/index';
 import * as UserAuthAction from '../../actions/user.action';
 import * as HomeAction from '../../actions/home.action';
 import * as CMSAction from '../../actions/cms.action';
+import * as Stakeholder from '../../actions/stakeholder.action';
 
 import CustomDrawer from './cms.custom.drawer';
 import RenderSection from './cms.render.section';
@@ -144,7 +145,16 @@ class CMSIndex extends React.Component {
                 this.props.fetchLibraryDocs();
                 break;
             case 'home':
+                /**
+                 * Fetch all home sub category
+                 */
                 this.props.homeSubcategory(this.capitalize(link));
+                break;
+            case 'directory':
+                /**
+                 * Fetch all directory of stakeholders and their details
+                 */
+                this.props.fetchStakeholders();
                 break;
             default:
                 break;
@@ -204,9 +214,16 @@ class CMSIndex extends React.Component {
                 this.props.publishItem();
                 break;
             case 'edit':
+
+                const { stakeholders } = this.props;
+                
                 this.props.editItem();
                 // fetch category
                 this.props.subCategory(event.currentTarget.id);
+
+                if (stakeholders && stakeholders !== null) {
+                    
+                }
 
                 break;
             case 'unpublish':
@@ -409,6 +426,8 @@ const mapStateToProps = (state) => {
         library: state.library.library,
         home: state.home.home,
         subcategory: state.cms.subcategory,
+        stakeholder: state.cms.stakeholder,
+        stakeholders_list: state.cms.stakeholders_list,
     };
 
 }
@@ -430,11 +449,13 @@ const mapDispatchToProps = (dispatch) => {
         // logout
         logout: (user) => { dispatch(UserAuthAction.logout(user)) },
         // home and cms home
-        homeSubcategory: (categ) => { dispatch(HomeAction.fetchHomeCategories(categ)) },
+        homeSubcategory: (c) => { dispatch(HomeAction.fetchHomeCategories(c)) },
         subCategory: (id) => { dispatch(CMSAction.fetchCategory(id)) },
         createCategory: (i, c, t) => { dispatch(CMSAction.addCategory(i, c, t)) },
         editCategory: (s, e, t) => { dispatch(CMSAction.editCategory(s, e, t)) },
-        archiveCategory: (c, t) => { dispatch(CMSAction.archiveCategory(c, t)) }
+        archiveCategory: (c, t) => { dispatch(CMSAction.archiveCategory(c, t)) },
+        createStakeholder: (s, t) => { dispatch(Stakeholder.createStakeholder(s, t)) },
+        fetchStakeholders: () => { dispatch(Stakeholder.fetchAllStakeholders()) },
     };
 
 }

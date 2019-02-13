@@ -1,7 +1,9 @@
 import { CMSType } from '../action_type/index';
 
 const initialState = {
-    subcategory: {}
+    subcategory: {},
+    stakeholder: null,
+    stakeholders_list: null
 }
 
 const cms = (state = initialState, action) => {
@@ -26,6 +28,16 @@ const cms = (state = initialState, action) => {
             return {
                 ...state,
                 subcategory: action.payload
+            }
+        case CMSType.REQUEST_ADD_STAKEHOLDER:
+            return {
+                ...state,
+                stakeholder: action.payload
+            }
+        case CMSType.REQUEST_LIST_STAKEHOLDER:
+            return {
+                ...state,
+                stakeholders_list: action.payload
             }
         default:
             return state;

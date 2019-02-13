@@ -24,8 +24,7 @@ class CreateHomeSubcategory extends Component {
     constructor() {
         super();
         
-        this.state = {
-        }
+        this.state = {}
 
         /**
          * Bind events to each Function, so that they can be passed without args 

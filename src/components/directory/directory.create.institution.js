@@ -13,6 +13,7 @@ import { Intent, Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 import { DirectoryStakeholderTypes } from './directory.stakeholder.type';
 import { ErrorField } from '../forms/form.error.field';
+import { UserProfile } from '../user/user.profile';
 
 /**
  * @author Isaac S. Mwakabira
@@ -58,7 +59,34 @@ class CreateDirectoryInstitution extends Component {
 
     handleSubmit = (values) => {
         
-        console.log(values)
+        // get authenticated user token
+        const user = UserProfile.get();
+        if(user !== null && user.token !== undefined) {
+
+            if(values !== null && values !== undefined) {
+                // define sub-category structure
+                const stakeholder = {
+                    name: values.stakeholder_name,
+                    about: values.physical_address,
+                    mission: values.physical_address,
+                    vision: values.stakeholder_name,
+                    contacts: {
+                        email: values.email,
+                        telephone: values.telephone,
+                        website: values.website,
+                        address: values.physical_address
+                    },
+                    image: values.website
+                }
+
+                // console.log(stakeholder);
+                this.props.createStakeholder(stakeholder, user.token);
+                // then change state to default
+                // so that the page redirects and list all home items
+                this.props.defaultItem();
+            }
+
+        }
         
     }
 
@@ -108,7 +136,7 @@ class CreateDirectoryInstitution extends Component {
                     />
 
                     <Field 
-                        name="physicalAddress" 
+                        name="physical_address" 
                         component={props => {
                             return (
                                 <div>
@@ -117,7 +145,7 @@ class CreateDirectoryInstitution extends Component {
                                         props={ props }
                                         label='Physical Address'
                                         defaultValue= "Stakeholder's physical address..."
-                                        name="physicalAddress"
+                                        name="physical_address"
                                         type="text"
                                     />
                                     <ErrorField props={ props } />
