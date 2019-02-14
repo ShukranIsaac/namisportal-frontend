@@ -112,7 +112,7 @@ export const editStakeholder = (id, stakeholder, token) => {
  * @returns {Function} dispatch
  */
 export const fetchSingleStakeholder = (id) => {
-
+    
     // url
     const url = `stakeholders/` + id;
 
@@ -123,7 +123,7 @@ export const fetchSingleStakeholder = (id) => {
         return await get(dispatch, url)
 
         .then(response => {
-
+            
             dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_A_STAKEHOLDER, response, false))
 
         })

@@ -15,6 +15,7 @@ const stakeholder = (state = initialState, action) => {
                 stakeholder: action.payload
             }
         case CMSType.REQUEST_A_STAKEHOLDER:
+            
             return {
                 ...state,
                 stakeholder: action.payload

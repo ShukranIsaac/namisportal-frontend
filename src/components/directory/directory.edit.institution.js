@@ -58,16 +58,17 @@ class EditDirectoryInstitution extends Component {
                 
                 // stakeholder structure
                 edited_stakeholder = {
-                    name: values.subcategory,
-                    about: values.about
+                    name: values.stakeholder_name,
+                    about: values.summary,
+                    mission: values.mission
                 }
                 console.log(stakeholder)
                 console.log(edited_stakeholder)
                 // then edit this stakeholder
-                // this.props.editStakeholder(stakeholder._id, edited_stakeholder, user.token);
+                this.props.editStakeholder(stakeholder._id, edited_stakeholder, user.token);
                 // then change state to default
                 // so that the page redirects and list all diretory stakeholders
-                // this.props.defaultItem();
+                this.props.defaultItem();
             }
 
         } 
@@ -80,19 +81,26 @@ class EditDirectoryInstitution extends Component {
             classes, stakeholder, handleClick, handleSubmit,
             valid, pristine, submitting
         } = this.props;
-        console.log(stakeholder)
+        console.log(this.props.stakeholder)
         /**
-         * If the stakeholder is not defined and has no data just return.
+         * If the stakeholder is not defined and has no data just return loader.
          */
-        if(stakeholder === null && stakeholder.name === undefined) {
-            return <Fragment/>;
+        if(stakeholder === null && stakeholder === undefined) {
+            return <div className="loader" />;
         }
         
         return (
             <Fragment>
 
-                <form onSubmit={ handleSubmit(values => this.handleSubmit(values)) } >
-
+                <form onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off" >
+                    
+                    <ButtonControl 
+                        intent={Intent.NONE} 
+                        value="List Stakeholders"
+                        name="default"
+                        handleClick={e => handleClick(e) }
+                    />
+                    
                     <ButtonControl 
                         intent={Intent.NONE} 
                         value="New Stakeholder"
@@ -116,7 +124,7 @@ class EditDirectoryInstitution extends Component {
                                     classes={ classes }
                                     label='Stakeholders Name'
                                     defaultValue="Edit stakeholder name..."
-                                    value={ stakeholder.name }
+                                    value={ stakeholder !== null && stakeholder.name }
                                     name="stakeholder_name"
                                     type="text"
                                     props={ input }
@@ -134,7 +142,7 @@ class EditDirectoryInstitution extends Component {
                                     classes={ classes }
                                     label='Mission Statement'
                                     defaultValue="Edit mission statement..."
-                                    value={ stakeholder.mission }
+                                    value={ stakeholder !== null && stakeholder.mission }
                                     name="mission"
                                     type="text"
                                     props={ input }
@@ -152,9 +160,9 @@ class EditDirectoryInstitution extends Component {
                             return (
                                 <RenderBootstrapField
                                     classes={ classes }
-                                    label={ stakeholder.name }
+                                    label={ stakeholder !== null && stakeholder.name }
                                     defaultValue="Edit stakeholders summary..."
-                                    value={ stakeholder.mission }
+                                    value={ stakeholder !== null && stakeholder.about }
                                     name="summary"
                                     type="text"
                                     props={ input }

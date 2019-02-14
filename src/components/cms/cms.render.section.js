@@ -61,7 +61,7 @@ const RenderSection = ({
                                     subcategory={ props.subcategory }
                                     editCategory={ props.editCategory }
                                     archiveCategory={ props.archiveCategory }
-                                    props={ props }
+                                    { ...props }
                                 />
                             }
                         Create={ () => <CreateHomeSubcategory 
@@ -89,7 +89,13 @@ const RenderSection = ({
             return (
                 <Fragment>
 
-                    <FinancingRequestSupport />
+                    <ResourceSection
+                        option={props.user_event}
+                        name="financing"
+                        List={ () => <FinancingRequestSupport /> }
+                        Edit={ () => <FinancingRequestSupport /> }
+                        Create={ () => <FinancingRequestSupport /> }
+                    />
 
                 </Fragment>
             );
