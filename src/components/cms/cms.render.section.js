@@ -18,6 +18,7 @@ import { redirect } from '../user/user.redirect';
 import { ListHomeSubcategory } from '../home/home.list.subcategory';
 import EditHomeSubcategory from '../home/home.edit.subcategory';
 import CreateHomeSubcategory from '../home/home.add.subcategory';
+import { ListFinancingRequests } from '../financing/financing.list.requests';
 
 /**
  * Renders a single section resource i.e. licencing, library at cms index
@@ -92,7 +93,11 @@ const RenderSection = ({
                     <ResourceSection
                         option={props.user_event}
                         name="financing"
-                        List={ () => <FinancingRequestSupport /> }
+                        List={ () => <ListFinancingRequests 
+                                    handleClick={ (e) => handleClick(e) }
+                                    category={ props.subcategory }
+                                /> 
+                            }
                         Edit={ () => <FinancingRequestSupport /> }
                         Create={ () => <FinancingRequestSupport /> }
                     />

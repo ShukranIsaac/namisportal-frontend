@@ -130,7 +130,7 @@ class CMSIndex extends React.Component {
     }
 
     /**
-     * Fetch data from API depending on the link visited
+     * Fetch component/category data from API depending on the link visited
      * in the CMS index page
      */
     fetchComponent = (link) => {
@@ -155,6 +155,12 @@ class CMSIndex extends React.Component {
                  * Fetch all directory of stakeholders and their details
                  */
                 this.props.fetchStakeholders();
+                break;
+            case 'financing':
+                /**
+                 * Financing
+                 */
+                this.props.category(this.capitalize(link));
                 break;
             default:
                 break;
@@ -195,7 +201,7 @@ class CMSIndex extends React.Component {
      */
     categoryClick = (categoryId) => {
 
-        // fetch category
+        // fetch category(sub)
         this.props.subCategory(categoryId);
 
     }
@@ -224,7 +230,7 @@ class CMSIndex extends React.Component {
                     // fetch category
                     this.props.subCategory(event.currentTarget.id);
                 } else if(link === 'directory') {
-                    console.log(event.currentTarget.id)
+                    // console.log(event.currentTarget.id)
                     // fetch stakeholder
                     this.props.fetchSingleStakeholder(event.currentTarget.id)
                 } else {
@@ -258,7 +264,7 @@ class CMSIndex extends React.Component {
         
         const { classes } = this.props;
         const { link } = this.state;
-        console.log(this.props);
+        // console.log(this.props);
         // console.log(`${match.url}`);
         const user = UserProfile.get();
         // Check if user is logged in before rendering this page
@@ -456,7 +462,8 @@ const mapDispatchToProps = (dispatch) => {
         logout: (user) => { dispatch(UserAuthAction.logout(user)) },
         // home and cms home
         homeSubcategory: (c) => { dispatch(HomeAction.fetchHomeCategories(c)) },
-        subCategory: (id) => { dispatch(CMSAction.fetchCategory(id)) },
+        subCategory: (id) => { dispatch(CMSAction.fetchSubCategory(id)) },
+        category: (name) => { dispatch(CMSAction.fetchCategory(name)) },
         createCategory: (i, c, t) => { dispatch(CMSAction.addCategory(i, c, t)) },
         editCategory: (s, e, t) => { dispatch(CMSAction.editCategory(s, e, t)) },
         archiveCategory: (c, t) => { dispatch(CMSAction.archiveCategory(c, t)) },

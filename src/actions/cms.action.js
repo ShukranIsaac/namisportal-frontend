@@ -3,12 +3,40 @@ import * as GeneralAction from './general.action';
 import { get, post, patch, _delete } from './api.service';
 
 /**
+ * Get a single category
+ * 
+ * @param category
+ * 
+ */
+export const fetchCategory = (category) => {
+
+    const url = `categories?name=` + category;
+
+    return async dispatch => {
+
+        dispatch(GeneralAction.isLoading(true));
+
+        return await get(dispatch, url)
+        
+        .then((response) => {
+            
+            dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_CATEGORY, response, false))
+
+        })
+        
+        .catch(() => dispatch(GeneralAction.hasErrored(true)));
+
+    };
+
+}
+
+/**
  * Get a single subcategories
  * 
  * @param category_id
  * 
  */
-export const fetchCategory = (category_id) => {
+export const fetchSubCategory = (category_id) => {
 
     const url = `categories/` + category_id;
 
@@ -58,13 +86,11 @@ export const addCategory = (category_id, sub_category, token) => {
 
         .then((response) => {
 
-            dispatch(
-                GeneralAction.fetchSuccess(
-                    CMSType.REQUEST_ADD_SUB_CATE, 
-                    response, 
-                    false
-                )
-            )
+            if(category_id === null) {
+                dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_ADD_CATEGORY, response, false))
+            } else {
+                dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_ADD_SUB_CATE, response, false))
+            }
   
         })
         

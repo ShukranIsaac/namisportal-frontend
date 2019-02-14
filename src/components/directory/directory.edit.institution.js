@@ -81,7 +81,7 @@ class EditDirectoryInstitution extends Component {
             classes, stakeholder, handleClick, handleSubmit,
             valid, pristine, submitting
         } = this.props;
-        console.log(this.props.stakeholder)
+        // console.log(this.props.stakeholder)
         /**
          * If the stakeholder is not defined and has no data just return loader.
          */
