@@ -25,6 +25,13 @@ export const ListFinancingRequests = ({
             <ButtonControl 
                 intent={Intent.NONE} 
                 value="Edit Category"
+                name="edit"
+                handleClick={e => handleClick(e) }
+            />
+
+            <ButtonControl 
+                intent={Intent.NONE} 
+                value="New Subcategory"
                 name="create"
                 handleClick={e => handleClick(e) }
             />

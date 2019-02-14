@@ -19,6 +19,7 @@ import { ListHomeSubcategory } from '../home/home.list.subcategory';
 import EditHomeSubcategory from '../home/home.edit.subcategory';
 import CreateHomeSubcategory from '../home/home.add.subcategory';
 import { ListFinancingRequests } from '../financing/financing.list.requests';
+import { EditFinancingRequestSupport } from '../financing/financing.edit.request';
 
 /**
  * Renders a single section resource i.e. licencing, library at cms index
@@ -98,7 +99,12 @@ const RenderSection = ({
                                     category={ props.subcategory }
                                 /> 
                             }
-                        Edit={ () => <FinancingRequestSupport /> }
+                        Edit={ () => <EditFinancingRequestSupport 
+                                    handleClick={ (e) => handleClick(e) }
+                                    editCategory={ props.editCategory }
+                                    { ...props }
+                                /> 
+                            }
                         Create={ () => <FinancingRequestSupport /> }
                     />
 
