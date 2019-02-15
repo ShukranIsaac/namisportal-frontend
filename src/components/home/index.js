@@ -54,7 +54,7 @@ class Home extends Component {
             <Container>
               <Row>
 
-                <HomeSubCategory props={ home.subCategories } section="Licencing" />
+                <HomeSubCategory props={ home.subCategories } section="Licensing" />
 
                 <HomeSubCategory props={ home.subCategories } section="GIS" />
 
