@@ -38,28 +38,33 @@ class MinGridMap extends Component {
     this.renderPolyline = this.renderPolyline.bind(this);
 
   }
+
   componentDidMount(){
     const h = document.body.offsetHeight - document.querySelector('#giveHeaderHeight').offsetHeight;
     this.setState({h})
   }
+
   componentDidUpdate() {
 
     // check if props or state changed
-    const { district } = this.props;
-    
+    const { district_name } = this.props;
+    // console.log(district);
     // IF state.zoom equals 7, district equals to Likoma, then change zoom level to 12
-    if(district !== undefined && district !== null && district  === 'Likoma') {
+    if(district_name !== undefined && district_name !== null && district_name  === 'Likoma') {
 
-      Object.assign(this.state, { zoom: 12, district_name: district });
+      Object.assign(this.state, { zoom: 12, district_name: district_name });
 
     } 
     
-    // IF state.zoom equals 12, district not equals to Likoma, then change zoom level to 7
-    if(district !== undefined && district !== null && district  !== 'Likoma') {
+    // IF state.zoom equals 12, district not equals to Likoma, 
+    // then change zoom level to 7
+    if(district_name !== undefined && district_name !== null && district_name  !== 'Likoma') {
 
-      Object.assign(this.state, { zoom: 7});
+      Object.assign(this.state, { zoom: 8});
 
     }
+
+    this.props.clearFilters(this.props);
 
   }
 
@@ -81,9 +86,9 @@ class MinGridMap extends Component {
    * @param {Props} props
    * @returns {MarkerClusterer} markers
    */
-  renderDistrictMarepCenters = ({district, marep_center, m_centers}) => {
+  renderDistrictMarepCenters = ({district_name, marep_center, m_centers}) => {
 
-    if (district !== null && district !== undefined && marep_center) {
+    if (district_name !== null && district_name !== undefined && marep_center) {
 
       if (m_centers !== null && m_centers !== undefined && m_centers.length !== null) {
         
@@ -111,7 +116,7 @@ class MinGridMap extends Component {
    * @param {Boolean} distribution_lines
    * @returns {Polyline} polyline
    */
-  renderPolyline = ({polyline, district, region, distribution_lines}) => {
+  renderPolyline = ({polyline, district_name, region, distribution_lines}) => {
 
       if (distribution_lines && polyline !== null && polyline !== undefined) {
 
@@ -224,9 +229,9 @@ class MinGridMap extends Component {
    * @param {Object} meters
    * @returns markers
    */
-  renderDistrictMeters = ({district, meters, color}) => {
+  renderDistrictMeters = ({district_name, meters, color}) => {
 
-    if (district !== null && district !== undefined) {
+    if (district_name !== null && district_name !== undefined) {
 
       if (meters !== null && meters !== undefined) {
 
@@ -261,19 +266,19 @@ class MinGridMap extends Component {
     /**
    * Renders district transformers
    * 
-   * @param {String} district
+   * @param {String} district_name
    * @param {Object} transformers
    * @param {Boolean} ground_transformers
    * @param {Boolean} up_transformers
    * @returns markers
    */
   renderTransformers = ({
-    district, transformers, 
+    district_name, transformers, 
     color, ground_transformers,
     up_transformers
   }) => {
 
-    if (district !== null && district !== undefined) {
+    if (district_name !== null && district_name !== undefined) {
 
       if (transformers !== null && transformers !== undefined
         && (ground_transformers || up_transformers)) {
@@ -296,7 +301,7 @@ class MinGridMap extends Component {
             </MarkerClusterer>
           );
 
-      }
+      } 
 
     } else {
 
@@ -340,11 +345,11 @@ class MinGridMap extends Component {
   
       });
 
-    } else {
+    } /*else {
 
-      return <Polygon/>
+      return <div className="loader" />
 
-    }
+    }*/
 
   }
   
@@ -368,13 +373,13 @@ class MinGridMap extends Component {
   /**
    * District polygon
    * 
-   * @param {String} district
+   * @param {String} district_name
    * @param {Array} d_polygons
    * @returns renderPolygon
    */
-  renderDistrictPolygon = ({ district, d_polygons }) => {
+  renderDistrictPolygon = ({ district_name, d_polygons }) => {
 
-    if (district !== null && district !== undefined) {
+    if (district_name !== null && district_name !== undefined) {
 
       return this.renderPolygon(d_polygons, "yellow", 0.31);
 
@@ -386,14 +391,14 @@ class MinGridMap extends Component {
    * Filter district given the condition true
    * 
    * @param {Array} districts
-   * @param {String} district 
+   * @param {String} district_name 
    * @returns {Object} o
    */
-  filterDistrictsCentroids = (districts, district) => {
+  filterDistrictsCentroids = (districts, district_name) => {
 
     return districts.filter((o) => {
 
-      if (o.district === district) {
+      if (o.district === district_name) {
         return o;
       }
 
@@ -407,9 +412,9 @@ class MinGridMap extends Component {
    * 
    * @returns {Array} centroid
    */
-  getPolygonCentroid = ({district, centroids}) => {
+  getPolygonCentroid = ({district_name, centroids}) => {
 
-    if (district !== null && district !== undefined) {
+    if (district_name !== null && district_name !== undefined) {
 
       if (centroids !== undefined && centroids !== null) {
 
@@ -427,7 +432,8 @@ class MinGridMap extends Component {
   render() {
 
     const google = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyA8-4amVHsfL-PCglVdff9yauniqT4hVQk&libraries=places';
-    const { h } = this.state
+    const { h } = this.state;
+    
     return (
       <Fragment>
         <CustomGoogleMap

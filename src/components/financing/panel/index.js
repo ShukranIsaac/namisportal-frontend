@@ -47,7 +47,7 @@ class Panel extends Component{
         //     listStyle: 'numbered'
         // }
         
-        const factsBack = { background: '#D8E1E8'}
+        // const factsBack = { background: '#D8E1E8'}
         let { heading, text } = this.props;
 
         return (

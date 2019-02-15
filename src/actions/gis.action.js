@@ -1,4 +1,4 @@
-import { GisType } from '../action_type/index';
+import { GisType, GeneralType } from '../action_type/index';
 
 import * as GeneralAction from './general.action';
 import { get } from './api.service';
@@ -82,7 +82,6 @@ export const fetchGisFilters = () => {
 }
 
 export const fetchMarepCenters = (district_id) => {
-    // console.log(district_id)
     // api resource url
     const url = `districts/` + district_id + `/marep-centers`;
     
@@ -96,7 +95,9 @@ export const fetchMarepCenters = (district_id) => {
           
           dispatch(GeneralAction.fetchSuccess(GisType.FETCH_MAREP_CENTERS, response, false))
 
-        }).catch(() => {
+        })
+        
+        .catch(() => {
 
           dispatch(GeneralAction.hasErrored(true))
 
@@ -175,5 +176,19 @@ export const fetchTransformers = (district) => {
       });
 
     }
+
+}
+
+/**
+ * Empty props on state change
+ * 
+ */
+export const emptyProps = () => {
+
+  return dispatch => {
+
+    dispatch(GeneralAction.fetchSuccess(GeneralType.REQUEST_CLEAR_PROPS, {}, false))
+
+  }
 
 }

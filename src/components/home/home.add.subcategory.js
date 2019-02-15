@@ -24,8 +24,7 @@ class CreateHomeSubcategory extends Component {
     constructor() {
         super();
         
-        this.state = {
-        }
+        this.state = {}
 
         /**
          * Bind events to each Function, so that they can be passed without args 
@@ -151,8 +150,6 @@ class CreateHomeSubcategory extends Component {
                                     defaultValue="New sub-category about..."
                                     name="about"
                                     type="text"
-                                    multiline="true"
-                                    rows="10"
                                     props={ input }
                                 />
                             );
@@ -166,13 +163,8 @@ class CreateHomeSubcategory extends Component {
                     <div className={ classes.margin } />
 
                     <Button type="submit" disabled={!valid  || pristine || submitting} intent="success" text="Save" />
-
-                    <ButtonControl 
-                        intent={Intent.SUCCESS} 
-                        value="Publish" 
-                        name="publish"
-                        handleClick={e => handleClick(e) } 
-                    />
+                    
+                    <Button className={ classes.margin } name="default" intent="primary" text="Cancel" onClick={ e => handleClick(e) } /> 
                 
                 </form>
 

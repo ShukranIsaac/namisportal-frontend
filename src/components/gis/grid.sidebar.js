@@ -10,7 +10,7 @@ import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormLabel from '@material-ui/core/FormLabel';
-import { Container, Col, Row} from 'reactstrap'
+import { Col, Row} from 'reactstrap'
 
 import Drawer from '@material-ui/core/Drawer';
 
@@ -44,6 +44,15 @@ class GridSideBar extends Component {
       ground_transformers: false,
       up_transformers: false,
     };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    
+    if (prevState !== nextProps) {
+      return Object.assign(prevState, nextProps);
+    }
+
+    return null;
   }
 
   /**
@@ -147,7 +156,7 @@ class GridSideBar extends Component {
    * @param {String} name
    * @returns {Fragment} district || region
    */
-  selectInputControl = ({ helperText, name }) => {
+  selectInputControl = ({ helperText, name, clearFilters }) => {
 
       return <Fragment>
         <InputLabel shrink htmlFor="region-open-select">
@@ -159,7 +168,7 @@ class GridSideBar extends Component {
               <NativeSelect
                 value={this.state.region}
                 name="region"
-                onChange={ (e) => { this.props.onChange(e) } }
+                onChange={ (e) => { this.props.regionChanged(e) } }
                 input={<Input key={this.state.region} name="region" id="region-open-select" />}
               >
                 <option value="">{ `${"--Select region--"}` }</option>
@@ -167,10 +176,10 @@ class GridSideBar extends Component {
               </NativeSelect>
             ) : (
               <NativeSelect
-                value={this.state.district}
-                name="district"
-                onChange={ (e) => { this.props.onChange(e) } }
-                input={<Input key={this.state.district} name="district" id="district-open-select" />}
+                value={this.state.district_name}
+                name="district_name"
+                onChange={ (e) => { this.props.districtChanged(e) } }
+                input={<Input key={this.state.district_name} name="district_name" id="district-open-select" />}
               >
                 <option value="">{ `${"--Select district--"}` }</option>
                 { this.renderDistricts(this.props) }
@@ -276,7 +285,7 @@ class GridSideBar extends Component {
                 </FormGroup>
               </Col>
             </Row>
-            <Row>
+            {/* <Row>
               <Col lg='12'>
                 <div className={classes.grow} />
 
@@ -294,7 +303,7 @@ class GridSideBar extends Component {
 
                 </FormGroup>
               </Col>
-            </Row>
+            </Row> */}
             <Row>
               <Col lg='12'>
 

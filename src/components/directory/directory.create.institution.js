@@ -9,10 +9,11 @@ import Validate from '../contact/email.validate';
 
 import { Divider } from '@material-ui/core';
 import ButtonControl from '../forms/buttons/button.default.control';
-import { Intent } from '@blueprintjs/core';
+import { Intent, Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 import { DirectoryStakeholderTypes } from './directory.stakeholder.type';
 import { ErrorField } from '../forms/form.error.field';
+import { UserProfile } from '../user/user.profile';
 
 /**
  * @author Isaac S. Mwakabira
@@ -48,27 +49,57 @@ class CreateDirectoryInstitution extends Component {
 	 * @param {Event} event
 	 */
     handleChange = (event) => {
-        
-        this.setState({[event.target.name]: event.target.value});
+
+        this.setState({ 
+            [event.target.name]: event.target === 'checked' ? 
+                event.target.checked : event.target.value 
+        });
   
     }
 
-    handleSubmit = (event) => {
-		/**
-		 *  disabling browser default behavior like page refresh, etc 
-		 */
-		event.preventDefault();
+    handleSubmit = (values) => {
+        
+        // get authenticated user token
+        const user = UserProfile.get();
+        if(user !== null && user.token !== undefined) {
+
+            if(values !== null && values !== undefined) {
+                // define sub-category structure
+                const stakeholder = {
+                    name: values.stakeholder_name,
+                    about: values.physical_address,
+                    mission: values.physical_address,
+                    vision: values.stakeholder_name,
+                    contacts: {
+                        email: values.email,
+                        telephone: values.telephone,
+                        website: values.website,
+                        address: values.physical_address
+                    },
+                    image: values.website
+                }
+
+                // console.log(stakeholder);
+                this.props.createStakeholder(stakeholder, user.token);
+                // then change state to default
+                // so that the page redirects and list all home items
+                this.props.defaultItem();
+            }
+
+        }
         
     }
 
     render() {
 
-        const { classes, handleClick } = this.props;
+        const { 
+            classes, handleClick, handleSubmit, valid, pristine, submitting 
+        } = this.props;
         
         return (
             <Fragment>
 
-                <form onSubmit = { this.handleSubmit }>
+                <form onSubmit = { handleSubmit(values => this.handleSubmit(values)) }>
 
                     <ButtonControl 
                         intent={Intent.NONE} 
@@ -85,102 +116,121 @@ class CreateDirectoryInstitution extends Component {
 
                     <Divider />
 
-                    <Field name="stakeholder_name" component={props => {
-                        return (
-                        <div>
-                            <RenderBootstrapField
-                            { ...this.props }
-                            props={ props }
-                            label='Stakeholders or Department Name (Legal)'
-                            defaultValue= "Legal stakeholder or department name..."
-                            name="stakeholder_name"
-                            type="text"
-                            />
-                            <ErrorField props={ props } />
-                        </div>
-                        )
-                    }} />
+                    <Field 
+                        name="stakeholder_name" 
+                        component={props => {
+                            return (
+                                <div>
+                                    <RenderBootstrapField
+                                        { ...this.props }
+                                        props={ props }
+                                        label='Stakeholders or Department Name (Legal)'
+                                        defaultValue= "Legal stakeholder or department name..."
+                                        name="stakeholder_name"
+                                        type="text"
+                                    />
+                                    <ErrorField props={ props } />
+                                </div>
+                            )
+                        }} 
+                    />
 
-                    <Field name="physicalAddress" component={props => {
-                        return (
-                        <div>
-                            <RenderBootstrapField
-                            { ...this.props }
-                            props={ props }
-                            label='Physical Address'
-                            defaultValue= "Stakeholder's physical address..."
-                            name="physicalAddress"
-                            type="text"
-                            />
-                            <ErrorField props={ props } />
-                        </div>
-                        )
-                    }} />
+                    <Field 
+                        name="physical_address" 
+                        component={props => {
+                            return (
+                                <div>
+                                    <RenderBootstrapField
+                                        { ...this.props }
+                                        props={ props }
+                                        label='Physical Address'
+                                        defaultValue= "Stakeholder's physical address..."
+                                        name="physical_address"
+                                        type="text"
+                                    />
+                                    <ErrorField props={ props } />
+                                </div>
+                            )
+                        }} 
+                        multiline={true}
+                        rows="6"
+                    />
 
-
-                    <Field name="telephone" component={props => {
-                        return (
-                        <div>
-                            <RenderBootstrapField
-                            { ...this.props }
-                            props={ props }
-                            label='Telephone'
-                            defaultValue= "Stakeholder's or department's telephone number..."
-                            name="telephone"
-                            type="text"
-                            />
-                            <ErrorField props={ props } />
-                        </div>
-                        )
-                    }} />
+                    <Field 
+                        name="telephone" 
+                        component={props => {
+                            return (
+                                <div>
+                                    <RenderBootstrapField
+                                        { ...this.props }
+                                        props={ props }
+                                        label='Telephone'
+                                        defaultValue= "Stakeholder's or department's telephone number..."
+                                        name="telephone"
+                                        type="text"
+                                    />
+                                    <ErrorField props={ props } />
+                                </div>
+                            )
+                        }} 
+                    />
                     
-                    <Field name="fax" component={props => {
-                        return (
-                        <div>
-                            <RenderBootstrapField
-                            { ...this.props }
-                            props={ props }
-                            label='Fax'
-                            defaultValue= "Stakeholder's or department's fax number..."
-                            name="fax"
-                            type="text"
-                            />
-                            <ErrorField props={ props } />
-                        </div>
-                        )
-                    }} />
+                    <Field 
+                        name="fax" 
+                        component={props => {
+                            return (
+                                <div>
+                                    <RenderBootstrapField
+                                        { ...this.props }
+                                        props={ props }
+                                        label='Fax'
+                                        defaultValue= "Stakeholder's or department's fax number..."
+                                        name="fax"
+                                        type="text"
+                                    />
+                                    <ErrorField props={ props } />
+                                </div>
+                            )
+                        }} 
+                    />
 
-                    <Field name="email" component={props => {
-                        return (
-                        <div>
-                            <RenderBootstrapField
-                            { ...this.props }
-                            props={ props }
-                            label='Email'
-                            defaultValue= "Stakeholder's or department's email address..."
-                            name="email"
-                            type="email"
-                            />
-                            <ErrorField props={ props } />
-                        </div>
-                        )
-                    }} />
+                    <Field 
+                        name="email" 
+                        component={props => {
+                            return (
+                                <div>
+                                    <RenderBootstrapField
+                                    { ...this.props }
+                                    props={ props }
+                                    label='Email'
+                                    defaultValue= "Stakeholder's or department's email address..."
+                                    name="email"
+                                    type="email"
+                                    />
+                                    <ErrorField props={ props } />
+                                </div>
+                            )
+                        }} 
+                    />
                     
-                    <Field name="website" component={props => {
-                        return (
-                        <div>
-                            <RenderBootstrapField
-                            { ...this.props }
-                            props={ props }
-                            label='Website'
-                            defaultValue= "Stakeholder's or department's website..."
-                            name="webite"
-                            type="text"
-                            />
-                            <ErrorField props={ props } />
-                        </div>
-                        )
-                    }} />
+                    <Field 
+                        name="website" 
+                        component={props => {
+                            return (
+                                <div>
+                                    <RenderBootstrapField
+                                        { ...this.props }
+                                        props={ props }
+                                        label='Website'
+                                        defaultValue= "Stakeholder's or department's website..."
+                                        name="webite"
+                                        type="text"
+                                    />
+                                    <ErrorField props={ props } />
+                                </div>
+                            )
+                        }} 
+                    />
 
                     <DirectoryStakeholderTypes 
                         classes={ classes }
@@ -192,19 +242,9 @@ class CreateDirectoryInstitution extends Component {
                     <div className={ classes.margin } />
                     <div className={ classes.margin } />
 
-                    <ButtonControl 
-                        intent={Intent.PRIMARY} 
-                        value="Save"
-                        name="save"
-                        handleClick={e => this.handleSubmit(e) }
-                    />
+                    <Button type="submit" disabled={!valid  || pristine || submitting} intent="success" text="Save" />
 
-                    <ButtonControl 
-                        intent={Intent.SUCCESS} 
-                        value="Publish" 
-                        name="publish"
-                        handleClick={e => handleClick(e) } 
-                    />
+                    <Button className={ classes.margin } name="default" intent="primary" text="Cancel" onClick={ e => handleClick(e) } />
                 
                 </form>
 

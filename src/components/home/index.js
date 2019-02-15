@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 
-import './home.css'
+import './home.css';
 import Footer from '../footer';
 import * as HomeActions from '../../actions/home.action';
 import { HomeSubCategory, filterSection } from './home.subcategory';
@@ -26,7 +26,7 @@ class Home extends Component {
     const { home } = this.props;
 
     if (home.subCategories === null || home.subCategories === undefined) {
-      return <div className="loader"/>
+      return <div className="loader" />
     }
 
     const main_section = filterSection(home.subCategories, "Information for Mini-Grid Developers");

@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Card, CardBody, Col, Row } from 'reactstrap'
-import { Flex, Box } from 'reflexbox';
-
-import Panel from './panel';
+import { Container, Card, CardBody, Row } from 'reactstrap'
 
 /**
  * Renders financing component

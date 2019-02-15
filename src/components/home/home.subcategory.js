@@ -21,7 +21,7 @@ export const filterSection = (sections, name) => {
 
       } else {
 
-        return null
+        return null;
 
       }
 
@@ -54,6 +54,7 @@ const linkButton = (props) => {
     );
 
 }
+
 /**
  * Render a single home section
  * 

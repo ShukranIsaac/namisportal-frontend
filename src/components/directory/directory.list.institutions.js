@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
-import SearchInputControl from '../forms/search.form.field';
+// import SearchInputControl from '../forms/search.form.field';
+import ButtonControl from '../forms/buttons/button.default.control';
+import { Intent } from '@blueprintjs/core';
 
 /**
  * Lists all institutions in the directory
@@ -14,36 +16,46 @@ import SearchInputControl from '../forms/search.form.field';
  * @returns {Fragment} directory  
  */
 export const ListDirectoryInstitution = ({
-    directory,
-    handleClick, 
-    handleChange
+    stakeholders,
+    handleClick,
 }) => {
+
+    // console.log(stakeholders);
+    if(stakeholders === null && stakeholders === undefined) {
+        return <div>No stakeholders</div>
+    }
 
     return (
         <Fragment>
 
-            <SearchInputControl 
+            {/* <SearchInputControl 
                 id="search_id"
                 name="directory"
                 placeholder="Search for specific institution..."
                 handleClick={ handleClick }
                 handleChange={ (e) => { handleChange(e) } }
+            /> */}
+            <ButtonControl 
+                intent={Intent.NONE} 
+                value="New Stakeholder"
+                name="create"
+                handleClick={e => handleClick(e) }
             />
 
             <ul>
                 {
-                    directory && directory.map( (object, index) => {
+                    stakeholders && stakeholders.map((stakeholder, index) => {
                         
                         return (
-                            <Fragment key={object.name}>
-                                <li id={index} key={object.name}>
+                            <Fragment key={index}>
+                                <li id={stakeholder._id} key={stakeholder._id}>
                                     <a 
-                                        href="/directory/e8g9tyjGh" 
+                                        href={ `${ 'directory/' + stakeholder.name }` } 
                                         onClick={ (e) => { handleClick(e) } }
                                         name="edit"
-                                        id={object.name}
+                                        id={stakeholder._id}
                                     >
-                                        { object.name }
+                                        { stakeholder.name }
                                     </a>
                                 </li>
                             </Fragment>

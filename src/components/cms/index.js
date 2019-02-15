@@ -16,6 +16,7 @@ import * as LibraryAction from '../../actions/index';
 import * as UserAuthAction from '../../actions/user.action';
 import * as HomeAction from '../../actions/home.action';
 import * as CMSAction from '../../actions/cms.action';
+import * as Stakeholder from '../../actions/stakeholder.action';
 
 import CustomDrawer from './cms.custom.drawer';
 import RenderSection from './cms.render.section';
@@ -129,7 +130,7 @@ class CMSIndex extends React.Component {
     }
 
     /**
-     * Fetch data from API depending on the link visited
+     * Fetch component/category data from API depending on the link visited
      * in the CMS index page
      */
     fetchComponent = (link) => {
@@ -144,7 +145,22 @@ class CMSIndex extends React.Component {
                 this.props.fetchLibraryDocs();
                 break;
             case 'home':
+                /**
+                 * Fetch all home sub category
+                 */
                 this.props.homeSubcategory(this.capitalize(link));
+                break;
+            case 'directory':
+                /**
+                 * Fetch all directory of stakeholders and their details
+                 */
+                this.props.fetchStakeholders();
+                break;
+            case 'financing':
+                /**
+                 * Financing
+                 */
+                this.props.category(this.capitalize(link));
                 break;
             default:
                 break;
@@ -185,7 +201,7 @@ class CMSIndex extends React.Component {
      */
     categoryClick = (categoryId) => {
 
-        // fetch category
+        // fetch category(sub)
         this.props.subCategory(categoryId);
 
     }
@@ -199,14 +215,27 @@ class CMSIndex extends React.Component {
          * change state depending on the button the user clicked in the UI
          * 
          */
+        
         switch(event.currentTarget.name) {
             case 'publish':
                 this.props.publishItem();
                 break;
             case 'edit':
+                
                 this.props.editItem();
-                // fetch category
-                this.props.subCategory(event.currentTarget.id);
+                // get cms component name, ie. current component
+                const { link } = this.state;
+                if(link === 'home') {
+                    // console.log(event.currentTarget.id)
+                    // fetch category
+                    this.props.subCategory(event.currentTarget.id);
+                } else if(link === 'directory') {
+                    // console.log(event.currentTarget.id)
+                    // fetch stakeholder
+                    this.props.fetchSingleStakeholder(event.currentTarget.id)
+                } else {
+
+                }
 
                 break;
             case 'unpublish':
@@ -403,12 +432,14 @@ const styles = theme => ({
 });
 
 const mapStateToProps = (state) => {
-
+    
     return {
         user_event: state.event.event,
         library: state.library.library,
         home: state.home.home,
         subcategory: state.cms.subcategory,
+        stakeholder: state.stakeholder.stakeholder,
+        stakeholders_list: state.stakeholder.stakeholders_list,
     };
 
 }
@@ -430,11 +461,17 @@ const mapDispatchToProps = (dispatch) => {
         // logout
         logout: (user) => { dispatch(UserAuthAction.logout(user)) },
         // home and cms home
-        homeSubcategory: (categ) => { dispatch(HomeAction.fetchHomeCategories(categ)) },
-        subCategory: (id) => { dispatch(CMSAction.fetchCategory(id)) },
+        homeSubcategory: (c) => { dispatch(HomeAction.fetchHomeCategories(c)) },
+        subCategory: (id) => { dispatch(CMSAction.fetchSubCategory(id)) },
+        category: (name) => { dispatch(CMSAction.fetchCategory(name)) },
         createCategory: (i, c, t) => { dispatch(CMSAction.addCategory(i, c, t)) },
         editCategory: (s, e, t) => { dispatch(CMSAction.editCategory(s, e, t)) },
-        archiveCategory: (c, t) => { dispatch(CMSAction.archiveCategory(c, t)) }
+        archiveCategory: (c, t) => { dispatch(CMSAction.archiveCategory(c, t)) },
+        // stakeholders
+        createStakeholder: (s, t) => { dispatch(Stakeholder.createStakeholder(s, t)) },
+        fetchSingleStakeholder: (i) => { dispatch(Stakeholder.fetchSingleStakeholder(i)) },
+        fetchStakeholders: () => { dispatch(Stakeholder.fetchAllStakeholders()) },
+        editStakeholder: (i, s, t) => { dispatch(Stakeholder.editStakeholder(i, s, t)) },
     };
 
 }

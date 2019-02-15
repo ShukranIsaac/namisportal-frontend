@@ -1,21 +1,44 @@
 import React, { Component } from 'react';
-import { Container,Card, CardBody, CardImg, Col, Row, 
-        Pagination, PaginationItem, PaginationLink } 
-        from 'reactstrap'
+import { 
+  Container,Card, CardBody, CardImg, Col, Row, 
+  Pagination, PaginationItem, PaginationLink 
+} from 'reactstrap';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import DirectoryItem from './item'
 
-import './directory.css'
-import ItemProfile from './item-profile';
+import './directory.css';
+// import ItemProfile from './item-profile';
+import * as Stakeholder from '../../actions/stakeholder.action';
 
 
 class Directory extends Component {
+
+  componentDidMount() {
+
+    // fetches all stakeholders
+    this.props.fetchStakeholders();
+
+  }
+
+  handleClick = (e) => {
+
+    e.preventDefault();
+    console.log(e.currentTarget.id);
+
+  }
+
   render(){
 
-    const { classes } = this.props;
+    const { classes, stakeholders_list } = this.props;
 
+    // progress bar
+    if(stakeholders_list === null && stakeholders_list === undefined) {
+      return <div className="loader" />
+    }
+    
     return (
       <div className = "page-content">
         <Container>
@@ -32,46 +55,19 @@ class Directory extends Component {
                   </Card>
 
                 </div>
-            </Col>
-            
-              
-          </Row>
-          <Row>
-            <Col lg='12'>
-              <div style={{margin: '2.5px 0'}}>
-                <Card className={classes.card}>
-                      <CardBody className={classes.paddindUnset}>
-                        <div style={{  display: 'grid', gridTemplateColumns: '20% 80%'}}>
-                          <CardImg src={require("../../../src/assets/img/malawi.png")}/>
-                          <div>
-                            <h4> Lizard </h4>
-                            <p>
-                              Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                              across all continents except Antarctica
-                            </p>
-                          </div>
-                        </div>
-                    
-                    </CardBody>
-                </Card>
-              </div>
-              
-            </Col>
+            </Col> 
           </Row>
 
           <Row>
             <Col lg='12'>
               <div style={{margin: '2.5px 0'}}>
-                <Card className={classes.card}>
+                <Card id={stakeholders_list && stakeholders_list[0]._id} className={classes.card} onClick={ (e) => this.handleClick(e) }>
                       <CardBody className={classes.paddindUnset}>
                         <div style={{  display: 'grid', gridTemplateColumns: '20% 80%'}}>
                           <CardImg src={require("../../../src/assets/img/escom-logo.png")}/>
                           <div>
-                            <h4> Escoma </h4>
-                            <p>
-                              Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                              across all continents except Antarctica
-                            </p>
+                            <h4> { stakeholders_list && stakeholders_list[0].name } </h4>
+                            <p>{ stakeholders_list && stakeholders_list[0].about }</p>
                           </div>
                         </div>
                     
@@ -84,7 +80,7 @@ class Directory extends Component {
 
           </Row>
 
-          <DirectoryItem />
+          <DirectoryItem { ...this.props } handleClick={ this.handleClick} />
           
           <Row>
             
@@ -171,4 +167,23 @@ Directory.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(Directory);
+const mapStateToProps = (state) => {
+    
+  return {
+      stakeholders_list: state.stakeholder.stakeholders_list,
+  };
+
+}
+
+const mapDispatchToProps = (dispatch) => {
+
+  return {
+      // stakeholders
+      fetchStakeholders: () => { dispatch(Stakeholder.fetchAllStakeholders()) },
+  };
+
+}
+
+export default withStyles(styles, { 
+  withTheme: true 
+})(connect(mapStateToProps, mapDispatchToProps)(Directory));

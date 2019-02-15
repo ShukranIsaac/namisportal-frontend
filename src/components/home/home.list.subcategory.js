@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import { Divider } from '@material-ui/core';
+// import { Divider } from '@material-ui/core';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent } from '@blueprintjs/core';
 
@@ -29,7 +29,7 @@ export const ListHomeSubcategory = ({
                 handleClick={e => handleClick(e) }
             />
 
-            <Divider />
+            {/* <Divider /> */}
 
             <ul>
                 {

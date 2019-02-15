@@ -11,3 +11,5 @@ export * from './user.action';
 export * from './licencing.action';
 
 export * from './cms.action';
+
+export * from './stakeholder.action';

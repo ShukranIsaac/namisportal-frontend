@@ -1,7 +1,7 @@
 import { CMSType } from '../action_type/index';
 
 const initialState = {
-    subcategory: {}
+    subcategory: {},
 }
 
 const cms = (state = initialState, action) => {
@@ -23,6 +23,16 @@ const cms = (state = initialState, action) => {
                 subcategory: action.payload
             }
         case CMSType.REQUEST_DELETE_SUB_CATE:
+            return {
+                ...state,
+                subcategory: action.payload
+            }
+        case CMSType.REQUEST_ADD_CATEGORY:
+            return {
+                ...state,
+                subcategory: action.payload
+            }
+        case CMSType.REQUEST_CATEGORY:
             return {
                 ...state,
                 subcategory: action.payload

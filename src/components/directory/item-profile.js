@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {Card, CardBody, CardImg, Col, Row } from 'reactstrap'
-import { Jumbotron, Button } from 'reactstrap';
+import {Card, CardBody, Col, Row } from 'reactstrap'
+import { Jumbotron } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -13,8 +13,8 @@ import './directory.css'
 
 
 class ItemProfile extends Component {
+  
   render(){
-
     const { classes } = this.props;
 
     
