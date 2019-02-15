@@ -156,7 +156,6 @@ class CreateDirectoryInstitution extends Component {
                         rows="6"
                     />
 
-
                     <Field 
                         name="telephone" 
                         component={props => {

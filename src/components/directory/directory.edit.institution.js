@@ -60,10 +60,16 @@ class EditDirectoryInstitution extends Component {
                 edited_stakeholder = {
                     name: values.stakeholder_name,
                     about: values.summary,
-                    mission: values.mission
+                    mission: values.mission,
+                    vision: values.vision,
+                    contacts: {
+                        email: values.email,
+                        telephone: values.telephone,
+                        website: values.website,
+                        address: values.address
+                    }
                 }
-                console.log(stakeholder)
-                console.log(edited_stakeholder)
+                
                 // then edit this stakeholder
                 this.props.editStakeholder(stakeholder._id, edited_stakeholder, user.token);
                 // then change state to default
@@ -122,7 +128,7 @@ class EditDirectoryInstitution extends Component {
                             return (
                                 <RenderBootstrapField
                                     classes={ classes }
-                                    label='Stakeholders Name'
+                                    label='Stakeholders or Department Name (Legal)'
                                     defaultValue="Edit stakeholder name..."
                                     value={ stakeholder !== null && stakeholder.name }
                                     name="stakeholder_name"
@@ -132,7 +138,116 @@ class EditDirectoryInstitution extends Component {
                             );
                         }}
                     />
-                    <br/>
+
+                    <Field 
+                        name="physical_address" 
+                        component={input => {
+                            return (
+                                <RenderBootstrapField
+                                    classes={ classes }
+                                    props={ input }
+                                    label='Physical Address'
+                                    defaultValue= "Stakeholder's physical address..."
+                                    value={ stakeholder !== null && stakeholder.contacts.address }
+                                    name="physical_address"
+                                    type="text"
+                                />
+                            )
+                        }} 
+                        multiline={true}
+                    />
+
+                    <Field 
+                        name="telephone" 
+                        component={input => {
+                            return (
+                                <RenderBootstrapField
+                                    classes={ classes }
+                                    props={ input }
+                                    label='Telephone'
+                                    defaultValue= "Stakeholder's or department's telephone number..."
+                                    value={ stakeholder !== null && stakeholder.contacts.telephone }
+                                    name="telephone"
+                                    type="text"
+                                />
+                            )
+                        }} 
+                    />
+
+                    <Field 
+                        name="website" 
+                        component={input => {
+                            return (
+                                <RenderBootstrapField
+                                    classes={ classes }
+                                    props={ input }
+                                    label='Website'
+                                    defaultValue= "Stakeholder's or department's website..."
+                                    value={ stakeholder !== null && stakeholder.contacts.website }
+                                    name="webite"
+                                    type="text"
+                                />
+                            )
+                        }} 
+                    />
+
+                    <Field
+                        name='summary'
+                        component={ input => {
+                            return (
+                                <RenderBootstrapField
+                                    classes={ classes }
+                                    label={ stakeholder !== null && `${ stakeholder.name + '-Background' }` }
+                                    defaultValue="Edit stakeholders summary..."
+                                    value={ stakeholder !== null && stakeholder.about }
+                                    name="summary"
+                                    type="text"
+                                    props={ input }
+                                />
+                            );
+                        }}
+                        multiline={true}
+                    />
+
+                    {/* <br/> */}
+
+                    <Field 
+                        name="email" 
+                        component={input => {
+                            return (
+                                <RenderBootstrapField
+                                    classes={ classes }
+                                    props={ input }
+                                    label='Email'
+                                    defaultValue= "Stakeholder's or department's email address..."
+                                    value={ stakeholder !== null && stakeholder.contacts.email }
+                                    name="email"
+                                    type="email"
+                                />
+                            )
+                        }} 
+                    />
+                    
+                    {/* <br/> */}
+
+                    <Field
+                        name='vision'
+                        component={ input => {
+                            return (
+                                <RenderBootstrapField
+                                    classes={ classes }
+                                    label="Vision"
+                                    defaultValue="Edit stakeholders vision..."
+                                    value={ stakeholder !== null && stakeholder.vision }
+                                    name="vision"
+                                    type="text"
+                                    props={ input }
+                                />
+                            );
+                        }}
+                        multiline={true}
+                        rows="10"
+                    />
 
                     <Field
                         name='mission'
@@ -150,27 +265,7 @@ class EditDirectoryInstitution extends Component {
                             );
                         }}
                         multiline={true}
-                        rows="15"
-                    />
-                    {/* <br/> */}
-
-                    <Field
-                        name='summary'
-                        component={ input => {
-                            return (
-                                <RenderBootstrapField
-                                    classes={ classes }
-                                    label={ stakeholder !== null && stakeholder.name }
-                                    defaultValue="Edit stakeholders summary..."
-                                    value={ stakeholder !== null && stakeholder.about }
-                                    name="summary"
-                                    type="text"
-                                    props={ input }
-                                />
-                            );
-                        }}
-                        multiline={true}
-                        rows="15"
+                        rows="10"
                     />
 
                     <div className={ classes.margin } />

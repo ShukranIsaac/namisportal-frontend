@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 
-import './home.css'
+import './home.css';
 import Footer from '../footer';
 import * as HomeActions from '../../actions/home.action';
 import { HomeSubCategory, filterSection } from './home.subcategory';
