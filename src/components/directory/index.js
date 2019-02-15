@@ -23,6 +23,13 @@ class Directory extends Component {
 
   }
 
+  handleClick = (e) => {
+
+    e.preventDefault();
+    console.log(e.currentTarget.id);
+
+  }
+
   render(){
 
     const { classes, stakeholders_list } = this.props;
@@ -54,7 +61,7 @@ class Directory extends Component {
           <Row>
             <Col lg='12'>
               <div style={{margin: '2.5px 0'}}>
-                <Card className={classes.card}>
+                <Card id={stakeholders_list && stakeholders_list[0]._id} className={classes.card} onClick={ (e) => this.handleClick(e) }>
                       <CardBody className={classes.paddindUnset}>
                         <div style={{  display: 'grid', gridTemplateColumns: '20% 80%'}}>
                           <CardImg src={require("../../../src/assets/img/escom-logo.png")}/>
@@ -73,7 +80,7 @@ class Directory extends Component {
 
           </Row>
 
-          <DirectoryItem { ...this.props } />
+          <DirectoryItem { ...this.props } handleClick={ this.handleClick} />
           
           <Row>
             

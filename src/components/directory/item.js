@@ -12,27 +12,24 @@ class Item extends Component {
 
     const { classes, stakeholders_list } = this.props;
 
-    
     return (
-        <Row>
+      <Row>
         <Col lg='12'>
-            <div style={{margin: '2.5px 0'}}>
-            <Card className={classes.card}>
-                    <CardBody className={classes.paddindUnset}>
-                    <div style={{  display: 'grid', gridTemplateColumns: '20% 80%'}}>
-                        <CardImg src={require("../../../src/assets/img/malawi.png")}/>
-                        <div>
-                        <h4> { stakeholders_list && stakeholders_list[1].name } </h4>
-                        <p>{ stakeholders_list && stakeholders_list[1].about }</p>
-                        </div>
+          <div style={{margin: '2.5px 0'}}>
+            <Card id={stakeholders_list && stakeholders_list[1]._id} className={classes.card} onClick={ (e) => this.props.handleClick(e) }>
+              <CardBody className={classes.paddindUnset}>
+                <div style={{  display: 'grid', gridTemplateColumns: '20% 80%'}}>
+                    <CardImg src={require("../../../src/assets/img/malawi.png")}/>
+                    <div>
+                    <h4> { stakeholders_list && stakeholders_list[1].name } </h4>
+                    <p>{ stakeholders_list && stakeholders_list[1].about }</p>
                     </div>
-                
-                </CardBody>
+                </div>
+              </CardBody>
             </Card>
-            </div>
-            
+          </div>
         </Col>
-        </Row> 
+      </Row> 
     );
   }
 }
