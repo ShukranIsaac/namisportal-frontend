@@ -34,10 +34,7 @@ class UserRegistration extends Component {
          website: '',
          telephone: '',
          fax: '',
-         stakeholderName: '',
-         stakeholderEmail: '',
          physicalAddress: '',
-         stakeholderType: [],
       }
 
       this.handleChange = this.handleChange.bind(this);
@@ -72,16 +69,6 @@ class UserRegistration extends Component {
         password: values.password
       }
       // console.log(user);
-      // define stakeholder structure
-      const stakeholder = {
-        stakeholderName: values.stakeholderName,
-        physicalAddress: values.physicalAddress,
-        telephone: values.telephone,
-        fax: values.fax,
-        stakeholderEmail: values.stakeholderEmail,
-        website: values.website,
-      }
-      console.log(stakeholder);
       if (user !== undefined && user.username !== undefined && user !== null) {
 
         const { register } = this.props;
