@@ -42,7 +42,7 @@ class CMSIndex extends React.Component {
             event: 'default',  // default value required when rendering a single resource section
             searchTerm: '',
             doc_title: '',
-            open: false,
+            open: true,
             subcategory: null
         }
 

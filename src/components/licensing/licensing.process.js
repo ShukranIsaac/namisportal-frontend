@@ -38,7 +38,7 @@ class LicensingProcess extends Component {
     handleSubmit = (values) => {
         // category under which this subcategory should 
         // be uploaded to
-        const { category, props } = this.props;
+        const { category } = this.props;
         // get authenticated user token
         const user = UserProfile.get();
         if(user !== null && user.token !== undefined) {
@@ -56,7 +56,7 @@ class LicensingProcess extends Component {
                 // this.props.createCategory(category._id, sub_category , user.token);
                 // then change state to default
                 // so that the page redirects and list all home items
-                props.defaultItem();
+                this.props.defaultItem();
             }
 
         } 

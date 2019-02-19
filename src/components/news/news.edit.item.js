@@ -113,6 +113,13 @@ class EditNewsItem extends Component {
                         handleClick={e => handleClick(e) }
                     />
 
+                    <ButtonControl 
+                        intent={Intent.NONE} 
+                        value="List All Articles"
+                        name="default"
+                        handleClick={e => handleClick(e) }
+                    />
+
                     <div className={ classes.margin }/>
                     <div className={ classes.margin }/>
                     <div className={ classes.margin }/>
