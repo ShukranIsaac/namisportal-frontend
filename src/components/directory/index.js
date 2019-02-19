@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import DirectoryItem from './item'
+import DirectoryItem from './item';
 
 import './directory.css';
 // import ItemProfile from './item-profile';
