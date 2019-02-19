@@ -16,7 +16,7 @@ import * as UserAuthActions from '../../actions/user.action';
 import styles from '../contact/form.styles';
 
 import { redirect } from './user.redirect';
-import { StakeholderProfile } from './user.register.company';
+// import { StakeholderProfile } from './user.register.company';
 import { PersonalProfile } from './user.register.personal';
 import { InputLabel } from '@material-ui/core';
 
@@ -130,17 +130,17 @@ class UserRegistration extends Component {
 
                 <Flex align='left' justify='left' w={1/2}>
                   <Box p={1}>
-                    <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
+                    {/* <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
                       <h3>Personal Account</h3>
-                    </InputLabel>
+                    </InputLabel> */}
                     <PersonalProfile props={ this.props } />
                   </Box>
-                  <Box p={1}>
+                  {/* <Box p={1}>
                     <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
                       <h3>Stakeholder Account</h3>
                     </InputLabel>
                     <StakeholderProfile props={this.props} state={this.state} handleChange={ this.handleChange } />
-                  </Box>
+                  </Box> */}
                 </Flex>
 
                 <div className={classes.margin}>
