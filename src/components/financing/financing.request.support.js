@@ -1,6 +1,17 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, Component } from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 
-import MultiStepForm from '../forms/form.multistep';
+import { reduxForm, Field } from 'redux-form';
+import RenderBootstrapField from '../forms/form.bootstrap.field';
+import AsyncValidate from '../contact/form.async-validate';
+import Validate from '../contact/email.validate';
+
+import { Divider } from '@material-ui/core';
+import ButtonControl from '../forms/buttons/button.default.control';
+import { Intent, Button } from '@blueprintjs/core';
+import styles from '../contact/form.styles';
+import { UserProfile } from '../user/user.profile';
 
 /**
  * A multi-step form component for the user to fill when applying or 
@@ -9,34 +20,139 @@ import MultiStepForm from '../forms/form.multistep';
  * @author Isaac S. Mwakabira
  * 
  */
-export const FinancingRequestSupport = () => {
+class FinancingRequestSupport extends Component {
 
-    return (
-        <Fragment>
-            <div >
+    constructor() {
+        super();
+        
+        this.state = {}
 
-                <div>
-                    <MultiStepForm steps={ steps }/>
-                </div>
+        /**
+         * Bind events to each Function, so that they can be passed without args 
+         * i.e this.handleChange
+         * 
+         */
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
 
-                <div className="container app-footer">
-                    <h6>Press 'Enter' or click on progress bar for next step.</h6>
-                </div>
+    }
 
-            </div>
-        </Fragment>
-    );
+	/**
+	 * On change, update the app's React state with event type value.
+	 *
+	 * @param {Event} event
+	 */
+    handleChange = (event) => {
+        
+        this.setState({[event.target.name]: event.target.value});
+  
+    }
+
+    handleSubmit = (values) => {
+        // category under which this subcategory should 
+        // be uploaded to
+        const { subcategory } = this.props;
+        // get authenticated user token
+        const user = UserProfile.get();
+        if(user !== null && user.token !== undefined) {
+
+            let sub_category;
+            if(values !== null && values !== undefined) {
+                // define sub-category structure
+                sub_category = {
+                    name: values.subcategory,
+                    about: values.about
+                }
+
+                // console.log(sub_category)
+                // console.log(subcategory)
+                this.props.createCategory(subcategory._id, sub_category , user.token);
+                // then change state to default
+                // so that the page redirects and list all home items
+                this.props.defaultItem();
+            }
+
+        } 
+        
+    }
+
+    render() {
+
+        const { classes, handleClick, handleSubmit, valid, pristine, submitting } = this.props;
+        // console.log(this.props)
+        return (
+            <Fragment>
+                
+                <form onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
+
+                    <ButtonControl 
+                        intent={Intent.NONE} 
+                        value="List Category"
+                        name="default"
+                        handleClick={e => handleClick(e) }
+                    />
+
+                    <div className={ classes.margin } />
+                    <div className={ classes.margin } />
+                    <div className={ classes.margin } />
+
+                    <Divider />
+
+                    <Field
+                        name='subcategory'
+                        component={ input => {
+                            return (
+                                <RenderBootstrapField
+                                    classes={ classes }
+                                    id="subcategory"
+                                    label='Name'
+                                    defaultValue="New sub-category name..."
+                                    name="subcategory"
+                                    type="text"
+                                    props={ input }
+                                />
+                            );
+                        }}
+                    /><br />
+
+                    <Field 
+                        name='about'
+                        component={ input => {
+                            return (
+                                <RenderBootstrapField
+                                    classes={ classes }
+                                    id="about"
+                                    label='Summary'
+                                    defaultValue="New sub-category about..."
+                                    name="about"
+                                    type="text"
+                                    props={ input }
+                                />
+                            );
+                        }}
+                        multiline={true}
+                        rows="10"
+                    /><br />
+
+                    <Button type="submit" disabled={!valid  || pristine || submitting} intent="success" text="Save" />
+                    
+                    <Button className={ classes.margin } name="default" intent="primary" text="Cancel" onClick={ e => handleClick(e) } /> 
+                
+                </form>
+    
+            </Fragment>
+        );
+
+    }
 
 }
 
-const steps = 
-    [
-        {name: 'Concept Note', },
-        {name: 'Note Appraisal', },
-        {name: 'Prefeasibility Study and draft Business Plan', },
-        {name: 'Application for Grant', },
-        {name: 'Preliminary Evaluation of Grant Application', },
-        {name: 'Feasibility Report and Business Plan', },
-        {name: 'Final Evaluation of Grant Application', },
-        {name: 'Disbursement', }
-    ];
+FinancingRequestSupport.propTypes = {
+    classes: PropTypes.object.isRequired,
+}
+
+export default reduxForm({
+    form: 'finansingRequestSupport',
+    Validate,
+    AsyncValidate
+})(withStyles(styles)(FinancingRequestSupport));

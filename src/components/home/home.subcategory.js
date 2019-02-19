@@ -19,11 +19,9 @@ export const filterSection = (sections, name) => {
         // console.log(name)
         return section;
 
-      } else {
+      } 
 
-        return null;
-
-      }
+      return null;
 
     })[0];
 
@@ -31,15 +29,20 @@ export const filterSection = (sections, name) => {
 
 const link = (props) => {
 
-    let section_name = (props.name).toLowerCase();
     let url;
 
-    if (props.name !== "Information for Mini-Grid Developers") {
-        url = section_name;
-        section_name = '';
-    } else {
-        url = section_name;
-        section_name = '';
+    if( props !== undefined && props !== null) {
+        
+        let section_name = (props.name).toLowerCase();
+    
+        if (props.name !== "Information for Mini-Grid Developers") {
+            url = section_name;
+            section_name = '';
+        } else {
+            url = section_name;
+            section_name = '';
+        }
+
     }
 
     return url;
@@ -47,11 +50,17 @@ const link = (props) => {
 
 const linkButton = (props) => {
 
-    return (
-        <Link to={ `${ '/' +  link(props) }`}>
-            <Button intent="primary">{ props.name } section </Button>
-        </Link>
-    );
+    if(props.name !== null && props.name !== undefined) {
+
+        return (
+            <Link to={ `${ '/' +  link(props) }`}>
+                <Button intent="primary">{ props.name } section </Button>
+            </Link>
+        );
+
+    }
+
+    return null;
 
 }
 
@@ -62,35 +71,34 @@ const linkButton = (props) => {
  */
 export const HomeSubCategory = ({ props, section }) => {
 
-    if (props === null && props === undefined) {
-        return <Col sm='12' md='6' lg='4'/>
-    }
-
-    const my_section = filterSection(props, section);
+    if (props !== null && props !== undefined) {
+        
+        const my_section = filterSection(props, section);
     
-    if (my_section === null && my_section === undefined) {
-        return <Col sm='12' md='6' lg='4' />
-    }
+        if (my_section === null && my_section === undefined) {
+            return <Col sm='12' md='6' lg='4' />
+        }
 
-    return (
-        <Col sm='12' md='6' lg='4'>
-            <div className="card">
-                <div className="card-body">
-                <h4>
-                    <a className="heading" 
-                        href={ link(my_section) } 
-                        onClick={ redirect.to({ to: '/' + my_section })}
-                    >
-                        { my_section.name }
-                    </a>
-                </h4>
-                <p>{ my_section.about.substring(0, 250) }</p>
-                {
-                    my_section.name !== "Information for Mini-Grid Developers" ? linkButton(my_section) : <div></div>
-                }
+        return (
+            <Col sm='12' md='6' lg='4'>
+                <div className="card">
+                    <div className="card-body">
+                    <h4>
+                        <a className="heading" 
+                            href={ link(my_section) } 
+                            onClick={ redirect.to({ to: '/' + my_section.name })}
+                        >
+                            { my_section.name }
+                        </a>
+                    </h4>
+                    <p>{ my_section.about.substring(0, 250) }</p>
+                    {
+                        my_section.name !== "Information for Mini-Grid Developers" ? linkButton(my_section) : <div></div>
+                    }
+                    </div>
                 </div>
-            </div>
-        </Col>
-    );
+            </Col>
+        );
+    }
 
 }

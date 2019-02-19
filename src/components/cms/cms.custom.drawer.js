@@ -22,7 +22,7 @@ import HomeIcon from '@material-ui/icons/Home';
 
 const drawer_controls = [
     { name: 'home', button: <HomeIcon />},
-    { name: 'licencing', button: <LicencingIcon/>},
+    { name: 'licensing', button: <LicencingIcon/>},
     { name: 'financing', button: <FinancingIcon/>},
     { name: 'directory', button: <DirectoryIcon/>},
     { name: 'library', button: <DocumentIcon/>},

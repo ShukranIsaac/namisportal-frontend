@@ -12,7 +12,7 @@ import { ListLibraryDocuments } from '../library/library.list.documents';
 import { ListDirectoryInstitution } from '../directory/directory.list.institutions';
 import EditDirectoryInstitution from '../directory/directory.edit.institution';
 import CreateDirectoryInstitution from '../directory/directory.create.institution';
-import { FinancingRequestSupport } from '../financing/financing.request.support';
+import FinancingRequestSupport from '../financing/financing.request.support';
 import { UserProfile } from '../user/user.profile';
 import { redirect } from '../user/user.redirect';
 import { ListHomeSubcategory } from '../home/home.list.subcategory';
@@ -20,6 +20,7 @@ import EditHomeSubcategory from '../home/home.edit.subcategory';
 import CreateHomeSubcategory from '../home/home.add.subcategory';
 import { ListFinancingRequests } from '../financing/financing.list.requests';
 import { EditFinancingRequestSupport } from '../financing/financing.edit.request';
+import LicensingProcess from '../licensing/licensing.process';
 
 /**
  * Renders a single section resource i.e. licencing, library at cms index
@@ -78,16 +79,26 @@ const RenderSection = ({
                 </Fragment>
             );
 
-        case 'licencing':
+        case 'licensing':
 
             return (
                 <Fragment>
-                    
+
+                    <ResourceSection 
+                        option={props.user_event} 
+                        name="licensing"
+                        List={ () => <LicensingProcess 
+                                handleClick={ (e) => handleClick(e) }
+                            /> 
+                        }
+                    />
+
                 </Fragment>
             );
 
         case 'financing':
 
+            console.log(props)
             return (
                 <Fragment>
 
@@ -105,7 +116,13 @@ const RenderSection = ({
                                     { ...props }
                                 /> 
                             }
-                        Create={ () => <FinancingRequestSupport /> }
+                        Create={ () => <FinancingRequestSupport 
+                                    handleClick={ (e) => handleClick(e) }
+                                    subcategory={ props.subcategory }
+                                    createCategory={ props.createCategory }
+                                    { ...props }
+                                /> 
+                            }
                     />
 
                 </Fragment>

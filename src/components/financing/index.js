@@ -12,11 +12,6 @@ class Financing extends Component {
 
   render(){
 
-    // const containerStyle = {
-    //   width: '80%',
-    //   margin: '0 auto',
-    // }
-
     const header = {
       textAlign: 'center',
     }
@@ -25,12 +20,6 @@ class Financing extends Component {
       marginBottom: 8,
       borderRadius: 0
     }
-    
-    // const flexStyle = {
-    //   margin: 'auto',
-    //   background: '#15B371',
-    //   padding: '12%'
-    // }
 
     return (
       <div className = "page-content">

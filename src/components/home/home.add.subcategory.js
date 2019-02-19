@@ -95,8 +95,6 @@ class CreateHomeSubcategory extends Component {
 
     render() {
 
-        // const { document } = this.state;
-
         const { 
             classes, handleClick, handleSubmit,
             valid, pristine, submitting

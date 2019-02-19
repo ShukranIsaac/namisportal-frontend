@@ -42,7 +42,7 @@ class Home extends Component {
                       <h4 className="heading">
                         <a href="/">{ main_section.name }</a>
                       </h4>
-                      <p>{ main_section.about }</p>
+                      <p>{ main_section.about.substring(0, 500) }</p>
                   </div>
                 </div>
               </Col>
@@ -54,7 +54,7 @@ class Home extends Component {
             <Container>
               <Row>
 
-                <HomeSubCategory props={ home.subCategories } section="Licencing" />
+                <HomeSubCategory props={ home.subCategories } section="Licensing" />
 
                 <HomeSubCategory props={ home.subCategories } section="GIS" />
 
