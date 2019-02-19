@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import { Card, Elevation } from '@blueprintjs/core'
 import { Container, Row } from 'reactstrap';
+import { withStyles } from '@material-ui/core';
+
+import * as CMSAction from '../../actions/cms.action';
 
 /**
  * Renders financing component
@@ -10,49 +16,72 @@ import { Container, Row } from 'reactstrap';
  */
 class Financing extends Component {
 
+  componentDidMount() {
+    // fetch category
+    this.props.category('Financing');
+  }
+
   render(){
 
-    const header = {
-      textAlign: 'center',
-    }
+    const { classes, subcategory } = this.props;
+    // console.log(subcategory);
 
-    const financing = {
-      marginBottom: 8,
-      borderRadius: 0
-    }
+    if(subcategory !== undefined && subcategory !== null) {
 
-    return (
-      <div className = "page-content">
-        <Container>
-          <Row>
-          <div>
-            <Card elevation={Elevation.TWO}>
-              <Card interactive={false} elevation={Elevation.ZERO} style={financing}>
-                  <p style={header}><strong>Financing</strong></p>
-                  <p>
-                    Mini-Grid development in Malawi has so far been supported financially by Donors.
-                    Though Rural electrification act of 2004 provides that the Rural electrification Levy
-                    which is part of Rural Electrification Fund can fund the Rural Electrification projects
-                    having IRR of up to 6%, there are no clear guidelines for accessing this fund so far.Once
-                    the guidelines are laid out properly by the government, all the necessary steps for
-                    accessing this fund for Minigrid and other rural electrification projects, shall be uploaded
-                    on this portal. Information Portal.
-                  </p>
-                  <p>
-                    Meanwhile, minigrid developers can grab any opportunity for minigrid development
-                    financing that may arise from the donor community. Any such opportunity that will
-                    come to the knowledge of government shall be published on this portal.
-                  </p>
+      return (
+        <div className = "page-content">
+          <Container>
+            <Row>
+            <div>
+              <Card elevation={Elevation.TWO}>
+                <Card interactive={false} elevation={Elevation.ZERO} className={classes.financing}>
+                    <p className={classes.header}><strong>{ subcategory.subCategories[0].name }</strong></p>
+                    { subcategory.subCategories[0].about }
+                </Card>
               </Card>
-            </Card>
-          </div>
-          </Row>
-        </Container>
-        
-      </div>
-        
-    );
+            </div>
+            </Row>
+          </Container>
+          
+        </div>  
+      );
+    } else {
+      // else return loader
+      return <div className="loader" />
+    }
+  }
+
+}
+
+const styles = {
+  header: {
+    textAlign: 'center',
+  },
+  financing: {
+    marginBottom: 8,
+    borderRadius: 0
   }
 }
 
-export default Financing;
+const mapStateToProps = (state) => {
+    
+  return {
+    subcategory: state.cms.subcategory,
+  };
+
+}
+
+const mapDispatchToProps = (dispatch) => {
+
+  return {
+      // Financing
+      category: (name) => { dispatch(CMSAction.fetchCategory(name)) },
+  };
+
+}
+
+Financing.propTypes = {
+  classes: PropTypes.object.isRequired,
+}
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Financing));

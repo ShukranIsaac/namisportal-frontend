@@ -1,7 +1,7 @@
 import { CMSType } from '../action_type/index';
 
 const initialState = {
-    subcategory: {},
+    subcategory: null,
 }
 
 const cms = (state = initialState, action) => {

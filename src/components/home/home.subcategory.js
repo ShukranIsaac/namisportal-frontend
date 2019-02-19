@@ -86,7 +86,7 @@ export const HomeSubCategory = ({ props, section }) => {
                     <h4>
                         <a className="heading" 
                             href={ link(my_section) } 
-                            onClick={ redirect.to({ to: '/' + my_section.name })}
+                            onClick={ () => redirect.to({ to: '/' + my_section.name })}
                         >
                             { my_section.name }
                         </a>
