@@ -19,7 +19,7 @@ import { ListHomeSubcategory } from '../home/home.list.subcategory';
 import EditHomeSubcategory from '../home/home.edit.subcategory';
 import CreateHomeSubcategory from '../home/home.add.subcategory';
 import { ListFinancingRequests } from '../financing/financing.list.requests';
-import { EditFinancingRequestSupport } from '../financing/financing.edit.request';
+import EditFinancingRequestSupport from '../financing/financing.edit.request';
 import LicensingProcess from '../licensing/licensing.process';
 
 /**
@@ -99,7 +99,6 @@ const RenderSection = ({
 
         case 'financing':
 
-            console.log(props)
             return (
                 <Fragment>
 

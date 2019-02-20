@@ -15,34 +15,38 @@ export const ListFinancingRequests = ({
 }) => {
 
     // console.log(category)
-    if(category === null && category === undefined) {
-        return <div>No categories</div>
+    if(category !== null && category !== undefined) {
+        
+        return (
+            <Fragment>
+    
+                <ButtonControl 
+                    intent={Intent.NONE} 
+                    value="Edit SubCategory"
+                    name="edit"
+                    handleClick={e => handleClick(e) }
+                />
+    
+                <ButtonControl 
+                    intent={Intent.NONE} 
+                    value="New Subcategory"
+                    name="create"
+                    handleClick={e => handleClick(e) }
+                />
+    
+                <p>
+                    {
+                        category !== undefined && category.about
+                    }
+                </p>
+    
+            </Fragment>
+        );
+
+    } else {
+
+        return <div className="loader" />
+        
     }
-
-    return (
-        <Fragment>
-
-            <ButtonControl 
-                intent={Intent.NONE} 
-                value="Edit Category"
-                name="edit"
-                handleClick={e => handleClick(e) }
-            />
-
-            <ButtonControl 
-                intent={Intent.NONE} 
-                value="New Subcategory"
-                name="create"
-                handleClick={e => handleClick(e) }
-            />
-
-            <p>
-                {
-                    category !== undefined && category.about
-                }
-            </p>
-
-        </Fragment>
-    );
 
 }
