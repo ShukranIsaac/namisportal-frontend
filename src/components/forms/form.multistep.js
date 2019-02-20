@@ -1,16 +1,15 @@
 import React, { Fragment, Component } from 'react';
-import { reduxForm } from 'redux-form';
+// import { reduxForm } from 'redux-form';
+import { Button } from '@blueprintjs/core';
 
 import '../../assets/css/process_tracker.css';
 
-import ConceptNote from '../financing/process/financing.concept.note';
-import ConceptNoteAppraisal from '../financing/process/financing.concept.appraisal';
-import PrefeasibilityStudy from '../financing/process/financing.prefeasibility.study';
-import { GrantApplication } from '../financing/process/financing.application.grant';
-import { PreliminaryEvaluation } from '../financing/process/financing.preliminary.evaluation';
-import { FeasibilityReport } from '../financing/process/financing.feasibility.report';
-import { GrantFinalEvaluation } from '../financing/process/financing.final.evaluation';
-import { GrantDisbursement } from '../financing/process/financing.disbursement';
+import { 
+    BusinessEntity,
+    EnvironmentalClearance, 
+    LandClearance, 
+    MinigridLicensingApplication
+} from '../licensing/process';
 
 /**
  * Gets current nav stage state
@@ -136,8 +135,7 @@ class MultiStepForm extends Component {
      */
     handleChange= (event) => {
 
-        console.log(event.target.files);
-        this.setState({ [event.target.name]: event.target === 'files' ? event.target.files : event.target.value });
+        this.setState({ [event.target.name]: event.target !== 'value' ? event.target.files : event.target.value });
 
     }
 
@@ -213,6 +211,7 @@ class MultiStepForm extends Component {
             // to and overriding keys in `fieldValues` with the `fields` with Object.assign
             this.setState({ fieldValues: Object.assign({}, this.state.fieldValues, fields) });
         })();
+
     }
 
     /**
@@ -230,23 +229,23 @@ class MultiStepForm extends Component {
      * and expecting the user to supplies all required field data before saving 
      * to continue to the next stage in the process of finance application
      * 
-     * @param {Integer} componentState
+     * @param {Integer} state
      * 
      */
-    renderComponent = (componentState) => {
+    renderComponent = (state) => {
 
-        switch(componentState) {
+        switch(state) {
             case 0:
                 return (
                     <Fragment>
-                        <ConceptNote next={ this.next } />
+                        <BusinessEntity next={ this.next } />
                     </Fragment>
                 );
 
             case 1:
                 return (
                     <Fragment>
-                        <ConceptNoteAppraisal 
+                        <EnvironmentalClearance 
                             next={ this.next }
                             handleChange={ this.handleChange }
                         />
@@ -256,42 +255,14 @@ class MultiStepForm extends Component {
             case 2:
                 return (
                     <Fragment>
-                        <PrefeasibilityStudy next={ this.next } />
+                        <LandClearance next={ this.next } />
                     </Fragment>
                 );
 
             case 3:
                 return (
                     <Fragment>
-                        <GrantApplication next={ this.next } />
-                    </Fragment>
-                );
-
-            case 4:
-                return (
-                    <Fragment>
-                        <PreliminaryEvaluation next={ this.next } />
-                    </Fragment>
-                );
-
-            case 5:
-                return (
-                    <Fragment>
-                        <FeasibilityReport next={ this.next } />
-                    </Fragment>
-                );
-
-            case 6:
-                return (
-                    <Fragment>
-                        <GrantFinalEvaluation next={ this.next } />
-                    </Fragment>
-                );
-
-            case 7:
-                return (
-                    <Fragment>
-                        <GrantDisbursement submit={ this.submit } />
+                        <MinigridLicensingApplication next={ this.next } />
                     </Fragment>
                 );
 
@@ -312,45 +283,54 @@ class MultiStepForm extends Component {
      */
     render () {
         
-        const { handleSubmit } = this.props;
+        const { 
+            classes, 
+            handleClick, 
+            valid, pristine, 
+            submitting,
+        } = this.props;
 
         return (
             <div onKeyDown={this.handleKeyDown}>
 
                 <ol className='progtrckr'> {this.renderSteps()} </ol>
 
-                <div className='container'>
+                {this.renderComponent(this.state.compState)}
 
-                    <form onSubmit={ handleSubmit(values => this.handleSubmit(values)) }>
-                        {this.renderComponent(this.state.compState)}
-                    </form>
+                <div style={this.props.showNavigation ? {} : { display: 'none' }}>
 
-                    <div style={this.props.showNavigation ? {} : { display: 'none' }}>
-
-                        <button
-                            style={this.state.showPreviousBtn ? {} : { display: 'none' }}
-                            onClick={this.previous}
-                        >
+                    <button
+                        style={this.state.showPreviousBtn ? {} : { display: 'none' }}
+                        onClick={this.previous}
+                    >
                         Previous
-                        </button>
+                    </button>
 
-                        <button
-                            style={this.state.showNextBtn ? {} : { display: 'none' }}
-                            onClick={this.next}
-                        >
+                    <button
+                        style={this.state.showNextBtn ? {} : { display: 'none' }}
+                        onClick={this.next}
+                    >
                         Next
-                        </button>
+                    </button>
 
-                        <button
-                            style={this.state.showSaveButton ? {} : { display: 'none' }}
-                            onClick={this.save}
-                        >
-                        Save
-                        </button>
-
-                    </div>
+                    <Button 
+                        style={this.state.showSaveButton ? {} : { display: 'none' }}
+                        type="submit" disabled={!valid  || pristine || submitting} 
+                        intent="success" text="Save"
+                    />
                     
+                    <Button className={ classes.margin } 
+                        name="default" intent="primary" 
+                        text="Cancel" 
+                        onClick={ e => handleClick(e) } 
+                    /> 
+
                 </div>
+
+                <div className="app-footer">
+                    <h6>Press 'Enter' or click on progress bar for next step.</h6>
+                </div>
+
             </div>
         );
     }
@@ -363,6 +343,4 @@ MultiStepForm.defaultProps = {
     showNavigation: true
 }
 
-export default reduxForm({
-    form: 'financing',
-})(MultiStepForm);
+export default MultiStepForm;

@@ -2,14 +2,13 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import { reduxForm, Field } from 'redux-form';
-import RenderBootstrapField from '../forms/form.bootstrap.field';
+import { reduxForm } from 'redux-form';
 import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
 
 import { Divider } from '@material-ui/core';
 import ButtonControl from '../forms/buttons/button.default.control';
-import { Intent, Button } from '@blueprintjs/core';
+import { Intent } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 import { UserProfile } from '../user/user.profile';
 
@@ -38,7 +37,7 @@ class LicensingProcess extends Component {
     handleSubmit = (values) => {
         // category under which this subcategory should 
         // be uploaded to
-        const { category } = this.props;
+        const { subcategory } = this.props;
         // get authenticated user token
         const user = UserProfile.get();
         if(user !== null && user.token !== undefined) {
@@ -52,7 +51,7 @@ class LicensingProcess extends Component {
                 }
 
                 console.log(sub_category)
-                console.log(category)
+                console.log(subcategory)
                 // this.props.createCategory(category._id, sub_category , user.token);
                 // then change state to default
                 // so that the page redirects and list all home items
@@ -65,7 +64,7 @@ class LicensingProcess extends Component {
 
     render() {
 
-        const { classes, handleClick, handleSubmit, valid, pristine, submitting } = this.props;
+        const { classes, handleClick, handleSubmit } = this.props;
 
         return (
             <Fragment>
@@ -88,7 +87,7 @@ class LicensingProcess extends Component {
 
                         <Divider />
 
-                        <Field 
+                        {/* <Field 
                             name='about'
                             component={ input => {
                                 return (
@@ -105,23 +104,15 @@ class LicensingProcess extends Component {
                             }}
                             multiline={true}
                             rows="10"
-                        />
+                        /> */}
 
-                        <MultiStepForm steps={ steps }/>
+                        <MultiStepForm steps={ steps } { ...this.props } />
 
                         <div className={ classes.margin } />
                         <div className={ classes.margin } />
                         <div className={ classes.margin } />
-
-                        <Button type="submit" disabled={!valid  || pristine || submitting} intent="success" text="Save" />
-                        
-                        <Button className={ classes.margin } name="default" intent="primary" text="Cancel" onClick={ e => handleClick(e) } /> 
 
                     </form>
-    
-                    <div className="container app-footer">
-                        <h6>Press 'Enter' or click on progress bar for next step.</h6>
-                    </div>
     
                 </div>
             </Fragment>
@@ -132,11 +123,10 @@ class LicensingProcess extends Component {
 }
 
 const steps = [
-    {name: 'Concept Note', },
-    {name: 'Note Appraisal', },
-    {name: 'Prefeasibility Study and draft Business Plan', },
-    {name: 'Application for Grant', },
-    {name: 'Preliminary Evaluation of Grant Application', }
+    {name: 'Business Entity', },
+    {name: 'Environmental Clearance', },
+    {name: 'Land Clearance', },
+    {name: 'Minigrid Licence', },
 ];
 
 LicensingProcess.propTypes = {
