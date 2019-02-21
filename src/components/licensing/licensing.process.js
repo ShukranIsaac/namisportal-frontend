@@ -52,7 +52,7 @@ class LicensingProcess extends Component {
 
                 console.log(sub_category)
                 console.log(subcategory)
-                // this.props.createCategory(category._id, sub_category , user.token);
+                // this.props.createCategory(subcategory._id, sub_category , user.token);
                 // then change state to default
                 // so that the page redirects and list all home items
                 this.props.defaultItem();
