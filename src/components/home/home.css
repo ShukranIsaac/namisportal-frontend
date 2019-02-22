@@ -26,3 +26,7 @@
 .card:hover a{
     text-decoration: none
 }
+
+.btn {
+    border-radius: unset
+}

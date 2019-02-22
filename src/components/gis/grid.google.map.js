@@ -164,6 +164,7 @@ class MinGridMap extends Component {
             <MarkerClusterer>
               {
                 clusters.map((point, key) => {
+                  console.log(point)
                   return (
                     <PointMarker point={point} title='Marep Center'/>
                   )

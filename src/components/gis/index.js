@@ -285,7 +285,6 @@ class GIS extends Component {
       case 'marep_center':
         console.log(event.target.checked)
         this.myState(event);
-        this.clearFilters(this.state);
         this.marepCenters();
         
         break;

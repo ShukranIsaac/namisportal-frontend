@@ -32,11 +32,11 @@ const styles = theme => ({
   },
   bootstrapInput: {
     width: '100%',
-    borderRadius: 4,
-    backgroundColor: theme.palette.common.white,
-    border: '1px solid #ced4da',
+    borderRadius: 'unset',
+    backgroundColor: '#EEEEEE',
+    border: '1px solid #73827b',
     fontSize: 16,
-    padding: '10px 12px',
+    padding: '12px 12px',
     transition: theme.transitions.create(['border-color', 'box-shadow']),
     // Use the system font instead of the default Roboto font.
     fontFamily: [

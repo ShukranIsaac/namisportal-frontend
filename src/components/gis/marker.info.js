@@ -24,23 +24,25 @@ class InformationBox extends Component {
       };
 
     renderMarepCenterInfoBox () {
-        const { district, title } = this.props.information
+        const { district, title, ta } = this.props.information
         return (
                 <div>
                     <div><b><em>{title} Information</em></b></div>
                     <div>District: { district } </div>
+                    <div>TA: { ta } </div>
                 </div>
             )
     }
 
     renderTransformerInfoBox () {
-        const { manufacturer, yearManufactured, serialNumber, cooling, 
+        const { ta, manufacturer, yearManufactured, serialNumber, cooling, 
             mass, barcode, SSNumber, voltage, district, location, position, title } = this.props.information
         return (
             <div>
                 <div><b><em>{title} Information</em></b></div>
                 <div>Voltage: { voltage } </div>
                 <div>District: { district } </div>
+                <div>TA: { ta } </div>
                 <div>Location: { location } </div>
                 <div>Position: { position } </div>
                 <div>SS Number: { SSNumber } </div>
@@ -65,7 +67,7 @@ class InformationBox extends Component {
               visible={this.state.show}
               onCloseClick={ this.inforClose}>
                 {
-                    title == 'Transformer' ? this.renderTransformerInfoBox() : this.renderMarepCenterInfoBox()
+                    title === 'Transformer' ? this.renderTransformerInfoBox() : this.renderMarepCenterInfoBox()
                 }
             </InfoWindow>
         )

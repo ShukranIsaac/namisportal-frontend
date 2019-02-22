@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from "@blueprintjs/core";
+import { Button } from 'reactstrap'
 import { Col } from 'reactstrap';
 import { Link } from "react-router-dom";
 import { redirect } from '../user/user.redirect';
@@ -49,7 +49,7 @@ const linkButton = (props) => {
 
     return (
         <Link to={ `${ '/' +  link(props) }`}>
-            <Button intent="primary">{ props.name } section </Button>
+            <Button color="primary">{ props.name } section </Button>
         </Link>
     );
 

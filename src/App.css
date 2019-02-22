@@ -1,3 +1,25 @@
+.btn-success {
+  color: #fff;
+  background-color: #15b371;
+  border-color: #15b371;
+}
+
+.btn-success:hover {
+  background-color: #158e5b;
+  border-color: #158e5b;
+}
+
+.info-card-wrapper .card {
+  background: #E0E0E0
+}
+
+.margin-fix div, .margin-fix button {
+  margin: 8px 0
+}
+
+.margin-fix button{
+  width: 100%
+}
 .App {
   text-align: center;
 }

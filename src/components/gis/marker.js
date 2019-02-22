@@ -62,19 +62,16 @@ class PointMarker extends Component {
   }
 
     render(){
-        const { geometry, _id, properties } = this.props.point
+        const { geometry: {coordinates}, _id, properties } = this.props.point
         const { title } = this.props
-        const { show } = this.state
 
-        const url = {url: this.markerIconUrl(title)}
-        
-        
+        const url = { url: this.markerIconUrl(title) }
             
         return (
             <Marker 
-                position={geometry.coordinates}
-                key={_id}
-                icon={url}
+                position={coordinates}
+                key={ _id }
+                icon={ url }
                 onClick={ () => this.handleMarkerClick(this.state) }>
 
                 {
