@@ -23,10 +23,11 @@ import NewsItemDetails from './components/news/news.item.details';
 
 import AppHeader from './components/header/index';
 import CMSIndex from './components/cms';
+import ItemProfile from './components/directory/item-profile';
 
 class App extends Component {
 
-  constructor({match}){
+  constructor(){
     super()
 
     this.state = {
@@ -69,7 +70,8 @@ class App extends Component {
             <Route exact path="/licensing" render={() => (<div style={content}><AppHeader /> <Licensing/> <Footer/></div>)} />
             <Route exact path="/financing" render={() => (<div style={content}><AppHeader /> <Financing/> <Footer/></div>)} />
             <Route exact path="/library" render={() => (<div style={content}><AppHeader /> <Library/> <Footer/></div>)} />
-            <Route exact path="/directory" render={() => (<div style={content}><AppHeader /> <Directory/> <Footer/></div>)} />
+            <Route exact path="/directory" render={() => (<div style={content}><AppHeader /> <Directory { ...this.props } { ...this.state} /> <Footer/></div>)} />
+            <Route exact path="/directory/:id" render={() => (<div style={content}><AppHeader /> <ItemProfile { ...this.props } { ...this.state} /> <Footer/></div>)} />
             <Route exact path="/gis" render={() => (<><AppHeader /> <GIS/></>)} />
             <Route exact path="/news" render={() => (<div style={content}><AppHeader /> <News/> <Footer/></div>)} />
             <Route exact path="/news/:id" render={() => (<div style={content}><AppHeader /> <NewsItemDetails/> <Footer/></div>)} />

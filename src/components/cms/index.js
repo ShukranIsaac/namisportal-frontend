@@ -143,6 +143,7 @@ class CMSIndex extends React.Component {
                  * Fetch all library docs
                  */
                 this.props.fetchLibraryDocs();
+                this.props.category(this.capitalize(link));
                 break;
             case 'home':
                 /**
@@ -436,6 +437,7 @@ const mapStateToProps = (state) => {
     return {
         user_event: state.event.event,
         library: state.library.library,
+        document: state.library.document,
         home: state.home.home,
         subcategory: state.cms.subcategory,
         stakeholder: state.stakeholder.stakeholder,
@@ -458,6 +460,8 @@ const mapDispatchToProps = (dispatch) => {
         createItem : () => { dispatch(UserEventActions.create()) },
         // Library category
         fetchLibraryDocs: () => { dispatch(LibraryAction.fetchAllLibraryDocs()) },
+        // library files and documents
+        uploadFile: (i, d, t) => { dispatch(LibraryAction.uploadFile(i, d, t)) },
         // logout
         logout: (user) => { dispatch(UserAuthAction.logout(user)) },
         // home and cms home

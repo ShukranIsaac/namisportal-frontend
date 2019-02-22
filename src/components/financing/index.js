@@ -32,14 +32,14 @@ class Financing extends Component {
         <div className = "page-content">
           <Container>
             <Row>
-            <div>
-              <Card elevation={Elevation.TWO}>
-                <Card interactive={false} elevation={Elevation.ZERO} className={classes.financing}>
-                    <p className={classes.header}><strong>{ subcategory.subCategories[0].name }</strong></p>
-                    { subcategory.subCategories[0].about }
+              <div>
+                <Card elevation={Elevation.TWO}>
+                  <Card interactive={false} elevation={Elevation.ZERO} className={classes.financing}>
+                      <p className={classes.header}><strong>{ subcategory.subCategories[0].name }</strong></p>
+                      <div dangerouslySetInnerHTML={{ __html: subcategory.subCategories[0].about }} />
+                  </Card>
                 </Card>
-              </Card>
-            </div>
+              </div>
             </Row>
           </Container>
           

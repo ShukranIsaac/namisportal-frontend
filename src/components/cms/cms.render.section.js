@@ -191,11 +191,13 @@ const RenderSection = ({
                             }
                         Edit={ () => <EditLibraryItem 
                                         handleClick={ (e) => handleClick(e) }
-                                        docs={props.library}
+                                        { ...props }
                                     />
                             }
                         Create={ () => <CreateLibraryItem 
                                             handleClick={ (e) => handleClick(e) } 
+                                            { ...props }
+                                            uploadFile={ props.uploadFile }
                                         />
                                 }
                     />

@@ -1,7 +1,8 @@
 import { LibraryType } from '../action_type/index';
 
 const initialState = {
-    library: []
+    library: [],
+    document: null,
 }
 
 export default (state = initialState, action) => {
@@ -26,6 +27,13 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 library: action.payload
+            }
+
+        case LibraryType.UPLOAD_FILE:
+            
+            return {
+                ...state,
+                document: action.payload
             }
 
         default:

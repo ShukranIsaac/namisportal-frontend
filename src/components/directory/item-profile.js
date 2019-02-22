@@ -11,22 +11,19 @@ import PostIcon from '@material-ui/icons/LocalPostOffice'
 
 import './directory.css'
 
-
 class ItemProfile extends Component {
   
   render(){
 
     const { classes } = this.props;
-
-    
+    console.log(this.props)
     return (
         <div>
             <Jumbotron>
                 <div className={classes.headerPart}>
                     <h4>Escom</h4>
-                    <img className={classes.image} src={require("../../../src/assets/img/escom-logo.png")}/>
+                    {/* <img className={classes.image} src={require("../../../src/assets/img/escom-logo.png")} /> */}
                 </div>
-                
                 
                 <h4>Our Mission</h4>
                 <p>
@@ -51,7 +48,7 @@ class ItemProfile extends Component {
                     <Card className={classes.cardHeight}>
                     <CardBody >
                         <PostIcon style={{ fontSize: 50 }}/>
-                        <h4 class="card-title">Postal Address:</h4>
+                        <h4 className="card-title">Postal Address:</h4>
                         <p>P.O.Box 7617, Zomba Malawi</p>
                     </CardBody>
                     </Card>
@@ -60,7 +57,7 @@ class ItemProfile extends Component {
                     <Card className={classes.cardHeight}>
                     <CardBody >
                         <PhoneIcon style={{ fontSize: 50 }}/>
-                        <h4 class="card-title">Call Us:</h4>
+                        <h4 className="card-title">Call Us:</h4>
                         <p>(+47) 925 05 362</p>
                     </CardBody>
                     </Card>
@@ -69,7 +66,7 @@ class ItemProfile extends Component {
                     <Card className={classes.cardHeight}>
                     <CardBody>
                         <EmailIcon style={{ fontSize: 50 }}/>
-                        <h4 class="card-title">Email Us:</h4>
+                        <h4 className="card-title">Email Us:</h4>
                         <p><a href="mailto:psemberekajr@gmail.com">psemberekajr@gmail.com</a></p>
                     </CardBody>
                     </Card>
@@ -78,7 +75,7 @@ class ItemProfile extends Component {
                     <Card className={classes.cardHeight}>
                     <CardBody>
                         <WebIcon style={{ fontSize: 50 }}/>
-                        <h4 class="card-title">Website:</h4>
+                        <h4 className="card-title">Website:</h4>
                         <p><a href="https://github.com/Smembe812">@Smembe812</a></p>
                     </CardBody>
                     </Card>

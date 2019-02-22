@@ -10,7 +10,7 @@ import Config from '../config';
  */
 export const get = async (dispatch, url) => {
 
-    return await Config.REMOTE_API_URL.get(url)
+    return await Config.APIUrl.get(url)
     
     .then((response) => {
         
@@ -35,7 +35,7 @@ export const get = async (dispatch, url) => {
  */
 export const post = async (dispatch, url, data) => {
     
-    return await Config.REMOTE_API_URL.post(url, data)
+    return await Config.APIUrl.post(url, data)
 
     .then(response => {
         
@@ -52,6 +52,35 @@ export const post = async (dispatch, url, data) => {
 }
 
 /**
+ * Upload data to the api, and return a Promise
+ * 
+ * @param {Function} dispatch
+ * @param {String} url 
+ * @param {Object} data
+ * @returns {Promise} promise
+ */
+export const upload = async (dispatch, url, data) => {
+    
+    let form = new FormData();
+    form.append('file', data.file[0]);
+    form.append('name', data.name);
+    form.append('description', data.about)
+    // console.log(data)
+    // console.log(form)
+
+    return await Config.APIUrl.post(url, form)
+
+    .then(response => {
+    
+        dispatch(GeneralAction.isLoading(false));
+    
+        return response;
+
+    });
+  
+}
+
+/**
  * Edit a resource via the api, and return a Promise
  * 
  * @param {Function} dispatch
@@ -62,7 +91,7 @@ export const post = async (dispatch, url, data) => {
  */
 export const patch = async (dispatch, url, data) => {
     
-    return await Config.REMOTE_API_URL.patch(url, data)
+    return await Config.APIUrl.patch(url, data)
 
     .then(response => {
         
@@ -87,7 +116,7 @@ export const patch = async (dispatch, url, data) => {
  */
 export const _delete = async (dispatch, url) => {
     
-    return await Config.REMOTE_API_URL.delete(url)
+    return await Config.APIUrl.delete(url)
 
     .then(response => {
         

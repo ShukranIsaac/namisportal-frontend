@@ -12,6 +12,7 @@ import DirectoryItem from './item';
 import './directory.css';
 // import ItemProfile from './item-profile';
 import * as Stakeholder from '../../actions/stakeholder.action';
+import { redirect } from '../user/user.redirect';
 
 
 class Directory extends Component {
@@ -24,108 +25,112 @@ class Directory extends Component {
   }
 
   handleClick = (e) => {
-
-    e.preventDefault();
-    console.log(e.currentTarget.id);
+    // console.log(this.props.stakeholders_list[1].name)
+    // console.log(this.props)
+    // e.preventDefault();
+    // this.props.history.push(`/directory/` + this.props.stakeholders_list[1].name);
+    return redirect.to({ url: `/directory/` + this.props.stakeholders_list[1].name, from: this.props });
 
   }
 
   render(){
 
     const { classes, stakeholders_list } = this.props;
+    // console.log(this.props.match)
+    if(stakeholders_list !== null && stakeholders_list !== undefined) {
 
-    // progress bar
-    if(stakeholders_list === null && stakeholders_list === undefined) {
-      return <div className="loader" />
-    }
-    
-    return (
-      <div className = "page-content">
-        <Container>
-          <Row>
-            <Col lg='12'>
-              <div style={{margin: '2.5px 0'}}>
-                <Card className={classes.headerCard}>
+      return (
+        <div className = "page-content">
+          <Container>
+            <Row>
+              <Col lg='12'>
+                <div style={{margin: '2.5px 0'}}>
+                  <Card className={classes.headerCard}>
+                      <CardBody className={classes.paddindUnset}>
+                      <h5><strong>Directory</strong></h5>
+                        <p>
+                          Here a list of some of the stakeholders we work together with
+                        </p>
+                      </CardBody>
+                    </Card>
+                  </div>
+              </Col> 
+            </Row>
+            <Row>
+              <Col lg='12'>
+                <div style={{margin: '2.5px 0'}}>
+                  <Card id={stakeholders_list && stakeholders_list[0]._id} className={classes.card} >
                     <CardBody className={classes.paddindUnset}>
-                    <h5><strong>Directory</strong></h5>
-                      <p>
-                        Here a list of some of the stakeholders we work together with
-                      </p>
+                      <div style={{  display: 'grid', gridTemplateColumns: '20% 80%'}}>
+                        <CardImg src={require("../../../src/assets/img/escom-logo.png")}/>
+                        <div>
+                          <h4>
+                            <a href={`${ '/directory/' + stakeholders_list[0].name }`} onClick={ (e) => this.handleClick(e) }>
+                              { stakeholders_list && stakeholders_list[0].name }
+                            </a>
+                          </h4>
+                          <p>{ stakeholders_list && stakeholders_list[0].about }</p>
+                        </div>
+                      </div>
                     </CardBody>
                   </Card>
-
                 </div>
-            </Col> 
-          </Row>
-
-          <Row>
-            <Col lg='12'>
-              <div style={{margin: '2.5px 0'}}>
-                <Card id={stakeholders_list && stakeholders_list[0]._id} className={classes.card} onClick={ (e) => this.handleClick(e) }>
-                      <CardBody className={classes.paddindUnset}>
-                        <div style={{  display: 'grid', gridTemplateColumns: '20% 80%'}}>
-                          <CardImg src={require("../../../src/assets/img/escom-logo.png")}/>
-                          <div>
-                            <h4> { stakeholders_list && stakeholders_list[0].name } </h4>
-                            <p>{ stakeholders_list && stakeholders_list[0].about }</p>
-                          </div>
-                        </div>
-                    
-                    </CardBody>
-                </Card>
-              </div>
-              
-            </Col>
-
-
-          </Row>
-
-          <DirectoryItem { ...this.props } handleClick={ this.handleClick} />
-          
-          <Row>
+              </Col>
+            </Row>
+  
+            <DirectoryItem { ...this.props } handleClick={ this.handleClick } />
             
-          <Pagination aria-label="Page navigation example" className={classes.paginationStuff}>
-            <PaginationItem>
-              <PaginationLink className={classes.previous} previous href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">
-                1
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">
-                3
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">
-                4
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">
-                5
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink next href="#" />
-            </PaginationItem>
-          </Pagination>
-          </Row>
-
+            <Row>
+            <Pagination aria-label="Page navigation example" className={classes.paginationStuff}>
+              <PaginationItem>
+                <PaginationLink className={classes.previous} previous href="#" />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">
+                  1
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">
+                  2
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">
+                  3
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">
+                  4
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">
+                  5
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink next href="#" />
+              </PaginationItem>
+            </Pagination>
+            </Row>
+  
+            
+          </Container>
           
-        </Container>
-        
-      </div>
-        
-    );
+        </div>
+          
+      );
+
+    } else {
+
+      return <div className="loader" />
+
+    }
+
   }
+
 }
 
 const styles = theme => ({

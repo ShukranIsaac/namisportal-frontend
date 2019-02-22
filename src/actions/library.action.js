@@ -4,7 +4,7 @@ import * as GeneralAction from './general.action';
 
 import library_docs from '../components/library/library_docs';
 import Config from '../config';
-import { get, post } from './api.service';
+import { get, post, upload } from './api.service';
 
 /**
  * Filter or return all documents in this category
@@ -27,7 +27,7 @@ const filterDocLibrary = (docs, category_name) => {
 }
 
 export const addSubCategory = (id, subcategory) => {
-    console.log(subcategory)
+    // console.log(subcategory)
     // resource to post data to
     const url = `/categoris/` + id + `/sub-categories`;
 
@@ -153,5 +153,42 @@ export const fetchAllLibraryDocs = () => {
         
         .catch(() => dispatch(GeneralAction.hasErrored(true)));
     };
+
+}
+
+/**
+ * Upload files
+ * 
+ * @param category_id
+ * @param data
+ * 
+ * @returns dispatch
+ */
+export const uploadFile = (category_id, data, token) => {
+
+    // url
+    const url = `categories/` + category_id + `/files?token=` + token;
+
+    return async dispatch => {
+
+        dispatch(GeneralAction.isLoading(true));
+
+        return await upload(dispatch, url, data)
+
+        .then(response => {
+
+            console.log(response)
+            dispatch(GeneralAction.fetchSuccess(LibraryType.UPLOAD_FILE, response, false));
+
+        })
+
+        .catch(error => {
+
+            console.log(error);
+            dispatch(GeneralAction.hasErrored(true));
+
+        });
+
+    }
 
 }
