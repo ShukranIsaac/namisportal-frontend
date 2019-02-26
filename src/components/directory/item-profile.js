@@ -14,7 +14,6 @@ import './directory.css'
 class ItemProfile extends Component {
   
   render(){
-
     const { classes } = this.props;
     console.log(this.props)
     return (

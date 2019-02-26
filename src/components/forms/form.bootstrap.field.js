@@ -1,6 +1,9 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types'
 import FormControl from '@material-ui/core/FormControl';
 import { InputBase, InputLabel } from '@material-ui/core';
+
+import { withStyles } from '@material-ui/core/styles';
 
 /**
  * Material-ui customized input: bootstrap
@@ -8,6 +11,13 @@ import { InputBase, InputLabel } from '@material-ui/core';
  * @author Isaac S. Mwakabira
  * 
  */
+
+const styles = theme => ({
+  inputFillWhole: {
+    width: '100%'
+  }
+})
+
 const RenderBootstrapField = ({ 
   classes, label, 
   defaultValue, name, 
@@ -16,7 +26,7 @@ const RenderBootstrapField = ({
 
     return (
       <Fragment>
-        <FormControl className={classes.margin}>
+        <FormControl className={[classes.margin, classes.inputFillWhole]}>
           <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
             {label}
           </InputLabel>
@@ -32,6 +42,7 @@ const RenderBootstrapField = ({
               input: classes.bootstrapInput,
             }}
             {...props}
+            className={classes.inputFillWhole}
           />
         </FormControl>
       </Fragment>
@@ -39,4 +50,8 @@ const RenderBootstrapField = ({
 
 }
 
-export default RenderBootstrapField;
+RenderBootstrapField.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(RenderBootstrapField)

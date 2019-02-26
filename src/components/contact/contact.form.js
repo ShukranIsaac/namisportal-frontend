@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
+import { Container, Row, Col } from 'reactstrap'
 import { withStyles } from '@material-ui/core/styles';
 import { reduxForm, Field } from 'redux-form';
 
@@ -27,10 +29,10 @@ class ContactForm extends Component {
     }
 
     handleChange = (event) => {
-
       this.setState({[event.target.name]: event.target.value});
+      console.log('hello')
 
-    }
+    } 
 
     handleSubmit = (event, values) => {
 
@@ -44,70 +46,82 @@ class ContactForm extends Component {
         const { handleSubmit, pristine, submitting, classes } = this.props;
 
         return (
+          
           <form 
             className={{style: 'center'}} 
             onSubmit={ (e) => handleSubmit(values => this.handleSubmit(e, values)) } 
             autoComplete="off"
           >
-            <div>
-              <Field
-                name='fullname'
-                component={ input => {
-                  return (
-                    <RenderBootstrapField
-                      { ...this.props }
-                      label='Full name'
-                      defaultValue= "Your full name..."
-                      name="fullname"
-                      type="text"
-                      onChange={ this.handleChange }
-                      props={ input }
-                    />
-                  );
-                }}
-              />
-            </div>
-            <div>
-              <Field
-                name='email'
-                component={ input => {
-                  return (
-                    <RenderBootstrapField
-                      { ...this.props }
-                      label='Email'
-                      defaultValue= "Your email..."
-                      name="email"
-                      type="email"
-                      onChange={ this.handleChange }
-                      props={ input }
-                    />
-                  );
-                }}
-              />
-            </div>
-            <div>
-              <Field
-                name='message'
-                component={ input => {
-                  return (
-                    <RenderBootstrapField
-                      { ...this.props }
-                      label='Message'
-                      defaultValue= "Your message..."
-                      name="message"
-                      type="text"
-                      onChange={ this.handleChange }
-                      props={ input }
-                    />
-                  );
-                }}
-                multiline={true}
-                rows={10}
-              />
-            </div>
-            <div className={classes.margin}>
-              <Button type="submit" disabled={pristine || submitting} intent="success" text="Send" />
-            </div>
+            <Container>
+              <Row>
+                <Col>
+                  <Field
+                    name='fullname'
+                    component={ input => {
+                      return (
+                        <RenderBootstrapField
+                          { ...this.props }
+                          label='Full name'
+                          defaultValue= "Your full name..."
+                          name="fullname"
+                          type="text"
+                          onChange={ this.handleChange }
+                          props={ input }
+                          className='test-this'
+                        />
+                      );
+                    }}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Field
+                    name='email'
+                    component={ input => {
+                      return (
+                        <RenderBootstrapField
+                          { ...this.props }
+                          label='Email'
+                          defaultValue= "Your email..."
+                          name="email"
+                          type="email"
+                          onChange={ this.handleChange }
+                          props={ input }
+                        />
+                      );
+                    }}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Field
+                    name='message'
+                    component={ input => {
+                      return (
+                        <RenderBootstrapField
+                          { ...this.props }
+                          label='Message'
+                          defaultValue= "Your message..."
+                          name="message"
+                          type="text"
+                          onChange={ this.handleChange }
+                          props={ input }
+                        />
+                      );
+                    }}
+                    multiline={true}
+                    rows={10}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Button style={{alignSelf: 'center'}} type="submit" disabled={pristine || submitting} intent="success" text="Send" />
+                </Col>
+              </Row>
+            </Container>
           </form>
         );
 

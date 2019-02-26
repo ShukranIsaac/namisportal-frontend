@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { Card, Elevation } from '@blueprintjs/core'
-import { Container, Row } from 'reactstrap';
+import { Container, Card, CardBody, Row } from 'reactstrap'
 import { withStyles } from '@material-ui/core';
 
 import * as CMSAction from '../../actions/cms.action';
@@ -24,31 +23,40 @@ class Financing extends Component {
   render(){
 
     const { classes, subcategory } = this.props;
-    // console.log(subcategory);
+
 
     if(subcategory !== undefined && subcategory !== null) {
-
-      return (
-        <div className = "page-content">
-          <Container>
-            <Row>
-              <div>
-                <Card elevation={Elevation.TWO}>
-                  <Card interactive={false} elevation={Elevation.ZERO} className={classes.financing}>
-                      <p className={classes.header}><strong>{ subcategory.subCategories[0].name }</strong></p>
-                      <div dangerouslySetInnerHTML={{ __html: subcategory.subCategories[0].about }} />
-                  </Card>
-                </Card>
-              </div>
-            </Row>
-          </Container>
+    const header = {
+      textAlign: 'center',
+    }
+        if(subcategory.subCategories[0] !== undefined ){
+          return (
+            <div className = "page-content">
+              <Container>
+                <Row>
+                    <Card>
+                      <CardBody>
+                        <p style={header}><strong>{ subcategory.subCategories[0].name }</strong></p>
+                        <div dangerouslySetInnerHTML={{ __html: subcategory.subCategories[0].about }} />
+                      </CardBody> 
+                    </Card>
+                </Row>
+              </Container>
+              
+            </div>
+              
+          );
+        }else{
+          return <div className="loader" />
+        }
           
-        </div>  
-      );
+    
     } else {
       // else return loader
       return <div className="loader" />
     }
+    
+    
   }
 
 }

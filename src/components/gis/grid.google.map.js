@@ -5,6 +5,7 @@ import { Marker, Polygon, Polyline, InfoWindow } from "react-google-maps";
 import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 
 import MainContentWrapper from '../MainContentWrapper';
+import PointMarker from './marker'
 
 import './grid.css';
 import { CustomGoogleMap } from './grid.custom.map';
@@ -24,7 +25,6 @@ class MinGridMap extends Component {
         lat: -13.2512, lng: 34.30154
       },
       show: false,
-      activeMarker: null,
       h: 0
     };
 
@@ -36,8 +36,6 @@ class MinGridMap extends Component {
     this.renderRegionMeters = this.renderRegionMeters.bind(this);
     this.renderDistrictMeters = this.renderDistrictMeters.bind(this);
     this.renderPolyline = this.renderPolyline.bind(this);
-    this.showInforWindow = this.showInforWindow.bind(this);
-    this.handleMarkerClick = this.handleMarkerClick.bind(this);
 
   }
 
@@ -70,24 +68,7 @@ class MinGridMap extends Component {
 
   }
 
-  /**
-   * handle UI click event, sets state
-   * 
-   * @param {Boolean} show
-   */
-  handleMarkerClick = ({ show }, e) => {
-    
-    if (!show) {
-      this.setState({ 
-        show: true
-      });
-    }
 
-    if (show) {
-      this.setState({ show: false });
-    }
-
-  }
 
   inforClose = props => {
     if (this.state.show) {
@@ -111,7 +92,7 @@ class MinGridMap extends Component {
 
       if (m_centers !== null && m_centers !== undefined && m_centers.length !== null) {
         
-        return this.markerClusterer(m_centers);
+        return this.markerClusterer(m_centers, 'Marep Center');
 
       }
 
@@ -171,7 +152,7 @@ class MinGridMap extends Component {
 
     if(power_plants !== null) {
 
-      return this.markerClusterer(power_plants);
+      return this.markerClusterer(power_plants, 'Power Plant');
 
     }
 
@@ -183,7 +164,7 @@ class MinGridMap extends Component {
    * @param {Object} clusters 
    * @returns {MarkerClusterer} markers
    */
-  markerClusterer = (clusters) => {
+  markerClusterer = (clusters, title) => {
 
     if (clusters !== null) {
 
@@ -192,26 +173,9 @@ class MinGridMap extends Component {
 
             <MarkerClusterer>
               {
-                clusters.map((point, key) => {
-
+                clusters.map((point) => {
                   return (
-                    <Marker 
-                      position={point.geometry.coordinates}
-                      key={point._id}
-                      icon={{
-                        strokeColor: '#9b59b6'
-                      }}
-                      onClick={ () => this.handleMarkerClick(this.state) }>
-
-                      {
-                        this.state.show && 
-                        this.showInforWindow({ 
-                          show: this.state.show,
-                          information: 'Infowindow' 
-                        })
-                      }
-
-                    </Marker>
+                    <PointMarker point={point} title={title}/>
                   )
 
                 })
@@ -225,37 +189,7 @@ class MinGridMap extends Component {
 
   }
 
-  /**
-   * Marker Information window
-   * 
-   * @param {Boolean} show
-   * @param {Object} information
-   * @param {InfoWindow} window
-   */
-  showInforWindow = ({ show, information }) => {
-    
-    // Show inforwindow only if all the givwn conditions hold true
-    if(information !== undefined && information !== null && show) {
-    
-      return (
-        <InfoWindow
-          marker={this.state.activeMarker}
-          visible={this.state.show}
-          onCloseClick={ this.inforClose}>
-          <div>
-            <div><b><em>Transformer's Information</em></b></div>
-            <div>Voltage: { information.voltage } </div>
-            <div>District: { information.district } </div>
-            <div>Location: { information.location } </div>
-            <div>Primary: { information.primary } </div>
-            <div>Position: { information.position } </div>
-          </div>
-        </InfoWindow>
-      )
-
-    }
-
-  }
+  
 
   /**
    * Renders region meters
@@ -360,26 +294,15 @@ class MinGridMap extends Component {
         && (ground_transformers || up_transformers)) {
         
           return (
+            
             <MarkerClusterer averageCenter>
 
               {
-                transformers.map(({ properties, geometry, _id }) => {
+                transformers.map((transformer) => {
 
                   return (
-                    <Marker 
-                      position={geometry.coordinates}
-                      key={_id}
-                      onClick={ (e) => this.handleMarkerClick(e, this.state) }
-                      name={properties.barcode}>
 
-                      {
-                        this.showInforWindow({ 
-                          show: this.state.show, 
-                          information: properties 
-                        })
-                      }
-
-                    </Marker>
+                    <PointMarker key={transformer._id} point={transformer} title='Transformer'/>
                   )
 
                 })

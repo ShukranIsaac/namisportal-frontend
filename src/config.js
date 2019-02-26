@@ -37,7 +37,7 @@ const Config = (() => {
     APIUrl,
     ACCESS_ALLOW_ORIGIN,
     REMOTE_API_URL,
-  }
+  } 
 
 })();
 

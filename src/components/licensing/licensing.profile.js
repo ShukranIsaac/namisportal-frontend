@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Elevation } from '@blueprintjs/core'
+import { Card, CardBody } from 'reactstrap'
 import Panel from '../financing/panel';
 
 const lincensingProcess = [
@@ -216,15 +216,18 @@ class Financing extends Component {
     return (
         <div style={header}>
         
-              <Card elevation={Elevation.TWO}>
-                <Card interactive={false} elevation={Elevation.ZERO} style={financing}>
+              <Card>
+                <Card>
                     <p><strong>Licensing</strong></p>
                     <p>
                       The process for requesting Minigrid Related Licensing-Generation and Distribution license the following 
                       steps. Further details are available by clicking on each step.
                     </p>
                 </Card>
-                { this.renderPanels(lincensingProcess)}
+                <CardBody>
+                  { this.renderPanels(lincensingProcess)}
+                </CardBody>
+                
               </Card>
            
         </div>

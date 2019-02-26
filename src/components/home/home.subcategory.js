@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from "@blueprintjs/core";
+import { Button } from 'reactstrap'
 import { Col } from 'reactstrap';
 import { Link } from "react-router-dom";
 import { redirect } from '../user/user.redirect';

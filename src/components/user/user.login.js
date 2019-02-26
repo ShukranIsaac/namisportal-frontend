@@ -7,8 +7,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { reduxForm, Field } from 'redux-form';
 
-import { Elevation, Button, Card } from "@blueprintjs/core";
-import { Container } from 'reactstrap'
+import { Container, Button, Card, CardBody, CardImg, Row } from 'reactstrap'
 
 import ParticlesComponent from './particles'
 
@@ -148,14 +147,19 @@ class UserLogin extends Component {
               <Container>
                 <div
                   style={{
-                    width: '60%',
+                    width: '50%',
                     margin: '0 auto',
-                    marginTop: '15%'
+                    marginTop: '5%'
                   }}>
-                    <Card elevation={Elevation.TWO}>
+                    <Card>
+                      <CardBody>
+                        <div style={{textAlign: 'center'}}>
+                          <CardImg src={require("../../../src/assets/img/malawi.png")}/>
+                        </div>
+                        
 
-                      <form className={{style: 'center'}} onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
-                        <div>
+                        <form className={{style: 'center'}} onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
+                        <div className='margin-fix'>
                           {/* <label htmlFor="first-name">Your first name:</label>
                           <Field
                             name="firstName"
@@ -182,7 +186,7 @@ class UserLogin extends Component {
                             )
                           }} />
                         </div>
-                        <div>
+                        <div className='margin-fix'>
                           <Field name="password" component={props => {
                             return (
                               <div>
@@ -199,20 +203,38 @@ class UserLogin extends Component {
                             );
                           }} />
                         </div>
-                        <div className={classes.margin}>
+                        <div className="margin-fix">
 
-                          <Button type="submit" disabled={!valid  || pristine || submitting} intent="success" text="Login" />
+                          <Button type="submit" disabled={!valid  || pristine || submitting} color="success">Login</Button>
 
-                          <Link 
-                            to="/register" 
-                            onClick={ redirect.to({ url: '/register' })}>
-                              <div>Register? </div>
-                          </Link>
+                          
 
                         </div>
                       </form>
 
+                      </CardBody>
+
                       </Card>
+                    
+                    <div className='info-card-wrapper'>
+                        <Card>
+                          <CardBody>
+                            <p style={{textAlign: 'center', marginBottom: 'unset'}}>
+                              Don't have an account? 
+                              <span>
+                                <Link 
+                                  to="/register" 
+                                  onClick={ redirect.to({ url: '/register' })}> Register
+                                </Link>
+                              </span>
+                            </p>
+                            
+                              
+                          </CardBody>
+                        </Card>
+                    </div>
+
+                      
                   </div>
                 
               </Container>

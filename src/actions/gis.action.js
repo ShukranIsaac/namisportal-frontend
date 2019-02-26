@@ -201,18 +201,18 @@ export const emptyProps = () => {
  * @param {String} capacity 
  * @param {String} plantType 
  */
-export const powerPlants = (capacity = null, plantType = null) => {
+export const powerPlants = (capacity, plantType) => {
 
   // url
   let url = `power-plants`;
 
   if( capacity !== null ) {
 
-    url += `?capacities=` + capacity;
+    url += `?capacity=` + capacity;
 
   } else if( plantType !== null) {
 
-    url += `?plantTypes=` + plantType;
+    url += `?plantType=` + plantType;
 
   } else {
 
