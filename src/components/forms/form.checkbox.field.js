@@ -2,6 +2,13 @@ import React from 'react';
 import { FormControlLabel, Checkbox } from '@material-ui/core';
 
 /**
+ * Capitalize first letter of this word
+ */
+const capitalize = (character) => {
+    return character && character[0].toUpperCase() + character.slice(1);
+}
+
+/**
  * Generic single check box
  * 
  * @author Isaac S. Mwakabira
@@ -38,7 +45,7 @@ export const FormCheckboxControl = ({
                     }}
                 />
             }
-            label={ value }
+            label={ capitalize(value) }
         />
     );
 

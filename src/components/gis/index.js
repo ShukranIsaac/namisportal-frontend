@@ -350,7 +350,16 @@ class GIS extends Component {
       case 'ground_transformers':
 
         this.myState(event);
-        this.transformers();
+        // pass the position
+        this.transformers(event.target.value);
+
+        break;
+
+      case 'up_transformers':
+
+        this.myState(event);
+        // pass the position
+        this.transformers(event.target.value);
 
         break;
 

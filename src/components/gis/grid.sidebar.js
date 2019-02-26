@@ -362,7 +362,7 @@ class GridSideBar extends Component {
                     
                     <FormCheckboxControl
                       name='ground_transformers'
-                      value='Ground'
+                      value='ground'
                       isChecked={ this.props.ground_transformers }
                       classes={ classes }
                       handleChange={ (e) => { this.props.onChecked(e) } }
@@ -372,7 +372,7 @@ class GridSideBar extends Component {
 
                     <FormCheckboxControl
                       name='up_transformers'
-                      value='Overhead'
+                      value='overhead'
                       isChecked={ this.props.up_transformers }
                       classes={ classes }
                       handleChange={ (e) => { this.props.onChecked(e) } }

@@ -131,8 +131,8 @@ export const fetchEscomMeters = (name) => {
 export const fetchDistributionLines = (district, voltage) => {
   
     // api resource url
-    // const url = `districts/` + district + `/distribution-lines?voltage=` + voltage;
-    const url = `districts/` + district + `/distribution-lines`;
+    const url = `districts/` + district + `/distribution-lines?voltage=` + voltage;
+    // const url = `districts/` + district + `/distribution-lines`;
 
     return async (dispatch) => {
 
@@ -156,8 +156,8 @@ export const fetchDistributionLines = (district, voltage) => {
 export const fetchTransformers = (district, position) => {
 
     // resource url
-    // const url = `districts/` + district + `/transformers?position=` + position;
-    const url = `districts/` + district + `/transformers`;
+    const url = `districts/` + district + `/transformers?position=` + position;
+    // const url = `districts/` + district + `/transformers`;
 
     return async dispatch => {
 
