@@ -1,16 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm, /* Field */ } from 'redux-form';
 import { withStyles } from '@material-ui/core/styles';
 import green from '@material-ui/core/colors/green';
 import FormGroup from '@material-ui/core/FormGroup';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormLabel from '@material-ui/core/FormLabel';
-import { Col, Row} from 'reactstrap'
+import { Col, Row} from 'reactstrap';
 
 import Drawer from '@material-ui/core/Drawer';
 
@@ -20,6 +15,7 @@ import './grid.css';
 import SearchInputControl from '../forms/search.form.field';
 import { red, blue, yellow, grey } from '@material-ui/core/colors';
 import { FormCheckboxControl } from '../forms/form.checkbox.field';
+import { SelectInputControl } from '../forms/form.selectinput.field';
 
 /**
  *  Side bar, renders gis sidebar with form filters.
@@ -40,7 +36,7 @@ class GridSideBar extends Component {
       checked_existing: false,
       meters_checked: false,
       distribution_lines: false,
-      proposed_distr_lines: false,
+      eleven_kv_lines: false,
       ground_transformers: false,
       up_transformers: false,
     };
@@ -66,9 +62,7 @@ class GridSideBar extends Component {
 
     return gis_filters.map(({ properties, _id }) => {
 
-      return <Fragment key={_id}>
-        <option value={ properties.name } key={ _id }>{ properties.name }</option>
-      </Fragment>
+      return <option value={ properties.name } key={ _id }>{ properties.name }</option>
 
     });
 
@@ -113,12 +107,44 @@ class GridSideBar extends Component {
 
         return districts.map(({ properties, _id }) => {
 
-            return <Fragment key={ _id }>
-              <option value={ properties.name } key={ _id }>{ properties.name }</option>
-            </Fragment>
+            return <option value={ properties.name } key={ _id }>{ properties.name }</option>
 
           }
         );
+      })
+
+    }
+
+  }
+
+  /**
+   * Renders plant type filters
+   */
+  renderTypeFilters = ({ power_plant_filters }) => {
+
+    if (power_plant_filters !== null) {
+
+      return power_plant_filters[1].plantTypes.map((option, index) => {
+        // console.log(option)
+        return <option value={ option } key={ index }>{ option }</option>
+
+      })
+
+    }
+
+  }
+
+  /**
+   * Renders capacities filter options
+   */
+  renderPlantCapacityFilters = ({ power_plant_filters }) => {
+
+    if (power_plant_filters !== null) {
+      
+      return power_plant_filters[0].capacities.map((option, index) => {
+        // console.log(option)
+        return <option value={ option } key={ index }>{ option }</option>
+
       })
 
     }
@@ -149,49 +175,6 @@ class GridSideBar extends Component {
 
   }
 
-  /**
-   * Renders districts and regions component parts
-   * 
-   * @param {String} helperText
-   * @param {String} name
-   * @returns {Fragment} district || region
-   */
-  selectInputControl = ({ helperText, name, clearFilters }) => {
-
-      return <Fragment>
-        <InputLabel shrink htmlFor="region-open-select">
-          { name }
-        </InputLabel>
-
-        {
-            name === "Region" ? (
-              <NativeSelect
-                value={this.state.region}
-                name="region"
-                onChange={ (e) => { this.props.regionChanged(e) } }
-                input={<Input key={this.state.region} name="region" id="region-open-select" />}
-              >
-                <option value="">{ `${"--Select region--"}` }</option>
-                { this.renderRegions(this.props) }
-              </NativeSelect>
-            ) : (
-              <NativeSelect
-                value={this.state.district_name}
-                name="district_name"
-                onChange={ (e) => { this.props.districtChanged(e) } }
-                input={<Input key={this.state.district_name} name="district_name" id="district-open-select" />}
-              >
-                <option value="">{ `${"--Select district--"}` }</option>
-                { this.renderDistricts(this.props) }
-              </NativeSelect>
-            )
-        }
-
-        <FormHelperText><em>{ helperText }</em></FormHelperText>
-      </Fragment>
-
-  }
-
   legendMarkerIcon = (color) => {
 
     return (
@@ -216,6 +199,7 @@ class GridSideBar extends Component {
 
     const { classes } = this.props;
 
+    // console.log(this.props.power_plant_filters)
     return (
       <Drawer
         className={classes.drawer}
@@ -230,28 +214,40 @@ class GridSideBar extends Component {
           <div style={{width: '100%'}}>
             <Row>
               <Col lg='12'>
-              <FormControl className={classes.formControl} key="region">
+                <FormControl className={classes.formControl} key="region">
 
-                {
-                  this.selectInputControl({
-                    helperText: "Select region filter",
-                    name: "Region"
-                  })
-                }
+                  <SelectInputControl 
+                    name='region' 
+                    helperText='Select region filter' 
+                    {...this.props} 
+                    {...this.state}
+                    onChange={ (e) => { this.props.regionChanged(e) } }
+                  >
+
+                    <option value="">{ `${"--Select region--"}` }</option>
+                    { this.renderRegions(this.props) }
+
+                  </SelectInputControl>
 
                 </FormControl>
               </Col>
             </Row>
             <Row>
               <Col lg='12'>
-              <FormControl className={classes.formControl} key="district">
+                <FormControl className={classes.formControl} key="district">
 
-                {
-                  this.selectInputControl({
-                    helperText: "Select district filter",
-                    name: "District"
-                  })
-                }
+                  <SelectInputControl 
+                    name='district_name' 
+                    helperText='Select district filter' 
+                    {...this.props} 
+                    {...this.state}
+                    onChange={ (e) => { this.props.districtChanged(e) } }
+                  >
+
+                    <option value="">{ `${"--Select district--"}` }</option>
+                    { this.renderDistricts(this.props) }
+
+                  </SelectInputControl>
 
                 </FormControl>
               </Col>
@@ -350,9 +346,9 @@ class GridSideBar extends Component {
                     { this.legendLineIcon(classes.line_33_s) }
 
                     <FormCheckboxControl
-                      name='proposed_distr_lines'
-                      value='Proposed Lines'
-                      isChecked={ this.props.proposed_distr_lines }
+                      name='eleven_kv_lines'
+                      value='11kV Lines'
+                      isChecked={ this.props.eleven_kv_lines }
                       classes={ classes }
                       handleChange={ (e) => { this.props.onChecked(e) } }
                     />
@@ -389,11 +385,44 @@ class GridSideBar extends Component {
                 </FormControl>
               </Col>
             </Row>
-            {/* <Row>
+            <Row>
               <Col lg='12'>
+                <FormLabel component="legend"><b>Power Plants</b></FormLabel>
+                <FormControl className={classes.formControl} key="plant_type">
 
+                    <SelectInputControl
+                      name='type'
+                      helperText='Select plant type'
+                      {...this.props}
+                      {...this.state}
+                      onChange={ (e) => this.props.typeChanged(e) }
+                    >
+
+                      <option value="">{ `${"--Plant type--"}` }</option>
+                      { this.renderTypeFilters(this.props) }
+
+                    </SelectInputControl>
+
+                </FormControl>
+
+                <FormControl className={classes.formControl} key="capacity">
+                  
+                    <SelectInputControl
+                      name='capacity'
+                      helperText='Select plant capacity'
+                      {...this.props}
+                      {...this.state}
+                      onChange={ (e) => this.props.capacityChanged(e) }
+                    >
+
+                      <option value="">{ `${"--Select capacity--"}` }</option>
+                      { this.renderPlantCapacityFilters(this.props) }
+
+                    </SelectInputControl>
+
+                </FormControl>
               </Col>
-            </Row> */}
+            </Row>
           </div>
       </Drawer>
     );
@@ -486,6 +515,4 @@ GridSideBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default reduxForm({
-  form: 'gis_sidebar',
-})(withStyles(styles)(SideBarWrapper(GridSideBar)));
+export default withStyles(styles)(SideBarWrapper(GridSideBar));

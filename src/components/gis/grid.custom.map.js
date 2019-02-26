@@ -39,6 +39,8 @@ export const CustomGoogleMap = withScriptjs(
 
                     {props.onTransformers}
 
+                    {props.onPowerPlantChanged}
+
                 </GoogleMap>
             </Fragment>
         );

@@ -128,9 +128,10 @@ export const fetchEscomMeters = (name) => {
 
 }
 
-export const fetchDistributionLines = (district) => {
+export const fetchDistributionLines = (district, voltage) => {
   
     // api resource url
+    // const url = `districts/` + district + `/distribution-lines?voltage=` + voltage;
     const url = `districts/` + district + `/distribution-lines`;
 
     return async (dispatch) => {
@@ -152,9 +153,10 @@ export const fetchDistributionLines = (district) => {
 
 }
 
-export const fetchTransformers = (district) => {
+export const fetchTransformers = (district, position) => {
 
     // resource url
+    // const url = `districts/` + district + `/transformers?position=` + position;
     const url = `districts/` + district + `/transformers`;
 
     return async dispatch => {
@@ -188,6 +190,78 @@ export const emptyProps = () => {
   return dispatch => {
 
     dispatch(GeneralAction.fetchSuccess(GeneralType.REQUEST_CLEAR_PROPS, {}, false))
+
+  }
+
+}
+
+/**
+ * Fetch power plants by filter specified
+ * 
+ * @param {String} capacity 
+ * @param {String} plantType 
+ */
+export const powerPlants = (capacity = null, plantType = null) => {
+
+  // url
+  let url = `power-plants`;
+
+  if( capacity !== null ) {
+
+    url += `?capacities=` + capacity;
+
+  } else if( plantType !== null) {
+
+    url += `?plantTypes=` + plantType;
+
+  } else {
+
+  }
+
+  return async dispatch => {
+
+    dispatch(GeneralAction.isLoading(true));
+
+    return await get(dispatch, url)
+
+    .then(response => {
+      // console.log(response)
+      dispatch(GeneralAction.fetchSuccess(GisType.FETCH_POWER_PLANTS, response, false));
+
+    })
+
+    .catch(error => {
+
+      dispatch(GeneralAction.hasErrored(true));
+
+    });
+
+  } 
+
+}
+
+export const powerPlantsFilters = () => {
+
+  // resource
+  const url = `power-plants/haslcvahcialius/filters`;
+
+  return async dispatch => {
+
+    dispatch(GeneralAction.isLoading(true));
+
+    return await get(dispatch, url) 
+
+    .then(response => {
+
+      dispatch(GeneralAction.fetchSuccess(GisType.FETCH_POWER_PLANT_FILTERS, response, false));
+
+    })
+
+    .catch(error => {
+
+      dispatch(GeneralAction.hasErrored(true));
+
+    });
 
   }
 

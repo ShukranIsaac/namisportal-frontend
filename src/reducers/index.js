@@ -16,6 +16,7 @@ import userEvent from './event.reducer';
 import transformers from './transformers.reducer';
 import cms from './cms.reducer';
 import stakeholder from './stakeholder.reducer';
+import power_plants from './power_plant.reducer';
 
 export default combineReducers({
     form: formReducer,
@@ -33,5 +34,6 @@ export default combineReducers({
     event: userEvent,
     transformers: transformers,
     cms: cms,
-    stakeholder: stakeholder
+    stakeholder: stakeholder,
+    power_plants: power_plants
 });

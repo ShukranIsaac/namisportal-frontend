@@ -135,9 +135,9 @@ class MinGridMap extends Component {
    * @param {Boolean} distribution_lines
    * @returns {Polyline} polyline
    */
-  renderPolyline = ({polyline, district_name, region, distribution_lines}) => {
+  renderPolyline = ({polyline, distribution_lines, eleven_kv_lines}) => {
 
-      if (distribution_lines && polyline !== null && polyline !== undefined) {
+      if ((distribution_lines || eleven_kv_lines) && polyline !== null && polyline !== undefined) {
 
         return polyline.map((line, key) => {
           
@@ -147,7 +147,7 @@ class MinGridMap extends Component {
                 path={line.geometry.coordinates[0]}
                 geodesic={true}
                 options={{
-                  strokeColor: "blue",
+                  strokeColor: distribution_lines ? "blue" : "#4cd137",
                   strokeOpacity: 0.75,
                   strokeWeight: 2,
                   icons: [
@@ -164,6 +164,16 @@ class MinGridMap extends Component {
         });
 
       }
+
+  }
+
+  renderPowerPlants = ({ power_plants }) => {
+
+    if(power_plants !== null) {
+
+      return this.markerClusterer(power_plants);
+
+    }
 
   }
 
@@ -525,6 +535,7 @@ class MinGridMap extends Component {
           onTransformers={this.renderTransformers(this.props)}
           onCenterChanged= {this.getPolygonCentroid(this.props)}
           onPolyline={this.renderPolyline(this.props)}
+          onPowerPlantChanged={this.renderPowerPlants(this.props)}
           {...this.state}
         />
       </Fragment>

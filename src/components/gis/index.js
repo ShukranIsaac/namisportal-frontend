@@ -24,12 +24,19 @@ class GIS extends Component {
     };
 
     this.clearFilters = this.clearFilters.bind(this);
+    this.handleRegionChange = this.handleRegionChange.bind(this);
+    this.handleDistrictChange = this.handleDistrictChange.bind(this);
+    this.handlePlantTypeChange = this.handlePlantTypeChange.bind(this);
+    this.handlePlantCapacityChange = this.handlePlantCapacityChange.bind(this);
 
   }
 
   componentDidMount() {
 
+    // fetch gis filters
     this.props.fetchFilters();
+    // fetch plant filters
+    this.props.powerPlantFilters();
 
   }
 
@@ -45,9 +52,9 @@ class GIS extends Component {
 
       this.meters();
 
-      this.transformers();
+      // this.transformers();
 
-      this.distributionLines();
+      // this.distributionLines();
 
     }
 
@@ -78,11 +85,12 @@ class GIS extends Component {
     ground_transformers, 
     up_transformers,
     marep_center, 
-    distribution_lines
+    distribution_lines,
+    eleven_kv_lines
   }) => {
     
     // check if one of these is not defined otherwise proceed
-    if(ground_transformers !== undefined || up_transformers !== undefined
+    if(ground_transformers !== undefined || up_transformers !== undefined   || eleven_kv_lines !== undefined
       || marep_center !== undefined || distribution_lines !== undefined) {
 
       if (ground_transformers) {
@@ -101,6 +109,10 @@ class GIS extends Component {
         Object.assign(this.state, { distribution_lines: false });
       }
 
+      if(eleven_kv_lines) {
+        Object.assign(this.state, { eleven_kv_lines: false });
+      }
+
     }
 
   }
@@ -113,8 +125,38 @@ class GIS extends Component {
       this.getDistrict();
 
       // clear filters is any or all are true
-      this.clearFilters(this.state);
+      // this.clearFilters(this.state);
 
+    });
+
+  }
+
+  /**
+   * Event
+   */
+  handlePlantTypeChange = (event) => {
+
+    this.setState({ [event.target.name]: event.target.value }, () => {
+
+      // fetch power plants from api
+      console.log(this.state.type);
+      this.props.fetchPowerPlants(null, this.state.type);
+
+    });
+
+  }
+
+  /**
+   * Event
+   */
+  handlePlantCapacityChange = (event) => {
+
+    this.setState({ [event.target.name]: event.target.value }, () => {
+
+      // fetch plant plants from api
+      console.log(this.state.capacity);
+      this.props.fetchPowerPlants(this.state.capacity, null);
+      
     });
 
   }
@@ -204,7 +246,7 @@ class GIS extends Component {
    * And finally fetch transformers for this district.
    * 
    */
-  transformers = () => {
+  transformers = (position) => {
     // ES6 destructure different objects from state
     const { district_name, districtDefault } = this.state;
     
@@ -214,7 +256,7 @@ class GIS extends Component {
           
           const { district, fetchTransformers } = this.props;
           
-          fetchTransformers(district._id);
+          fetchTransformers(district._id, position);
 
       }
 
@@ -227,17 +269,17 @@ class GIS extends Component {
    * if district name is defined and not null and not equal to default value
    * 
    */
-  distributionLines = () => {
+  distributionLines = (type) => {
     // ES6 destructure different objects from state
     const { district_name, districtDefault } = this.state;
 
-    if (this.state.distribution_lines) {
+    if (this.state.distribution_lines || this.state.eleven_kv_lines) {
 
       if (district_name !== undefined && district_name !== null && district_name.trim() !== '' && district_name !== districtDefault) {
 
           const { district, fetchDistributionLines } = this.props;
           // fetch distribution lines
-          fetchDistributionLines(district._id);
+          fetchDistributionLines(district._id, type);
 
       }
 
@@ -278,14 +320,29 @@ class GIS extends Component {
 
   }
 
+  /**
+   * Fetch power plants by the filters specified
+   */
+  powerPlants = (capacity, type) => {
+
+    if(this.state.type || this.state.capacity) {
+
+      const { fetchPowerPlants } = this.props;
+
+      // call api
+      fetchPowerPlants(capacity, type);
+
+    }
+
+  }
+
   handleChecked = (event) => {
 
     switch (event.target.name) {
 
       case 'marep_center':
-        console.log(event.target.checked)
         this.myState(event);
-        this.clearFilters(this.state);
+        // this.clearFilters(this.state);
         this.marepCenters();
         
         break;
@@ -300,7 +357,15 @@ class GIS extends Component {
       case 'distribution_lines':
     
         this.myState(event);
-        this.distributionLines();
+        this.distributionLines(33);
+
+        break;
+
+      case 'eleven_kv_lines':
+  
+        this.myState(event);
+        this.distributionLines(11);
+        // console.log(this.state.eleven_kv_lines)  
 
         break;
 
@@ -329,10 +394,10 @@ class GIS extends Component {
 
   render(){
 
-    const { classes, gis_filters, district } = this.props;
+    const { classes, gis_filters, power_plant_filters, district } = this.props;
     
     // const { isLoading } = this.state;
-    // console.log(this.state);
+    // console.log(this.props.distr_lines);
 
     return (
       <Fragment>
@@ -340,13 +405,15 @@ class GIS extends Component {
 
           <main>
             <GridSideBar
-                {...this.state} 
+                {...this.state}
                 onChange={this.handleChange}
                 regionChanged={this.handleRegionChange}
                 districtChanged={this.handleDistrictChange}
+                typeChanged={this.handlePlantTypeChange}
+                capacityChanged={this.handlePlantCapacityChange}
                 onChecked={this.handleChecked}
-                // clearFilters={this.clearFilters} 
                 gis_filters={gis_filters}
+                power_plant_filters={power_plant_filters}
             />
           </main>
           <main style={{maxWidth: '100%'}}>
@@ -363,6 +430,7 @@ class GIS extends Component {
                 transformers={this.props.transformers}
                 meters={this.state.meters_checked ? this.props.meters : null}
                 polyline={this.props.distr_lines}
+                power_plants={this.props.power_plants}
             />
           </main>
 
@@ -402,6 +470,8 @@ const mapStateToProps = (state) => {
     return {
         region: state.region.region,
         gis_filters: state.gis_filters.gis_filters,
+        power_plant_filters: state.gis_filters.power_plant_filters,
+        power_plants: state.power_plants.power_plants,
         district: state.district.district,
         meters: state.meters.meters,
         distr_lines: state.lines.lines,
@@ -417,13 +487,15 @@ const mapDispatchToProps = (dispatch) => {
 
     return {
         fetchFilters: () => { dispatch(GisAction.fetchGisFilters()) },
+        powerPlantFilters: () => { dispatch(GisAction.powerPlantsFilters()) },
+        fetchPowerPlants: (capacity, type) => { dispatch(GisAction.powerPlants(capacity, type)) },
         fetchRegion: (region) => { dispatch(GisAction.fetchRegion(region)) },
         fetchDistrict: (district) => { dispatch(GisAction.fetchDistrict(district))},
         emptyProps: () => { dispatch(GisAction.emptyProps()) },
         fetchMarepCenters: (name) => { dispatch(GisAction.fetchMarepCenters(name)) },
         fetchMeters: (name) => { dispatch(GisAction.fetchEscomMeters(name)) },
-        fetchTransformers: (district_id) => { dispatch(GisAction.fetchTransformers(district_id)) },
-        fetchDistributionLines: (name) => { dispatch(GisAction.fetchDistributionLines(name)) },
+        fetchTransformers: (distr_id, position) => { dispatch(GisAction.fetchTransformers(distr_id, position)) },
+        fetchDistributionLines: (district, type) => { dispatch(GisAction.fetchDistributionLines(district, type)) },
     };
 
 }
