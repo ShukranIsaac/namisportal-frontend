@@ -32,7 +32,7 @@ class ContactForm extends Component {
       this.setState({[event.target.name]: event.target.value});
       console.log('hello')
 
-    }
+    } 
 
     handleSubmit = (event, values) => {
 

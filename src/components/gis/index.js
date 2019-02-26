@@ -283,7 +283,6 @@ class GIS extends Component {
     switch (event.target.name) {
 
       case 'marep_center':
-        console.log(event.target.checked)
         this.myState(event);
         this.marepCenters();
         
