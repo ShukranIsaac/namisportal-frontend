@@ -75,13 +75,14 @@ class InformationBox extends Component {
         if (title === 'Transformer'){
             return this.renderTransformerInfoBox()
         }
-        else if(title == 'Marep Center') {
+        else if(title === 'Marep Center') {
             return this.renderMarepCenterInfoBox()
         } 
         else{
             return this.renderPowerPlantsInfoBox()
         }
     }
+
     render () {
 
         const { title } = this.props.information

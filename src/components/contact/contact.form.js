@@ -43,7 +43,7 @@ class ContactForm extends Component {
 
     render() {
 
-        const { handleSubmit, pristine, submitting, classes } = this.props;
+        const { handleSubmit, pristine, submitting } = this.props;
 
         return (
           

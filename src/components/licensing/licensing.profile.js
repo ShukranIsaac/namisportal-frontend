@@ -186,6 +186,7 @@ const lincensingProcess = [
   }
 ]
 class Financing extends Component {
+  
   constructor(){
       super()
       this.state = {
@@ -204,14 +205,17 @@ class Financing extends Component {
       return <Panel heading={heading} text={text}/>
     })
   }
+
   render(){
+
     const header = {
       textAlign: 'center',
     }
-    const financing = {
-      marginBottom: 8,
-      borderRadius: 0
-    }
+
+    // const financing = {
+    //   marginBottom: 8,
+    //   borderRadius: 0
+    // }
 
     return (
         <div style={header}>

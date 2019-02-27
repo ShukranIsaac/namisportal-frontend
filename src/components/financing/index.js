@@ -22,33 +22,34 @@ class Financing extends Component {
 
   render(){
 
-    const { classes, subcategory } = this.props;
-
+    const { subcategory } = this.props;
 
     if(subcategory !== undefined && subcategory !== null) {
-    const header = {
-      textAlign: 'center',
-    }
-        if(subcategory.subCategories[0] !== undefined ){
-          return (
-            <div className = "page-content">
-              <Container>
-                <Row>
-                    <Card>
-                      <CardBody>
-                        <p style={header}><strong>{ subcategory.subCategories[0].name }</strong></p>
-                        <div dangerouslySetInnerHTML={{ __html: subcategory.subCategories[0].about }} />
-                      </CardBody> 
-                    </Card>
-                </Row>
-              </Container>
-              
-            </div>
-              
-          );
-        }else{
-          return <div className="loader" />
-        }
+      
+      const header = {
+        textAlign: 'center',
+      }
+
+      if(subcategory.subCategories[0] !== undefined ){
+        return (
+          <div className = "page-content">
+            <Container>
+              <Row>
+                  <Card>
+                    <CardBody>
+                      <p style={header}><strong>{ subcategory.subCategories[0].name }</strong></p>
+                      <div dangerouslySetInnerHTML={{ __html: subcategory.subCategories[0].about }} />
+                    </CardBody> 
+                  </Card>
+              </Row>
+            </Container>
+            
+          </div>
+            
+        );
+      }else{
+        return <div className="loader" />
+      }
           
     
     } else {

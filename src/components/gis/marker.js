@@ -48,15 +48,15 @@ class PointMarker extends Component {
   }
 
   markerIconUrl(title){
-    if (title == 'Transformer'){
+    if (title === 'Transformer'){
         return 'https://mt.google.com/vt/icon/text=T&psize=16&font=fonts/arialuni_t.ttf&color=ff135C13&name=icons/spotlight/spotlight-waypoint-a.png&ax=44&ay=48&scale=1'
     }
 
-    else if (title == 'Marep Center') {
+    else if (title === 'Marep Center') {
         return 'https://mt.google.com/vt/icon/text=M&psize=16&font=fonts/arialuni_t.ttf&color=ff135C13&name=icons/spotlight/spotlight-waypoint-b.png&ax=44&ay=48&scale=1'
     }
 
-    else if (title == 'Power Plant') {
+    else if (title === 'Power Plant') {
         return 'https://mt.google.com/vt/icon/text=P&psize=16&font=fonts/arialuni_t.ttf&color=ff135C13&name=icons/spotlight/spotlight-waypoint-b.png&ax=44&ay=48&scale=1'
     }
 

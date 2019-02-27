@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { reduxForm, Field } from 'redux-form';
 
-import { Container, Button, Card, CardBody, CardImg, Row } from 'reactstrap'
+import { Container, Button, Card, CardBody, CardImg } from 'reactstrap'
 
 import ParticlesComponent from './particles'
 
@@ -112,7 +112,7 @@ class UserLogin extends Component {
 
     render() {
 
-        const { valid , pristine, submitting, handleSubmit, classes } = this.props;
+        const { valid , pristine, submitting, handleSubmit } = this.props;
         // console.log(this.context);
         // Get the user from local storage or session storage
         // making sure their token is available.

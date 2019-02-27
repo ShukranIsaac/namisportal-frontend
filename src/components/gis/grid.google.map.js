@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Marker, Polygon, Polyline, InfoWindow } from "react-google-maps";
+import { Marker, Polygon, Polyline } from "react-google-maps";
 import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 
 import MainContentWrapper from '../MainContentWrapper';
