@@ -127,6 +127,11 @@ class CMSIndex extends React.Component {
             history.push(prevUrl);
         }
 
+        // then call default event action so that when a new section is visited on link change 
+        // the app should set state to deafult and show home page for that section.
+        // Not maintaining the previous section state
+        this.props.defaultItem();
+
     }
 
     /**
