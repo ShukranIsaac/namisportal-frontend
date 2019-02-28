@@ -59,17 +59,17 @@ class Directory extends Component {
             <Row>
               <Col lg='12'>
                 <div style={{margin: '2.5px 0'}}>
-                  <Card id={stakeholders_list && stakeholders_list[0]._id} className={classes.card} >
+                  <Card id={stakeholders_list && stakeholders_list[1]._id} className={classes.card} >
                     <CardBody className={classes.paddindUnset}>
                       <div style={{  display: 'grid', gridTemplateColumns: '20% 80%'}}>
                         <CardImg src={require("../../../src/assets/img/escom-logo.png")}/>
                         <div>
                           <h4>
-                            <a href={`${ '/directory/' + stakeholders_list[0].name }`} onClick={ (e) => this.handleClick(e) }>
-                              { stakeholders_list && stakeholders_list[0].name }
+                            <a href={`${ '/directory/' + stakeholders_list[1].name }`} onClick={ (e) => this.handleClick(e) }>
+                              { stakeholders_list && stakeholders_list[1].name }
                             </a>
                           </h4>
-                          <p>{ stakeholders_list && stakeholders_list[0].about }</p>
+                          <p>{ stakeholders_list && stakeholders_list[1].about }</p>
                         </div>
                       </div>
                     </CardBody>
@@ -80,43 +80,45 @@ class Directory extends Component {
   
             <DirectoryItem { ...this.props } handleClick={ this.handleClick } />
             
-            <Row>
-            <Pagination aria-label="Page navigation example" className={classes.paginationStuff}>
-              <PaginationItem>
-                <PaginationLink className={classes.previous} previous href="#" />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">
-                  1
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">
-                  2
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">
-                  3
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">
-                  4
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">
-                  5
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink next href="#" />
-              </PaginationItem>
-            </Pagination>
-            </Row>
+            {
+              stakeholders_list.length > 5 ? 
+              (<Row>
+                <Pagination aria-label="Page navigation example" className={classes.paginationStuff}>
+                  <PaginationItem>
+                    <PaginationLink className={classes.previous} previous href="#" />
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#">
+                      1
+                    </PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#">
+                      2
+                    </PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#">
+                      3
+                    </PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#">
+                      4
+                    </PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#">
+                      5
+                    </PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink next href="#" />
+                  </PaginationItem>
+                </Pagination>
+              </Row>) : <Row />
+            }
   
-            
           </Container>
           
         </div>

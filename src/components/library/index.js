@@ -74,19 +74,21 @@ class Library extends Component {
                       scrollButtons="auto"
                     > 
                       <Tab label="Tarrifs" value='tarrifs'/>
-                      <Tab label="Finansing" value='financing'/>
+                      <Tab label="Financing" value='financing'/>
                       <Tab label="Policies and Strategies" value='policies_stratigy'/>
                       <Tab label="Deployment Toolkit" value='toolkit'/>
                       <Tab label="Legal and Regulatory Frameworks" value='legal_regulatory_frameworks'/>
                       <Tab label="Resource Plan" value='resource_plan'/>
                     </Tabs>
                   </AppBar>
+
                   {value === 'tarrifs' && <Tarrifs {...this.props} renderDocuments={this.renderDocuments}/>}
                   {value === 'financing' && <Financing {...this.props} renderDocuments={this.renderDocuments}/>}
                   {value === 'policies_stratigy' && <PoliciesStratigies {...this.props} renderDocuments={this.renderDocuments}/>}
                   {value === 'toolkit' && <Toolkits {...this.props} renderDocuments={this.renderDocuments}/>}
                   {value === 'legal_regulatory_frameworks' && <LegalRegFrameworks {...this.props} renderDocuments={this.renderDocuments}/>}
                   {value === 'resource_plan' && <ResourcePlan {...this.props} renderDocuments={this.renderDocuments}/>}
+                
                 </div>
               </div>
             </div>

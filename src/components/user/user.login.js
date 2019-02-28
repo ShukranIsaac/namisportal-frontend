@@ -155,57 +155,61 @@ class UserLogin extends Component {
                       <CardBody>
                         <div style={{textAlign: 'center'}}>
                           <CardImg src={require("../../../src/assets/img/malawi.png")}/>
+                          <p>
+                          Department of Energy, Ministry of Energy and Natural Resources
+                          </p>
                         </div>
                         
 
                         <form className={{style: 'center'}} onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
-                        <div className='margin-fix'>
-                          {/* <label htmlFor="first-name">Your first name:</label>
-                          <Field
-                            name="firstName"
-                            type="text"
-                            component={this.newField}
-                            id="first-name"
-                            placeholder="shukurani"
-                          /> */}
+                          <div className='margin-fix'>
+                            {/* <label htmlFor="first-name">Your first name:</label>
+                            <Field
+                              name="firstName"
+                              type="text"
+                              component={this.newField}
+                              id="first-name"
+                              placeholder="shukurani"
+                            /> */}
 
-                          <Field name="username" component={props => {
-                            
-                            return (
-                              <div>
-                                <RenderBootstrapField
-                                  { ...this.props }
-                                  props={ props }
-                                  label='Username'
-                                  defaultValue= "Your username or email..."
-                                  name="username"
-                                  type="text"
-                                />
-                                <ErrorField props={ props } />
-                              </div>
-                            )
-                          }} />
-                        </div>
-                        <div className='margin-fix'>
-                          <Field name="password" component={props => {
-                            return (
-                              <div>
-                                <RenderBootstrapField
-                                  { ...this.props }
-                                  props={ props }
-                                  label='Password'
-                                  defaultValue= "Your password..."
-                                  name="password"
-                                  type="password"
-                                />
-                                <ErrorField props={ props } />
-                              </div>
-                            );
-                          }} />
+                            <Field name="username" component={props => {
+                              
+                              return (
+                                <div>
+                                  <RenderBootstrapField
+                                    { ...this.props }
+                                    props={ props }
+                                    label='Username'
+                                    defaultValue= "Your username or email..."
+                                    name="username"
+                                    type="text"
+                                  />
+                                  <ErrorField props={ props } />
+                                </div>
+                              )
+                            }} />
+                          </div>
+                          <div className='margin-fix'>
+                            <Field name="password" component={props => {
+                              return (
+                                <div>
+                                  <RenderBootstrapField
+                                    { ...this.props }
+                                    props={ props }
+                                    label='Password'
+                                    defaultValue= "Your password..."
+                                    name="password"
+                                    type="password"
+                                  />
+                                  <ErrorField props={ props } />
+                                </div>
+                              );
+                            }} 
+                          />
                         </div>
                         <div className="margin-fix">
 
-                          <Button type="submit" disabled={!valid  || pristine || submitting} color="success">Login</Button>
+                        <Button type="submit" disabled={!valid  || pristine || submitting} color="success">Login</Button>
 
                           
 

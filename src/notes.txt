@@ -35,3 +35,8 @@ Goals(s) - next update[Thur 7 Jan. 2019]:
         i. Create, edit, uploading documents
         ii. User management: login and registration
     c.  
+
+
+    comments:
+
+    1.  Below logo(login page), Department of Energy, Ministry of Energy and Natural Resources

@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Row } from 'reactstrap';
 
 import CustomColumn from '../news/custom.column';
 import SearchInputControl from '../forms/search.form.field';
 import FormLegendField from '../forms/form.legend.field';
 import { Flex } from 'reflexbox';
-import { bold } from 'react-icons-kit/feather/bold';
+
+import * as CMSAction from '../../actions/cms.action';
+import { NoDataCard } from '../card.text';
+import { QuestionListItem } from './question.item';
+import QuestionCategory from './question.category';
 
 class FAQ extends Component {
 
   componentDidMount() {
-
+    // fetch faqs
+    this.props.fetchFAQuestions("Faqs");
   }
 
   handleChange = (event) => {
@@ -21,64 +27,119 @@ class FAQ extends Component {
 
   render(){
 
-    return (
-      <>
+    const { questions } = this.props;
+    const text = "These are some of the previously or frequently asked questions. If not helped please contact us through the link given."
+    
+    if(questions !== null && questions !== undefined) {
 
-        <Row style={{ marginTop: '20px', marginLeft: '50px', marginRight: '50px' }}>
+      const { subCategories } = questions;
 
-          <CustomColumn sm='12' md='4' lg='2'>
+      if(subCategories !== null || subCategories.length !== 0) {
 
-            <Flex wrap column align='top' justify='left' m={1} w={1} p={1} style={{ borderLeft: 'solid #fff000'}}>
+        return (
+          <>
+    
+            <Row style={{ marginTop: '20px', marginLeft: '50px', marginRight: '50px' }}>
+    
+              <CustomColumn sm='12' md='4' lg='2'>
+    
+                <Flex wrap column align='top' justify='left' m={1} w={1} p={1} style={{ borderLeft: 'solid #fff000'}}>
+    
+                  <a href="/contact"><FormLegendField value="Contact us"/></a>
+    
+                </Flex>
+    
+              </CustomColumn>
+    
+              <CustomColumn sm='12' md='12' lg='10'>
+    
+                <NoDataCard text={ text } />
+    
+                <form autoComplete='off'>
+    
+                  <SearchInputControl 
+                    handleChange={this.handleChange} 
+                    placeholder="Search for previous asked questions..."
+                    name="Faqs"
+                  />
+    
+                </form>
+    
+                {
+                  subCategories.length !== 0 && subCategories.map((category, index) => {
+                    console.log(category);
 
-              <a href="/contact"><FormLegendField value="Contact us"/></a>
+                    // if this category has question rener, else don't
+                    if(category.subCategories.length !== 0) {
 
-            </Flex>
+                      return (
+                        <QuestionCategory index={ index } name={ category.name } >
+  
+                          {
+                            category.subCategories.length !== 0 ? category.subCategories.map((question, index) => {
 
-          </CustomColumn>
+                              return <QuestionListItem question={ question } />
 
-          <CustomColumn sm='12' md='12' lg='10'>
+                            }) : <NoDataCard text={ 'No data' } />
+                          }
+  
+                        </QuestionCategory>
+                      );
 
-            <div className="card" style={{ background: '#dcdde1',  marginBottom: '30px' }}>
-                <div className="card-body" style={{ padding: '20px' }}>
-                  This are some of the previously or frequently asked questions. If not helped please contact us through the link given.
-                </div>
-            </div>
+                    } else {
 
-            <form autoComplete='off'>
+                      return (
+                        <QuestionCategory index={ index } name={ category.name } >
+  
+                          <NoDataCard text={ 'No questions' } />
+  
+                        </QuestionCategory>
+                      );
 
-              <SearchInputControl 
-                handleChange={this.handleChange} 
-                placeholder="Search for previous asked questions..."
-                name="Faqs"
-              />
+                    }
 
-            </form>
+                  })
 
-            <Row>
-              
-              <div>
-                  <h4 className="heading" style={{ marginTop: '20px' }}>
-                    <i style={{ fontSize: '20px', fontStyle: bold }}>Q. </i>
-                    Is there a support Policy framework for mini-grid development in Malawi?
-                  </h4>
-                  <div variant="caption">
-                      <i style={{ fontSize: '20px', fontStyle: bold }}>Answer: </i>
-                      <p>Minigrid development is supported by the draft Energy Policy 2018 which is advocating for private participation in electricity generation in form of IPPs.The policy also advocate for the Rural Electrification Fund to be funding of off-grid renewable energy technologies which includes minigrids.The draft Policy has adopted a New Global Tracking Framework for measuring electricity access in the country.The new framework takes into account connections from minigrids when measuring electricity access.</p>
-                      <p>Minigrid development is also supported in the Malawi Renewable Energy Strategy(MRES) which is promoting clean minigrids and views them as a most economically viable technology solution in areas with a population which has a density above 250 inhabitants per square kilometre and are situated more than 5km from the medium-voltage grid line. The MRES also advocate for capacity building for mnigrid operators; Favourable licencing; Development of quality Minigrid standards; Development of cost-reflective tariffs, among others.</p>
-                  </div>
-              </div>
-
+                }
+    
+              </CustomColumn>
+    
             </Row>
+    
+          </>
+        );
 
-          </CustomColumn>
+        
+      } else {
 
-        </Row>
+        return <NoDataCard text="There are no questions to show. Please contact us!!" />
 
-      </>
-    );
+      }
+
+    } else {
+
+      return <div className="loader" />
+
+    }
 
   }
 
 }
 
-export default (FAQ);
+const mapStateToProps = (state) => {
+
+  return {
+    questions: state.cms.subcategory,
+  }
+
+}
+
+const mapDispatchToProps = (dispatch) => {
+  
+  return {
+    fetchFAQuestions: (name) => { dispatch(CMSAction.fetchCategory(name)) },
+  }
+  
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FAQ);

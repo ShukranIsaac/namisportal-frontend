@@ -19,7 +19,7 @@ import NotificationsIcon from '@material-ui/icons/NotificationImportant'
 import Settings from '@material-ui/icons/Settings'
 import LogoutIcon from '@material-ui/icons/AccountCircle';
 import HomeIcon from '@material-ui/icons/Home';
-import FAQIcon from '@material-ui/icons/Home';
+import FAQIcon from '@material-ui/icons/QuestionAnswer';
 
 const drawer_controls = [
     { name: 'home', button: <HomeIcon />},

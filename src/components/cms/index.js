@@ -168,6 +168,12 @@ class CMSIndex extends React.Component {
                  */
                 this.props.category(this.capitalize(link));
                 break;
+            case 'faqs':
+                /**
+                 * Frequently asked questions
+                 */
+                this.props.category(this.capitalize(link));
+                break;
             default:
                 break;
         }
