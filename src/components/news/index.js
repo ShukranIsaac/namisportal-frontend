@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Flex } from 'reflexbox';
+import { Row } from 'reactstrap';
 
 import CustomColumn from './custom.column';
 import NewsListItem from './news.list.item';
@@ -36,15 +37,19 @@ class News extends Component {
 
     return (
       <Fragment>
-        <Flex wrap row={true} align='top' justify='center' m={1} w={1} p={1} style={{ margin: '0px' }}>
+        <Row style={{ margin: '0px', marginTop: '30px', marginLeft: '60px' }}>
 
-          <CustomColumn w={1/4} p={2} {...this.state}>
+          <CustomColumn sm='12' md='4' lg='2' {...this.state}>
 
-            <SearchInputControl 
-              handleChange={this.handleChange} 
-              placeholder="Search for news items..."
-              name="news"
-            />
+            <form autoComplete='off'>
+
+              <SearchInputControl 
+                handleChange={this.handleChange} 
+                placeholder="Search for news items..."
+                name="news"
+              />
+
+            </form>
 
             <Flex wrap column align='top' justify='left' m={1} w={1} p={1} style={{ borderLeft: 'solid #fff000'}}>
 
@@ -60,7 +65,7 @@ class News extends Component {
 
           </CustomColumn>
 
-          <CustomColumn w={1/2} p={1} onClick={this.toggleMainItem} {...this.state}>
+          <CustomColumn sm='12' md='8' lg='9' onClick={this.toggleMainItem} {...this.state}>
 
             <NewsListItem {...this.props} />
 
@@ -70,11 +75,7 @@ class News extends Component {
 
           </CustomColumn>
 
-          <CustomColumn w={1/5} p={3}>
-            
-          </CustomColumn>
-
-        </Flex>
+        </Row>
       </Fragment>
     );
 

@@ -9,7 +9,7 @@ const NewsItemDetails = ({headline, summary, time, editor, classes}) => {
     
     return (
         <>
-            <div className="container">
+            <div className="container" style={{ marginTop: '30px' }}>
                 <div>
                     <h4 className={classNames(classes.headline, "heading")}>
                         Information clearing house, Department of Energy
@@ -21,7 +21,7 @@ const NewsItemDetails = ({headline, summary, time, editor, classes}) => {
 
                     <Divider style={{ margin: '20px' }} />
                 </div>
-                <Typography>
+                <p>
                     The Project Developer should submit a Concept Note to the Rural 
                     Energy Agency (REA) in order to get a preliminary assessment of 
                     whether the planned project is eligible for support from the 
@@ -34,7 +34,7 @@ const NewsItemDetails = ({headline, summary, time, editor, classes}) => {
                     (MAREP); existing off-grid systems; population centres; renewable energy resource
                     information; infrastructure; location of government public service institutions; location
                     of other rural infrastructure, land use, environmental and social issues.
-                </Typography>
+                </p>
 
                 <Divider style={{ margin: '20px', width: '35%' }} />
 

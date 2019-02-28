@@ -19,6 +19,7 @@ import NotificationsIcon from '@material-ui/icons/NotificationImportant'
 import Settings from '@material-ui/icons/Settings'
 import LogoutIcon from '@material-ui/icons/AccountCircle';
 import HomeIcon from '@material-ui/icons/Home';
+import FAQIcon from '@material-ui/icons/Home';
 
 const drawer_controls = [
     { name: 'home', button: <HomeIcon />},
@@ -28,7 +29,8 @@ const drawer_controls = [
     { name: 'library', button: <DocumentIcon/>},
     { name: 'gis', button: <GisIcon/>},
     { name: 'news', button: <NewsIcon/>},
-    { name: 'contact', button: <ContactIcon/>}
+    { name: 'contact', button: <ContactIcon/>},
+    { name: 'faqs', button: <FAQIcon />}
 ];
 
 const config = [

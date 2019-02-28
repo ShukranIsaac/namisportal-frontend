@@ -13,9 +13,9 @@ import React, { Fragment } from "react";
  */
 const  SearchInputControl = ({ placeholder, name, handleChange }) => {
 
-    return <>
+    return (
       <Fragment>
-        <div className="form-group row" style={{ margin: '15px' }}>
+        <div className="form-group col-lg-12 col-sm-12">
           <div className="bp3-input-group">
             <span className="bp3-icon bp3-icon-search"></span>
             <input
@@ -28,7 +28,7 @@ const  SearchInputControl = ({ placeholder, name, handleChange }) => {
           </div>
         </div>
       </Fragment>
-    </>
+    );
 
 }
 
