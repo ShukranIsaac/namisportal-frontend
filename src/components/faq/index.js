@@ -12,6 +12,12 @@ import { NoDataCard } from '../card.text';
 import { QuestionListItem } from './question.item';
 import QuestionCategory from './question.category';
 
+/**
+ * Frequently asked questions
+ * 
+ * @author Isaac S. Mwakabira
+ * 
+ */
 class FAQ extends Component {
 
   componentDidMount() {
