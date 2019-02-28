@@ -12,8 +12,8 @@ import { Row } from 'reactstrap';
 export const QuestionListItem = ({ question }) => {
 
     if (question !== null) {
-        console.log(question)
-        
+        // console.log(question)
+
         return (
             <Row>
                       

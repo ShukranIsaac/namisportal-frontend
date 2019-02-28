@@ -73,7 +73,7 @@ class FAQ extends Component {
     
                 {
                   subCategories.length !== 0 && subCategories.map((category, index) => {
-                    console.log(category);
+                    // console.log(category);
 
                     // if this category has question rener, else don't
                     if(category.subCategories.length !== 0) {
@@ -144,6 +144,7 @@ const mapDispatchToProps = (dispatch) => {
   
   return {
     fetchFAQuestions: (name) => { dispatch(CMSAction.fetchCategory(name)) },
+    subCategory: (id) => { dispatch(CMSAction.fetchSubCategory(id)) },
   }
   
 }
