@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import FormControl from '@material-ui/core/FormControl';
 import { InputBase, InputLabel } from '@material-ui/core';
 
@@ -26,7 +27,7 @@ const RenderBootstrapField = ({
 
     return (
       <Fragment>
-        <FormControl className={[classes.margin, classes.inputFillWhole]}>
+        <FormControl className={classNames(classes.margin, classes.inputFillWhole)}>
           <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
             {label}
           </InputLabel>

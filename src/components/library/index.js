@@ -7,7 +7,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-
 import Tarrifs from './Tarrifs';
 import './library.css'
 import Toolkits from './Toolkits';
@@ -29,6 +28,7 @@ const styles = theme => ({
 });
 
 class Library extends Component {
+
   state = {
     value: "tarrifs"
   };
@@ -38,7 +38,9 @@ class Library extends Component {
     this.props.fetchLibrary(this.state.value);
 
   }
-  handleChange = (event, value) => {  
+
+  handleChange = (event, value) => { 
+    console.log(value) 
     this.setState({ value });
     this.props.fetchLibrary(value);
   };
@@ -51,8 +53,10 @@ class Library extends Component {
 
     });
 
-}
+  }
+
   render() {
+
     const { classes } = this.props;
     const { value } = this.state;
 
@@ -75,7 +79,7 @@ class Library extends Component {
                     > 
                       <Tab label="Tarrifs" value='tarrifs'/>
                       <Tab label="Financing" value='financing'/>
-                      <Tab label="Policies and Strategies" value='policies_stratigy'/>
+                      <Tab label="Policies and Strategies" value='policy_strategy'/>
                       <Tab label="Deployment Toolkit" value='toolkit'/>
                       <Tab label="Legal and Regulatory Frameworks" value='legal_regulatory_frameworks'/>
                       <Tab label="Resource Plan" value='resource_plan'/>
@@ -84,7 +88,7 @@ class Library extends Component {
 
                   {value === 'tarrifs' && <Tarrifs {...this.props} renderDocuments={this.renderDocuments}/>}
                   {value === 'financing' && <Financing {...this.props} renderDocuments={this.renderDocuments}/>}
-                  {value === 'policies_stratigy' && <PoliciesStratigies {...this.props} renderDocuments={this.renderDocuments}/>}
+                  {value === 'policy_strategy' && <PoliciesStratigies {...this.props} renderDocuments={this.renderDocuments}/>}
                   {value === 'toolkit' && <Toolkits {...this.props} renderDocuments={this.renderDocuments}/>}
                   {value === 'legal_regulatory_frameworks' && <LegalRegFrameworks {...this.props} renderDocuments={this.renderDocuments}/>}
                   {value === 'resource_plan' && <ResourcePlan {...this.props} renderDocuments={this.renderDocuments}/>}

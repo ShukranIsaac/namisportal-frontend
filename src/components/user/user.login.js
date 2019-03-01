@@ -201,9 +201,7 @@ class UserLogin extends Component {
                         </div>
                         <div className="margin-fix">
 
-                        <Button type="submit" disabled={!valid  || pristine || submitting} color="success">Login</Button>
-
-                          
+                          <Button type="submit" disabled={!valid  || pristine || submitting} color="success">Login</Button>
 
                         </div>
                       </form>
@@ -215,17 +213,17 @@ class UserLogin extends Component {
                     <div className='info-card-wrapper'>
                         <Card>
                           <CardBody>
+
                             <p style={{textAlign: 'center', marginBottom: 'unset'}}>
                               Don't have an account? 
                               <span>
                                 <Link 
                                   to="/register" 
-                                  onClick={ redirect.to({ url: '/register' })}> Register
+                                  onClick={ () => redirect.to({ url: '/register' }) }> Register
                                 </Link>
                               </span>
                             </p>
                             
-                              
                           </CardBody>
                         </Card>
                     </div>

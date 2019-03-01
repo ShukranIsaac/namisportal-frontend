@@ -14,11 +14,13 @@ import { get, post, upload } from './api.service';
  * @returns {Array} category
  */
 const filterDocLibrary = (docs, category_name) => {
-
+   
     return (Object.entries(docs).filter((category) => {
 
         if (category[0] === category_name) {
-          return category;
+            
+            return category;
+
         }
 
         return null;
@@ -75,31 +77,14 @@ export const fetchLibraryCategory = (category) => {
 }
 
 export const fetchLibrary = (category) => {
+    // console.log(category)
+    const url = `/categories`;
 
-    const url = `/gis`;
-
-    const headers = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': Config.ACCESS_ALLOW_ORIGIN,
-        },
-    }
-
-    return (dispatch) => {
+    return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return fetch(url, new Headers(headers)).then((response) => {
-  
-            if (response.status !== 200) {
-                throw Error(response.statusText);
-            }
-      
-            dispatch(GeneralAction.isLoading(false));
-      
-            return response;
-        })
+        return await get(dispatch, url)
         
         .then((response) => {
 
@@ -113,7 +98,12 @@ export const fetchLibrary = (category) => {
 
         })
         
-        .catch(() => dispatch(GeneralAction.hasErrored(true)));
+        .catch((error) => {
+
+            console.log(error)
+            dispatch(GeneralAction.hasErrored(true))
+            
+        });
     };
 
 }
@@ -177,7 +167,7 @@ export const uploadFile = (category_id, data, token) => {
 
         .then(response => {
 
-            console.log(response)
+            // console.log(response)
             dispatch(GeneralAction.fetchSuccess(LibraryType.UPLOAD_FILE, response, false));
 
         })
