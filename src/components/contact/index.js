@@ -24,7 +24,7 @@ class Contact extends Component {
                     <h4><strong>Contact Us</strong></h4>
                     <p>
                       The Working Group welcomes questions and comments about this site.
-                      Please use the form below or contacts here given to contact us.
+                      Please use the email, physical address or form below to contact us.
                     </p>
                     <p>
                       <br />
