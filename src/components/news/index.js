@@ -59,8 +59,6 @@ class News extends Component {
 
               <a href="/contact"><FormLegendField value="Contact us"/></a>
 
-              <a href="/contact"><FormLegendField value="Support"/></a>
-
             </Flex>
 
           </CustomColumn>
