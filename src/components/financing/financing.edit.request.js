@@ -92,7 +92,6 @@ class EditFinancingRequestSupport extends Component {
         if (subcategory !== null) {
             // get all category subcategories
             const { subCategories } = subcategory;
-            console.log(subCategories);
             
             if (subCategories.length !== 0) {
                 

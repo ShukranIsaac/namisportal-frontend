@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { 
-  Container,Card, CardBody, CardImg, Col, Row, 
-  Pagination, PaginationItem, PaginationLink 
+  Container,Card, CardBody, CardImg, Col, Row, Pagination, PaginationItem, PaginationLink 
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -47,9 +46,9 @@ class Directory extends Component {
                 <div style={{margin: '2.5px 0'}}>
                   <Card className={classes.headerCard}>
                       <CardBody className={classes.paddindUnset}>
-                      <h5><strong>Directory</strong></h5>
+                        <h5><strong>Directory</strong></h5>
                         <p>
-                          Here a list of some of the stakeholders we work together with
+                          Here is a list a list of some of the stakeholders we work together with
                         </p>
                       </CardBody>
                     </Card>

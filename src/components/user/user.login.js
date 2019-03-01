@@ -156,21 +156,13 @@ class UserLogin extends Component {
                         <div style={{textAlign: 'center'}}>
                           <CardImg src={require("../../../src/assets/img/malawi.png")}/>
                           <p>
-                          Department of Energy, Ministry of Energy and Natural Resources
+                            Department of Energy Affairs, Ministry of Energy and Natural Resources
                           </p>
                         </div>
                         
 
                         <form className={{style: 'center'}} onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
                           <div className='margin-fix'>
-                            {/* <label htmlFor="first-name">Your first name:</label>
-                            <Field
-                              name="firstName"
-                              type="text"
-                              component={this.newField}
-                              id="first-name"
-                              placeholder="shukurani"
-                            /> */}
 
                             <Field name="username" component={props => {
                               

@@ -11,13 +11,21 @@ import * as CMSAction from '../../actions/cms.action';
  * Renders financing component
  * 
  * @author Paul Sembereka (Pablo)
+ * @author Isaac S. Mwakabira
  * 
  */
 class Financing extends Component {
 
   componentDidMount() {
+
+    // check if we already data for this category in state
+    if(this.props.subcategory !== null) {
+
+    }
+
     // fetch category
     this.props.category('Financing');
+
   }
 
   render(){
@@ -31,6 +39,7 @@ class Financing extends Component {
       }
 
       if(subcategory.subCategories[0] !== undefined ){
+
         return (
           <div className = "page-content">
             <Container>
@@ -43,12 +52,13 @@ class Financing extends Component {
                   </Card>
               </Row>
             </Container>
-            
-          </div>
-            
+          </div> 
         );
+
       }else{
+
         return <div className="loader" />
+
       }
           
     
