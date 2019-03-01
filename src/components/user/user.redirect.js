@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 /**
  * Directs the user to the right route depending 
@@ -30,20 +30,11 @@ export const redirect = (() => {
      * 
      * @param {String} url 
      */
-    const toExternalLink = ({ url }) => {
+    const toExternalLink = ({ url, event }) => {
 
         // redirect to external link
-        return (
-            <Link 
-                to={ url } 
-                target="_blank" 
-                onClick={ event => {
-                        event.preventDefault(); 
-                        window.open(url);
-                    }
-                } 
-            />
-        );
+        event.preventDefault()
+        return window.open(url);
 
     }
 
