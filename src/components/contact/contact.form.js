@@ -36,7 +36,7 @@ class ContactForm extends Component {
 
     handleSubmit = (event, values) => {
 
-      // event.preventDefault();
+      event.preventDefault();
       console.log(values);
 
     }

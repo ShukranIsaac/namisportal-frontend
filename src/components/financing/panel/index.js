@@ -38,16 +38,7 @@ class Panel extends Component{
             marginBottom: '10px',
             textAlign: 'left'
         }
-
-        // const alignCenter = {
-        //     textAlign: 'center'
-        // }
-
-        // const list = {
-        //     listStyle: 'numbered'
-        // }
         
-        // const factsBack = { background: '#D8E1E8'}
         let { heading, text } = this.props;
 
         return (
@@ -60,9 +51,9 @@ class Panel extends Component{
                 </Callout>
                 
                 <Collapse isOpen={this.state.isOpen}>   
-                <Card interactive={true} elevation={Elevation.ZERO}>
-                    {text}
-                </Card>
+                    <Card interactive={true} elevation={Elevation.ZERO}>
+                        {text}
+                    </Card>
               </Collapse>
             </div>
         )

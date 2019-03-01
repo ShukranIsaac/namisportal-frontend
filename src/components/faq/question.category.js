@@ -43,7 +43,9 @@ export default class QuestionCategory extends Component {
 
                 <Callout onClick={this.handleClick} style={button} rightIcon="download">
                     <div style={{ alignSelf: 'flex-start'}}>{ (index + 1) + '. ' + name }</div>
-                    <div style={{marginLeft: 'auto'}}> <Icon icon="download"/> </div>
+                    <div style={{marginLeft: 'auto'}}>
+                       { this.state.isOpen ? <Icon icon="remove"/> : <Icon icon="add"/>} 
+                    </div>
                 </Callout>
 
                 <Collapse isOpen={this.state.isOpen}>
