@@ -49,7 +49,7 @@ class ContactForm extends Component {
 
         this.props.contactUs(contact_us , UserProfile.token);
         // then redirect user accordingly
-        return redirect.to({ url: `/faqs` })
+        return redirect.to({ url: `/faq` })
       }
 
     }
