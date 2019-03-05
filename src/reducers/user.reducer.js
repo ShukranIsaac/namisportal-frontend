@@ -2,6 +2,8 @@ import { UserType } from '../action_type/index';
 
 const initialState = {
     user: null,
+    contact_us: null,
+    contact: null,
 }
 
 const user = (state = initialState, action) => {
@@ -25,6 +27,18 @@ const user = (state = initialState, action) => {
             return {
                 ...state,
                 user: action.payload
+            }
+
+        case UserType.REQUEST_USER_CONTACT_US:
+            return {
+                ...state,
+                contact_us: action.payload
+            }
+
+        case UserType.REQUEST_USER_CONTACT:
+            return {
+                ...state,
+                contact: action.payload
             }
 
         default:

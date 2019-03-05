@@ -1,13 +1,22 @@
 import React, { Component, Fragment } from 'react';
 import { Card, CardBody, Row, Container } from 'reactstrap'
-
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import ContactForm from './contact.form';
 import './style.css'
 
+import * as UserAuthAction from '../../actions/user.action';
+
 class Contact extends Component {
+
+  componentDidMount() {
+
+    // fetch
+    this.props.fetchContact('Contact');
+
+  }
 
   render(){
 
@@ -46,7 +55,7 @@ class Contact extends Component {
                 <Card className={classes.width100}>
                   <CardBody>
                     <h4 style={{textAlign: 'center'}}>Feel free to ask anything</h4>
-                    <ContactForm />
+                    <ContactForm { ...this.props } />
                   </CardBody> 
                 </Card>
             </Row>
@@ -57,6 +66,27 @@ class Contact extends Component {
     );
 
   }
+}
+
+const mapStateToProps = (state) => {
+    
+  return {
+      contact_us: state.user.contact_us,
+      contact: state.user.contact,
+  };
+
+}
+
+const mapDispatchToProps = (dispatch) => {
+
+  return {
+      // fetch contact details
+      fetchContact: (name) => { dispatch(UserAuthAction.fetchContact(name)) },
+      // contact us message, don't authenticate this route
+      // since any user of the system can send a message.
+      contactUs: (data, user) => { dispatch(UserAuthAction.contact(data, user)) },
+  };
+
 }
 
 const styles = theme => ({
@@ -89,4 +119,4 @@ Contact.propTypes = {
   classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(Contact);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Contact));

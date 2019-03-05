@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 
-import { Collapse } from '@blueprintjs/core';
+// import { Collapse } from '@blueprintjs/core';
 
 class NewsListItem extends Component {
 
@@ -50,7 +50,7 @@ class NewsListItem extends Component {
                     whether the planned project is eligible for support from the 
                     REA. The Concept note should, inter alia, include:
                 </p>
-                <Collapse isOpen={this.state.isOpen}>   
+                {/* <Collapse isOpen={this.state.isOpen}>   
                     <p>
                         An information portal is a customized website that immerses information from a wide
                         range of sources in a consistent and uniform manner. For this purpose, UNDP and
@@ -61,18 +61,12 @@ class NewsListItem extends Component {
                         information; infrastructure; location of government public service institutions; location
                         of other rural infrastructure, land use, environmental and social issues.
                     </p>
-                </Collapse>
+                </Collapse> */}
                 <h6 style={{ marginTop: '0px' }}>
-                    <a 
-                        href="/#"
-                        onClick={(e) => this.toggleNewsItem(e)} 
-                        className={classes.moreOrLess}
-                    >
-                        { 
-                            !this.state.isOpen ? 
-                                <div><em>more...</em></div> : <em><div>less...</div></em>
-                        }
-                    </a>
+                    { 
+                        // !this.state.isOpen ? <div></div> : <em><div>less...</div></em>
+                        <NavLink to="/news/e8g9tyjGh"><em>more...</em></NavLink>
+                    }
                 </h6>
 
                 <Divider style={{ margin: '20px' }} />

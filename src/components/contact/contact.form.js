@@ -12,6 +12,8 @@ import AsyncValidate from './form.async-validate';
 import Validate from './email.validate';
 
 import styles from './form.styles';
+import { UserProfile } from '../user/user.profile';
+import { redirect } from '../user/user.redirect';
 
 class ContactForm extends Component {
 
@@ -29,15 +31,26 @@ class ContactForm extends Component {
     }
 
     handleChange = (event) => {
+
       this.setState({[event.target.name]: event.target.value});
-      console.log('hello')
 
     } 
 
-    handleSubmit = (event, values) => {
+    handleSubmit = (values) => {
 
-      event.preventDefault();
-      console.log(values);
+      // console.log(values);
+      if(values !== null && values !== undefined) {
+        // define sub-category structure
+        const contact_us = {
+            fullname: values.fullname,
+            email: values.email,
+            message: values.message
+        }
+
+        this.props.contactUs(contact_us , UserProfile.token);
+        // then redirect user accordingly
+        return redirect.to({ url: `/faqs` })
+      }
 
     }
 
@@ -49,7 +62,7 @@ class ContactForm extends Component {
           
           <form 
             className={{style: 'center'}} 
-            onSubmit={ (e) => handleSubmit(values => this.handleSubmit(e, values)) } 
+            onSubmit={ handleSubmit(values => this.handleSubmit(values)) } 
             autoComplete="off"
           >
             <Container>
@@ -61,11 +74,10 @@ class ContactForm extends Component {
                       return (
                         <RenderBootstrapField
                           { ...this.props }
-                          label='Full name'
-                          defaultValue= "Your full name..."
+                          label='Fullname'
+                          defaultValue= "Your fullname..."
                           name="fullname"
                           type="text"
-                          onChange={ this.handleChange }
                           props={ input }
                           className='test-this'
                         />
@@ -86,7 +98,6 @@ class ContactForm extends Component {
                           defaultValue= "Your email..."
                           name="email"
                           type="email"
-                          onChange={ this.handleChange }
                           props={ input }
                         />
                       );
@@ -106,7 +117,6 @@ class ContactForm extends Component {
                           defaultValue= "Your message..."
                           name="message"
                           type="text"
-                          onChange={ this.handleChange }
                           props={ input }
                         />
                       );
