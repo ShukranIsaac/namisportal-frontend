@@ -29,7 +29,7 @@ export const ListHomeSubcategory = ({
                 />
     
                 {/* <Divider /> */}
-                <div className='app-sections'>
+                <div className='app-sections' style={{ marginTop: '-53px' }}>
                     <Row>
 
                         {

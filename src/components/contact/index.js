@@ -14,7 +14,7 @@ class Contact extends Component {
   componentDidMount() {
 
     // fetch
-    this.props.fetchContact('Contact');
+    // this.props.fetchContact('Contact');
 
   }
 

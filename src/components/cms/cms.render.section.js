@@ -21,6 +21,9 @@ import CreateHomeSubcategory from '../home/home.add.subcategory';
 import { ListFinancingRequests } from '../financing/financing.list.requests';
 import EditFinancingRequestSupport from '../financing/financing.edit.request';
 import LicensingProcess from '../licensing/licensing.process';
+import CreateContactDetails from '../contact/contact.create.form';
+import ContactShowDetails from '../contact/contact.show.details';
+import EditContactDetails from '../contact/contact.edit.form';
 
 /**
  * Renders a single section resource i.e. licencing, library at cms index
@@ -230,9 +233,9 @@ const RenderSection = ({
             // Get logged in user, then remove from local storage
             const user = UserProfile.get();
             if(user !== undefined && user !== null) {
-
+                // logout user
                 props.logout(user);
-                
+                // redirect the user to login
                 return redirect.to({ url: `/login` });
 
             } else {
@@ -243,7 +246,25 @@ const RenderSection = ({
 
         case 'notifications':
         case 'settings':
+            
+            return <Fragment />
+
         case 'contact':
+            
+            return (
+                <Fragment>
+
+                    <ResourceSection 
+                        option={props.user_event} 
+                        name="contact" 
+                        List={ () => <ContactShowDetails handleClick={ (e) => handleClick(e) } handleChange={ e => handleChange(e) } /> }
+                        Edit={ () => <EditContactDetails handleClick={ (e) => handleClick(e) } /> }
+                        Create={ () => <CreateContactDetails handleClick={ (e) => handleClick(e) } /> }
+                    />
+
+                </Fragment>
+            );
+
         default: {
 
             return (
