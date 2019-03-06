@@ -21,7 +21,7 @@ export const redirect = (() => {
     const to = ({ url, from }) => {
         
         // redirect to  this url 
-        return <Redirect to={{ pathname: url, state: { referer: from } }} />;
+        return <Redirect to={{ pathname: url, location: { state: from } }} />;
         
     };
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Callout } from '@blueprintjs/core';
 
 /**
  * Card to show when there is no data from the API
@@ -6,11 +7,14 @@ import React from 'react';
  * @author Isaac S. Mwakabira
  * @param {String} text 
  */
-export const NoDataCard = ({ text }) => {
+export const NoDataCard = ({ text, header, intent }) => {
 
     return (
-        <div className="card" style={{ background: '#dcdde1',  marginBottom: '30px' }}>
-            <div className="card-body" style={{ padding: '20px' }}> { text } </div>
+        <div>
+            <Callout iconName='infor-sign' intent={ intent }>
+                <h6>{ header }</h6>
+                { text }
+            </Callout>
         </div>
     );
 

@@ -11,30 +11,41 @@ class Item extends Component {
 
     const { classes, stakeholders_list } = this.props;
     // console.log(this.props)
-    return (
-      <Row>
-        <Col lg='12'>
-          <div style={{margin: '2.5px 0'}}>
-            <Card id={stakeholders_list && stakeholders_list[0]._id} className={classes.card}>
-              <CardBody className={classes.paddindUnset}>
-                <div style={{  display: 'grid', gridTemplateColumns: '20% 80%'}}>
-                  <CardImg src={require("../../../src/assets/img/malawi.png")}/>
-                  <div>
-                    <h4>
-                      <a href={`${ '/directory/' + stakeholders_list[0].name }`} onClick={ (e) => this.props.handleClick(e) }>
-                        { stakeholders_list && stakeholders_list[0].name }
-                      </a>
-                    </h4>
-                    <p>{ stakeholders_list && stakeholders_list[0].about }</p>
+
+    if(stakeholders_list !== null && stakeholders_list !== undefined) {
+
+      return (
+        <Row>
+          <Col lg='12'>
+            <div style={{margin: '2.5px 0'}}>
+              <Card id={ stakeholders_list[0]._id} className={classes.card}>
+                <CardBody className={classes.paddindUnset}>
+                  <div style={{  display: 'grid', gridTemplateColumns: '20% 80%'}}>
+                    <CardImg src={require("../../../src/assets/img/malawi.png")}/>
+                    <div>
+                      <h4>
+                        <a href={`${ '/directory/' + stakeholders_list[0].name }`} onClick={ (e) => this.props.handleClick(e) }>
+                          { stakeholders_list[0].name }
+                        </a>
+                      </h4>
+                      <p>{ stakeholders_list[0].about }</p>
+                    </div>
                   </div>
-                </div>
-              </CardBody>
-            </Card>
-          </div>
-        </Col>
-      </Row> 
-    );
+                </CardBody>
+              </Card>
+            </div>
+          </Col>
+        </Row> 
+      );
+
+    } else {
+
+      return <div className="loader" />
+      
+    }
+    
   }
+
 }
 
 const styles = theme => ({

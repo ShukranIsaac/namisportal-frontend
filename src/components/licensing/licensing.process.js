@@ -13,6 +13,7 @@ import styles from '../contact/form.styles';
 import { UserProfile } from '../user/user.profile';
 
 import MultiStepForm from '../forms/form.multistep';
+import { BusinessEntity, EnvironmentalClearance } from './process';
 
 /**
  * A multi-step form component for the user to fill when applying or 
@@ -28,10 +29,10 @@ class LicensingProcess extends Component {
 	 *
 	 * @param {Event} event
 	 */
-    handleChange = (event) => {
-        
-        this.setState({[event.target.name]: event.target.value});
-  
+    handleChange= (event) => {
+
+        this.setState({ [event.target.name]: event.target !== 'value' ? event.target.files : event.target.value });
+        console.log(this.state)
     }
 
     handleSubmit = (values) => {
@@ -62,6 +63,14 @@ class LicensingProcess extends Component {
         
     }
 
+    /**
+     * Actual components on each step
+     */
+    components = [
+        { 'component': <BusinessEntity /> },
+        { 'component': <EnvironmentalClearance /> },
+    ];
+
     render() {
 
         const { classes, handleClick, handleSubmit } = this.props;
@@ -87,26 +96,11 @@ class LicensingProcess extends Component {
 
                         <Divider />
 
-                        {/* <Field 
-                            name='about'
-                            component={ input => {
-                                return (
-                                    <RenderBootstrapField
-                                        classes={ classes }
-                                        id="about"
-                                        label='Summary'
-                                        defaultValue="New sub-category about..."
-                                        name="about"
-                                        type="text"
-                                        props={ input }
-                                    />
-                                );
-                            }}
-                            multiline={true}
-                            rows="10"
-                        /> */}
-
-                        <MultiStepForm steps={ steps } { ...this.props } />
+                        <MultiStepForm 
+                            steps={ steps } { ...this.props }
+                            handleChange={ this.handleChange } 
+                            components={ this.components }
+                        />
 
                         <div className={ classes.margin } />
                         <div className={ classes.margin } />

@@ -11,6 +11,7 @@ import * as CMSAction from '../../actions/cms.action';
 import { NoDataCard } from '../card.text';
 import { QuestionListItem } from './question.item';
 import QuestionCategory from './question.category';
+import { Intent } from '@blueprintjs/core';
 
 /**
  * Frequently asked questions
@@ -34,12 +35,12 @@ class FAQ extends Component {
   render(){
 
     const { questions } = this.props;
-    const text = "These are some of the previously or frequently asked questions. If not helped please contact us through the link given."
+    const text = "The following are some of the frequently asked questions. If you have not been helped, please contact us through the link given."
     
     if(questions !== null && questions !== undefined) {
 
       const { subCategories } = questions;
-
+      // check if subcategories is not null, ie. has data
       if(subCategories !== null || subCategories.length !== 0) {
 
         return (
@@ -59,9 +60,9 @@ class FAQ extends Component {
     
               <CustomColumn sm='12' md='12' lg='10'>
     
-                <NoDataCard text={ text } />
+                <NoDataCard text={ text } header={ `Frequently asked questions` } intent={Intent.PRIMARY} />
     
-                <form autoComplete='off'>
+                <form autoComplete='off' style={{ marginTop: '20px' }}>
     
                   <SearchInputControl 
                     handleChange={this.handleChange} 
@@ -75,7 +76,7 @@ class FAQ extends Component {
                   subCategories.length !== 0 && subCategories.map((category, index) => {
                     // console.log(category);
 
-                    // if this category has question rener, else don't
+                    // if this category has question render, else don't
                     if(category.subCategories.length !== 0) {
 
                       return (
@@ -86,7 +87,7 @@ class FAQ extends Component {
 
                               return <QuestionListItem question={ question } />
 
-                            }) : <NoDataCard text={ 'No data' } />
+                            }) : <NoDataCard header={ `'No data'` } intent={Intent.WARNING} />
                           }
   
                         </QuestionCategory>
@@ -95,9 +96,9 @@ class FAQ extends Component {
                     } else {
 
                       return (
-                        <QuestionCategory index={ index } name={ category.name } >
+                        <QuestionCategory index={ index } name={ category.name }>
   
-                          <NoDataCard text={ 'No questions' } />
+                          <NoDataCard header={ 'No questions' } intent={Intent.WARNING} />
   
                         </QuestionCategory>
                       );
@@ -115,10 +116,9 @@ class FAQ extends Component {
           </>
         );
 
-        
       } else {
 
-        return <NoDataCard text="There are no questions to show. Please contact us!!" />
+        return <NoDataCard header="There are no questions to show. Please contact us!!" intent={Intent.SUCCESS} />
 
       }
 

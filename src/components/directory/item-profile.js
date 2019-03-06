@@ -14,8 +14,10 @@ import './directory.css'
 class ItemProfile extends Component {
   
   render(){
+
     const { classes } = this.props;
     console.log(this.props)
+
     return (
         <div>
             <Jumbotron>
@@ -40,7 +42,6 @@ class ItemProfile extends Component {
                 <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
                 
             </Jumbotron>
-
 
             <Row className={classes.contactCards}>
                 <Col lg='3' md='12' sm='12'>

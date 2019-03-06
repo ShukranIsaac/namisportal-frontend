@@ -1,15 +1,10 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 // import { reduxForm } from 'redux-form';
 import { Button } from '@blueprintjs/core';
 
 import '../../assets/css/process_tracker.css';
 
-import { 
-    BusinessEntity,
-    EnvironmentalClearance, 
-    LandClearance, 
-    MinigridLicensingApplication
-} from '../licensing/process';
+import { RenderStepComponent } from './form.steps.component';
 
 /**
  * Gets current nav stage state
@@ -92,7 +87,7 @@ class MultiStepForm extends Component {
         showSaveButton: false,
         compState: 0,
         navState: getNavStates(0, this.props.steps.length),
-        formFields: {},
+        formFields: null,
     }
 
     /**
@@ -124,18 +119,6 @@ class MultiStepForm extends Component {
         if (evt.which === 13) {
             // this.next()
         }
-
-    }
-
-    /**
-     * Handle user event change
-     * 
-     * @param {Event} event
-     * 
-     */
-    handleChange= (event) => {
-
-        this.setState({ [event.target.name]: event.target !== 'value' ? event.target.files : event.target.value });
 
     }
 
@@ -209,7 +192,7 @@ class MultiStepForm extends Component {
         return (() => {
             // fieldValues is in the initial state of the component, we are simply appending
             // to and overriding keys in `fieldValues` with the `fields` with Object.assign
-            this.setState({ fieldValues: Object.assign({}, this.state.fieldValues, fields) });
+            Object.assign(...this.state, { fieldValues: fields });
         })();
 
     }
@@ -218,64 +201,10 @@ class MultiStepForm extends Component {
      * Submit to the remote datasource
      * 
      */
-    submit = (values) => {
+    submit = ({ fieldValues }) => {
 
-        console.log(values);
+        console.log(fieldValues);
         
-    }
-
-    /**
-     * Each case renders a specific component
-     * and expecting the user to supplies all required field data before saving 
-     * to continue to the next stage in the process of finance application
-     * 
-     * @param {Integer} state
-     * 
-     */
-    renderComponent = (state) => {
-
-        switch(state) {
-            case 0:
-                return (
-                    <Fragment>
-                        <BusinessEntity next={ this.next } />
-                    </Fragment>
-                );
-
-            case 1:
-                return (
-                    <Fragment>
-                        <EnvironmentalClearance 
-                            next={ this.next }
-                            handleChange={ this.handleChange }
-                        />
-                    </Fragment>
-                );
-
-            case 2:
-                return (
-                    <Fragment>
-                        <LandClearance next={ this.next } />
-                    </Fragment>
-                );
-
-            case 3:
-                return (
-                    <Fragment>
-                        <MinigridLicensingApplication next={ this.next } />
-                    </Fragment>
-                );
-
-            default: {
-
-                return (
-                    <Fragment></Fragment>
-                );
-
-            }
-                
-        }
-
     }
 
     /**
@@ -283,19 +212,14 @@ class MultiStepForm extends Component {
      */
     render () {
         
-        const { 
-            classes, 
-            handleClick, 
-            valid, pristine, 
-            submitting,
-        } = this.props;
+        const { classes, handleClick, handleChange, valid, pristine, submitting } = this.props;
 
         return (
             <div onKeyDown={this.handleKeyDown}>
 
                 <ol className='progtrckr'> {this.renderSteps()} </ol>
 
-                {this.renderComponent(this.state.compState)}
+                    <RenderStepComponent next={ this.next } state={ this.state.compState } handleChange={ handleChange } />
 
                 <div style={this.props.showNavigation ? {} : { display: 'none' }}>
 

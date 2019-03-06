@@ -90,11 +90,7 @@ const RenderSection = ({
                     <ResourceSection 
                         option={props.user_event} 
                         name="licensing"
-                        List={ () => <LicensingProcess 
-                                handleClick={ (e) => handleClick(e) }
-                                { ...props }
-                            /> 
-                        }
+                        List={ () => <LicensingProcess handleClick={ (e) => handleClick(e) } { ...props } /> }
                     />
 
                 </Fragment>

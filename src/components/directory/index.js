@@ -58,17 +58,17 @@ class Directory extends Component {
             <Row>
               <Col lg='12'>
                 <div style={{margin: '2.5px 0'}}>
-                  <Card id={stakeholders_list && stakeholders_list[1]._id} className={classes.card} >
+                  <Card id={ stakeholders_list[1]._id} className={classes.card} >
                     <CardBody className={classes.paddindUnset}>
                       <div style={{  display: 'grid', gridTemplateColumns: '20% 80%'}}>
                         <CardImg src={require("../../../src/assets/img/escom-logo.png")}/>
                         <div>
                           <h4>
                             <a href={`${ '/directory/' + stakeholders_list[1].name }`} onClick={ (e) => this.handleClick(e) }>
-                              { stakeholders_list && stakeholders_list[1].name }
+                              { stakeholders_list[1].name }
                             </a>
                           </h4>
-                          <p>{ stakeholders_list && stakeholders_list[1].about }</p>
+                          <p>{ stakeholders_list[1].about }</p>
                         </div>
                       </div>
                     </CardBody>

@@ -37,6 +37,8 @@ Goals(s) - next update[Thur 7 Jan. 2019]:
     c.  
 
 
-    comments:
-
-    1.  Below logo(login page), Department of Energy, Ministry of Energy and Natural Resources
+    Tomorrow
+    0.  Edit stakeholder: upload image, other details
+    1.  Directory on item click
+    2.  Contact page; link with api and render contact details
+    3.  
