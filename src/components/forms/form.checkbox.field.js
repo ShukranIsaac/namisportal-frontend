@@ -27,6 +27,7 @@ export const FormCheckboxControl = ({
     name,
     checked, 
     label, 
+    isChecked,
     handleChange 
 }) => {
 
@@ -39,10 +40,12 @@ export const FormCheckboxControl = ({
                     value={ value }
                     color={ color } 
                     name={ name }
+                    id={ name }
                     classes={{
                         root: classes.root,
                         checked: classes.checked,
                     }}
+                    // indeterminate={ isChecked }
                 />
             }
             label={ capitalize(value) }

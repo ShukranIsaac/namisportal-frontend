@@ -80,7 +80,7 @@ class GridSideBar extends Component {
 
     return gis_filters.filter((region) => {
 
-      if (region.properties.name === this.props.region) {
+      if (region.properties.name === this.props.region_name) {
 
         return region;
 
@@ -100,8 +100,8 @@ class GridSideBar extends Component {
    * 
    */
   renderDistricts = ({gis_filters}) => {
-
-    if (this.props.region !== undefined && this.props.region !== null) {
+    // console.log(gis_filters)
+    if (this.props.region_name !== undefined && this.props.region_name !== null) {
 
       return this.filterDistrictsPerRegion(gis_filters).map(({districts}) => {
 
@@ -217,11 +217,11 @@ class GridSideBar extends Component {
                 <FormControl className={classes.formControl} key="region">
 
                   <SelectInputControl 
-                    name='region' 
+                    name='region_name' 
                     helperText='Select region filter' 
                     {...this.props} 
                     {...this.state}
-                    onChange={ (e) => { this.props.regionChanged(e) } }
+                    onChange={ (e) => { this.props.onChange(e) } }
                   >
 
                     <option value="">{ `${"--Select region--"}` }</option>
@@ -241,7 +241,7 @@ class GridSideBar extends Component {
                     helperText='Select district filter' 
                     {...this.props} 
                     {...this.state}
-                    onChange={ (e) => { this.props.districtChanged(e) } }
+                    onChange={ (e) => { this.props.onChange(e) } }
                   >
 
                     <option value="">{ `${"--Select district--"}` }</option>

@@ -84,7 +84,7 @@ export const fetchGisFilters = () => {
 export const fetchMarepCenters = (district_id) => {
     // api resource url
     const url = `districts/` + district_id + `/marep-centers`;
-    
+    console.log(url);
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
@@ -92,7 +92,7 @@ export const fetchMarepCenters = (district_id) => {
         return await get(dispatch, url)
         
         .then((response) => {
-          
+          // console.log(response);
           dispatch(GeneralAction.fetchSuccess(GisType.FETCH_MAREP_CENTERS, response, false))
 
         })

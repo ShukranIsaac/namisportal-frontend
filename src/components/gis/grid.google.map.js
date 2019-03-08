@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Marker, Polygon, Polyline } from "react-google-maps";
@@ -9,6 +10,8 @@ import PointMarker from './marker'
 
 import './grid.css';
 import { CustomGoogleMap } from './grid.custom.map';
+
+import * as GisAction from '../../actions/index';
 
 /**
  * Main gis grid view
@@ -44,31 +47,135 @@ class MinGridMap extends Component {
     this.setState({h})
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
 
-    // check if props or state changed
-    const { district_name } = this.props;
-    // console.log(district);
-    // IF state.zoom equals 7, district equals to Likoma, then change zoom level to 12
-    if(district_name !== undefined && district_name !== null && district_name  === 'Likoma') {
+      // fetch region
+    this.getRegion(prevProps);
 
-      Object.assign(this.state, { zoom: 12, district_name: district_name });
+    // fetch district
+    this.getDistrict(prevProps);
 
-    } 
+    // console.log(prevProps.region_name)
+    // console.log(prevProps.district_name)
+
+    // if (this.state.meters_checked) {
+
+    //     if (district !== undefined && district !== null && district !== districtDefault) {
+
+    //         fetchMeters(district);
+
+    //     } else if (region_name !== undefined && region_name !== null && region_name !== regionDefault) {
+
+    //         fetchMeters(region_name);
+
+    //     } else {
+
+    //     }
+
+    // }
+
+    // if (this.state.marep_center) {
+
+    //     if (district !== undefined && district !== null && district !== districtDefault) {
+
+    //         fetchMarepCenters(district);
+
+    //     }
+
+    // }
+
+    // if (this.state.distribution_lines) {
+
+    //     if (district !== undefined && district !== null && district !== districtDefault) {
+
+    //         fetchDistributionLines(district);
+
+    //     }
+    // }
+
+    // // check if props or state changed
+    // const { district_name } = this.props;
+    // // console.log(district);
+    // // IF state.zoom equals 7, district equals to Likoma, then change zoom level to 12
+    // if(district_name !== undefined && district_name !== null && district_name  === 'Likoma') {
+
+    //   Object.assign(this.state, { zoom: 12, district_name: district_name });
+
+    // } 
     
-    // IF state.zoom equals 12, district not equals to Likoma, 
-    // then change zoom level to 7
-    if(district_name !== undefined && district_name !== null && district_name  !== 'Likoma') {
+    // // IF state.zoom equals 12, district not equals to Likoma, 
+    // // then change zoom level to 7
+    // if(district_name !== undefined && district_name !== null && district_name  !== 'Likoma') {
 
-      Object.assign(this.state, { zoom: 8});
+    //   Object.assign(this.state, { zoom: 8});
+
+    // }
+
+    // // this.props.clearFilters(this.props);
+    
+  }
+
+  /**
+   * Check if region name is defined and not null and not equal to default value.
+   * Filter the region which was selected and fetch region and all its properties 
+   * from the api using the filtered object id.
+   * 
+   */
+  getRegion = (prevProps) => {
+    // ES6 destructure different objects from state
+    const { region_name, regionDefault } = this.props;
+
+    if (region_name !== undefined && region_name !== null 
+        && region_name.trim() !== '' && region_name !== regionDefault 
+        && region_name !== prevProps.region_name) {
+
+      const { gis_filters, fetchRegion } = this.props;
+      // filter the region name which was selected and call api using the _id
+      const region_object = gis_filters.filter(({ properties, _id }) => {
+
+        // this.props.properties.name equals region name
+        // from the ui then return region object else return null
+        if(properties.name === region_name) {
+
+          return _id;
+        }
+
+        return null;
+
+      });
+      // call api
+      if(region_object !== undefined && region_object !== null && region_object.length === 1) {
+
+        fetchRegion(region_object[0]._id);
+
+      }
 
     }
 
-    this.props.clearFilters(this.props);
-
   }
 
+  /**
+   * Check if district name is defined and not null and not equal to default value, 
+   * and does not have any trailing spaces. Fetch district and all its properties. 
+   * 
+   */
+  getDistrict = (prevProps) => {
+    // ES6 destructure different objects from state
+    const { district_name, districtDefault, fetchDistrict } = this.props;
+    
+    if (district_name !== undefined && district_name !== null 
+        && district_name.trim() !== '' && district_name !== districtDefault
+        && prevProps.district_name !== district_name) {
 
+        // fetch district
+        fetchDistrict(district_name);
+
+        // if district changed fetch its marep centers
+        // this.marepCenters(prevProps, this.props);
+
+    }
+
+  }
 
   inforClose = props => {
     if (this.state.show) {
@@ -87,7 +194,9 @@ class MinGridMap extends Component {
    * @returns {MarkerClusterer} markers
    */
   renderDistrictMarepCenters = ({district_name, marep_center, m_centers}) => {
-
+    // console.log(marep_center)
+    // console.log(district_name)
+    // console.log(m_centers)
     if (district_name !== null && district_name !== undefined && marep_center) {
 
       if (m_centers !== null && m_centers !== undefined && m_centers.length !== null) {
@@ -194,13 +303,13 @@ class MinGridMap extends Component {
   /**
    * Renders region meters
    * 
-   * @param {String} region
+   * @param {String} region_name
    * @param {Object} meters
    * @returns markers
    */
-  renderRegionMeters = ({region, meters, color}) => {
+  renderRegionMeters = ({region_name, meters, color}) => {
 
-    if (region !== null && region !== undefined) {
+    if (region_name !== null && region_name !== undefined) {
 
       if (meters !== null && meters !== undefined) {
 
@@ -443,7 +552,7 @@ class MinGridMap extends Component {
 
     const google = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyA8-4amVHsfL-PCglVdff9yauniqT4hVQk&libraries=places';
     const { h } = this.state;
-    
+    // console.log(this.props.marep_center)
     return (
       <Fragment>
         <CustomGoogleMap
@@ -481,4 +590,39 @@ MinGridMap.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MainContentWrapper(MinGridMap));
+const mapStateToProps = (state) => {
+
+  return {
+      region: state.region.region,
+      gis_filters: state.gis_filters.gis_filters,
+      power_plant_filters: state.gis_filters.power_plant_filters,
+      power_plants: state.power_plants.power_plants,
+      district: state.district.district,
+      meters: state.meters.meters,
+      distr_lines: state.lines.lines,
+      errored: state.region.errored,
+      general: state.general.general,
+      m_centers: state.m_centers.coordinates,
+      transformers: state.transformers.transformers,
+  };
+
+}
+
+const mapDispatchToProps = (dispatch) => {
+
+  return {
+      fetchFilters: () => { dispatch(GisAction.fetchGisFilters()) },
+      powerPlantFilters: () => { dispatch(GisAction.powerPlantsFilters()) },
+      fetchPowerPlants: (capacity, type) => { dispatch(GisAction.powerPlants(capacity, type)) },
+      fetchRegion: (region) => { dispatch(GisAction.fetchRegion(region)) },
+      fetchDistrict: (district) => { dispatch(GisAction.fetchDistrict(district))},
+      emptyProps: () => { dispatch(GisAction.emptyProps()) },
+      fetchMarepCenters: (name) => { dispatch(GisAction.fetchMarepCenters(name)) },
+      fetchMeters: (name) => { dispatch(GisAction.fetchEscomMeters(name)) },
+      fetchTransformers: (distr_id, position) => { dispatch(GisAction.fetchTransformers(distr_id, position)) },
+      fetchDistributionLines: (district, type) => { dispatch(GisAction.fetchDistributionLines(district, type)) },
+  };
+
+}
+
+export default withStyles(styles)(MainContentWrapper(connect(mapStateToProps, mapDispatchToProps)(MinGridMap)));

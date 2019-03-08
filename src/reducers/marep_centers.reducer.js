@@ -5,9 +5,10 @@ const initialState = {
 }
 
 const marep_centers = (state = initialState, action) => {
-
+    
     switch(action.type){
         case GisType.FETCH_MAREP_CENTERS:
+            // console.log(action.payload)
             return {
                 ...state,
                 coordinates: action.payload

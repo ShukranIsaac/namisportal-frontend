@@ -17,9 +17,11 @@ import transformers from './transformers.reducer';
 import cms from './cms.reducer';
 import stakeholder from './stakeholder.reducer';
 import power_plants from './power_plant.reducer';
+import generalReducer from './general.reducer';
 
 export default combineReducers({
     form: formReducer,
+    general: generalReducer,
     user: user,
     home: home,
     library: library,
