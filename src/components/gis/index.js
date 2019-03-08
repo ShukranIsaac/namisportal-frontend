@@ -23,7 +23,6 @@ class GIS extends Component {
         districtDefault: "--Select district--",
     };
 
-    this.clearFilters = this.clearFilters.bind(this);
     this.handlePlantTypeChange = this.handlePlantTypeChange.bind(this);
     this.handlePlantCapacityChange = this.handlePlantCapacityChange.bind(this);
 
@@ -39,29 +38,38 @@ class GIS extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // console.log(prevProps.district._id)
-    // console.log(this.props.district._id)
+
     if (prevProps !== undefined) {
       // console.log(this.props.marep_center)
       if (prevProps.district._id !== this.props.district._id) {
-        // console.log(prevProps.district._id)
-        // console.log(this.props.district._id)
+
         // fetch electrified by marep
         this.marepCenters(prevProps, this.props.district._id);
+        // fetch transformers
+        this.transformers();
+        // distribution lines
+        this.distributionLines();
       } else {
-        // console.log(prevState.district_name)
-        // console.log(this.state.district_name)
+
         if (prevProps === this.props) {
-          // console.log(prevProps.district._id)
-          // console.log(this.props.district._id)
+          // fetch marep centers
           this.marepCenters(prevProps, this.props.district._id);
+
+          // fetch transformers
+          this.transformers();
+
+          // distribution lines
+          this.distributionLines();
         }
       }
     } else {
+
+      // console.log(this.state)
       // console.log(this.props.marep_center)
       if (prevProps !== this.props) {
         this.marepCenters(prevProps, this.props.district._id);
       }
+
     }
 
   }
@@ -70,46 +78,6 @@ class GIS extends Component {
     
     // const target = event.target;
     this.setState({ [event.target.name]: event.target.value });
-
-  }
-
-  /**
-   * check if any filter checkboxes are set to true, if yes clear all and proceed
-   * 
-   */
-  clearFilters = ({
-    ground_transformers, 
-    up_transformers,
-    marep_center, 
-    distribution_lines,
-    eleven_kv_lines
-  }) => {
-    
-    // check if one of these is not defined otherwise proceed
-    if(ground_transformers !== undefined || up_transformers !== undefined   || eleven_kv_lines !== undefined
-      || marep_center !== undefined || distribution_lines !== undefined) {
-
-      if (ground_transformers) {
-        Object.assign(this.state, { ground_transformers: false });
-      } 
-      
-      if(up_transformers) {
-        Object.assign(this.state, { up_transformers: false });
-      } 
-      
-      if(marep_center) {
-        Object.assign(this.state, { marep_center: false });
-      } 
-      
-      if(distribution_lines) {
-        Object.assign(this.state, { distribution_lines: false });
-      }
-
-      if(eleven_kv_lines) {
-        Object.assign(this.state, { eleven_kv_lines: false });
-      }
-
-    }
 
   }
 
@@ -173,18 +141,24 @@ class GIS extends Component {
    * And finally fetch transformers for this district.
    * 
    */
-  transformers = (position) => {
+  transformers = () => {
     // ES6 destructure different objects from state
-    const { district_name, districtDefault } = this.state;
-    
-    if (this.state.ground_transformers || this.state.up_transformers) {
-          
-      if (district_name !== undefined && district_name !== null 
-          && district_name.trim() !== '' && district_name !== districtDefault) {
-          
-          const { district, fetchTransformers } = this.props;
-          
-          fetchTransformers(district._id, position);
+    const { district_name, districtDefault, ground_transformers, up_transformers } = this.state;
+
+    if (district_name !== undefined && district_name !== null 
+      && district_name.trim() !== '' && district_name !== districtDefault) {
+      
+      const { district, fetchTransformers } = this.props;
+      
+      if (ground_transformers) {
+        // fetch ground transformers
+        fetchTransformers(district._id, 'ground');
+
+      }
+
+      if (up_transformers) {
+        // fetch overhead transformers
+        fetchTransformers(district._id, 'overhead');
 
       }
 
@@ -197,17 +171,28 @@ class GIS extends Component {
    * if district name is defined and not null and not equal to default value
    * 
    */
-  distributionLines = (type) => {
+  distributionLines = () => {
     // ES6 destructure different objects from state
-    const { district_name, districtDefault } = this.state;
+    const { district_name, districtDefault, distribution_lines, eleven_kv_lines } = this.state;
 
-    if (this.state.distribution_lines || this.state.eleven_kv_lines) {
+    if (district_name !== undefined && district_name !== null 
+      && district_name.trim() !== '' && district_name !== districtDefault) {
 
-      if (district_name !== undefined && district_name !== null && district_name.trim() !== '' && district_name !== districtDefault) {
+      const { district, fetchDistributionLines } = this.props;
 
-          const { district, fetchDistributionLines } = this.props;
-          // fetch distribution lines
-          fetchDistributionLines(district._id, type);
+      // 33 kv lines
+      if (distribution_lines) {
+        
+        // fetch distribution lines
+        fetchDistributionLines(district._id, 33);
+
+      }
+
+      // 11 kv lines
+      if (eleven_kv_lines) {
+        
+        // fetch distribution lines
+        fetchDistributionLines(district._id, 11);
 
       }
 
@@ -222,9 +207,9 @@ class GIS extends Component {
    */
   meters = () => {
     // ES6 destructure different objects from state
-    const { district_name, region, districtDefault, regionDefault } = this.state;
+    const { district_name, region_name, districtDefault, regionDefault, meters_checked } = this.state;
 
-    if (this.state.meters_checked) {
+    if (meters_checked) {
 
       if (district_name !== undefined && district_name !== null
         && district_name.trim() !== '' && district_name !== districtDefault) {
@@ -233,8 +218,8 @@ class GIS extends Component {
 
           fetchMeters(district._id);
 
-      } else if (region !== undefined && region !== null 
-        && region.trim() !== ''&& region !== regionDefault) {
+      } else if (region_name !== undefined && region_name !== null 
+        && region_name.trim() !== ''&& region_name !== regionDefault) {
 
           const { region, fetchMeters } = this.props;
 
@@ -391,9 +376,9 @@ const mapDispatchToProps = (dispatch) => {
         fetchFilters: () => { dispatch(GisAction.fetchGisFilters()) },
         powerPlantFilters: () => { dispatch(GisAction.powerPlantsFilters()) },
         fetchPowerPlants: (capacity, type) => { dispatch(GisAction.powerPlants(capacity, type)) },
-        fetchRegion: (region) => { dispatch(GisAction.fetchRegion(region)) },
-        fetchDistrict: (district) => { dispatch(GisAction.fetchDistrict(district))},
-        emptyProps: () => { dispatch(GisAction.emptyProps()) },
+        // fetchRegion: (region) => { dispatch(GisAction.fetchRegion(region)) },
+        // fetchDistrict: (district) => { dispatch(GisAction.fetchDistrict(district))},
+        // emptyProps: () => { dispatch(GisAction.emptyProps()) },
         fetchMarepCenters: (name) => { dispatch(GisAction.fetchMarepCenters(name)) },
         fetchMeters: (name) => { dispatch(GisAction.fetchEscomMeters(name)) },
         fetchTransformers: (distr_id, position) => { dispatch(GisAction.fetchTransformers(distr_id, position)) },

@@ -54,64 +54,6 @@ class MinGridMap extends Component {
 
     // fetch district
     this.getDistrict(prevProps);
-
-    // console.log(prevProps.region_name)
-    // console.log(prevProps.district_name)
-
-    // if (this.state.meters_checked) {
-
-    //     if (district !== undefined && district !== null && district !== districtDefault) {
-
-    //         fetchMeters(district);
-
-    //     } else if (region_name !== undefined && region_name !== null && region_name !== regionDefault) {
-
-    //         fetchMeters(region_name);
-
-    //     } else {
-
-    //     }
-
-    // }
-
-    // if (this.state.marep_center) {
-
-    //     if (district !== undefined && district !== null && district !== districtDefault) {
-
-    //         fetchMarepCenters(district);
-
-    //     }
-
-    // }
-
-    // if (this.state.distribution_lines) {
-
-    //     if (district !== undefined && district !== null && district !== districtDefault) {
-
-    //         fetchDistributionLines(district);
-
-    //     }
-    // }
-
-    // // check if props or state changed
-    // const { district_name } = this.props;
-    // // console.log(district);
-    // // IF state.zoom equals 7, district equals to Likoma, then change zoom level to 12
-    // if(district_name !== undefined && district_name !== null && district_name  === 'Likoma') {
-
-    //   Object.assign(this.state, { zoom: 12, district_name: district_name });
-
-    // } 
-    
-    // // IF state.zoom equals 12, district not equals to Likoma, 
-    // // then change zoom level to 7
-    // if(district_name !== undefined && district_name !== null && district_name  !== 'Likoma') {
-
-    //   Object.assign(this.state, { zoom: 8});
-
-    // }
-
-    // // this.props.clearFilters(this.props);
     
   }
 
@@ -479,11 +421,19 @@ class MinGridMap extends Component {
    * @param {Array} r_polygons
    * @returns renderPolygon
    */
-  renderRegionPolygon = ({region, r_polygons: { polygons } }) => {
+  renderRegionPolygon = ({region, r_polygons: { polygons }, isLoading }) => {
 
-    if( region !== null && region !== undefined){
+    if (!isLoading) {
+      
+      if( region !== null && region !== undefined){
 
-      return this.renderPolygon(polygons, "red", 0.3);
+        return this.renderPolygon(polygons, "red", 0.3);
+  
+      }
+
+    } else {
+
+      return <div className="loader" />
 
     }
 
@@ -496,12 +446,20 @@ class MinGridMap extends Component {
    * @param {Array} d_polygons
    * @returns renderPolygon
    */
-  renderDistrictPolygon = ({ district_name, d_polygons }) => {
+  renderDistrictPolygon = ({ district_name, d_polygons, isLoading }) => {
 
-    if (district_name !== null && district_name !== undefined) {
+    if (!isLoading) {
+      
+      if (district_name !== null && district_name !== undefined) {
 
-      return this.renderPolygon(d_polygons, "yellow", 0.31);
+        return this.renderPolygon(d_polygons, "yellow", 0.31);
+  
+      }
 
+    } else {
+
+      return <div className="loader" />
+      
     }
 
   }
@@ -594,16 +552,16 @@ const mapStateToProps = (state) => {
 
   return {
       region: state.region.region,
-      gis_filters: state.gis_filters.gis_filters,
-      power_plant_filters: state.gis_filters.power_plant_filters,
-      power_plants: state.power_plants.power_plants,
+      // gis_filters: state.gis_filters.gis_filters,
+      // power_plant_filters: state.gis_filters.power_plant_filters,
+      // power_plants: state.power_plants.power_plants,
       district: state.district.district,
-      meters: state.meters.meters,
-      distr_lines: state.lines.lines,
+      // meters: state.meters.meters,
+      // distr_lines: state.lines.lines,
       errored: state.region.errored,
       general: state.general.general,
       m_centers: state.m_centers.coordinates,
-      transformers: state.transformers.transformers,
+      // transformers: state.transformers.transformers,
   };
 
 }
@@ -611,16 +569,15 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 
   return {
-      fetchFilters: () => { dispatch(GisAction.fetchGisFilters()) },
-      powerPlantFilters: () => { dispatch(GisAction.powerPlantsFilters()) },
-      fetchPowerPlants: (capacity, type) => { dispatch(GisAction.powerPlants(capacity, type)) },
+      // fetchFilters: () => { dispatch(GisAction.fetchGisFilters()) },
+      // powerPlantFilters: () => { dispatch(GisAction.powerPlantsFilters()) },
+      // fetchPowerPlants: (capacity, type) => { dispatch(GisAction.powerPlants(capacity, type)) },
       fetchRegion: (region) => { dispatch(GisAction.fetchRegion(region)) },
       fetchDistrict: (district) => { dispatch(GisAction.fetchDistrict(district))},
-      emptyProps: () => { dispatch(GisAction.emptyProps()) },
-      fetchMarepCenters: (name) => { dispatch(GisAction.fetchMarepCenters(name)) },
-      fetchMeters: (name) => { dispatch(GisAction.fetchEscomMeters(name)) },
-      fetchTransformers: (distr_id, position) => { dispatch(GisAction.fetchTransformers(distr_id, position)) },
-      fetchDistributionLines: (district, type) => { dispatch(GisAction.fetchDistributionLines(district, type)) },
+      // fetchMarepCenters: (name) => { dispatch(GisAction.fetchMarepCenters(name)) },
+      // fetchMeters: (name) => { dispatch(GisAction.fetchEscomMeters(name)) },
+      // fetchTransformers: (distr_id, position) => { dispatch(GisAction.fetchTransformers(distr_id, position)) },
+      // fetchDistributionLines: (district, type) => { dispatch(GisAction.fetchDistributionLines(district, type)) },
   };
 
 }
