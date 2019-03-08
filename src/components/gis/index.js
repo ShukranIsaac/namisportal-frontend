@@ -64,8 +64,6 @@ class GIS extends Component {
       }
     } else {
 
-      // console.log(this.state)
-      // console.log(this.props.marep_center)
       if (prevProps !== this.props) {
         this.marepCenters(prevProps, this.props.district._id);
       }

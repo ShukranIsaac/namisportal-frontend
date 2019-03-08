@@ -37,6 +37,7 @@ const RenderBootstrapField = ({
             placeholder={defaultValue}
             type={type}
             value={props.input.value || value}
+            onChange={(e) => props.input.onChange(e)}
             classes={{
               root: classes.bootstrapRoot,
               input: classes.bootstrapInput,
