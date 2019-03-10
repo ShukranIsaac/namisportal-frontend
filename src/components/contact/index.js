@@ -35,8 +35,7 @@ class Contact extends Component {
                       The Working Group welcomes questions and comments about this site.
                       Please use the email, physical address or form below to contact us.
                     </p>
-                    <p>
-                      <br />
+                    <br />
                       <h4>For any questions:</h4>
                       <p>
                         Email us at <a href="mailto:questions@grid.mw" className={classes.link}> questions@grid.mw </a>
@@ -46,7 +45,6 @@ class Contact extends Component {
                       <p>
                         Mini-grids Malawi,<br />890 West Point<br />Blantyre
                       </p>
-                    </p>
                   </CardBody> 
                 </Card>
             </Row>

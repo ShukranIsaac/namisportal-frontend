@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { reduxForm } from 'redux-form';
 
-import { Elevation, Button, Card } from "@blueprintjs/core";
-import { Flex, Box } from 'reflexbox';
+import { Container, Button, Card, CardBody, CardImg } from 'reactstrap'
 
 import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
@@ -18,7 +17,7 @@ import styles from '../contact/form.styles';
 import { redirect } from './user.redirect';
 // import { StakeholderProfile } from './user.register.company';
 import { PersonalProfile } from './user.register.personal';
-import { InputLabel } from '@material-ui/core';
+import ParticlesComponent from './particles';
 
 class UserRegistration extends Component {
 
@@ -83,7 +82,7 @@ class UserRegistration extends Component {
 
       const { 
         pristine, user,
-        submitting, classes,
+        submitting,
         handleSubmit, valid
       } = this.props;
 
@@ -96,53 +95,72 @@ class UserRegistration extends Component {
       }
 
       return (
-        <>
-          <Flex
-            wrap
-            align='center'
-            justify='center'
-            m={1}
-            w={1}
-            p={3}
-            className='landing-info'>
+        <Fragment>
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              background: '#15B371'
+            }}>
+            
+              <ParticlesComponent />
 
-            <Card elevation={Elevation.ONE}>
+              <Container>
 
-              <Flex align='top' justify='center' w={1}>
-                <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
-                  <h2>Create Account</h2>
-                </InputLabel>
-              </Flex>
-              <form onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
+                <div
+                  style={{
+                    width: '55%',
+                    margin: '0 auto',
+                    marginTop: '5%'
+                  }}>
+                  
+                    <Card>
 
-                <Flex align='left' justify='left' w={1/2}>
-                  <Box p={1}>
-                    {/* <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
-                      <h3>Personal Account</h3>
-                    </InputLabel> */}
-                    <PersonalProfile props={ this.props } />
-                  </Box>
-                  {/* <Box p={1}>
-                    <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
-                      <h3>Stakeholder Account</h3>
-                    </InputLabel>
-                    <StakeholderProfile props={this.props} state={this.state} handleChange={ this.handleChange } />
-                  </Box> */}
-                </Flex>
+                      <CardBody>
 
-                <div className={classes.margin}>
+                        <div style={{textAlign: 'center'}}>
+                          <CardImg src={require("../../../src/assets/img/malawi.png")}/>
+                          <p>
+                            Department of Energy Affairs, Ministry of Energy and Natural Resources
+                          </p>
+                        </div>
 
-                  <Button type="submit" disabled={!valid || pristine || submitting} intent="success" text="Register" />
-                
-                </div>
+                        <form onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
 
-              </form>
+                          {/* <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
+                                <h3>Personal Account</h3>
+                              </InputLabel> */}
+                          {/* <Box p={1}>
+                              <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
+                                <h3>Stakeholder Account</h3>
+                              </InputLabel>
+                              <StakeholderProfile props={this.props} state={this.state} handleChange={ this.handleChange } />
+                          </Box> */}
+                          <div className='margin-fix'>
+                            <PersonalProfile props={ this.props } />
+                          </div>
 
-            </Card>
+                          <div className="margin-fix">
 
-          </Flex>
+                            <Button type="submit" disabled={!valid  || pristine || submitting} color="success">Register</Button>
 
-        </>
+                          </div>
+
+                        </form>
+
+                      </CardBody>
+
+                    </Card>
+
+                  </div>
+
+              </Container>
+          </div>
+
+        </Fragment>
       );
 
     }

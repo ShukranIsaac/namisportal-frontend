@@ -144,6 +144,7 @@ class UserLogin extends Component {
               }}>
 
               <ParticlesComponent/>
+
               <Container>
                 <div
                   style={{
@@ -160,7 +161,6 @@ class UserLogin extends Component {
                           </p>
                         </div>
                         
-
                         <form className={{style: 'center'}} onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
                           <div className='margin-fix'>
 

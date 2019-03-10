@@ -44,12 +44,14 @@ class ContactForm extends Component {
         const contact_us = {
             fullname: values.fullname,
             email: values.email,
+            subject: values.subject,
             message: values.message
         }
 
+        console.log(contact_us);
         this.props.contactUs(contact_us , UserProfile.token);
         // then redirect user accordingly
-        return redirect.to({ url: `/faq` })
+        redirect.to({ url: `/faq` });
       }
 
     }
@@ -99,6 +101,26 @@ class ContactForm extends Component {
                           name="email"
                           type="email"
                           props={ input }
+                        />
+                      );
+                    }}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Field
+                    name='subject'
+                    component={ input => {
+                      return (
+                        <RenderBootstrapField
+                          { ...this.props }
+                          label='Subject'
+                          defaultValue= "Your message subject..."
+                          name="subject"
+                          type="text"
+                          props={ input }
+                          className='test-this'
                         />
                       );
                     }}

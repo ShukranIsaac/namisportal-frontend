@@ -101,7 +101,7 @@ export const contact = (contact, user) => {
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
-
+        
         return await post(dispatch, url, contact)
         
         .then((response) => {
