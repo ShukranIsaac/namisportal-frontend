@@ -2,8 +2,7 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import { reduxForm, Field } from 'redux-form';
-import RenderBootstrapField from '../forms/form.bootstrap.field';
+import { reduxForm } from 'redux-form';
 import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
 
@@ -12,6 +11,8 @@ import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 import { UserProfile } from '../user/user.profile';
+import { FormTextInputField } from '../forms/form.textinput.field';
+import { MuiFormFileinputField } from '../forms/form.fileinput.field';
 
 /**
  * @author Isaac S. Mwakabira
@@ -59,6 +60,7 @@ class EditDirectoryInstitution extends Component {
                 // stakeholder structure
                 edited_stakeholder = {
                     name: values.stakeholder_name,
+                    image: values.image,
                     about: values.summary,
                     mission: values.mission,
                     vision: values.vision,
@@ -70,6 +72,7 @@ class EditDirectoryInstitution extends Component {
                     }
                 }
                 
+                // console.log(edited_stakeholder);
                 // then edit this stakeholder
                 this.props.editStakeholder(stakeholder._id, edited_stakeholder, user.token);
                 // then change state to default
@@ -81,6 +84,31 @@ class EditDirectoryInstitution extends Component {
 
     }
 
+    uploadLogo = (values) => {
+        // stakeholder to be edited
+        const { stakeholder } = this.props;
+        // get authenticated user token
+        const user = UserProfile.get();
+        if(user !== null && user.token !== undefined) {
+
+            // logo object
+            let logo;
+            if(values !== null && values !== undefined) {
+                // stakeholder structure
+                logo = {
+                    image: values.image,
+                }
+
+                // then upload logo for this stakeholder
+                this.props.uploadStakeholderLogo(stakeholder._id, logo, user.token);
+                // then change state to default
+                // so that the page redirects and list all diretory stakeholders
+                this.props.defaultItem();
+            }
+
+        } 
+    }
+
     render() {
 
         const { 
@@ -88,7 +116,6 @@ class EditDirectoryInstitution extends Component {
             valid, pristine, submitting
         } = this.props;
 
-        console.log(this.props.stakeholder)
         /**
          * If the stakeholder is not defined and has no data just return loader.
          */
@@ -96,186 +123,166 @@ class EditDirectoryInstitution extends Component {
 
             return (
                 <Fragment>
-    
-                    <form onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off" >
-                        
-                        <ButtonControl 
-                            intent={Intent.NONE} 
-                            value="List Stakeholders"
-                            name="default"
-                            handleClick={e => handleClick(e) }
-                        />
-                        
-                        <ButtonControl 
-                            intent={Intent.NONE} 
-                            value="New Stakeholder"
-                            name="create"
-                            handleClick={e => handleClick(e) }
-                        />
-    
-                        <div className={ classes.margin }/>
-                        <div className={ classes.margin }/>
-                        <div className={ classes.margin }/>
-                        <div className={ classes.margin }/>
-                        <div className={ classes.margin }/>
-    
-                        <Divider />
-    
-                        <Field
-                            name='stakeholder_name'
-                            component={ input => {
-                                return (
-                                    <RenderBootstrapField
-                                        classes={ classes }
-                                        label='Stakeholders or Department Name (Legal)'
-                                        defaultValue="Edit stakeholder name..."
-                                        value={ stakeholder.name }
-                                        name="stakeholder_name"
-                                        type="text"
-                                        props={ input }
-                                    />
-                                );
-                            }}
-                        />
-    
-                        <Field 
-                            name="physical_address" 
-                            component={input => {
-                                return (
-                                    <RenderBootstrapField
-                                        classes={ classes }
-                                        props={ input }
-                                        label='Physical Address'
-                                        defaultValue= "Stakeholder's physical address..."
-                                        value={ stakeholder.contacts.address }
-                                        name="physical_address"
-                                        type="text"
-                                    />
-                                )
-                            }} 
-                            multiline={true}
-                        />
-    
-                        <Field 
-                            name="telephone" 
-                            component={input => {
-                                return (
-                                    <RenderBootstrapField
-                                        classes={ classes }
-                                        props={ input }
-                                        label='Telephone'
-                                        defaultValue= "Stakeholder's or department's telephone number..."
-                                        value={ stakeholder.contacts.telephone }
-                                        name="telephone"
-                                        type="text"
-                                    />
-                                )
-                            }} 
-                        />
-    
-                        <Field 
-                            name="website" 
-                            component={input => {
-                                return (
-                                    <RenderBootstrapField
-                                        classes={ classes }
-                                        props={ input }
-                                        label='Website'
-                                        defaultValue= "Stakeholder's or department's website..."
-                                        value={ stakeholder.contacts.website }
-                                        name="webite"
-                                        type="text"
-                                    />
-                                )
-                            }} 
-                        />
-    
-                        <Field
-                            name='summary'
-                            component={ input => {
-                                return (
-                                    <RenderBootstrapField
-                                        classes={ classes }
-                                        label={ `${ stakeholder.name + '-Background' }` }
-                                        defaultValue="Edit stakeholders summary..."
-                                        value={ stakeholder.about }
-                                        name="summary"
-                                        type="text"
-                                        props={ input }
-                                    />
-                                );
-                            }}
-                            multiline={true}
-                        />
-    
-                        {/* <br/> */}
-    
-                        <Field 
-                            name="email" 
-                            component={input => {
-                                return (
-                                    <RenderBootstrapField
-                                        classes={ classes }
-                                        props={ input }
-                                        label='Email'
-                                        defaultValue= "Stakeholder's or department's email address..."
-                                        value={ stakeholder.contacts.email }
-                                        name="email"
-                                        type="email"
-                                    />
-                                )
-                            }} 
-                        />
-                        
-                        {/* <br/> */}
-    
-                        <Field
-                            name='vision'
-                            component={ input => {
-                                return (
-                                    <RenderBootstrapField
-                                        classes={ classes }
-                                        label="Vision"
-                                        defaultValue="Edit stakeholders vision..."
-                                        value={ stakeholder.vision }
-                                        name="vision"
-                                        type="text"
-                                        props={ input }
-                                    />
-                                );
-                            }}
-                            multiline={true}
-                            rows="10"
-                        />
-    
-                        <Field
-                            name='mission'
-                            component={ input => {
-                                return (
-                                    <RenderBootstrapField
-                                        classes={ classes }
-                                        label='Mission Statement'
-                                        defaultValue="Edit mission statement..."
-                                        value={ stakeholder.mission }
-                                        name="mission"
-                                        type="text"
-                                        props={ input }
-                                    />
-                                );
-                            }}
-                            multiline={true}
-                            rows="10"
-                        />
-    
-                        <div className={ classes.margin } />
-                        <div className={ classes.margin } />
-                        <div className={ classes.margin } />
-    
-                        <Button type="submit" disabled={!valid  || pristine || submitting} intent="primary" text="Save" />
-    
-                        <Button className={ classes.margin } name="default"  intent="danger" text="Archive" onClick={ e => this.handleClick } />
+
+                    <ButtonControl 
+                        intent={Intent.NONE} 
+                        value="List Stakeholders"
+                        name="default"
+                        handleClick={e => handleClick(e) }
+                    />
                     
-                    </form>
+                    <ButtonControl 
+                        intent={Intent.NONE} 
+                        value="New Stakeholder"
+                        name="create"
+                        handleClick={e => handleClick(e) }
+                    />
+
+                    <ul class="nav nav-tabs" role="tablist" style={{ marginTop: `5px` }}>
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#stakeholder">Stakeholder</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#logo">AddLogo</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+
+                        <div id="stakeholder" class="tab-pane active"><br />
+
+                            <form onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
+    
+                                <div className={ classes.margin }/>
+                                <div className={ classes.margin }/>
+                                <div className={ classes.margin }/>
+                                <div className={ classes.margin }/>
+                                <div className={ classes.margin }/>
+
+                                <Divider />
+
+                                <FormTextInputField 
+                                    classes={ classes }
+                                    name='stakeholder_name' 
+                                    value={ stakeholder.name }
+                                    label="Stakeholder's Name (Legal)"
+                                    placeholder="Edit stakeholder name..."
+                                    type="text"
+                                />
+
+                                <FormTextInputField 
+                                    classes={ classes }
+                                    name='physical_address' 
+                                    value={ stakeholder.address }
+                                    label="Physical Address"
+                                    placeholder="Stakeholder's physical address..."
+                                    type="text"
+                                    multiline={true}
+                                    rows="3"
+                                />
+
+                                <FormTextInputField 
+                                    classes={ classes }
+                                    name='telephone' 
+                                    value={ stakeholder.contacts.telephone }
+                                    label="Telephone"
+                                    placeholder="Stakeholder's telephone number..."
+                                    type="text"
+                                />
+
+                                <FormTextInputField 
+                                    classes={ classes }
+                                    name='website' 
+                                    value={ stakeholder.contacts.website }
+                                    label="Website"
+                                    placeholder="Stakeholder's website..."
+                                    type="text"
+                                />
+
+                                <FormTextInputField 
+                                    classes={ classes }
+                                    name='summary' 
+                                    value={ stakeholder.about }
+                                    label={ `${ stakeholder.name + ' - Summary Background' }` }
+                                    placeholder="Edit stakeholders summary..."
+                                    type="text"
+                                    multiline={true}
+                                    rows="5"
+                                />
+
+                                <FormTextInputField 
+                                    classes={ classes }
+                                    name='email' 
+                                    value={ stakeholder.contacts.email }
+                                    label="Email"
+                                    placeholder="Stakeholder's email address..."
+                                    type="text"
+                                />
+
+                                <FormTextInputField 
+                                    classes={ classes }
+                                    name='vision' 
+                                    value={ stakeholder.vision }
+                                    label="Vision"
+                                    placeholder="Edit stakeholders vision..."
+                                    type="text"
+                                    multiline={true}
+                                    rows="10"
+                                />
+
+                                <FormTextInputField 
+                                    classes={ classes }
+                                    name='mission' 
+                                    value={ stakeholder.mission }
+                                    label="Mission Statement"
+                                    placeholder="Edit stakeholder's mission..."
+                                    type="text"
+                                    multiline={true}
+                                    rows="10"
+                                />
+
+                                <FormTextInputField 
+                                    classes={ classes }
+                                    name='image' 
+                                    value={ stakeholder.image }
+                                    label="Image Url"
+                                    placeholder="Edit stakeholder's image..."
+                                    type="text"
+                                />
+
+                                <div className={ classes.margin } />
+                                <div className={ classes.margin } />
+                                <div className={ classes.margin } />
+
+                                <Button type="submit" disabled={!valid  || pristine || submitting} intent="primary" text="Save" />
+
+                                <Button className={ classes.margin } name="default"  intent="danger" text="Archive" onClick={ e => this.handleClick } />
+
+                            </form>
+                        </div>
+
+                        <div id="logo" class="tab-pane fade"><br />
+                            
+                            <form onSubmit={ handleSubmit(values => this.uploadLogo(values)) }>
+
+                                <MuiFormFileinputField
+                                    placeholder="Upload Image"
+                                    classes={ classes }
+                                    name='image'
+                                    handleFileChange = { this.handleChange }
+                                    type='image'
+                                />
+
+                                <div className={ classes.margin } />
+                                <div className={ classes.margin } />
+                                <div className={ classes.margin } />
+
+                                <Button type="submit" disabled={!valid  || pristine || submitting} intent="primary" text="Upload" />
+
+                            </form>
+                        </div>
+
+                    </div>
     
                 </Fragment>
             );

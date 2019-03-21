@@ -29,7 +29,12 @@ export const MuiFormFileinputField = ({
     return (
         <Fragment>
             <CloudUploadIcon />
-            <Field name={ name } type={ type } component={ FileUpload } />
+            <Field 
+                name={ name } 
+                placeholder={ placeholder } 
+                type={ type } 
+                component={ FileUpload } 
+            />
         </Fragment>
     );
 
@@ -44,6 +49,18 @@ export const FileUpload = ({ input, resetKey }) => {
 	}
 
 	return <input name="supporting_document" {...inputProps} key={resetKey} type="file" onChange={handleChange} />
+
+}
+
+export const ImageUpload = ({ input, resetKey }) => {
+
+	const { value, ...inputProps } = input
+
+	const handleChange = (e) => {
+		input.onChange(e.target.files[0])
+	}
+
+	return <input name="image" {...inputProps} key={resetKey} alt="image" type="image" onChange={handleChange} />
 
 }
 

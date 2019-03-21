@@ -2,7 +2,8 @@ import { CMSType } from '../action_type/index';
 
 const initialState = {
     stakeholder: null,
-    stakeholders_list: null
+    stakeholders_list: null,
+    stakeholder_image: null
 }
 
 const stakeholder = (state = initialState, action) => {
@@ -31,6 +32,13 @@ const stakeholder = (state = initialState, action) => {
                 ...state,
                 stakeholder: action.payload
             }
+
+        case CMSType.REQUEST_ADD_STAKEHOLDER_IMAGE:
+            return {
+                ...state,
+                stakeholder_image: action.payload
+            }
+
         default:
             return state;
     }

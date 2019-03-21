@@ -1,5 +1,5 @@
 import * as GeneralAction from './general.action';
-import { post, get, patch } from './api.service';
+import { post, get, patch, upload } from './api.service';
 import { CMSType } from '../action_type';
 
 /**
@@ -134,6 +134,40 @@ export const fetchSingleStakeholder = (id) => {
 
         });
 
+    }
+
+}
+
+/**
+ * Upload an logo for the any given stakeholder
+ * 
+ * @param {String} id 
+ * @param {Image} image 
+ * @param {String} token 
+ */
+export const uploadStakeholderLogo = (id, image, token) => {
+
+    // url
+    const url = `stakeholders/` + id + `/files?token=` + token;
+    
+    return async dispatch => {
+
+        dispatch(GeneralAction.isLoading(true));
+
+        return await upload(dispatch, url, image)
+
+        .then(response => {
+            
+            dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_ADD_STAKEHOLDER_IMAGE, response, false))
+
+        })
+
+        .catch(error => {
+            console.log(error)
+            dispatch(GeneralAction.hasErrored(true))
+
+        });
+        
     }
 
 }

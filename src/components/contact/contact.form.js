@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 
 import { Container, Row, Col } from 'reactstrap'
 import { withStyles } from '@material-ui/core/styles';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm } from 'redux-form';
 
 import { Button } from '@blueprintjs/core';
 
-import RenderBootstrapField from '../forms/form.bootstrap.field';
 import AsyncValidate from './form.async-validate';
 import Validate from './email.validate';
 
 import styles from './form.styles';
 import { UserProfile } from '../user/user.profile';
 import { redirect } from '../user/user.redirect';
+import { FormTextInputField } from '../forms/form.textinput.field';
 
 class ContactForm extends Component {
 
@@ -48,7 +48,7 @@ class ContactForm extends Component {
             message: values.message
         }
 
-        console.log(contact_us);
+        // console.log(contact_us);
         this.props.contactUs(contact_us , UserProfile.token);
         // then redirect user accordingly
         redirect.to({ url: `/faq` });
@@ -70,79 +70,27 @@ class ContactForm extends Component {
             <Container>
               <Row>
                 <Col>
-                  <Field
-                    name='fullname'
-                    component={ input => {
-                      return (
-                        <RenderBootstrapField
-                          { ...this.props }
-                          label='Fullname'
-                          defaultValue= "Your fullname..."
-                          name="fullname"
-                          type="text"
-                          props={ input }
-                          className='test-this'
-                        />
-                      );
-                    }}
-                  />
+                  <FormTextInputField name='fullname' label='Fullname' type='text' placeholder='Your fullname...' {...this.props} />
                 </Col>
               </Row>
               <Row>
                 <Col>
-                  <Field
-                    name='email'
-                    component={ input => {
-                      return (
-                        <RenderBootstrapField
-                          { ...this.props }
-                          label='Email'
-                          defaultValue= "Your email..."
-                          name="email"
-                          type="email"
-                          props={ input }
-                        />
-                      );
-                    }}
-                  />
+                  <FormTextInputField name='email' label='Email' type='email' placeholder='Your email...' {...this.props} />
                 </Col>
               </Row>
               <Row>
                 <Col>
-                  <Field
-                    name='subject'
-                    component={ input => {
-                      return (
-                        <RenderBootstrapField
-                          { ...this.props }
-                          label='Subject'
-                          defaultValue= "Your message subject..."
-                          name="subject"
-                          type="text"
-                          props={ input }
-                          className='test-this'
-                        />
-                      );
-                    }}
-                  />
+                  <FormTextInputField name='subject' label='Subject' type='text' placeholder='Your message subject...' {...this.props} />
                 </Col>
               </Row>
               <Row>
                 <Col>
-                  <Field
-                    name='message'
-                    component={ input => {
-                      return (
-                        <RenderBootstrapField
-                          { ...this.props }
-                          label='Message'
-                          defaultValue= "Your message..."
-                          name="message"
-                          type="text"
-                          props={ input }
-                        />
-                      );
-                    }}
+                  <FormTextInputField 
+                    name='message' 
+                    label='Message' 
+                    type='text' 
+                    placeholder='Your message...' 
+                    {...this.props} 
                     multiline={true}
                     rows={10}
                   />

@@ -1,7 +1,5 @@
 import React, { Fragment } from 'react';
-import { Field } from 'redux-form';
-import RenderBootstrapField from '../forms/form.bootstrap.field';
-import { ErrorField } from '../forms/form.error.field';
+import { FormTextInputField } from '../forms/form.textinput.field';
 
 /**
  * Create user personal account
@@ -10,112 +8,29 @@ import { ErrorField } from '../forms/form.error.field';
  */
 export const PersonalProfile = ({ props }) => {
 
-    return (
-        <Fragment>
-            <div>
-              <Field name="username" component={input => {
-                  return (
-                    <div>
-                      <RenderBootstrapField
-                        { ...props }
-                        props={ input }
-                        label='Username'
-                        defaultValue= "Your username..."
-                        name="username"
-                        type="text"
-                      />
-                      <ErrorField props={ input } />
-                    </div>
-                  )
-                }} 
-              />
-            </div>
-            <div>
-              <Field name="firstname" component={input => {
-                return (
-                  <div>
-                    <RenderBootstrapField
-                      { ...props }
-                      props={ input }
-                      label='Firstname'
-                      defaultValue= "Your firstname..."
-                      name="firstname"
-                      type="text"
-                    />
-                    <ErrorField props={ input } />
-                  </div>
-                )
-              }} />
-            </div>
-            <div>
-              <Field name="lastname" component={input => {
-                return (
-                  <div>
-                    <RenderBootstrapField
-                      { ...props }
-                      props={ input }
-                      label='Lastname'
-                      defaultValue= "Your lastname..."
-                      name="lastname"
-                      type="text"
-                    />
-                    <ErrorField props={ input } />
-                  </div>
-                )
-              }} />
-            </div>
-            <div>
-              <Field name="email" component={input => {
-                return (
-                  <div>
-                    <RenderBootstrapField
-                      { ...props }
-                      props={ input }
-                      label='Email'
-                      defaultValue= "Your email..."
-                      name="email"
-                      type="email"
-                    />
-                    <ErrorField props={ input } />
-                  </div>
-                )
-              }} />
-            </div>
-            <div>
-              <Field name="password" component={input => {
-                return (
-                  <div>
-                    <RenderBootstrapField
-                      { ...props }
-                      props={ input }
-                      label='Password'
-                      defaultValue= "Your password..."
-                      name="password"
-                      type="password"
-                    />
-                    <ErrorField props={ input } />
-                  </div>
-                )
-              }} />
-            </div>
-            <div>
-              <Field name="confirmPassword" component={input => {
-                return (
-                  <div>
-                    <RenderBootstrapField
-                      { ...props }
-                      props={ input }
-                      label='Confirm Password'
-                      defaultValue= "Confirm your password..."
-                      name="confirmPassword"
-                      type="password"
-                    />
-                    <ErrorField props={ input } />
-                  </div>
-                )
-              }} />
-            </div>
-        </Fragment>
-    );
+  return (
+    <Fragment>
+
+      <div className='margin-fix'>
+        <FormTextInputField name='username' label='Username' type='text' placeholder='Your username...' {...props} />
+      </div>
+      <div className='margin-fix'>
+        <FormTextInputField name='firstname' label='Firstname' type='text' placeholder='Your firstname...' {...props} />
+      </div>
+      <div className='margin-fix'>
+        <FormTextInputField name='lastname' label='Lastname' type='text' placeholder='Your lastname...' {...props} />
+      </div>
+      <div className='margin-fix'>
+        <FormTextInputField name='email' label='Email' type='email' placeholder='Your email...' {...props} />
+      </div>
+      <div className='margin-fix'>
+        <FormTextInputField name='password' label='Password' type='password' placeholder='Your password...' {...props} />
+      </div>
+      <div className='margin-fix'>
+        <FormTextInputField name='confirmPassword' label='Password' type='password' placeholder='Confirm your password...' {...props} />
+      </div>
+      
+    </Fragment>
+  );
 
 }

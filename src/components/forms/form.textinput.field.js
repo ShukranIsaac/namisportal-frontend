@@ -1,24 +1,50 @@
-import React, { Fragment } from 'react';
+import React, { Component } from 'react';
+import { Field } from 'redux-form';
+import RenderBootstrapField from '../forms/form.bootstrap.field';
 
-const FormTextInputField = ({ value, placeholder, name, id, type, handleChange }) => {
+export class FormTextInputField extends Component {
 
-    return (
-        <Fragment>
+    constructor() {
+        super();
+        this.state = {}
 
-            <input
-                id={id}
-                name={name}
-                value={value}
-                className="bp3-input bp3-fill bp3-large" 
-                type={type} 
-                placeholder={placeholder} 
-                dir="auto"
-                onChange={ (e) => handleChange(e) } 
+        this.handleChange = this.handleChange.bind(this);
+
+    }
+
+    handleChange = (event) => {
+
+        this.setState({ [event.target.name]: event.target.valaue });
+
+    }
+
+    render() {
+
+        const { name, label, placeholder, type, multiline, rows } = this.props;
+
+        return (
+            <Field
+                name={ name }
+                component={ input => {
+                    
+                    return (
+                        <RenderBootstrapField
+                            { ...this.props }
+                            label={ label }
+                            defaultValue={ placeholder }
+                            name={ name }
+                            type={ type }
+                            props={ input }
+                            className='test-this'
+                        />
+                    );
+
+                }}
+                multiline={ multiline }
+                rows={ rows }
             />
+        );
 
-        </Fragment>
-    );
+    }
 
 }
-
-export default FormTextInputField;

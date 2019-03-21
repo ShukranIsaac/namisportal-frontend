@@ -174,6 +174,12 @@ class CMSIndex extends React.Component {
                  */
                 this.props.category(this.capitalize(link));
                 break;
+            case 'licensing':
+                /**
+                 * Licensing
+                 */
+                this.props.category(this.capitalize(link));
+                break;
             default:
                 break;
         }
@@ -246,7 +252,8 @@ class CMSIndex extends React.Component {
                     // fetch stakeholder
                     this.props.fetchSingleStakeholder(event.currentTarget.id)
                 } else {
-
+                    // default
+                    // this.props.defaultItem();
                 }
 
                 break;
@@ -487,6 +494,7 @@ const mapDispatchToProps = (dispatch) => {
         fetchSingleStakeholder: (i) => { dispatch(Stakeholder.fetchSingleStakeholder(i)) },
         fetchStakeholders: () => { dispatch(Stakeholder.fetchAllStakeholders()) },
         editStakeholder: (i, s, t) => { dispatch(Stakeholder.editStakeholder(i, s, t)) },
+        uploadStakeholderLogo: (i, im, t) => { dispatch(Stakeholder.uploadStakeholderLogo(i, im, t)) },
     };
 
 }

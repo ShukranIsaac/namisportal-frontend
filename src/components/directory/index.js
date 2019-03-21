@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { 
-  Container,Card, CardBody, CardImg, Col, Row, Pagination, PaginationItem, PaginationLink 
-} from 'reactstrap';
+import { Container,Card, CardBody, Col, Row, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -48,36 +46,21 @@ class Directory extends Component {
                       <CardBody className={classes.paddindUnset}>
                         <h5><strong>Directory</strong></h5>
                         <p>
-                          Here is a list a list of some of the stakeholders we work together with
+                          Here is a list of some of the stakeholders we work together with
                         </p>
                       </CardBody>
                     </Card>
                   </div>
               </Col> 
             </Row>
-            <Row>
-              <Col lg='12'>
-                <div style={{margin: '2.5px 0'}}>
-                  <Card id={ stakeholders_list[1]._id} className={classes.card} >
-                    <CardBody className={classes.paddindUnset}>
-                      <div style={{  display: 'grid', gridTemplateColumns: '20% 80%'}}>
-                        <CardImg src={require("../../../src/assets/img/escom-logo.png")}/>
-                        <div>
-                          <h4>
-                            <a href={`${ '/directory/' + stakeholders_list[1].name }`} onClick={ (e) => this.handleClick(e) }>
-                              { stakeholders_list[1].name }
-                            </a>
-                          </h4>
-                          <p>{ stakeholders_list[1].about }</p>
-                        </div>
-                      </div>
-                    </CardBody>
-                  </Card>
-                </div>
-              </Col>
-            </Row>
-  
-            <DirectoryItem { ...this.props } handleClick={ this.handleClick } />
+
+            {
+              stakeholders_list.map((stakeholder, index) => {
+
+                return <DirectoryItem key={ stakeholder.name } stakeholder={ stakeholder } handleClick={ this.handleClick } />
+                
+              })
+            }
             
             {
               stakeholders_list.length > 5 ? 

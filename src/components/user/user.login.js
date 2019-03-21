@@ -1,17 +1,12 @@
 import React, { Component, Fragment } from 'react';
-
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
-
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { reduxForm, Field } from 'redux-form';
-
+import { reduxForm } from 'redux-form';
 import { Container, Button, Card, CardBody, CardImg } from 'reactstrap'
 
 import ParticlesComponent from './particles'
-
-import RenderBootstrapField from '../forms/form.bootstrap.field';
 import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
 
@@ -20,9 +15,7 @@ import * as UserAuthActions from '../../actions/user.action';
 import styles from '../contact/form.styles';
 import { redirect } from './user.redirect';
 import { UserProfile } from './user.profile';
-import { ErrorField } from '../forms/form.error.field';
-
-
+import { FormTextInputField } from '../forms/form.textinput.field';
 
 /**
  * User login
@@ -134,6 +127,7 @@ class UserLogin extends Component {
         return (
           <Fragment>
             <div
+              // className='page-content'
               style={{
                 position: "absolute",
                 top: 0,
@@ -143,7 +137,7 @@ class UserLogin extends Component {
                 background: '#15B371'
               }}>
 
-              <ParticlesComponent/>
+              <ParticlesComponent />
 
               <Container>
                 <div
@@ -162,42 +156,28 @@ class UserLogin extends Component {
                         </div>
                         
                         <form className={{style: 'center'}} onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
+                          
                           <div className='margin-fix'>
 
-                            <Field name="username" component={props => {
-                              
-                              return (
-                                <div>
-                                  <RenderBootstrapField
-                                    { ...this.props }
-                                    props={ props }
-                                    label='Username'
-                                    defaultValue= "Your username or email..."
-                                    name="username"
-                                    type="text"
-                                  />
-                                  <ErrorField props={ props } />
-                                </div>
-                              )
-                            }} />
+                            <FormTextInputField 
+                              name='username' 
+                              label='Username' 
+                              type='text' 
+                              placeholder='Your username or email...' 
+                              {...this.props}
+                            />
+
                           </div>
                           <div className='margin-fix'>
-                            <Field name="password" component={props => {
-                              return (
-                                <div>
-                                  <RenderBootstrapField
-                                    { ...this.props }
-                                    props={ props }
-                                    label='Password'
-                                    defaultValue= "Your password..."
-                                    name="password"
-                                    type="password"
-                                  />
-                                  <ErrorField props={ props } />
-                                </div>
-                              );
-                            }} 
-                          />
+
+                            <FormTextInputField 
+                              name='password' 
+                              label='Password' 
+                              type='password' 
+                              placeholder='Your password...' 
+                              {...this.props}
+                            />
+
                         </div>
                         <div className="margin-fix">
 

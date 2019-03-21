@@ -87,11 +87,11 @@ class CreateLibraryItem extends Component {
                 }
 
                 if (subcategory !== null && subcategory !== undefined) {
-                    console.log(data)
+                    // console.log(data)
                     this.props.uploadFile(subcategory._id, data, user.token);
                     // then change state to default
                     // so that the page redirects and list all home items
-                    // this.props.defaultItem();
+                    this.props.defaultItem();
 
                 }
             }

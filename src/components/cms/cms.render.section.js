@@ -24,6 +24,8 @@ import LicensingProcess from '../licensing/licensing.process';
 import CreateContactDetails from '../contact/contact.create.form';
 import ContactShowDetails from '../contact/contact.show.details';
 import EditContactDetails from '../contact/contact.edit.form';
+import GISComponent from '../gis/gis.cms.component';
+import LicensingProfile from '../licensing/licensing.profile';
 
 /**
  * Renders a single section resource i.e. licencing, library at cms index
@@ -90,7 +92,8 @@ const RenderSection = ({
                     <ResourceSection 
                         option={props.user_event} 
                         name="licensing"
-                        List={ () => <LicensingProcess handleClick={ (e) => handleClick(e) } { ...props } /> }
+                        List={ () => <LicensingProfile { ...props } /> }
+                        Create={ () => <LicensingProcess handleClick={ (e) => handleClick(e) } { ...props } /> }
                     />
 
                 </Fragment>
@@ -135,7 +138,9 @@ const RenderSection = ({
                     {/* <ResourceSection 
                         option={props.user_event} 
                         name="gis"
+                        List={}
                     /> */}
+                    <GISComponent />
 
                 </Fragment>
             );

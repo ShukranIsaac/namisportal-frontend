@@ -96,26 +96,14 @@ class UserRegistration extends Component {
 
       return (
         <Fragment>
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              background: '#15B371'
-            }}>
+          
+          <div className='page-content'>
             
               <ParticlesComponent />
 
               <Container>
 
-                <div
-                  style={{
-                    width: '55%',
-                    margin: '0 auto',
-                    marginTop: '5%'
-                  }}>
+                <div style={{ width: '60%', margin: '0 auto' }}>
                   
                     <Card>
 
@@ -130,18 +118,7 @@ class UserRegistration extends Component {
 
                         <form onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
 
-                          {/* <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
-                                <h3>Personal Account</h3>
-                              </InputLabel> */}
-                          {/* <Box p={1}>
-                              <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
-                                <h3>Stakeholder Account</h3>
-                              </InputLabel>
-                              <StakeholderProfile props={this.props} state={this.state} handleChange={ this.handleChange } />
-                          </Box> */}
-                          <div className='margin-fix'>
-                            <PersonalProfile props={ this.props } />
-                          </div>
+                          <PersonalProfile props={ this.props } />
 
                           <div className="margin-fix">
 
@@ -158,6 +135,7 @@ class UserRegistration extends Component {
                   </div>
 
               </Container>
+
           </div>
 
         </Fragment>

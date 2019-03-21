@@ -18,6 +18,7 @@ import { Intent } from '@blueprintjs/core';
 export const ListDirectoryInstitution = ({
     stakeholders,
     handleClick,
+    isLoading
 }) => {
 
     // console.log(stakeholders);
@@ -25,47 +26,55 @@ export const ListDirectoryInstitution = ({
         return <div>No stakeholders</div>
     }
 
-    return (
-        <Fragment>
+    if(stakeholders !== null && stakeholders !== undefined) {
 
-            {/* <SearchInputControl 
-                id="search_id"
-                name="directory"
-                placeholder="Search for specific institution..."
-                handleClick={ handleClick }
-                handleChange={ (e) => { handleChange(e) } }
-            /> */}
-            <ButtonControl 
-                intent={Intent.NONE} 
-                value="New Stakeholder"
-                name="create"
-                handleClick={e => handleClick(e) }
-            />
+        return (
+            <Fragment>
+    
+                {/* <SearchInputControl 
+                    id="search_id"
+                    name="directory"
+                    placeholder="Search for specific institution..."
+                    handleClick={ handleClick }
+                    handleChange={ (e) => { handleChange(e) } }
+                /> */}
+                <ButtonControl 
+                    intent={Intent.NONE} 
+                    value="New Stakeholder"
+                    name="create"
+                    handleClick={e => handleClick(e) }
+                />
+    
+                <ul>
+                    {
+                        stakeholders && stakeholders.map((stakeholder, index) => {
+                            
+                            return (
+                                <Fragment key={index}>
+                                    <li id={stakeholder._id} key={stakeholder._id}>
+                                        <a 
+                                            href={ `${ 'directory/' + stakeholder.name }` } 
+                                            onClick={ (e) => { handleClick(e) } }
+                                            name="edit"
+                                            id={stakeholder._id}
+                                        >
+                                            { stakeholder.name }
+                                        </a>
+                                    </li>
+                                </Fragment>
+                            );
+    
+                        })
+                    }
+                </ul>
+    
+            </Fragment>
+        );
 
-            <ul>
-                {
-                    stakeholders && stakeholders.map((stakeholder, index) => {
-                        
-                        return (
-                            <Fragment key={index}>
-                                <li id={stakeholder._id} key={stakeholder._id}>
-                                    <a 
-                                        href={ `${ 'directory/' + stakeholder.name }` } 
-                                        onClick={ (e) => { handleClick(e) } }
-                                        name="edit"
-                                        id={stakeholder._id}
-                                    >
-                                        { stakeholder.name }
-                                    </a>
-                                </li>
-                            </Fragment>
-                        );
+    } else {
 
-                    })
-                }
-            </ul>
-
-        </Fragment>
-    );
+        return <div className='loader' />
+        
+    }
 
 }

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import ContactForm from './contact.form';
+import ParticlesComponent from '../user/particles';
 import './style.css'
 
 import * as UserAuthAction from '../../actions/user.action';
@@ -24,7 +25,11 @@ class Contact extends Component {
 
     return (
       <Fragment>
-        <div className = "page-content">
+
+        <div className= "page-content">
+
+          <ParticlesComponent />
+
           <Container>
             
             <Row>
@@ -50,16 +55,20 @@ class Contact extends Component {
             </Row>
 
             <Row>
-                <Card className={classes.width100}>
-                  <CardBody>
-                    <h4 style={{textAlign: 'center'}}>Feel free to ask anything</h4>
-                    <ContactForm { ...this.props } />
-                  </CardBody> 
-                </Card>
+              <Card className={classes.width100}>
+                <CardBody>
+
+                  <h4 style={{textAlign: 'center'}}>Feel free to ask anything</h4>
+
+                  <ContactForm { ...this.props } />
+                  
+                </CardBody> 
+              </Card>
             </Row>
           </Container>
           
         </div>
+        
       </Fragment>
     );
 

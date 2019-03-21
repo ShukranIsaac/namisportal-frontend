@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import FormControl from '@material-ui/core/FormControl';
@@ -26,27 +26,23 @@ const RenderBootstrapField = ({
 }) => {
 
     return (
-      <Fragment>
-        <FormControl className={classNames(classes.margin, classes.inputFillWhole)}>
-          <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
-            {label}
-          </InputLabel>
-          <InputBase
-            id={ `${name + defaultValue}` }
-            name={name}
-            placeholder={defaultValue}
-            type={type}
-            value={props.input.value || value}
-            onChange={(e) => props.input.onChange(e)}
-            classes={{
-              root: classes.bootstrapRoot,
-              input: classes.bootstrapInput,
-            }}
-            {...props}
-            className={classes.inputFillWhole}
-          />
-        </FormControl>
-      </Fragment>
+      <FormControl className={classNames(classes.margin, classes.inputFillWhole)}>
+        <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}> {label} </InputLabel>
+        <InputBase
+          id={ `${name + defaultValue}` }
+          name={name}
+          placeholder={defaultValue}
+          type={type}
+          value={props.input.value || value}
+          onChange={(e) => props.input.onChange(e)}
+          classes={{
+            root: classes.bootstrapRoot,
+            input: classes.bootstrapInput,
+          }}
+          { ...props }
+          className={classes.inputFillWhole}
+        />
+      </FormControl>
     );
 
 }

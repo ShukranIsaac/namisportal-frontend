@@ -32,7 +32,7 @@ class LicensingProcess extends Component {
     handleChange= (event) => {
 
         this.setState({ [event.target.name]: event.target !== 'value' ? event.target.files : event.target.value });
-        console.log(this.state)
+        // console.log(this.state)
     }
 
     handleSubmit = (values) => {
@@ -51,9 +51,9 @@ class LicensingProcess extends Component {
                     about: values.about
                 }
 
-                console.log(sub_category)
-                console.log(subcategory)
-                // this.props.createCategory(subcategory._id, sub_category , user.token);
+                // console.log(sub_category)
+                // console.log(subcategory)
+                this.props.createCategory(subcategory._id, sub_category , user.token);
                 // then change state to default
                 // so that the page redirects and list all home items
                 this.props.defaultItem();

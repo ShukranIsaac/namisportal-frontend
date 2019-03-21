@@ -135,25 +135,31 @@ class MinGridMap extends Component {
    * @param {Props} props
    * @returns {MarkerClusterer} markers
    */
-  renderDistrictMarepCenters = ({district_name, marep_center, m_centers}) => {
-    // console.log(marep_center)
-    // console.log(district_name)
-    // console.log(m_centers)
-    if (district_name !== null && district_name !== undefined && marep_center) {
+  renderDistrictMarepCenters = ({district_name, marep_center, m_centers, isLoading}) => {
+  
+    if(!isLoading) {
 
-      if (m_centers !== null && m_centers !== undefined && m_centers.length !== null) {
-        
-        return this.markerClusterer(m_centers, 'Marep Center');
+      if (district_name !== null && district_name !== undefined && marep_center) {
 
+        if (m_centers !== null && m_centers !== undefined && m_centers.length !== null) {
+          
+          return this.markerClusterer(m_centers, 'Marep Center');
+  
+        }
+  
+      } else {
+  
+        return (
+          <>
+            <MarkerClusterer />
+          </>
+        );
       }
 
     } else {
 
-      return (
-        <>
-          <MarkerClusterer />
-        </>
-      );
+      return <div className='loader' />
+
     }
 
   }
@@ -199,11 +205,19 @@ class MinGridMap extends Component {
 
   }
 
-  renderPowerPlants = ({ power_plants }) => {
+  renderPowerPlants = ({ power_plants, isLoading }) => {
 
-    if(power_plants !== null) {
+    if(!isLoading) {
 
-      return this.markerClusterer(power_plants, 'Power Plant');
+      if(power_plants !== null) {
+
+        return this.markerClusterer(power_plants, 'Power Plant');
+  
+      }
+
+    } else {
+
+      return <div className='loader' />
 
     }
 
@@ -217,7 +231,7 @@ class MinGridMap extends Component {
    */
   markerClusterer = (clusters, title) => {
 
-    if (clusters !== null) {
+    if (clusters !== null && clusters !== undefined) {
 
         return (
           <Fragment>
@@ -336,41 +350,49 @@ class MinGridMap extends Component {
   renderTransformers = ({
     district_name, transformers, 
     color, ground_transformers,
-    up_transformers
+    up_transformers, isLoading
   }) => {
 
-    if (district_name !== null && district_name !== undefined) {
+    if (!isLoading) {
+      
+      if (district_name !== null && district_name !== undefined) {
 
-      if (transformers !== null && transformers !== undefined
-        && (ground_transformers || up_transformers)) {
-        
-          return (
-            
-            <MarkerClusterer averageCenter>
-
-              {
-                transformers.map((transformer) => {
-
-                  return (
-
-                    <PointMarker key={transformer._id} point={transformer} title='Transformer'/>
-                  )
-
-                })
-              }
-
-            </MarkerClusterer>
-          );
-
-      } 
+        if (transformers !== null && transformers !== undefined
+          && (ground_transformers || up_transformers)) {
+          
+            return (
+              
+              <MarkerClusterer averageCenter>
+  
+                {
+                  transformers.map((transformer) => {
+  
+                    return (
+  
+                      <PointMarker key={transformer._id} point={transformer} title='Transformer'/>
+                    )
+  
+                  })
+                }
+  
+              </MarkerClusterer>
+            );
+  
+        } 
+  
+      } else {
+  
+        return (
+          <>
+            <MarkerClusterer />
+          </>
+        );
+  
+      }
 
     } else {
 
-      return (
-        <>
-          <MarkerClusterer />
-        </>
-      );
+      return <div className='loader' />
 
     }
 
@@ -406,11 +428,7 @@ class MinGridMap extends Component {
   
       });
 
-    } /*else {
-
-      return <div className="loader" />
-
-    }*/
+    }
 
   }
   
@@ -421,13 +439,17 @@ class MinGridMap extends Component {
    * @param {Array} r_polygons
    * @returns renderPolygon
    */
-  renderRegionPolygon = ({region, r_polygons: { polygons }, isLoading }) => {
+  renderRegionPolygon = ({region, r_polygons, isLoading }) => {
 
     if (!isLoading) {
       
       if( region !== null && region !== undefined){
 
-        return this.renderPolygon(polygons, "red", 0.3);
+        if(r_polygons !== undefined && r_polygons !== null) {
+
+          return this.renderPolygon(r_polygons.polygons, "red", 0.3);
+
+        }
   
       }
 
