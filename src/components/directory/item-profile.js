@@ -38,7 +38,7 @@ const ItemProfile = ({ classes, location }) => {
             <h4>Our Vision</h4><p>{ stakeholder.vision }</p>
 
             <hr className="my-2" />
-            <h4>About US</h4><p>{ stakeholder.about }</p>
+            <h4>About Us</h4><p>{ stakeholder.about }</p>
             
         </Jumbotron>
 
@@ -82,8 +82,8 @@ const ItemProfile = ({ classes, location }) => {
                       <p>
                         <a 
                           href={ stakeholder.contacts.website } 
-                          onClick={ (e) => redirect.toExternalLink({ 
-                              url: stakeholder.contacts.website, event: e 
+                          onClick={ (event) => redirect.toExternalLink({ 
+                              url: stakeholder.contacts.website, event: event 
                             }) 
                           }
                         >
