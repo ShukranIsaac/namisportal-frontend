@@ -7,7 +7,6 @@ import { withStyles } from '@material-ui/core/styles';
 import DirectoryItem from './item';
 
 import './directory.css';
-// import ItemProfile from './item-profile';
 import * as Stakeholder from '../../actions/stakeholder.action';
 import { redirect } from '../user/user.redirect';
 
@@ -22,10 +21,8 @@ class Directory extends Component {
   }
 
   handleClick = (e) => {
-    // console.log(this.props.stakeholders_list[1].name)
-    // console.log(this.props)
     // e.preventDefault();
-    // this.props.history.push(`/directory/` + this.props.stakeholders_list[1].name);
+    // console.log(e.target.value);
     return redirect.to({ url: `/directory/` + this.props.stakeholders_list[1].name, from: this.props });
 
   }
@@ -57,7 +54,9 @@ class Directory extends Component {
             {
               stakeholders_list.map((stakeholder, index) => {
 
-                return <DirectoryItem key={ stakeholder.name } stakeholder={ stakeholder } handleClick={ this.handleClick } />
+                return (
+                  <DirectoryItem key={ stakeholder.name } stakeholder={ stakeholder } handleClick={ this.handleClick } />
+                );
                 
               })
             }

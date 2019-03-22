@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import './directory.css';
-import Config from '../../config';
 
 class Item extends Component {
 
@@ -12,7 +11,7 @@ class Item extends Component {
 
     const { classes, stakeholder } = this.props;
 
-    console.log(stakeholder.image);
+    // console.log(stakeholder.image);
 
     if(stakeholder !== null && stakeholder !== undefined) {
 

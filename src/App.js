@@ -43,6 +43,7 @@ class App extends Component {
   };
 
   componentDidMount() {
+
     if (document.getElementById('footer') !== null){
       const height = document.getElementById('footer').clientHeight;
       this.setState({height})
@@ -60,6 +61,7 @@ class App extends Component {
     const content = {
       paddingBottom: this.state.height,
     }
+
     return (
       <div style={wrapper}>
 
@@ -71,10 +73,10 @@ class App extends Component {
             <Route exact path="/financing" render={() => (<div style={content}><AppHeader /> <Financing/> <Footer/></div>)} />
             <Route exact path="/library" render={() => (<div style={content}><AppHeader /> <Library/> <Footer/></div>)} />
             <Route exact path="/directory" render={() => (<div style={content}><AppHeader /> <Directory { ...this.props } { ...this.state} /> <Footer/></div>)} />
-            <Route exact path="/directory/:id" render={() => (<div style={content}><AppHeader /> <ItemProfile { ...this.props } { ...this.state} /> <Footer/></div>)} />
+            <Route exact path="/directory/:id" render={(props) => (<div style={content}><AppHeader /> <ItemProfile { ...props} { ...this.props } { ...this.state} /> <Footer/></div>)} />
             <Route exact path="/gis" render={() => (<><AppHeader /> <GIS/></>)} />
             <Route exact path="/news" render={() => (<div style={content}><AppHeader /> <News/> <Footer/></div>)} />
-            <Route exact path="/news/:id" render={() => (<div style={content}><AppHeader /> <NewsItemDetails/> <Footer/></div>)} />
+            <Route exact path="/news/:id" render={(props) => (<div style={content}><AppHeader /> <NewsItemDetails { ...props } /> <Footer/></div>)} />
             <Route exact path="/faq" render={() => (<div style={content}><AppHeader /> <FAQ/> <Footer/></div>)} />
             <Route exact path="/contact" render={() => (<div style={content}><AppHeader /> <Contact/> <Footer/></div>)} />
             <Route exact path="/login" render={ () => <UserLogin /> } />

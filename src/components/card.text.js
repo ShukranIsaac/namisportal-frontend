@@ -11,7 +11,7 @@ export const NoDataCard = ({ text, header, intent }) => {
 
     return (
         <div>
-            <Callout iconName='infor-sign' intent={ intent }>
+            <Callout iconname='infor-sign' intent={ intent }>
                 <h6>{ header }</h6>
                 { text }
             </Callout>

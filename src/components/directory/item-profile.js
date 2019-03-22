@@ -16,14 +16,12 @@ class ItemProfile extends Component {
   render(){
 
     const { classes } = this.props;
-    console.log(this.props)
 
     return (
         <div>
             <Jumbotron>
                 <div className={classes.headerPart}>
                     <h4>Escom</h4>
-                    {/* <img className={classes.image} src={require("../../../src/assets/img/escom-logo.png")} /> */}
                 </div>
                 
                 <h4>Our Mission</h4>

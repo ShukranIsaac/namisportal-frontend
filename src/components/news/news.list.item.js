@@ -4,8 +4,12 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 
-// import { Collapse } from '@blueprintjs/core';
-
+/**
+ * Renders a single news item
+ * 
+ * @author Isaac S. Mwakabira
+ * 
+ */
 class NewsListItem extends Component {
 
     constructor(){
@@ -25,51 +29,73 @@ class NewsListItem extends Component {
         this.setState({isOpen: !this.state.isOpen});
     
     }
+
+    when = (time) => {
+        const t = new Date(time);
+        let str, h, now = new Date();
+        h = Number(now.getHours() - t.getHours());
+        str = ' ' + h + ' hours ago';
+        return str;
+
+    }
+
+    // split and splice the string passed
+    splitCount = (string) => {
+
+        return ((string.split(' ')).splice(0, 62)).join(' ');
+
+    }
     
     render() {
 
-        const { classes } = this.props;
+        const { classes, article } = this.props;
     
         return (
             <Fragment>
                 <div>
                     <h4 className="heading">
-                        <NavLink to="/news/e8g9tyjGh">Information clearing house, Department of Energy</NavLink>
+                        <NavLink 
+                            to={{
+                                pathname: `/news/` + article.title,
+                                state: {
+                                    article: {
+                                        title: article.title,
+                                        text: article.article,
+                                        createdDate: this.when(article.createdDate)
+                                    }
+                                }
+                            }}
+                        > 
+                            { article.title } 
+                        </NavLink>
                     </h4>
                     <p variant="caption">
                         <i> 
                             By John Doe (<a href="mailto:newseditor@grid.mw" className={classes.link}>newseditor@grid.mw</a>),
-                             <span className={classes.when}> 2 hrs ago</span>
-                            
+                             <span className={classes.when}>{ this.when(article.createdDate) }</span>
                         </i>
                     </p>
                 </div>
+
                 <p>
-                    The Project Developer should submit a Concept Note to the Rural 
-                    Energy Agency (REA) in order to get a preliminary assessment of 
-                    whether the planned project is eligible for support from the 
-                    REA. The Concept note should, inter alia, include:
+                    { this.splitCount(article.article) } 
+                    <NavLink to={{
+                        pathname: `/news/` + article.title,
+                        state: {
+                            article: {
+                                title: article.title,
+                                text: article.article,
+                                createdDate: this.when(article.createdDate)
+                            },
+                        }
+                    }}
+                    >
+                        <em>more...</em>
+                    </NavLink>
                 </p>
-                {/* <Collapse isOpen={this.state.isOpen}>   
-                    <p>
-                        An information portal is a customized website that immerses information from a wide
-                        range of sources in a consistent and uniform manner. For this purpose, UNDP and
-                        Department of Energy Affairs (DoEA) seek to establish an information clearing house
-                        portal to make available information that includes: current electricity grid network,
-                        planned and known rural electrification efforts of Malawi Rural Electrification Project
-                        (MAREP); existing off-grid systems; population centres; renewable energy resource
-                        information; infrastructure; location of government public service institutions; location
-                        of other rural infrastructure, land use, environmental and social issues.
-                    </p>
-                </Collapse> */}
-                <h6 style={{ marginTop: '0px' }}>
-                    { 
-                        // !this.state.isOpen ? <div></div> : <em><div>less...</div></em>
-                        <NavLink to="/news/e8g9tyjGh"><em>more...</em></NavLink>
-                    }
-                </h6>
 
                 <Divider style={{ margin: '20px' }} />
+
             </Fragment>
         );
 

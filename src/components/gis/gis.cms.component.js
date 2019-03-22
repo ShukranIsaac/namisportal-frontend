@@ -11,8 +11,8 @@ import CMSMapPreview from './cms.map.preview';
  */
 class GISComponent extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             zoom: 7,
             newCenter: {
@@ -34,6 +34,11 @@ class GISComponent extends Component {
 
     render() {
 
+        // gis_filters from props
+        // const { gis_filters } = this.props;
+
+        // console.log(gis_filters);
+
         return (
             <Fragment>
                 <ul class="nav nav-tabs" role="tablist">
@@ -48,6 +53,13 @@ class GISComponent extends Component {
                 <div class="tab-content">
                     <div id="gis" class="tab-pane active"><br />
                         Add Features
+                        <img 
+                            style={{ backgroundColor: 'red', height: `150px` }} 
+                            data-holder-rendered="true" 
+                            src={ require("../../../src/assets/img/malawi.png") } 
+                            className="rounded-circle z-depth-2" 
+                            alt="100x100"
+                        />
                     </div>
                     <div id="preview" class="tab-pane fade"><br />
                         <CMSMapPreview { ...this.state } />

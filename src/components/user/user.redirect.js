@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, NavLink } from 'react-router-dom';
 
 /**
  * Directs the user to the right route depending 
@@ -21,7 +21,7 @@ export const redirect = (() => {
     const to = ({ url, from }) => {
         
         // redirect to  this url 
-        return <Redirect to={{ pathname: url, location: { state: from } }} />;
+        return <Redirect to={{ pathname: url, state: from }} />;
         
     };
 
@@ -40,6 +40,29 @@ export const redirect = (() => {
 
     return {
         to, toExternalLink
+    }
+
+})();
+
+
+
+/**
+ * Directs the user to the right route depending 
+ * on the params and state provided if any
+ * 
+ * @author Isaac S. Mwakabira
+ * 
+ */
+export const to = ((url) => {
+
+    const With = ({ state }) => {
+
+        return <NavLink to={{ pathname: url, state: state }} />
+
+    }
+
+    return {
+        With
     }
 
 })();

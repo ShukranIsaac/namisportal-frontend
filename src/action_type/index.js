@@ -13,3 +13,5 @@ export * from './event.types';
 export * from './home.types';
 
 export * from './cms.types';
+
+export * from './news.types';

@@ -18,6 +18,7 @@ import cms from './cms.reducer';
 import stakeholder from './stakeholder.reducer';
 import power_plants from './power_plant.reducer';
 import generalReducer from './general.reducer';
+import news from './news.reducer';
 
 export default combineReducers({
     form: formReducer,
@@ -37,5 +38,6 @@ export default combineReducers({
     transformers: transformers,
     cms: cms,
     stakeholder: stakeholder,
-    power_plants: power_plants
+    power_plants: power_plants,
+    news: news
 });
