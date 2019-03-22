@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import {Card, CardBody, CardImg, Col, Row } from 'reactstrap'
+import { Card, CardBody, CardImg, Col, Row } from 'reactstrap'
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -10,8 +11,6 @@ class Item extends Component {
   render(){
 
     const { classes, stakeholder } = this.props;
-
-    // console.log(stakeholder.image);
 
     if(stakeholder !== null && stakeholder !== undefined) {
 
@@ -27,9 +26,16 @@ class Item extends Component {
 
                     <div>
                       <h4>
-                        <a href={`${ '/directory/' + stakeholder.name }`} onClick={ (e) => this.props.handleClick(e) }>
+                        <NavLink 
+                          to={{
+                              pathname: `/directory/` + stakeholder.name,
+                              state: {
+                                stakeholder: stakeholder
+                              }
+                          }}
+                        >
                           { stakeholder.name }
-                        </a>
+                        </NavLink>
                       </h4>
                       <p>{ stakeholder.about }</p>
                     </div>

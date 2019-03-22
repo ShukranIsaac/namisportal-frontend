@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {Card, CardBody, Col, Row } from 'reactstrap'
 import { Jumbotron } from 'reactstrap';
 import PropTypes from 'prop-types';
@@ -10,78 +10,93 @@ import WebIcon from '@material-ui/icons/Web'
 import PostIcon from '@material-ui/icons/LocalPostOffice'
 
 import './directory.css'
+import { redirect } from '../user/user.redirect';
 
-class ItemProfile extends Component {
+/**
+ * Renders a single directory stakeholder profile details
+ * 
+ * @author Paul Sembereka
+ * @author Isaac S. MWakabira
+ * 
+ * @param {Object} classes
+ * @param {Object} location 
+ */
+const ItemProfile = ({ classes, location }) => {
+
+  const { state: { stakeholder } } = location;
   
-  render(){
+  return (
+    <div>
+        <Jumbotron>
+            <div className={classes.headerPart}>
+                <h4>{ stakeholder.name }</h4>
+            </div>
+            
+            <h4>Our Mission</h4>
+            <p>{ stakeholder.mission }</p>
 
-    const { classes } = this.props;
+            <h4>Our Vision</h4><p>{ stakeholder.vision }</p>
 
-    return (
-        <div>
-            <Jumbotron>
-                <div className={classes.headerPart}>
-                    <h4>Escom</h4>
-                </div>
-                
-                <h4>Our Mission</h4>
-                <p>
-                    This is a simple hero unit, a simple Jumbotron-style component for 
-                    calling extra attention to featured content or information.
-                </p>
+            <hr className="my-2" />
+            <h4>About US</h4><p>{ stakeholder.about }</p>
+            
+        </Jumbotron>
 
-                <h4>Our Mission</h4>
-                <p>
-                    This is a simple hero unit, a simple Jumbotron-style component for 
-                    calling extra attention to featured content or information.
-                </p>
-                <hr className="my-2" />
-                <h4>About US</h4>
-                <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-                
-            </Jumbotron>
+        <Row className={classes.contactCards}>
+            <Col lg='3' md='12' sm='12'>
+                <Card className={classes.cardHeight}>
+                  <CardBody >
+                      <PostIcon style={{ fontSize: 50 }}/>
+                      <h4 className="card-title">Postal Address:</h4>
+                      <p>P.O.Box 7617, Zomba Malawi</p>
+                  </CardBody>
+                </Card>
+            </Col>
+            <Col lg='3' md='12' sm='12'>
+                <Card className={classes.cardHeight}>
+                  <CardBody >
+                      <PhoneIcon style={{ fontSize: 50 }}/>
+                      <h4 className="card-title">Call Us:</h4>
+                      <p>{ stakeholder.contacts.telephone }</p>
+                  </CardBody>
+                </Card>
+            </Col>
+            <Col lg='3' md='12' sm='12'>
+                <Card className={classes.cardHeight}>
+                  <CardBody>
+                      <EmailIcon style={{ fontSize: 50 }}/>
+                      <h4 className="card-title">Email Us:</h4>
+                      <p>
+                        <a href={`${ 'mailto:' + stakeholder.contacts.email }`}>
+                          { stakeholder.contacts.email }
+                        </a>
+                      </p>
+                  </CardBody>
+                </Card>
+            </Col>
+            <Col lg='3' md='12' sm='12'>
+                <Card className={classes.cardHeight}>
+                  <CardBody>
+                      <WebIcon style={{ fontSize: 50 }}/>
+                      <h4 className="card-title">Website:</h4>
+                      <p>
+                        <a 
+                          href={ stakeholder.contacts.website } 
+                          onClick={ (e) => redirect.toExternalLink({ 
+                              url: stakeholder.contacts.website, event: e 
+                            }) 
+                          }
+                        >
+                          { stakeholder.contacts.website }
+                        </a>
+                      </p>
+                  </CardBody>
+                </Card>
+            </Col>
+        </Row>
+    </div>
+  );
 
-            <Row className={classes.contactCards}>
-                <Col lg='3' md='12' sm='12'>
-                    <Card className={classes.cardHeight}>
-                    <CardBody >
-                        <PostIcon style={{ fontSize: 50 }}/>
-                        <h4 className="card-title">Postal Address:</h4>
-                        <p>P.O.Box 7617, Zomba Malawi</p>
-                    </CardBody>
-                    </Card>
-                </Col>
-                <Col lg='3' md='12' sm='12'>
-                    <Card className={classes.cardHeight}>
-                    <CardBody >
-                        <PhoneIcon style={{ fontSize: 50 }}/>
-                        <h4 className="card-title">Call Us:</h4>
-                        <p>(+47) 925 05 362</p>
-                    </CardBody>
-                    </Card>
-                </Col>
-                <Col lg='3' md='12' sm='12'>
-                    <Card className={classes.cardHeight}>
-                    <CardBody>
-                        <EmailIcon style={{ fontSize: 50 }}/>
-                        <h4 className="card-title">Email Us:</h4>
-                        <p><a href="mailto:psemberekajr@gmail.com">psemberekajr@gmail.com</a></p>
-                    </CardBody>
-                    </Card>
-                </Col>
-                <Col lg='3' md='12' sm='12'>
-                    <Card className={classes.cardHeight}>
-                    <CardBody>
-                        <WebIcon style={{ fontSize: 50 }}/>
-                        <h4 className="card-title">Website:</h4>
-                        <p><a href="https://github.com/Smembe812">@Smembe812</a></p>
-                    </CardBody>
-                    </Card>
-                </Col>
-            </Row>
-        </div>
-    );
-  }
 }
 
 const styles = theme => ({
