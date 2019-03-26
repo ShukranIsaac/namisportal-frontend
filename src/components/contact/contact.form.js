@@ -11,7 +11,6 @@ import AsyncValidate from './form.async-validate';
 import Validate from './email.validate';
 
 import styles from './form.styles';
-import { UserProfile } from '../user/user.profile';
 import { redirect } from '../user/user.redirect';
 import { FormTextInputField } from '../forms/form.textinput.field';
 
@@ -42,23 +41,32 @@ class ContactForm extends Component {
       if(values !== null && values !== undefined) {
         // define sub-category structure
         const contact_us = {
-            fullname: values.fullname,
+            fullName: values.fullname,
             email: values.email,
             subject: values.subject,
             message: values.message
         }
 
-        // console.log(contact_us);
-        this.props.contactUs(contact_us , UserProfile.token);
-        // then redirect user accordingly
-        redirect.to({ url: `/faq` });
+        // send message
+        this.props.contactUs(contact_us);
       }
 
     }
 
     render() {
 
-        const { handleSubmit, pristine, submitting } = this.props;
+        const { handleSubmit, pristine, submitting, contact_us } = this.props;
+        
+        // contact.log(contact);
+        if (contact_us !== undefined && contact_us !== null) {
+          const { success } = contact_us;
+          // then redirect user accordingly
+          if (success) {
+            console.log(contact_us);
+            return redirect.to({ url: `/faq` });
+          }
+
+        }
 
         return (
           

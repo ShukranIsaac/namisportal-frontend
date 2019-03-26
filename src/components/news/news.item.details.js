@@ -21,7 +21,8 @@ const NewsItemDetails = ({ classes, location }) => {
 
                     <Divider style={{ margin: '20px' }} />
                 </div>
-                <p>{ article.text }</p>
+                
+                <div dangerouslySetInnerHTML={{ __html: article.text }}></div>
 
                 <Divider style={{ margin: '20px', width: '35%' }} />
 

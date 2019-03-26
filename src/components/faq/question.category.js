@@ -41,7 +41,7 @@ export default class QuestionCategory extends Component {
         return (
             <div style={categoryContainer}>
 
-                <Callout onClick={ (e) => this.handleClick(e) } name={ this.state.isOpen } style={button} rightIcon="download">
+                <Callout onClick={ (e) => this.handleClick(e) } name={ `${ this.state.isOpen }` } style={button} righticon="download">
                     <div style={{ alignSelf: 'flex-start'}}>{ (index + 1) + '. ' + name }</div>
                     <div style={{marginLeft: 'auto'}}>
                        { this.state.isOpen ? <Icon icon="remove"/> : <Icon icon="add"/>} 
@@ -64,7 +64,6 @@ export default class QuestionCategory extends Component {
 
     handleClick = (e) => {
 
-        // console.log(e.target);
         this.setState({isOpen: !this.state.isOpen})
         
     }

@@ -26,6 +26,7 @@ import ContactShowDetails from '../contact/contact.show.details';
 import EditContactDetails from '../contact/contact.edit.form';
 import GISComponent from '../gis/gis.cms.component';
 import LicensingProfile from '../licensing/licensing.profile';
+import { ListUserAccounts } from '../user/user.list.cms.component';
 
 /**
  * Renders a single section resource i.e. licencing, library at cms index
@@ -223,7 +224,7 @@ const RenderSection = ({
                                     /> 
                             }
                         Edit={ () => <EditNewsItem handleClick={ (e) => handleClick(e) } /> }
-                        Create={ () => <CreateNewsItem handleClick={ (e) => handleClick(e) } />}
+                        Create={ () => <CreateNewsItem handleClick={ (e) => handleClick(e) } { ...props } />}
                     />
 
                 </Fragment>
@@ -245,10 +246,17 @@ const RenderSection = ({
 
             }
 
-        case 'notifications':
-        case 'settings':
+        case 'accounts':
             
-            return <Fragment />
+            return (
+                <Fragment>
+                    <ListUserAccounts />
+                </Fragment>
+            );
+        
+        case 'notifications':
+
+            return <Fragment></Fragment>
 
         case 'contact':
             

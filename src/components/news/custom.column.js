@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { Col } from 'reactstrap';
 
+/**
+ * Component renders a single column of children
+ * 
+ * @author Isaac S. Mwakabira
+ */
 class CustomColumn extends Component {
 
     render() {

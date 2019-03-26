@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import { Row } from 'reactstrap';
 
 import CustomColumn from '../news/custom.column';
@@ -34,99 +35,93 @@ class FAQ extends Component {
 
   render(){
 
-    const { questions } = this.props;
+    const { questions, general } = this.props;
     const text = "The following are some of the frequently asked questions. If you have not been helped, please contact us through the link given."
-    
-    if(questions !== null && questions !== undefined) {
 
-      const { subCategories } = questions;
-      // check if subcategories is not null, ie. has data
-      if(subCategories !== null || subCategories.length !== 0) {
+    return (
+      <Row style={{ marginTop: '20px', marginLeft: '50px', marginRight: '50px' }}>
 
-        return (
-          <>
-    
-            <Row style={{ marginTop: '20px', marginLeft: '50px', marginRight: '50px' }}>
-    
-              <CustomColumn sm='12' md='4' lg='2'>
-    
-                <Flex wrap column align='top' justify='left' m={1} w={1} p={1} style={{ borderLeft: 'solid #fff000'}}>
-    
-                  <a href="/contact"><FormLegendField value="Contact us"/></a>
-    
-                </Flex>
-    
-              </CustomColumn>
-    
-              <CustomColumn sm='12' md='12' lg='10'>
-    
-                <NoDataCard text={ text } header={ `Frequently asked questions` } intent={Intent.PRIMARY} />
-    
-                <form autoComplete='off' style={{ marginTop: '20px' }}>
-    
-                  <SearchInputControl 
-                    handleChange={this.handleChange} 
-                    placeholder="Search for previous asked questions..."
-                    name="Faqs"
-                  />
-    
-                </form>
-    
-                {
-                  subCategories.length !== 0 && subCategories.map((category, index) => {
-                    // console.log(category);
+        <CustomColumn sm='12' md='4' lg='2'>
 
-                    // if this category has question render, else don't
-                    if(category.subCategories.length !== 0) {
+          <Flex wrap column align='top' justify='left' m={1} w={1} p={1} style={{ borderLeft: 'solid #fff000'}}>
 
-                      return (
-                        <QuestionCategory index={ index } name={ category.name } >
-  
-                          {
-                            category.subCategories.length !== 0 ? category.subCategories.map((question, index) => {
+            <NavLink to="/contact"><FormLegendField value="Contact us"/></NavLink>
 
-                              return <QuestionListItem question={ question } />
+          </Flex>
 
-                            }) : <NoDataCard header={ `'No data'` } intent={Intent.WARNING} />
-                          }
-  
-                        </QuestionCategory>
-                      );
+        </CustomColumn>
 
-                    } else {
+        <CustomColumn sm='12' md='12' lg='10'>
 
-                      return (
-                        <QuestionCategory index={ index } name={ category.name }>
-  
-                          <NoDataCard header={ 'No questions' } intent={Intent.WARNING} />
-  
-                        </QuestionCategory>
-                      );
+          <NoDataCard text={ text } header={ `Frequently asked questions` } intent={Intent.PRIMARY} />
 
-                    }
+          <form autoComplete='off' style={{ marginTop: '20px' }}>
 
-                  })
+            <SearchInputControl 
+              handleChange={this.handleChange} 
+              placeholder="Search for previous asked questions..."
+              name="Faqs"
+            />
 
-                }
-    
-              </CustomColumn>
-    
-            </Row>
-    
-          </>
-        );
+          </form>
 
-      } else {
+          {
+          
+            general !== null && general !== undefined ? 
 
-        return <NoDataCard header="There are no questions to show. Please contact us!!" intent={Intent.SUCCESS} />
+              !general.isLoading ? 
 
-      }
+                questions !== null && questions !== undefined ? 
 
-    } else {
+                  questions.subCategories !== null && questions.subCategories !== undefined ? 
 
-      return <div className="loader" />
+                    questions.subCategories.length !== 0 && questions.subCategories.map((category, index) => {
+                      
+                      // if this category has question render, else don't
+                      if(category.subCategories.length !== 0) {
+                    
+                        return (
+                          <QuestionCategory key={ category.name } index={ index } name={ category.name } >
+                    
+                            {
+                              category.subCategories.length !== 0 ? category.subCategories.map((question, index) => {
+                    
+                                return <QuestionListItem key={ index } question={ question } />
+                    
+                              }) : <NoDataCard header={ `No data` } intent={Intent.WARNING} />
+                            }
+                    
+                          </QuestionCategory>
+                        );
+                    
+                      } else {
+                    
+                        return (
+                          <QuestionCategory key={ category.name } index={ index } name={ category.name }>
+                    
+                            <NoDataCard header={ 'No questions' } intent={Intent.SUCCESS} />
+                    
+                          </QuestionCategory>
+                        );
+                    
+                      }
+                  
+                    })
 
-    }
+                  : <NoDataCard header="There are no questions to show. Please contact us!!" intent={Intent.SUCCESS} />
+                
+                : <NoDataCard header="There are no questions to show!!" intent={Intent.WARNING} /> 
+              
+              : <div className="loader" />
+
+            : <NoDataCard header={ `No data` } intent={Intent.WARNING} />
+
+          }
+
+        </CustomColumn>
+
+      </Row>
+    );
 
   }
 
@@ -136,6 +131,7 @@ const mapStateToProps = (state) => {
 
   return {
     questions: state.cms.subcategory,
+    general: state.general.general,
   }
 
 }

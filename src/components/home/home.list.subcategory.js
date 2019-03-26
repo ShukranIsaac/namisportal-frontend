@@ -33,10 +33,10 @@ export const ListHomeSubcategory = ({
                     <Row>
 
                         {
-                            subCategories !== undefined && subCategories.map(({ name, about, _id }) => {
+                            subCategories !== undefined && subCategories.map(({ name, about, _id }, index) => {
 
                                 return(
-                                    <Col sm='12' md='8' lg='6'>
+                                    <Col key={ index } sm='12' md='8' lg='6'>
                                         <div className="card">
                                             <div className="card-body">
                                                 <h4>

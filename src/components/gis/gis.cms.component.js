@@ -41,17 +41,17 @@ class GISComponent extends Component {
 
         return (
             <Fragment>
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#gis">Features</a>
+                <ul className="nav nav-tabs" role="tablist">
+                    <li className="nav-item">
+                        <a className="nav-link active" data-toggle="tab" href="#gis">Features</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#preview">Preview</a>
+                    <li className="nav-item">
+                        <a className="nav-link" data-toggle="tab" href="#preview">Preview</a>
                     </li>
                 </ul>
 
-                <div class="tab-content">
-                    <div id="gis" class="tab-pane active"><br />
+                <div className="tab-content">
+                    <div id="gis" className="tab-pane active"><br />
                         Add Features
                         <img 
                             style={{ backgroundColor: 'red', height: `150px` }} 
@@ -61,7 +61,7 @@ class GISComponent extends Component {
                             alt="100x100"
                         />
                     </div>
-                    <div id="preview" class="tab-pane fade"><br />
+                    <div id="preview" className="tab-pane fade"><br />
                         <CMSMapPreview { ...this.state } />
                     </div>
                 </div>

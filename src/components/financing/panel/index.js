@@ -43,7 +43,7 @@ class Panel extends Component{
 
         return (
             <div style={docContainer}>
-                <Callout onClick={this.handleClick} style={button} rightIcon="add">
+                <Callout onClick={this.handleClick} style={button} righticon="add">
                     <div style={{ alignSelf: 'flex-start'}}>{ heading }</div>
                     <div style={{marginLeft: 'auto'}}>
                        { this.state.collapsed ? <Icon icon="remove"/> : <Icon icon="add"/>} 

@@ -3,7 +3,7 @@ import { Card, CardBody } from 'reactstrap'
 import Panel from '../financing/panel';
 import { redirect } from '../user/user.redirect';
 
-class Financing extends Component {
+class Licensing extends Component {
   
   constructor(){
       super()
@@ -206,9 +206,9 @@ class Financing extends Component {
 
   renderPanels (panels) {
 
-    return panels.map(({heading, text}) => {
+    return panels.map(({heading, text}, index) => {
 
-      return <Panel heading={heading} text={text}/>
+      return <Panel key={ index } heading={heading} text={text}/>
 
     });
 
@@ -242,4 +242,4 @@ class Financing extends Component {
   }
 }
 
-export default Financing;
+export default Licensing;

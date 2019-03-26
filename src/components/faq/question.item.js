@@ -7,6 +7,7 @@ import { Row } from 'reactstrap';
  * Render this question
  * 
  * @author Isaac S. Mwakabira
+ * 
  * @param {Object} text 
  */
 export const QuestionListItem = ({ question }) => {
@@ -19,7 +20,7 @@ export const QuestionListItem = ({ question }) => {
                       
                 <div>
                     <h4 className="heading" style={{ marginTop: '20px' }}>
-                    <i style={{ fontSize: '20px', fontStyle: bold }}>Q. </i>
+                        <i style={{ fontSize: '20px', fontStyle: bold }}>Q. </i>
                         { question.name }
                     </h4>
                     <div variant="caption">

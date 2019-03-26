@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { Editor, getEventTransfer  } from 'slate-react';
-import isUrl from 'is-url';
+import { Field } from 'redux-form';
 
+import isUrl from 'is-url';
 import Icon from 'react-icons-kit';
 import { bold } from 'react-icons-kit/feather/bold';
 import { italic } from 'react-icons-kit/feather/italic';
@@ -10,106 +11,10 @@ import { list } from 'react-icons-kit/feather/list';
 import { underline } from 'react-icons-kit/feather/underline';
 import { link2 } from 'react-icons-kit/feather/link2';
 
-import Html from 'slate-html-serializer';
-
 import { ic_title } from 'react-icons-kit/md/ic_title';
 import { ic_format_quote } from 'react-icons-kit/md/ic_format_quote';
 import { BoldMark, ItalicMark, FormatToolbar } from './index';
-
-/**
- * What if you want to save the content as HTML?
- * we need to add the Html serializer. And to do that, 
- * we need to tell it a bit about the schema we plan on using. For this example,
- *  we'll work with a schema that has a few different parts:
- * 		
- * 		1. A paragraph block.
- * 		2. A code block for code samples.
- * 		3. A quote block for quotes...
- * 		4. And bold, italic and underline formatting.
- * 
- * By default, the Html serializer knows nothing about our schema, just like Slate itself. 
- * To fix this, we need to pass it a set of rules. 
- * Each rule defines how to serialize and deserialize a Slate object.
- * 
- * To start, let's create rules with a deserialize amd serialize functions for paragraph blocks.
- */
-
-// Refactor block tags into a dictionary for cleanliness.
-const BLOCK_TAGS = {
-	p: 'paragraph',
-	blockquote: 'quote',
-	pre: 'code',
-}
-
-// Add a dictionary of mark tags.
-const MARK_TAGS = {
-	em: 'italic',
-	strong: 'bold',
-	u: 'underline',
-  }
-
-const rules = [
-	{
-		deserialize(el, next) {
-			const type = BLOCK_TAGS[el.tagName.toLowerCase()]
-			if (type) {
-				return {
-					object: 'block',
-					type: type,
-					data: {
-						className: el.getAttribute('class'),
-					},
-					nodes: next(el.childNodes),
-				}
-			}
-		},
-		serialize(obj, children) {
-			if (obj.object === 'block') {
-				switch (obj.type) {
-					case 'code':
-						return (
-							<pre>
-								<code>{children}</code>
-							</pre>
-						)
-					case 'paragraph':
-						return <p className={obj.data.get('className')}>{children}</p>
-					case 'quote':
-						return <blockquote>{children}</blockquote>
-					default:
-						return;
-				}
-			}
-		},
-	},
-	// Add a new rule that handles marks...
-	{
-		deserialize(el, next) {
-			const type = MARK_TAGS[el.tagName.toLowerCase()]
-			if (type) {
-				return {
-					object: 'mark',
-					type: type,
-					nodes: next(el.childNodes),
-				}
-			}
-		},
-		serialize(obj, children) {
-			if (obj.object === 'mark') {
-				switch (obj.type) {
-					case 'bold':
-						return <strong>{children}</strong>
-					case 'italic':
-						return <em>{children}</em>
-					case 'underline':
-						return <u>{children}</u>
-					default:
-						return
-				}
-			}
-		},
-	},
-]
+import { editor } from './text.editor.utils';
 
 export default class TextEditor extends Component {
 
@@ -132,8 +37,7 @@ export default class TextEditor extends Component {
 	componentDidMount() {
 
 		// Create a new serializer instance with our `rules` from above.
-		const html = new Html({ rules });
-		html.deserialize(this.props.content)
+		editor.html.deserialize(this.props.content)
 
 		// console.log(html.deserialize(this.props.content));
 		// console.log(html.serialize(this.props.content));
@@ -175,7 +79,7 @@ export default class TextEditor extends Component {
 		 */
 		e.preventDefault();
 
-		//this.editor.insertText(e.key);
+		this.editor.insertText(e.key);
 
 		/**
 		 * Check key value, we want all our commands 
@@ -245,8 +149,7 @@ export default class TextEditor extends Component {
 		 */
 		e.preventDefault();
 
-		//this.editor.insertText(e.key);
-		console.log();
+		this.editor.insertText(e.key);
 
 		/**
 		 *  Decide what to do based on the key code
@@ -436,10 +339,7 @@ export default class TextEditor extends Component {
 			  return
 			}
 	  
-			editor
-			  .insertText(text)
-			  .moveFocusBackward(text.length)
-			  .command(this.wrapLink, href)
+			editor.insertText(text).moveFocusBackward(text.length).command(this.wrapLink, href)
 		}
 
 		// this.onChange(editor);
@@ -471,14 +371,11 @@ export default class TextEditor extends Component {
 		 * applying the formatting on the selected text which the desired formatting
 		 */
 		this.editor.toggleMark(type);
-		console.log(type);
-		
+		// console.log(type);
 
 		/**
-		 *  calling the  onChange method we declared 
+		 *  calling the  editorChange method we declared 
 		 */
-		// this.onChange(this.editor);
-
 		this.props.editorChange(this.editor);
 
 	};
@@ -540,16 +437,26 @@ export default class TextEditor extends Component {
 				{
 					this.renderMenu()
 				}
-				<Editor
-					placeholder={ `${ "Hint: use editor controls above to style your content..."}` }
-					autoCorrect={true}
-					value={this.props.content}
-					onChange={ () => editorChange(this.editor) }
-					ref={this.ref}
-					onKeyDown={this.onKeyDown}
-					renderMark={this.renderMark}
-					renderNode={this.renderNode}
-					onPaste={this.onPaste}
+				
+				<Field 
+					name='article'
+					component={ input => {
+
+						return (
+							<Editor
+								placeholder={ `${ "Hint: use editor controls above to style your content..."}` }
+								autoCorrect={true}
+								value={this.props.content}
+								onChange={ () => editorChange(this.editor) }
+								ref={this.ref}
+								onKeyDown={this.onKeyDown}
+								renderMark={this.renderMark}
+								renderNode={this.renderNode}
+								onPaste={this.onPaste}
+								{ ...input }
+							/>
+						)
+					}}
 				/>
 			</Fragment>
 		);

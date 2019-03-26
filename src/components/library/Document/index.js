@@ -37,7 +37,7 @@ export default class Document extends Component {
 
         return (
             <div style={docContainer}>
-                <Callout onClick={this.handleClick} style={button} rightIcon="download">
+                <Callout onClick={this.handleClick} style={button} righticon="download">
                     <div style={{ alignSelf: 'flex-start'}}>{ name }</div>
                     <div style={{marginLeft: 'auto'}}>
                         <Icon icon="download"/>

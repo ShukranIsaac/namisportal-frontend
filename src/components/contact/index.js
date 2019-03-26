@@ -91,7 +91,7 @@ const mapDispatchToProps = (dispatch) => {
       fetchContact: (name) => { dispatch(UserAuthAction.fetchContact(name)) },
       // contact us message, don't authenticate this route
       // since any user of the system can send a message.
-      contactUs: (data, user) => { dispatch(UserAuthAction.contact(data, user)) },
+      contactUs: (data) => { dispatch(UserAuthAction.contact(data)) },
   };
 
 }

@@ -94,9 +94,9 @@ export const register = (user) => {
  * @param {Object} contact 
  * @returns {Function} dispatch
  */
-export const contact = (contact, user) => {
+export const contact = (contact) => {
     
-    const url = `users/contact`;
+    const url = `contacts/message`;
 
     return async (dispatch) => {
 
@@ -112,6 +112,7 @@ export const contact = (contact, user) => {
         
         .catch((error) => {
 
+            console.log(error);
             dispatch(GeneralAction.hasErrored(true))
 
         });

@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import { Flex } from 'reflexbox';
 import { Row } from 'reactstrap';
 
@@ -7,11 +8,16 @@ import * as NewsAction from '../../actions/news.action';
 
 import CustomColumn from './custom.column';
 import NewsListItem from './news.list.item';
-// import SearchInputControl from '../forms/search.form.field';
 import FormLegendField from '../forms/form.legend.field';
 import { NoDataCard } from '../card.text';
 import { Intent } from '@blueprintjs/core';
 
+/**
+ * News component- frontend
+ * 
+ * @author Isaac S. Mwakabira
+ * 
+ */
 class News extends Component {
 
   constructor(){
@@ -43,6 +49,22 @@ class News extends Component {
 
   }
 
+  when = (time) => {
+    const t = new Date(time);
+    let str, h, now = new Date();
+    h = Number(now.getHours() - t.getHours());
+    str = ' ' + h + ' hours ago';
+    return str;
+
+  }
+
+  // split and splice the string passed
+  splitCount = (string) => {
+
+    return ((string.split(' ')).splice(0, 62)).join(' ');
+
+  }
+
   render(){
 
     const { general, articles } =  this.props;
@@ -55,11 +77,11 @@ class News extends Component {
 
             <Flex wrap column align='top' justify='left' m={1} w={1} p={1} style={{ borderLeft: 'solid #fff000'}}>
 
-              <a href="/news"><FormLegendField value="Latest news"/></a>
+              <NavLink to="/news"><FormLegendField value="Latest news"/></NavLink>
 
-              <a href="/faq"><FormLegendField value="Ask questions"/></a>
+              <NavLink to="/faq"><FormLegendField value="Ask questions"/></NavLink>
 
-              <a href="/contact"><FormLegendField value="Contact us"/></a>
+              <NavLink to="/contact"><FormLegendField value="Contact us"/></NavLink>
 
             </Flex>
 
@@ -76,13 +98,13 @@ class News extends Component {
                   
                     articles.map(article => {
 
-                      return <NewsListItem key={ article.title } article={ article } { ...this.props } />
+                      return <NewsListItem key={ article.title } when={ this.when } splitCount={ this.splitCount } article={ article } { ...this.props } />
 
                     }) : <NoDataCard text="No articles available" intent={Intent.WARNING} />
               
                 : <div className="loader" /> 
 
-              : <div className="loader" />
+              : <NoDataCard text="Ooops!! seems something is wrong." intent={Intent.WARNING} />
             }
 
           </CustomColumn>

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -10,96 +10,56 @@ import Divider from '@material-ui/core/Divider';
  * @author Isaac S. Mwakabira
  * 
  */
-class NewsListItem extends Component {
-
-    constructor(){
-        super()
+const NewsListItem = ({ when, splitCount, classes, article })=> {
     
-        this.state = {
-            isOpen: false
-        }
-    
-        this.toggleNewsItem = this.toggleNewsItem.bind(this);
-    
-    }
-    
-    toggleNewsItem = (e) => {
-        
-        e.preventDefault();
-        this.setState({isOpen: !this.state.isOpen});
-    
-    }
-
-    when = (time) => {
-        const t = new Date(time);
-        let str, h, now = new Date();
-        h = Number(now.getHours() - t.getHours());
-        str = ' ' + h + ' hours ago';
-        return str;
-
-    }
-
-    // split and splice the string passed
-    splitCount = (string) => {
-
-        return ((string.split(' ')).splice(0, 62)).join(' ');
-
-    }
-    
-    render() {
-
-        const { classes, article } = this.props;
-    
-        return (
-            <Fragment>
-                <div>
-                    <h4 className="heading">
-                        <NavLink 
-                            to={{
-                                pathname: `/news/` + article.title,
-                                state: {
-                                    article: {
-                                        title: article.title,
-                                        text: article.article,
-                                        createdDate: this.when(article.createdDate)
-                                    }
+    return (
+        <Fragment>
+            <div>
+                <h4 className="heading">
+                    <NavLink 
+                        to={{
+                            pathname: `/news/` + article.title,
+                            state: {
+                                article: {
+                                    title: article.title,
+                                    text: article.article,
+                                    createdDate: when(article.createdDate)
                                 }
-                            }}
-                        > 
-                            { article.title } 
-                        </NavLink>
-                    </h4>
-                    <p variant="caption">
-                        <i> 
-                            By John Doe (<a href="mailto:newseditor@grid.mw" className={classes.link}>newseditor@grid.mw</a>),
-                             <span className={classes.when}>{ this.when(article.createdDate) }</span>
-                        </i>
-                    </p>
-                </div>
-
-                <p>
-                    { this.splitCount(article.article) } 
-                    <NavLink to={{
-                        pathname: `/news/` + article.title,
-                        state: {
-                            article: {
-                                title: article.title,
-                                text: article.article,
-                                createdDate: this.when(article.createdDate)
-                            },
-                        }
-                    }}
-                    >
-                        <em>more...</em>
+                            }
+                        }}
+                    > 
+                        { article.title } 
                     </NavLink>
+                </h4>
+                <p variant="caption">
+                    <i> 
+                        By John Doe (<a href="mailto:newseditor@grid.mw" className={classes.link}>newseditor@grid.mw</a>),
+                         <span className={classes.when}>{ when(article.createdDate) }</span>
+                    </i>
                 </p>
+            </div>
 
-                <Divider style={{ margin: '20px' }} />
+            <p>
+                <div dangerouslySetInnerHTML={{ __html: splitCount(article.article) }} />
+                <NavLink to={{
+                    pathname: `/news/` + article.title,
+                    state: {
+                        article: {
+                            title: article.title,
+                            text: article.article,
+                            createdDate: when(article.createdDate)
+                        },
+                    }
+                }}
+                >
+                    <em>more...</em>
+                </NavLink>
+            </p>
 
-            </Fragment>
-        );
+            <Divider style={{ margin: '20px' }} />
 
-    }
+        </Fragment>
+    );
 
 }
 

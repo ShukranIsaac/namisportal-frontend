@@ -16,7 +16,7 @@ import DirectoryIcon from '@material-ui/icons/LocalLibrary'
 import NewsIcon from '@material-ui/icons/LibraryBooks'
 import ContactIcon from '@material-ui/icons/ContactMail'
 import NotificationsIcon from '@material-ui/icons/NotificationImportant'
-import Settings from '@material-ui/icons/Settings'
+import Settings from '@material-ui/icons/PersonAdd'
 import LogoutIcon from '@material-ui/icons/AccountCircle';
 import HomeIcon from '@material-ui/icons/Home';
 import FAQIcon from '@material-ui/icons/QuestionAnswer';
@@ -34,7 +34,7 @@ const drawer_controls = [
 ];
 
 const config = [
-    { name: 'settings', button: <Settings/>},
+    { name: 'accounts', button: <Settings/>},
     { name: 'notifications', button: <NotificationsIcon/>},
     { name: 'logout', button: <LogoutIcon/>},
 ];
@@ -79,7 +79,7 @@ const CustomDrawer = ({
                             button 
                             key={name} 
                             onClick={ (e) => handleLink(e, name) }
-                            className={ link === name && classes.highlight }
+                            className={ `${ link === name && classes.highlight }` }
                         >
                             <ListItemIcon>{ button }</ListItemIcon>
                             <ListItemText primary={capitalize(name)} />
@@ -96,7 +96,7 @@ const CustomDrawer = ({
                         button 
                         key={name} 
                         onClick={ (e) => handleLink(e, name) }
-                        className={ link === name && classes.highlight }
+                        className={ `${ link === name && classes.highlight }` }
                     >
                         <ListItemIcon>{ button }</ListItemIcon>
                         <ListItemText primary={capitalize(name)} />
