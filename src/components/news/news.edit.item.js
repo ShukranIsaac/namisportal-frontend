@@ -15,6 +15,12 @@ import styles from '../contact/form.styles';
 
 import initialValue from '../forms/utils/initial.value';
 
+/**
+ * Edit a single news article
+ * 
+ * @author Isaac S. Mwakabira
+ * 
+ */
 class EditNewsItem extends Component {
 
     constructor() {
@@ -57,11 +63,7 @@ class EditNewsItem extends Component {
 	 */
     componentDidMount() {
 
-        this.setState(
-            { 
-                title: this.state.item.article.title,
-            }
-        );
+        Object.assign(this.state, this.props);
 
     }
 
@@ -147,11 +149,7 @@ class EditNewsItem extends Component {
                         }}
                     />
 
-                    <TextEditor 
-                        name="content" 
-                        content={ this.state.content } 
-                        editorChange={ this.handleEditorChange } 
-                    />
+                    <TextEditor name="content" content={ this.state.content } editorChange={ this.handleEditorChange } />
 
                     <div className={ classes.margin }/>
                     <div className={ classes.margin }/>

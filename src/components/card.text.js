@@ -7,10 +7,10 @@ import { Callout } from '@blueprintjs/core';
  * @author Isaac S. Mwakabira
  * @param {String} text 
  */
-export const NoDataCard = ({ text, header, intent }) => {
+export const NoDataCard = ({ text, header, intent, style }) => {
 
     return (
-        <div>
+        <div style={ style }>
             <Callout iconname='infor-sign' intent={ intent }>
                 <h6>{ header }</h6>
                 { text }

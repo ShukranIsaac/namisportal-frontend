@@ -17,6 +17,7 @@ import * as UserAuthAction from '../../actions/user.action';
 import * as HomeAction from '../../actions/home.action';
 import * as CMSAction from '../../actions/cms.action';
 import * as Stakeholder from '../../actions/stakeholder.action';
+import * as NewsAction from '../../actions/news.action';
 
 import CustomDrawer from './cms.custom.drawer';
 import RenderSection from './cms.render.section';
@@ -180,6 +181,12 @@ class CMSIndex extends React.Component {
                  */
                 this.props.category(this.capitalize(link));
                 break;
+            case 'news':
+                /**
+                 * News
+                 */
+                this.props.fetchNewsArticles();
+                break;
             default:
                 break;
         }
@@ -233,7 +240,6 @@ class CMSIndex extends React.Component {
          * change state depending on the button the user clicked in the UI
          * 
          */
-        
         switch(event.currentTarget.name) {
             case 'publish':
                 this.props.publishItem();
@@ -244,13 +250,17 @@ class CMSIndex extends React.Component {
                 // get cms component name, ie. current component
                 const { link } = this.state;
                 if(link === 'home') {
-                    // console.log(event.currentTarget.id)
+                    
                     // fetch category
                     this.props.subCategory(event.currentTarget.id);
                 } else if(link === 'directory') {
-                    // console.log(event.currentTarget.id)
+                    
                     // fetch stakeholder
                     this.props.fetchSingleStakeholder(event.currentTarget.id)
+                } else if(link === 'news') {
+                    
+                    // fetch news article
+                    this.props.fetchArticle(event.currentTarget.id)
                 } else {
                     // default
                     // this.props.defaultItem();
@@ -283,8 +293,8 @@ class CMSIndex extends React.Component {
         
         const { classes } = this.props;
         const { link } = this.state;
-        // console.log(this.props);
-        // console.log(`${match.url}`);
+        
+        // get loggedin user
         const user = UserProfile.get();
         // Check if user is logged in before rendering this page
         // else redirect to login
@@ -453,6 +463,8 @@ const styles = theme => ({
 const mapStateToProps = (state) => {
     
     return {
+        errored: state.news.errored,
+        general: state.general.general,
         user_event: state.event.event,
         library: state.library.library,
         document: state.library.document,
@@ -460,6 +472,7 @@ const mapStateToProps = (state) => {
         subcategory: state.cms.subcategory,
         stakeholder: state.stakeholder.stakeholder,
         stakeholders_list: state.stakeholder.stakeholders_list,
+        articles: state.news.articles,
     };
 
 }
@@ -495,6 +508,10 @@ const mapDispatchToProps = (dispatch) => {
         fetchStakeholders: () => { dispatch(Stakeholder.fetchAllStakeholders()) },
         editStakeholder: (i, s, t) => { dispatch(Stakeholder.editStakeholder(i, s, t)) },
         uploadStakeholderLogo: (i, im, t) => { dispatch(Stakeholder.uploadStakeholderLogo(i, im, t)) },
+        // news articles
+        fetchNewsArticles: () => dispatch(NewsAction.fetchAllArticles()),
+        fetchArticle: (id) => dispatch(NewsAction.fetchArticleById(id)),
+        editArticle: (id, article, token) => dispatch(NewsAction.editArticle(id, article, token)),
     };
 
 }

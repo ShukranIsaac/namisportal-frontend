@@ -221,9 +221,10 @@ const RenderSection = ({
                         List={ () => <ListNewsArticles 
                                         handleClick={ (e) => handleClick(e) } 
                                         handleChange={ e => handleChange(e) } 
+                                        { ...props }
                                     /> 
                             }
-                        Edit={ () => <EditNewsItem handleClick={ (e) => handleClick(e) } /> }
+                        Edit={ () => <EditNewsItem { ...props } handleClick={ (e) => handleClick(e) } /> }
                         Create={ () => <CreateNewsItem handleClick={ (e) => handleClick(e) } { ...props } />}
                     />
 

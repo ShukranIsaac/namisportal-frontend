@@ -10,28 +10,26 @@ const NewsItemDetails = ({ classes, location }) => {
     const { state: { article } } = location;
 
     return (
-        <>
-            <div className="container" style={{ marginTop: '30px' }}>
-                <div>
-                    <h4 className={classNames(classes.headline, "heading")}>{ article.title }</h4>
-                    <Typography variant="caption">
-                        <div className={classes.when}>{ article.createdDate }</div>
-                        By John Doe
-                    </Typography>
-
-                    <Divider style={{ margin: '20px' }} />
-                </div>
-                
-                <div dangerouslySetInnerHTML={{ __html: article.text }}></div>
-
-                <Divider style={{ margin: '20px', width: '35%' }} />
-
+        <div className="container" style={{ marginTop: '30px' }}>
+            <div>
+                <h4 className={classNames(classes.headline, "heading")}>{ article.title }</h4>
                 <Typography variant="caption">
-                    By John Doe, <br/> Chief Information Officer.<br/>
-                    (<a href="mailto:newseditor@grid.mw" className={classes.link}>newseditor@grid.mw</a>)
+                    <div className={classes.when}>{ article.createdDate }</div>
+                    By John Doe
                 </Typography>
+
+                <Divider style={{ margin: '20px' }} />
             </div>
-        </>
+            
+            <div dangerouslySetInnerHTML={{ __html: article.text }}></div>
+
+            <Divider style={{ margin: '20px', width: '35%' }} />
+
+            <Typography variant="caption">
+                By John Doe, <br/> Chief Information Officer.<br/>
+                (<a href="mailto:newseditor@grid.mw" className={classes.link}>newseditor@grid.mw</a>)
+            </Typography>
+        </div>
     );
 
 }
