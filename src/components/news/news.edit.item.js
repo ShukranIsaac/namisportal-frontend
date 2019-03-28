@@ -2,8 +2,7 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import { reduxForm, Field } from 'redux-form';
-import RenderBootstrapField from '../forms/form.bootstrap.field';
+import { reduxForm } from 'redux-form';
 import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
 
@@ -14,6 +13,7 @@ import { Intent } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 
 import initialValue from '../forms/utils/initial.value';
+import { FormTextInputField } from '../forms/form.textinput.field';
 
 /**
  * Edit a single news article
@@ -63,7 +63,7 @@ class EditNewsItem extends Component {
 	 */
     componentDidMount() {
 
-        Object.assign(this.state, this.props);
+        // Object.assign(this.state, this.props);
 
     }
 
@@ -130,23 +130,14 @@ class EditNewsItem extends Component {
 
                     <Divider />
 
-                    <Field
+                    <FormTextInputField
+                        classes={ classes }
                         name='title'
-                        component={ input => {
-                            return (
-                                <RenderBootstrapField
-                                    classes={ classes }
-                                    id={ author_id }
-                                    label='Article Title'
-                                    defaultValue="Edit article title..."
-                                    value={this.state.title}
-                                    name="title"
-                                    type="text"
-                                    onChange={ this.handleChange }
-                                    props={ input }
-                                />
-                            );
-                        }}
+                        value={this.state.title}
+                        id={ author_id }
+                        label='Article Title'
+                        placeholder='Edit article title...'
+                        type='text'
                     />
 
                     <TextEditor name="content" content={ this.state.content } editorChange={ this.handleEditorChange } />
