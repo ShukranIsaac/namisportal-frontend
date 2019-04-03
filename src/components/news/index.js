@@ -11,6 +11,7 @@ import NewsListItem from './news.list.item';
 import FormLegendField from '../forms/form.legend.field';
 import { NoDataCard } from '../card.text';
 import { Intent } from '@blueprintjs/core';
+import * as moment from 'moment';
 
 /**
  * News component- frontend
@@ -51,10 +52,7 @@ class News extends Component {
 
   when = (time) => {
     const t = new Date(time);
-    let str, h, now = new Date();
-    h = Number(now.getHours() - t.getHours());
-    str = ' ' + h + ' hours ago';
-    return str;
+    return moment().subtract(t.getUTCHours() / 24, 'days').calendar();
 
   }
 

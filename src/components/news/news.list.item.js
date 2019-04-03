@@ -39,7 +39,7 @@ const NewsListItem = ({ when, splitCount, classes, article })=> {
                 </p>
             </div>
 
-            <p>
+            <div>
                 <div dangerouslySetInnerHTML={{ __html: splitCount(article.article) }} />
                 <NavLink to={{
                     pathname: `/news/` + article.title,
@@ -54,7 +54,7 @@ const NewsListItem = ({ when, splitCount, classes, article })=> {
                 >
                     <em>more...</em>
                 </NavLink>
-            </p>
+            </div>
 
             <Divider style={{ margin: '20px' }} />
 
