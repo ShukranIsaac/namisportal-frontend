@@ -27,7 +27,7 @@ export const PersonalProfile = ({ props }) => {
         <FormTextInputField name='password' label='Password' type='password' placeholder='Your password...' {...props} />
       </div>
       <div className='margin-fix'>
-        <FormTextInputField name='confirmPassword' label='Password' type='password' placeholder='Confirm your password...' {...props} />
+        <FormTextInputField name='confirmPassword' label='ConfirmPassword' type='password' placeholder='Confirm your password...' {...props} />
       </div>
       
     </Fragment>

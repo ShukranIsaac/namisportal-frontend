@@ -71,8 +71,10 @@ class UserRegistration extends Component {
       if (user !== undefined && user.username !== undefined && user !== null) {
 
         const { register } = this.props;
-        // register this user
-        register(user);
+        // register this user if password confirmed is the same
+        if (user.password === values.confirmPassword) {
+          register(user);
+        }
 
       }
 
