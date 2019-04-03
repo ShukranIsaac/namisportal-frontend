@@ -62,8 +62,8 @@ class UserRegistration extends Component {
       // define user structure
       const user = {
         username: values.username,
-        firstName: values.firstName,
-        lastName: values.lastName,
+        firstName: values.firstname,
+        lastName: values.lastname,
         email: values.email,
         password: values.password
       }
@@ -73,6 +73,7 @@ class UserRegistration extends Component {
         const { register } = this.props;
         // register this user if password confirmed is the same
         if (user.password === values.confirmPassword) {
+          // console.log(values)
           register(user);
         }
 

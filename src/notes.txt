@@ -42,3 +42,42 @@ Goals(s) - next update[Thur 7 Jan. 2019]:
     1.  Directory on item click
     2.  Contact page; link with api and render contact details
     3.  
+
+Wednesday 3rd April 2019.
+
+Front-end: All components(including user login and registration) are done 
+            except 'Contact Us' page. Email server issues.
+
+CMS: Any logged in user can perform basic CRUDE actions, because the user 
+access levels have partially been incorporated into the system.
+
+    1.  Home
+        a.  User can create new sub component to appear on the web front page(Home).
+        b.  User can edit sub component.
+        c.  User can also archive a sub component(CURRENTLY this button deletes the component if clicked)
+
+    2.  Financing
+        a.  User can create new sub-category.
+        b.  User can edit sub-category.
+
+    3.  Directory
+        a.  User can create new directory stakeholder to appear on the web front page(Directory).
+        b.  User can edit stakeholder.
+        c.  User can also archive a stakeholder(CURRENTLY this button deletes the stakeholder if clicked)
+
+    4.  News(Partially done)
+        a.  User can create new article to appear on the web front page(News section).
+        b.  User can edit an article.
+        c.  User can also archive an article(CURRENTLY this button deletes an article if clicked)
+
+    5.  Library
+        a.  User can create new documents.
+        b.  User can also archive a stakeholder(CURRENTLY this button deletes the stakeholder if clicked)
+
+CMS Sections remaining includes Licencing, Accounts(Access levels etc), GIS, Library, News, Contact, 
+Frequently Ask Questions, Notifications.
+
+We would also like to ask more clarification on the general CMS structure. Comments and suggestions 
+on the same will be highly appreciated.
+
+Regards.
