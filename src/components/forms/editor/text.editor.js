@@ -3,7 +3,7 @@ import { Editor, getEventTransfer  } from 'slate-react';
 import { Field } from 'redux-form';
 
 import isUrl from 'is-url';
-import Icon from 'react-icons-kit';
+import { Icon } from 'react-icons-kit';
 import { bold } from 'react-icons-kit/feather/bold';
 import { italic } from 'react-icons-kit/feather/italic';
 import { code } from 'react-icons-kit/feather/code';
@@ -15,6 +15,7 @@ import { ic_title } from 'react-icons-kit/md/ic_title';
 import { ic_format_quote } from 'react-icons-kit/md/ic_format_quote';
 import { BoldMark, ItalicMark, FormatToolbar } from './index';
 import { editor } from './text.editor.utils';
+import { EditorMarkerIcon } from './editor.marker.icon';
 
 export default class TextEditor extends Component {
 
@@ -26,6 +27,9 @@ export default class TextEditor extends Component {
 		this.state = {
 			value: '',
 		};
+
+		this.onMarkClick = this.onMarkClick.bind(this);
+		this.onMarkFocus = this.onMarkFocus.bind(this);
 
 	}
 
@@ -380,20 +384,6 @@ export default class TextEditor extends Component {
 
 	};
 
-	renderMarkIcon = (type, icon) => {
-
-		return (
-			<button
-				onPointerDown={(e) => this.onMarkClick(e, type)}
-				onFocus={ (e) => this.onMarkFocus(e, type) }
-				className="tooltip-icon-button"
-			>
-				<Icon icon={icon} />
-			</button>
-		);
-
-	}
-
 	onPaste = (event, editor, next) => {
 
 		if (editor.value.selection.isCollapsed) return next();
@@ -415,14 +405,23 @@ export default class TextEditor extends Component {
 
 		return (
 			<FormatToolbar>
-				{this.renderMarkIcon('title', ic_title)}
-				{this.renderMarkIcon('bold', bold)}
-				{this.renderMarkIcon('italic', italic)}
-				{this.renderMarkIcon('code', code)}
-				{this.renderMarkIcon('list', list)}
-				{this.renderMarkIcon('underline', underline)}
-				{this.renderMarkIcon('quote', ic_format_quote)}
-				{this.renderLinkIcon('link', link2)}
+				
+				<EditorMarkerIcon type='title' icon={ ic_title } onMarkClick={ this.onMarkClick } onMarkFocus={ this.onMarkFocus } />
+
+				<EditorMarkerIcon type='bold' icon={ bold } onMarkClick={ this.onMarkClick } onMarkFocus={ this.onMarkFocus } />
+
+				<EditorMarkerIcon type='code' icon={ code } onMarkClick={ this.onMarkClick } onMarkFocus={ this.onMarkFocus } />
+
+				<EditorMarkerIcon type='italic' icon={ italic } onMarkClick={ this.onMarkClick } onMarkFocus={ this.onMarkFocus } />
+				
+				<EditorMarkerIcon type='list' icon={ list } onMarkClick={ this.onMarkClick } onMarkFocus={ this.onMarkFocus } />
+				
+				<EditorMarkerIcon type='underline' icon={ underline } onMarkClick={ this.onMarkClick } onMarkFocus={ this.onMarkFocus } />
+				
+				<EditorMarkerIcon type='quote' icon={ ic_format_quote } onMarkClick={ this.onMarkClick } onMarkFocus={ this.onMarkFocus } />
+
+				<EditorMarkerIcon type='link' icon={ link2 } onMarkClick={ this.onMarkClick } onMarkFocus={ this.onMarkFocus } />
+
 			</FormatToolbar>
 		);
 

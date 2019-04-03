@@ -99,7 +99,7 @@ class EditNewsItem extends Component {
 
     render() {
 
-        const { item: { author: { author_id } } } = this.state;
+        // const { item: { author } } = this.state;
 
         const { classes, handleClick, handleSubmit } = this.props;
         
@@ -134,7 +134,6 @@ class EditNewsItem extends Component {
                         classes={ classes }
                         name='title'
                         value={this.state.title}
-                        id={ author_id }
                         label='Article Title'
                         placeholder='Edit article title...'
                         type='text'
