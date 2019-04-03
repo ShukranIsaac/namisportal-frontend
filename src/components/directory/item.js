@@ -20,9 +20,13 @@ class Item extends Component {
             <div style={{margin: '2.5px 0'}}>
               <Card id={ stakeholder._id} className={classes.card}>
                 <CardBody className={classes.paddindUnset}>
-                  <div style={{  display: 'grid', gridTemplateColumns: '20% 80%'}}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '20% 80%' }}>
 
-                    <CardImg src={ `https://dry-springs-19364.herokuapp.com` + stakeholder.image } />
+                    {
+                      stakeholder.name === 'Escom Malawi' ? 
+                        <CardImg src={ require("../../../src/assets/img/escom-logo.png") } />
+                        : <CardImg src={ require("../../../src/assets/img/malawi.png") } />
+                    }
 
                     <div>
                       <h4>
