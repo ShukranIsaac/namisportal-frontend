@@ -64,7 +64,7 @@ export const logout = (user) => {
  * @returns {Function} dispatch
  */
 export const register = (user) => {
-    console.log(user)
+    
     const url = `users/register`;
 
     return async (dispatch) => {

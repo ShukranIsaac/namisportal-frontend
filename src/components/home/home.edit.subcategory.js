@@ -11,7 +11,7 @@ import { Divider } from '@material-ui/core';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
-import { UserProfile } from '../user/user.profile';
+import { UserProfile, profile } from '../user/user.profile';
 
 /**
  * Edit a home subcategory
@@ -104,6 +104,9 @@ class EditHomeSubcategory extends Component {
             subcategory, valid, pristine, submitting 
         } = this.props;
         
+        // get authenticated user token
+        const user = UserProfile.get();
+
         if(subcategory !== null) {
 
             return (
@@ -116,6 +119,7 @@ class EditHomeSubcategory extends Component {
                             value="New SubCategory"
                             name="create"
                             handleClick={e => handleClick(e) }
+                            disabled={ !profile.canWrite({ user }) }
                         />
     
                         <ButtonControl 
@@ -172,7 +176,8 @@ class EditHomeSubcategory extends Component {
                         <div className={ classes.margin } />
     
                         <Button type="submit" disabled={!valid  || pristine || submitting} intent="primary" text="Save" />
-                        <Button className={ classes.margin } intent="danger" text="Archive" onClick={ (e) => this.archiveCategory(e) } />
+                        
+                        <Button className={ classes.margin } disabled={ !profile.canDelete({ user }) } intent="danger" text="Archive" onClick={ (e) => this.archiveCategory(e) } />
                     
                     </form>
     

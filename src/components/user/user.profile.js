@@ -111,3 +111,74 @@ export const UserProfile = (() => {
     return { save, get, logout, isAuthenticated };
 
 })();
+
+/**
+ * User profile
+ * 
+ * @author Isaac S. Mwakabira
+ * 
+ * @returns {Closure} user
+ */
+export const profile = (() => {
+
+    // user can edit
+    const canEdit = ({ user }) => {
+        if (user !== null && user.roles !== null && user.roles !== undefined) {
+
+            if (user.roles.writer || user.roles.publisher) {
+                return true;
+            }
+
+            return false;
+        } else {
+            return false;
+        }
+    }
+
+    // can write
+    const canWrite = ({ user }) => {
+        if (user !== null && user.roles !== null && user.roles !== undefined) {
+
+            if ((user.roles.writer && user.roles.publisher) || user.roles.writer) {
+                return true;
+            }
+
+            return false;
+        } else {
+            return false;
+        }
+    }
+
+    // can publish
+    const canPublish = ({ user }) => {
+        if (user !== null && user.roles !== null && user.roles !== undefined) {
+
+            if (user.roles.publisher) {
+                return true;
+            }
+
+            return false;
+        } else {
+            return false;
+        }
+    }
+
+    // can delete
+    const canDelete = ({ user }) => {
+        if (user !== null && user.roles !== null && user.roles !== undefined) {
+
+            if (user.roles.publisher) {
+                return true;
+            }
+
+            return false;
+        } else {
+            return false;
+        }
+    }
+
+    return {
+        canEdit, canPublish, canWrite, canDelete
+    }
+
+})();

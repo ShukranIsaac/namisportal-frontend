@@ -105,6 +105,15 @@ export const editor = (() => {
     // Create a new serializer instance with our `rules` from above.
     const html = new Html({ rules });
 
-    return { html };
+    const keys = ['Escape', 'Tab', 'CapsLock', 'Shift', 'Control', 'Alt', 'Backspac', 'ArrowDown', 'ArrowUp', 
+        'ArrowRight', 'ArrowLeft', 'Enter', 'Delete', 'Insert', 'AudioVolume', 'MuteAudio', 'VolumeDown', 
+        'AudioVolumeUp', 'Unidentified', 'MediaPlayPause', 'MediaStop', 'MediaTrackPrevious', 'MediaTrackNext', '`'
+    ]
+
+    const isKey = (key) => {
+        return keys.includes(key);
+    } 
+
+    return { html, isKey };
 
 })();

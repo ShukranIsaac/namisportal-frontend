@@ -14,7 +14,7 @@ import { link2 } from 'react-icons-kit/feather/link2';
 import { ic_title } from 'react-icons-kit/md/ic_title';
 import { ic_format_quote } from 'react-icons-kit/md/ic_format_quote';
 import { BoldMark, ItalicMark, FormatToolbar } from './index';
-import { editor } from './text.editor.utils';
+import { editor as EditorUtils } from './text.editor.utils';
 import { EditorMarkerIcon } from './editor.marker.icon';
 
 export default class TextEditor extends Component {
@@ -41,7 +41,7 @@ export default class TextEditor extends Component {
 	componentDidMount() {
 
 		// Create a new serializer instance with our `rules` from above.
-		editor.html.deserialize(this.props.content)
+		EditorUtils.html.deserialize(this.props.content)
 
 		// console.log(html.deserialize(this.props.content));
 		// console.log(html.serialize(this.props.content));
@@ -78,12 +78,16 @@ export default class TextEditor extends Component {
 	 * @param {Function} next
 	 */
 	onKeyDown = (e, editor, next) => {
+		console.log(e.key)
 		/**
 		 * Prevent default event from firing
 		 */
 		e.preventDefault();
 
-		this.editor.insertText(e.key);
+		// insert a single typed key into the editor
+		if (EditorUtils.isKey(e.key) !== true || e.key !== 'Backspac') {
+			this.editor.insertText(e.key);
+		}
 
 		/**
 		 * Check key value, we want all our commands 

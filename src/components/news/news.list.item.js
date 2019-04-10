@@ -33,8 +33,8 @@ const NewsListItem = ({ when, splitCount, classes, article })=> {
                 </h4>
                 <p variant="caption">
                     <i> 
-                        By John Doe (<a href="mailto:newseditor@grid.mw" className={classes.link}>newseditor@grid.mw</a>),
-                         <span className={classes.when}>{ when(article.createdDate) }</span>
+                        {/* By John Doe (<a href="mailto:newseditor@grid.mw" className={classes.link}>newseditor@grid.mw</a>), */}
+                        <span className={classes.when}>{ when(article.createdDate) }</span>
                     </i>
                 </p>
             </div>

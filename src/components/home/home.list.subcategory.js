@@ -4,6 +4,7 @@ import React, { Fragment } from 'react';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
 import { Row, Col } from 'reactstrap';
+import { UserProfile, profile } from '../user/user.profile';
 
 /**
  * List all home subcategory
@@ -15,9 +16,13 @@ export const ListHomeSubcategory = ({
     category: { subCategories },
     handleClick,
 }) => {
+
+    // get the logged in user
+    const user = UserProfile.get();
+
     // console.log(subCategories)
     if(subCategories !== null && subCategories !== undefined) {
-        
+        // console.log(user.roles.writer);
         return (
             <Fragment>
                 
@@ -26,6 +31,7 @@ export const ListHomeSubcategory = ({
                     value="New SubCategory"
                     name="create"
                     handleClick={e => handleClick(e) }
+                    disabled={ !profile.canWrite({ user }) }
                 />
     
                 {/* <Divider /> */}
@@ -40,13 +46,13 @@ export const ListHomeSubcategory = ({
                                         <div className="card">
                                             <div className="card-body">
                                                 <h4>
-                                                    <a name="edit" id={_id} key={_id} href="/#" onClick={(e) => handleClick(e)}>
+                                                    <a name="edit" id={_id} key={_id} href="/cms" onClick={ (e) => handleClick(e) }>
                                                         { name }
                                                     </a>
                                                 </h4>
                                                 <p>{ about.substring(0, 150) }</p>
 
-                                                <Button name="edit" id={_id} intent="primary" text="Edit" onClick={(e) => handleClick(e)} />
+                                                <Button name="edit" id={_id} disabled={ !profile.canEdit({ user }) } intent="primary" text="Edit" onClick={(e) => handleClick(e)} />
                                             </div>
                                         </div>
                                     </Col>
