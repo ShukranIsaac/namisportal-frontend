@@ -52,7 +52,7 @@ export const ListHomeSubcategory = ({
                                                 </h4>
                                                 <p>{ about.substring(0, 150) }</p>
 
-                                                <Button name="edit" id={_id} disabled={ !profile.canEdit({ user }) } intent="primary" text="Edit" onClick={(e) => handleClick(e)} />
+                                                <Button name="edit" id={_id} disabled={ false } intent="primary" text="Edit" onClick={(e) => handleClick(e)} />
                                             </div>
                                         </div>
                                     </Col>

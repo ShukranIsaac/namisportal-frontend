@@ -150,3 +150,33 @@ export const fetchContact = (name) => {
     };
 
 }
+
+/**
+ * Fetch all registered users
+ * 
+ * @returns {Function} dispatch
+ */
+export const fetchUsers = ({ user }) => {
+    
+    const url = `users?token=${ user.token }`;
+
+    return async (dispatch) => {
+
+        dispatch(GeneralAction.isLoading(true));
+
+        return await get(dispatch, url)
+        
+        .then((response) => {
+
+            dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_ALL, response, false))
+
+        })
+        
+        .catch((error) => {
+
+            dispatch(GeneralAction.hasErrored(true))
+
+        });
+    };
+
+}

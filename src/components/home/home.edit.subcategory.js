@@ -178,7 +178,9 @@ class EditHomeSubcategory extends Component {
                         <Button type="submit" disabled={!valid  || pristine || submitting} intent="primary" text="Save" />
                         
                         <Button className={ classes.margin } disabled={ !profile.canDelete({ user }) } intent="danger" text="Archive" onClick={ (e) => this.archiveCategory(e) } />
-                    
+                
+                        <Button className={ classes.margin } name="default" intent="primary" text="Cancel" onClick={ e => handleClick(e) } />
+                        
                     </form>
     
                 </Fragment>

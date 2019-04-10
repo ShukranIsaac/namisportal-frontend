@@ -4,6 +4,7 @@ const initialState = {
     user: null,
     contact_us: null,
     contact: null,
+    users: null
 }
 
 const user = (state = initialState, action) => {
@@ -39,6 +40,12 @@ const user = (state = initialState, action) => {
             return {
                 ...state,
                 contact: action.payload
+            }
+
+        case UserType.REQUEST_USER_ALL:
+            return {
+                ...state,
+                users: action.payload
             }
 
         default:

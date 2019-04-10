@@ -251,7 +251,7 @@ const RenderSection = ({
             
             return (
                 <Fragment>
-                    <ListUserAccounts />
+                    <ListUserAccounts { ...props } />
                 </Fragment>
             );
         

@@ -187,6 +187,16 @@ class CMSIndex extends React.Component {
                  */
                 this.props.fetchNewsArticles();
                 break;
+            case 'accounts':
+                /**
+                 * User Accounts
+                 */
+                const user = UserProfile.get();
+                // check if the user exist ie. logged in
+                if(user !== null) {
+                    this.props.fetchUsers(user);
+                }
+                break;
             default:
                 break;
         }
@@ -473,6 +483,7 @@ const mapStateToProps = (state) => {
         stakeholder: state.stakeholder.stakeholder,
         stakeholders_list: state.stakeholder.stakeholders_list,
         articles: state.news.articles,
+        users: state.user.users
     };
 
 }
@@ -512,6 +523,8 @@ const mapDispatchToProps = (dispatch) => {
         fetchNewsArticles: () => dispatch(NewsAction.fetchAllArticles()),
         fetchArticle: (id) => dispatch(NewsAction.fetchArticleById(id)),
         editArticle: (id, article, token) => dispatch(NewsAction.editArticle(id, article, token)),
+        // user accounts
+        fetchUsers: (user) => dispatch(UserAuthAction.fetchUsers({ user })),
     };
 
 }
