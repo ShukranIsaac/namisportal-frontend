@@ -26,7 +26,7 @@ import ContactShowDetails from '../contact/contact.show.details';
 import EditContactDetails from '../contact/contact.edit.form';
 import GISComponent from '../gis/gis.cms.component';
 import LicensingProfile from '../licensing/licensing.profile';
-import { ListUserAccounts } from '../user/user.list.cms.component';
+import ListUserAccounts from '../user/user.list.cms.component';
 
 /**
  * Renders a single section resource i.e. licencing, library at cms index

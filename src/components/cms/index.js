@@ -189,7 +189,7 @@ class CMSIndex extends React.Component {
                 break;
             case 'accounts':
                 /**
-                 * User Accounts
+                 * All user accounts
                  */
                 const user = UserProfile.get();
                 // check if the user exist ie. logged in
@@ -213,7 +213,6 @@ class CMSIndex extends React.Component {
     handleChange = (e) => {
 
         this.setState({ [e.target.name]: e.target.value });
-        // console.log("Reached this far");
         
     }
 
@@ -376,13 +375,13 @@ class CMSIndex extends React.Component {
                             
                             {
                                 !this.state.open ? 
-                                <div>
-                                    <h4 >
-                                        <a className="heading" href="/#"/*href={`/`+ link}*/>
-                                            { this.capitalize(link) }
-                                        </a>
-                                    </h4>
-                                </div>
+                                    <div>
+                                        <h4 >
+                                            <a className="heading" href="/#"/*href={`/`+ link}*/>
+                                                { this.capitalize(link) }
+                                            </a>
+                                        </h4>
+                                    </div>
                                 : <div></div>
                             }
 
