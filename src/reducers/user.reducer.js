@@ -48,6 +48,12 @@ const user = (state = initialState, action) => {
                 users: action.payload
             }
 
+        case UserType.REQUEST_USER_SINGLE:
+            return {
+                ...state,
+                user: action.payload
+            }
+
         default:
             return state;
     }

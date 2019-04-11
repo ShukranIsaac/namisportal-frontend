@@ -27,6 +27,7 @@ import EditContactDetails from '../contact/contact.edit.form';
 import GISComponent from '../gis/gis.cms.component';
 import LicensingProfile from '../licensing/licensing.profile';
 import ListUserAccounts from '../user/user.list.cms.component';
+import EditUserAccount from '../user/user.edit.cms.component';
 
 /**
  * Renders a single section resource i.e. licencing, library at cms index
@@ -251,7 +252,25 @@ const RenderSection = ({
             
             return (
                 <Fragment>
-                    <ListUserAccounts { ...props } />
+                    
+                    <ResourceSection
+                        option={props.user_event}
+                        name="accounts"
+                        List={ 
+                            () => <ListUserAccounts 
+                                { ...props } 
+                                handleAccountClick={ (e) => handleClick(e) }
+                            /> 
+                        }
+                        Create={ () => <div>Accounts create new</div> }
+                        Edit={ 
+                            () => <EditUserAccount 
+                                    { ...props }
+                                    handleClick={ handleClick }
+                                /> 
+                        }
+                    />
+
                 </Fragment>
             );
         

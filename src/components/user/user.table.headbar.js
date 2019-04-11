@@ -125,7 +125,7 @@ class EnhancedTableToolbar extends React.Component {
     };
 
     render() {
-        const { numSelected, classes } = this.props;
+        const { handleAccountClick, numSelected, classes, selectedAccount } = this.props;
         const { open } = this.state;
 
         return (
@@ -148,20 +148,28 @@ class EnhancedTableToolbar extends React.Component {
                         numSelected > 0 ? (
                             <Fragment>
                                 {
-                                    numSelected > 1 && (
+                                    numSelected === 1 ? (
+                                        <Fragment>
+                                            <Tooltip title="Edit">
+                                                <IconButton 
+                                                    name="edit" 
+                                                    aria-label="Edit" 
+                                                    onClick={ (e) => handleAccountClick(e) }
+                                                    id={selectedAccount._id}
+                                                >
+                                                    <EditIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                            <Tooltip title="Delete">
+                                                <IconButton aria-label="Delete">
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        </Fragment>
+                                    ) : (
                                         <Tooltip title="Delete">
                                             <IconButton aria-label="Delete">
                                                 <DeleteIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                    ) 
-                                }
-                                
-                                {
-                                    numSelected === 1 && (
-                                        <Tooltip title="Edit">
-                                            <IconButton aria-label="Edit">
-                                                <EditIcon />
                                             </IconButton>
                                         </Tooltip>
                                     )
@@ -197,7 +205,13 @@ class EnhancedTableToolbar extends React.Component {
                                                         <MenuItem onClick={this.handleClose}>
                                                             New account
                                                         </MenuItem>
-                                                        <MenuItem onClick={this.handleClose}>
+                                                        <MenuItem name="edit" onClick={ (e) => {
+                                                                    // close menu first then go to edit page
+                                                                    this.handleClose(e);
+                                                                    handleAccountClick(e);
+                                                                }
+                                                            }
+                                                        >
                                                             Edit profile
                                                         </MenuItem>
                                                     </MenuList>

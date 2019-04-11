@@ -11,6 +11,7 @@ import EnhancedTableToolbar from './user.table.headbar';
 import { EnhancedTableHead } from './user.table.headbar';
 import { algorithms } from './user.sort';
 import { TablePaginationActionsWrapped } from './user.table.footer';
+import Chip from '@material-ui/core/Chip';
 
 /**
  * A list of user accounts
@@ -28,6 +29,7 @@ class ListUserAccounts extends Component {
             listOfUsers: [],
             page: 0,
             rowsPerPage: 5,
+            selectedAccount: null
         };
     }
 
@@ -35,32 +37,37 @@ class ListUserAccounts extends Component {
      * Unless props and/or state changed, do not push new users to listOfUsers array
      * 
      */
-    componentDidUpdate(prevProps, presState) {
-        
-        if(prevProps !== this.props) {
-            // then call accounts method to re-render component with new data
-            this.accounts(this.props);
-        }
+    componentDidMount() {
+
+        // then call accounts method to re-render component with new data
+        this.accounts(this.props);
 
     }
 
+    // counter to store the number of objects we pushed the array
     counter = 0;
-
-    createUserList = (date, fullname, username, userroles) => {
+    /**
+     * create a user list object to be pushed into the listOfUsers array
+     * of objects in the accounts method.
+     */
+    createUserList = (_id, date, fullname, username, ...userroles) => {
         this.counter += 1;
-        return { id: this.counter, date, fullname, username, userroles };
+        return { id: this.counter, _id, date, fullname, username, userroles };
     }
 
     accounts = ({ users }) => {
         // check length of users array object
         if(users !== null) {
             users.map(user => {
-                // return console.log(user)
                 const name = user.lastName + ' ' + user.firstName;
                 let custom, created = new Date(user.createdDate);
                 custom = `${ created.getDay() + '/' + created.getMonth() + '/' + created.getFullYear() }`;
+                
+                const publisher = user.roles !== null && user.roles !== undefined ? user.roles.publisher ? 'Publisher' : 'None' : '';
+                const writer = user.roles !== null && user.roles !== undefined ? user.roles.writer ? 'Writer' : 'None' : '';
+                
                 // id, name, username, roles, write and publish
-                this.state.listOfUsers.push(this.createUserList(custom, name, user.username, 'Publisher'));
+                this.state.listOfUsers.push(this.createUserList(user._id, custom, name, user.username, [publisher, writer]));
                 return null;
             });
         }
@@ -82,7 +89,7 @@ class ListUserAccounts extends Component {
     handleSelectAllClick = event => {
 
         if (event.target.checked) {
-            this.setState(state => ({ selected: state.listOfUsers.map(n => n.id) }));
+            this.setState(state => ({ selected: state.listOfUsers.map(user => user.id) }));
             return;
         }
 
@@ -92,7 +99,7 @@ class ListUserAccounts extends Component {
 
     handleClick = (event, id) => {
 
-        const { selected } = this.state;
+        const { selected, listOfUsers } = this.state;
         const selectedIndex = selected.indexOf(id);
         let newSelected = [];
     
@@ -104,6 +111,14 @@ class ListUserAccounts extends Component {
             newSelected = newSelected.concat(selected.slice(0, -1));
         } else if (selectedIndex > 0) {
             newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
+        }
+
+        // Do this when there is only one user clicked in the list
+        if(!(selectedIndex > 1)) {
+            // filter the user selected
+            const user = listOfUsers.filter(u => u._id === event.currentTarget.id ? u : null)[0];
+            // then add the one selected user to selectedAccount object
+            Object.assign(this.state, { selectedAccount: user });
         }
     
         this.setState({ selected: newSelected });
@@ -122,13 +137,18 @@ class ListUserAccounts extends Component {
 
     render() {
 
-        const { classes } = this.props;
-        const { listOfUsers, order, orderBy, selected, rowsPerPage, page } = this.state;
+        const { classes, handleAccountClick } = this.props;
+        const { listOfUsers, selectedAccount, order, orderBy, selected, rowsPerPage, page } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, listOfUsers.length - page * rowsPerPage);
 
         return(
             <>
-                <EnhancedTableToolbar classes={ classes } numSelected={selected.length} />
+                <EnhancedTableToolbar 
+                    classes={ classes } 
+                    numSelected={selected.length} 
+                    handleAccountClick={handleAccountClick} 
+                    selectedAccount={selectedAccount}
+                />
                 
                 <div className={classes.tableWrapper}>
 
@@ -157,6 +177,7 @@ class ListUserAccounts extends Component {
                                             aria-checked={isSelected}
                                             tabIndex={-1}
                                             key={user.id}
+                                            id={user._id}
                                             selected={isSelected}
                                         >
                                             <TableCell padding="checkbox">
@@ -167,7 +188,33 @@ class ListUserAccounts extends Component {
                                             </TableCell>
                                             <TableCell align="right">{user.fullname}</TableCell>
                                             <TableCell align="right">{user.username}</TableCell>
-                                            <TableCell align="right">{user.userroles}</TableCell>
+                                            <TableCell align="right">
+                                                {
+                                                    user.userroles.length !== 0 ? user.userroles.map((roles, key) => {
+
+                                                        for(let index = 0; index < roles.length; index++) {
+
+                                                            if(roles[index] !== "None") {
+
+                                                                // for each user show the access level/s
+                                                                return (
+                                                                    <Chip
+                                                                        key={roles[index]}
+                                                                        tabIndex={-1}
+                                                                        label={roles[index]}
+                                                                        className={classes.chip} 
+                                                                    />
+                                                                );
+    
+                                                            }
+
+                                                        }
+
+                                                        return <div key={ key } />
+
+                                                    }) : ''
+                                                }
+                                            </TableCell>
                                         </TableRow>
                                     );
 
@@ -219,6 +266,9 @@ const styles = theme => ({
     },
     spacer: {
         flex: '1 1 100%',
+    },
+    chip: {
+        margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
     },
 });
 

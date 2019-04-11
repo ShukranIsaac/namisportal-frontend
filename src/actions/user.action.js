@@ -180,3 +180,63 @@ export const fetchUsers = ({ user }) => {
     };
 
 }
+
+/**
+ * Fetch a single registered user
+ * 
+ * @returns {Function} dispatch
+ */
+export const fetchUser = (id, token) => {
+    
+    const url = `users/${ id }?token=${ token }`;
+
+    return async (dispatch) => {
+
+        dispatch(GeneralAction.isLoading(true));
+
+        return await get(dispatch, url)
+        
+        .then((response) => {
+
+            dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_SINGLE, response, false))
+
+        })
+        
+        .catch((error) => {
+
+            dispatch(GeneralAction.hasErrored(true))
+
+        });
+    };
+
+}
+
+/**
+ * Update the registered user
+ * 
+ * @returns {Function} dispatch
+ */
+export const update = (id, token) => {
+    
+    const url = `users/${ id }?token=${ token }`;
+
+    return async (dispatch) => {
+
+        dispatch(GeneralAction.isLoading(true));
+
+        return await get(dispatch, url)
+        
+        .then((response) => {
+
+            dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_EDIT, response, false))
+
+        })
+        
+        .catch((error) => {
+
+            dispatch(GeneralAction.hasErrored(true))
+
+        });
+    };
+
+}
