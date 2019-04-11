@@ -9,6 +9,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import Checkbox from '@material-ui/core/Checkbox';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
@@ -31,11 +32,10 @@ import MenuList from '@material-ui/core/MenuList';
 export class EnhancedTableHead extends React.Component {
 
     rows = [
-        { id: 'name', numeric: false, disablePadding: true, label: 'Date Created' },
-        { id: 'calories', numeric: true, disablePadding: false, label: 'Name' },
-        { id: 'fat', numeric: true, disablePadding: false, label: 'Username' },
-        { id: 'carbs', numeric: true, disablePadding: false, label: 'Roles' },
-        { id: 'protein', numeric: true, disablePadding: false, label: 'Actions' },
+        { id: 'date', numeric: false, disablePadding: true, label: 'Date Created' },
+        { id: 'fullname', numeric: true, disablePadding: false, label: 'Fullname' },
+        { id: 'username', numeric: true, disablePadding: false, label: 'Username' },
+        { id: 'userroles', numeric: true, disablePadding: false, label: 'Roles' },
     ];
             
     createSortHandler = property => event => {
@@ -44,18 +44,22 @@ export class EnhancedTableHead extends React.Component {
   
     render() {
 
-        const { order, orderBy } = this.props;
+        const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
     
         return (
             <TableHead>
                 <TableRow>
-                    {/* <TableCell padding="checkbox">
-                        <Checkbox
-                            indeterminate={numSelected > 0 && numSelected < rowCount}
-                            checked={numSelected === rowCount}
-                            onChange={onSelectAllClick}
-                        />
-                    </TableCell> */}
+                    <TableCell padding="checkbox">
+                        {
+                            numSelected > 1 ? (
+                                <Checkbox
+                                    indeterminate={numSelected > 0 && numSelected < rowCount}
+                                    checked={numSelected === rowCount}
+                                    onChange={onSelectAllClick}
+                                />
+                            ) : null
+                        }
+                    </TableCell>
 
                     {
                         this.rows.map(row => (

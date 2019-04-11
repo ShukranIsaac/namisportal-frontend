@@ -46,9 +46,9 @@ class ListUserAccounts extends Component {
 
     counter = 0;
 
-    createUserList = (name, calories, fat, carbs, protein) => {
+    createUserList = (date, fullname, username, userroles) => {
         this.counter += 1;
-        return { id: this.counter, name, calories, fat, carbs, protein };
+        return { id: this.counter, date, fullname, username, userroles };
     }
 
     accounts = ({ users }) => {
@@ -82,7 +82,7 @@ class ListUserAccounts extends Component {
     handleSelectAllClick = event => {
 
         if (event.target.checked) {
-            this.setState(state => ({ selected: state.data.map(n => n.id) }));
+            this.setState(state => ({ selected: state.listOfUsers.map(n => n.id) }));
             return;
         }
 
@@ -145,27 +145,29 @@ class ListUserAccounts extends Component {
 
                         <TableBody>
                             {
-                                algorithms.stableSort(listOfUsers, algorithms.sort(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(n => {
+                                algorithms.stableSort(listOfUsers, algorithms.sort(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(user => {
                                 
-                                    const isSelected = this.isSelected(n.id);
+                                    const isSelected = this.isSelected(user.id);
                                     
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={event => this.handleClick(event, n.id)}
+                                            onClick={event => this.handleClick(event, user.id)}
                                             role="checkbox"
                                             aria-checked={isSelected}
                                             tabIndex={-1}
-                                            key={n.id}
+                                            key={user.id}
                                             selected={isSelected}
                                         >
-                                            <TableCell component="th" scope="row" padding="none">{n.name}</TableCell>
-                                            <TableCell align="right">{n.calories}</TableCell>
-                                            <TableCell align="right">{n.fat}</TableCell>
-                                            <TableCell align="right">{n.carbs}</TableCell>
-                                            <TableCell align="right">
+                                            <TableCell padding="checkbox">
                                                 <Checkbox checked={isSelected} />
                                             </TableCell>
+                                            <TableCell component="th" scope="row" padding="none">
+                                                {user.date}
+                                            </TableCell>
+                                            <TableCell align="right">{user.fullname}</TableCell>
+                                            <TableCell align="right">{user.username}</TableCell>
+                                            <TableCell align="right">{user.userroles}</TableCell>
                                         </TableRow>
                                     );
 
