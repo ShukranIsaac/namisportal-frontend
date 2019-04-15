@@ -26,16 +26,11 @@ export class SelectInputControl extends Component {
                 <InputLabel shrink htmlFor="option-open-select"> { this.capitalize(this.props.name) } </InputLabel>
     
                 <NativeSelect
+                    { ...this.props }
                     value={ this.props.value } 
                     name={ this.props.name }
-                    onChange={ 
-                        (e) => { 
-                            this.props.onChange(e) 
-                        } 
-                    }
-                    input={
-                        <Input key={this.props.name} name={this.props.name} />
-                    }
+                    onChange={ (e) => this.props.onChange(e)}
+                    input={ <Input key={this.props.name} name={this.props.name} { ...this.props } /> }
                 >
                     
                     { this.props.children }

@@ -265,9 +265,10 @@ const RenderSection = ({
                         Create={ () => <div>Accounts create new</div> }
                         Edit={ 
                             () => <EditUserAccount 
-                                    { ...props }
-                                    handleClick={ handleClick }
-                                /> 
+                                { ...props }
+                                handleClick={ handleClick }
+                                handleChange={ handleChange }
+                            /> 
                         }
                     />
 

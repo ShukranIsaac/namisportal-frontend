@@ -160,18 +160,18 @@ class GridSideBar extends Component {
    */
   searchInputControl = ({classes}) => {
 
-      return (
-        <Fragment>
-          <div className={ classes.search }>
-            <SearchInputControl
-              id="search_place"
-              name="search"
-              placeholder="Search for min-grid location"  
-              handleChange={ (e) => { this.props.onChange(e) } }
-            />
-          </div>
-        </Fragment>
-      );
+    return (
+      <Fragment>
+        <div className={ classes.search }>
+          <SearchInputControl
+            id="search_place"
+            name="search"
+            placeholder="Search for min-grid location"  
+            handleChange={ (e) => { this.props.onChange(e) } }
+          />
+        </div>
+      </Fragment>
+    );
 
   }
 

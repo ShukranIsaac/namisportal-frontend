@@ -536,6 +536,7 @@ const mapDispatchToProps = (dispatch) => {
         // user accounts
         fetchUsers: (user) => dispatch(UserAuthAction.fetchUsers({ user })),
         fetchUser: (id, token) => dispatch(UserAuthAction.fetchUser(id, token)),
+        updateUser: (id, user, token) => dispatch(UserAuthAction.updateUser(id, user, token)),
     };
 
 }

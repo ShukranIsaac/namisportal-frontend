@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -12,6 +12,7 @@ import { EnhancedTableHead } from './user.table.headbar';
 import { algorithms } from './user.sort';
 import { TablePaginationActionsWrapped } from './user.table.footer';
 import Chip from '@material-ui/core/Chip';
+import { UserProfile } from './user.profile';
 
 /**
  * A list of user accounts
@@ -33,15 +34,18 @@ class ListUserAccounts extends Component {
         };
     }
 
-    /**
-     * Unless props and/or state changed, do not push new users to listOfUsers array
-     * 
-     */
-    componentDidMount() {
+    // check assigned roles
+    isWriter = ({ user }) => {
 
-        // then call accounts method to re-render component with new data
-        this.accounts(this.props);
+        return user.roles !== undefined && (user.roles.writer ? true : false);
 
+    }
+
+    // check assigned roles
+    isPublisher = ({ user }) => {
+
+        return user.roles !== undefined && (user.roles.publisher ? true : false);
+        
     }
 
     // counter to store the number of objects we pushed the array
@@ -50,27 +54,60 @@ class ListUserAccounts extends Component {
      * create a user list object to be pushed into the listOfUsers array
      * of objects in the accounts method.
      */
-    createUserList = (_id, date, fullname, username, ...userroles) => {
+    createUserList = (_id, date, fullname, username, writer, publisher, ...userroles) => {
+
+        // incremet counter
         this.counter += 1;
-        return { id: this.counter, _id, date, fullname, username, userroles };
+        // return object
+        return { id: this.counter, _id, date, fullname, username, userroles, writer, publisher};
+        
     }
 
     accounts = ({ users }) => {
+
         // check length of users array object
         if(users !== null) {
-            users.map(user => {
-                const name = user.lastName + ' ' + user.firstName;
-                let custom, created = new Date(user.createdDate);
-                custom = `${ created.getDay() + '/' + created.getMonth() + '/' + created.getFullYear() }`;
-                
-                const publisher = user.roles !== null && user.roles !== undefined ? user.roles.publisher ? 'Publisher' : 'None' : '';
-                const writer = user.roles !== null && user.roles !== undefined ? user.roles.writer ? 'Writer' : 'None' : '';
-                
-                // id, name, username, roles, write and publish
-                this.state.listOfUsers.push(this.createUserList(user._id, custom, name, user.username, [publisher, writer]));
-                return null;
-            });
+            
+            // if listOfUsers array is not empty
+            // do not add more users to...This should be true only once, when all users 
+            // have been loaded from the api
+            if(this.state.listOfUsers.length === 0) {
+                // map users
+                users.map(user => {
+                    const name = user.lastName + ' ' + user.firstName;
+                    let custom, created = new Date(user.createdDate);
+                    custom = `${ created.getDay() + '/' + created.getMonth() + '/' + created.getFullYear() }`;
+                    
+                    // logged in user
+                    const auth = UserProfile.get();
+                                    
+                    // make sure the logged in user is not displayed in the list
+                    if (auth._id !== user._id) {
+
+                        // id, name, username, roles, write and publish
+                        if (user.roles !== undefined) {
+                            this.state.listOfUsers.push(
+                                this.createUserList(user._id,custom,name,user.username,this.isWriter({user}),this.isPublisher({user}),Object.keys(user.roles))
+                            );
+                        } else {
+                            this.state.listOfUsers.push(
+                                this.createUserList(user._id, custom, name, user.username, false, false, [])
+                            );
+                        }
+
+                        return null;
+
+                    } else {
+
+                        return null;
+                    
+                    }
+    
+                });
+
+            } // else do nothing
         }
+
     }
 
     handleRequestSort = (event, property) => {
@@ -137,9 +174,22 @@ class ListUserAccounts extends Component {
 
     render() {
 
-        const { classes, handleAccountClick } = this.props;
+        const { classes, handleAccountClick, general } = this.props;
         const { listOfUsers, selectedAccount, order, orderBy, selected, rowsPerPage, page } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, listOfUsers.length - page * rowsPerPage);
+
+        // check if it is loading
+        if(general !== undefined && general !== null) {
+            
+            // if loading show loader
+            if (!general.isLoading) {
+
+                // load users
+                this.accounts(this.props);
+
+            }
+
+        }
 
         return(
             <>
@@ -165,7 +215,7 @@ class ListUserAccounts extends Component {
 
                         <TableBody>
                             {
-                                algorithms.stableSort(listOfUsers, algorithms.sort(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(user => {
+                                algorithms.stableSort(listOfUsers, algorithms.sort(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((user, index) => {
                                 
                                     const isSelected = this.isSelected(user.id);
                                     
@@ -190,29 +240,52 @@ class ListUserAccounts extends Component {
                                             <TableCell align="right">{user.username}</TableCell>
                                             <TableCell align="right">
                                                 {
-                                                    user.userroles.length !== 0 ? user.userroles.map((roles, key) => {
-
-                                                        for(let index = 0; index < roles.length; index++) {
-
-                                                            if(roles[index] !== "None") {
-
-                                                                // for each user show the access level/s
-                                                                return (
-                                                                    <Chip
-                                                                        key={roles[index]}
-                                                                        tabIndex={-1}
-                                                                        label={roles[index]}
-                                                                        className={classes.chip} 
-                                                                    />
-                                                                );
-    
-                                                            }
-
-                                                        }
-
-                                                        return <div key={ key } />
-
-                                                    }) : ''
+                                                    general !== null && (
+                                                        !general.isLoading ? 
+                                                        
+                                                            user.userroles.length !== 0 ? user.userroles.map((roles, key) => {
+                                                            
+                                                                if(roles.length !== 0) {
+        
+                                                                    // for each user show the access level/s
+                                                                    return (
+                                                                        <Fragment key={ key }>
+                                                                            {
+                                                                                user.writer === true ? (
+                                                                                    <>
+                                                                                        <Chip
+                                                                                            key={roles[0]} 
+                                                                                            tabIndex={-1}
+                                                                                            label={roles[0]} 
+                                                                                            className={classes.chip} 
+                                                                                        />
+                                                                                    </>
+                                                                                ) : <div></div>
+                                                                            }
+        
+                                                                            {
+                                                                                user.publisher === true ? (
+                                                                                    <>
+                                                                                        <Chip
+                                                                                            key={roles[1]} 
+                                                                                            tabIndex={-1}
+                                                                                            label={roles[1]} 
+                                                                                            className={classes.chip} 
+                                                                                        />
+                                                                                    </>
+                                                                                ) : <div></div>
+                                                                            }
+                                                                        </Fragment>
+                                                                    );
+        
+                                                                }
+        
+                                                                return <div key={ key } />
+        
+                                                            }) : ''
+                                                        
+                                                        : <div className="loader" />
+                                                    )
                                                 }
                                             </TableCell>
                                         </TableRow>
@@ -234,7 +307,7 @@ class ListUserAccounts extends Component {
                 </div>
 
                 <TablePagination
-                    rowsPerPageOptions={[5, 15, 30]}
+                    rowsPerPageOptions={[3, 5, 15, 30]}
                     component="div"
                     count={listOfUsers.length}
                     rowsPerPage={rowsPerPage}

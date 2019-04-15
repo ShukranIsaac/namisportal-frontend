@@ -98,6 +98,37 @@ export const upload = async (dispatch, url, data) => {
  *  
  * @returns {Promise} promise
  */
+export const put = async (dispatch, url, data) => {
+    
+    // headers
+    const config = new Headers();
+    config.append('Access-Control-Allow-Origin', Config.ACCESS_ALLOW_ORIGIN);
+
+    return await Config.REMOTE_API_URL.put(url, data, config)
+
+    .then(response => {
+        
+        if (response.status !== 200) {
+            throw Error(response.statusText);
+        }
+    
+        dispatch(GeneralAction.isLoading(false));
+    
+        return response.data;
+
+    });
+  
+}
+
+/**
+ * Edit a resource via the api, and return a Promise
+ * 
+ * @param {Function} dispatch
+ * @param {String} url
+ * @param {Object} data
+ *  
+ * @returns {Promise} promise
+ */
 export const patch = async (dispatch, url, data) => {
     
     // headers

@@ -78,6 +78,7 @@ export class EnhancedTableHead extends React.Component {
                                         active={orderBy === row.id}
                                         direction={order}
                                         onClick={this.createSortHandler(row.id)}
+                                        disabled={ row.label === 'Roles' ? true : false }
                                     >
                                         {row.label}
                                     </TableSortLabel>

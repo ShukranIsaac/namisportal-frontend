@@ -1,7 +1,7 @@
 import { UserType } from '../action_type/index';
 
 import * as GeneralAction from './general.action';
-import { post, get } from './api.service';
+import { post, get, put } from './api.service';
 import { UserProfile } from '../components/user/user.profile';
 
 /**
@@ -216,15 +216,16 @@ export const fetchUser = (id, token) => {
  * 
  * @returns {Function} dispatch
  */
-export const update = (id, token) => {
+export const updateUser = (id, user, auth) => {
     
-    const url = `users/${ id }?token=${ token }`;
-
+    // url to update user
+    const url = `users/${ id }?token=${ auth.token }`;
+    
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return await get(dispatch, url)
+        return await put(dispatch, url, user)
         
         .then((response) => {
 

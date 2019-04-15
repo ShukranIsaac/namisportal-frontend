@@ -83,8 +83,8 @@ class Home extends Component {
 
       } else {
 
-        return <NoDataCard style={{ margin: `10%`, textAlign: `center` }} header={ `Oooops! Something happened. Please try again!` } intent={Intent.NONE} />
-      
+        return <div className="loader" />
+        
       }
     }
   }
