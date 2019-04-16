@@ -206,15 +206,6 @@ class EnhancedTableToolbar extends React.Component {
                                                         <MenuItem onClick={this.handleClose}>
                                                             New account
                                                         </MenuItem>
-                                                        <MenuItem name="edit" onClick={ (e) => {
-                                                                    // close menu first then go to edit page
-                                                                    this.handleClose(e);
-                                                                    handleAccountClick(e);
-                                                                }
-                                                            }
-                                                        >
-                                                            Edit profile
-                                                        </MenuItem>
                                                     </MenuList>
                                                 </ClickAwayListener>
                                             </Paper>

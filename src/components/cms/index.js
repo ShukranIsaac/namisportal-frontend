@@ -493,7 +493,7 @@ const mapStateToProps = (state) => {
         stakeholders_list: state.stakeholder.stakeholders_list,
         articles: state.news.articles,
         users: state.user.users,
-        user: state.user.user
+        user: state.user.user,
     };
 
 }
@@ -537,6 +537,7 @@ const mapDispatchToProps = (dispatch) => {
         fetchUsers: (user) => dispatch(UserAuthAction.fetchUsers({ user })),
         fetchUser: (id, token) => dispatch(UserAuthAction.fetchUser(id, token)),
         updateUser: (id, user, token) => dispatch(UserAuthAction.updateUser(id, user, token)),
+        // frequently asked questions
     };
 
 }

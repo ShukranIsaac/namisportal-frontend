@@ -14,29 +14,29 @@ import GisIcon from '@material-ui/icons/Map'
 import LicencingIcon from '@material-ui/icons/Gavel'
 import DirectoryIcon from '@material-ui/icons/LocalLibrary'
 import NewsIcon from '@material-ui/icons/LibraryBooks'
-import ContactIcon from '@material-ui/icons/ContactMail'
-import NotificationsIcon from '@material-ui/icons/NotificationImportant'
-import Settings from '@material-ui/icons/PersonAdd'
-import LogoutIcon from '@material-ui/icons/AccountCircle';
+// import ContactIcon from '@material-ui/icons/ContactMail'
+// import AccountIcon from '@material-ui/icons/AccountCircle'
+import PersonAddIcon from '@material-ui/icons/PersonAdd'
+import LogoutIcon from '@material-ui/icons/ExitToApp';
 import HomeIcon from '@material-ui/icons/Home';
 import FAQIcon from '@material-ui/icons/QuestionAnswer';
 
 const drawer_controls = [
     { name: 'home', button: <HomeIcon />},
-    { name: 'licensing', button: <LicencingIcon/>},
-    { name: 'financing', button: <FinancingIcon/>},
-    { name: 'directory', button: <DirectoryIcon/>},
-    { name: 'library', button: <DocumentIcon/>},
-    { name: 'gis', button: <GisIcon/>},
-    { name: 'news', button: <NewsIcon/>},
-    { name: 'contact', button: <ContactIcon/>},
+    { name: 'licensing', button: <LicencingIcon />},
+    { name: 'financing', button: <FinancingIcon />},
+    { name: 'directory', button: <DirectoryIcon />},
+    { name: 'library', button: <DocumentIcon />},
+    { name: 'gis', button: <GisIcon />},
+    { name: 'news', button: <NewsIcon />},
+    // { name: 'contact', button: <ContactIcon/>},
     { name: 'faqs', button: <FAQIcon />}
 ];
 
 const config = [
-    { name: 'accounts', button: <Settings/>},
-    { name: 'notifications', button: <NotificationsIcon/>},
-    { name: 'logout', button: <LogoutIcon/>},
+    { name: 'accounts', button: <PersonAddIcon />},
+    // { name: 'profile', button: <AccountIcon />},
+    { name: 'logout', button: <LogoutIcon />},
 ];
 
 /**

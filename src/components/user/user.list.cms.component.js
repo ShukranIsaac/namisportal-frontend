@@ -69,7 +69,7 @@ class ListUserAccounts extends Component {
         if(users !== null) {
             
             // if listOfUsers array is not empty
-            // do not add more users to...This should be true only once, when all users 
+            // do not add more users to it...This should be true only once, when all users 
             // have been loaded from the api
             if(this.state.listOfUsers.length === 0) {
                 // map users
@@ -215,36 +215,36 @@ class ListUserAccounts extends Component {
 
                         <TableBody>
                             {
-                                algorithms.stableSort(listOfUsers, algorithms.sort(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((user, index) => {
-                                
-                                    const isSelected = this.isSelected(user.id);
+                                general !== null && ( 
+                                    !general.isLoading ? 
                                     
-                                    return (
-                                        <TableRow
-                                            hover
-                                            onClick={event => this.handleClick(event, user.id)}
-                                            role="checkbox"
-                                            aria-checked={isSelected}
-                                            tabIndex={-1}
-                                            key={user.id}
-                                            id={user._id}
-                                            selected={isSelected}
-                                        >
-                                            <TableCell padding="checkbox">
-                                                <Checkbox checked={isSelected} />
-                                            </TableCell>
-                                            <TableCell component="th" scope="row" padding="none">
-                                                {user.date}
-                                            </TableCell>
-                                            <TableCell align="right">{user.fullname}</TableCell>
-                                            <TableCell align="right">{user.username}</TableCell>
-                                            <TableCell align="right">
-                                                {
-                                                    general !== null && (
-                                                        !general.isLoading ? 
-                                                        
+                                        algorithms.stableSort(listOfUsers, algorithms.sort(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((user, index) => {
+                                    
+                                            const isSelected = this.isSelected(user.id);
+                                            
+                                            return (
+                                                <TableRow
+                                                    hover
+                                                    onClick={event => this.handleClick(event, user.id)}
+                                                    role="checkbox"
+                                                    aria-checked={isSelected}
+                                                    tabIndex={-1}
+                                                    key={user.id}
+                                                    id={user._id}
+                                                    selected={isSelected}
+                                                >
+                                                    <TableCell padding="checkbox">
+                                                        <Checkbox checked={isSelected} />
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row" padding="none">
+                                                        {user.date}
+                                                    </TableCell>
+                                                    <TableCell align="right">{user.fullname}</TableCell>
+                                                    <TableCell align="right">{user.username}</TableCell>
+                                                    <TableCell align="right">
+                                                        {
                                                             user.userroles.length !== 0 ? user.userroles.map((roles, key) => {
-                                                            
+                                                                        
                                                                 if(roles.length !== 0) {
         
                                                                     // for each user show the access level/s
@@ -252,27 +252,23 @@ class ListUserAccounts extends Component {
                                                                         <Fragment key={ key }>
                                                                             {
                                                                                 user.writer === true ? (
-                                                                                    <>
-                                                                                        <Chip
-                                                                                            key={roles[0]} 
-                                                                                            tabIndex={-1}
-                                                                                            label={roles[0]} 
-                                                                                            className={classes.chip} 
-                                                                                        />
-                                                                                    </>
+                                                                                    <Chip
+                                                                                        key={roles[0]} 
+                                                                                        tabIndex={-1}
+                                                                                        label={roles[0]} 
+                                                                                        className={classes.chip} 
+                                                                                    />
                                                                                 ) : <div></div>
                                                                             }
         
                                                                             {
                                                                                 user.publisher === true ? (
-                                                                                    <>
-                                                                                        <Chip
-                                                                                            key={roles[1]} 
-                                                                                            tabIndex={-1}
-                                                                                            label={roles[1]} 
-                                                                                            className={classes.chip} 
-                                                                                        />
-                                                                                    </>
+                                                                                    <Chip
+                                                                                        key={roles[1]} 
+                                                                                        tabIndex={-1}
+                                                                                        label={roles[1]} 
+                                                                                        className={classes.chip} 
+                                                                                    />
                                                                                 ) : <div></div>
                                                                             }
                                                                         </Fragment>
@@ -283,15 +279,18 @@ class ListUserAccounts extends Component {
                                                                 return <div key={ key } />
         
                                                             }) : ''
-                                                        
-                                                        : <div className="loader" />
-                                                    )
-                                                }
-                                            </TableCell>
-                                        </TableRow>
-                                    );
+                                                            
+                                                        }
+                                                    </TableCell>
+                                                </TableRow>
+                                            );
+        
+                                        })
+                                    
+                                    : <TableRow className="loader" />
 
-                                })
+                                )
+                                
                             }
 
                             {

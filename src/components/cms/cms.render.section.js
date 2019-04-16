@@ -28,6 +28,10 @@ import GISComponent from '../gis/gis.cms.component';
 import LicensingProfile from '../licensing/licensing.profile';
 import ListUserAccounts from '../user/user.list.cms.component';
 import EditUserAccount from '../user/user.edit.cms.component';
+import EditUserProfile from '../user/user.details.cms.component';
+import { ListFAQS } from '../faq/faqs.list.component';
+import CreateQuestion from '../faq/faq.add.component';
+import EditQuestion from '../faq/faq.edit.component';
 
 /**
  * Renders a single section resource i.e. licencing, library at cms index
@@ -210,6 +214,40 @@ const RenderSection = ({
 
                 </Fragment>
             );
+        
+        case 'faqs':
+            
+            return (
+                <Fragment>
+
+                    <ResourceSection
+                        option={props.user_event}
+                        name="faqs"
+                        List={
+                            () => <ListFAQS 
+                                handleClick={ (e) => handleClick(e) }  
+                                { ...props }
+                                questions={ props.subcategory }
+                            /> 
+                        }
+                        Create={
+                            () => <CreateQuestion 
+                                handleClick={ (e) => handleClick(e) } 
+                                handleChange={ (e) => handleChange(e) } 
+                                { ...props }
+                            /> 
+                        }
+                        Edit={
+                            () => <EditQuestion 
+                                handleClick={ (e) => handleClick(e) } 
+                                handleChange={ (e) => handleChange(e) } 
+                                { ...props }
+                            /> 
+                        }
+                    />
+
+                </Fragment>
+            );
 
         case 'news':
             
@@ -275,9 +313,23 @@ const RenderSection = ({
                 </Fragment>
             );
         
-        case 'notifications':
+        case 'profile':
 
-            return <Fragment></Fragment>
+            return (
+                <Fragment>
+                    <ResourceSection
+                        option={ props.user_event }
+                        name="profile"
+                        List={ () => <EditUserProfile 
+                                { ...props }
+                                handleClick={ (e) => handleClick(e) }
+                                handleChange={ e => handleChange(e) } 
+                            /> 
+                        }
+                        Create={ () => (<div>Create new account</div>) }
+                    />
+                </Fragment>
+            );
 
         case 'contact':
             

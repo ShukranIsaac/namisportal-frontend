@@ -103,7 +103,7 @@ class CreateHomeSubcategory extends Component {
         return (
             <Fragment>
 
-                <form onSubmit = { handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
+                <form onSubmit= { handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
 
                     <ButtonControl 
                         intent={Intent.NONE} 
