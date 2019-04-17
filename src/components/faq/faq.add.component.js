@@ -25,16 +25,53 @@ class CreateQuestion extends Component {
         this.state = {}
     }
 
+    // choosen section
     handleChange = (e) => {
 
-        console.log(e.target.value);
+        // if chosen section
+        if(e.target.name) {
+            const sectionName = e.target.value;
+            const sections = this.props.subcategory;
+            
+            // if sections not null
+            if (sections !== null) {
+                
+                // then iterate through the subcategories
+                // and filter the chosen section
+                const filteredSection = sections.subCategories.length !== 0 && sections.subCategories.filter(section => {
+
+                    if (sectionName !== null && section !== null) {
+                        // check if the chosen section from the drop down list
+                        // equals one of the sections/subCategories
+                        // in the Frequently asked questions
+                        if(section.name === sectionName) {
+                            return section;
+                        } else {
+                            return null;
+                        }
+                    } else {
+                        return null;
+                    }
+
+                });
+
+                // was anything returned
+                if (filteredSection) {
+
+                    this.setState({ [e.target.name]: filteredSection[0] });
+
+                }
+
+            }
+
+        }
 
     }
 
     handleSubmit = (values) => {
         // section under which this question should 
         // be uploaded to
-        const { section } = this.props;
+        const { section } = this.state;
         // get authenticated user token
         const user = UserProfile.get();
         if(user !== null && user.token !== undefined) {

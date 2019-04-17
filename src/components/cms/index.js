@@ -207,7 +207,9 @@ class CMSIndex extends React.Component {
      * Capitalize first letter of this word
      */
     capitalize = (character) => {
+
         return character && character[0].toUpperCase() + character.slice(1);
+
     }
 
     handleChange = (e) => {
@@ -280,8 +282,24 @@ class CMSIndex extends React.Component {
                         }
                     }
 
+                } else if(link === 'faqs') {
+                    /**
+                     * To edit clicked question in the list
+                     * Fetch logged in user,
+                     * Then fetch question/category to edit
+                     */
+                    const user = UserProfile.get();
+                    if(user !== null) {
+                        if (user.token !== null && user.token !== undefined) {
+                            // fetch account to edit
+                            this.props.fetchQuestion(event.currentTarget.id);
+                        }
+                    }
+
                 } else {
-                    // default
+                    /** do nothing, 
+                     *  completely nothing wamva eti
+                     */
                     // this.props.defaultItem();
                 }
 
@@ -489,6 +507,7 @@ const mapStateToProps = (state) => {
         document: state.library.document,
         home: state.home.home,
         subcategory: state.cms.subcategory,
+        question: state.cms.question,
         stakeholder: state.stakeholder.stakeholder,
         stakeholders_list: state.stakeholder.stakeholders_list,
         articles: state.news.articles,
@@ -538,6 +557,7 @@ const mapDispatchToProps = (dispatch) => {
         fetchUser: (id, token) => dispatch(UserAuthAction.fetchUser(id, token)),
         updateUser: (id, user, token) => dispatch(UserAuthAction.updateUser(id, user, token)),
         // frequently asked questions
+        fetchQuestion: (id) => { dispatch(CMSAction.fetchQuestion(id)) },
     };
 
 }

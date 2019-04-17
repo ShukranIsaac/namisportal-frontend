@@ -29,7 +29,7 @@ import LicensingProfile from '../licensing/licensing.profile';
 import ListUserAccounts from '../user/user.list.cms.component';
 import EditUserAccount from '../user/user.edit.cms.component';
 import EditUserProfile from '../user/user.details.cms.component';
-import { ListFAQS } from '../faq/faqs.list.component';
+import ListFAQS from '../faq/faqs.list.component';
 import CreateQuestion from '../faq/faq.add.component';
 import EditQuestion from '../faq/faq.edit.component';
 

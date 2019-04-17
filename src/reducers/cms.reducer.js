@@ -2,6 +2,7 @@ import { CMSType } from '../action_type/index';
 
 const initialState = {
     subcategory: null,
+    question: null
 }
 
 const cms = (state = initialState, action) => {
@@ -11,6 +12,11 @@ const cms = (state = initialState, action) => {
             return {
                 ...state,
                 subcategory: action.payload
+            }
+        case CMSType.REQUEST_FA_QUESTION:
+            return {
+                ...state,
+                question: action.payload
             }
         case CMSType.REQUEST_ADD_SUB_CATE:
             return {

@@ -31,7 +31,7 @@ export const fetchCategory = (category) => {
 }
 
 /**
- * Get a single subcategories
+ * Get a single subcategory
  * 
  * @param category_id
  * 
@@ -49,6 +49,34 @@ export const fetchSubCategory = (category_id) => {
         .then((response) => {
             
             dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_SUB_CATEGORY, response, false))
+
+        })
+        
+        .catch(() => dispatch(GeneralAction.hasErrored(true)));
+
+    };
+
+}
+
+/**
+ * Get a single subcategory
+ * 
+ * @param category_id
+ * 
+ */
+export const fetchQuestion = (category_id) => {
+
+    const url = `categories/` + category_id;
+
+    return async dispatch => {
+
+        dispatch(GeneralAction.isLoading(true));
+
+        return await get(dispatch, url)
+        
+        .then((response) => {
+            
+            dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_FA_QUESTION, response, false))
 
         })
         

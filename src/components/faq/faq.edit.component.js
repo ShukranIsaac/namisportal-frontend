@@ -20,30 +20,68 @@ import { FormTextInputField } from '../forms/form.textinput.field';
  */
 class EditQuestion extends Component {
 
-    constructor() {
-        super();
-        this.state = {}
-    }
-
-    handleChange = (e) => {
-
-        console.log(e.target.value);
-
+    constructor(props) {
+        super(props);
+        this.state = { 
+            question: props.question 
+        }
     }
 
     handleSubmit = (values) => {
-
+        // question
+        const { question } = this.state;
         // get authenticated user token
         const user = UserProfile.get();
         if(user !== null && user.token !== undefined) {
+
+            let edited_question;
+            if(values !== null && values !== undefined) {
+
+                // get edited_question structure
+                edited_question = {
+                    name: values.question,
+                    about: values.answer
+                }
+
+                // question defined
+                if (question !== null) {
+                    // then edit this edited_question
+                    this.props.editCategory(question._id, edited_question, user.token);
+                    // then change state to default
+                    // so that the page redirects and list all FAQs
+                    this.props.defaultItem();
+                }
+            }
 
         } 
         
     }
 
+    /**
+     * Delete question
+     */
+    archiveCategory = (event) => {
+
+        event.preventDefault();
+        // question to be edited
+        const { question } = this.props;
+        // if question exists then delete
+        if(question !== null && question._id !== undefined) {
+            // then get authenticated user token
+            const user = UserProfile.get();
+            if (user !== null && user.token !== undefined) {
+                this.props.archiveCategory(question, user.token);
+                // then change state to default
+                // so that the page redirects and list all home items
+                this.props.defaultItem();
+            }
+        }
+
+    }
+
     render() {
 
-        const { classes, handleClick, handleSubmit, valid, pristine, submitting } = this.props;
+        const { classes, handleClick, handleSubmit, valid, pristine, submitting, general } = this.props;
 
         // Frequently asked question sections
         const sections = this.props.subcategory;
@@ -114,28 +152,42 @@ class EditQuestion extends Component {
                     <div className={ classes.margin }/>
                     <div className={ classes.margin }/>
 
-                    <FormTextInputField 
-                        { ...this.props }
-                        name="question"
-                        placeholder="Type the new question here..."
-                        label="Question"
-                        type="text"
-                    />
+                    {
+                        this.state.question !== null && (
+                            <Fragment>
+                                <FormTextInputField 
+                                    { ...this.props }
+                                    name="question"
+                                    value={ this.state.question.name }
+                                    placeholder="Edit question here..."
+                                    label="Question"
+                                    type="text"
+                                />
 
-                    <FormTextInputField 
-                        { ...this.props }
-                        name="answer"
-                        placeholder="Type the answer to the question..."
-                        label="Answer"
-                        type="text"
-                        multiline={true}
-                        rows={8}
-                    />
+                                <FormTextInputField 
+                                    { ...this.props }
+                                    name="answer"
+                                    value={ this.state.question.about }
+                                    placeholder="Edit the answer to the question..."
+                                    label="Answer"
+                                    type="text"
+                                    multiline={true}
+                                    rows={8}
+                                />
+
+                                {
+                                    general !== undefined && general.isLoading ? (<div className="loader" />) : null
+                                }
+
+                            </Fragment>
+                        )
+                    }
 
                     <div className={ classes.margin }/>
                     <div className={ classes.margin }/>
 
                     <Button 
+                        className={ classes.margin }
                         type="submit" disabled={!valid  || pristine || submitting} 
                         intent="success" text="Save" 
                     />
@@ -145,7 +197,19 @@ class EditQuestion extends Component {
                         name="default" 
                         intent="primary" text="Cancel" 
                         onClick={ e => handleClick(e) } 
-                    /> 
+                    />
+
+                    {
+                        this.state.question !== null && (
+                            <Button 
+                                id={ this.state.question._id }
+                                className={ classes.margin } 
+                                name="archive" 
+                                intent="primary" text="Delete" 
+                                onClick={ e => this.archiveCategory(e) } 
+                            />
+                        )
+                    }
                 
                 </form>
 
