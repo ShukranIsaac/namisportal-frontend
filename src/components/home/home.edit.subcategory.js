@@ -2,8 +2,7 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import { reduxForm, Field } from 'redux-form';
-import RenderBootstrapField from '../forms/form.bootstrap.field';
+import { reduxForm } from 'redux-form';
 import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
 
@@ -12,6 +11,7 @@ import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 import { UserProfile, profile } from '../user/user.profile';
+import { FormTextInputField } from '../forms/form.textinput.field';
 
 /**
  * Edit a home subcategory
@@ -100,97 +100,85 @@ class EditHomeSubcategory extends Component {
     render() {
         
         const { 
-            classes, handleClick, handleSubmit,
+            classes, handleClick, handleSubmit, general,
             subcategory, valid, pristine, submitting 
         } = this.props;
         
         // get authenticated user token
         const user = UserProfile.get();
 
-        if(subcategory !== null) {
+        return (
+            <Fragment>
 
-            return (
-                <Fragment>
-    
-                    <form onSubmit = { handleSubmit(values => this.handleSubmit(values)) }>
-    
-                        <ButtonControl 
-                            intent={Intent.NONE} 
-                            value="New SubCategory"
-                            name="create"
-                            handleClick={e => handleClick(e) }
-                            disabled={ !profile.canWrite({ user }) }
-                        />
-    
-                        <ButtonControl 
-                            intent={Intent.NONE} 
-                            value="List SubCategories"
-                            name="list"
-                            handleClick={e => handleClick(e) }
-                        />
-    
-                        <div className={ classes.margin }/>
-                        <div className={ classes.margin }/>
-    
-                        <Divider />
-    
-                        <Field
-                            name='subcategory'
-                            component={ input => {
-                                return (
-                                    <RenderBootstrapField
-                                        classes={ classes }
-                                        id={ subcategory._id }
-                                        label='Name'
-                                        defaultValue="Edit sub-category name..."
-                                        value={ subcategory.name }
-                                        name="subcategory"
-                                        type="text"
-                                        props={ input }
-                                    />
-                                );
-                            }}
-                        />
-    
-                        <Field
-                            name='about'
-                            component={ input => {
-                                return (
-                                    <RenderBootstrapField
-                                        classes={ classes }
-                                        label='Summary'
-                                        defaultValue="Edit sub-category about..."
-                                        value={ subcategory.about }
-                                        name="about"
-                                        type="text"
-                                        props={ input }
-                                    />
-                                );
-                            }}
-                            multiline={true}
-                            rows="10"
-                        />
-    
-                        <div className={ classes.margin } />
-                        <div className={ classes.margin } />
-                        <div className={ classes.margin } />
-    
-                        <Button type="submit" disabled={!valid  || pristine || submitting} intent="primary" text="Save" />
-                        
-                        <Button className={ classes.margin } disabled={ !profile.canDelete({ user }) } intent="danger" text="Archive" onClick={ (e) => this.archiveCategory(e) } />
-                
-                        <Button className={ classes.margin } name="default" intent="primary" text="Cancel" onClick={ e => handleClick(e) } />
-                        
-                    </form>
-    
-                </Fragment>
-            );
-    
-        } else {
+                <form onSubmit = { handleSubmit(values => this.handleSubmit(values)) }>
 
-            return <div className="loader" />
+                    <ButtonControl 
+                        intent={Intent.NONE} 
+                        value="New SubCategory"
+                        name="create"
+                        handleClick={e => handleClick(e) }
+                        disabled={ !profile.canWrite({ user }) }
+                    />
+
+                    <ButtonControl 
+                        intent={Intent.NONE} 
+                        value="List SubCategories"
+                        name="list"
+                        handleClick={e => handleClick(e) }
+                    />
+
+                    <div className={ classes.margin }/>
+                    <div className={ classes.margin }/>
+
+                    <Divider />
+
+                    {
+                        subcategory !== null && (
+                            <Fragment>
+                                
+                                <FormTextInputField
+                                    { ...this.props } 
+                                    id={ subcategory._id }
+                                    name="subcategory"
+                                    label="Name"
+                                    placeholder="Edit sub-category name..."
+                                    type="text"
+                                    value={ subcategory.name }
+                                />
+
+                                <FormTextInputField
+                                    { ...this.props } 
+                                    name="about"
+                                    label="Summary"
+                                    placeholder="Edit sub-category about..."
+                                    type="text"
+                                    value={ subcategory.about }
+                                    multiline={true}
+                                    rows="10"
+                                />
+
+                                {
+                                    general !== undefined && general.isLoading ? (<div className="loader" />) : null
+                                }
+
+                            </Fragment>
+                        ) 
+                    }
+
+                    <div className={ classes.margin } />
+                    <div className={ classes.margin } />
+                    <div className={ classes.margin } />
+
+                    <Button type="submit" disabled={!valid  || pristine || submitting} intent="primary" text="Save" />
+                    
+                    <Button className={ classes.margin } disabled={ !profile.canDelete({ user }) } intent="danger" text="Archive" onClick={ (e) => this.archiveCategory(e) } />
             
-        }
+                    <Button className={ classes.margin } name="default" intent="primary" text="Cancel" onClick={ e => handleClick(e) } />
+                    
+                </form>
+
+            </Fragment>
+        );
         
     }
 

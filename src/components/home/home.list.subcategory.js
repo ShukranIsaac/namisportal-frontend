@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
-
-// import { Divider } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import { Divider, withStyles } from '@material-ui/core';
+import styles from '../contact/form.styles';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
 import { Row, Col } from 'reactstrap';
@@ -10,37 +11,40 @@ import { UserProfile, profile } from '../user/user.profile';
  * List all home subcategory
  * 
  * @author Isaac S. Mwakabira
- * 
  */
-export const ListHomeSubcategory = ({
+export const ListHomeSubcategory = withStyles(styles)(({
     category: { subCategories },
-    handleClick,
+    handleClick, classes
 }) => {
 
     // get the logged in user
     const user = UserProfile.get();
 
-    // console.log(subCategories)
-    if(subCategories !== null && subCategories !== undefined) {
-        // console.log(user.roles.writer);
-        return (
-            <Fragment>
-                
-                <ButtonControl 
-                    intent={Intent.NONE} 
-                    value="New SubCategory"
-                    name="create"
-                    handleClick={e => handleClick(e) }
-                    disabled={ !profile.canWrite({ user }) }
-                />
-    
-                {/* <Divider /> */}
-                <div className='app-sections' style={{ marginTop: '-53px' }}>
-                    <Row>
+    return (
+        <Fragment>
+            
+            <ButtonControl 
+                intent={Intent.NONE} 
+                value="New SubCategory"
+                name="create"
+                handleClick={e => handleClick(e) }
+                disabled={ !profile.canWrite({ user }) }
+            />
+
+            <div className={ classes.margin }/>
+            <div className={ classes.margin }/>
+            <div className={ classes.margin }/>
+            <div className={ classes.margin }/>
+
+            <Divider />
+
+            <div className='app-sections' style={{ marginTop: '-53px' }}>
+                {
+                    subCategories !== null && subCategories !== undefined ? (<Row>
 
                         {
                             subCategories !== undefined && subCategories.map(({ name, about, _id }, index) => {
-
+    
                                 return(
                                     <Col key={ index } sm='12' md='8' lg='6'>
                                         <div className="card">
@@ -51,27 +55,26 @@ export const ListHomeSubcategory = ({
                                                     </a>
                                                 </h4>
                                                 <p>{ about.substring(0, 150) }</p>
-
+    
                                                 <Button name="edit" id={_id} disabled={ false } intent="primary" text="Edit" onClick={(e) => handleClick(e)} />
                                             </div>
                                         </div>
                                     </Col>
                                 );
-
+    
                             })
                         }
-
-                    </Row>
-                </div>
     
-            </Fragment>
-        );
+                    </Row>) : <div className="loader" />
+                }
+            </div>
+
+        </Fragment>
+    );
     
-    } else {
+})
 
-        return <div className="loader" />
 
-    }
-
-    
+ListHomeSubcategory.propTypes = {
+    classes: PropTypes.object.isRequired,
 }

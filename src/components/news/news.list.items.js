@@ -1,12 +1,19 @@
 import React, { Fragment } from 'react';
 
-// import NewsArticleItem from '../news/news.article.item';
-// import SearchInputControl from '../forms/search.form.field';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent } from '@blueprintjs/core';
 import { NoDataCard } from '../card.text';
+import { withStyles, Divider } from '@material-ui/core';
+import styles from '../contact/form.styles';
 
-const ListNewsArticles = ({ articles, handleClick, general }) => {
+/**
+ * List of all news items
+ * 
+ * @author Isaac S. Mwakabira
+ * 
+ * @param {Props} Props 
+ */
+const ListNewsArticles = ({ articles, handleClick, general, classes }) => {
 
     return (
         <Fragment>
@@ -18,9 +25,20 @@ const ListNewsArticles = ({ articles, handleClick, general }) => {
                 handleClick={e => handleClick(e) }
             />
 
+            <div className={ classes.margin }/>
+            <div className={ classes.margin }/>
+            <div className={ classes.margin }/>
+            <div className={ classes.margin }/>
+
+            <Divider />
+
+            <div className={ classes.margin }/>
+            <div className={ classes.margin }/>
+            <div className={ classes.margin }/>
+
             <ul>
                 {
-                    general !== null ? 
+                    general !== null && (
                         general !== undefined && general.isLoading !== undefined && !general.isLoading ?
                             articles !== null && articles.length !== 0 ? 
                                 articles.map(({ _id, title }, index) => {
@@ -35,8 +53,9 @@ const ListNewsArticles = ({ articles, handleClick, general }) => {
 
                                 })
                             : <NoDataCard header={ `No articles` } style={{ marginTop: `30px` }} intent={ Intent.WARNING } />
+                        
                         : <div className="loader" />
-                    : <NoDataCard header='Ooops!! something gone wrong.' intent={Intent.WARNING} />
+                    )
                 }
             </ul>
 
@@ -45,4 +64,4 @@ const ListNewsArticles = ({ articles, handleClick, general }) => {
 
 }
 
-export default ListNewsArticles;
+export default withStyles(styles)(ListNewsArticles);

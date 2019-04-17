@@ -2,8 +2,7 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import { reduxForm, Field } from 'redux-form';
-import RenderBootstrapField from '../forms/form.bootstrap.field';
+import { reduxForm, } from 'redux-form';
 import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
 
@@ -13,6 +12,7 @@ import { Intent, Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 import { MuiFormFileinputField } from '../forms/form.fileinput.field';
 import { UserProfile } from '../user/user.profile';
+import { FormTextInputField } from '../forms/form.textinput.field';
 
 /**
  * @author Isaac S. Mwakabira
@@ -83,7 +83,8 @@ class EditLibraryItem extends Component {
             submitting,
             subcategory,
         } = this.props;
-        // console.log(this.props)
+
+        console.log(subcategory)
         
         if (subcategory !== null && subcategory !== undefined) {
             
@@ -114,58 +115,32 @@ class EditLibraryItem extends Component {
     
                         <Divider />
     
-                        <Field
-                            name='category'
-                            component={ input => {
-                                return (
-                                    <RenderBootstrapField
-                                        classes={ classes }
-                                        label='Category'
-                                        defaultValue="Edit document category..."
-                                        value={ subcategory.name }
-                                        name="category"
-                                        type="text"
-                                        onChange={ this.handleChange }
-                                        props={ input }
-                                    />
-                                );
-                            }}
-                            disabled
+                        <FormTextInputField
+                            { ...this.props }
+                            name="category"
+                            label='Category'
+                            placeholder="Edit document category..."
+                            value={ subcategory.name }
+                            type="text"
+                            disabled="true"
+                        />
+
+                        <FormTextInputField
+                            { ...this.props }
+                            name="name"
+                            label='Name'
+                            placeholder="Edit document name..."
+                            value={ subcategory.name }
+                            type="text"
                         />
     
-                        <Field
-                            name='name'
-                            component={ input => {
-                                return (
-                                    <RenderBootstrapField
-                                        classes={ classes }
-                                        label='Name'
-                                        defaultValue="Edit document name..."
-                                        name="name"
-                                        type="text"
-                                        props={ input }
-                                    />
-                                );
-                            }}
-                        />
-    
-                        <Field
-                            name='summary'
-                            component={ input => {
-    
-                                return (
-                                    <RenderBootstrapField
-                                        classes={ classes }
-                                        label='Summary'
-                                        defaultValue="Edit document summary..."
-                                        // value={ resource_plan.summary }
-                                        name="summary"
-                                        type="text"
-                                        props={ input }
-                                    />
-                                );
-    
-                            }}
+                        <FormTextInputField
+                            { ...this.props }
+                            name="summary"
+                            label='Summary'
+                            placeholder="Edit document summary..."
+                            value={ subcategory.about }
+                            type="text"
                             multiline={true}
                             rows="10"
                         />
@@ -185,29 +160,9 @@ class EditLibraryItem extends Component {
                         <div className={ classes.margin } />
                         <div className={ classes.margin } />
     
-                        {/* <ButtonControl 
-                            intent={Intent.PRIMARY} 
-                            value="Save"
-                            name="save"
-                        /> */}
                         <Button type="submit" disabled={!valid || pristine || submitting} intent="success" text="Save" />
                         
                         <Button className={ classes.margin } name="default" intent="primary" text="Cancel" onClick={ e => handleClick(e) } /> 
-                    
-    
-                        {/* <ButtonControl 
-                            intent={Intent.SUCCESS} 
-                            value="Publish" 
-                            name="publish"
-                            handleClick={e => handleClick(e) } 
-                        /> */}
-    
-                        {/* <ButtonControl 
-                            intent={Intent.WARNING} 
-                            value="Unpublish" 
-                            name="unpublish"
-                            handleClick={e => handleClick(e) } 
-                        /> */}
     
                         <ButtonControl intent={Intent.DANGER} value="Archive" name="archive" handleClick={e => handleClick(e) } />
                     

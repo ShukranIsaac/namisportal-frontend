@@ -2,6 +2,8 @@ import React, { Fragment } from 'react';
 // import SearchInputControl from '../forms/search.form.field';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent } from '@blueprintjs/core';
+import { Divider, withStyles } from '@material-ui/core';
+import styles from '../contact/form.styles';
 
 /**
  * Lists all institutions in the directory
@@ -15,10 +17,10 @@ import { Intent } from '@blueprintjs/core';
  * 
  * @returns {Fragment} directory  
  */
-export const ListDirectoryInstitution = ({
+export const ListDirectoryInstitution = (withStyles(styles)(({
     stakeholders,
     handleClick,
-    isLoading
+    isLoading, classes
 }) => {
 
     // console.log(stakeholders);
@@ -31,19 +33,19 @@ export const ListDirectoryInstitution = ({
         return (
             <Fragment>
     
-                {/* <SearchInputControl 
-                    id="search_id"
-                    name="directory"
-                    placeholder="Search for specific institution..."
-                    handleClick={ handleClick }
-                    handleChange={ (e) => { handleChange(e) } }
-                /> */}
                 <ButtonControl 
                     intent={Intent.NONE} 
                     value="New Stakeholder"
                     name="create"
                     handleClick={e => handleClick(e) }
                 />
+
+                <div className={ classes.margin }/>
+                <div className={ classes.margin }/>
+                <div className={ classes.margin }/>
+                <div className={ classes.margin }/>
+
+                <Divider />
     
                 <ul>
                     {
@@ -77,4 +79,4 @@ export const ListDirectoryInstitution = ({
         
     }
 
-}
+}))
