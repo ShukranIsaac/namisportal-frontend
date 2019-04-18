@@ -28,55 +28,53 @@ export const ListDirectoryInstitution = (withStyles(styles)(({
         return <div>No stakeholders</div>
     }
 
-    if(stakeholders !== null && stakeholders !== undefined) {
+    return (
+        <Fragment>
 
-        return (
-            <Fragment>
-    
-                <ButtonControl 
-                    intent={Intent.NONE} 
-                    value="New Stakeholder"
-                    name="create"
-                    handleClick={e => handleClick(e) }
-                />
+            <ButtonControl 
+                intent={Intent.NONE} 
+                value="New Stakeholder"
+                name="create"
+                handleClick={e => handleClick(e) }
+            />
 
-                <div className={ classes.margin }/>
-                <div className={ classes.margin }/>
-                <div className={ classes.margin }/>
-                <div className={ classes.margin }/>
+            <div className={ classes.margin }/>
+            <div className={ classes.margin }/>
+            <div className={ classes.margin }/>
+            <div className={ classes.margin }/>
 
-                <Divider />
-    
-                <ul>
-                    {
-                        stakeholders && stakeholders.map((stakeholder, index) => {
-                            
-                            return (
-                                <Fragment key={index}>
-                                    <li id={stakeholder._id} key={stakeholder._id}>
-                                        <a 
-                                            href={ `${ 'directory/' + stakeholder.name }` } 
-                                            onClick={ (e) => { handleClick(e) } }
-                                            name="edit"
-                                            id={stakeholder._id}
-                                        >
-                                            { stakeholder.name }
-                                        </a>
-                                    </li>
-                                </Fragment>
-                            );
-    
-                        })
-                    }
-                </ul>
-    
-            </Fragment>
-        );
+            <Divider />
 
-    } else {
+            <ul>
+                {
+                    stakeholders !== null && stakeholders !== undefined ? (
+                        <Fragment>
+                            {
+                                stakeholders && stakeholders.map((stakeholder, index) => {
+                        
+                                    return (
+                                        <Fragment key={index}>
+                                            <li id={stakeholder._id} key={stakeholder._id}>
+                                                <a 
+                                                    href={ `${ 'directory/' + stakeholder.name }` } 
+                                                    onClick={ (e) => { handleClick(e) } }
+                                                    name="edit"
+                                                    id={stakeholder._id}
+                                                >
+                                                    { stakeholder.name }
+                                                </a>
+                                            </li>
+                                        </Fragment>
+                                    );
+            
+                                })
+                            }
+                        </Fragment>
+                    ) : <div style={{ marginTop: `35px` }} className='loader' />
+                }
+            </ul>
 
-        return <div className='loader' />
-        
-    }
+        </Fragment>
+    );
 
 }))

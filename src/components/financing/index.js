@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -30,43 +30,36 @@ class Financing extends Component {
 
   render(){
 
-    const { subcategory } = this.props;
+    const { subcategory, general } = this.props;
 
-    if(subcategory !== undefined && subcategory !== null) {
-      
-      const header = {
-        textAlign: 'center',
-      }
-
-      if(subcategory.subCategories[0] !== undefined ){
-
-        return (
-          <div className = "page-content">
-            <Container>
-              <Row>
-                  <Card>
-                    <CardBody>
-                      <p style={header}><strong>{ subcategory.subCategories[0].name }</strong></p>
-                      <div dangerouslySetInnerHTML={{ __html: subcategory.subCategories[0].about }} />
-                    </CardBody> 
-                  </Card>
-              </Row>
-            </Container>
-          </div> 
-        );
-
-      }else{
-
-        return <div className="loader" />
-
-      }
-          
-    
-    } else {
-      // else return loader
-      return <div className="loader" />
+    const header = {
+      textAlign: 'center',
     }
-    
+
+    return (
+      <div className = "page-content">
+        <Container>
+          <Row>
+            {
+              general && (
+                !general.isLoading ? (
+                  (subcategory !== undefined && subcategory !== null) && (
+                    subcategory.subCategories[0] !== undefined && (
+                      <Card>
+                        <CardBody>
+                          <p style={header}><strong>{ subcategory.subCategories[0].name }</strong></p>
+                          <div dangerouslySetInnerHTML={{ __html: subcategory.subCategories[0].about }} />
+                        </CardBody>
+                      </Card>
+                    )
+                  )
+                ) : <p className="loader" />
+              )
+            }
+          </Row>
+        </Container>
+      </div> 
+    );
     
   }
 
@@ -85,6 +78,7 @@ const styles = {
 const mapStateToProps = (state) => {
     
   return {
+    general: state.general.general,
     subcategory: state.cms.subcategory,
   };
 

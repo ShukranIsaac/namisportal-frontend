@@ -108,6 +108,7 @@ class Library extends Component {
 const mapStateToProps = state => {
 
   return {
+    general: state.general.general,
     library: state.library.library
   }
 

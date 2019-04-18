@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Card, CardBody } from 'reactstrap'
 import Panel from '../financing/panel';
 import { redirect } from '../user/user.redirect';
@@ -6,7 +6,7 @@ import { redirect } from '../user/user.redirect';
 class Licensing extends Component {
   
   constructor(){
-      super()
+      super();
       this.state = {
           isOpen: false,
           collapsed: false
@@ -204,11 +204,11 @@ class Licensing extends Component {
 
   panelCollapsed = ({ isOpen }) => isOpen ? true : false;
 
-  renderPanels (panels) {
+  renderPanels ({ subCategories }) {
 
-    return panels.map(({heading, text}, index) => {
+    return subCategories.map(({ name, about }, index) => {
 
-      return <Panel key={ index } heading={heading} text={text}/>
+      return <Panel key={ index } heading={`${ (index + 1) + '. ' + name }`} text={about} />
 
     });
 
@@ -220,26 +220,40 @@ class Licensing extends Component {
       textAlign: 'center',
     }
 
+    const category = this.props.subcategory;
+    const { general } = this.props;
+
     return (
-        <div style={header}>
-        
-              <Card>
-                <Card>
-                    <p><strong>Licensing</strong></p>
-                    <p>
-                      The process for requesting Minigrid Related Licensing-Generation and Distribution license the following 
-                      steps. Further details are available by clicking on each step.
-                    </p>
-                </Card>
-                <CardBody>
-                  { this.renderPanels(this.lincensingProcess)}
-                </CardBody>
-                
-              </Card>
-           
-        </div>
+      <div style={header}>
+      
+        <Card>
+          <Card>
+            <p><strong>Licensing</strong></p>
+            <p>
+              The process for requesting Minigrid Related Licensing-Generation and Distribution license the following 
+              steps. Further details are available by clicking on each step.
+            </p>
+          </Card>
+          <CardBody>
+            { 
+              general && (
+                !general.isLoading ? (
+                  <Fragment>
+                    {
+                      category !== null && this.renderPanels(category)
+                    }
+                  </Fragment>
+                ) : <div style={{ marginTop: `50px` }} className="loader" />
+              )
+            }
+          </CardBody>
+          
+        </Card>
+          
+      </div>
     );
   }
+
 }
 
 export default Licensing;

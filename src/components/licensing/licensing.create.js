@@ -1,33 +1,25 @@
-import React, { Fragment, Component } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-
+import React, { Component, Fragment } from 'react';
 import { reduxForm } from 'redux-form';
 import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
-
-import { Divider } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import { withStyles, Divider } from '@material-ui/core';
+import styles from '../contact/form.styles';
+import { UserProfile } from '../user/user.profile';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
-import styles from '../contact/form.styles';
-import { MuiFormFileinputField } from '../forms/form.fileinput.field';
-import { UserProfile } from '../user/user.profile';
 import { FormTextInputField } from '../forms/form.textinput.field';
-// import FormSelectMultiple from '../forms/form.multiple.options.field';
 
 /**
+ * Create new licensing step
  * 
  * @author Isaac S. Mwakabira
  */
-class CreateLibraryItem extends Component {
+class CreateLicensingStep extends Component {
 
     constructor() {
         super();
-        
-        this.state = {
-            document,
-            name: []
-        }
+        this.state = {}
 
         /**
          * Bind events to each Function, so that they can be passed without args 
@@ -50,49 +42,27 @@ class CreateLibraryItem extends Component {
   
     }
 
-    handleChangeMultiple = event => {
-
-        const { options } = event.target;
-
-        const value = [];
-
-        for (let index = 0, optLength = options.length; index < optLength; index += 1) {
-
-            if (options[index].selected) {
-
-                value.push(options[index].value);
-                
-            }
-
-        }
-
-        this.setState({ [event.target.name]: value });
-
-    };
-
     handleSubmit = (values) => {
         
         // get category
         const { subcategory } = this.props;
-        // get authenticated user token
+        // authenticated user token
         const user = UserProfile.get();
         if(user !== null && user.token !== undefined) {
 
             if(values !== null && values !== undefined) {
                 // define sub-category structure
-                const data = {
+                const sub_category = {
                     name: values.name,
                     about: values.summary,
-                    file: values.supporting_document
                 }
 
                 if (subcategory !== null && subcategory !== undefined) {
-                    // console.log(data)
-                    this.props.uploadFile(subcategory._id, data, user.token);
+                    // console.log(sub_category)
+                    this.props.createCategory(subcategory._id, sub_category, user.token);
                     // then change state to default
-                    // so that the page redirects and list all home items
+                    // so that the page redirects and list all licensing items
                     this.props.defaultItem();
-
                 }
             }
 
@@ -102,23 +72,16 @@ class CreateLibraryItem extends Component {
 
     render() {
 
-        const { 
-            classes, 
-            handleClick,
-            handleSubmit,
-            valid,
-            pristine,
-            submitting
-        } = this.props;
+        // props
+        const { classes, handleClick, handleSubmit, valid, pristine, submitting } = this.props;
 
         return (
             <Fragment>
-
                 <form onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
 
                     <ButtonControl 
                         intent={Intent.NONE} 
-                        value="List Documents"
+                        value="List Steps"
                         name="default"
                         handleClick={e => handleClick(e) }
                     />
@@ -131,45 +94,46 @@ class CreateLibraryItem extends Component {
 
                     <Divider />
 
+                    <div className={ classes.margin }/>
+                    <div className={ classes.margin }/>
+                    <div className={ classes.margin }/>
+
                     <FormTextInputField 
                         classes={ classes }
                         name='name'
                         label="Name"
-                        placeholder="Edit document name..."
+                        placeholder="Enter license process step..."
                         type="text"
                     />
 
                     <FormTextInputField 
                         classes={ classes }
-                        name='summary' 
-                        label="Summary"
-                        placeholder="Edit document summary..."
+                        name='summary'
+                        label="Summary Text"
+                        placeholder="Enter license process summary..."
                         type="text"
-                        multiline={true}
+                        multiline={ true }
                         rows="10"
                     />
 
-                    <br />
+                    <div className={ classes.margin } />
 
-                    <MuiFormFileinputField
-                        // { ...this.state }
-                        id="pdf_document"
-                        placeholder="Upload PDF Document"
-                        classes={ classes }
-                        name='supporting_document'
-                        handleFileChange = { this.handleChange }
+                    <Button 
+                        type="submit" 
+                        disabled={!valid || pristine || submitting} 
+                        intent="success" 
+                        text="Save" 
                     />
-
-                    <div className={ classes.margin } />
-                    <div className={ classes.margin } />
-                    <div className={ classes.margin } />
-
-                    <Button type="submit" disabled={!valid || pristine || submitting} intent="success" text="Save" />
                     
-                    <Button className={ classes.margin } name="default" intent="primary" text="Cancel" onClick={ e => handleClick(e) } /> 
-                
-                </form>
+                    <Button 
+                        className={ classes.margin } 
+                        name="default" 
+                        intent="primary" 
+                        text="Cancel" 
+                        onClick={ e => handleClick(e) } 
+                    /> 
 
+                </form>
             </Fragment>
         );
 
@@ -177,12 +141,12 @@ class CreateLibraryItem extends Component {
 
 }
 
-CreateLibraryItem.propTypes = {
+CreateLicensingStep.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
 export default reduxForm({
-    form: 'createNewLibraryItem',
+    form: "createLicenseStep",
     Validate,
-    AsyncValidate
-})(withStyles(styles)(CreateLibraryItem));
+    AsyncValidate,
+})(withStyles(styles)(CreateLicensingStep));

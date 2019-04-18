@@ -82,100 +82,110 @@ class EditLibraryItem extends Component {
             pristine,
             submitting,
             subcategory,
+            general,
         } = this.props;
 
         console.log(subcategory)
         
         if (subcategory !== null && subcategory !== undefined) {
             
-            return (
-                <Fragment>
-    
-                    <form onSubmit = { handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
-    
-                        <ButtonControl 
-                            intent={Intent.NONE} 
-                            value="List Documents"
-                            name="default"
-                            handleClick={e => handleClick(e) }
-                        />
-    
-                        <ButtonControl 
-                            intent={Intent.NONE} 
-                            value="New Document"
-                            name="create"
-                            handleClick={e => handleClick(e) }
-                        />
-    
-                        <div className={ classes.margin }/>
-                        <div className={ classes.margin }/>
-                        <div className={ classes.margin }/>
-                        <div className={ classes.margin }/>
-                        <div className={ classes.margin }/>
-    
-                        <Divider />
-    
-                        <FormTextInputField
-                            { ...this.props }
-                            name="category"
-                            label='Category'
-                            placeholder="Edit document category..."
-                            value={ subcategory.name }
-                            type="text"
-                            disabled="true"
-                        />
-
-                        <FormTextInputField
-                            { ...this.props }
-                            name="name"
-                            label='Name'
-                            placeholder="Edit document name..."
-                            value={ subcategory.name }
-                            type="text"
-                        />
-    
-                        <FormTextInputField
-                            { ...this.props }
-                            name="summary"
-                            label='Summary'
-                            placeholder="Edit document summary..."
-                            value={ subcategory.about }
-                            type="text"
-                            multiline={true}
-                            rows="10"
-                        />
-    
-                        <br />
-    
-                        <MuiFormFileinputField
-                            // { ...this.state }
-                            id="pdf_document"
-                            placeholder="Upload PDF Document"
-                            classes={ classes }
-                            name='supporting_document'
-                            handleFileChange = { this.handleChange }
-                        />
-    
-                        <div className={ classes.margin } />
-                        <div className={ classes.margin } />
-                        <div className={ classes.margin } />
-    
-                        <Button type="submit" disabled={!valid || pristine || submitting} intent="success" text="Save" />
-                        
-                        <Button className={ classes.margin } name="default" intent="primary" text="Cancel" onClick={ e => handleClick(e) } /> 
-    
-                        <ButtonControl intent={Intent.DANGER} value="Archive" name="archive" handleClick={e => handleClick(e) } />
-                    
-                    </form>
-    
-                </Fragment>
-            );
+            
 
         } else {
 
             return <div className="loader" />
 
         }
+        return (
+            <Fragment>
+
+                <form onSubmit = { handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
+
+                    <ButtonControl 
+                        intent={Intent.NONE} 
+                        value="List Documents"
+                        name="default"
+                        handleClick={e => handleClick(e) }
+                    />
+
+                    <ButtonControl 
+                        intent={Intent.NONE} 
+                        value="New Document"
+                        name="create"
+                        handleClick={e => handleClick(e) }
+                    />
+
+                    <div className={ classes.margin }/>
+                    <div className={ classes.margin }/>
+                    <div className={ classes.margin }/>
+                    <div className={ classes.margin }/>
+                    <div className={ classes.margin }/>
+
+                    <Divider />
+
+                    {
+                        general && (
+                            !general.isLoading ? (
+                                <Fragment>
+                                    <FormTextInputField
+                                        { ...this.props }
+                                        name="category"
+                                        label='Category'
+                                        placeholder="Edit document category..."
+                                        value={ subcategory.name }
+                                        type="text"
+                                        disabled="true"
+                                    />
+
+                                    <FormTextInputField
+                                        { ...this.props }
+                                        name="name"
+                                        label='Name'
+                                        placeholder="Edit document name..."
+                                        value={ subcategory.name }
+                                        type="text"
+                                    />
+
+                                    <FormTextInputField
+                                        { ...this.props }
+                                        name="summary"
+                                        label='Summary'
+                                        placeholder="Edit document summary..."
+                                        value={ subcategory.about }
+                                        type="text"
+                                        multiline={true}
+                                        rows="10"
+                                    />
+
+                                    <br />
+
+                                    <MuiFormFileinputField
+                                        // { ...this.state }
+                                        id="pdf_document"
+                                        placeholder="Upload PDF Document"
+                                        classes={ classes }
+                                        name='supporting_document'
+                                        handleFileChange = { this.handleChange }
+                                    />
+                                </Fragment>
+                            ) : <div style={{ marginTop: `50px` }} className="loader" />
+                        )
+                    }
+
+                    <div className={ classes.margin } />
+                    <div className={ classes.margin } />
+                    <div className={ classes.margin } />
+
+                    <Button type="submit" disabled={!valid || pristine || submitting} intent="success" text="Save" />
+                    
+                    <Button className={ classes.margin } name="default" intent="primary" text="Cancel" onClick={ e => handleClick(e) } /> 
+
+                    <ButtonControl intent={Intent.DANGER} value="Archive" name="archive" handleClick={e => handleClick(e) } />
+                
+                </form>
+
+            </Fragment>
+        );
 
     }
 

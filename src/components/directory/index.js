@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Container,Card, CardBody, Col, Row, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -29,88 +29,89 @@ class Directory extends Component {
 
   render(){
 
-    const { classes, stakeholders_list } = this.props;
-    // console.log(this.props.match)
-    if(stakeholders_list !== null && stakeholders_list !== undefined) {
+    const { classes, stakeholders_list, general } = this.props; 
 
-      return (
-        <div className = "page-content">
-          <Container>
-            <Row>
-              <Col lg='12'>
-                <div style={{margin: '2.5px 0'}}>
-                  <Card className={classes.headerCard}>
-                      <CardBody className={classes.paddindUnset}>
-                        <h5><strong>Directory</strong></h5>
-                        <p>
-                          Here is a list of some of the stakeholders we work together with
-                        </p>
-                      </CardBody>
-                    </Card>
-                  </div>
-              </Col> 
-            </Row>
+    return (
+      <div className = "page-content">
+        <Container>
+          <Row>
+            <Col lg='12'>
+              <div style={{margin: '2.5px 0'}}>
+                <Card className={classes.headerCard}>
+                    <CardBody className={classes.paddindUnset}>
+                      <h5><strong>Directory</strong></h5>
+                      <p>
+                        Here is a list of some of the stakeholders we work together with
+                      </p>
+                    </CardBody>
+                  </Card>
+                </div>
+            </Col> 
+          </Row>
+          {
+            general && (
+              !general.isLoading ? (
+                (stakeholders_list !== null && stakeholders_list !== undefined) && (
+                  <Fragment>
+                    {
+                      stakeholders_list.map((stakeholder, index) => {
 
-            {
-              stakeholders_list.map((stakeholder, index) => {
+                        return (
+                          <DirectoryItem key={ stakeholder.name } stakeholder={ stakeholder } handleClick={ this.handleClick } />
+                        );
+                        
+                      })
+                    }
+                    
+                    {
+                      stakeholders_list.length > 5 ? 
+                      (<Row>
+                        <Pagination aria-label="Page navigation example" className={classes.paginationStuff}>
+                          <PaginationItem>
+                            <PaginationLink className={classes.previous} previous href="#" />
+                          </PaginationItem>
+                          <PaginationItem>
+                            <PaginationLink href="#">
+                              1
+                            </PaginationLink>
+                          </PaginationItem>
+                          <PaginationItem>
+                            <PaginationLink href="#">
+                              2
+                            </PaginationLink>
+                          </PaginationItem>
+                          <PaginationItem>
+                            <PaginationLink href="#">
+                              3
+                            </PaginationLink>
+                          </PaginationItem>
+                          <PaginationItem>
+                            <PaginationLink href="#">
+                              4
+                            </PaginationLink>
+                          </PaginationItem>
+                          <PaginationItem>
+                            <PaginationLink href="#">
+                              5
+                            </PaginationLink>
+                          </PaginationItem>
+                          <PaginationItem>
+                            <PaginationLink next href="#" />
+                          </PaginationItem>
+                        </Pagination>
+                      </Row>) : <Row />
+                    }
+                  </Fragment>
+                )
+              ) : <div style={{ marginTop: `50px` }} className="loader" />
+            )
+          }
 
-                return (
-                  <DirectoryItem key={ stakeholder.name } stakeholder={ stakeholder } handleClick={ this.handleClick } />
-                );
-                
-              })
-            }
-            
-            {
-              stakeholders_list.length > 5 ? 
-              (<Row>
-                <Pagination aria-label="Page navigation example" className={classes.paginationStuff}>
-                  <PaginationItem>
-                    <PaginationLink className={classes.previous} previous href="#" />
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink href="#">
-                      1
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink href="#">
-                      2
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink href="#">
-                      3
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink href="#">
-                      4
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink href="#">
-                      5
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink next href="#" />
-                  </PaginationItem>
-                </Pagination>
-              </Row>) : <Row />
-            }
-  
-          </Container>
-          
-        </div>
-          
-      );
-
-    } else {
-
-      return <div className="loader" />
-
-    }
+        </Container>
+        
+      </div>
+        
+    );
 
   }
 
@@ -158,7 +159,8 @@ Directory.propTypes = {
 const mapStateToProps = (state) => {
     
   return {
-      stakeholders_list: state.stakeholder.stakeholders_list,
+    general: state.general.general,
+    stakeholders_list: state.stakeholder.stakeholders_list,
   };
 
 }

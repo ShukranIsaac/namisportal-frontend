@@ -62,7 +62,7 @@ export const ListLibraryDocuments = (withStyles(styles)(({
                                         <Fragment key={object.name}>
                                             <li id={index} key={object.name}>
                                                 <a 
-                                                    href="/library/e8g9tyjGh" 
+                                                    href={ `${ '/library/' + object.name }` } 
                                                     onClick={ (e) => handleClick(e) }
                                                     name="edit"
                                                     id={object.name}
@@ -77,7 +77,7 @@ export const ListLibraryDocuments = (withStyles(styles)(({
                             }
                         </ul>
             
-                    </Fragment>) : <div className="loader" />
+                    </Fragment>) : <div style={{ marginTop: `50px` }} className="loader" />
                 }
             </Fragment>
         );

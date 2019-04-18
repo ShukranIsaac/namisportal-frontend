@@ -20,18 +20,19 @@ import EditHomeSubcategory from '../home/home.edit.subcategory';
 import CreateHomeSubcategory from '../home/home.add.subcategory';
 import { ListFinancingRequests } from '../financing/financing.list.requests';
 import EditFinancingRequestSupport from '../financing/financing.edit.request';
-import LicensingProcess from '../licensing/licensing.process';
 import CreateContactDetails from '../contact/contact.create.form';
 import ContactShowDetails from '../contact/contact.show.details';
 import EditContactDetails from '../contact/contact.edit.form';
-import GISComponent from '../gis/gis.cms.component';
-import LicensingProfile from '../licensing/licensing.profile';
+import GISComponent from '../gis/gis.cms.component';    
 import ListUserAccounts from '../user/user.list.cms.component';
 import EditUserAccount from '../user/user.edit.cms.component';
 import EditUserProfile from '../user/user.details.cms.component';
 import ListFAQS from '../faq/faqs.list.component';
 import CreateQuestion from '../faq/faq.add.component';
 import EditQuestion from '../faq/faq.edit.component';
+import { ListLicensing } from '../licensing/licensing.list';
+import CreateLicensingStep from '../licensing/licensing.create';
+import EditLicensingStep from '../licensing/licensing.edit';
 
 /**
  * Renders a single section resource i.e. licencing, library at cms index
@@ -98,8 +99,23 @@ const RenderSection = ({
                     <ResourceSection 
                         option={props.user_event} 
                         name="licensing"
-                        List={ () => <LicensingProfile { ...props } /> }
-                        Create={ () => <LicensingProcess handleClick={ (e) => handleClick(e) } { ...props } /> }
+                        List={ () => <ListLicensing 
+                                { ...props }
+                                handleClick={ (e) => handleClick(e) }
+                            /> 
+                        }
+                        Create={ () => <CreateLicensingStep 
+                                handleClick={ (e) => handleClick(e) } 
+                                handleChange={ (e) => { handleChange(e) } }
+                                { ...props } 
+                            /> 
+                        }
+                        Edit={ () => <EditLicensingStep 
+                                { ...props }
+                                handleClick={ (e) => handleClick(e) } 
+                                handleChange={ (e) => { handleChange(e) } }
+                            />
+                        }
                     />
 
                 </Fragment>

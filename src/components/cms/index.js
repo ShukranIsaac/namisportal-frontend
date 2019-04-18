@@ -296,6 +296,12 @@ class CMSIndex extends React.Component {
                         }
                     }
 
+                } else if(link === 'licensing') {
+                    /**
+                     * To edit clicked license step in the list
+                     * Then fetch category to edit
+                     */
+                    this.props.subCategory(event.currentTarget.id);
                 } else {
                     /** do nothing, 
                      *  completely nothing wamva eti

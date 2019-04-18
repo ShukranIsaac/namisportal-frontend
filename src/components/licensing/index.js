@@ -36,16 +36,19 @@ class Licensing extends Component {
   render(){
 
     return (
-        <div className = "page-content">
-          <Container>
-            <Row>
-                <LicensingProfile onChange={ this.handleChange } {...this.props} {...this.state}/>
-            </Row>
-          </Container>
-          
-        </div>
+      <div className = "page-content">
+
+        <Container>
+          <Row>
+            <LicensingProfile onChange={ this.handleChange } {...this.props} {...this.state}/>
+          </Row>
+        </Container>
+        
+      </div>
     );
+    
   }
+
 }
 
 const styles = theme => ({
@@ -68,9 +71,10 @@ const styles = theme => ({
 
 const mapStateToProps = (state) => {
 
-    return {
-        subcategory: state.cms.subcategory,
-    };
+  return {
+    general: state.general.general,
+    subcategory: state.cms.subcategory,
+  };
 
 }
 

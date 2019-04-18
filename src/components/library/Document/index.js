@@ -37,10 +37,10 @@ export default class Document extends Component {
 
         return (
             <div style={docContainer}>
-                <Callout onClick={this.handleClick} style={button} righticon="download">
+                <Callout onClick={this.handleClick} style={button} righticon="add">
                     <div style={{ alignSelf: 'flex-start'}}>{ name }</div>
                     <div style={{marginLeft: 'auto'}}>
-                        <Icon icon="download"/>
+                        { this.state.isOpen ? <Icon icon="remove"/> : <Icon icon="add"/>}
                     </div>
                 </Callout>
                 <Collapse isOpen={this.state.isOpen}>
