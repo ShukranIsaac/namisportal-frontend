@@ -196,7 +196,7 @@ class ListUserAccounts extends Component {
                 <EnhancedTableToolbar 
                     classes={ classes } 
                     numSelected={selected.length} 
-                    handleAccountClick={handleAccountClick} 
+                    handleAccountClick={ (e) => handleAccountClick(e) } 
                     selectedAccount={selectedAccount}
                 />
                 

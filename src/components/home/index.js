@@ -25,7 +25,7 @@ class Home extends Component {
 
   render(){
     
-    const { home, general } = this.props;
+    const { home } = this.props;
 
     if (home !== null) {
       if (home.subCategories !== null && home.subCategories !== undefined) {
@@ -37,7 +37,7 @@ class Home extends Component {
             <div className='landing-info'>
 
               <ParticlesComponent />
-              
+
               <Container>
                 <Row>
                   <Col sm='12' md='12' lg={{ size: 8, offset: 2 }}>

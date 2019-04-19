@@ -33,6 +33,7 @@ import EditQuestion from '../faq/faq.edit.component';
 import { ListLicensing } from '../licensing/licensing.list';
 import CreateLicensingStep from '../licensing/licensing.create';
 import EditLicensingStep from '../licensing/licensing.edit';
+import AddUserAccount from '../user/user.add.component';
 
 /**
  * Renders a single section resource i.e. licencing, library at cms index
@@ -319,7 +320,12 @@ const RenderSection = ({
                                 handleAccountClick={ (e) => handleClick(e) }
                             /> 
                         }
-                        Create={ () => <div>Accounts create new</div> }
+                        Create={ () => <AddUserAccount 
+                                { ...props } 
+                                handleClick={ handleClick }
+                                handleChange={ handleChange }
+                            /> 
+                        }
                         Edit={ 
                             () => <EditUserAccount 
                                 { ...props }
