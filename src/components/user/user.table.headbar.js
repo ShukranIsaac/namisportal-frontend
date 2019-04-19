@@ -162,6 +162,7 @@ class EnhancedTableToolbar extends React.Component {
                                                     onClick={ 
                                                         () => {
                                                             if (auth !== undefined && auth !== null) {
+                                                                // call the redux action: deleteAccount(id, token)
                                                                 return handleAccountDelete(selectedAccount._id, auth.token)
                                                             }
                                                         } 
