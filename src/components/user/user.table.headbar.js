@@ -149,7 +149,7 @@ class EnhancedTableToolbar extends React.Component {
                                             <Tooltip title="Edit">
                                                 <IconButton 
                                                     name="edit" 
-                                                    aria-label="Edit" 
+                                                    aria-label="Edit account" 
                                                     onClick={ (e) => handleAccountClick(e) }
                                                     id={selectedAccount._id}
                                                 >
@@ -158,7 +158,7 @@ class EnhancedTableToolbar extends React.Component {
                                             </Tooltip>
                                             <Tooltip title="Delete">
                                                 <IconButton 
-                                                    aria-label="Delete"
+                                                    aria-label="Delete account"
                                                     onClick={ 
                                                         () => {
                                                             if (auth !== undefined && auth !== null) {
