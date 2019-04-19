@@ -64,7 +64,8 @@ const RenderSection = ({
                     <ResourceSection 
                         option={props.user_event} 
                         name="home" 
-                        List={ () => <ListHomeSubcategory 
+                        List={ () => <ListHomeSubcategory
+                                    { ...props } 
                                     handleClick={ (e) => handleClick(e) } 
                                     category={ props.home } 
                                     handleChange={ (e) => { handleChange(e) } }
@@ -130,7 +131,9 @@ const RenderSection = ({
                         option={props.user_event}
                         name="financing"
                         List={ () => <ListFinancingRequests 
+                                    { ...props }
                                     handleClick={ (e) => handleClick(e) }
+                                    handleChange={ (e) => handleChange(e) }
                                     category={ props.subcategory }
                                 /> 
                             }
@@ -162,7 +165,7 @@ const RenderSection = ({
                         name="gis"
                         List={}
                     /> */}
-                    <GISComponent />
+                    <GISComponent { ...props } handleClick={ (e) => handleClick(e) } />
 
                 </Fragment>
             );

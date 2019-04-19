@@ -23,7 +23,7 @@ export class SelectInputControl extends Component {
         return (
             <Fragment>
 
-                <InputLabel shrink htmlFor="option-open-select"> { this.capitalize(this.props.name) } </InputLabel>
+                <InputLabel shrink htmlFor="option-open-select"> { this.capitalize(this.props.label) } </InputLabel>
     
                 <NativeSelect
                     { ...this.props }

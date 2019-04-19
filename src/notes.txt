@@ -81,3 +81,48 @@ We would also like to ask more clarification on the general CMS structure. Comme
 on the same will be highly appreciated.
 
 Regards.
+
+Thursday 18th April 2019.
+
+CMS: Any logged in user can perform basic CRUDE actions.
+
+    1.  Home
+        a.  User can create new sub component to appear on the web front page(Home).
+        b.  User can edit sub component.
+        c.  User can also archive a sub component.
+
+    2.  Financing
+        a.  User can create new sub-category.
+        b.  User can edit sub-category.
+
+    3.  Directory
+        a.  User can create new directory stakeholder to appear on the web front page(Directory).
+        b.  User can edit stakeholder.
+        c.  User can also archive a stakeholder.
+
+    4.  News(Partially done)
+        a.  User can create new article to appear on the web front page(News section).
+        b.  User can edit an article.
+        c.  User can also archive an article.
+
+    5.  Library
+        a.  User can create new documents.
+        b.  User can also archive a stakeholder.
+
+    5.  Accounts
+        a.  Admin can assign roles
+        b.  Admin can revoke roles
+
+    7.  Frequently Ask Questions
+        a. Create
+        b. List
+        c. Edit
+        d. Delete
+
+
+CMS Sections remaining include GIS(awaiting backend routes to be developed), Library, News, Contact.
+
+We would also like to ask more clarification on the general CMS structure. Comments and suggestions 
+on the same will be highly appreciated.
+
+Regards.

@@ -3,6 +3,12 @@ import { Card, CardBody } from 'reactstrap'
 import Panel from '../financing/panel';
 import { redirect } from '../user/user.redirect';
 
+/**
+ * Licensing 
+ * 
+ * @author Paul Sembeleka(Pablo)
+ * @author Isaac S. Mwakabira
+ */
 class Licensing extends Component {
   
   constructor(){

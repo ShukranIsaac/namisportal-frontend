@@ -14,7 +14,7 @@ import { UserProfile, profile } from '../user/user.profile';
  */
 export const ListHomeSubcategory = withStyles(styles)(({
     category: { subCategories },
-    handleClick, classes
+    handleClick, classes, general
 }) => {
 
     // get the logged in user
@@ -40,32 +40,36 @@ export const ListHomeSubcategory = withStyles(styles)(({
 
             <div className='app-sections' style={{ marginTop: '-53px' }}>
                 {
-                    subCategories !== null && subCategories !== undefined ? (<Row>
+                    general && (
+                        !general.isLoading ? (
+                            (subCategories !== null && subCategories !== undefined) && (<Row>
 
-                        {
-                            subCategories !== undefined && subCategories.map(({ name, about, _id }, index) => {
-    
-                                return(
-                                    <Col key={ index } sm='12' md='8' lg='6'>
-                                        <div className="card">
-                                            <div className="card-body">
-                                                <h4>
-                                                    <a name="edit" id={_id} key={_id} href="/cms" onClick={ (e) => handleClick(e) }>
-                                                        { name }
-                                                    </a>
-                                                </h4>
-                                                <p>{ about.substring(0, 150) }</p>
-    
-                                                <Button name="edit" id={_id} disabled={ false } intent="primary" text="Edit" onClick={(e) => handleClick(e)} />
-                                            </div>
-                                        </div>
-                                    </Col>
-                                );
-    
-                            })
-                        }
-    
-                    </Row>) : <div className="loader" />
+                                {
+                                    subCategories !== undefined && subCategories.map(({ name, about, _id }, index) => {
+            
+                                        return(
+                                            <Col key={ index } sm='12' md='8' lg='6'>
+                                                <div className="card">
+                                                    <div className="card-body">
+                                                        <h4>
+                                                            <a name="edit" id={_id} key={_id} href="/cms" onClick={ (e) => handleClick(e) }>
+                                                                { name }
+                                                            </a>
+                                                        </h4>
+                                                        <p>{ about.substring(0, 150) }</p>
+            
+                                                        <Button name="edit" id={_id} disabled={ false } intent="primary" text="Edit" onClick={(e) => handleClick(e)} />
+                                                    </div>
+                                                </div>
+                                            </Col>
+                                        );
+            
+                                    })
+                                }
+            
+                            </Row>)
+                        ) : <Row><div style={{ marginTop: `40px` }} className="loader" /></Row>
+                    )
                 }
             </div>
 

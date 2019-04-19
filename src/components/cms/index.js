@@ -18,6 +18,7 @@ import * as HomeAction from '../../actions/home.action';
 import * as CMSAction from '../../actions/cms.action';
 import * as Stakeholder from '../../actions/stakeholder.action';
 import * as NewsAction from '../../actions/news.action';
+import * as GisAction from '../../actions/gis.action';
 
 import CustomDrawer from './cms.custom.drawer';
 import RenderSection from './cms.render.section';
@@ -197,6 +198,14 @@ class CMSIndex extends React.Component {
                     this.props.fetchUsers(user);
                 }
                 break;
+            case 'gis':
+                /**
+                 * Fetch all gis filters
+                 */
+                this.props.fetchFilters();
+                // fetch plant filters
+                // this.props.powerPlantFilters();
+                break
             default:
                 break;
         }
@@ -297,11 +306,22 @@ class CMSIndex extends React.Component {
                     }
 
                 } else if(link === 'licensing') {
+
                     /**
                      * To edit clicked license step in the list
                      * Then fetch category to edit
                      */
                     this.props.subCategory(event.currentTarget.id);
+
+                } else if(link === 'financing') {
+
+                    /**
+                     * To edit chosen financing category
+                     * Then fetch category to edit
+                     */
+                    // this.props.subCategory(event.currentTarget.id);
+                    console.log(event.currentTarget.value)
+
                 } else {
                     /** do nothing, 
                      *  completely nothing wamva eti
@@ -519,6 +539,7 @@ const mapStateToProps = (state) => {
         articles: state.news.articles,
         users: state.user.users,
         user: state.user.user,
+        gis_filters: state.gis_filters.gis_filters,
     };
 
 }
@@ -564,6 +585,8 @@ const mapDispatchToProps = (dispatch) => {
         updateUser: (id, user, token) => dispatch(UserAuthAction.updateUser(id, user, token)),
         // frequently asked questions
         fetchQuestion: (id) => { dispatch(CMSAction.fetchQuestion(id)) },
+        // gis
+        fetchFilters: () => { dispatch(GisAction.fetchGisFilters()) },
     };
 
 }

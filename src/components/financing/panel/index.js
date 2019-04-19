@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Collapse, Callout, Icon, Card, Elevation } from '@blueprintjs/core';
-import { redirect } from '../../user/user.redirect';
+// import { redirect } from '../../user/user.redirect';
 
 //  import '../style.css'
 
@@ -27,24 +27,24 @@ class Panel extends Component{
          * Find <a> tags in the text passed to the method, 
          * Set onclick event and return the final modified text to be rendered
          */
-        const textLink = (text || "")
-            .replace(/([^\S]|^)(((https?\:\/\/)|(www\.))(\S+))/gi, (match, space, url) => {
+        // const textLink = (text || "")
+        //     .replace(/([^\S]|^)(((https?\:\/\/)|(www\.))(\S+))/gi, (match, space, url) => {
 
-                var hyperlink = url;
-                if (!hyperlink.match('^https?:\/\/')) {
-                    hyperlink = 'http://' + hyperlink;
-                }
+        //         var hyperlink = url;
+        //         if (!hyperlink.match('^https?:\/\/')) {
+        //             hyperlink = 'http://' + hyperlink;
+        //         }
 
-                return (
-                    space + '<a name="link" href="' + hyperlink + '" onClick="'+ 
-                    eval(`${ (e) => redirect.toExternalLink({ url: e.target.href, event: e }) }`) +
-                    '">' + url + '</a>'
-                );
+        //         return (
+        //             space + '<a name="link" href="' + hyperlink + '" onClick="'+ 
+        //             eval(`${ (e) => redirect.toExternalLink({ url: e.target.href, event: e }) }`) +
+        //             '">' + url + '</a>'
+        //         );
 
-            }
-          )
+        //     }
+        //   )
 
-        console.log(textLink);
+        // console.log(textLink);
 
     }
     

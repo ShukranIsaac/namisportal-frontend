@@ -166,6 +166,7 @@ class GridSideBar extends Component {
           <SearchInputControl
             id="search_place"
             name="search"
+            Label="search place"
             placeholder="Search for min-grid location"  
             handleChange={ (e) => { this.props.onChange(e) } }
           />
@@ -218,6 +219,7 @@ class GridSideBar extends Component {
 
                   <SelectInputControl 
                     name='region_name' 
+                    label="Region"
                     helperText='Select region filter' 
                     {...this.props} 
                     {...this.state}
@@ -238,6 +240,7 @@ class GridSideBar extends Component {
 
                   <SelectInputControl 
                     name='district_name' 
+                    label="District"
                     helperText='Select district filter' 
                     {...this.props} 
                     {...this.state}
@@ -392,6 +395,7 @@ class GridSideBar extends Component {
 
                     <SelectInputControl
                       name='type'
+                      label="Type"
                       helperText='Select plant type'
                       {...this.props}
                       {...this.state}
@@ -409,6 +413,7 @@ class GridSideBar extends Component {
                   
                     <SelectInputControl
                       name='capacity'
+                      label="Capacity"
                       helperText='Select plant capacity'
                       {...this.props}
                       {...this.state}
@@ -443,7 +448,7 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 2,
   },
   formControl: {
-    marginBottom: theme.spacing.unit * 2,
+    marginBottom: theme.spacing.unit * 1,
     minWidth: 'auto',
   },
   legend: {
