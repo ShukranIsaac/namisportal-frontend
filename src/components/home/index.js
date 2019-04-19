@@ -8,6 +8,7 @@ import { HomeSubCategory, filterSection } from './home.subcategory';
 import { ProgressLoader } from '../loader.component.wrapper';
 import { NoDataCard } from '../card.text';
 import { Intent } from '@blueprintjs/core';
+import ParticlesComponent from '../user/particles';
 
 /**
  * @author Paul Sembereka
@@ -26,8 +27,6 @@ class Home extends Component {
     
     const { home, general } = this.props;
 
-    console.log(general);
-
     if (home !== null) {
       if (home.subCategories !== null && home.subCategories !== undefined) {
 
@@ -36,6 +35,9 @@ class Home extends Component {
         return (
           <>
             <div className='landing-info'>
+
+              <ParticlesComponent />
+              
               <Container>
                 <Row>
                   <Col sm='12' md='12' lg={{ size: 8, offset: 2 }}>

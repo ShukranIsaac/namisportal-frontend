@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { Container, Card, CardBody, Row } from 'reactstrap'
 import { withStyles } from '@material-ui/core';
-
+import ParticlesComponent from '../user/particles';
 import * as CMSAction from '../../actions/cms.action';
 
 /**
@@ -38,6 +38,9 @@ class Financing extends Component {
 
     return (
       <div className = "page-content">
+
+        <ParticlesComponent />
+        
         <Container>
           <Row>
             {

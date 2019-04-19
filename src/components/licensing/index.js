@@ -5,7 +5,7 @@ import { Container, Row } from 'reactstrap'
 
 import LicensingProfile from './licensing.profile';
 import * as CMSAction from '../../actions/cms.action';
-
+import ParticlesComponent from '../user/particles';
 import './licensing.css'
 
 /**
@@ -38,6 +38,8 @@ class Licensing extends Component {
     return (
       <div className = "page-content">
 
+        <ParticlesComponent />
+        
         <Container>
           <Row>
             <LicensingProfile onChange={ this.handleChange } {...this.props} {...this.state}/>

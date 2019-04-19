@@ -14,6 +14,7 @@ import Financing from './Financing';
 import PoliciesStratigies from './PoliciesStratigies';
 import LegalRegFrameworks from './LegalRegFrameworks';
 import ResourcePlan from './ResourcePlan';
+import ParticlesComponent from '../user/particles';
 
 import Document from './Document';
 
@@ -62,6 +63,9 @@ class Library extends Component {
 
     return (
       <div className='landing-info'>
+
+        <ParticlesComponent />
+        
         <Container>
           <Row>
           <div className="card">

@@ -25,7 +25,7 @@ export default class Footer extends Component {
             <div id='footer' style={stickToBottom}>
                 <Sponsors/>
                 <div style={footer}>
-                    <span style={span}>Design and implementation: Chancellor College, Computer Science</span>
+                    <span style={span}>Design and implementation: Chancellor College, Department of Computer Science</span>
                 </div>
             </div>
             

@@ -9,6 +9,7 @@ import DirectoryItem from './item';
 import './directory.css';
 import * as Stakeholder from '../../actions/stakeholder.action';
 import { redirect } from '../user/user.redirect';
+import ParticlesComponent from '../user/particles';
 
 
 class Directory extends Component {
@@ -33,6 +34,9 @@ class Directory extends Component {
 
     return (
       <div className = "page-content">
+
+        <ParticlesComponent />
+
         <Container>
           <Row>
             <Col lg='12'>

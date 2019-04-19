@@ -43,7 +43,7 @@ class Contact extends Component {
                     <br />
                       <h4>For any questions:</h4>
                       <p>
-                        Email us at <a href="mailto:questions@grid.mw" className={classes.link}> questions@grid.mw </a>
+                        Email us at <a href="mailto:info@energy.gov.mw" className={classes.link}> info@energy.gov.mw </a>
                       </p>
                       <br />
                       <h4>Physical Address:</h4>
