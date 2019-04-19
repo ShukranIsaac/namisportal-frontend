@@ -15,6 +15,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import FilterListIcon from '@material-ui/icons/Add';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+import { UserProfile } from './user.profile';
 
 /**
  * Enhanced table head
@@ -118,8 +119,10 @@ class EnhancedTableToolbar extends React.Component {
     };
 
     render() {
-        const { handleAccountClick, numSelected, classes, selectedAccount } = this.props;
+        const { handleAccountClick, handleAccountDelete, numSelected, classes, selectedAccount } = this.props;
         const { open } = this.state;
+        // get logged in user
+        const auth = UserProfile.get();
 
         return (
             <Toolbar className={classNames(classes.root, { [classes.highlight]: numSelected > 0, })}>
@@ -154,7 +157,17 @@ class EnhancedTableToolbar extends React.Component {
                                                 </IconButton>
                                             </Tooltip>
                                             <Tooltip title="Delete">
-                                                <IconButton aria-label="Delete">
+                                                <IconButton 
+                                                    aria-label="Delete"
+                                                    onClick={ 
+                                                        () => {
+                                                            if (auth !== undefined && auth !== null) {
+                                                                return handleAccountDelete(selectedAccount._id, auth.token)
+                                                            }
+                                                        } 
+                                                    }
+                                                    id={selectedAccount._id}
+                                                >
                                                     <DeleteIcon />
                                                 </IconButton>
                                             </Tooltip>

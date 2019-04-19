@@ -1,7 +1,7 @@
 import { UserType } from '../action_type/index';
 
 import * as GeneralAction from './general.action';
-import { post, get, put } from './api.service';
+import { post, get, put, _delete } from './api.service';
 import { UserProfile } from '../components/user/user.profile';
 
 /**
@@ -238,6 +238,38 @@ export const updateUser = (id, user, auth) => {
             dispatch(GeneralAction.hasErrored(true))
 
         });
+    };
+
+}
+
+/**
+ * Delete registered user
+ * 
+ * @returns {Function} dispatch
+ */
+export const deleteAccount = (id, token) => {
+    
+    // url to update user
+    const url = `users/${ id }?token=${ token }`;
+    
+    return async (dispatch) => {
+
+        dispatch(GeneralAction.isLoading(true));
+
+        return await _delete(dispatch, url)
+        
+        .then((response) => {
+
+            dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_DELETE, response, false))
+
+        })
+        
+        .catch((error) => {
+
+            dispatch(GeneralAction.hasErrored(true))
+
+        });
+        
     };
 
 }

@@ -583,6 +583,7 @@ const mapDispatchToProps = (dispatch) => {
         fetchUsers: (user) => dispatch(UserAuthAction.fetchUsers({ user })),
         fetchUser: (id, token) => dispatch(UserAuthAction.fetchUser(id, token)),
         updateUser: (id, user, token) => dispatch(UserAuthAction.updateUser(id, user, token)),
+        deleteAccount: (id, token) => dispatch(UserAuthAction.deleteAccount(id, token)),
         // frequently asked questions
         fetchQuestion: (id) => { dispatch(CMSAction.fetchQuestion(id)) },
         // gis
