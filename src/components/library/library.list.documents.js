@@ -44,12 +44,12 @@ export const ListLibraryDocuments = (withStyles(styles)(({
             <div className={ classes.margin }/>
             <div className={ classes.margin }/>
 
-            <SearchInputControl 
+            {/* <SearchInputControl 
                 id="search_id"
                 name="search_docs"
                 placeholder="Search for specific document..."
                 handleChange={ handleChange }
-            />
+            /> */}
 
             {
                 general && (

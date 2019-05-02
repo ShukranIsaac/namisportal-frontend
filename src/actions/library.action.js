@@ -87,13 +87,8 @@ export const fetchLibrary = (category) => {
         
         .then((response) => {
 
-          dispatch(
-            GeneralAction.fetchSuccess(
-              LibraryType.FETCH_LIBRARY,
-              filterDocLibrary(library_docs, category)[0][1],
-              false
-            )
-          )
+            // console.log(response)
+            dispatch(GeneralAction.fetchSuccess(LibraryType.FETCH_LIBRARY,filterDocLibrary(library_docs,category)[0][1],false))
 
         })
         
@@ -119,7 +114,7 @@ export const fetchAllLibraryDocs = () => {
         
         .then((response) => {
 
-           dispatch(GeneralAction.fetchSuccess(LibraryType.FETCH_LIBRARY_DOCS, library_docs, false));
+           dispatch(GeneralAction.fetchSuccess(LibraryType.FETCH_LIBRARY_DOCS, response, false));
         
         })
         

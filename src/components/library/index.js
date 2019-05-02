@@ -41,14 +41,13 @@ class Library extends Component {
   }
 
   handleChange = (event, value) => { 
-    console.log(value) 
     this.setState({ value });
     this.props.fetchLibrary(value);
   };
 
   renderDocuments(docs){
 
-    return docs.map(({name, path, summary}, key) => {
+    return docs && docs.map(({name, path, summary}, key) => {
 
         return <Document key={key} name={name} path={path} summary={summary}/>
 
@@ -58,10 +57,8 @@ class Library extends Component {
 
   render() {
 
-    const { classes, library } = this.props;
+    const { classes } = this.props;
     const { value } = this.state;
-
-    console.log(library)
     
     return (
       <div className='landing-info'>
