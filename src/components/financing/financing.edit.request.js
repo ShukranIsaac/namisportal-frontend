@@ -86,10 +86,10 @@ class EditFinancingRequestSupport extends Component {
             submitting,
             subcategory,
             general,
-            option
+            // option
         } = this.props;
 
-        console.log(option)
+        console.log(this.props)
 
         return (
             <Fragment>
@@ -113,33 +113,31 @@ class EditFinancingRequestSupport extends Component {
                         general && (
                             !general.isLoading ? (
                                 subcategory !== null ? (
-                                    subcategory.subCategories.length !== 0 ? (
-                                        <Fragment>
-                                            <FormTextInputField
-                                                { ...this.props }
-                                                name='subcategory'
-                                                id="subcategory"
-                                                label='Name'
-                                                placeholder="New sub-category name..."
-                                                value={ subcategory.subCategories[0].name }
-                                                type="text"
-                                            />
-                                            <br />
-        
-                                            <FormTextInputField
-                                                { ...this.props }
-                                                name='about'
-                                                id="about"
-                                                label='Summary'
-                                                placeholder="New sub-category about...."
-                                                value={ subcategory.subCategories[0].about }
-                                                type="text"
-                                                multiline={true}
-                                                rows="10"
-                                            />
-                                            <br />
-                                        </Fragment>
-                                    ) : <div>No sub categories</div>
+                                    <Fragment>
+                                        <FormTextInputField
+                                            { ...this.props }
+                                            name='subcategory'
+                                            id="subcategory"
+                                            label='Name'
+                                            placeholder="New sub-category name..."
+                                            value={ subcategory.name }
+                                            type="text"
+                                        />
+                                        <br />
+    
+                                        <FormTextInputField
+                                            { ...this.props }
+                                            name='about'
+                                            id="about"
+                                            label='Summary'
+                                            placeholder="New sub-category about...."
+                                            value={ subcategory.about }
+                                            type="text"
+                                            multiline={true}
+                                            rows="10"
+                                        />
+                                        <br />
+                                    </Fragment>
                                 ) : null
                             ) : <div className="loader" />
                         )

@@ -319,12 +319,12 @@ class CMSIndex extends React.Component {
                      * To edit chosen financing category
                      * Then fetch category to edit
                      */
-                    // this.props.subCategory(event.currentTarget.id);
-                    console.log(event.currentTarget.value)
+                    this.props.subCategory(event.currentTarget.id);
 
                 } else {
-                    /** do nothing, 
-                     *  completely nothing wamva eti
+                    /** 
+                     * do nothing, 
+                     * completely nothing wamva eti
                      */
                     // this.props.defaultItem();
                 }
