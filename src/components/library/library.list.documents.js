@@ -44,18 +44,18 @@ export const ListLibraryDocuments = (withStyles(styles)(({
             <div className={ classes.margin }/>
             <div className={ classes.margin }/>
 
-            {/* <SearchInputControl 
+            <SearchInputControl 
                 id="search_id"
                 name="search_docs"
                 placeholder="Search for specific document..."
-                handleChange={ handleChange }
-            /> */}
+                handleChange={ (e) => handleChange(e) }
+            />
 
             {
                 general && (
                     !general.isLoading ? (
                         (docs !== null && docs !== undefined) && (
-                            docs.documents !== null && (
+                            (docs.documents !== null && docs.documents !== undefined) && (
                                 docs.documents.length !== 0 ? (
                                     <Fragment>
                                         
