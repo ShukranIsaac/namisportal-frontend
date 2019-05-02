@@ -214,21 +214,23 @@ const RenderSection = ({
                         option={props.user_event} 
                         name="library" 
                         List={ () => <ListLibraryDocuments 
-                                        handleClick={ (e) => handleClick(e) } 
-                                        docs={props.library} 
-                                        handleChange={ (e) => handleChange(e) }
-                                    /> 
+                                    handleClick={ (e) => handleClick(e) } 
+                                    docs={props.library} 
+                                    { ...props }
+                                    handleChange={ (e) => handleChange(e) }
+                                /> 
                             }
                         Edit={ () => <EditLibraryItem 
-                                        handleClick={ (e) => handleClick(e) }
-                                        { ...props }
-                                    />
+                                    handleClick={ (e) => handleClick(e) }
+                                    { ...props }
+                                />
                             }
                         Create={ () => <CreateLibraryItem 
-                                            handleClick={ (e) => handleClick(e) } 
-                                            { ...props }
-                                            uploadFile={ props.uploadFile }
-                                        />
+                                        handleClick={ (e) => handleClick(e) } 
+                                        { ...props }
+                                        uploadFile={ props.uploadFile }
+                                        handleChange={ (e) => handleChange(e) }
+                                    />
                                 }
                     />
 

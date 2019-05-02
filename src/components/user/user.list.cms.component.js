@@ -75,8 +75,7 @@ class ListUserAccounts extends Component {
                 // map users
                 users.map(user => {
                     const name = user.lastName + ' ' + user.firstName;
-                    let custom, created = new Date(user.createdDate);
-                    custom = `${ created.getDay() + '/' + created.getMonth() + '/' + created.getFullYear() }`;
+                    let created = new Date(user.createdDate).toLocaleDateString();
                     
                     // logged in user
                     const auth = UserProfile.get();
@@ -87,11 +86,11 @@ class ListUserAccounts extends Component {
                         // id, name, username, roles, write and publish
                         if (user.roles !== undefined) {
                             this.state.listOfUsers.push(
-                                this.createUserList(user._id,custom,name,user.username,this.isWriter({user}),this.isPublisher({user}),Object.keys(user.roles))
+                                this.createUserList(user._id,created,name,user.username,this.isWriter({user}),this.isPublisher({user}),Object.keys(user.roles))
                             );
                         } else {
                             this.state.listOfUsers.push(
-                                this.createUserList(user._id, custom, name, user.username, false, false, [])
+                                this.createUserList(user._id,created,name,user.username,false,false, [])
                             );
                         }
 

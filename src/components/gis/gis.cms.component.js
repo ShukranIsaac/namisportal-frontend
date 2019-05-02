@@ -32,6 +32,7 @@ class GISComponent extends Component {
             show: false,
             h: `750px`,
             selectedValue: 'marep_center',
+            previewMap: true,
         };
 
         this.handleRadioBtnChange = this.handleRadioBtnChange.bind(this);
@@ -83,13 +84,13 @@ class GISComponent extends Component {
 
         return gis_filters.filter((region) => {
 
-        if (region.properties.name === this.state.region_name) {
+            if (region.properties.name === this.state.region_name) {
 
-            return region;
+                return region;
 
-        }
+            }
 
-        return null;
+            return null;
 
         });
 
@@ -169,9 +170,28 @@ class GISComponent extends Component {
         }
     }
 
+    /**
+     * Handle feature submit
+     */
+    handleSubmit = (values) => {
+
+        const { previewMap } = this.state;
+        // preview feature first before submitting
+        if (previewMap) {
+            this.setState({ previewMap: false, point: values });
+        } else {
+            // set state
+            this.setState({ previewMap: true });
+        }
+
+    }
+
     renderForms = ({ selected }) => {
         // props
-        const { classes, valid, pristine, submitting } = this.props;
+        const { 
+            handleSubmit, 
+            classes, valid, pristine, submitting 
+        } = this.props;
         /**
          * Check which feature is to be added
          * Then render the corresponding form fields
@@ -179,7 +199,10 @@ class GISComponent extends Component {
         switch(selected) {
             case 'marep_center':
                 return (
-                    <form autoComplete="off">
+                    <form 
+                        onSubmit={ handleSubmit(values => this.handleSubmit(values)) } 
+                        autoComplete="off"
+                    >
                         <FormTextInputField 
                             { ...this.props }
                             name="marep_center_latitude"
@@ -196,11 +219,27 @@ class GISComponent extends Component {
                             type="text"
                         />
 
-                        <Button 
-                            className={ classes.margin }
-                            type="submit" disabled={!valid  || pristine || submitting} 
-                            intent="success" text="Save Marep Center" 
-                        />
+                        {
+                            !this.state.previewMap ? (
+                                <Fragment>
+                                    <Button 
+                                        className={ classes.margin }
+                                        name="save"
+                                        type="submit" 
+                                        disabled={!valid  || pristine || submitting} 
+                                        intent="success" text="Save Marep Center" 
+                                    />
+                                </Fragment>
+                            ) : (
+                                <Button 
+                                    className={ classes.margin }
+                                    name="Preview"
+                                    type="submit"
+                                    intent="success" 
+                                    text="Preview" 
+                                />
+                            )
+                        }
                     </form>
                 );
             case 'transformer':
@@ -309,8 +348,8 @@ class GISComponent extends Component {
     render() {
 
         // loading status, gis_filters from props
-        const { general, classes } = this.props;
-        console.log(general);
+        const { classes } = this.props;
+        // console.log(general);
         // console.log(this.state);
 
         return (
@@ -371,7 +410,6 @@ class GISComponent extends Component {
                                                 name="region_name"
                                                 label="Region(*)"
                                                 { ...this.state }
-                                                // value={ this.state.section }
                                                 onChange={ e => this.handleChange(e) }
                                             >
                                                 <option value="">{ `Choose region` }</option>

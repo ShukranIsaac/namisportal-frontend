@@ -41,6 +41,8 @@ export const CustomGoogleMap = withScriptjs(
 
                     {props.onPowerPlantChanged}
 
+                    { props.previewCenter }
+
                 </GoogleMap>
             </Fragment>
         );

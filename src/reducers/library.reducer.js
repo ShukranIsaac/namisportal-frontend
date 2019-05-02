@@ -1,7 +1,7 @@
 import { LibraryType } from '../action_type/index';
 
 const initialState = {
-    library: [],
+    library: null,
     document: null,
 }
 

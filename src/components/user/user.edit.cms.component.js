@@ -178,23 +178,23 @@ class EditUserAccount extends Component {
                                         {/* <PersonalProfile { ...this.state } props={ this.props } /> */}
                                         <div className='margin-fix'>
                                             <FormTextInputField  
-                                            value={user !== null ? user.username : ''} 
-                                            name='username' label='Username' type='text' 
-                                            placeholder='Your username...' { ...this.props }
+                                                value={user !== null ? user.username : ''} 
+                                                name='username' label='Username' type='text' 
+                                                placeholder='Your username...' { ...this.props }
                                             />
                                         </div>
                                         <div className='margin-fix'>
                                             <FormTextInputField 
-                                            value={user !== null ? user.firstName : ''} 
-                                            name='firstName' label='Firstname' type='text' 
-                                            placeholder='Your firstname...' { ...this.props }
+                                                value={user !== null ? user.firstName : ''} 
+                                                name='firstName' label='Firstname' type='text' 
+                                                placeholder='Your firstname...' { ...this.props }
                                             />
                                         </div>
                                         <div className='margin-fix'>
                                             <FormTextInputField 
-                                            value={user !== null ? user.lastName : ''} 
-                                            name='lastName' label='Lastname' type='text' 
-                                            placeholder='Your lastname...' { ...this.props }
+                                                value={user !== null ? user.lastName : ''} 
+                                                name='lastName' label='Lastname' type='text' 
+                                                placeholder='Your lastname...' { ...this.props }
                                             />
                                         </div>
 

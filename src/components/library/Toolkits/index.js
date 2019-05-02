@@ -2,13 +2,15 @@ import React, { Fragment } from 'react';
 
 const Toolkits = (props) => {
 
-    const { library } = props;
+    const { library, general } = props;
 
-    return(
-        <Fragment>
-            { props.renderDocuments(library) }
-        </Fragment>
-    );
+    return general && (
+        !general.isLoading ? (
+            <Fragment>
+                { props.renderDocuments(library) }
+            </Fragment>
+        ) : <div className="loader"></div>
+    )
 
 }
 

@@ -13,7 +13,7 @@ import SideBarWrapper from '../SideBarWrapper';
 
 import './grid.css';
 import SearchInputControl from '../forms/search.form.field';
-import { red, blue, yellow, grey } from '@material-ui/core/colors';
+import { red, blue, yellow, grey, cyan } from '@material-ui/core/colors';
 import { FormCheckboxControl } from '../forms/form.checkbox.field';
 import { SelectInputControl } from '../forms/form.selectinput.field';
 
@@ -39,6 +39,7 @@ class GridSideBar extends Component {
       eleven_kv_lines: false,
       ground_transformers: false,
       up_transformers: false,
+      sub_station: false,
     };
   }
 
@@ -428,6 +429,25 @@ class GridSideBar extends Component {
                 </FormControl>
               </Col>
             </Row>
+            <Row>
+              <Col lg='12'>
+                <FormLabel component="legend"><b>SubStations</b></FormLabel>
+
+                <FormGroup row className={classes.margin}>
+
+                  <FormCheckboxControl 
+                    name='sub_station' 
+                    value='SubStations' 
+                    isChecked={ this.props.sub_station }
+                    classes={ classes }
+                    handleChange={ (e) => { this.props.onChecked(e) } }
+                  />
+
+                  { this.legendMarkerIcon(classes.sub_station) }
+
+                </FormGroup>
+              </Col>
+            </Row>
           </div>
       </Drawer>
     );
@@ -511,6 +531,11 @@ const styles = theme => ({
   },
   overhead: {
     color: `#273c75`,
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * -2,
+  },
+  sub_station: {
+    color: cyan[400],
     marginTop: theme.spacing.unit * 1,
     marginLeft: theme.spacing.unit * -2,
   },

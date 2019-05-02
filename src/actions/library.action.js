@@ -3,7 +3,6 @@ import { LibraryType } from '../action_type/index';
 import * as GeneralAction from './general.action';
 
 import library_docs from '../components/library/library_docs';
-import Config from '../config';
 import { get, post, upload } from './api.service';
 
 /**
@@ -110,30 +109,13 @@ export const fetchLibrary = (category) => {
 
 export const fetchAllLibraryDocs = () => {
 
-    const url = '/gis';
-
-    const headers = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': Config.ACCESS_ALLOW_ORIGIN,
-        },
-    }
+    const url = `/categories?name=Library`;
 
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return fetch(url, new Headers(headers)).then((response) => {
-  
-            if (response.status !== 200) {
-                throw Error(response.statusText);
-            }
-      
-            dispatch(GeneralAction.isLoading(false));
-      
-            return response;
-        })
+        return await get(dispatch, url)
         
         .then((response) => {
 

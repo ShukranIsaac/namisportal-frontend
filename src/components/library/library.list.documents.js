@@ -18,11 +18,11 @@ import styles from '../contact/form.styles';
  * @returns {Fragment} fragment
  */
 export const ListLibraryDocuments = (withStyles(styles)(({ 
-    docs: { resource_plan }, 
+    library, docs, general,  
     handleClick, classes,
     handleChange 
 }) => {
-    
+
     return (
         <Fragment>
 
@@ -44,42 +44,54 @@ export const ListLibraryDocuments = (withStyles(styles)(({
             <div className={ classes.margin }/>
             <div className={ classes.margin }/>
 
+            <SearchInputControl 
+                id="search_id"
+                name="search_docs"
+                placeholder="Search for specific document..."
+                handleChange={ handleChange }
+            />
+
             {
-                resource_plan ? (
-                    <Fragment>
-                        <SearchInputControl 
-                            id="search_id"
-                            name="search_docs"
-                            placeholder="Search for specific document..."
-                            handleChange={ handleChange }
-                        />
-            
-                        <ul>
-                            {
-                                resource_plan && resource_plan.map( (object, index) => {
-                                    
-                                    return (
-                                        <Fragment key={object.name}>
-                                            <li id={index} key={object.name}>
-                                                <a 
-                                                    href={ `${ '/library/' + object.name }` } 
-                                                    onClick={ (e) => handleClick(e) }
-                                                    name="edit"
-                                                    id={object.name}
-                                                >
-                                                    { object.name }
-                                                </a>
-                                            </li>
-                                        </Fragment>
-                                    );
-            
-                                })
-                            }
-                        </ul>
-            
-                    </Fragment>) : <div style={{ marginTop: `50px` }} className="loader" />
-                }
-            </Fragment>
+                general && (
+                    !general.isLoading ? (
+                        (docs !== null && docs !== undefined) && (
+                            docs.documents !== null && (
+                                docs.documents.length !== 0 ? (
+                                    <Fragment>
+                                        
+                                        <ul>
+                                            {
+                                                docs.documents.map((document, index) => {
+                                                    
+                                                    return (
+                                                        <Fragment key={document.name}>
+                                                            <li id={index} key={document.name}>
+                                                                <a 
+                                                                    href={ `${ '/library/' + document.name }` } 
+                                                                    onClick={ (e) => handleClick(e) }
+                                                                    name="edit"
+                                                                    id={document.name}
+                                                                >
+                                                                    { document.name }
+                                                                </a>
+                                                            </li>
+                                                        </Fragment>
+                                                    );
+                            
+                                                })
+                                            }
+                                        </ul>
+                            
+                                    </Fragment>
+                                ) : <div>No library documents</div>
+                            )
+                        )
+                    ) : (
+                        <div style={{ marginTop: `50px` }} className="loader" />
+                    )
+                )
+            }
+        </Fragment>
         );
     })
 );

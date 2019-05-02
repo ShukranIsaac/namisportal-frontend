@@ -58,9 +58,11 @@ class Library extends Component {
 
   render() {
 
-    const { classes } = this.props;
+    const { classes, library } = this.props;
     const { value } = this.state;
 
+    console.log(library)
+    
     return (
       <div className='landing-info'>
 
