@@ -87,7 +87,7 @@ class CMSIndex extends React.Component {
     componentDidUpdate(prevProps, prevState) {
 
         // check if props or state changed
-        if (prevState !== this.state) {
+        if (prevProps !== this.props) {
             // Object.assign(this.props, { home: prevProps })
             // this.props.homeSubcategory("Home");
         }
@@ -100,7 +100,6 @@ class CMSIndex extends React.Component {
          * Set back state to default, to reproduce, uncheck this
          *  and see the effects when moving from one resource to another i.e. edit or create new 
          *  resource in the CMS.
-         * 
          */
         this.setState({
             event: 'default',

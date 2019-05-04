@@ -13,7 +13,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import FilterListIcon from '@material-ui/icons/Add';
+import AddAccountIcon from '@material-ui/icons/Add';
+import PersonIcon from '@material-ui/icons/Person';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import { UserProfile } from './user.profile';
 
@@ -119,7 +120,13 @@ class EnhancedTableToolbar extends React.Component {
     };
 
     render() {
-        const { handleAccountClick, handleAccountDelete, numSelected, classes, selectedAccount } = this.props;
+        const { 
+                handleAccountClick, 
+                handleEditProfileClick,
+                handleAccountDelete, 
+                numSelected, classes, 
+                selectedAccount 
+        } = this.props;
         const { open } = this.state;
         // get logged in user
         const auth = UserProfile.get();
@@ -184,18 +191,36 @@ class EnhancedTableToolbar extends React.Component {
                             </Fragment>
                         ) : (
                             <Fragment>
+                                <Tooltip title="My profile">
+                                    <IconButton 
+                                        aria-label="My profile" 
+                                        buttonRef={ node => {
+                                                this.anchorEl = node
+                                            }
+                                        }
+                                        name="edit"
+                                        id={ auth._id }
+                                        value={ auth._id }
+                                        aria-owns={open ? 'menu-list-grow' : undefined}
+                                        aria-haspopup="true"
+                                        onClick={ (e) => handleEditProfileClick(e) }
+                                    >
+                                        <PersonIcon />
+                                    </IconButton>
+                                </Tooltip>
                                 <Tooltip title="Add new accounts">
                                     <IconButton 
                                         aria-label="Add new accounts" 
                                         buttonRef={ node => {
-                                            this.anchorEl = node
-                                        }}
+                                                this.anchorEl = node
+                                            }
+                                        }
                                         name="create"
                                         aria-owns={open ? 'menu-list-grow' : undefined}
                                         aria-haspopup="true"
                                         onClick={ (e) => handleAccountClick(e) }
                                     >
-                                        <FilterListIcon />
+                                        <AddAccountIcon />
                                     </IconButton>
                                 </Tooltip>
                             </Fragment>

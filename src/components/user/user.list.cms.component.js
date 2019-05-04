@@ -196,6 +196,7 @@ class ListUserAccounts extends Component {
                     classes={ classes } 
                     numSelected={selected.length} 
                     handleAccountClick={ (e) => handleAccountClick(e) } 
+                    handleEditProfileClick={ (e) => handleAccountClick(e) }
                     handleAccountDelete={ (id, token) => this.props.deleteAccount(id, token) }
                     selectedAccount={selectedAccount}
                 />

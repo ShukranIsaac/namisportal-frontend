@@ -29,7 +29,7 @@ export const ListFinancingRequests = (withStyles(styles)(({
                 intent={Intent.NONE} 
                 value="New Subcategory"
                 name="create"
-                handleClick={e => handleClick(e) }
+                handleClick={ e => handleClick(e) }
             />
 
             <div className={classes.margin} />
