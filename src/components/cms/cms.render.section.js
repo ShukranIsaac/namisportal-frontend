@@ -280,11 +280,11 @@ const RenderSection = ({
                         option={props.user_event} 
                         name="news" 
                         List={ () => <ListNewsArticles 
-                                        handleClick={ (e) => handleClick(e) } 
-                                        handleChange={ e => handleChange(e) } 
-                                        { ...props }
-                                    /> 
-                            }
+                                handleClick={ (e) => handleClick(e) } 
+                                handleChange={ e => handleChange(e) } 
+                                { ...props }
+                            /> 
+                        }
                         Edit={ () => <EditNewsItem { ...props } handleClick={ (e) => handleClick(e) } /> }
                         Create={ () => <CreateNewsItem handleClick={ (e) => handleClick(e) } { ...props } />}
                     />

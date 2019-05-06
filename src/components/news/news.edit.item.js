@@ -12,8 +12,10 @@ import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 
-import initialValue from '../forms/utils/initial.value';
 import { FormTextInputField } from '../forms/form.textinput.field';
+import InitialSchema from '../forms/utils/initial.schema';
+import { editor } from '../forms/editor/text.editor.utils';
+import { UserProfile } from '../user/user.profile';
 
 /**
  * Edit a single news article
@@ -23,26 +25,11 @@ import { FormTextInputField } from '../forms/form.textinput.field';
  */
 class EditNewsItem extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            item: {
-                article: {
-                    article_id: 'e8g9tyjGh',
-                    article_url: require('../../assets/docs/resource-plan/Malawi IRP - Vol I - Main Report - Appendices.pdf'),
-                    title: 'Information clearing house, Department of Energy',
-                    content: "The Project Developer should submit a Concept Note to the Rural Energy Agency (REA) in order to get a preliminary assessment of whether the planned project is eligible for support from the REA. The Concept note should, inter alia, include: An information portal is a customized website that immerses information from a wide range of sources in a consistent and uniform manner. For this purpose, UNDP and Department of Energy Affairs (DoEA) seek to establish an information clearing house portal to make available information that includes: current electricity grid network, planned and known rural electrification efforts of Malawi Rural Electrification Project (MAREP); existing off-grid systems; population centres; renewable energy resource information; infrastructure; location of government public service institutions; location of other rural infrastructure, land use, environmental and social issues."
-                },
-                author: {
-                    author_id: 'e8gtyujG',
-                    name: 'John Doe',
-                    email: 'newseditor@grid.mw',
-                    thumbnail: '',
-                    roles: ['edit', 'publish', 'unpublish', 'create', 'delete']
-                }
-            },
-            title: '',
-            content: initialValue,
+            article: props.article,
+            value: InitialSchema
         }
 
         /**
@@ -63,7 +50,10 @@ class EditNewsItem extends Component {
 	 */
     componentDidMount() {
 
-        // Object.assign(this.state, this.props);
+        if (this.state.article !== undefined) {
+            const { article } = this.state;
+            Object.assign(article, { article: editor.html.deserialize(article.article) });
+        }
 
     }
 
@@ -85,7 +75,7 @@ class EditNewsItem extends Component {
 	 */
     handleEditorChange = ({ value }) => {
         
-        this.setState({ content: value});
+        Object.assign(this.state.article, { article: value });
 
     }
 
@@ -93,16 +83,38 @@ class EditNewsItem extends Component {
 		/**
 		 *  disabling browser default behavior like page refresh, etc 
 		 */
-		event.preventDefault();
+        event.preventDefault();
+        
+        // user logged
+        const user = UserProfile.get();
+        if (user !== null) {
+            
+            if (user.token !== null && user.token !== undefined) {
+                /**
+                 * serialize content
+                 */
+                let content = editor.html.serialize(this.state.content);
+                // define article object
+                const article = {
+                    title: values.title,
+                    article: content
+                }
+
+                // then make post request to the api
+                this.props.editArticle(this.state.article._id, article, user.token);
+                // then change state to default
+                // so that the page redirects and list all home items
+                this.props.defaultItem();
+            }
+
+        }
         
     }
 
     render() {
 
-        // const { item: { author } } = this.state;
-
-        const { classes, handleClick, handleSubmit } = this.props;
-        
+        const { classes, handleClick, handleSubmit, general } = this.props;
+        console.log(this.props);
         return (
             <Fragment>
 
@@ -130,16 +142,34 @@ class EditNewsItem extends Component {
 
                     <Divider />
 
-                    <FormTextInputField
-                        classes={ classes }
-                        name='title'
-                        value={this.state.title}
-                        label='Article Title'
-                        placeholder='Edit article title...'
-                        type='text'
-                    />
+                    {
+                        general && (
+                            !general.isLoading ? (
+                                <>
+                                    {
+                                        this.state.article !== null && (
+                                            <>
+                                                <FormTextInputField
+                                                    classes={ classes }
+                                                    name='title'
+                                                    value={ this.state.article.title }
+                                                    label='Article Title'
+                                                    placeholder='Edit article title...'
+                                                    type='text'
+                                                />
 
-                    <TextEditor name="content" content={ this.state.content } editorChange={ this.handleEditorChange } />
+                                                <TextEditor 
+                                                    name="content" 
+                                                    content={ this.state.article.article } 
+                                                    editorChange={ this.handleEditorChange } 
+                                                />
+                                            </>
+                                        )
+                                    }
+                                </>
+                            ) : <div className="loader" />
+                        )
+                    }
 
                     <div className={ classes.margin }/>
                     <div className={ classes.margin }/>
@@ -152,10 +182,11 @@ class EditNewsItem extends Component {
                         handleClick={e => this.handleSubmit(e) }
                     />
 
-                    <ButtonControl 
+                    {/* <ButtonControl 
                         intent={Intent.SUCCESS} 
                         value="Publish" 
                         name="publish"
+                        className={classes.margin}
                         handleClick={e => handleClick(e) } 
                     />
 
@@ -163,14 +194,24 @@ class EditNewsItem extends Component {
                         intent={Intent.WARNING} 
                         value="Unpublish" 
                         name="unpublish"
+                        className={classes.margin}
                         handleClick={e => handleClick(e) } 
-                    />
+                    /> */}
 
                     <ButtonControl 
+                        className={classes.margin}
                         intent={Intent.DANGER} 
                         value="Archive"
                         name="archive"
                         handleClick={e => handleClick(e) } 
+                    />
+
+                    <ButtonControl 
+                        className={classes.margin}
+                        intent={Intent.PRIMARY} 
+                        value="Save"
+                        name="save"
+                        handleClick={e => this.handleSubmit(e) }
                     />
                 
                 </form>

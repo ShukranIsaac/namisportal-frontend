@@ -110,9 +110,9 @@ export const editor = (() => {
         'AudioVolumeUp', 'Unidentified', 'MediaPlayPause', 'MediaStop', 'MediaTrackPrevious', 'MediaTrackNext', '`'
     ]
 
-    const isKey = (key) => {
-        return keys.includes(key);
-    } 
+    const isKey = (key) => keys.find(k => key === k);
+
+    // console.log(isKey('E'));
 
     return { html, isKey };
 

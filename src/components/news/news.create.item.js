@@ -74,8 +74,10 @@ class CreateNewsItem extends Component {
 	 * @param {Editor} editor
 	 */
     handleEditorChange = ({ value }) => {
-
-        this.setState({ content: value });
+        // console.log(value)
+        if(value !== undefined) {
+            this.setState({ content: value });
+        }
 
     }
 
@@ -95,7 +97,7 @@ class CreateNewsItem extends Component {
                     title: values.title,
                     article: content
                 }
-                
+
                 // then make post request to the api
                 this.props.createArticle(article, user.token);
                 // then change state to default
@@ -140,15 +142,38 @@ class CreateNewsItem extends Component {
                         type="text"
                     />
 
-                    <TextEditor name="content" content={ this.state.content } editorChange={ this.handleEditorChange } />
+                    <TextEditor 
+                        name="content" 
+                        content={ this.state.content } 
+                        editorChange={ this.handleEditorChange } 
+                    />
 
                     <div className={ classes.margin }/>
                     <div className={ classes.margin }/>
                     <div className={ classes.margin }/>
 
-                    <Button type="submit" disabled={!valid  || pristine || submitting} color="primary">Save</Button>
+                    <Button 
+                        type="submit" 
+                        disabled={!valid  || pristine || submitting} 
+                        color="primary"
+                    >
+                        Save
+                    </Button>
 
-                    <ButtonControl intent={Intent.SUCCESS} value="Publish" handleClick={e => handleClick(e) } />
+                    {/* <ButtonControl 
+                        className={ classes.margin }
+                        intent={Intent.SUCCESS} 
+                        value="Publish" 
+                        handleClick={e => handleClick(e) } 
+                    /> */}
+
+                    <ButtonControl 
+                        name="default"
+                        className={ classes.margin }
+                        intent={Intent.PRIMARY} 
+                        value="Cancel" 
+                        handleClick={e => handleClick(e) } 
+                    />
                 
                 </form>
 

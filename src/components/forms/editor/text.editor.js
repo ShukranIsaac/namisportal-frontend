@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Editor, getEventTransfer  } from 'slate-react';
-import { Field } from 'redux-form';
+// import { Field } from 'redux-form';
 
 import isUrl from 'is-url';
 import { Icon } from 'react-icons-kit';
@@ -11,11 +11,31 @@ import { list } from 'react-icons-kit/feather/list';
 import { underline } from 'react-icons-kit/feather/underline';
 import { link2 } from 'react-icons-kit/feather/link2';
 
-import { ic_title } from 'react-icons-kit/md/ic_title';
+import { ic_format_list_numbered } from 'react-icons-kit/md/ic_format_list_numbered';
 import { ic_format_quote } from 'react-icons-kit/md/ic_format_quote';
-import { BoldMark, ItalicMark, FormatToolbar } from './index';
+import { BoldMark, ItalicMark } from './index';
 import { editor as EditorUtils } from './text.editor.utils';
 import { EditorMarkerIcon } from './editor.marker.icon';
+import InitialSchema from '../utils/initial.schema';
+import { Toolbar, Button } from './format.toolbar';
+import { isKeyHotkey } from 'is-hotkey'
+
+/**
+ * Define the default node type.
+ *
+ * @type {String}
+ */
+const DEFAULT_NODE = 'paragraph'
+
+/**
+ * Define hotkey matchers.
+ *
+ * @type {Function}
+ */
+const isBoldHotkey = isKeyHotkey('mod+b')
+const isItalicHotkey = isKeyHotkey('mod+i')
+const isUnderlinedHotkey = isKeyHotkey('mod+u')
+const isCodeHotkey = isKeyHotkey('mod+`')
 
 export default class TextEditor extends Component {
 
@@ -25,7 +45,7 @@ export default class TextEditor extends Component {
 		 * initial state
 		 */
 		this.state = {
-			value: '',
+			value: InitialSchema,
 		};
 
 		this.onMarkClick = this.onMarkClick.bind(this);
@@ -55,9 +75,11 @@ export default class TextEditor extends Component {
 	 *
 	 * @param {Editor} editor
 	 */
-	onChange = ({ value }) => {
+	handleChange = ({ value }) => {
 		
 		this.setState({ value });
+		// update the parent component
+		this.props.editorChange({ value })
 
 	};
 
@@ -69,78 +91,6 @@ export default class TextEditor extends Component {
 	ref = editor => {
 		this.editor = editor;
 	}
-
-	/**
-	 * On key down i.e Ctrl + Shift
-	 * 
-	 * @param {Event} e
-	 * @param {Editor} editor
-	 * @param {Function} next
-	 */
-	onKeyDown = (e, editor, next) => {
-		console.log(e.key)
-		/**
-		 * Prevent default event from firing
-		 */
-		e.preventDefault();
-
-		// insert a single typed key into the editor
-		if (EditorUtils.isKey(e.key) !== true || e.key !== 'Backspac') {
-			this.editor.insertText(e.key);
-		}
-
-		/**
-		 * Check key value, we want all our commands 
-		 * to start with the user pressing ctrl, if they don't--we cancel the action.
-		 */
-		if (e.key !== '`' || !e.ctrlKey) return next();
-
-		/**
-		 *  Decide what to do based on the key code...
-		 */
-		switch (e.key) {
-			/**
-			 * When "b" is pressed, add a "bold" mark to the text. 
-			 */
-			case 'b': {
-				this.editor.toggleMark('bold');
-				return true;
-			}
-			case 'i': {
-				this.editor.toggleMark('italic');
-				return true;
-			}
-
-			case 'c': {
-				this.editor.toggleMark('code');
-				return true;
-			}
-
-			case 'l': {
-				this.editor.toggleMark('list');
-				return true;
-			}
-
-			case 'u': {
-				this.editor.toggleMark('underline');
-				return true;
-			}
-
-			case 'q': {
-				this.editor.toggleMark('quote');
-				return true;
-			}
-
-			case 'h': {
-				this.editor.toggleMark('title');
-				return true;
-			}
-
-			default: {
-				return next();
-			}
-		}
-	};
 
 	/**
 	 * Show a tool tip for the focused mark icon
@@ -157,7 +107,7 @@ export default class TextEditor extends Component {
 		 */
 		e.preventDefault();
 
-		this.editor.insertText(e.key);
+		// this.editor.insertText(e.key);
 
 		/**
 		 *  Decide what to do based on the key code
@@ -198,11 +148,112 @@ export default class TextEditor extends Component {
 				return true;
 			}
 
+			case 'list-numbered': {
+				this.editor.toggleMark('ol');
+				return true;
+			}
+
 			default: {
 				return next();
 			}
 		}
 	};
+
+	/**
+	 * Render a mark-toggling toolbar button.
+	 *
+	 * @param {String} type
+	 * @param {String} icon
+	 * @return {Element}
+	 */
+	renderMarkButton = (type, icon) => {
+		const isActive = this.hasMark(type)
+
+		return (
+			<Button
+				active={isActive}
+				onMouseDown={event => this.onClickMark(event, type)}
+			>
+				<Icon>{icon}</Icon>
+			</Button>
+		)
+	}
+
+	/**
+	 * Render a block-toggling toolbar button.
+	 *
+	 * @param {String} type
+	 * @param {String} icon
+	 * @return {Element}
+	 */
+	renderBlockButton = (type, icon) => {
+		let isActive = this.hasBlock(type)
+
+		if (['numbered-list', 'bulleted-list'].includes(type)) {
+			const { value: { document, blocks } } = this.state
+
+			if (blocks.size > 0) {
+				const parent = document.getParent(blocks.first().key)
+				isActive = this.hasBlock('list-item') && parent && parent.type === type
+			}
+		}
+
+		return (
+			<Button
+				active={isActive}
+				onMouseDown={event => this.onClickBlock(event, type)}
+			>
+				<Icon>{icon}</Icon>
+			</Button>
+		)
+	}
+
+	/**
+	 * When a block button is clicked, toggle the block type.
+	 *
+	 * @param {Event} event
+	 * @param {String} type
+	 */
+	onClickBlock = (event, type) => {
+		event.preventDefault()
+
+		const { editor } = this
+		const { value } = editor
+		const { document } = value
+
+		// Handle everything but list buttons.
+		if (type !== 'bulleted-list' && type !== 'numbered-list') {
+			const isActive = this.hasBlock(type)
+			const isList = this.hasBlock('list-item')
+
+			if (isList) {
+				editor
+				.setBlocks(isActive ? DEFAULT_NODE : type)
+				.unwrapBlock('bulleted-list')
+				.unwrapBlock('numbered-list')
+			} else {
+				editor.setBlocks(isActive ? DEFAULT_NODE : type)
+			}
+		} else {
+			// Handle the extra wrapping required for list buttons.
+			const isList = this.hasBlock('list-item')
+			const isType = value.blocks.some(block => {
+				return !!document.getClosest(block.key, parent => parent.type === type)
+			})
+
+			if (isList && isType) {
+				editor.setBlocks(DEFAULT_NODE)
+				.unwrapBlock('bulleted-list')
+				.unwrapBlock('numbered-list')
+			} else if (isList) {
+				editor
+				.unwrapBlock(type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list')
+				.wrapBlock(type)
+			} else {
+				editor.setBlocks('list-item').wrapBlock(type)
+			}
+		}
+	}
 
 	/**
 	 * Render a Slate node.
@@ -217,18 +268,20 @@ export default class TextEditor extends Component {
 		const { attributes, children, node } = props;
 
 		switch (node.type) {
-
-			case 'link': {
-
-				const { data } = node;
-				const href = data.get('href');
-
-				return (
-					<a href={href} {...attributes}>{children}</a>
-				);
-
-			}
-
+			case 'link': 
+				return <a href={node.data.get('href')} {...attributes}>{children}</a>
+			case 'block-quote':
+				return <blockquote {...attributes}>{children}</blockquote>
+			case 'list':
+				return <ul {...attributes}>{children}</ul>
+			case 'heading-one':
+				return <h1 {...attributes}>{children}</h1>
+			case 'heading-two':
+				return <h2 {...attributes}>{children}</h2>
+			case 'list-item':
+				return <li {...attributes}>{children}</li>
+			case 'numbered-list':
+				return <ol {...attributes}>{children}</ol>
 			default: {
 				return next();
 			}
@@ -248,11 +301,10 @@ export default class TextEditor extends Component {
 				return <code {...props.attributes}>{props.children}</code>;
 
 			case 'list':
-				return (
-					<ul {...props.attributes}>
-						<li>{props.children}</li>
-					</ul>
-				);
+				return (<ul {...props.attributes}><li>{props.children}</li></ul>);
+
+			case 'list-numbered':
+				return (<ol {...props.attributes}><li>{props.children}</li></ol>);
 
 			case 'underline':
 				return <u {...props.attributes}>{props.children}</u>;
@@ -350,8 +402,6 @@ export default class TextEditor extends Component {
 			editor.insertText(text).moveFocusBackward(text.length).command(this.wrapLink, href)
 		}
 
-		// this.onChange(editor);
-
 		this.props.editorChange(editor);
 
 	};
@@ -359,12 +409,12 @@ export default class TextEditor extends Component {
 	renderLinkIcon = (type, icon) => {
 
 		return (
-			<button
+			<Button
 				onPointerDown={(e) => this.onLinkClick(e, type)}
 				className="tooltip-icon-button"
 			>
 				<Icon icon={icon} />
-			</button>
+			</Button>
 		);
 
 	};
@@ -379,14 +429,31 @@ export default class TextEditor extends Component {
 		 * applying the formatting on the selected text which the desired formatting
 		 */
 		this.editor.toggleMark(type);
-		// console.log(type);
-
-		/**
-		 *  calling the  editorChange method we declared 
-		 */
-		this.props.editorChange(this.editor);
+		console.log(type)
 
 	};
+
+	/**
+	 * Check if the current selection has a mark with `type` in it.
+	 *
+	 * @param {String} type
+	 * @return {Boolean}
+	 */
+	hasMark = type => {
+		const { value } = this.state
+		return value.activeMarks.some(mark => mark.type === type)
+	}
+
+	/**
+	 * Check if the any of the currently selected blocks are of `type`.
+	 *
+	 * @param {String} type
+	 * @return {Boolean}
+	 */
+	hasBlock = type => {
+		const { value } = this.state
+		return value.blocks.some(node => node.type === type)
+	}
 
 	onPaste = (event, editor, next) => {
 
@@ -405,35 +472,107 @@ export default class TextEditor extends Component {
 		editor.command(this.wrapLink, text);
 	}
 
+	/**
+	 * On key down, if it's a formatting command toggle a mark.
+	 *
+	 * @param {Event} event
+	 * @param {Editor} editor
+	 * @return {Change}
+	 */
+	onKeyDown = (event, editor, next) => {
+		let mark
+
+		if (isBoldHotkey(event)) {
+			mark = 'bold'
+		} else if (isItalicHotkey(event)) {
+			mark = 'italic'
+		} else if (isUnderlinedHotkey(event)) {
+			mark = 'underlined'
+		} else if (isCodeHotkey(event)) {
+			mark = 'code'
+		} else {
+			return next()
+		}
+
+		event.preventDefault()
+		editor.toggleMark(mark)
+	}
+
 	renderMenu = () => {
 
 		return (
-			<FormatToolbar>
+			<Toolbar>
+
+				<EditorMarkerIcon 
+					type='bold' icon={ bold } 
+					onMarkClick={ this.onMarkClick } 
+					onMarkFocus={ this.onMarkFocus } 
+					hasMark={ this.hasMark }
+				/>
+
+				<EditorMarkerIcon 
+					type='italic' icon={ italic } 
+					onMarkClick={ this.onMarkClick } 
+					onMarkFocus={ this.onMarkFocus }
+					hasMark={ this.hasMark } 
+				/>
+
+				<EditorMarkerIcon 
+					type='underline' icon={ underline } 
+					onMarkClick={ this.onMarkClick } 
+					onMarkFocus={ this.onMarkFocus } 
+					hasMark={ this.hasMark }
+				/>
+
+				<EditorMarkerIcon 
+					type='code' icon={ code } 
+					onMarkClick={ this.onMarkClick } 
+					onMarkFocus={ this.onMarkFocus } 
+					hasMark={ this.hasMark }
+				/>
 				
-				<EditorMarkerIcon type='title' icon={ ic_title } onMarkClick={ this.onMarkClick } onMarkFocus={ this.onMarkFocus } />
+				<EditorMarkerIcon 
+					type='quote' icon={ ic_format_quote } 
+					onMarkClick={ this.onMarkClick } 
+					onMarkFocus={ this.onMarkFocus } 
+					hasMark={ this.hasMark }
+				/>
 
-				<EditorMarkerIcon type='bold' icon={ bold } onMarkClick={ this.onMarkClick } onMarkFocus={ this.onMarkFocus } />
+				<EditorMarkerIcon 
+					type='link' icon={ link2 } 
+					onMarkClick={ this.onMarkClick } 
+					onMarkFocus={ this.onMarkFocus } 
+					hasMark={ this.hasMark }
+				/>
 
-				<EditorMarkerIcon type='code' icon={ code } onMarkClick={ this.onMarkClick } onMarkFocus={ this.onMarkFocus } />
+				<EditorMarkerIcon 
+					type='list-numbered' icon={ ic_format_list_numbered } 
+					onMarkClick={ this.onMarkClick } 
+					onMarkFocus={ this.onMarkFocus } 
+					hasMark={ this.hasMark }
+				/>
 
-				<EditorMarkerIcon type='italic' icon={ italic } onMarkClick={ this.onMarkClick } onMarkFocus={ this.onMarkFocus } />
-				
-				<EditorMarkerIcon type='list' icon={ list } onMarkClick={ this.onMarkClick } onMarkFocus={ this.onMarkFocus } />
-				
-				<EditorMarkerIcon type='underline' icon={ underline } onMarkClick={ this.onMarkClick } onMarkFocus={ this.onMarkFocus } />
-				
-				<EditorMarkerIcon type='quote' icon={ ic_format_quote } onMarkClick={ this.onMarkClick } onMarkFocus={ this.onMarkFocus } />
-
-				<EditorMarkerIcon type='link' icon={ link2 } onMarkClick={ this.onMarkClick } onMarkFocus={ this.onMarkFocus } />
-
-			</FormatToolbar>
+				<EditorMarkerIcon 
+					type='list' icon={ list } 
+					onMarkClick={ this.onMarkClick } 
+					onMarkFocus={ this.onMarkFocus } 
+					hasMark={ this.hasMark }
+				/>
+				{/* {this.renderMarkButton('bold', bold)}
+				{this.renderMarkButton('italic', italic)}
+				{this.renderMarkButton('underlined', underline)}
+				{this.renderMarkButton('code', code)}
+				{this.renderBlockButton('block-quote', ic_format_quote)}
+				{this.renderBlockButton('numbered-list', ic_format_list_numbered)}
+				{this.renderBlockButton('bulleted-list', list)} */}
+			</Toolbar>
 		);
 
 	}
 
 	render() {
 
-		const { editorChange } = this.props;
+		const { name } = this.props;
 
 		return (
 			<Fragment>
@@ -441,25 +580,18 @@ export default class TextEditor extends Component {
 					this.renderMenu()
 				}
 				
-				<Field 
-					name='article'
-					component={ input => {
-
-						return (
-							<Editor
-								placeholder={ `${ "Hint: use editor controls above to style your content..."}` }
-								autoCorrect={true}
-								value={this.props.content}
-								onChange={ () => editorChange(this.editor) }
-								ref={this.ref}
-								onKeyDown={this.onKeyDown}
-								renderMark={this.renderMark}
-								renderNode={this.renderNode}
-								onPaste={this.onPaste}
-								{ ...input }
-							/>
-						)
-					}}
+				<Editor
+					id={name}
+					spellCheck
+					autoFocus
+					placeholder={`${ "Hint: use editor controls above to style your content..."}`}
+					value={this.state.value}
+					onChange={this.handleChange}
+					ref={this.ref}
+					// onKeyDown={this.onKeyDown}
+					renderMark={this.renderMark}
+					renderNode={this.renderNode}
+					onPaste={this.onPaste}
 				/>
 			</Fragment>
 		);
