@@ -160,6 +160,10 @@ class EditUserAccount extends Component {
 
                 <ButtonControl intent={Intent.NONE} value="List Accounts" name="default" handleClick={e => handleClick(e) } />
                 
+                <div className={ classes.margin } />
+                <div className={ classes.margin } />
+                <div className={ classes.margin } />
+
                 <ul className="nav nav-tabs" role="tablist">
                     <li className="nav-item">
                         <a className="nav-link active" data-toggle="tab" href="#general">General</a>
@@ -181,7 +185,120 @@ class EditUserAccount extends Component {
                                     {
                                         userAuth !== null && (userAuth._id === current._id) ? (
                                             <>
-                                                { user.username }
+                                                <div id="general" className="tab-pane active"><br />
+
+                                                    <div className='margin-fix'>
+                                                        <FormTextInputField  
+                                                            value={current !== null ? current.username : ''} 
+                                                            name='username' label='Username' type='text' 
+                                                            placeholder='Your username...' { ...this.props }
+                                                        />
+                                                    </div>
+                                                    <div className='margin-fix'>
+                                                        <FormTextInputField 
+                                                            value={current !== null ? current.firstName : ''} 
+                                                            name='firstName' label='Firstname' type='text' 
+                                                            placeholder='Your firstname...' { ...this.props }
+                                                        />
+                                                    </div>
+                                                    <div className='margin-fix'>
+                                                        <FormTextInputField 
+                                                            value={current !== null ? current.lastName : ''} 
+                                                            name='lastName' label='Lastname' type='text' 
+                                                            placeholder='Your lastname...' { ...this.props }
+                                                        />
+                                                    </div>
+
+                                                    <Button type="submit" color="primary" text="Update" />
+
+                                                    <Button name="default" className={ classes.margin } text="Cancel" onClick={ e => handleClick(e) } />
+
+                                                    </div>
+                                                    <div id="roles" className="tab-pane fade"><br />
+
+                                                    <FormControl>
+
+                                                        <Paper elevation={0}>
+                                                            
+                                                            <SelectInputControl 
+                                                                name="roles"
+                                                                { ...this.state }
+                                                                value={ this.state.roles }
+                                                                onChange={ e => this.handleChange(e) }
+                                                            >
+                                                                <option value="">{ `Assign new role(s)` }</option>
+                                                                <option value={ `writer` }>Writer</option>
+                                                                <option value={ `publisher` }>Publisher</option>
+                                                            </SelectInputControl>
+
+                                                        </Paper>
+
+                                                    </FormControl>
+
+                                                    <div className="row"><p> </p></div>
+                                                    <div className="row">
+                                                        <div>
+                                                            {
+                                                                myRoles.length !== 0 && (
+                                                                    <p>The following role(s) will be assigned to <b>{ user.username }</b>:</p>
+                                                                )
+                                                            }
+                                                        </div>
+                                                    </div>
+
+                                                    {
+                                                        myRoles && myRoles.map(role => {
+
+                                                            if(role === '') return null;
+
+                                                            return (
+                                                                <Chip 
+                                                                    key={role} 
+                                                                    tabIndex={-1} 
+                                                                    label={role}
+                                                                    // cannot delete role not yet assigned
+                                                                    // however defining an undo action is in order
+                                                                    // onDelete={ () => this.deleteUserRole(user) }
+                                                                    deleteIcon={<CancelIcon />}
+                                                                />
+                                                            );
+
+                                                        })
+                                                    }
+
+                                                    <div className="row">
+                                                        <div>
+                                                            {
+                                                                user !== null && ((this.assignedRoles({ user })).length !== 0 ? (
+                                                                    <p>The following role(s) are assigned to <b>{ user.username }</b>:</p>
+                                                                ) : <p></p>)
+                                                            }
+                                                        </div>
+                                                    </div>
+
+                                                    {
+                                                        user !== null && (this.assignedRoles({ user })).map(role => {
+
+                                                            if(role !== null) {
+
+                                                                return (
+                                                                    <Chip 
+                                                                        key={role} 
+                                                                        tabIndex={-1} 
+                                                                        label={role}
+                                                                        onDelete={ () => this.deleteUserRole(role, current) }
+                                                                        deleteIcon={<CancelIcon />}
+                                                                    />
+                                                                );
+
+                                                            }
+                                                            
+                                                            return null;
+
+                                                        })
+                                                    }
+
+                                                </div>
                                             </>
                                         ) : (
                                             <>
