@@ -107,7 +107,7 @@ export default class TextEditor extends Component {
 		 */
 		e.preventDefault();
 
-		// this.editor.insertText(e.key);
+		this.editor.insertText(e.key);
 
 		/**
 		 *  Decide what to do based on the key code
@@ -402,7 +402,7 @@ export default class TextEditor extends Component {
 			editor.insertText(text).moveFocusBackward(text.length).command(this.wrapLink, href)
 		}
 
-		this.props.editorChange(editor);
+		this.handleChange(editor);
 
 	};
 
@@ -430,6 +430,8 @@ export default class TextEditor extends Component {
 		 */
 		this.editor.toggleMark(type);
 		console.log(type)
+
+		this.handleChange(this.editor);
 
 	};
 
@@ -542,6 +544,7 @@ export default class TextEditor extends Component {
 					type='link' icon={ link2 } 
 					onMarkClick={ this.onMarkClick } 
 					onMarkFocus={ this.onMarkFocus } 
+					onLinkClick={ this.onLinkClick }
 					hasMark={ this.hasMark }
 				/>
 
@@ -580,19 +583,21 @@ export default class TextEditor extends Component {
 					this.renderMenu()
 				}
 				
-				<Editor
-					id={name}
-					spellCheck
-					autoFocus
-					placeholder={`${ "Hint: use editor controls above to style your content..."}`}
-					value={this.state.value}
-					onChange={this.handleChange}
-					ref={this.ref}
-					// onKeyDown={this.onKeyDown}
-					renderMark={this.renderMark}
-					renderNode={this.renderNode}
-					onPaste={this.onPaste}
-				/>
+				<div className="margin-fix">
+					<Editor
+						id={name}
+						spellCheck
+						autoFocus
+						placeholder={`${ "Hint: use editor controls above to style your content..."}`}
+						value={this.state.value}
+						onChange={this.handleChange}
+						ref={this.ref}
+						// onKeyDown={this.onKeyDown}
+						renderMark={this.renderMark}
+						renderNode={this.renderNode}
+						onPaste={this.onPaste}
+					/>
+				</div>
 			</Fragment>
 		);
 	}

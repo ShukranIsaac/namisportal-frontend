@@ -67,6 +67,19 @@ export const editor = (() => {
                             return <p className={obj.data.get('className')}>{children}</p>
                         case 'quote':
                             return <blockquote>{children}</blockquote>
+                        case 'link':
+                            return (<a href={obj.data.get('href')} className={obj.data.get('className')}>
+                                {children}
+                            </a>);
+                        default:
+                            return;
+                    }
+                } else {
+                    switch (obj.type) {
+                        case 'link':
+                            return (<a href={obj.data.get('href')} className={obj.data.get('className')}>
+                                {children}
+                            </a>);
                         default:
                             return;
                     }

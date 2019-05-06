@@ -75,7 +75,7 @@ class News extends Component {
 
             <Flex wrap column align='top' justify='left' m={1} w={1} p={1} style={{ borderLeft: 'solid #fff000'}}>
 
-              <NavLink to="/news"><FormLegendField value="Latest news"/></NavLink>
+              {/* <NavLink to="/news"><FormLegendField value="Latest news"/></NavLink> */}
 
               <NavLink to="/faq"><FormLegendField value="Ask questions"/></NavLink>
 

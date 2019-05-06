@@ -6,14 +6,15 @@ export const EditorMarkerIcon = ({
     icon, 
     onMarkClick, 
     onMarkFocus,
-    hasMark
+    hasMark,
+    onLinkClick,
 }) => {
     // console.log(icon)
     return (
         <button
             active={ hasMark(type) }
             onClick={ (e) => onMarkClick(e, type) }
-            // onPointerDown={(e) => onMarkClick(e, type)}
+            onPointerDown={(e) => onLinkClick(e, type)}
             onFocus={ (e) => onMarkFocus(e, type) }
             className="tooltip-icon-button"
         >
