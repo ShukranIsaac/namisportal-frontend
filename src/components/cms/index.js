@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -387,9 +388,11 @@ class CMSIndex extends React.Component {
                             <MenuIcon />
                         </IconButton>
 
-                        <Typography variant="h6" color="inherit" noWrap>
-                            Malawi Mini Grids
-                        </Typography>
+                        <Link to="/" style={{ color: `white` }}>
+                            <Typography variant="h6" color="inherit" noWrap>
+                                Malawi Mini Grids
+                            </Typography>
+                        </Link>
 
                     </Toolbar>
                 </AppBar>
