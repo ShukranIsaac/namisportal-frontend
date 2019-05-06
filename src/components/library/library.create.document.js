@@ -153,6 +153,7 @@ class CreateLibraryItem extends Component {
 
                     if (subcategory !== null && subcategory !== undefined) {
                         // create new resource category
+                        console.log(resource)
                         this.props.createCategory(subcategory._id, resource, user.token);
                         // then change state.add_resource to false
                         // so that the page shows form fileds to add files and 
@@ -260,7 +261,7 @@ class CreateLibraryItem extends Component {
                                     classes={ classes }
                                     name='name'
                                     label="Name"
-                                    placeholder="Edit document name..."
+                                    placeholder="Enter document name..."
                                     type="text"
                                 />
 
@@ -268,7 +269,7 @@ class CreateLibraryItem extends Component {
                                     classes={ classes }
                                     name='summary' 
                                     label="Summary"
-                                    placeholder="Edit document summary..."
+                                    placeholder="Enter document summary..."
                                     type="text"
                                     multiline={true}
                                     rows="10"
@@ -307,7 +308,7 @@ class CreateLibraryItem extends Component {
                                     classes={ classes }
                                     name='resource_name'
                                     label="Resource"
-                                    placeholder="Edit resource name..."
+                                    placeholder="Enter resource name..."
                                     type="text"
                                 />
 
@@ -315,7 +316,7 @@ class CreateLibraryItem extends Component {
                                     classes={ classes }
                                     name='resource_summary' 
                                     label="Summary"
-                                    placeholder="Edit resource summary..."
+                                    placeholder="Enter resource summary..."
                                     type="text"
                                     multiline={true}
                                     rows="10"

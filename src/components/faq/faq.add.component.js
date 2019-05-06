@@ -236,7 +236,7 @@ class CreateQuestion extends Component {
                                 <FormTextInputField 
                                     { ...this.props }
                                     name="question"
-                                    placeholder="Type the new question here..."
+                                    placeholder="Enter new question here..."
                                     label="Question"
                                     type="text"
                                 />
@@ -244,7 +244,7 @@ class CreateQuestion extends Component {
                                 <FormTextInputField 
                                     { ...this.props }
                                     name="answer"
-                                    placeholder="Type the answer to the question..."
+                                    placeholder="Enter answer to the question..."
                                     label="Answer"
                                     type="text"
                                     multiline={true}
@@ -272,7 +272,7 @@ class CreateQuestion extends Component {
                                     classes={ classes }
                                     name='section_name'
                                     label="Section"
-                                    placeholder="Edit section name..."
+                                    placeholder="Enter section name..."
                                     type="text"
                                 />
 
@@ -280,7 +280,7 @@ class CreateQuestion extends Component {
                                     classes={ classes }
                                     name='section_summary' 
                                     label="Summary"
-                                    placeholder="Edit section summary..."
+                                    placeholder="Enter section summary..."
                                     type="text"
                                     multiline={true}
                                     rows="3"

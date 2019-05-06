@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import SearchInputControl from '../forms/search.form.field';
+// import SearchInputControl from '../forms/search.form.field';
 
 import './library.css';
 import ButtonControl from '../forms/buttons/button.default.control';
@@ -44,12 +44,12 @@ export const ListLibraryDocuments = (withStyles(styles)(({
             <div className={ classes.margin }/>
             <div className={ classes.margin }/>
 
-            <SearchInputControl 
+            {/* <SearchInputControl 
                 id="search_id"
                 name="search_docs"
                 placeholder="Search for specific document..."
                 handleChange={ (e) => handleChange(e) }
-            />
+            /> */}
 
             {
                 general && (
