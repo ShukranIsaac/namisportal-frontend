@@ -1,6 +1,5 @@
-import React from 'react';
-import { Button } from 'reactstrap'
-import { Col } from 'reactstrap';
+import React, {useState} from 'react';
+import { Button, Col, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import { Link } from "react-router-dom";
 import { redirect } from '../user/user.redirect';
 
@@ -61,17 +60,33 @@ const linkButton = (props) => {
  * @author Isaac S. Mwakabira
  */
 export const HomeSubCategory = ({ props, section }) => {
-
+    const [modal, setValue] = useState(false)
     if (props === null && props === undefined) {
         return <Col sm='12' md='6' lg='4'/>
     }
 
     const my_section = filterSection(props, section);
     
+    
     if (my_section === null && my_section === undefined) {
         return <Col sm='12' md='6' lg='4' />
     }
+   
+    const toggle = () => {
+        console.log('somethinf')
+        setValue(!modal)
+    }
 
+    const renderReadMore = (about) => {
+        console.log(about.length)
+        if (about.length > 250){
+           
+            return (<a onClick={toggle}>Read more...</a>)
+        }
+        else{
+            return ''
+        }
+    }
     return (
         <Col sm='12' md='6' lg='4'>
             <div className="card">
@@ -84,12 +99,30 @@ export const HomeSubCategory = ({ props, section }) => {
                         { my_section.name }
                     </a>
                 </h4>
-                <p>{ my_section.about.substring(0, 250) }</p>
+                <p style={{textAlign: 'justify'}}>
+                    { `${my_section.about.substring(0, 250)} `} 
+                    {
+                        my_section.about.length > 250 ? (<a onClick={toggle} className="badge badge-info">Read more...</a>) : ''
+                    }
+                </p>
                 {
                     my_section.name !== "Information for Mini-Grid Developers" ? linkButton(my_section) : <div></div>
                 }
                 </div>
             </div>
+            <Modal isOpen={modal} toggle={toggle}>
+                <ModalHeader toggle={toggle}>{my_section.name}</ModalHeader>
+                <ModalBody>
+                    {my_section.about}
+                    <br/>
+                    <p>
+                        {
+                            my_section.name !== "Information for Mini-Grid Developers" ? linkButton(my_section) : <div></div>
+                        }
+                    </p>
+                    
+                </ModalBody>
+            </Modal>
         </Col>
     );
 
