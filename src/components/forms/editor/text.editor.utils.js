@@ -67,10 +67,6 @@ export const editor = (() => {
                             return <p className={obj.data.get('className')}>{children}</p>
                         case 'quote':
                             return <blockquote>{children}</blockquote>
-                        case 'link':
-                            return (<a href={obj.data.get('href')} className={obj.data.get('className')}>
-                                {children}
-                            </a>);
                         default:
                             return;
                     }
@@ -124,8 +120,6 @@ export const editor = (() => {
     ]
 
     const isKey = (key) => keys.find(k => key === k);
-
-    // console.log(isKey('E'));
 
     return { html, isKey };
 
