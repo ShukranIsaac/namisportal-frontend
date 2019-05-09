@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Button, Col, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import { Button, Col, Modal, ModalHeader, ModalBody } from 'reactstrap'
 import { Link } from "react-router-dom";
 import { redirect } from '../user/user.redirect';
 
@@ -76,26 +76,25 @@ export const HomeSubCategory = ({ props, section }) => {
 
     const my_section = filterSection(props, section);
     
-    
     if (my_section === null && my_section === undefined) {
         return <Col sm='12' md='6' lg='4' />
     }
    
     const toggle = () => {
-        console.log('somethinf')
         setValue(!modal)
     }
 
-    const renderReadMore = (about) => {
-        console.log(about.length)
-        if (about.length > 250){
+    // const renderReadMore = (about) => {
+    //     console.log(about.length)
+    //     if (about.length > 250){
            
-            return (<a onClick={toggle}>Read more...</a>)
-        }
-        else{
-            return ''
-        }
-    }
+    //         return (<a href="#" onClick={toggle}>Read more...</a>)
+    //     }
+    //     else{
+    //         return ''
+    //     }
+    // }
+
     return (
         <Col sm='12' md='6' lg='4'>
             <div className="card">
@@ -111,7 +110,7 @@ export const HomeSubCategory = ({ props, section }) => {
                 <p style={{textAlign: 'justify'}}>
                     { `${my_section.about.substring(0, 250)} `} 
                     {
-                        my_section.about.length > 250 ? (<a onClick={toggle} className="badge badge-info">Read more...</a>) : ''
+                        my_section.about.length > 250 ? (<a href="/#" onClick={toggle} className="badge badge-info">Read more...</a>) : ''
                     }
                 </p>
                 {

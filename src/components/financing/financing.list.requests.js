@@ -71,7 +71,7 @@ export const ListFinancingRequests = (withStyles(styles)(({
                                         {
                                             category.subCategories !== undefined 
                                             && category.subCategories.map(({ name, about, _id }, index) => {
-
+                                                
                                                 return(
                                                     <Col key={ index } sm='12' md='8' lg='6'>
                                                         <div className="card">
@@ -87,7 +87,8 @@ export const ListFinancingRequests = (withStyles(styles)(({
                                                                 </h4>
                                                                 <p 
                                                                     dangerouslySetInnerHTML={{ 
-                                                                        __html: about.substring(0, 150) 
+                                                                        // if text length more than 150, render a small portion.
+                                                                        __html: about !== null && about.length >= 140 ? about.substring(0, 150) : about
                                                                     }}
                                                                 ></p>
 

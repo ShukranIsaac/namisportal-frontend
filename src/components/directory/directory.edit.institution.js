@@ -257,7 +257,8 @@ class EditDirectoryInstitution extends Component {
                                 <Button type="submit" disabled={!valid  || pristine || submitting} intent="primary" text="Save" />
 
                                 <Button className={ classes.margin } name="default"  intent="danger" text="Archive" onClick={ e => this.handleClick } />
-
+                                
+                                <Button name="default" intent="primary" text="Cancel" onClick={ e => handleClick(e) } />
                             </form>
                         </div>
 
@@ -278,7 +279,8 @@ class EditDirectoryInstitution extends Component {
                                 <div className={ classes.margin } />
 
                                 <Button type="submit" disabled={!valid  || pristine || submitting} intent="primary" text="Upload" />
-
+                                
+                                <Button className={ classes.margin } name="default" intent="primary" text="Cancel" onClick={ e => handleClick(e) } />
                             </form>
                         </div>
 

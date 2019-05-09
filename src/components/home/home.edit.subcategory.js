@@ -82,7 +82,7 @@ class EditHomeSubcategory extends Component {
     archiveCategory = (event) => {
         event.preventDefault();
         // props holds state functions like defaultItem(), saveItem() etc 
-        const { subcategory, props } = this.props;
+        const { subcategory } = this.props;
         // if subcategory exists then delete
         if(subcategory !== null && subcategory._id !== undefined) {
             // then get authenticated user token
@@ -91,7 +91,7 @@ class EditHomeSubcategory extends Component {
                 this.props.archiveCategory(subcategory, user.token);
                 // then change state to default
                 // so that the page redirects and list all home items
-                props.defaultItem();
+                this.props.defaultItem();
             }
         }
 

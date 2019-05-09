@@ -70,7 +70,7 @@ class Home extends Component {
                           return null;
                         }
 
-                        return <HomeSubCategory key={ index } props={ home.subCategories } section={ section.name } />
+                        return (<HomeSubCategory key={ index } props={ home.subCategories } section={ section.name } />)
 
                       })
 

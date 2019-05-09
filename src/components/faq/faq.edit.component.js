@@ -318,7 +318,7 @@ class EditQuestion extends Component {
                                             id={ this.state.question._id }
                                             className={ classes.margin } 
                                             name="archive" 
-                                            intent="primary" text="Delete" 
+                                            intent="danger" text="Delete" 
                                             onClick={ e => this.archiveCategory(e) } 
                                         />
                                     )

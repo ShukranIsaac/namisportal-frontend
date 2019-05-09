@@ -17,7 +17,7 @@ export const DirectoryStakeholderTypes = (props) => {
                             <FormCheckboxControl 
                                 name="financing"
                                 value="Financing Institution"
-                                handleChange={ props.handleChange }
+                                handleChange={ (e) => props.handleChange(e) }
                                 checked={ props.financing }
                                 classes={ props.classes }
                                 props={ input }
@@ -34,7 +34,7 @@ export const DirectoryStakeholderTypes = (props) => {
                             <FormCheckboxControl 
                                 name="local_authority"
                                 value="Local Authority"
-                                handleChange={ props.handleChange }
+                                handleChange={ (e) => props.handleChange(e) }
                                 checked={ props.local_authority }
                                 classes={ props.classes }
                                 props={ input }
@@ -52,7 +52,7 @@ export const DirectoryStakeholderTypes = (props) => {
                             <FormCheckboxControl 
                                 name="state_authority"
                                 value="State Authority or Government Agency"
-                                handleChange={ props.handleChange }
+                                handleChange={ (e) => props.handleChange(e) }
                                 checked={ props.state_authority }
                                 classes={ props.classes }
                                 props={ input }
@@ -69,7 +69,7 @@ export const DirectoryStakeholderTypes = (props) => {
                             <FormCheckboxControl 
                                 name="nongovernmental_org"
                                 value="Non-Governmental Organisation(N.G.O)"
-                                handleChange={ props.handleChange }
+                                handleChange={ (e) => props.handleChange(e) }
                                 checked={ props.nongovernmental_org }
                                 classes={ props.classes }
                                 props={ input }

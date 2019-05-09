@@ -51,9 +51,8 @@ class CreateDirectoryInstitution extends Component {
     handleChange = (event) => {
 
         this.setState({ 
-            [event.target.name]: event.target === 'checked' ? 
-                event.target.checked : event.target.value 
-        });
+            [event.target.name]: event.target.type === 'checkbox' ? event.target.checked : event.target.value 
+        });// console.log(event.target.checked)
   
     }
 

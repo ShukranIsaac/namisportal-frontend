@@ -70,6 +70,27 @@ class EditLicensingStep extends Component {
 
     }
 
+    /**
+     * Delete category
+     */
+    archiveCategory = (event) => {
+        event.preventDefault();
+        // props holds state functions like defaultItem(), saveItem() etc 
+        const { subcategory } = this.props;
+        // if subcategory exists then delete
+        if(subcategory !== null && subcategory._id !== undefined) {
+            // then get authenticated user token
+            const user = UserProfile.get();
+            if (user !== null && user.token !== undefined) {
+                this.props.archiveCategory(subcategory, user.token);
+                // then change state to default
+                // so that the page redirects and list all home items
+                this.props.defaultItem();
+            }
+        }
+
+    }
+
     render() {
 
         // props
@@ -134,9 +155,14 @@ class EditLicensingStep extends Component {
                         intent="success" 
                         text="Update" 
                     />
-                    
+
                     <Button 
-                        className={ classes.margin } 
+                        className={ classes.margin }
+                        intent="danger" text="Archive" 
+                        onClick={ (e) => this.archiveCategory(e) } 
+                    />
+                    
+                    <Button
                         name="default" 
                         intent="primary" 
                         text="Cancel" 
