@@ -1,16 +1,26 @@
 import React, { Fragment, Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import RenderBootstrapField from '../forms/form.bootstrap.field';
+import { reduxForm } from 'redux-form';
+import AsyncValidate from '../contact/form.async-validate';
+import Validate from '../contact/email.validate';
+
 import { TextEditor } from '../forms/editor';
+import { Button } from 'reactstrap';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent } from '@blueprintjs/core';
 
 import styles from '../contact/form.styles';
 
+import * as NewsAction from '../../actions/news.action';
+
 import InitialSchema from '../forms/utils/initial.schema';
 import { Divider } from '@material-ui/core';
+import { FormTextInputField } from '../forms/form.textinput.field';
+import { editor } from '../forms/editor/text.editor.utils';
+import { UserProfile } from '../user/user.profile';
 
 class CreateNewsItem extends Component {
 
@@ -64,27 +74,49 @@ class CreateNewsItem extends Component {
 	 * @param {Editor} editor
 	 */
     handleEditorChange = ({ value }) => {
-        
-        this.setState({ content: value});
+        // console.log(value)
+        if(value !== undefined) {
+            this.setState({ content: value });
+        }
 
     }
 
-    handleSubmit = (event) => {
-		/**
-		 *  disabling browser default behavior like page refresh, etc 
-		 */
-		event.preventDefault();
-        
+    handleSubmit = (values) => {
+
+        // user logged
+        const user = UserProfile.get();
+        if (user !== null) {
+            
+            if (user.token !== null && user.token !== undefined) {
+                /**
+                 * serialize content
+                 */
+                let content = editor.html.serialize(this.state.content);
+                // define article object
+                const article = {
+                    title: values.title,
+                    article: content
+                }
+
+                // then make post request to the api
+                this.props.createArticle(article, user.token);
+                // then change state to default
+                // so that the page redirects and list all home items
+                this.props.defaultItem();
+            }
+
+        }
+
     }
 
     render() {
 
-        const { classes, handleClick } = this.props;
+        const { classes, handleClick, handleSubmit, valid, pristine, submitting } = this.props;
         
         return (
             <Fragment>
 
-                <form onSubmit = { this.handleSubmit }>
+                <form onSubmit = { handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
 
                     <ButtonControl 
                         intent={Intent.NONE} 
@@ -101,25 +133,47 @@ class CreateNewsItem extends Component {
 
                     <Divider />
 
-                    <RenderBootstrapField
+                    <FormTextInputField 
                         classes={ classes }
-                        label='Article Title'
-                        defaultValue="Enter article title..."
-                        value={ this.state.title }
                         name="title"
+                        label='Title'
+                        placeholder="Enter article title..."
+                        value={ this.state.title }
                         type="text"
-                        onChange={ this.handleChange }
                     />
 
-                    <TextEditor name="content" content={ this.state.content } editorChange={ this.handleEditorChange } />
+                    <TextEditor 
+                        name="content" 
+                        content={ this.state.content } 
+                        editorChange={ this.handleEditorChange } 
+                    />
 
                     <div className={ classes.margin }/>
                     <div className={ classes.margin }/>
                     <div className={ classes.margin }/>
 
-                    <ButtonControl intent={Intent.PRIMARY} value="Save" handleClick={e => this.handleSubmit(e) } />
+                    <Button 
+                        type="submit" 
+                        disabled={!valid  || pristine || submitting} 
+                        color="primary"
+                    >
+                        Save
+                    </Button>
 
-                    <ButtonControl intent={Intent.SUCCESS} value="Publish" handleClick={e => handleClick(e) } />
+                    {/* <ButtonControl 
+                        className={ classes.margin }
+                        intent={Intent.SUCCESS} 
+                        value="Publish" 
+                        handleClick={e => handleClick(e) } 
+                    /> */}
+
+                    <ButtonControl 
+                        name="default"
+                        className={ classes.margin }
+                        intent={Intent.PRIMARY} 
+                        value="Cancel" 
+                        handleClick={e => handleClick(e) } 
+                    />
                 
                 </form>
 
@@ -134,4 +188,26 @@ CreateNewsItem.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(CreateNewsItem);
+const mapStateToProps = (state) => {
+
+    return {
+        errored: state.news.errored,
+        general: state.general.general,
+        article: state.news.article,
+    };
+
+}
+
+const mapDispatchToProps = (dispatch) => {
+
+    return {
+        createArticle: (article, user) => dispatch(NewsAction.createArticle(article, user)),
+    };
+
+}
+
+export default reduxForm({
+    form: 'createNewsItem',
+    Validate,
+    AsyncValidate
+})(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(CreateNewsItem)));

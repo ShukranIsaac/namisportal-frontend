@@ -1,14 +1,23 @@
 import React, { Component, Fragment } from 'react';
-import { Elevation, Card } from "@blueprintjs/core";
-import { Flex, Box } from 'reflexbox';
-
+import { Card, CardBody, Row, Container } from 'reactstrap'
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 
 import ContactForm from './contact.form';
+import ParticlesComponent from '../user/particles';
+import './style.css'
+
+import * as UserAuthAction from '../../actions/user.action';
 
 class Contact extends Component {
+
+  componentDidMount() {
+
+    // fetch
+    // this.props.fetchContact('Contact');
+
+  }
 
   render(){
 
@@ -17,55 +26,80 @@ class Contact extends Component {
     return (
       <Fragment>
 
-        <Flex
-          wrap
-          align='top'
-          justify='center'
-          m={1}
-          w={1}
-          p={3}
-          className='landing-info'>
-          <Box w={1/2} p={1}>
-            <Card elevation={Elevation.TWO}>
-              <Typography variant="h5" component="h3">
-                Contact Us
-              </Typography>
-              <br />
-              <Typography variant="caption">
-              The Working Group welcomes questions and comments about this site.
-              Please use the form or contacts here given to contact us.
-              </Typography>
-              <Typography variant="caption">
-                <br />
-                For any questions:
-                <br />
-                Email us at <a href="mailto:questions@grid.mw" className={classes.link}>
-                  questions@grid.mw
-                </a>
-                <br /><br />
-                Physical Address:<br />
-                Mini-grids Malawi,<br />890 West Point<br />Blantyre
-              </Typography>
-            </Card>
-          </Box>
-          <Box w={1/2} p={1}>
+        <div className= "page-content">
 
-            <Card elevation={Elevation.TWO}>
+          <ParticlesComponent />
 
-              <ContactForm />
+          <Container>
+            
+            <Row>
+                <Card>
+                  <CardBody style={{textAlign: 'center'}}>
+                    <h4><strong>Contact Us</strong></h4>
+                    <p>
+                      The Working Group welcomes questions and comments about this site.
+                      Please use the email, physical address or form below to contact us.
+                    </p>
+                    <br />
+                      <h4>For any questions:</h4>
+                      <p>
+                        Email us at <a href="mailto:info@energy.gov.mw" className={classes.link}> info@energy.gov.mw </a>
+                      </p>
+                      <br />
+                      <h4>Physical Address:</h4>
+                      <p>
+                        Mini-grids Malawi,<br />890 West Point<br />Blantyre
+                      </p>
+                  </CardBody> 
+                </Card>
+            </Row>
 
-            </Card>
+            <Row>
+              <Card className={classes.width100}>
+                <CardBody>
 
-          </Box>
-        </Flex>
+                  <h4 style={{textAlign: 'center'}}>Feel free to ask anything</h4>
 
+                  <ContactForm { ...this.props } />
+                  
+                </CardBody> 
+              </Card>
+            </Row>
+          </Container>
+          
+        </div>
+        
       </Fragment>
     );
 
   }
 }
 
+const mapStateToProps = (state) => {
+    
+  return {
+      contact_us: state.user.contact_us,
+      contact: state.user.contact,
+  };
+
+}
+
+const mapDispatchToProps = (dispatch) => {
+
+  return {
+      // fetch contact details
+      fetchContact: (name) => { dispatch(UserAuthAction.fetchContact(name)) },
+      // contact us message, don't authenticate this route
+      // since any user of the system can send a message.
+      contactUs: (data) => { dispatch(UserAuthAction.contact(data)) },
+  };
+
+}
+
 const styles = theme => ({
+  width100: {
+    width: '100%'
+  },
   root: {
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
@@ -92,4 +126,4 @@ Contact.propTypes = {
   classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(Contact);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Contact));

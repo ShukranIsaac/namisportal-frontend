@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
 
 import library from './library.reducer';
 import gis_filters from './gis_filters.reducer';
@@ -12,8 +13,16 @@ import meters from './meters.reducer';
 import l_filters from './licencing_filters.reducer';
 import distributionlines from './distribution.reducer';
 import userEvent from './event.reducer';
+import transformers from './transformers.reducer';
+import cms from './cms.reducer';
+import stakeholder from './stakeholder.reducer';
+import power_plants from './power_plant.reducer';
+import generalReducer from './general.reducer';
+import news from './news.reducer';
 
 export default combineReducers({
+    form: formReducer,
+    general: generalReducer,
     user: user,
     home: home,
     library: library,
@@ -25,5 +34,10 @@ export default combineReducers({
     meters: meters,
     l_filters: l_filters,
     lines: distributionlines,
-    event: userEvent
+    event: userEvent,
+    transformers: transformers,
+    cms: cms,
+    stakeholder: stakeholder,
+    power_plants: power_plants,
+    news: news
 });

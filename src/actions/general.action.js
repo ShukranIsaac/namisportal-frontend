@@ -16,25 +16,25 @@ export const isLoading = (bool) => {
     };
 }
 
-export const updateSuccess = (payload, bool) => {
+export const updateSuccess = (type, payload, bool) => {
     return {
-      type: GeneralType.REQUEST_UPDATE_SUCCESS,
+      type: type,
       hasErrored: bool,
       payload: payload
     };
 };
 
-export const createSuccess = (payload, bool) => {
+export const createSuccess = (type, payload, bool) => {
     return {
-        type: GeneralType.REQUEST_CREATE_SUCCESS,
+        type: type,
         hasErrored: bool,
         payload: payload
     };
 }
 
-export const deleteSuccess = (payload, bool) => {
+export const deleteSuccess = (type, payload, bool) => {
     return {
-        type: GeneralType.REQUEST_DELETE_SUCCESS,
+        type: type,
         hasErrored: bool,
         payload: payload
     };

@@ -1,4 +1,4 @@
-import { GisType } from '../action_type/index';
+import { GisType, GeneralType } from '../action_type/index';
 
 const initialState = {
     lines: null,
@@ -11,6 +11,11 @@ const distributionlines = (state = initialState, action) => {
             return {
                 ...state,
                 lines: action.payload
+            }
+        case GeneralType.REQUEST_CLEAR_PROPS:
+            return {
+                ...state,
+                lines: null
             }
         default:
             return state;

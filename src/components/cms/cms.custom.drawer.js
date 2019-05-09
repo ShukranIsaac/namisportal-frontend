@@ -3,37 +3,86 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import green from '@material-ui/core/colors/green';
 import { ListItem, List, Divider } from '@material-ui/core';
-import { Button } from '@blueprintjs/core';
-import SideBarWrapper from '../SideBarWrapper';
+import IconButton from '@material-ui/core/IconButton';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import FinancingIcon from '@material-ui/icons/AttachMoney';
+import DocumentIcon from '@material-ui/icons/InsertDriveFile' 
+import GisIcon from '@material-ui/icons/Map'
+import LicencingIcon from '@material-ui/icons/Gavel'
+import DirectoryIcon from '@material-ui/icons/LocalLibrary'
+import NewsIcon from '@material-ui/icons/LibraryBooks'
+// import ContactIcon from '@material-ui/icons/ContactMail'
+// import AccountIcon from '@material-ui/icons/AccountCircle'
+import PersonAddIcon from '@material-ui/icons/PersonAdd'
+import LogoutIcon from '@material-ui/icons/ExitToApp';
+import HomeIcon from '@material-ui/icons/Home';
+import FAQIcon from '@material-ui/icons/QuestionAnswer';
 
 const drawer_controls = [
-    { name: 'licencing', button: <Button className="bp3-minimal" icon="take-action" text="Licencing"/>},
-    { name: 'financing', button: <Button className="bp3-minimal" icon="dollar" text="Financing"/>},
-    { name: 'directory', button: <Button className="bp3-minimal" icon="manual" text="Directory"/>},
-    { name: 'library', button: <Button className="bp3-minimal" icon="document" text="Library"/>},
-    { name: 'gis', button: <Button className="bp3-minimal" icon="geosearch" text="GIS"/>},
-    { name: 'news', button: <Button className="bp3-minimal" icon="applications" text="News"/>},
-    { name: 'contact', button: <Button className="bp3-minimal" icon="id-number" text="Contact"/>}
+    { name: 'home', button: <HomeIcon />},
+    { name: 'licensing', button: <LicencingIcon />},
+    { name: 'financing', button: <FinancingIcon />},
+    { name: 'directory', button: <DirectoryIcon />},
+    { name: 'library', button: <DocumentIcon />},
+    { name: 'gis', button: <GisIcon />},
+    { name: 'news', button: <NewsIcon />},
+    // { name: 'contact', button: <ContactIcon/>},
+    { name: 'faqs', button: <FAQIcon />}
 ];
 
 const config = [
-    { name: 'settings', button: <Button className="bp3-minimal" icon="settings" text="Settings"/>},
-    { name: 'notifications', button: <Button className="bp3-minimal" icon="notifications" text="Notifications"/>},
-    { name: 'user', button: <Button className="bp3-minimal" icon="user" text="Logout"/>},
+    { name: 'accounts', button: <PersonAddIcon />},
+    // { name: 'profile', button: <AccountIcon />},
+    { name: 'logout', button: <LogoutIcon />},
 ];
 
-const CustomDrawer = ({ classes, handleLink }) => {
+/**
+ * Custom material-ui drawer
+ * 
+ * @author Paul S. Sembereka
+ * @author Isaac S. Mwakabira
+ * 
+ * @param {Object} classes 
+ * @param {Theme} theme
+ * @param {Function} handleLink
+ * @param {Function} capitalize
+ * @param {Function} drawerClose
+ * 
+ */
+const CustomDrawer = ({ 
+    classes, 
+    theme, 
+    handleLink, 
+    capitalize,
+    drawerClose,
+    link
+}) => {
 
     return (
         <Fragment>
 
-            <List className={classes.margin}>
+            <div className={classes.toolbar}>
+                <IconButton onClick={drawerClose}>
+                    {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                </IconButton>
+            </div>
+
+            <Divider />
+
+            <List>
                 {
-                    drawer_controls.map((control, index) => (
-                        <ListItem button key={control.name} onClick={(e) => handleLink(e, control.name)}>
-                            { 
-                                control.button 
-                            }
+                    drawer_controls.map(({name, button}) => (
+                        <ListItem 
+                            button 
+                            key={name} 
+                            onClick={ (e) => handleLink(e, name) }
+                            className={ `${ link === name && classes.highlight }` }
+                        >
+                            <ListItemIcon>{ button }</ListItemIcon>
+                            <ListItemText primary={capitalize(name)} />
                         </ListItem>
                     ))
                 }
@@ -42,9 +91,15 @@ const CustomDrawer = ({ classes, handleLink }) => {
             <Divider />
 
             <List>
-                {config.map((control, index) => (
-                    <ListItem button key={control.name} onClick={(e) => handleLink(e, control.name)}>
-                        { control.button }
+                {config.map(({name, button}) => (
+                    <ListItem 
+                        button 
+                        key={name} 
+                        onClick={ (e) => handleLink(e, name) }
+                        className={ `${ link === name && classes.highlight }` }
+                    >
+                        <ListItemIcon>{ button }</ListItemIcon>
+                        <ListItemText primary={capitalize(name)} />
                     </ListItem>
                 ))}
             </List>
@@ -54,6 +109,7 @@ const CustomDrawer = ({ classes, handleLink }) => {
 
 }
 
+// styles
 const styles = theme => ({
     drawerPaper: {
         position: 'relative',
@@ -86,4 +142,4 @@ CustomDrawer.propTypes = {
     classes: PropTypes.object.isRequired,
 };
   
-  export default withStyles(styles)(SideBarWrapper(CustomDrawer));
+export default withStyles(styles)(CustomDrawer);

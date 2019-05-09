@@ -1,6 +1,7 @@
 import { Value } from 'slate';
 
 const InitialSchema = Value.fromJSON({
+	"object":"value",
 	"document": {
 	  "nodes": [
 			{
@@ -8,7 +9,7 @@ const InitialSchema = Value.fromJSON({
 				"type": "paragraph",
 				"nodes": []
 			}
-	    ]
+	  ]
 	}
 });
 

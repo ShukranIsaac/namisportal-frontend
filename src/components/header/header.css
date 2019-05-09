@@ -6,3 +6,20 @@
     background: black;
     border-radius: 2px;
 }
+
+.navbar{
+    box-shadow: 0 1px 10px 1px rgba(0, 0, 0, 0.15);
+    z-index: 12;
+}
+
+.navbar > a > h4 {
+    margin: 0;
+    color: inherit
+}
+
+li a { 
+    color: inherit;
+    display: block;
+    padding: 0.5rem 1rem;
+}
+

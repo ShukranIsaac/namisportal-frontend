@@ -7,14 +7,13 @@ const MainContentWrapper = (WrappedComponent) => {
   return class MainContentWrapper extends Component {
 
     render() {
-      const { classes } = this.props;
 
       return (
-        <main className={classes.content}>
+        <div>
 
           <WrappedComponent { ...this.props } />
 
-        </main>
+        </div>
       );
     }
   }

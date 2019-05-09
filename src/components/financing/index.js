@@ -1,77 +1,103 @@
-import React, { Component } from 'react';
-import { Card, Elevation } from '@blueprintjs/core'
-import { Flex, Box } from 'reflexbox';
+import React, { Component, } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import Panel from './panel';
+import { Container, Card, CardBody, Row } from 'reactstrap'
+import { withStyles } from '@material-ui/core';
+import ParticlesComponent from '../user/particles';
+import * as CMSAction from '../../actions/cms.action';
 
 /**
  * Renders financing component
  * 
  * @author Paul Sembereka (Pablo)
+ * @author Isaac S. Mwakabira
  * 
  */
 class Financing extends Component {
 
+  componentDidMount() {
+
+    // check if we already data for this category in state
+    if(this.props.subcategory !== null) {
+
+    }
+
+    // fetch category
+    this.props.category('Financing');
+
+  }
+
   render(){
 
-    const containerStyle = {
-      width: '80%',
-      margin: '0 auto',
-    }
+    const { subcategory, general } = this.props;
 
     const header = {
       textAlign: 'center',
     }
 
-    const financing = {
-      marginBottom: 8,
-      borderRadius: 0
-    }
-    
-    const flexStyle = {
-      margin: 'auto',
-      background: '#15B371',
-      padding: '12%'
-    }
-
     return (
-      <div >
-        <div style={header}>
-        <Flex 
-          p={4}
-          align='center'
-          justify='center'
-          m={1}
-          w={1}
-          style={flexStyle}>
-          <Box w={1} p={1} align='center'>
-          <Card elevation={Elevation.TWO}>
-          <Card interactive={false} elevation={Elevation.ZERO} style={financing}>
-              <p><strong>Financing</strong></p>
-              <p>
-              The process for requesting financing support entails the following 
-              steps. Further details are available by clicking on each step.
+      <div className = "page-content">
 
-              </p>
-          </Card>
-            <Panel heading="1. Concept Note"/>
-            <Panel heading="2. Concept Note Appraisal"/>
-            <Panel heading="3. Prefeasibily Study and draft Business Plan"/>
-            <Panel heading="4. Application for Grant"/>
-            <Panel heading="5. Preliminary Evaluation of Grant Application"/>
-            <Panel heading="6. Feasibility Report and Business Plan"/>
-            <Panel heading="7. Final Evaluation of Grant Application"/>
-            <Panel heading="8. Disbursement"/>
-          </Card>
-         
-          </Box>
-          
-          
-          </Flex>
-        </div>
-      </div>
+        <ParticlesComponent />
+        
+        <Container>
+          <Row>
+            {
+              general && (
+                !general.isLoading ? (
+                  (subcategory !== undefined && subcategory !== null) && (
+                    subcategory.subCategories[0] !== undefined && (
+                      <Card>
+                        <CardBody>
+                          <p style={header}><strong>{ subcategory.subCategories[0].name }</strong></p>
+                          <div dangerouslySetInnerHTML={{ __html: subcategory.subCategories[0].about }} />
+                        </CardBody>
+                      </Card>
+                    )
+                  )
+                ) : <p className="loader" />
+              )
+            }
+          </Row>
+        </Container>
+      </div> 
     );
+    
+  }
+
+}
+
+const styles = {
+  header: {
+    textAlign: 'center',
+  },
+  financing: {
+    marginBottom: 8,
+    borderRadius: 0
   }
 }
 
-export default Financing;
+const mapStateToProps = (state) => {
+    
+  return {
+    general: state.general.general,
+    subcategory: state.cms.subcategory,
+  };
+
+}
+
+const mapDispatchToProps = (dispatch) => {
+
+  return {
+      // Financing
+      category: (name) => { dispatch(CMSAction.fetchCategory(name)) },
+  };
+
+}
+
+Financing.propTypes = {
+  classes: PropTypes.object.isRequired,
+}
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Financing));

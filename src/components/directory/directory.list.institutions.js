@@ -1,5 +1,9 @@
 import React, { Fragment } from 'react';
-import SearchInputControl from '../forms/search.form.field';
+// import SearchInputControl from '../forms/search.form.field';
+import ButtonControl from '../forms/buttons/button.default.control';
+import { Intent } from '@blueprintjs/core';
+import { Divider, withStyles } from '@material-ui/core';
+import styles from '../contact/form.styles';
 
 /**
  * Lists all institutions in the directory
@@ -13,47 +17,64 @@ import SearchInputControl from '../forms/search.form.field';
  * 
  * @returns {Fragment} directory  
  */
-export const ListDirectoryInstitution = ({
-    directory,
-    handleClick, 
-    handleChange
+export const ListDirectoryInstitution = (withStyles(styles)(({
+    stakeholders,
+    handleClick,
+    isLoading, classes
 }) => {
+
+    // console.log(stakeholders);
+    if(stakeholders === null && stakeholders === undefined) {
+        return <div>No stakeholders</div>
+    }
 
     return (
         <Fragment>
 
-            <SearchInputControl 
-                id="search_id"
-                name="directory"
-                placeholder="Search for specific institution..."
-                handleClick={ handleClick }
-                handleChange={ (e) => { handleChange(e) } }
+            <ButtonControl 
+                intent={Intent.NONE} 
+                value="New Stakeholder"
+                name="create"
+                handleClick={e => handleClick(e) }
             />
+
+            <div className={ classes.margin }/>
+            <div className={ classes.margin }/>
+            <div className={ classes.margin }/>
+            <div className={ classes.margin }/>
+
+            <Divider />
 
             <ul>
                 {
-                    directory && directory.map( (object, index) => {
+                    stakeholders !== null && stakeholders !== undefined ? (
+                        <Fragment>
+                            {
+                                stakeholders && stakeholders.map((stakeholder, index) => {
                         
-                        return (
-                            <Fragment>
-                                <li id={index}>
-                                    <a 
-                                        href="/directory/e8g9tyjGh" 
-                                        onClick={ (e) => { handleClick(e) } }
-                                        name="edit"
-                                        id={object.name}
-                                    >
-                                        { object.name }
-                                    </a>
-                                </li>
-                            </Fragment>
-                        );
-
-                    })
+                                    return (
+                                        <Fragment key={index}>
+                                            <li id={stakeholder._id} key={stakeholder._id}>
+                                                <a 
+                                                    href={ `${ 'directory/' + stakeholder.name }` } 
+                                                    onClick={ (e) => { handleClick(e) } }
+                                                    name="edit"
+                                                    id={stakeholder._id}
+                                                >
+                                                    { stakeholder.name }
+                                                </a>
+                                            </li>
+                                        </Fragment>
+                                    );
+            
+                                })
+                            }
+                        </Fragment>
+                    ) : <div style={{ marginTop: `35px` }} className='loader' />
                 }
             </ul>
 
         </Fragment>
     );
 
-}
+}))

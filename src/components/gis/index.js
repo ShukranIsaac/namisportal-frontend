@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -7,8 +7,6 @@ import MinGridMap from './grid.google.map';
 import GridSideBar from './grid.sidebar';
 
 import * as GisAction from '../../actions/index';
-
-import './grid.css';
 
 /**
  * Renders Client GIS component
@@ -21,124 +19,239 @@ class GIS extends Component {
   constructor() {
     super();
     this.state = {
-        regionChanged: false,
         regionDefault: "--Select region--",
-        districtDefault: "--Select district--"
+        districtDefault: "--Select district--",
     };
+
+    this.handlePlantTypeChange = this.handlePlantTypeChange.bind(this);
+    this.handlePlantCapacityChange = this.handlePlantCapacityChange.bind(this);
+
   }
 
   componentDidMount() {
 
+    // fetch gis filters
     this.props.fetchFilters();
+    // fetch plant filters
+    this.props.powerPlantFilters();
 
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
 
-      // ES6 destructure different objects from state
-      const { district, region, regionDefault, districtDefault } = this.state;
+    if (prevProps !== undefined) {
+      // console.log(this.props.marep_center)
+      if (prevProps.district._id !== this.props.district._id) {
 
-      // ES6 destructure different objects and functions from props
-      const {
-          fetchMeters,
-          fetchRegion,
-          fetchDistrict,
-          fetchPolygonCentroid,
-          fetchMarepCenters,
-          fetchDistributionLines 
-      } = this.props;
+        // fetch electrified by marep
+        this.marepCenters(prevProps, this.props.district._id);
+        // fetch transformers
+        this.transformers();
+        // distribution lines
+        this.distributionLines();
+      } else {
 
-      /**
-       * Fetch district and all its properties: if district is defined and not null and not equal
-       * to default value and does not have trailing spaces.
-       * 
-       */
-      if (district !== undefined && district !== null 
-        && district.trim() !== '' && district !== districtDefault) {
+        if (prevProps === this.props) {
+          // fetch marep centers
+          this.marepCenters(prevProps, this.props.district._id);
 
-          fetchDistrict(district);
+          // fetch transformers
+          this.transformers();
 
-          fetchPolygonCentroid();
-
+          // distribution lines
+          this.distributionLines();
+        }
       }
-      
-      /**
-       * Fetch region and all its properties: if region name is defined and not null and not equal
-       * to default value
-       * 
-       */
-      if (region !== undefined && region !== null 
-        && region.trim() !== '' && region !== regionDefault) {
+    } else {
 
-          fetchRegion(region);
-
+      if (prevProps !== this.props) {
+        this.marepCenters(prevProps, this.props.district._id);
       }
 
-      /**
-       * Fetch meters and all its properties: if region or district name is defined and not null and not equal
-       * to default values
-       * 
-       */
-      if (this.state.meters_checked) {
-
-          if (district !== undefined && district !== null
-            && district.trim() !== '' && district !== districtDefault) {
-
-              fetchMeters(district);
-
-          } else if (region !== undefined && region !== null 
-            && region.trim() !== ''&& region !== regionDefault) {
-
-              fetchMeters(region);
-
-          } else {
-
-          }
-
-      }
-
-      /**
-       * Fetch marep centers and all its properties: if district name is defined and not null and not equal
-       * to default value
-       * 
-       */
-      if (this.state.marep_center) {
-
-          if (district !== undefined && district !== null 
-            && district.trim() !== '' && district !== districtDefault) {
-
-              fetchMarepCenters(district);
-
-          }
-
-      }
-
-      /**
-       * Fetch distribution lines and all its properties: 
-       * if district name is defined and not null and not equal to default value
-       * 
-       */
-      if (this.state.distribution_lines) {
-
-          if (district !== undefined && district !== null 
-            && district.trim() !== '' && district !== districtDefault) {
-
-              fetchDistributionLines(district);
-
-          }
-      }
+    }
 
   }
 
   handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-      regionChanged: event.target.name === 'region' ? true : false
+    
+    // const target = event.target;
+    this.setState({ [event.target.name]: event.target.value });
+
+  }
+
+  /**
+   * Event
+   */
+  handlePlantTypeChange = (event) => {
+
+    this.setState({ [event.target.name]: event.target.value }, () => {
+
+      // fetch power plants from api
+      this.props.fetchPowerPlants(null, this.state.type);
+
     });
+
+  }
+
+  /**
+   * Event
+   */
+  handlePlantCapacityChange = (event) => {
+
+    this.setState({ [event.target.name]: event.target.value }, () => {
+
+      // fetch plant plants from api
+      this.props.fetchPowerPlants(this.state.capacity, null);
+      
+    });
+
+  }
+
+  /**
+   * Fetch marep centers and all its properties: if district name 
+   * is defined and not null and not equal to default value
+   * 
+   */
+  marepCenters = (prevProps, distr_id) => {
+    // ES6 destructure different objects from state
+    const { district_name, districtDefault, marep_center } = this.state;
+    
+    // if marep center checkbox is checked to true
+    if (marep_center) {
+      
+      if (district_name !== undefined && district_name !== null
+          && district_name.trim() !== '' && district_name !== districtDefault) {
+          
+          const { fetchMarepCenters } = this.props;
+
+          // fetch marep centers for the given district
+          fetchMarepCenters(distr_id);
+
+      }
+
+    }
+
+  }
+
+  /**
+   * Check if state.ground_transformers or state.up_transformers are set to true.
+   * Check if district_name is defined, and not null, and not equal to default value.
+   * And finally fetch transformers for this district.
+   * 
+   */
+  transformers = () => {
+    // ES6 destructure different objects from state
+    const { district_name, districtDefault, ground_transformers, up_transformers } = this.state;
+
+    if (district_name !== undefined && district_name !== null 
+      && district_name.trim() !== '' && district_name !== districtDefault) {
+      
+      const { district, fetchTransformers } = this.props;
+      
+      if (ground_transformers) {
+        // fetch ground transformers
+        fetchTransformers(district._id, 'ground');
+
+      }
+
+      if (up_transformers) {
+        // fetch overhead transformers
+        fetchTransformers(district._id, 'overhead');
+
+      }
+
+    }
+
+  }
+
+  /**
+   * Fetch distribution lines and all its properties: 
+   * if district name is defined and not null and not equal to default value
+   * 
+   */
+  distributionLines = () => {
+    // ES6 destructure different objects from state
+    const { district_name, districtDefault, distribution_lines, eleven_kv_lines } = this.state;
+
+    if (district_name !== undefined && district_name !== null 
+      && district_name.trim() !== '' && district_name !== districtDefault) {
+
+      const { district, fetchDistributionLines } = this.props;
+
+      // 33 kv lines
+      if (distribution_lines) {
+        
+        // fetch distribution lines
+        fetchDistributionLines(district._id, 33);
+
+      }
+
+      // 11 kv lines
+      if (eleven_kv_lines) {
+        
+        // fetch distribution lines
+        fetchDistributionLines(district._id, 11);
+
+      }
+
+    }
+
+  }
+
+  /**
+   * Fetch meters and all its properties: if region or district name is 
+   * defined and not null and not equal to default values
+   * 
+   */
+  meters = () => {
+    // ES6 destructure different objects from state
+    const { district_name, region_name, districtDefault, regionDefault, meters_checked } = this.state;
+
+    if (meters_checked) {
+
+      if (district_name !== undefined && district_name !== null
+        && district_name.trim() !== '' && district_name !== districtDefault) {
+
+          const { district, fetchMeters } = this.props;
+
+          fetchMeters(district._id);
+
+      } else if (region_name !== undefined && region_name !== null 
+        && region_name.trim() !== ''&& region_name !== regionDefault) {
+
+          const { region, fetchMeters } = this.props;
+
+          fetchMeters(region._id);
+
+      } else {
+
+      }
+
+    }
+
+  }
+
+  /**
+   * Fetch power plants by the filters specified
+   */
+  powerPlants = (capacity, type) => {
+
+    if(this.state.type || this.state.capacity) {
+
+      const { fetchPowerPlants } = this.props;
+
+      // call api
+      fetchPowerPlants(capacity, type);
+
+    }
+
   }
 
   handleChecked = (event) => {
+
+    // console.log(event.target.checked);
     this.setState({ [event.target.name]: event.target.checked });
+
   }
 
   handleSubmit = (event) => {
@@ -152,35 +265,66 @@ class GIS extends Component {
 
   render(){
 
-    const { classes, gis_filters } = this.props;
+    const { classes, gis_filters, power_plant_filters, general, marep_center } = this.props;
+    
+    const { meters_checked } = this.state;
+    // console.log(this.state);
 
-    return (
-      <>
-        <div className={classes.root}>
+    if(general !== null) {
 
-          <GridSideBar
-              {...this.state} onChange={this.handleChange}
-              onChecked={this.handleChecked} gis_filters={gis_filters}
-          />
+      const { general: { isLoading } } = this.props;
+      // console.log(isLoading);
+      return (
+        <Fragment>
+          <div className={classes.root}>
+  
+            <main>
+              <GridSideBar
+                  {...this.state}
+                  // isLoading={isLoading}
+                  onChange={this.handleChange}
+                  regionChanged={this.handleRegionChange}
+                  districtChanged={this.handleDistrictChange}
+                  typeChanged={this.handlePlantTypeChange}
+                  capacityChanged={this.handlePlantCapacityChange}
+                  onChecked={this.handleChecked}
+                  gis_filters={gis_filters}
+                  power_plant_filters={power_plant_filters}
+              />
+            </main>
+            <main style={{maxWidth: '100%'}}>
+              <MinGridMap
+                  {...this.state}
+                  {...this.props}
+                  isLoading={isLoading}
+                  onChange={this.handleChange}
+                  onChecked={this.handleChecked}
+                  onPlaceSearch={this.handlePlaceSearch}
+                  clearFilters={this.clearFilters} 
+                  r_polygons={this.props.region}
+                  d_polygons={ this.props.district.polygons }
+                  centroids={ this.props.district.centroids }
+                  m_centers={marep_center ? this.props.m_centers : null }
+                  transformers={this.props.transformers}
+                  meters={meters_checked ? this.props.meters : null}
+                  polyline={this.props.distr_lines}
+                  power_plants={this.props.power_plants}
+              />
+            </main>
+  
+          </div>
+        </Fragment>
+      );
 
-          <MinGridMap
-              {...this.state}
-              onChange={this.handleChange}
-              onChecked={this.handleChecked}
-              onPlaceSearch={this.handlePlaceSearch}
-              r_coordinates={this.props.region}
-              d_coordinates={this.props.district}
-              centroids={this.props.centroids}
-              meters={this.state.meters_checked ? this.props.meters : null}
-              m_centers={this.props.m_centers}
-              polyline={this.props.distr_lines}
-          />
+    } else {
 
-        </div>
-      </>
-    );
+      return <Fragment />
+
+    }
+
   }
 }
+
 
 const styles = theme => ({
   root: {
@@ -190,7 +334,15 @@ const styles = theme => ({
     zIndex: 1,
     overflow: 'hidden',
     position: 'relative',
-    display: 'flex',
+    display: 'grid',
+    gridTemplateColumns: '20% 80%'
+  },
+  bar: {
+    justifyContent: 'flex-start' ,
+    backgroundColor: theme.palette.background.default
+  },
+  content: {
+    justifyContent: 'flex-end'
   }
 });
 
@@ -203,13 +355,15 @@ const mapStateToProps = (state) => {
     return {
         region: state.region.region,
         gis_filters: state.gis_filters.gis_filters,
+        power_plant_filters: state.gis_filters.power_plant_filters,
+        power_plants: state.power_plants.power_plants,
         district: state.district.district,
         meters: state.meters.meters,
         distr_lines: state.lines.lines,
-        centroids: state.centroids.centroids,
+        errored: state.region.errored,
+        general: state.general.general,
         m_centers: state.m_centers.coordinates,
-        hasErrored: state.hasErrored,
-        isLoading: state.isLoading,
+        transformers: state.transformers.transformers,
     };
 
 }
@@ -218,12 +372,15 @@ const mapDispatchToProps = (dispatch) => {
 
     return {
         fetchFilters: () => { dispatch(GisAction.fetchGisFilters()) },
-        fetchRegion: (region) => { dispatch(GisAction.fetchRegion(region)) },
-        fetchDistrict: (district) => { dispatch(GisAction.fetchDistrict(district))},
+        powerPlantFilters: () => { dispatch(GisAction.powerPlantsFilters()) },
+        fetchPowerPlants: (capacity, type) => { dispatch(GisAction.powerPlants(capacity, type)) },
+        // fetchRegion: (region) => { dispatch(GisAction.fetchRegion(region)) },
+        // fetchDistrict: (district) => { dispatch(GisAction.fetchDistrict(district))},
+        // emptyProps: () => { dispatch(GisAction.emptyProps()) },
         fetchMarepCenters: (name) => { dispatch(GisAction.fetchMarepCenters(name)) },
-        fetchPolygonCentroid: () => { dispatch(GisAction.fetchPolygonCentroids()) },
         fetchMeters: (name) => { dispatch(GisAction.fetchEscomMeters(name)) },
-        fetchDistributionLines: (name) => { dispatch(GisAction.fetchDistributionLines(name)) },
+        fetchTransformers: (distr_id, position) => { dispatch(GisAction.fetchTransformers(distr_id, position)) },
+        fetchDistributionLines: (district, type) => { dispatch(GisAction.fetchDistributionLines(district, type)) },
     };
 
 }

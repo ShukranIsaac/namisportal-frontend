@@ -1,15 +1,17 @@
 import React, { Fragment, Component } from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 
-import '../../assets/css/process_tracker.css';
+import { reduxForm, Field } from 'redux-form';
+import RenderBootstrapField from '../forms/form.bootstrap.field';
+import AsyncValidate from '../contact/form.async-validate';
+import Validate from '../contact/email.validate';
 
-import { ConceptNote } from './process/financing.concept.note';
-import { ConceptNoteAppraisal } from './process/financing.concept.appraisal';
-import { PrefeasibilityStudy } from './process/financing.prefeasibility.study';
-import { GrantApplication } from './process/financing.application.grant';
-import { PreliminaryEvaluation } from './process/financing.preliminary.evaluation';
-import { FeasibilityReport } from './process/financing.feasibility.report';
-import { GrantFinalEvaluation } from './process/financing.final.evaluation';
-import { GrantDisbursement } from './process/financing.disbursement';
+import { Divider } from '@material-ui/core';
+import ButtonControl from '../forms/buttons/button.default.control';
+import { Intent, Button } from '@blueprintjs/core';
+import styles from '../contact/form.styles';
+import { UserProfile } from '../user/user.profile';
 
 /**
  * A multi-step form component for the user to fill when applying or 
@@ -18,347 +20,139 @@ import { GrantDisbursement } from './process/financing.disbursement';
  * @author Isaac S. Mwakabira
  * 
  */
-export const FinancingRequestSupport = () => {
+class FinancingRequestSupport extends Component {
 
-    return (
-        <Fragment>
-            <div className="container">
-
-                <div>
-                    <MultiStepForm steps={ steps }/>
-                </div>
-
-                <div className="container app-footer">
-                    <h6>Press 'Enter' or click on progress bar for next step.</h6>
-                </div>
-
-            </div>
-        </Fragment>
-    );
-
-}
-
-/**
- * Gets current nav stage state
- * 
- * @param {Integer} indx 
- * @param {Integer} length 
- */
-const getNavStates = (indx, length) => {
-
-    let styles = []
-
-    for (let i = 0; i < length; i++) {
-
-      if (i < indx) {
-        styles.push('done')
-      } else if (i === indx) {
-        styles.push('doing')
-      } else {
-        styles.push('todo')
-      }
-
-    }
-
-    return { current: indx, styles: styles }
-}
-
-/**
- * Check current stage state
- * 
- * @param {Integer} currentStep 
- * @param {Integer} stepsLength 
- */
-const checkNavState = (currentStep, stepsLength) => {
-
-    if (currentStep > 0 && currentStep < stepsLength - 1) {
-
-        return {
-            showPreviousBtn: true,
-            showNextBtn: true
-        }
-
-    } else if (currentStep === 0) {
-
-        return {
-            showPreviousBtn: false,
-            showNextBtn: true
-        }
-
-    } else {
-
-        return {
-            showPreviousBtn: true,
-            showNextBtn: false
-        }
-
-    }
-}
-
-const steps = 
-    [
-        {name: 'Concept Note', },
-        {name: 'Note Appraisal', },
-        {name: 'Prefeasibility Study and draft Business Plan', },
-        {name: 'Application for Grant', },
-        {name: 'Preliminary Evaluation of Grant Application', },
-        {name: 'Feasibility Report and Business Plan', },
-        {name: 'Final Evaluation of Grant Application', },
-        {name: 'Disbursement', }
-    ];
-
-/**
- * Multi-step form process completion
- * 
- * @author Isaac S. Mwakabira
- * 
- */
-class MultiStepForm extends Component {
-
-    state = {
-        showPreviousBtn: false,
-        showNextBtn: true,
-        compState: 0,
-        navState: getNavStates(0, this.props.steps.length),
-        formFields: {},
-    }
-
-    /**
-     * Set navigation state ie. stage
-     * 
-     * @param {Integer} next
-     */
-    setNavState = next => {
-
-        this.setState({
-            navState: getNavStates(next, this.props.steps.length)
-        });
-
-        if (next < this.props.steps.length) {
-            this.setState({ compState: next })
-        }
-
-        this.setState(checkNavState(next, this.props.steps.length));
-
-    }
-
-    /**
-     * Press 'Enter' or click on progress bar for next step.
-     * 
-     * @param {Event} evt
-     */
-    handleKeyDown = evt => {
-
-        if (evt.which === 13) {
-            this.next()
-        }
-
-    }
-
-    /**
-     * Handle user event change
-     * 
-     * @param {Event} event
-     * 
-     */
-    handleChange= (event) => {
-
-        this.setState({ [event.target.name]: event.target.value });
-
-    }
-
-    /**
-     * Handle user event onClick navigation stage: progress bar
-     * 
-     * @param {Event} evt
-     * 
-     */
-    handleOnClick = evt => {
-
-        if (evt.currentTarget.value === this.props.steps.length - 1 && this.state.compState === this.props.steps.length - 1) {
-            this.setNavState(this.props.steps.length);
-        } else {
-            this.setNavState(evt.currentTarget.value);
-        }
-
-    }
-  
-    next = () => {
-        this.setNavState(this.state.compState + 1)
-    }
-  
-    previous = () => {
-
-        if (this.state.compState > 0) {
-            this.setNavState(this.state.compState - 1)
-        }
-
-    }
-  
-    getClassName = (className, i) => {
-        return className + '-' + this.state.navState.styles[i];
-    }
-
-    /**
-     * Render steps progress tracker 
-     * and apply all appropriate styles
-     * 
-     * @returns {List} li
-     */
-    renderSteps = () => {
-
-        return this.props.steps.map((s, i) => (
-            <li
-                className={this.getClassName('progtrckr', i)}
-                onClick={this.handleOnClick}
-                key={i}
-                value={i}
-            >
-                <em>{i + 1}</em>
-                <span>{ steps[i].name }</span>
-            </li>
-        ));
-
-    }
-
-    /**
-     * Save current fields data in the current state and continue to
-     * the next stage in the process
-     * 
-     * @param {Object} fields
-     * 
-     */
-    save = (fields) => {
-
-        return function() {
-            // fieldValues is in the initial state of the component, we are simply appending
-            // to and overriding keys in `fieldValues` with the `fields` with Object.assign
-            this.state.fieldValues = Object.assign({}, this.state.fieldValues, fields);
-        }();
-    }
-
-    /**
-     * Submit to the remote datasource
-     * 
-     */
-    submit = () => {}
-
-    /**
-     * Each case renders a specific component
-     * and expecting the user to supplies all required field data before saving 
-     * to continue to the next stage in the process of finance application
-     * 
-     * @param {Integer} componentState
-     * 
-     */
-    renderComponent = (componentState) => {
-
-        switch(componentState) {
-            case 0:
-                return (
-                    <Fragment>
-                        <ConceptNote next={ this.next } />
-                    </Fragment>
-                );
-
-            case 1:
-                return (
-                    <Fragment>
-                        <ConceptNoteAppraisal next={ this.next } />
-                    </Fragment>
-                );
-
-            case 2:
-                return (
-                    <Fragment>
-                        <PrefeasibilityStudy next={ this.next } />
-                    </Fragment>
-                );
-
-            case 3:
-                return (
-                    <Fragment>
-                        <GrantApplication next={ this.next } />
-                    </Fragment>
-                );
-
-            case 4:
-                return (
-                    <Fragment>
-                        <PreliminaryEvaluation next={ this.next } />
-                    </Fragment>
-                );
-
-            case 5:
-                return (
-                    <Fragment>
-                        <FeasibilityReport next={ this.next } />
-                    </Fragment>
-                );
-
-            case 6:
-                return (
-                    <Fragment>
-                        <GrantFinalEvaluation next={ this.next } />
-                    </Fragment>
-                );
-
-            case 7:
-                return (
-                    <Fragment>
-                        <GrantDisbursement submit={ this.submit } />
-                    </Fragment>
-                );
-
-            default: {
-
-                return (
-                    <Fragment></Fragment>
-                );
-
-            }
-                
-        }
-
-    }
-
-    /**
-     * renders this component
-     */
-    render () {
-
-      return (
-            <div className='container' onKeyDown={this.handleKeyDown}>
-
-                <ol className='progtrckr'> {this.renderSteps()} </ol>
-
-                {this.renderComponent(this.state.compState)}
-
-                <div style={this.props.showNavigation ? {} : { display: 'none' }}>
-                
-                    <button
-                        style={this.state.showPreviousBtn ? {} : { display: 'none' }}
-                        onClick={this.previous}
-                    >
-                    Previous
-                    </button>
+    constructor() {
+        super();
         
-                    <button
-                        style={this.state.showNextBtn ? {} : { display: 'none' }}
-                        onClick={this.next}
-                    >
-                    Next
-                    </button>
+        this.state = {}
 
-                </div>
-            </div>
-        );
+        /**
+         * Bind events to each Function, so that they can be passed without args 
+         * i.e this.handleChange
+         * 
+         */
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+
     }
+
+	/**
+	 * On change, update the app's React state with event type value.
+	 *
+	 * @param {Event} event
+	 */
+    handleChange = (event) => {
+        
+        this.setState({[event.target.name]: event.target.value});
+  
+    }
+
+    handleSubmit = (values) => {
+        // category under which this subcategory should 
+        // be uploaded to
+        const { subcategory } = this.props;
+        // get authenticated user token
+        const user = UserProfile.get();
+        if(user !== null && user.token !== undefined) {
+
+            let sub_category;
+            if(values !== null && values !== undefined) {
+                // define sub-category structure
+                sub_category = {
+                    name: values.subcategory,
+                    about: values.about
+                }
+
+                // console.log(sub_category)
+                // console.log(subcategory)
+                this.props.createCategory(subcategory._id, sub_category , user.token);
+                // then change state to default
+                // so that the page redirects and list all home items
+                this.props.defaultItem();
+            }
+
+        } 
+        
+    }
+
+    render() {
+
+        const { classes, handleClick, handleSubmit, valid, pristine, submitting } = this.props;
+        // console.log(this.props)
+        return (
+            <Fragment>
+                
+                <form onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
+
+                    <ButtonControl 
+                        intent={Intent.NONE} 
+                        value="List Category"
+                        name="default"
+                        handleClick={e => handleClick(e) }
+                    />
+
+                    <div className={ classes.margin } />
+                    <div className={ classes.margin } />
+                    <div className={ classes.margin } />
+
+                    <Divider />
+
+                    <Field
+                        name='subcategory'
+                        component={ input => {
+                            return (
+                                <RenderBootstrapField
+                                    classes={ classes }
+                                    id="subcategory"
+                                    label='Name'
+                                    defaultValue="New sub-category name..."
+                                    name="subcategory"
+                                    type="text"
+                                    props={ input }
+                                />
+                            );
+                        }}
+                    /><br />
+
+                    <Field 
+                        name='about'
+                        component={ input => {
+                            return (
+                                <RenderBootstrapField
+                                    classes={ classes }
+                                    id="about"
+                                    label='Summary'
+                                    defaultValue="New sub-category about..."
+                                    name="about"
+                                    type="text"
+                                    props={ input }
+                                />
+                            );
+                        }}
+                        multiline={true}
+                        rows="10"
+                    /><br />
+
+                    <Button type="submit" disabled={!valid  || pristine || submitting} intent="success" text="Save" />
+                    
+                    <Button className={ classes.margin } name="default" intent="primary" text="Cancel" onClick={ e => handleClick(e) } /> 
+                
+                </form>
+    
+            </Fragment>
+        );
+
+    }
+
 }
 
-/**
- * Default props ie. set navigation true to be shown
- */
-MultiStepForm.defaultProps = {
-    showNavigation: true
+FinancingRequestSupport.propTypes = {
+    classes: PropTypes.object.isRequired,
 }
+
+export default reduxForm({
+    form: 'finansingRequestSupport',
+    Validate,
+    AsyncValidate
+})(withStyles(styles)(FinancingRequestSupport));

@@ -1,13 +1,24 @@
+/**
+ * Validation contact form.
+ * 
+ * @author Isaac S. Mwakabira
+ * 
+ * @returns {Closure} validation
+ */
 const Validate = values => {
 
     const errors = {};
-    const requiredFields = ['name', 'email', 'message'];
+
+    const requiredFields = [
+        'username', 'email', 'firstName', 'password',
+        'lastName', 'confirmPassword'
+    ];
 
     requiredFields.forEach(field => {
 
         if (!values[field]) {
 
-            errors[field] = 'Required';
+            errors[field] = field + ' is required';
 
         }
 

@@ -1,5 +1,4 @@
-import React, { Component } from 'react'
-import { Flex, Box } from 'reflexbox'
+import React, { Component } from 'react';
 
 export default class Sponsors extends Component{
     render(){
