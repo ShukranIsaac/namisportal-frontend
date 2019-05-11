@@ -82,12 +82,10 @@ export const HomeSubCategory = ({ props, section }) => {
     }
    
     const toggle = () => {
-        console.log('somethinf')
         setValue(!modal)
     }
 
     const renderReadMore = (about) => {
-        console.log(about.length)
         if (about.length > 250){
            
             return (<a onClick={toggle}>Read more...</a>)
@@ -98,7 +96,7 @@ export const HomeSubCategory = ({ props, section }) => {
     }
     return (
         <Col sm='12' md='6' lg='4'>
-            <div className="card">
+            <div className="card" style={{minHeight: '394px'}}>
                 <div className="card-body">
                 <h4>
                     <a className="heading" 
@@ -114,9 +112,12 @@ export const HomeSubCategory = ({ props, section }) => {
                         my_section.about.length > 250 ? (<a onClick={toggle} className="badge badge-info">Read more...</a>) : ''
                     }
                 </p>
-                {
-                    my_section.name !== "Information for Mini-Grid Developers" ? linkButton(my_section) : <div></div>
-                }
+                
+                </div>
+                <div className="card-footer" style={{  backgroundColor: 'unset', borderTop: 'unset' }}>
+                    {
+                        my_section.name !== "Information for Mini-Grid Developers" ? linkButton(my_section) : <></>
+                    }
                 </div>
             </div>
             <Modal isOpen={modal} toggle={toggle}>
