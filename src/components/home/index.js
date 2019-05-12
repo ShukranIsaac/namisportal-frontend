@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './home.css';
 import './marep.css'
 import * as HomeActions from '../../actions/home.action';
-import { HomeSubCategory, filterSection } from './home.subcategory';
+import { HomeSubCategory } from './home.subcategory';
 import { ProgressLoader } from '../loader.component.wrapper';
 import { NoDataCard } from '../card.text';
 import { Intent } from '@blueprintjs/core';
@@ -29,8 +29,6 @@ class Home extends Component {
 
     if (home !== null) {
       if (home.subCategories !== null && home.subCategories !== undefined) {
-
-        const main_section = filterSection(home.subCategories, "Information for Mini-Grid Developers");
      
         return (
           <>
