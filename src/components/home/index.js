@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row } from 'reactstrap';
 import { connect } from 'react-redux';
 
 import './home.css';
+import './marep.css'
 import * as HomeActions from '../../actions/home.action';
 import { HomeSubCategory, filterSection } from './home.subcategory';
 import { ProgressLoader } from '../loader.component.wrapper';
 import { NoDataCard } from '../card.text';
 import { Intent } from '@blueprintjs/core';
-import ParticlesComponent from '../user/particles';
 
 /**
  * @author Paul Sembereka
@@ -36,22 +36,34 @@ class Home extends Component {
           <>
             <div className='landing-info'>
 
-              <ParticlesComponent />
-
-              <Container>
-                <Row>
-                  <Col sm='12' md='12' lg={{ size: 8, offset: 2 }}>
-                    <div className="card">
-                      <div className="card-body">
-                          <h4 className="heading">
-                            <a href="/">{ main_section.name }</a>
-                          </h4>
-                          <p>{ main_section.about.substring(0, 500) }</p>
+            <div className="container-fluid pl-0" style={{background: 'url(https://www.carbonbrief.org/wp-content/uploads/2015/02/electricity-grid-transformer-tower-1550x804.jpg) no-repeat center', backgroundSize: 'cover'}}>
+                  <div className="row">
+                      
+                      <div className="col-lg-6 d-flex align-items-center justify-content-center left">
+                        <h1 className="display-2 re-font-size" style={{color: '#FFF'}}>Welcome</h1>
                       </div>
-                    </div>
-                  </Col>
-                </Row>
-              </Container>
+                      <div className="col-lg-6 d-flex align-items-center justify-content-start right">
+                          <div className="jumbotron my-5 w-75 re-w text-left">
+                              <h1 className="display-4 re-display-font-size">Minigrid Developers</h1>
+                              <p className="lead">
+                                  This Portal provides comprehensive information for policy makers,
+                                  investors and other stakeholders interested in the development of renewable
+                                  energy mini grids in Malawi. 
+                              </p>
+                              <hr className="my-1"/>
+                              <p>
+                                  It was developed in order to facilitate an
+                                  accelerated exploitation of renewable energy resources particularly in providing
+                                  clean and decentralized energy services to grid isolated communities of Malawi.
+                                  
+                              </p>
+                              <hr className="my-1"/>
+                              <p>It was developed by the Department of Energy Affairs for Malawi Government
+                                  with support from UNDP and GEF.</p>
+                            </div>
+                      </div>
+                  </div>
+              </div>
             </div>
 
             <div className='app-sections'>
@@ -70,7 +82,7 @@ class Home extends Component {
                           return null;
                         }
 
-                        return (<HomeSubCategory key={ index } props={ home.subCategories } section={ section.name } />)
+                        return <HomeSubCategory key={ index } subCategories={ home.subCategories } section={ section.name } />
 
                       })
 

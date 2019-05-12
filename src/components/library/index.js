@@ -61,7 +61,7 @@ class Library extends Component {
     const { value } = this.state;
     
     return (
-      <div className='landing-info'>
+      <div className='page-content'>
 
         <ParticlesComponent />
         
