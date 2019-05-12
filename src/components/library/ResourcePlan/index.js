@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import Document from '../Document'
 
 export default class ResourcePlan extends Component {
@@ -11,14 +11,16 @@ export default class ResourcePlan extends Component {
 
     render(){
 
-        const { library } = this.props;
+        const { library, general } = this.props;
 
-        return(
-            <>
-                { this.renderDocuments(library) }
-            </>
-
+        return general && (
+            !general.isLoading ? (
+                <Fragment>
+                    { this.renderDocuments(library) }
+                </Fragment>
+            ) : <div className="loader"></div>
         );
+
     }
 
     renderDocuments(docs){

@@ -1,27 +1,59 @@
-import { UserType } from '../action_type/index';
-
+import { HomeType } from '../action_type/index';
 import * as GeneralAction from './general.action';
+import { get } from './api.service';
 
-export const fetchHomeData = () => {
+/**
+ * Fetch initial home details: Components
+ * 
+ * @param category_id
+ * 
+ */
+export const fetchHomeDetails = (name) => {
 
-    return (dispatch) => {
+    const url = `categories?name=` + name;
+    
+    return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return fetch(`/home`).then((response) => {
+        return await get(dispatch, url)
+        
+        .then((response) => {
+            
+            dispatch(GeneralAction.fetchSuccess(HomeType.REQUEST_HOME_DATA, response, false))
 
-            if (response.status !== 200) {
-                throw Error(response.statusText);
-            }
+        })
+        
+        .catch(() => dispatch(GeneralAction.hasErrored(true)));
 
-            dispatch(GeneralAction.isLoading(false));
+    };
 
-            return response;
-        }).then((response) => {
+}
 
-          dispatch(GeneralAction.fetchSuccess(UserType.REQUECT_HOME_DATA, ["home huhu"], false))
+/**
+ * Get a single category with all its subcategories 
+ * 
+ * @param category_id
+ * 
+ */
+export const fetchHomeCategories = (category) => {
 
-        }).catch(() => dispatch(GeneralAction.hasErrored(true)));
+    const url = `categories?name=` + category;
+
+    return async dispatch => {
+
+        dispatch(GeneralAction.isLoading(true));
+
+        return await get(dispatch, url)
+        
+        .then((response) => {
+            
+            dispatch(GeneralAction.fetchSuccess(HomeType.REQUEST_HOME_DATA, response, false))
+
+        })
+        
+        .catch(() => dispatch(GeneralAction.hasErrored(true)));
+
     };
 
 }

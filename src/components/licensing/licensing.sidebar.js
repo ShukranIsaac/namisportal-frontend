@@ -7,6 +7,8 @@ import { withStyles } from '@material-ui/core/styles';
 import SideBarWrapper from '../SideBarWrapper';
 import SelectDropdown from '../SelectDropdown';
 
+
+
 class LicensingSidebar extends Component {
 
   constructor() {
@@ -25,7 +27,7 @@ class LicensingSidebar extends Component {
 
     return (
       <>
-        <div className={classes.root}>
+      <div className={classes.root}>
           <em className={classes.emText}>
             Please select the options below which apply to the profile of your intended activity:
           </em>
@@ -61,6 +63,7 @@ const styles = theme => ({
     flexWrap: 'wrap',
     width: `100%`,
     height: `100%`,
+    padding: '20px',
   },
   emText: {
     marginBottom: theme.spacing.unit * 1,

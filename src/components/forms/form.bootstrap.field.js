@@ -1,34 +1,54 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import FormControl from '@material-ui/core/FormControl';
-import InputBase from '@material-ui/core/InputBase';
-import InputLabel from '@material-ui/core/InputLabel';
+import { InputBase, InputLabel } from '@material-ui/core';
 
-const RenderBootstrapField = ({ classes, label, rows, defaultValue, value, name, type, multiline, onChange }) => {
+import { withStyles } from '@material-ui/core/styles';
+
+/**
+ * Material-ui customized input: bootstrap
+ * 
+ * @author Isaac S. Mwakabira
+ * 
+ */
+
+const styles = theme => ({
+  inputFillWhole: {
+    width: '100%'
+  }
+})
+
+const RenderBootstrapField = ({ 
+  classes, label, 
+  defaultValue, name, 
+  type, props, value
+}) => {
 
     return (
-      <>
-        <FormControl className={classes.margin}>
-          <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}>
-            {label}
-          </InputLabel>
-          <InputBase
-            id={ `${name + defaultValue}` }
-            name={name}
-            placeholder={defaultValue}
-            type={type}
-            value={value}
-            onChange={ (e) => onChange(e) }
-            classes={{
-              root: classes.bootstrapRoot,
-              input: classes.bootstrapInput,
-            }}
-            multiline={multiline}
-            rowsMax={rows}
-          />
-        </FormControl>
-      </>
+      <FormControl className={classNames(classes.margin, classes.inputFillWhole)}>
+        <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}> {label} </InputLabel>
+        <InputBase
+          id={ `${name + defaultValue}` }
+          name={name}
+          placeholder={defaultValue}
+          type={type}
+          value={props.input.value || value}
+          onChange={(e) => props.input.onChange(e)}
+          classes={{
+            root: classes.bootstrapRoot,
+            input: classes.bootstrapInput,
+          }}
+          { ...props }
+          className={classes.inputFillWhole}
+        />
+      </FormControl>
     );
 
 }
 
-export default RenderBootstrapField;
+RenderBootstrapField.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(RenderBootstrapField)

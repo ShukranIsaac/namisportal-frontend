@@ -10,7 +10,8 @@ const region = (state = initialState, action) => {
         case GisType.FETCH_REGION:
             return {
                 ...state,
-                region: action.payload
+                errored: action.hasErrored,
+                region: action.payload,
             }
         default:
             return state;

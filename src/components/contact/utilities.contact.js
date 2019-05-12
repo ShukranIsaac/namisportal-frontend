@@ -1,13 +1,22 @@
+/**
+ * Contact utilities: form validation methods
+ * 
+ * @author Isaac S. Mwakabira
+ * 
+ * @returns {Closure} closure
+ */
+const ContactUtils = (() => {
 
-const ContactUtils = {
-
-    sleep: ms => new Promise(resolve => setTimeout(resolve, ms)),
+    sleep: ms => new Promise(resolve => setTimeout(resolve, ms));
 
     validate: values => {
 
         const errors = {};
 
-        const requiredFields = ['name', 'email', 'message'];
+        const requiredFields = [
+            'username', 'email', 'firstName', 'password',
+            'lastName', 'confirmPassword',
+        ];
 
         requiredFields.forEach(field => {
 
@@ -26,9 +35,9 @@ const ContactUtils = {
         }
 
         return errors;
-    },
+    };
 
-    asyncValidate: (values /*, dispatch*/) => {
+    asyncValidate: (values, dispatch) => {
 
         return this.sleep(1000).then(() => {
             // silmulate server latency
@@ -38,8 +47,8 @@ const ContactUtils = {
             }
         });
 
-    },
+    };
 
-}
+})();
 
 export default ContactUtils;

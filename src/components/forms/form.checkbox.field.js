@@ -1,5 +1,12 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { FormControlLabel, Checkbox } from '@material-ui/core';
+
+/**
+ * Capitalize first letter of this word
+ */
+const capitalize = (character) => {
+    return character && character[0].toUpperCase() + character.slice(1);
+}
 
 /**
  * Generic single check box
@@ -14,27 +21,35 @@ import { FormControlLabel, Checkbox } from '@material-ui/core';
  * @returns {FormControlLabel} checkbox
  */
 export const FormCheckboxControl = ({ 
+    classes,
     color = 'primary', 
     value, 
+    name,
     checked, 
     label, 
+    isChecked,
     handleChange 
 }) => {
 
     return (
-        <Fragment>
-            <FormControlLabel 
-                control={
-                    <Checkbox 
-                        checked={ checked }
-                        onChange={ (e) => handleChange(e) }
-                        value={ value }
-                        color={ color }
-                    />
-                }
-                label={ label }
-            />
-        </Fragment>
+        <FormControlLabel 
+            control={
+                <Checkbox 
+                    checked={ checked }
+                    onChange={ (e) => handleChange(e) }
+                    value={ value }
+                    color={ color } 
+                    name={ name }
+                    id={ name }
+                    classes={{
+                        root: classes.root,
+                        checked: classes.checked,
+                    }}
+                    // indeterminate={ isChecked }
+                />
+            }
+            label={ capitalize(value) }
+        />
     );
 
 }

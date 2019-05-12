@@ -3,23 +3,19 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import green from '@material-ui/core/colors/green';
 import FormGroup from '@material-ui/core/FormGroup';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormLabel from '@material-ui/core/FormLabel';
+import { Col, Row} from 'reactstrap';
 
-// import red from '@material-ui/core/colors/red';
-// import blue from '@material-ui/core/colors/blue';
-// import yellow from '@material-ui/core/colors/yellow';
+import Drawer from '@material-ui/core/Drawer';
 
 import SideBarWrapper from '../SideBarWrapper';
 
 import './grid.css';
 import SearchInputControl from '../forms/search.form.field';
+import { red, blue, yellow, grey, cyan } from '@material-ui/core/colors';
+import { FormCheckboxControl } from '../forms/form.checkbox.field';
+import { SelectInputControl } from '../forms/form.selectinput.field';
 
 /**
  *  Side bar, renders gis sidebar with form filters.
@@ -40,10 +36,20 @@ class GridSideBar extends Component {
       checked_existing: false,
       meters_checked: false,
       distribution_lines: false,
-      proposed_distr_lines: false,
+      eleven_kv_lines: false,
       ground_transformers: false,
       up_transformers: false,
+      sub_station: false,
     };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    
+    if (prevState !== nextProps) {
+      return Object.assign(prevState, nextProps);
+    }
+
+    return null;
   }
 
   /**
@@ -55,11 +61,9 @@ class GridSideBar extends Component {
    */
   renderRegions = ({gis_filters}) => {
 
-    return gis_filters.map(({name}, key) => {
+    return gis_filters.map(({ properties, _id }) => {
 
-      return <Fragment>
-        <option value={ name } key={ name }>{ name }</option>
-      </Fragment>
+      return <option value={ properties.name } key={ _id }>{ properties.name }</option>
 
     });
 
@@ -77,13 +81,14 @@ class GridSideBar extends Component {
 
     return gis_filters.filter((region) => {
 
-      if (region.name === this.props.region) {
+      if (region.properties.name === this.props.region_name) {
 
         return region;
 
       }
 
-      return;
+      return null;
+
     });
 
   }
@@ -96,19 +101,51 @@ class GridSideBar extends Component {
    * 
    */
   renderDistricts = ({gis_filters}) => {
-
-    if (this.props.region !== undefined && this.props.region !== null) {
+    // console.log(gis_filters)
+    if (this.props.region_name !== undefined && this.props.region_name !== null) {
 
       return this.filterDistrictsPerRegion(gis_filters).map(({districts}) => {
 
-        return districts.map(({name}, key) => {
+        return districts.map(({ properties, _id }) => {
 
-            return <Fragment>
-              <option value={ name } key={ name }>{ name }</option>
-            </Fragment>
+            return <option value={ properties.name } key={ _id }>{ properties.name }</option>
 
           }
         );
+      })
+
+    }
+
+  }
+
+  /**
+   * Renders plant type filters
+   */
+  renderTypeFilters = ({ power_plant_filters }) => {
+
+    if (power_plant_filters !== null) {
+
+      return power_plant_filters[1].plantTypes.map((option, index) => {
+        // console.log(option)
+        return <option value={ option } key={ index }>{ option }</option>
+
+      })
+
+    }
+
+  }
+
+  /**
+   * Renders capacities filter options
+   */
+  renderPlantCapacityFilters = ({ power_plant_filters }) => {
+
+    if (power_plant_filters !== null) {
+      
+      return power_plant_filters[0].capacities.map((option, index) => {
+        // console.log(option)
+        return <option value={ option } key={ index }>{ option }</option>
+
       })
 
     }
@@ -124,258 +161,301 @@ class GridSideBar extends Component {
    */
   searchInputControl = ({classes}) => {
 
-      return (
-        <Fragment>
-          <div className={ classes.search }>
-            <SearchInputControl
-              id="search_place"
-              name="search"
-              placeholder="Search for min-grid location"  
-              handleChange={ (e) => { this.props.onChange(e) } }
-            />
-          </div>
-        </Fragment>
-      );
-
-  }
-
-  /**
-   * Renders districts and regions component parts
-   * 
-   * @param {String} helperText
-   * @param {String} name
-   * @returns {Fragment} district || region
-   */
-  selectInputControl = ({ helperText, name }) => {
-
-      return <Fragment>
-        <InputLabel shrink htmlFor="region-open-select">
-          { name }
-        </InputLabel>
-
-        {
-            name === "Region" ? (
-              <NativeSelect
-                value={this.state.region}
-                name="region"
-                onChange={ (e) => { this.props.onChange(e) } }
-                input={<Input name="region" id="region-open-select" />}
-              >
-                <option value="">{ `${"--Select region--"}` }</option>
-                { this.renderRegions(this.props) }
-              </NativeSelect>
-            ) : (
-              <NativeSelect
-                value={this.state.district}
-                name="district"
-                onChange={ (e) => { this.props.onChange(e) } }
-                input={<Input key={this.state.district} name="district" id="district-open-select" />}
-              >
-                <option value="">{ `${"--Select district--"}` }</option>
-                { this.renderDistricts(this.props) }
-              </NativeSelect>
-            )
-        }
-
-        <FormHelperText><em>{ helperText }</em></FormHelperText>
-      </Fragment>
-
-  }
-
-  checkBoxControl = ({ name, value, isChecked, classes }) => {
-
-    return <>
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={ isChecked }
-            onChange={ (e) => { this.props.onChecked(e) } }
-            value={ value }
-            color="primary"
-            name={ name }
-            classes={{
-              root: classes.root,
-              checked: classes.checked,
-            }}
+    return (
+      <Fragment>
+        <div className={ classes.search }>
+          <SearchInputControl
+            id="search_place"
+            name="search"
+            Label="search place"
+            placeholder="Search for min-grid location"  
+            handleChange={ (e) => { this.props.onChange(e) } }
           />
-        }
-        label={ value }
-      />
-    </>
+        </div>
+      </Fragment>
+    );
+
+  }
+
+  legendMarkerIcon = (color) => {
+
+    return (
+      <span className={ color }>
+        <i className="material-icons md-18">location_on</i>
+      </span>
+    );
+
+  }
+
+  legendLineIcon = (color) => {
+
+    return (
+      <span className={ color }>
+        <i className="material-icons md-18">timeline</i>
+      </span>
+    );
+
   }
 
   render() {
 
     const { classes } = this.props;
 
+    // console.log(this.props.power_plant_filters)
     return (
-      <div>
-
-        { this.searchInputControl(this.props)}
-
-        <div className={classes.grow} />
-
-        <FormControl className={classes.formControl} key="region">
-
-          {
-            this.selectInputControl({
-              helperText: "Add region filter",
-              name: "Region"
-            })
-          }
-
-        </FormControl>
-
-        <FormControl className={classes.formControl} key="district">
-
-          {
-            this.selectInputControl({
-              helperText: "Add district filter",
-              name: "District"
-            })
-          }
-
-        </FormControl>
+      <Drawer
+        className={classes.drawer}
+        variant="permanent"
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+        anchor="left"
+        >
 
         <div className={classes.grow} />
+          <div style={{width: '100%'}}>
+            <Row>
+              <Col lg='12'>
+                <FormControl className={classes.formControl} key="region">
 
-        <FormGroup row className={classes.margin}>
+                  <SelectInputControl 
+                    name='region_name' 
+                    label="Region"
+                    helperText='Select region filter' 
+                    {...this.props} 
+                    {...this.state}
+                    onChange={ (e) => { this.props.onChange(e) } }
+                  >
 
-          {
-             this.checkBoxControl({
-               name: 'marep_center',
-               value: 'Marep Centers',
-               isChecked: this.props.marep_center,
-               classes: classes
-             })
-          }
+                    <option value="">{ `${"--Select region--"}` }</option>
+                    { this.renderRegions(this.props) }
 
-          {
-             this.checkBoxControl({
-               name: 'to_be_electrified',
-               value: 'To be electrified',
-               isChecked: this.props.to_be_electrified,
-               classes: classes
-             })
-          }
+                  </SelectInputControl>
 
-        </FormGroup>
+                </FormControl>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg='12'>
+                <FormControl className={classes.formControl} key="district">
 
-        <div className={classes.grow} />
+                  <SelectInputControl 
+                    name='district_name' 
+                    label="District"
+                    helperText='Select district filter' 
+                    {...this.props} 
+                    {...this.state}
+                    onChange={ (e) => { this.props.onChange(e) } }
+                  >
 
-        <FormGroup row key="meters" className={classes.margin}>
+                    <option value="">{ `${"--Select district--"}` }</option>
+                    { this.renderDistricts(this.props) }
 
-          {
-             this.checkBoxControl({
-               name: 'meters_checked',
-               value: 'Meters',
-               isChecked: this.props.meters_checked,
-               classes: classes
-             })
-          }
+                  </SelectInputControl>
 
-        </FormGroup>
+                </FormControl>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg='12'>
+                <div className={classes.grow} />
 
-        {/* <div className={classes.grow} />
+                <FormGroup row className={classes.margin}>
 
-        <FormGroup row key="distribution_lines" className={classes.margin}>
+                  <FormCheckboxControl 
+                    name='marep_center' 
+                    value='Electrified(Marep)' 
+                    isChecked={ this.props.marep_center }
+                    classes={ classes }
+                    handleChange={ (e) => { this.props.onChecked(e) } }
+                  />
 
-          {
-             this.checkBoxControl({
-               name: 'distribution_lines',
-               value: 'Distribution Lines',
-               isChecked: this.props.distribution_lines,
-               classes: classes
-             })
-          }
+                  { this.legendMarkerIcon(classes.marep) }
 
-        </FormGroup> */}
+                  <FormCheckboxControl
+                    name='to_be_electrified'
+                    value='To be electrified'
+                    isChecked={ this.props.to_be_electrified }
+                    classes={ classes }
+                    handleChange={ (e) => { this.props.onChecked(e) } }
+                  />
 
-        <div className={classes.grow} />
+                  { this.legendMarkerIcon(classes.to_be_electrified) }
 
-        <FormControl>
+                </FormGroup>
+              </Col>
+            </Row>
+            {/* <Row>
+              <Col lg='12'>
+                <div className={classes.grow} />
 
-          <FormLabel component="legend"><b>Mini Grids</b></FormLabel>
-          <FormGroup row key="mini_hydros" className={classes.margin}>
+                <FormGroup row key="meters" className={classes.margin}>
 
-            {
-              this.checkBoxControl({
-                name: 'existing',
-                value: 'Existing',
-                isChecked: this.props.checked_existing,
-                classes: classes
-              })
-            }
+                  <FormCheckboxControl
+                    name='meters_checked'
+                    value='Meters'
+                    isChecked={ this.props.meters_checked }
+                    classes={ classes }
+                    handleChange={ (e) => { this.props.onChecked(e) } }
+                  />
 
-            {
-              this.checkBoxControl({
-                name: 'potential',
-                value: 'Potential',
-                isChecked: this.props.checked_potential,
-                classes: classes
-              })
-            }
+                  { this.legendMarkerIcon(classes.meters) }
 
-          </FormGroup>
+                </FormGroup>
+              </Col>
+            </Row> */}
+            <Row>
+              <Col lg='12'>
 
-          <FormLabel component="legend"><b>Distribution Lines</b></FormLabel>
-          <FormGroup row key="distribution_lines" className={classes.margin}>
-            
-            {
-              this.checkBoxControl({
-                name: 'distribution_lines',
-                value: '33/11 kV Lines',
-                isChecked: this.props.distribution_lines,
-                classes: classes
-              })
-            }
+                <div className={classes.grow} />
 
-            {
-              this.checkBoxControl({
-                name: 'proposed_distr_lines',
-                value: 'Proposed Lines(various plans)',
-                isChecked: this.props.proposed_distr_lines,
-                classes: classes
-              })
-            }
+                <FormControl>
 
-          </FormGroup>
+                  <FormLabel component="legend"><b>Mini Grids</b></FormLabel>
+                  <FormGroup row key="mini_hydros" className={classes.margin}>
 
-          <FormLabel component="legend"><b>Transformers</b></FormLabel>
-          <FormGroup row key="transformers" className={classes.margin}>
-            
-            {
-              this.checkBoxControl({
-                name: 'ground_transformers',
-                value: 'Type 1',
-                isChecked: this.props.ground_transformers,
-                classes: classes
-              })
-            }
+                    <FormCheckboxControl
+                      name='existing'
+                      value='Existing'
+                      isChecked={ this.props.checked_existing }
+                      classes={ classes }
+                      handleChange={ (e) => { this.props.onChecked(e) } }
+                    />
 
-            {
-              this.checkBoxControl({
-                name: 'up_transformers',
-                value: 'Type 2',
-                isChecked: this.props.up_transformers,
-                classes: classes
-              })
-            }
+                    { this.legendMarkerIcon(classes.existing) }
 
-          </FormGroup>
+                    <FormCheckboxControl
+                      name='potential'
+                      value='Potential'
+                      isChecked={ this.props.checked_potential }
+                      classes={ classes }
+                      handleChange={ (e) => { this.props.onChecked(e) } }
+                    />
 
-        </FormControl>
+                    { this.legendMarkerIcon(classes.potential) }
 
-      </div>
+                  </FormGroup>
+
+                  <FormLabel component="legend"><b>Distribution Lines</b></FormLabel>
+                  <FormGroup row key="distribution_lines" className={classes.margin}>
+                    
+                    <FormCheckboxControl
+                      name='distribution_lines'
+                      value='33kV Lines'
+                      isChecked={ this.props.distribution_lines }
+                      classes={ classes }
+                      handleChange={ (e) => { this.props.onChecked(e) } }
+                    />
+
+                    { this.legendLineIcon(classes.line_33_s) }
+
+                    <FormCheckboxControl
+                      name='eleven_kv_lines'
+                      value='11kV Lines'
+                      isChecked={ this.props.eleven_kv_lines }
+                      classes={ classes }
+                      handleChange={ (e) => { this.props.onChecked(e) } }
+                    />
+
+                    { this.legendLineIcon(classes.proposed) }
+
+                  </FormGroup>
+
+                  <FormLabel component="legend"><b>Transformers</b></FormLabel>
+                  <FormGroup row key="transformers" className={classes.margin}>
+                    
+                    <FormCheckboxControl
+                      name='ground_transformers'
+                      value='ground'
+                      isChecked={ this.props.ground_transformers }
+                      classes={ classes }
+                      handleChange={ (e) => { this.props.onChecked(e) } }
+                    />
+
+                    { this.legendMarkerIcon(classes.ground) }
+
+                    <FormCheckboxControl
+                      name='up_transformers'
+                      value='overhead'
+                      isChecked={ this.props.up_transformers }
+                      classes={ classes }
+                      handleChange={ (e) => { this.props.onChecked(e) } }
+                    />
+
+                    { this.legendMarkerIcon(classes.overhead) }
+
+                  </FormGroup>
+
+                </FormControl>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg='12'>
+                <FormLabel component="legend"><b>Power Plants</b></FormLabel>
+                <FormControl className={classes.formControl} key="plant_type">
+
+                    <SelectInputControl
+                      name='type'
+                      label="Type"
+                      helperText='Select plant type'
+                      {...this.props}
+                      {...this.state}
+                      onChange={ (e) => this.props.typeChanged(e) }
+                    >
+
+                      <option value="">{ `${"--Plant type--"}` }</option>
+                      { this.renderTypeFilters(this.props) }
+
+                    </SelectInputControl>
+
+                </FormControl>
+
+                <FormControl className={classes.formControl} key="capacity">
+                  
+                    <SelectInputControl
+                      name='capacity'
+                      label="Capacity"
+                      helperText='Select plant capacity'
+                      {...this.props}
+                      {...this.state}
+                      onChange={ (e) => this.props.capacityChanged(e) }
+                    >
+
+                      <option value="">{ `${"--Select capacity--"}` }</option>
+                      { this.renderPlantCapacityFilters(this.props) }
+
+                    </SelectInputControl>
+
+                </FormControl>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg='12'>
+                <FormLabel component="legend"><b>SubStations</b></FormLabel>
+
+                <FormGroup row className={classes.margin}>
+
+                  <FormCheckboxControl 
+                    name='sub_station' 
+                    value='SubStations' 
+                    isChecked={ this.props.sub_station }
+                    classes={ classes }
+                    handleChange={ (e) => { this.props.onChecked(e) } }
+                  />
+
+                  { this.legendMarkerIcon(classes.sub_station) }
+
+                </FormGroup>
+              </Col>
+            </Row>
+          </div>
+      </Drawer>
     );
   }
 }
 
+const drawerWidth = '20%';
 const styles = theme => ({
-  drawerPaper: {
-    position: 'relative',
-    width: `100%`,
-  },
   root: {
     color: green[600],
     '&$checked': {
@@ -388,14 +468,76 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 2,
   },
   formControl: {
-    marginBottom: theme.spacing.unit * 2,
+    marginBottom: theme.spacing.unit * 1,
     minWidth: 'auto',
   },
   legend: {
     marginTop: theme.spacing.unit * 3,
   },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+    paddingTop: '70px',
+    flex: 'unset',
+    display: 'unset',
+    flexDirection: 'unset',
+  },
+  toolbar: theme.mixins.toolbar,
   margin: {
     marginLeft: theme.spacing.unit * 2,
+  },
+  to_be_electrified: {
+    color: grey[400],
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * -2,
+  },
+  marep: {
+    color: red[400],
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * -2,
+  },
+  meters: {
+    color: `#9b59b6`,
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * -2,
+  },
+  existing: {
+    color: `#2c3e50`,
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * -2,
+  },
+  potential: {
+    color: `#1abc9c`,
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * -2,
+  },
+  line_33_s: {
+    color: blue[700],
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * -2,
+  },
+  proposed: {
+    color: `#4cd137`,
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * -2,
+  },
+  ground: {
+    color: yellow[400],
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * -2,
+  },
+  overhead: {
+    color: `#273c75`,
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * -2,
+  },
+  sub_station: {
+    color: cyan[400],
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * -2,
   },
 });
 

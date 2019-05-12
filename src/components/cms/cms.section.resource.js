@@ -33,13 +33,16 @@ const ResourceSection = ({ option, name, List, Create, Edit, Remove, Archive }) 
      */
     const section = name.trim();
 
+    // if no section is defined, just return
+    if(!section) return;
+
     switch (option.trim()) {
 
         case 'list':
             // list of resource chosen
             return (
                 <Fragment>
-                    { section && <List /> }
+                    { <List /> }
                 </Fragment>
             );
 
@@ -95,7 +98,7 @@ const ResourceSection = ({ option, name, List, Create, Edit, Remove, Archive }) 
             // default, list all
             return (
                 <Fragment>
-                    { section && <List /> }
+                    { <List /> }
                 </Fragment>
             );
 

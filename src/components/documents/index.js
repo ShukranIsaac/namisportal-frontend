@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 class Documents extends Component {
+
   render(){
     return (
       <div>
@@ -8,6 +9,7 @@ class Documents extends Component {
       </div>
     );
   }
+  
 }
 
 export default Documents;

@@ -11,7 +11,7 @@ const SideBarWrapper = (WrappedComponent) => {
       const { classes } = this.props;
 
       return (
-        <aside>
+        // <aside>
           <Drawer
               variant="permanent"
               classes={{
@@ -26,7 +26,7 @@ const SideBarWrapper = (WrappedComponent) => {
                 </form>
               </div>
           </Drawer>
-        </aside>
+        // </aside>
       );
     }
   }

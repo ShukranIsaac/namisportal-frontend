@@ -1,312 +1,268 @@
-import { GisType } from '../action_type/index';
+import { GisType, GeneralType } from '../action_type/index';
 
 import * as GeneralAction from './general.action';
+import { get } from './api.service';
 
-let regions = [
-  {
-    name: "Northern Region",
-    districts: [
-      {
-        name: "Chitipa",
-        coord: {}
-      },
-      {
-        name: "Karonga",
-        coord: {}
-      },
-      {
-        name: "Rumphi",
-        coord: {}
-      },
-      {
-        name: "Mzimba",
-        coord: {}
-      },
-      {
-        name: "Nkhatabay",
-        coord: {}
-      },
-      {
-        name: "Likoma",
-        coord: {}
-      },
-    ]
-  },
-  {
-    name: "Central Region",
-    districts: [
-      {
-        name: "Lilongwe",
-        coord: {}
-      },
-      {
-        name: "Kasungu",
-        coord: {}
-      },
-      {
-        name: "Dowa",
-        coord: {}
-      },
-      {
-        name: "Mchinji",
-        coord: {}
-      },
-      {
-        name: "Ntchisi",
-        coord: {}
-      },
-      {
-        name: "Dedza",
-        coord: {}
-      },
-      {
-        name: "Ntcheu",
-        coord: {}
-      },
-      {
-        name: "Nkhotakota",
-        coord: {}
-      },
-      {
-        name: "Salima",
-        coord: {}
-      },
-    ]
-  },
-  {
-    name: "Southern Region",
-    districts: [
-      {
-        name: "Blantyre",
-        coord: {}
-      },
-      {
-        name: "Chikwawa",
-        coord: {}
-      },
-      {
-        name: "Chiradzulu",
-        coord: {}
-      },
-      {
-        name: "Mulanje",
-        coord: {}
-      },
-      {
-        name: "Mwanza",
-        coord: {}
-      },
-      {
-        name: "Nsanje",
-        coord: {}
-      },
-      {
-        name: "Phalombe",
-        coord: {}
-      },
-      {
-        name: "Thyolo",
-        coord: {}
-      },
-      {
-        name: "Neno",
-        coord: {}
-      },
-      {
-        name: "Balaka",
-        coord: {}
-      },
-      {
-        name: "Machinga",
-        coord: {}
-      },
-      {
-        name: "Mangochi",
-        coord: {}
-      },
-      {
-        name: "Zomba",
-        coord: {}
-      }
-    ]
-  },
-];
-
+/**
+ * Fetch region given its name or _id
+ * 
+ * @param {String} region 
+ * @returns {Object} region
+ */
 export const fetchRegion = (region) => {
-
-    const {coordinates} = require('../assets/gis/regions/'+ region +'.json');
-
-    return (dispatch) => {
+    // region resource api url
+    const url = `regions/` + region;
+    
+    return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return fetch(`/gis`).then((response) => {
+        return await get(dispatch, url)
+        
+        .then((response) => {
 
-            if (response.status !== 200) {
-                throw Error(response.statusText);
-            }
+          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_REGION, response, false))
 
-            dispatch(GeneralAction.isLoading(false));
+        })
+        
+        .catch(() => dispatch(GeneralAction.hasErrored(true)));
 
-            return response;
-        }).then((response) => {
-
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_REGION, coordinates, false))
-
-        }).catch(() => dispatch(GeneralAction.hasErrored(true)));
     };
 
 }
 
 export const fetchDistrict = (district) => {
+    // api disrict resource url
+    const url = `districts?name=` + district;
 
-    const {coordinates} = require('../assets/gis/polygons/'+ district +'.json');
-
-    return (dispatch) => {
+    return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return fetch(`/gis`).then((response) => {
+        return await get(dispatch, url)
+        
+        .then((response) => {
+          
+          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_DISTRICT, response, false))
 
-            if (response.status !== 200) {
-                throw Error(response.statusText);
-            }
+        })
+        
+        .catch(() => {
 
-            dispatch(GeneralAction.isLoading(false));
+          dispatch(GeneralAction.hasErrored(true))
 
-            return response;
-        }).then((response) => {
-
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_DISTRICT, coordinates, false))
-
-        }).catch(() => dispatch(GeneralAction.hasErrored(true)));
+        });
     };
 
 }
 
 export const fetchGisFilters = () => {
+    // api resource url
+    const url = `regions`;
 
-    return (dispatch) => {
+    return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return fetch(`/gis`).then((response) => {
+        return await get(dispatch, url)
+        
+        .then((response) => {
 
-            if (response.status !== 200) {
-                throw Error(response.statusText);
-            }
+          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_REGIONS, response, false))
 
-            dispatch(GeneralAction.isLoading(false));
+        })
+        
+        .catch(() => {
 
-            return response;
-        }).then((response) => {
+          dispatch(GeneralAction.hasErrored(true))
 
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_REGIONS, regions, false))
+        });
 
-        }).catch(() => dispatch(GeneralAction.hasErrored(true)));
     };
 }
 
-export const fetchMarepCenters = (name) => {
-
-    const coordinates = require('../assets/gis/marep-centers/'+ name +'.json');
-
-    return (dispatch) => {
+export const fetchMarepCenters = (district_id) => {
+    // api resource url
+    const url = `districts/` + district_id + `/marep-centers`;
+    // console.log(url);
+    return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return fetch(`/gis`).then((response) => {
+        return await get(dispatch, url)
+        
+        .then((response) => {
+          // console.log(response);
+          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_MAREP_CENTERS, response, false))
 
-            if (response.status !== 200) {
-                throw Error(response.statusText);
-            }
+        })
+        
+        .catch(() => {
 
-            dispatch(GeneralAction.isLoading(false));
+          dispatch(GeneralAction.hasErrored(true))
 
-            return response;
-        }).then((response) => {
-
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_MAREP_CENTERS, coordinates, false))
-
-        }).catch(() => dispatch(GeneralAction.hasErrored(true)));
+        });
     };
 
 }
 
 export const fetchEscomMeters = (name) => {
+    // api resource url
+    const url = `districts/` + name + `/meters`;
 
-    const points = require('../assets/gis/meters/'+ name +'.json');
-
-    return (dispatch) => {
+    return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return fetch(`/gis`).then((response) => {
+        return await get(dispatch, url)
 
-            if (response.status !== 200) {
-                throw Error(response.statusText);
-            }
+        .then((response) => {
 
-            dispatch(GeneralAction.isLoading(false));
+          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_ESCOM_METERS, response, false))
 
-            return response;
-        }).then((response) => {
+        })
+        
+        .catch(() => dispatch(GeneralAction.hasErrored(true)));
 
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_ESCOM_METERS, points, false))
-
-        }).catch(() => dispatch(GeneralAction.hasErrored(true)));
     };
 
 }
 
-export const fetchPolygonCentroids = () => {
+export const fetchDistributionLines = (district, voltage) => {
+  
+    // api resource url
+    const url = `districts/` + district + `/distribution-lines?voltage=` + voltage;
+    // const url = `districts/` + district + `/distribution-lines`;
 
-    const d_centers = require('../assets/gis/d-centroids/d_centroids.json');
-
-    return (dispatch) => {
+    return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return fetch(`/centroids`).then((response) => {
+        return await get(dispatch, url)
+        
+        .then((response) => {
 
-            if (response.status !== 200) {
-                throw Error(response.statusText);
-            }
+          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_DISTRIBUTION_LINES, response, false))
 
-            dispatch(GeneralAction.isLoading(false));
+        }).catch(() => {
 
-            return response;
-        }).then((response) => {
+          dispatch(GeneralAction.hasErrored(true))
 
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_POLYGON_CENTROID, d_centers, false))
-
-        }).catch(() => dispatch(GeneralAction.hasErrored(true)));
+        });
     };
 
 }
 
-export const fetchDistributionLines = (district) => {
+export const fetchTransformers = (district, position) => {
 
-    const {lines} = require('../assets/gis/distribution-lines/'+ district +'.json');
+    // resource url
+    const url = `districts/` + district + `/transformers?position=` + position;
+    // const url = `districts/` + district + `/transformers`;
 
-    return (dispatch) => {
+    return async dispatch => {
 
-        dispatch(GeneralAction.isLoading(true));
+      dispatch(GeneralAction.isLoading(true))
 
-        return fetch(`/gis`).then((response) => {
+      return await get(dispatch, url)
 
-            if (response.status !== 200) {
-                throw Error(response.statusText);
-            }
+      .then((response) => {
 
-            dispatch(GeneralAction.isLoading(false));
+        dispatch(GeneralAction.fetchSuccess(GisType.FETCH_TRANSFORMERS, response, false))
 
-            return response;
-        }).then((response) => {
+      })
 
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_DISTRIBUTION_LINES, lines, false))
+      .catch(() => {
 
-        }).catch(() => dispatch(GeneralAction.hasErrored(true)));
-    };
+        dispatch(GeneralAction.hasErrored(true))
+
+      });
+
+    }
+
+}
+
+/**
+ * Empty props on state change
+ * 
+ */
+export const emptyProps = () => {
+
+  return dispatch => {
+
+    dispatch(GeneralAction.fetchSuccess(GeneralType.REQUEST_CLEAR_PROPS, {}, false))
+
+  }
+
+}
+
+/**
+ * Fetch power plants by filter specified
+ * 
+ * @param {String} capacity 
+ * @param {String} plantType 
+ */
+export const powerPlants = (capacity, plantType) => {
+
+  // url
+  let url = `power-plants`;
+
+  if( capacity !== null ) {
+
+    url += `?capacity=` + capacity;
+
+  } else if( plantType !== null) {
+
+    url += `?plantType=` + plantType;
+
+  } else {
+
+  }
+
+  return async dispatch => {
+
+    dispatch(GeneralAction.isLoading(true));
+
+    return await get(dispatch, url)
+
+    .then(response => {
+      // console.log(response)
+      dispatch(GeneralAction.fetchSuccess(GisType.FETCH_POWER_PLANTS, response, false));
+
+    })
+
+    .catch(error => {
+
+      dispatch(GeneralAction.hasErrored(true));
+
+    });
+
+  } 
+
+}
+
+export const powerPlantsFilters = () => {
+
+  // resource
+  const url = `power-plants/haslcvahcialius/filters`;
+
+  return async dispatch => {
+
+    dispatch(GeneralAction.isLoading(true));
+
+    return await get(dispatch, url) 
+
+    .then(response => {
+
+      dispatch(GeneralAction.fetchSuccess(GisType.FETCH_POWER_PLANT_FILTERS, response, false));
+
+    })
+
+    .catch(error => {
+
+      dispatch(GeneralAction.hasErrored(true));
+
+    });
+
+  }
 
 }

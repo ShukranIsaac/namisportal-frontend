@@ -1,143 +1,124 @@
 import React, { Component } from 'react';
-import { Elevation, Button, Card } from "@blueprintjs/core";
-import { Link } from "react-router-dom";
-import { Flex, Box } from 'reflexbox';
+import { Container, Row } from 'reactstrap';
+import { connect } from 'react-redux';
 
-import './home.css'
-import Footer from '../footer';
+import './home.css';
+import './marep.css'
+import * as HomeActions from '../../actions/home.action';
+import { HomeSubCategory, filterSection } from './home.subcategory';
+import { ProgressLoader } from '../loader.component.wrapper';
+import { NoDataCard } from '../card.text';
+import { Intent } from '@blueprintjs/core';
 
+/**
+ * @author Paul Sembereka
+ * @author Isaac S. Mwakabira
+ * 
+ */
 class Home extends Component {
+
+  componentDidMount() {
+
+    this.props.fetchHome('Home');
+
+  }
+
   render(){
-    const containerStyle = {
-      width: '90%',
-      margin: '0 auto',
-    }
-    return (
-      <>
-        <div className='landing-info'>
-          <div className = "row top-card">
-            <div className="card">
-              <div className="card-body">
-                  <h4 className="heading"><a href="/">Information for Mini-Grid Developers</a></h4>
-                  <p>
-                    An information portal is a customized website that immerses information from a wide
-                    range of sources in a consistent and uniform manner. For this purpose, UNDP and
-                    Department of Energy Affairs (DoEA) seek to establish an information clearing house
-                    portal to make available information that includes: current electricity grid network,
-                    planned and known rural electrification efforts of Malawi Rural Electrification Project
-                    (MAREP); existing off-grid systems; population centres; renewable energy resource
-                    information; infrastructure; location of government public service institutions; location
-                    of other rural infrastructure, land use, environmental and social issues.
-                  </p>
+    
+    const { home } = this.props;
+
+    if (home !== null) {
+      if (home.subCategories !== null && home.subCategories !== undefined) {
+
+        const main_section = filterSection(home.subCategories, "Information for Mini-Grid Developers");
+     
+        return (
+          <>
+            <div className='landing-info'>
+
+            <div className="container-fluid pl-0" style={{background: 'url(https://www.carbonbrief.org/wp-content/uploads/2015/02/electricity-grid-transformer-tower-1550x804.jpg) no-repeat center', backgroundSize: 'cover'}}>
+                  <div className="row">
+                      
+                      <div className="col-lg-6 d-flex align-items-center justify-content-center left">
+                        <h1 className="display-2 re-font-size" style={{color: '#FFF'}}>Welcome</h1>
+                      </div>
+                      <div className="col-lg-6 d-flex align-items-center justify-content-start right">
+                          <div className="jumbotron my-5 w-75 re-w text-left">
+                              <h1 className="display-4 re-font-size">Minigrid Developers</h1>
+                              <p className="lead">
+                                  This Portal provides comprehensive information for policy makers,
+                                  investors and other stakeholders interested in the development of renewable
+                                  energy mini grids in Malawi. 
+                              </p>
+                              <hr className="my-4"/>
+                              <p>
+                                  It was developed in order to facilitate an
+                                  accelerated exploitation of renewable energy resources particularly in providing
+                                  clean and decentralized energy services to grid isolated communities of Malawi.
+                                  
+                              </p>
+                              <hr className="my-4"/>
+                              <p>It was developed by the Department of Energy Affairs for Malawi Government
+                                  with support from UNDP and GEF.</p>
+                            </div>
+                      </div>
+                  </div>
               </div>
             </div>
-          </div>
-        </div>
-        {/* <div style={containerStyle}> */}
-        <div className = "card-container">
-          <div className = "row">
-            <div className="col-sm-4">
-                <div className="card">
-                    <div className="card-body">
-                      <h4 ><a className="heading" href="/licencing">Licensing</a></h4>
-                      <p>
-                          The Mini-Grids Information Portal's Licensing section provides
-                          an overview of procedures, prerequisites and required documentation
-                          for obtaining generation, distribution, and supply licenses for small
-                          powerplants.
-                        </p>
-                        <Link to="licensing">
-                          <Button intent="primary">Licensing Section</Button>
-                        </Link>
-                    </div>
-                </div>
-            </div>
-            <div className="col-sm-4">
-                <div className="card">
-                    <div className="card-body">
-                    <h4><a className="heading" href="/financing">Financing</a></h4>
-                    <p>
-                      Mini-Grid development in Tanzania may receive fincancing aid from REA.
-                      The required documentation and an overview of the procedure is
-                      presented in a dedicated relevant section of the Mini-Grids Information Portal.
-                    </p>
-                      <Link to="financing">
-                        <Button intent="primary">Financing Section</Button>
-                      </Link>
-                      
-                    </div>
-                </div>
-            </div>
-            <div className="col-sm-4">
-                <div className="card">
-                    <div className="card-body">
-                      <h4><a className="heading" href="/library">Library</a></h4>
-                      <p>
-                        The Library section of the Mini-Grids Information Portal caters to the need
-                        of project developers to have all relevant legislature and relevant documents
-                        collected at one place, easily accessible, and up-to-date.
 
-                      </p>
-                        <Link to="library">
-                          <Button intent="primary">Library Section</Button>
-                        </Link>
-                    </div>
-                </div>
+            <div className='app-sections'>
+              <Container>
+                <Row>
+
+                  {
+                    home.subCategories.length !== 0 ? 
+                      home.subCategories.map((section, index) => {
+
+                        /**
+                         * Making sure this main section does not appear twice
+                         * on the home component.
+                         */
+                        if (section.name === 'Information for Mini-Grid Developers') {
+                          return null;
+                        }
+
+                        return <HomeSubCategory key={ index } subCategories={ home.subCategories } section={ section.name } />
+
+                      })
+
+                    : <NoDataCard header={ `No home subcategories. Please try again!` } intent={Intent.SUCCESS} style={{ textAlign: `center` }} />
+                  }
+
+                </Row>
+              </Container>
             </div>
-          </div>
-          <br></br>
-          <div className = "row">
-            <div className="col-sm-4">
-                <div className="card">
-                    <div className="card-body">
-                    <h4><a className="heading" href="/gis">GIS</a></h4>
-                      <p>
-                        To help mini-grid investors get an overview of facts about specific areas in
-                        Tanzania, the GIS section presents geographically anchored information
-                        (rural electrification, MV&HV lines, powerstations, etc.).
-                      </p>
-                      <Link to='/gis'>
-                        <Button intent="primary">GIS section</Button>
-                      </Link>
-                    </div>
-                </div>
-            </div> 
-            <div className="col-sm-4">
-                <div className="card">
-                    <div className="card-body">
-                    <h4><a className="heading" href="tasf">TASF</a></h4>
-                    <p>
-                      The Transactional Advisory Services Facility (TASF) provides experts to support
-                      developers to strengthen mini-grids operating models, increase their commercial
-                      viability and, ultimately, bankability.
-                      </p>
-                      <Link to="tasf">
-                        <Button intent="primary">TASF section</Button>
-                      </Link>
-                    </div>
-                </div>
-            </div> 
-            <div className="col-sm-4">
-                <div className="card">
-                    <div className="card-body">
-                    <h4><a className="heading" href="/directory">Directory</a></h4>
-                    <p>
-                      The Portal allows the self-registration of state authorities, local authorities,
-                      financing institutions and other entities of relevance to mini-grid development.
-                      Their details are gathered in the Directory section.
-                    </p>
-                      <Link to="/directory">
-                        <Button intent="primary">Directory section</Button>
-                      </Link>
-                    </div>
-                </div>
-            </div>  
-          </div>
-        </div>
-        <Footer/>
-      </>
-    );
+          </>
+        );
+
+      } else {
+
+        return <div className="loader" />
+        
+      }
+    }
   }
 }
 
-export default Home;
+const mapStateToProps = (state) => {
+
+  return {
+    home: state.home.home,
+    general: state.general.general,
+  }
+
+}
+
+const mapDispatchToProps = (dispatch) => {
+  
+  return {
+    fetchHome: (name) => { dispatch(HomeActions.fetchHomeDetails(name)) },
+  }
+  
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProgressLoader('home')(Home));

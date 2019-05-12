@@ -1,4 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+import PropTypes from "prop-types";
+import { withRouter } from "react-router";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Home from './components/home';
@@ -19,23 +21,38 @@ import "./App.css";
 import Footer from './components/footer';
 import NewsItemDetails from './components/news/news.item.details';
 
-import AppHeader, { CMSCustomHeader } from './components/header/index';
+import AppHeader from './components/header/index';
 import CMSIndex from './components/cms';
-import { UserContext } from './components/user/user.context';
+import ItemProfile from './components/directory/item-profile';
 
 class App extends Component {
 
   constructor(){
     super()
-    this.state = {height: 0}
+
+    this.state = {
+      height: 0
+    }
+
   }
 
+  static propTypes = {
+    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
+  };
+
   componentDidMount() {
-    const height = document.getElementById('footer').clientHeight;
-    this.setState({height})
+
+    if (document.getElementById('footer') !== null){
+      const height = document.getElementById('footer').clientHeight;
+      this.setState({height})
+    }
+    
   }
 
   render() {
+
     const wrapper = {
       minHeight: '100vh',
       position: 'relative'
@@ -49,43 +66,29 @@ class App extends Component {
       <div style={wrapper}>
 
         <Router>
-
-          <div style={content}>
-
-            <UserContext.Consumer>
-              {  
-                context => {
-
-                  return !context.isLoggedIn ? <AppHeader /> : <CMSCustomHeader />;
-                  
-                }
-              }
-            </UserContext.Consumer>
-
-            <Route exact path="/" component={Home} />
-            <UserPrivateRoute exact path="/cms" component={CMSIndex} />
-            <Route path="/licensing" component={Licensing} />
-            <Route path="/financing" component={Financing} />
-            <Route path="/library" component={Library} />
-            <Route path="/directory" component={Directory} />
-            <Route path="/gis" component={GIS} />
-            <Route exact path="/news" component={News} />
-            <Route exact path="/news/:id" component={NewsItemDetails} />
-            <Route path="/faq" component={FAQ} />
-            <Route path="/contact" component={Contact} />
-            <Route path="/login" component={UserLogin} />
-            <Route path="/register" component={UserRegistration} />
-            
-          </div>
+          <>
+            <Route exact path="/" render={() => (<div style={content}><AppHeader /> <Home/> <Footer/></div>)} />
+            <UserPrivateRoute path="/cms" component={CMSIndex} />
+            <Route exact path="/licensing" render={() => (<div style={content}><AppHeader /> <Licensing/> <Footer/></div>)} />
+            <Route exact path="/financing" render={() => (<div style={content}><AppHeader /> <Financing/> <Footer/></div>)} />
+            <Route exact path="/library" render={() => (<div style={content}><AppHeader /> <Library/> <Footer/></div>)} />
+            <Route exact path="/directory" render={() => (<div style={content}><AppHeader /> <Directory { ...this.props } { ...this.state} /> <Footer/></div>)} />
+            <Route exact path="/directory/:id" render={(props) => (<div style={content}><AppHeader /> <ItemProfile { ...props }  /> <Footer/></div>)} />
+            <Route exact path="/gis" render={() => (<><AppHeader /> <GIS/></>)} />
+            <Route exact path="/news" render={() => (<div style={content}><AppHeader /> <News/> <Footer/></div>)} />
+            <Route exact path="/news/:id" render={(props) => (<div style={content}><AppHeader /> <NewsItemDetails { ...props } /> <Footer/></div>)} />
+            <Route exact path="/faq" render={() => (<div style={content}><AppHeader /> <FAQ/> <Footer/></div>)} />
+            <Route exact path="/contact" render={() => (<div style={content}><AppHeader /> <Contact/> <Footer/></div>)} />
+            <Route exact path="/login" render={ () => <UserLogin /> } />
+            <Route exact path="/register" render={ () => <UserRegistration /> } />
+          </> 
 
         </Router>
-
-        <Footer/>
-
+        
       </div>
     );
 
   }
 }
 
-export default App;
+export default withRouter(App);

@@ -1,33 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-
-import { Flex } from 'reflexbox';
+import { Container, Row } from 'reactstrap'
 
 import LicensingProfile from './licensing.profile';
-import LicensingSidebar from './licensing.sidebar';
-
-import * as LicensingAction from '../../actions/index';
-
-
-/**
- * Licencing categories with each with different steps
- * 
- */
-const steps = [
-  {
-    "type": "Generating",
-    "steps": []
-  },
-  {
-    "type": "Distribution",
-    "steps": []
-  },
-  {
-    "type": "Licensing",
-    "steps": []
-  },
-];
+import * as CMSAction from '../../actions/cms.action';
+import ParticlesComponent from '../user/particles';
+import './licensing.css'
 
 /**
  * Index file to render licencing component
@@ -39,9 +18,7 @@ class Licensing extends Component {
 
   constructor() {
     super();
-    this.state = {
-        steps: steps,
-    }
+    this.state = {}
 
     this.handleChange = this.handleChange.bind(this);
   }
@@ -52,32 +29,28 @@ class Licensing extends Component {
 
   componentDidMount() {
 
-    this.props.fetchLicencingFilters();
+    this.props.fetchSubcategory('Licensing')
 
   }
 
   render(){
 
     return (
-      <>
+      <div className = "page-content">
 
-        <Flex
-            p={4}
-            align='top'
-            justify='center'
-            m={1}
-            w={1}
-            className='landing-info'>
-
-              <LicensingSidebar onChange={ this.handleChange } {...this.props} {...this.state}/>
-
-              <LicensingProfile onChange={ this.handleChange } {...this.props} {...this.state}/>
-
-        </Flex>
-
-      </>
+        <ParticlesComponent />
+        
+        <Container>
+          <Row>
+            <LicensingProfile onChange={ this.handleChange } {...this.props} {...this.state}/>
+          </Row>
+        </Container>
+        
+      </div>
     );
+    
   }
+
 }
 
 const styles = theme => ({
@@ -100,18 +73,17 @@ const styles = theme => ({
 
 const mapStateToProps = (state) => {
 
-    return {
-        filters: state.l_filters.filters,
-        hasErrored: state.hasErrored,
-        isLoading: state.isLoading
-    };
+  return {
+    general: state.general.general,
+    subcategory: state.cms.subcategory,
+  };
 
 }
 
 const mapDispatchToProps = (dispatch) => {
 
     return {
-        fetchLicencingFilters: () => { dispatch(LicensingAction.fetchLicencingFilters()) },
+        fetchSubcategory: (name) => { dispatch(CMSAction.fetchCategory(name)) },
     };
 
 }
