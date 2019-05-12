@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row } from 'reactstrap';
 import { connect } from 'react-redux';
 
 import './home.css';
@@ -9,7 +9,6 @@ import { HomeSubCategory, filterSection } from './home.subcategory';
 import { ProgressLoader } from '../loader.component.wrapper';
 import { NoDataCard } from '../card.text';
 import { Intent } from '@blueprintjs/core';
-import ParticlesComponent from '../user/particles';
 
 /**
  * @author Paul Sembereka
@@ -83,7 +82,7 @@ class Home extends Component {
                           return null;
                         }
 
-                        return <HomeSubCategory key={ index } props={ home.subCategories } section={ section.name } />
+                        return <HomeSubCategory key={ index } subCategories={ home.subCategories } section={ section.name } />
 
                       })
 

@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { Button, Col, Modal, ModalHeader, ModalBody } from 'reactstrap'
+import React from 'react';
+import { Col, Modal, ModalHeader, ModalBody } from 'reactstrap'
 import { Link } from "react-router-dom";
 import { redirect } from '../user/user.redirect';
 
@@ -29,11 +29,11 @@ export const filterSection = (sections, name) => {
 
 
 export class HomeSubCategory extends React.Component{
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state = {
             modal: false,
-            section: filterSection(this.props, section)
+            section: filterSection(this.props.subCategories, this.props.section)
         }
 
         this.toggle = this.toggle.bind(this)
@@ -104,8 +104,8 @@ export class HomeSubCategory extends React.Component{
                     <h4>
                         <a className="heading" 
                             href={ this.link(section) } 
-                            onClick={ redirect.to({ to: '/' + section })}
-                        >
+                            onClick={ redirect.to({ to: '/' + section })}>
+                            
                             { section.name }
                         </a>
                     </h4>
