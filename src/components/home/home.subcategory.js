@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Button, Col, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import { Button, Col, Modal, ModalHeader, ModalBody } from 'reactstrap'
 import { Link } from "react-router-dom";
 import { redirect } from '../user/user.redirect';
 
@@ -26,114 +26,118 @@ export const filterSection = (sections, name) => {
 
 }
 
-const link = (props) => {
 
-    let url;
 
-    if( props !== undefined && props !== null) {
-        
-        let section_name = (props.name).toLowerCase();
-    
-        if (props.name !== "Information for Mini-Grid Developers") {
-            url = section_name;
-            section_name = '';
-        } else {
-            url = section_name;
-            section_name = '';
+export class HomeSubCategory extends React.Component{
+    constructor(){
+        super()
+        this.state = {
+            modal: false,
+            section: filterSection(this.props, section)
         }
 
+        this.toggle = this.toggle.bind(this)
+        this.linkButton = this.linkButton.bind(this)
     }
 
-    return url;
-}
 
-const linkButton = (props) => {
-
-    if(props.name !== null && props.name !== undefined) {
-
-        return (
-            <Link to={ `${ '/' +  link(props) }`}>
-                <Button intent="primary">{ props.name } section </Button>
-            </Link>
-        );
-
-    }
-
-    return null;
-
-}
-
-/**
- * Render a single home section
- * 
- * @author Isaac S. Mwakabira
- */
-export const HomeSubCategory = ({ props, section }) => {
-    const [modal, setValue] = useState(false)
-    if (props === null && props === undefined) {
-        return <Col sm='12' md='6' lg='4'/>
-    }
-
-    const my_section = filterSection(props, section);
     
-    
-    if (my_section === null && my_section === undefined) {
-        return <Col sm='12' md='6' lg='4' />
-    }
-   
-    const toggle = () => {
-        setValue(!modal)
-    }
-
-    const renderReadMore = (about) => {
+    renderReadMore = (about) => {
         if (about.length > 250){
            
-            return (<a onClick={toggle}>Read more...</a>)
+            return (<span onClick={this.toggle} className="badge badge-info" style={{cursor: 'pointer'}}>Read more...</span>)
         }
         else{
             return ''
         }
     }
-    return (
-        <Col sm='12' md='6' lg='4'>
-            <div className="card" style={{minHeight: '394px'}}>
-                <div className="card-body">
-                <h4>
-                    <a className="heading" 
-                        href={ link(my_section) } 
-                        onClick={ redirect.to({ to: '/' + my_section })}
-                    >
-                        { my_section.name }
-                    </a>
-                </h4>
-                <p style={{textAlign: 'justify'}}>
-                    { `${my_section.about.substring(0, 250)} `} 
-                    {
-                        my_section.about.length > 250 ? (<a onClick={toggle} className="badge badge-info">Read more...</a>) : ''
-                    }
-                </p>
-                
-                </div>
-                <div className="card-footer" style={{  backgroundColor: 'unset', borderTop: 'unset' }}>
-                    {
-                        my_section.name !== "Information for Mini-Grid Developers" ? linkButton(my_section) : <></>
-                    }
-                </div>
-            </div>
-            <Modal isOpen={modal} toggle={toggle}>
-                <ModalHeader toggle={toggle}>{my_section.name}</ModalHeader>
-                <ModalBody>
-                    {my_section.about}
-                    <br/>
-                    <p>
+
+    toggle = () => {
+        this.setState({modal: !this.state.modal})
+    }
+
+    link(props){
+
+        let url;
+    
+        if( props !== undefined && props !== null) {
+            
+            let section_name = (props.name).toLowerCase();
+        
+            if (props.name !== "Information for Mini-Grid Developers") {
+                url = section_name;
+                section_name = '';
+            } else {
+                url = section_name;
+                section_name = '';
+            }
+    
+        }
+    
+        return url;
+    }
+
+    linkButton(props) {
+        const { name } = props
+
+        if(name !== null && name !== undefined) {
+    
+            return (
+                <Link to={ `${ '/' +  this.link(props) }`}>
+                    <button className="btn btn-primary">{ name } section </button>
+                </Link>
+            );
+    
+        }
+    
+        return null;
+    
+    }
+
+    render(){
+        const {section, modal} = this.state
+        
+        return (
+            <Col sm='12' md='6' lg='4'>
+                <div className="card" style={{minHeight: '394px'}}>
+                    <div className="card-body">
+                    <h4>
+                        <a className="heading" 
+                            href={ this.link(section) } 
+                            onClick={ redirect.to({ to: '/' + section })}
+                        >
+                            { section.name }
+                        </a>
+                    </h4>
+                    <p style={{textAlign: 'justify'}}>
+                        { `${section.about.substring(0, 250)} `} 
                         {
-                            my_section.name !== "Information for Mini-Grid Developers" ? linkButton(my_section) : <div></div>
+                            this.renderReadMore(section.about)
                         }
                     </p>
                     
-                </ModalBody>
-            </Modal>
-        </Col>
-    );
-
+                    </div>
+                    <div className="card-footer" style={{  backgroundColor: 'unset', borderTop: 'unset' }}>
+                        {
+                            section.name !== "Information for Mini-Grid Developers" ? this.linkButton(section) : <></>
+                        }
+                    </div>
+                </div>
+                <Modal isOpen={modal} toggle={this.toggle}>
+                    <ModalHeader toggle={this.toggle}>{section.name}</ModalHeader>
+                    <ModalBody>
+                        {section.about}
+                        <br/>
+                        <p>
+                            {
+                                section.name !== "Information for Mini-Grid Developers" ? this.linkButton(section) : <div></div>
+                            }
+                        </p>
+                        
+                    </ModalBody>
+                </Modal>
+            </Col>
+        )
+        
+    }
 }
