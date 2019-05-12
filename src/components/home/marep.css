@@ -1,3 +1,6 @@
+.re-display-font-size {
+  font-size: 2.5em; }
+
 .left {
   background: #16b075e6;
   padding-right: 0; }
@@ -5,6 +8,10 @@
 .right {
   background: linear-gradient(to right, #16b075e6, #16b0758a); }
 
+@media (max-height: 768px){
+  .re-w {
+    width: 90% !important; }
+}
 @media (max-width: 320px) {
   .re-font-size {
     font-size: 2em; }

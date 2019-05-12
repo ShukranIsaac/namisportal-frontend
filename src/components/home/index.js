@@ -44,20 +44,20 @@ class Home extends Component {
                       </div>
                       <div className="col-lg-6 d-flex align-items-center justify-content-start right">
                           <div className="jumbotron my-5 w-75 re-w text-left">
-                              <h1 className="display-4 re-font-size">Minigrid Developers</h1>
+                              <h1 className="display-4 re-display-font-size">Minigrid Developers</h1>
                               <p className="lead">
                                   This Portal provides comprehensive information for policy makers,
                                   investors and other stakeholders interested in the development of renewable
                                   energy mini grids in Malawi. 
                               </p>
-                              <hr className="my-4"/>
+                              <hr className="my-1"/>
                               <p>
                                   It was developed in order to facilitate an
                                   accelerated exploitation of renewable energy resources particularly in providing
                                   clean and decentralized energy services to grid isolated communities of Malawi.
                                   
                               </p>
-                              <hr className="my-4"/>
+                              <hr className="my-1"/>
                               <p>It was developed by the Department of Energy Affairs for Malawi Government
                                   with support from UNDP and GEF.</p>
                             </div>
