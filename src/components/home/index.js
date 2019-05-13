@@ -71,7 +71,7 @@ class Home extends Component {
                   {
                     home.subCategories.length !== 0 ? 
                       home.subCategories.map((section, index) => {
-
+                        if(section.name === 'Financing') console.log(section)
                         /**
                          * Making sure this main section does not appear twice
                          * on the home component.
@@ -82,7 +82,7 @@ class Home extends Component {
 
                         return <HomeSubCategory key={ index } subCategories={ home.subCategories } section={ section.name } />
 
-                      })
+                      })//5c5d6f227f9f9200044e0357 5c5d6e6c7f9f9200044e0352
 
                     : <NoDataCard header={ `No home subcategories. Please try again!` } intent={Intent.SUCCESS} style={{ textAlign: `center` }} />
                   }

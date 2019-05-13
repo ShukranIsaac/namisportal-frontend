@@ -15,7 +15,7 @@ import Chip from '@material-ui/core/Chip';
 import FormControl from '@material-ui/core/FormControl';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { SelectInputControl } from '../forms/form.selectinput.field';
-import { UserProfile } from './user.profile';
+import { UserProfile, profile } from './user.profile';
 import { FormTextInputField } from '../forms/form.textinput.field';
 
 /**
@@ -148,8 +148,11 @@ class EditUserProfile extends Component {
     render() {
 
         const { user, myRoles } = this.state;
-        const { handleClick, classes, handleSubmit } = this.props;  
-
+        const { handleClick, classes, handleSubmit } = this.props; 
+        // access levels
+        const isEnabled = profile.showActions(); 
+        // console.log(isEnabled({user: user}))
+        // console.log("herermhchvh,vjk.k")
         return (
             <Fragment>
 
@@ -205,6 +208,7 @@ class EditUserProfile extends Component {
                                 <Paper elevation={0}>
                                     
                                     <SelectInputControl 
+                                        disabled={ () => isEnabled({ user }) }
                                         name="roles"
                                         { ...this.state }
                                         value={ this.state.roles }
@@ -253,7 +257,8 @@ class EditUserProfile extends Component {
                             <div className="row">
                                 <div>
                                     {
-                                        user !== null && ((this.assignedRoles({ user })).length !== 0 ? (
+                                        user !== null && ((this.assignedRoles({ user })).length !== 0 
+                                        && isEnabled({ user: UserProfile.get() }) ? (
                                             <p>The following role(s) are assigned to <b>{ user.username }</b>:</p>
                                         ) : <p></p>)
                                     }

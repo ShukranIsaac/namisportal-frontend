@@ -177,8 +177,33 @@ export const profile = (() => {
         }
     }
 
+    /**
+     * Access levels
+     */
+    const showActions = () => {
+        
+        // return this method as a value
+        return ({ user }) => {
+            console.log("Herereer")
+            if (user.roles.writer && !user.roles.publisher) {
+                return true;
+            } else if(!user.roles.writer && user.roles.publisher) {
+                return true;
+            } else if(user.roles.writer && user.roles.publisher) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+    }
+
     return {
-        canEdit, canPublish, canWrite, canDelete
+        showActions,
+        canEdit, 
+        canPublish, 
+        canWrite, 
+        canDelete
     }
 
 })();

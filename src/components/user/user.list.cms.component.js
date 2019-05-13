@@ -12,7 +12,7 @@ import { EnhancedTableHead } from './user.table.headbar';
 import { algorithms } from './user.sort';
 import { TablePaginationActionsWrapped } from './user.table.footer';
 import Chip from '@material-ui/core/Chip';
-import { UserProfile } from './user.profile';
+import { UserProfile, profile } from './user.profile';
 
 /**
  * A list of user accounts
@@ -29,7 +29,7 @@ class ListUserAccounts extends Component {
             selected: [],
             listOfUsers: [],
             page: 0,
-            rowsPerPage: 5,
+            rowsPerPage: 10,
             selectedAccount: null
         };
     }
@@ -171,6 +171,35 @@ class ListUserAccounts extends Component {
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
+    /**
+     * If user logged in is writer show checkbox
+     * If user logged in is publisher show checkbox
+     * If user logged in has both show checkbox
+     */
+    showCheckbox = ({ user, isSelected }) => {
+        if(user.roles.writer && !user.roles.publisher) {
+            return (
+                <TableCell padding="checkbox">
+                    <Checkbox checked={isSelected} />
+                </TableCell>
+            );
+        } else if(!user.roles.writer && user.roles.publisher) {
+            return (
+                <TableCell padding="checkbox">
+                    <Checkbox checked={isSelected} />
+                </TableCell>
+            );
+        } else if(user.roles.writer && user.roles.publisher) {
+            return (
+                <TableCell padding="checkbox">
+                    <Checkbox checked={isSelected} />
+                </TableCell>
+            );
+        } else {
+            return (<TableCell />);
+        }
+    }
+
     render() {
 
         const { classes, handleAccountClick, general } = this.props;
@@ -190,16 +219,28 @@ class ListUserAccounts extends Component {
 
         }
 
+        // logged in account
+        const loggedInAccount = UserProfile.get();
+        // console.log(roles)
+        
+        // profile access levels
+        const showActions = profile.showActions();
+
         return(
             <>
-                <EnhancedTableToolbar 
-                    classes={ classes } 
-                    numSelected={selected.length} 
-                    handleAccountClick={ (e) => handleAccountClick(e) } 
-                    handleEditProfileClick={ (e) => handleAccountClick(e) }
-                    handleAccountDelete={ (id, token) => this.props.deleteAccount(id, token) }
-                    selectedAccount={selectedAccount}
-                />
+                {
+                    // returned false then then logged in user cannot edit, delete other accounts
+                    // registered with the system.
+                    <EnhancedTableToolbar 
+                        classes={ classes } 
+                        numSelected={selected.length} 
+                        handleAccountClick={ (e) => handleAccountClick(e) } 
+                        handleEditProfileClick={ (e) => handleAccountClick(e) }
+                        handleAccountDelete={ (id, token) => this.props.deleteAccount(id, token) }
+                        selectedAccount={selectedAccount}
+                        showActions={ showActions }
+                    />
+                }
                 
                 <div className={classes.tableWrapper}>
 
@@ -212,6 +253,7 @@ class ListUserAccounts extends Component {
                             onSelectAllClick={this.handleSelectAllClick}
                             onRequestSort={this.handleRequestSort}
                             rowCount={listOfUsers.length}
+                            showActions={ showActions }
                         />
 
                         <TableBody>
@@ -234,9 +276,9 @@ class ListUserAccounts extends Component {
                                                     id={user._id}
                                                     selected={isSelected}
                                                 >
-                                                    <TableCell padding="checkbox">
-                                                        <Checkbox checked={isSelected} />
-                                                    </TableCell>
+                                                    {
+                                                        this.showCheckbox({ user: loggedInAccount, isSelected })
+                                                    }
                                                     <TableCell component="th" scope="row" padding="none">
                                                         {user.date}
                                                     </TableCell>
@@ -307,7 +349,7 @@ class ListUserAccounts extends Component {
                 </div>
 
                 <TablePagination
-                    rowsPerPageOptions={[3, 5, 15, 30]}
+                    rowsPerPageOptions={[5, 10, 15, 30]}
                     component="div"
                     count={listOfUsers.length}
                     rowsPerPage={rowsPerPage}

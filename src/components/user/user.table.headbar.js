@@ -38,14 +38,17 @@ export class EnhancedTableHead extends React.Component {
   
     render() {
 
-        const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
-    
+        const { onSelectAllClick, order, orderBy, numSelected, rowCount, showActions } = this.props;
+
+        // get logged in user
+        const auth = UserProfile.get();
+
         return (
             <TableHead>
                 <TableRow>
                     <TableCell padding="checkbox">
                         {
-                            numSelected > 1 ? (
+                            numSelected > 1 && showActions({ user: auth }) ? (
                                 <Checkbox
                                     indeterminate={numSelected > 0 && numSelected < rowCount}
                                     checked={numSelected === rowCount}
@@ -121,25 +124,27 @@ class EnhancedTableToolbar extends React.Component {
 
     render() {
         const { 
-                handleAccountClick, 
-                handleEditProfileClick,
-                handleAccountDelete, 
-                numSelected, classes, 
-                selectedAccount 
+            handleAccountClick, 
+            handleEditProfileClick,
+            handleAccountDelete, 
+            numSelected, classes, 
+            selectedAccount, showActions
         } = this.props;
         const { open } = this.state;
         // get logged in user
         const auth = UserProfile.get();
 
         return (
-            <Toolbar className={classNames(classes.root, { [classes.highlight]: numSelected > 0, })}>
+            <Toolbar className={classNames(classes.root, { [classes.highlight]: numSelected > 0 && showActions({user:auth}) })}>
             
                 <div className={classes.title}>
                     {
                         numSelected > 0 ? (
                             <Typography color="inherit" variant="subtitle1">
                                 {
-                                    numSelected > 1 ? `${ numSelected + ' selected' }` : null
+                                    numSelected >= 1 ? 
+                                    `${ auth.username + ', you have limited number of actions you can perform!!' }` 
+                                    : null
                                 } 
                             </Typography>
                         ) : (<Typography variant="h6" id="tableTitle"></Typography>)
@@ -151,42 +156,46 @@ class EnhancedTableToolbar extends React.Component {
                         numSelected > 0 ? (
                             <Fragment>
                                 {
-                                    numSelected === 1 ? (
+                                    showActions({ user: auth }) ? (
                                         <Fragment>
-                                            <Tooltip title="Edit">
-                                                <IconButton 
-                                                    name="edit" 
-                                                    aria-label="Edit account" 
-                                                    onClick={ (e) => handleAccountClick(e) }
-                                                    id={selectedAccount._id}
-                                                >
-                                                    <EditIcon />
-                                                </IconButton>
-                                            </Tooltip>
-                                            <Tooltip title="Delete">
-                                                <IconButton 
-                                                    aria-label="Delete account"
-                                                    onClick={ 
-                                                        () => {
-                                                            if (auth !== undefined && auth !== null) {
-                                                                // call the redux action: deleteAccount(id, token)
-                                                                return handleAccountDelete(selectedAccount._id, auth.token)
+                                            numSelected === 1 ? (
+                                                <Fragment>
+                                                    <Tooltip title="Edit">
+                                                        <IconButton 
+                                                            name="edit" 
+                                                            aria-label="Edit account" 
+                                                            onClick={ (e) => handleAccountClick(e) }
+                                                            id={selectedAccount._id}
+                                                        >
+                                                            <EditIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                    <Tooltip title="Delete">
+                                                        <IconButton 
+                                                            aria-label="Delete account"
+                                                            onClick={ 
+                                                                () => {
+                                                                    if (auth !== undefined && auth !== null) {
+                                                                        // call the redux action: deleteAccount(id, token)
+                                                                        return handleAccountDelete(selectedAccount._id, auth.token)
+                                                                    }
+                                                                } 
                                                             }
-                                                        } 
-                                                    }
-                                                    id={selectedAccount._id}
-                                                >
-                                                    <DeleteIcon />
-                                                </IconButton>
-                                            </Tooltip>
+                                                            id={selectedAccount._id}
+                                                        >
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                </Fragment>
+                                            ) : (
+                                                <Tooltip title="Delete">
+                                                    <IconButton aria-label="Delete">
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            )
                                         </Fragment>
-                                    ) : (
-                                        <Tooltip title="Delete">
-                                            <IconButton aria-label="Delete">
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                    )
+                                    ) : null
                                 }
                             </Fragment>
                         ) : (
@@ -208,21 +217,25 @@ class EnhancedTableToolbar extends React.Component {
                                         <PersonIcon />
                                     </IconButton>
                                 </Tooltip>
-                                <Tooltip title="Add new accounts">
-                                    <IconButton 
-                                        aria-label="Add new accounts" 
-                                        buttonRef={ node => {
-                                                this.anchorEl = node
-                                            }
-                                        }
-                                        name="create"
-                                        aria-owns={open ? 'menu-list-grow' : undefined}
-                                        aria-haspopup="true"
-                                        onClick={ (e) => handleAccountClick(e) }
-                                    >
-                                        <AddAccountIcon />
-                                    </IconButton>
-                                </Tooltip>
+                                {
+                                    showActions({ user: auth }) ? (
+                                        <Tooltip title="Add new accounts">
+                                            <IconButton 
+                                                aria-label="Add new accounts" 
+                                                buttonRef={ node => {
+                                                        this.anchorEl = node
+                                                    }
+                                                }
+                                                name="create"
+                                                aria-owns={open ? 'menu-list-grow' : undefined}
+                                                aria-haspopup="true"
+                                                onClick={ (e) => handleAccountClick(e) }
+                                            >
+                                                <AddAccountIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                    ) : null
+                                }
                             </Fragment>
                         )
                     }

@@ -19,7 +19,7 @@ export class SelectInputControl extends Component {
     }
 
     render() {
-        
+        console.log(this.props)
         return (
             <Fragment>
 
@@ -31,6 +31,7 @@ export class SelectInputControl extends Component {
                     name={ this.props.name }
                     onChange={ (e) => this.props.onChange(e)}
                     input={ <Input key={this.props.name} name={this.props.name} { ...this.props } /> }
+                    disabled={ this.props.disabled }
                 >
                     
                     { this.props.children }
