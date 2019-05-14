@@ -229,7 +229,16 @@ export const updateUser = (id, user, auth) => {
         
         .then((response) => {
 
-            dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_EDIT, response, false))
+            // editing logged in account
+            if(response.userWithoutHash._id === auth._id) {
+                // update local storage
+                let editedUser = response.userWithoutHash;
+                Object.assign(editedUser, { token: auth.token });
+                // console.log(editedUser)
+                UserProfile.save(editedUser);
+            } else {
+                dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_EDIT, response, false))
+            }
 
         })
         

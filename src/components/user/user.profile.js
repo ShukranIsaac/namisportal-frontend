@@ -125,13 +125,26 @@ export const profile = (() => {
     const canEdit = ({ user }) => {
         if (user !== null && user.roles !== null && user.roles !== undefined) {
 
-            if (user.roles.writer || user.roles.publisher) {
+            // publisher
+            if (!user.roles.writer && user.roles.publisher) {
+                return true;
+            } 
+
+            if (user.roles.writer && !user.roles.publisher) {
+                return true;
+            }
+            
+            // has both levels
+            if(user.roles.writer && user.roles.publisher) {
                 return true;
             }
 
             return false;
+
         } else {
+
             return false;
+
         }
     }
 
@@ -139,41 +152,64 @@ export const profile = (() => {
     const canWrite = ({ user }) => {
         if (user !== null && user.roles !== null && user.roles !== undefined) {
 
-            if ((user.roles.writer && user.roles.publisher) || user.roles.writer) {
+            // publisher
+            if (user.roles.writer && !user.roles.publisher) {
+                return true;
+            } 
+            
+            // has both levels
+            if(user.roles.writer && user.roles.publisher) {
                 return true;
             }
 
             return false;
+
         } else {
+
             return false;
+
         }
     }
 
     // can publish
     const canPublish = ({ user }) => {
+
         if (user !== null && user.roles !== null && user.roles !== undefined) {
 
-            if (user.roles.publisher) {
+            // publisher
+            if (!user.roles.writer && user.roles.publisher) {
+                return true;
+            } 
+            
+            // has both levels
+            if(user.roles.writer && user.roles.publisher) {
                 return true;
             }
 
             return false;
+
         } else {
+
             return false;
+
         }
+
     }
 
     // can delete
     const canDelete = ({ user }) => {
         if (user !== null && user.roles !== null && user.roles !== undefined) {
 
-            if (user.roles.publisher) {
-                return true;
+            if (user.roles.writer && !user.roles.publisher) {
+                return false;
             }
 
-            return false;
+            return true;
+
         } else {
+
             return false;
+            
         }
     }
 
@@ -184,7 +220,6 @@ export const profile = (() => {
         
         // return this method as a value
         return ({ user }) => {
-            console.log("Herereer")
             if (user.roles.writer && !user.roles.publisher) {
                 return true;
             } else if(!user.roles.writer && user.roles.publisher) {
@@ -198,12 +233,32 @@ export const profile = (() => {
 
     }
 
+    /**
+     * Account can assign roles other users
+     */
+    const isAdmin = ({ user }) => {
+
+        // has one level: publisher
+        if (!user.roles.writer && user.roles.publisher) {
+            return true;
+        } 
+        
+        // has both levels
+        if(user.roles.writer && user.roles.publisher) {
+            return true;
+        }
+
+        return false;
+
+    }
+
     return {
         showActions,
         canEdit, 
         canPublish, 
         canWrite, 
-        canDelete
+        canDelete,
+        isAdmin
     }
 
 })();

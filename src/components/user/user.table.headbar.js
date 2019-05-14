@@ -16,7 +16,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import AddAccountIcon from '@material-ui/icons/Add';
 import PersonIcon from '@material-ui/icons/Person';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
-import { UserProfile } from './user.profile';
+import { UserProfile, profile } from './user.profile';
 
 /**
  * Enhanced table head
@@ -142,9 +142,11 @@ class EnhancedTableToolbar extends React.Component {
                         numSelected > 0 ? (
                             <Typography color="inherit" variant="subtitle1">
                                 {
-                                    numSelected >= 1 ? 
-                                    `${ auth.username + ', you have limited number of actions you can perform!!' }` 
-                                    : null
+                                    numSelected >= 1 && !showActions({user:auth}) ? 
+                                        `${auth.username + ', you are not an Admin'}` 
+                                        : numSelected > 1 ? 
+                                            `${numSelected + ' selected'}` 
+                                            : null
                                 } 
                             </Typography>
                         ) : (<Typography variant="h6" id="tableTitle"></Typography>)
@@ -158,42 +160,44 @@ class EnhancedTableToolbar extends React.Component {
                                 {
                                     showActions({ user: auth }) ? (
                                         <Fragment>
-                                            numSelected === 1 ? (
-                                                <Fragment>
-                                                    <Tooltip title="Edit">
-                                                        <IconButton 
-                                                            name="edit" 
-                                                            aria-label="Edit account" 
-                                                            onClick={ (e) => handleAccountClick(e) }
-                                                            id={selectedAccount._id}
-                                                        >
-                                                            <EditIcon />
-                                                        </IconButton>
-                                                    </Tooltip>
-                                                    <Tooltip title="Delete">
-                                                        <IconButton 
-                                                            aria-label="Delete account"
-                                                            onClick={ 
-                                                                () => {
-                                                                    if (auth !== undefined && auth !== null) {
-                                                                        // call the redux action: deleteAccount(id, token)
-                                                                        return handleAccountDelete(selectedAccount._id, auth.token)
-                                                                    }
-                                                                } 
-                                                            }
-                                                            id={selectedAccount._id}
-                                                        >
+                                            {
+                                                numSelected === 1 ? (
+                                                    <Fragment>
+                                                        <Tooltip title="Edit">
+                                                            <IconButton 
+                                                                name="edit" 
+                                                                aria-label="Edit account" 
+                                                                onClick={ (e) => handleAccountClick(e) }
+                                                                id={selectedAccount._id}
+                                                            >
+                                                                <EditIcon />
+                                                            </IconButton>
+                                                        </Tooltip>
+                                                        <Tooltip title="Delete" disabled={ !profile.canDelete({user:auth}) }>
+                                                            <IconButton 
+                                                                aria-label="Delete account"
+                                                                onClick={ 
+                                                                    () => {
+                                                                        if (auth !== undefined && auth !== null) {
+                                                                            // call the redux action: deleteAccount(id, token)
+                                                                            return handleAccountDelete(selectedAccount._id, auth.token)
+                                                                        }
+                                                                    } 
+                                                                }
+                                                                id={selectedAccount._id}
+                                                            >
+                                                                <DeleteIcon />
+                                                            </IconButton>
+                                                        </Tooltip>
+                                                    </Fragment>
+                                                ) : (
+                                                    <Tooltip title="Delete" disabled={ !profile.canDelete({user:auth}) }>
+                                                        <IconButton aria-label="Delete">
                                                             <DeleteIcon />
                                                         </IconButton>
                                                     </Tooltip>
-                                                </Fragment>
-                                            ) : (
-                                                <Tooltip title="Delete">
-                                                    <IconButton aria-label="Delete">
-                                                        <DeleteIcon />
-                                                    </IconButton>
-                                                </Tooltip>
-                                            )
+                                                )
+                                            }
                                         </Fragment>
                                     ) : null
                                 }

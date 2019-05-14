@@ -15,7 +15,7 @@ import Chip from '@material-ui/core/Chip';
 import FormControl from '@material-ui/core/FormControl';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { SelectInputControl } from '../forms/form.selectinput.field';
-import { UserProfile } from './user.profile';
+import { UserProfile, profile } from './user.profile';
 import { FormTextInputField } from '../forms/form.textinput.field';
 
 /**
@@ -153,8 +153,10 @@ class EditUserAccount extends Component {
         // logged in user
         const current = UserProfile.get();
         const userAuth = this.props.user;
-        // console.log(userAuth)
-        
+
+        // access levels
+        const accessLevels = profile.showActions(); 
+
         return (
             <Fragment>
 
@@ -211,7 +213,10 @@ class EditUserAccount extends Component {
 
                                                     <Button type="submit" color="primary" text="Update" />
 
-                                                    <Button name="default" className={ classes.margin } text="Cancel" onClick={ e => handleClick(e) } />
+                                                    <Button 
+                                                        name="default" className={ classes.margin } 
+                                                        text="Cancel" onClick={ e => handleClick(e) } 
+                                                    />
 
                                                     </div>
                                                     <div id="roles" className="tab-pane fade"><br />
@@ -225,6 +230,7 @@ class EditUserAccount extends Component {
                                                                 { ...this.state }
                                                                 value={ this.state.roles }
                                                                 onChange={ e => this.handleChange(e) }
+                                                                disabled={ !accessLevels({ user: current }) }
                                                             >
                                                                 <option value="">{ `Assign new role(s)` }</option>
                                                                 <option value={ `writer` }>Writer</option>
@@ -269,7 +275,8 @@ class EditUserAccount extends Component {
                                                     <div className="row">
                                                         <div>
                                                             {
-                                                                user !== null && ((this.assignedRoles({ user })).length !== 0 ? (
+                                                                user !== null && ((this.assignedRoles({ user })).length !== 0
+                                                                && accessLevels({ user: UserProfile.get() }) ? (
                                                                     <p>The following role(s) are assigned to <b>{ user.username }</b>:</p>
                                                                 ) : <p></p>)
                                                             }
@@ -297,6 +304,17 @@ class EditUserAccount extends Component {
 
                                                         })
                                                     }
+
+                                                    <div className={ classes.margin } />
+                                                    <div className={ classes.margin } />
+                                                    <div className={ classes.margin } />
+                                                    <div className={ classes.margin } />
+
+                                                    <Button 
+                                                        name="default" 
+                                                        className={ classes.margin } 
+                                                        text="Cancel" onClick={ e => handleClick(e) } 
+                                                    />
 
                                                 </div>
                                             </>
@@ -328,10 +346,14 @@ class EditUserAccount extends Component {
 
                                                     <Button type="submit" color="primary" text="Update" />
 
-                                                    <Button name="default" className={ classes.margin } text="Cancel" onClick={ e => handleClick(e) } />
+                                                    <Button 
+                                                        name="default" className={ classes.margin } 
+                                                        text="Cancel" onClick={ e => handleClick(e) } 
+                                                    />
 
-                                                    </div>
-                                                    <div id="roles" className="tab-pane fade"><br />
+                                                </div>
+                                                <div id="roles" className="tab-pane fade">
+                                                    <br />
 
                                                     <FormControl>
 
@@ -352,7 +374,10 @@ class EditUserAccount extends Component {
 
                                                     </FormControl>
 
-                                                    <div className="row"><p> </p></div>
+                                                    <div className="row">
+                                                        <p> </p>
+                                                    </div>
+
                                                     <div className="row">
                                                         <div>
                                                             {
@@ -414,7 +439,17 @@ class EditUserAccount extends Component {
 
                                                         })
                                                     }
+                                                    
+                                                    <div className={ classes.margin } />
+                                                    <div className={ classes.margin } />
+                                                    <div className={ classes.margin } />
+                                                    <div className={ classes.margin } />
 
+                                                    <Button 
+                                                        name="default" 
+                                                        className={ classes.margin } 
+                                                        text="Cancel" onClick={ e => handleClick(e) } 
+                                                    />
                                                 </div>
                                             </>
                                         )

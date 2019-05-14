@@ -151,8 +151,8 @@ class EditUserProfile extends Component {
         const { handleClick, classes, handleSubmit } = this.props; 
         // access levels
         const isEnabled = profile.showActions(); 
-        // console.log(isEnabled({user: user}))
-        // console.log("herermhchvh,vjk.k")
+        // console.log(isEnabled)
+        
         return (
             <Fragment>
 
@@ -208,7 +208,6 @@ class EditUserProfile extends Component {
                                 <Paper elevation={0}>
                                     
                                     <SelectInputControl 
-                                        disabled={ () => isEnabled({ user }) }
                                         name="roles"
                                         { ...this.state }
                                         value={ this.state.roles }

@@ -19,7 +19,7 @@ export class SelectInputControl extends Component {
     }
 
     render() {
-        console.log(this.props)
+        
         return (
             <Fragment>
 
