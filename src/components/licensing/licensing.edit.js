@@ -133,6 +133,15 @@ class EditLicensingStep extends Component {
                                             type="text"
                                         />
 
+                                        <FormTextInputField
+                                            classes={ classes } 
+                                            name="shortName"
+                                            value={ subcategory.shortName }
+                                            label="Shortname"
+                                            placeholder="Enter license process step shortname..."
+                                            type="text"
+                                        />
+
                                         <FormTextInputField 
                                             classes={ classes }
                                             name='summary'

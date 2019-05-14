@@ -54,6 +54,7 @@ class CreateLicensingStep extends Component {
                 // define sub-category structure
                 const sub_category = {
                     name: values.name,
+                    shortName: values.shortName,
                     about: values.summary,
                 }
 
@@ -103,6 +104,14 @@ class CreateLicensingStep extends Component {
                         name='name'
                         label="Name"
                         placeholder="Enter license process step..."
+                        type="text"
+                    />
+
+                    <FormTextInputField
+                        classes={ classes } 
+                        name="shortName"
+                        label="Shortname"
+                        placeholder="Enter license process step shortname..."
                         type="text"
                     />
 
