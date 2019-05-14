@@ -160,12 +160,7 @@ const RenderSection = ({
 
             return (
                 <Fragment>
-
-                    {/* <ResourceSection 
-                        option={props.user_event} 
-                        name="gis"
-                        List={}
-                    /> */}
+                    
                     <GISComponent { ...props } handleClick={ (e) => handleClick(e) } />
 
                 </Fragment>

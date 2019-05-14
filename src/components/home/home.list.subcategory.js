@@ -13,7 +13,7 @@ import { UserProfile, profile } from '../user/user.profile';
  * @author Isaac S. Mwakabira
  */
 export const ListHomeSubcategory = withStyles(styles)(({
-    category: { subCategories },
+    category,
     handleClick, classes, general
 }) => {
 
@@ -42,10 +42,10 @@ export const ListHomeSubcategory = withStyles(styles)(({
                 {
                     general && (
                         !general.isLoading ? (
-                            (subCategories !== null && subCategories !== undefined) && (<Row>
+                            (category !== null && category !== undefined) && (<Row>
 
                                 {
-                                    subCategories !== undefined && subCategories.map(({ name, about, _id }, index) => {
+                                    category.subCategories !== undefined && category.subCategories.map(({ name, about, _id }, index) => {
             
                                         return(
                                             <Col key={ index } sm='12' md='8' lg='6'>

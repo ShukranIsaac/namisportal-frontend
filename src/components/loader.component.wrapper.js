@@ -14,7 +14,7 @@ export const ProgressLoader = (propName) => (WrappedComponent) => {
 
         isEmpty = (prop) => {
 
-            return prop === null || prop === undefined;
+            return prop === null && prop === undefined;
 
         };
 

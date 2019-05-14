@@ -2,8 +2,7 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import { reduxForm, Field } from 'redux-form';
-import RenderBootstrapField from '../forms/form.bootstrap.field';
+import { reduxForm } from 'redux-form';
 import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
 
@@ -12,6 +11,7 @@ import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 import { UserProfile } from '../user/user.profile';
+import { FormTextInputField } from '../forms/form.textinput.field';
 
 /**
  * A multi-step form component for the user to fill when applying or 
@@ -61,6 +61,7 @@ class FinancingRequestSupport extends Component {
                 // define sub-category structure
                 sub_category = {
                     name: values.subcategory,
+                    shortName: values.shortName,
                     about: values.about
                 }
 
@@ -98,41 +99,34 @@ class FinancingRequestSupport extends Component {
 
                     <Divider />
 
-                    <Field
-                        name='subcategory'
-                        component={ input => {
-                            return (
-                                <RenderBootstrapField
-                                    classes={ classes }
-                                    id="subcategory"
-                                    label='Name'
-                                    defaultValue="New sub-category name..."
-                                    name="subcategory"
-                                    type="text"
-                                    props={ input }
-                                />
-                            );
-                        }}
-                    /><br />
+                    <FormTextInputField
+                        { ...this.props } 
+                        name="subcategory"
+                        label="Name"
+                        placeholder="New sub-category name..."
+                        type="text"
+                    />
+                    <br />
 
-                    <Field 
-                        name='about'
-                        component={ input => {
-                            return (
-                                <RenderBootstrapField
-                                    classes={ classes }
-                                    id="about"
-                                    label='Summary'
-                                    defaultValue="New sub-category about..."
-                                    name="about"
-                                    type="text"
-                                    props={ input }
-                                />
-                            );
-                        }}
+                    <FormTextInputField
+                        { ...this.props } 
+                        name="shortName"
+                        label="Shortname"
+                        placeholder="New sub-category shortname..."
+                        type="text"
+                    />
+                    <br />
+
+                    <FormTextInputField
+                        { ...this.props } 
+                        name="about"
+                        label="Summary"
+                        placeholder="New sub-category about..."
+                        type="text"
                         multiline={true}
                         rows="10"
-                    /><br />
+                    />
+                    <br />
 
                     <Button type="submit" disabled={!valid  || pristine || submitting} intent="success" text="Save" />
                     

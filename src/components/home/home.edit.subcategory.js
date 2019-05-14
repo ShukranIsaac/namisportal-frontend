@@ -62,6 +62,7 @@ class EditHomeSubcategory extends Component {
                 // get sub-category structure
                 edited_sub_category = {
                     name: values.subcategory,
+                    shortName: values.shortName,
                     about: values.about
                 }
 
@@ -144,6 +145,16 @@ class EditHomeSubcategory extends Component {
                                     placeholder="Edit sub-category name..."
                                     type="text"
                                     value={ subcategory.name }
+                                />
+
+                                <FormTextInputField
+                                    { ...this.props } 
+                                    id={ subcategory._id }
+                                    name="shortName"
+                                    label="Shortname"
+                                    placeholder="Edit sub-category shortname..."
+                                    type="text"
+                                    value={ subcategory.shortName }
                                 />
 
                                 <FormTextInputField

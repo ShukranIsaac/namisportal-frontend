@@ -143,6 +143,15 @@ class EditFinancingRequestSupport extends Component {
                                             type="text"
                                         />
                                         <br />
+
+                                        <FormTextInputField
+                                            { ...this.props } 
+                                            name="shortName"
+                                            label="Shortname"
+                                            placeholder="New sub-category shortname..."
+                                            value={ subcategory.shortName }
+                                            type="text"
+                                        />
     
                                         <FormTextInputField
                                             { ...this.props }
