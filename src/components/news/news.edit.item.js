@@ -111,10 +111,31 @@ class EditNewsItem extends Component {
         
     }
 
+    /**
+     * Delete category
+     */
+    archiveCategory = (event) => {
+        event.preventDefault();
+        // props holds state functions like defaultItem(), saveItem() etc 
+        const { subcategory } = this.props;
+        // if subcategory exists then delete
+        if(subcategory !== null && subcategory._id !== undefined) {
+            // then get authenticated user token
+            const user = UserProfile.get();
+            if (user !== null && user.token !== undefined) {
+                this.props.archiveCategory(subcategory, user.token);
+                // then change state to default
+                // so that the page redirects and list all home items
+                this.props.defaultItem();
+            }
+        }
+
+    }
+
     render() {
 
         const { classes, handleClick, handleSubmit, general } = this.props;
-        console.log(this.props);
+        // console.log(this.props.article);
         return (
             <Fragment>
 
@@ -147,7 +168,7 @@ class EditNewsItem extends Component {
                             !general.isLoading ? (
                                 <>
                                     {
-                                        this.state.article !== null && (
+                                        (this.state.article !== null && this.state.article !== undefined) && (
                                             <>
                                                 <FormTextInputField
                                                     classes={ classes }
@@ -182,36 +203,20 @@ class EditNewsItem extends Component {
                         handleClick={e => this.handleSubmit(e) }
                     />
 
-                    {/* <ButtonControl 
-                        intent={Intent.SUCCESS} 
-                        value="Publish" 
-                        name="publish"
-                        className={classes.margin}
-                        handleClick={e => handleClick(e) } 
-                    />
-
-                    <ButtonControl 
-                        intent={Intent.WARNING} 
-                        value="Unpublish" 
-                        name="unpublish"
-                        className={classes.margin}
-                        handleClick={e => handleClick(e) } 
-                    /> */}
-
                     <ButtonControl 
                         className={classes.margin}
                         intent={Intent.DANGER} 
                         value="Archive"
                         name="archive"
-                        handleClick={e => handleClick(e) } 
+                        handleClick={e => this.archiveCategory(e) } 
                     />
 
                     <ButtonControl 
                         className={classes.margin}
                         intent={Intent.PRIMARY} 
-                        value="Save"
-                        name="save"
-                        handleClick={e => this.handleSubmit(e) }
+                        value="Cancel"
+                        name="default"
+                        handleClick={e => handleClick(e) }
                     />
                 
                 </form>

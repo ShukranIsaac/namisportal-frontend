@@ -54,6 +54,7 @@ class EditLicensingStep extends Component {
                 // define sub-category structure
                 const category = {
                     name: values.name,
+                    shortName: values.shortName,
                     about: values.summary,
                 }
 

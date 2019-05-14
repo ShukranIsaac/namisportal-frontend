@@ -77,7 +77,7 @@ class App extends Component {
             <Route exact path="/gis" render={() => (<><AppHeader /> <GIS/></>)} />
             <Route exact path="/news" render={() => (<div style={content}><AppHeader /> <News/> <Footer/></div>)} />
             <Route exact path="/news/:id" render={(props) => (<div style={content}><AppHeader /> <NewsItemDetails { ...props } /> <Footer/></div>)} />
-            <Route exact path="/faq" render={() => (<div style={content}><AppHeader /> <FAQ/> <Footer/></div>)} />
+            <Route exact path="/faqs" render={() => (<div style={content}><AppHeader /> <FAQ/> <Footer/></div>)} />
             <Route exact path="/contact" render={() => (<div style={content}><AppHeader /> <Contact/> <Footer/></div>)} />
             <Route exact path="/login" render={ () => <UserLogin /> } />
             <Route exact path="/register" render={ () => <UserRegistration /> } />

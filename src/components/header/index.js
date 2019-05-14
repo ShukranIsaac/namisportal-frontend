@@ -62,8 +62,8 @@ export default class AppHeader extends React.Component {
                     </Link>
               </NavItem>
               <NavItem>
-                    <Link to="/faq">
-                        FAQ
+                    <Link to="/faqs">
+                        FAQs
                     </Link>
               </NavItem>
               <NavItem>
