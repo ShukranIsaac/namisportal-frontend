@@ -160,13 +160,6 @@ class CreateNewsItem extends Component {
                         Save
                     </Button>
 
-                    {/* <ButtonControl 
-                        className={ classes.margin }
-                        intent={Intent.SUCCESS} 
-                        value="Publish" 
-                        handleClick={e => handleClick(e) } 
-                    /> */}
-
                     <ButtonControl 
                         name="default"
                         className={ classes.margin }

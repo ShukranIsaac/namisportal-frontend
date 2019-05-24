@@ -131,6 +131,7 @@ class CreateLibraryItem extends Component {
                     // define file structure
                     const data = {
                         name: values.name,
+                        shortName: values.shortName,
                         about: values.summary,
                         file: values.supporting_document
                     }
@@ -148,12 +149,13 @@ class CreateLibraryItem extends Component {
                     // define file structure
                     const resource = {
                         name: values.resource_name,
+                        shortName: values.resourceShortName,
                         about: values.resource_summary,
                     }
 
                     if (subcategory !== null && subcategory !== undefined) {
                         // create new resource category
-                        console.log(resource)
+                        // console.log(resource)
                         this.props.createCategory(subcategory._id, resource, user.token);
                         // then change state.add_resource to false
                         // so that the page shows form fileds to add files and 
@@ -179,9 +181,9 @@ class CreateLibraryItem extends Component {
             submitting
         } = this.props;
 
-        // Library filtsers/ subcategories
+        // Library filters/subcategories
         const resources = this.props.subcategory;
-
+        
         return (
             <Fragment>
 
@@ -267,6 +269,14 @@ class CreateLibraryItem extends Component {
 
                                 <FormTextInputField 
                                     classes={ classes }
+                                    name='shortName'
+                                    label="Short Name"
+                                    placeholder="Enter document short name..."
+                                    type="text"
+                                />
+
+                                <FormTextInputField 
+                                    classes={ classes }
                                     name='summary' 
                                     label="Summary"
                                     placeholder="Enter document summary..."
@@ -309,6 +319,14 @@ class CreateLibraryItem extends Component {
                                     name='resource_name'
                                     label="Resource"
                                     placeholder="Enter resource name..."
+                                    type="text"
+                                />
+
+                                <FormTextInputField 
+                                    classes={ classes }
+                                    name='resourceShortName'
+                                    label="Short Name"
+                                    placeholder="Enter document shortname..."
                                     type="text"
                                 />
 

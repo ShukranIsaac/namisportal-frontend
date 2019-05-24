@@ -36,6 +36,13 @@ const news = (state = initialState, action) => {
                 article: action.payload,
             }
 
+        case NewsType.REQUEST_DELETE_ARTICLE:
+            return {
+                ...state,
+                errored: action.hasErrored,
+                article: action.payload,
+            }
+
         default:
             return state;
     }

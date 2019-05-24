@@ -110,6 +110,7 @@ class CreateQuestion extends Component {
                 // define question structure
                 question = {
                     name: values.question,
+                    shortName: values.shortName,
                     about: values.answer
                 }
 
@@ -123,6 +124,7 @@ class CreateQuestion extends Component {
                 // define file structure
                 const section = {
                     name: values.section_name,
+                    shortName: values.shortName,
                     about: values.section_summary,
                 }
 
@@ -241,6 +243,14 @@ class CreateQuestion extends Component {
                                     type="text"
                                 />
 
+                                <FormTextInputField
+                                    classes={ classes } 
+                                    name="shortName"
+                                    label="Shortname"
+                                    placeholder="Enter question shortname..."
+                                    type="text"
+                                />
+
                                 <FormTextInputField 
                                     { ...this.props }
                                     name="answer"
@@ -273,6 +283,14 @@ class CreateQuestion extends Component {
                                     name='section_name'
                                     label="Section"
                                     placeholder="Enter section name..."
+                                    type="text"
+                                />
+
+                                <FormTextInputField
+                                    classes={ classes } 
+                                    name="shortName"
+                                    label="Shortname"
+                                    placeholder="Enter section shortname..."
                                     type="text"
                                 />
 

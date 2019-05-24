@@ -15,7 +15,7 @@ const NewsItemDetails = ({ classes, location }) => {
                 <h4 className={classNames(classes.headline, "heading")}>{ article.title }</h4>
                 <Typography variant="caption">
                     <div className={classes.when}>{ article.createdDate }</div>
-                    By John Doe
+                    {/* By John Doe */}
                 </Typography>
 
                 <Divider style={{ margin: '20px' }} />
@@ -26,8 +26,8 @@ const NewsItemDetails = ({ classes, location }) => {
             <Divider style={{ margin: '20px', width: '35%' }} />
 
             <Typography variant="caption">
-                By John Doe, <br/> Chief Information Officer.<br/>
-                (<a href="mailto:newseditor@grid.mw" className={classes.link}>newseditor@grid.mw</a>)
+                {/* By John Doe, <br/> Chief Information Officer.<br/> */}
+                {/* (<a href="mailto:newseditor@grid.mw" className={classes.link}>newseditor@grid.mw</a>) */}
             </Typography>
         </div>
     );

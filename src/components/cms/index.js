@@ -538,6 +538,7 @@ const mapStateToProps = (state) => {
         question: state.cms.question,
         stakeholder: state.stakeholder.stakeholder,
         stakeholders_list: state.stakeholder.stakeholders_list,
+        article: state.news.article,
         articles: state.news.articles,
         users: state.user.users,
         user: state.user.user,
@@ -581,6 +582,7 @@ const mapDispatchToProps = (dispatch) => {
         fetchNewsArticles: () => dispatch(NewsAction.fetchAllArticles()),
         fetchArticle: (id) => dispatch(NewsAction.fetchArticleById(id)),
         editArticle: (id, article, token) => dispatch(NewsAction.editArticle(id, article, token)),
+        deleteArticle: (id, token) => dispatch(NewsAction.deleteArticle(id, token)),
         // user accounts
         fetchUsers: (user) => dispatch(UserAuthAction.fetchUsers({ user })),
         fetchUser: (id, token) => dispatch(UserAuthAction.fetchUser(id, token)),

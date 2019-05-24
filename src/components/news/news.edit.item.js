@@ -6,10 +6,11 @@ import { reduxForm } from 'redux-form';
 import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
 
-import { Divider } from '@material-ui/core';
+import { Divider, } from '@material-ui/core';
 import { TextEditor } from '../forms/editor';
+import { editor as EditorUtils } from '../forms/editor/text.editor.utils';
 import ButtonControl from '../forms/buttons/button.default.control';
-import { Intent } from '@blueprintjs/core';
+import { Intent, Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 
 import { FormTextInputField } from '../forms/form.textinput.field';
@@ -25,10 +26,10 @@ import { UserProfile } from '../user/user.profile';
  */
 class EditNewsItem extends Component {
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
-            article: props.article,
+            article: '',
             value: InitialSchema
         }
 
@@ -51,8 +52,11 @@ class EditNewsItem extends Component {
     componentDidMount() {
 
         if (this.state.article !== undefined) {
-            const { article } = this.state;
-            Object.assign(article, { article: editor.html.deserialize(article.article) });
+            const { article } = this.props;
+            // console.log(article)
+            if (article !== null) {
+                Object.assign(this.state, { article: article.article });
+            }
         }
 
     }
@@ -73,18 +77,16 @@ class EditNewsItem extends Component {
 	 *
 	 * @param {Editor} editor
 	 */
-    handleEditorChange = ({ value }) => {
+    handleEditorChange = (content) => {
         
-        Object.assign(this.state.article, { article: value });
+        if(content !== null) {
+            const { value } = content;
+            Object.assign(this.state.article, { article: value });
+        }
 
     }
 
-    handleSubmit = (event, values) => {
-		/**
-		 *  disabling browser default behavior like page refresh, etc 
-		 */
-        event.preventDefault();
-        
+    handleSubmit = (values) => {
         // user logged
         const user = UserProfile.get();
         if (user !== null) {
@@ -93,18 +95,20 @@ class EditNewsItem extends Component {
                 /**
                  * serialize content
                  */
-                let content = editor.html.serialize(this.state.content);
+                let content = editor.html.serialize(this.state.article);
                 // define article object
                 const article = {
                     title: values.title,
-                    article: content
+                    article: content.article
                 }
-
-                // then make post request to the api
-                this.props.editArticle(this.state.article._id, article, user.token);
-                // then change state to default
-                // so that the page redirects and list all home items
-                this.props.defaultItem();
+                console.log(article)
+                if (article.title !== undefined || article.article !== undefined) {
+                    // then make post request to the api
+                    this.props.editArticle(this.state.article._id, article, user.token);
+                    // then change state to default
+                    // so that the page redirects and list all home items
+                    this.props.defaultItem();
+                }
             }
 
         }
@@ -117,13 +121,13 @@ class EditNewsItem extends Component {
     archiveCategory = (event) => {
         event.preventDefault();
         // props holds state functions like defaultItem(), saveItem() etc 
-        const { subcategory } = this.props;
-        // if subcategory exists then delete
-        if(subcategory !== null && subcategory._id !== undefined) {
+        const { article } = this.props;
+        // if article exists then delete
+        if(article !== null && article._id !== undefined) {
             // then get authenticated user token
             const user = UserProfile.get();
             if (user !== null && user.token !== undefined) {
-                this.props.archiveCategory(subcategory, user.token);
+                this.props.deleteArticle(article._id, user.token);
                 // then change state to default
                 // so that the page redirects and list all home items
                 this.props.defaultItem();
@@ -134,12 +138,17 @@ class EditNewsItem extends Component {
 
     render() {
 
-        const { classes, handleClick, handleSubmit, general } = this.props;
-        // console.log(this.props.article);
+        const { classes, handleClick, handleSubmit, general, article, } = this.props;
+
+        // serialize the article text
+        if(article !== null) {
+            Object.assign(article, { article: EditorUtils.html.deserialize(article.article) })
+        }
+
         return (
             <Fragment>
 
-                <form onSubmit = { (e) => handleSubmit(values => this.handleSubmit(e, values)) }>
+                <form onSubmit = { handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
 
                     <ButtonControl 
                         intent={Intent.NONE} 
@@ -168,12 +177,12 @@ class EditNewsItem extends Component {
                             !general.isLoading ? (
                                 <>
                                     {
-                                        (this.state.article !== null && this.state.article !== undefined) && (
+                                        (article !== null && article !== undefined) && (
                                             <>
                                                 <FormTextInputField
                                                     classes={ classes }
                                                     name='title'
-                                                    value={ this.state.article.title }
+                                                    value={article.title}
                                                     label='Article Title'
                                                     placeholder='Edit article title...'
                                                     type='text'
@@ -181,7 +190,7 @@ class EditNewsItem extends Component {
 
                                                 <TextEditor 
                                                     name="content" 
-                                                    content={ this.state.article.article } 
+                                                    content={article.article} 
                                                     editorChange={ this.handleEditorChange } 
                                                 />
                                             </>
@@ -196,20 +205,13 @@ class EditNewsItem extends Component {
                     <div className={ classes.margin }/>
                     <div className={ classes.margin }/>
 
-                    <ButtonControl 
-                        intent={Intent.PRIMARY} 
-                        value="Save"
-                        name="save"
-                        handleClick={e => this.handleSubmit(e) }
-                    />
-
-                    <ButtonControl 
-                        className={classes.margin}
-                        intent={Intent.DANGER} 
-                        value="Archive"
-                        name="archive"
-                        handleClick={e => this.archiveCategory(e) } 
-                    />
+                    <Button 
+                        type="submit" 
+                        // disabled={!valid  || pristine || submitting} 
+                        color="primary"
+                    >
+                        Save
+                    </Button>
 
                     <ButtonControl 
                         className={classes.margin}
@@ -218,6 +220,18 @@ class EditNewsItem extends Component {
                         name="default"
                         handleClick={e => handleClick(e) }
                     />
+
+                    {
+                        this.props.article !== null && (
+                            <Button 
+                                id={ this.props.article._id }
+                                className={ classes.margin } 
+                                name="archive" 
+                                intent="danger" text="Delete" 
+                                onClick={ e => this.archiveCategory(e) } 
+                            />
+                        )
+                    }
                 
                 </form>
 

@@ -111,6 +111,7 @@ class EditQuestion extends Component {
                     // get edited_question structure
                     edited_question = {
                         name: values.question,
+                        shortName: values.shortName,
                         about: values.answer
                     }
 
@@ -127,6 +128,7 @@ class EditQuestion extends Component {
                     // define file structure
                     const section = {
                         name: values.section_name,
+                        shortName: values.shortName,
                         about: values.section_summary,
                     }
 
@@ -153,7 +155,7 @@ class EditQuestion extends Component {
     archiveCategory = (event) => {
 
         event.preventDefault();
-        // question to be edited
+        // question to be deleted
         const { question } = this.props;
         // if question exists then delete
         if(question !== null && question._id !== undefined) {
@@ -277,6 +279,15 @@ class EditQuestion extends Component {
                                                 type="text"
                                             />
 
+                                            <FormTextInputField
+                                                classes={ classes } 
+                                                name="shortName"
+                                                label="Shortname"
+                                                value={ this.state.question.shortName }
+                                                placeholder="Edit question shortname..."
+                                                type="text"
+                                            />
+
                                             <FormTextInputField 
                                                 { ...this.props }
                                                 name="answer"
@@ -331,6 +342,14 @@ class EditQuestion extends Component {
                                     name='section_name'
                                     label="Section"
                                     placeholder="Enter section name..."
+                                    type="text"
+                                />
+
+                                <FormTextInputField
+                                    classes={ classes } 
+                                    name="shortName"
+                                    label="Shortname"
+                                    placeholder="Enter section shortname..."
                                     type="text"
                                 />
 

@@ -103,7 +103,6 @@ class Library extends Component {
           </Row>
         </Container>
       </div>
-      
     );
   }
 }

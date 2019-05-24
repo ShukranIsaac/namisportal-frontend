@@ -1,5 +1,5 @@
 import * as GeneralAction from './general.action';
-import { get, post, patch } from './api.service';
+import { get, post, patch, _delete } from './api.service';
 import { NewsType } from '../action_type';
 
 /**
@@ -127,6 +127,43 @@ export const fetchArticleById = (id) => {
 
             // dispatch
             dispatch(GeneralAction.fetchSuccess(NewsType.REQUEST_SINGLE_ARTICLE, response, false))
+
+        })
+
+        .catch(error => {
+
+            console.log(error);
+            dispatch(GeneralAction.hasErrored(true));
+
+        });
+
+    }
+
+}
+
+/**
+ * Delete single article
+ * 
+ * @param {String} id 
+ */
+export const deleteArticle = (id, token) => {
+
+    // url resource
+    const url = `news/` + id + `?token=` + token;
+
+    // fetch
+    return async dispatch => {
+
+        // show loading status
+        dispatch(GeneralAction.isLoading(true));
+
+        // make request
+        return await _delete(dispatch, url)
+
+        .then(response => {
+
+            // dispatch
+            dispatch(GeneralAction.fetchSuccess(NewsType.REQUEST_DELETE_ARTICLE, response, false))
 
         })
 

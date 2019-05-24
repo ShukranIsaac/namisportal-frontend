@@ -57,6 +57,7 @@ class EditLibraryItem extends Component {
                 // define sub-category structure
                 const data = {
                     name: values.name,
+                    shortName: values.shortName,
                     about: values.summary,
                     file: values.supporting_document
                 }
@@ -143,6 +144,14 @@ class EditLibraryItem extends Component {
                                         label='Name'
                                         placeholder="Edit document name..."
                                         value={ subcategory.name }
+                                        type="text"
+                                    />
+
+                                    <FormTextInputField 
+                                        classes={ classes }
+                                        name='shortName'
+                                        label="Short Name"
+                                        placeholder="Enter document short name..."
                                         type="text"
                                     />
 

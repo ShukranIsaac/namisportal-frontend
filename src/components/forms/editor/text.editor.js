@@ -63,9 +63,6 @@ export default class TextEditor extends Component {
 		// Create a new serializer instance with our `rules` from above.
 		EditorUtils.html.deserialize(this.props.content)
 
-		// console.log(html.deserialize(this.props.content));
-		// console.log(html.serialize(this.props.content));
-
 		this.setState({ value: this.props.content });
 
 	}
@@ -429,8 +426,7 @@ export default class TextEditor extends Component {
 		 * applying the formatting on the selected text which the desired formatting
 		 */
 		this.editor.toggleMark(type);
-		console.log(type)
-
+		console.log(EditorUtils.html.serialize(this.editor.value))
 		this.handleChange(this.editor);
 
 	};

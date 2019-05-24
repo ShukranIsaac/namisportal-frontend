@@ -1,7 +1,11 @@
 import React, { Fragment } from 'react';
 import { Button } from '@blueprintjs/core';
 
-const ButtonControl = ({ name, value, intent, icon, handleClick, disabled }) => {
+const ButtonControl = ({ 
+    name, value, intent, 
+    icon, handleClick, disabled, 
+    className 
+}) => {
 
     return (
         <Fragment>
@@ -13,6 +17,7 @@ const ButtonControl = ({ name, value, intent, icon, handleClick, disabled }) => 
                 onClick={ (e) => handleClick(e) } 
                 style={{ margin: '1px' }}
                 disabled={ disabled }
+                className={ className }
             />
         </Fragment>
     );
