@@ -338,7 +338,55 @@ class MinGridMap extends Component {
 
   }
 
-    /**
+  renderPowerSubStations = ({ 
+    district_name, 
+    isLoading,
+    power_sub_stations
+  }) => {
+
+    if (!isLoading) {
+      
+      if (district_name !== null && district_name !== undefined) {
+
+        if (power_sub_stations !== null && power_sub_stations !== undefined) {
+          
+            return (
+              
+              <MarkerClusterer averageCenter>
+  
+                {
+                  power_sub_stations.map((sub_station) => {
+  
+                    return (
+                      <PointMarker key={sub_station._id} point={sub_station} title='Power Sub-Station'/>
+                    )
+  
+                  })
+                }
+  
+              </MarkerClusterer>
+            );
+  
+        } 
+  
+      } else {
+  
+        return (
+          <>
+            <MarkerClusterer />
+          </>
+        );
+  
+      }
+
+    } else {
+
+      return <div className='loader' />
+
+    }
+
+  }
+  /**
    * Renders district transformers
    * 
    * @param {String} district_name
@@ -532,7 +580,7 @@ class MinGridMap extends Component {
 
     const google = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyA8-4amVHsfL-PCglVdff9yauniqT4hVQk&libraries=places';
     const { h } = this.state;
-    // console.log(this.props.marep_center)
+    // console.log(this.props)
     return (
       <Fragment>
         <CustomGoogleMap
@@ -545,6 +593,7 @@ class MinGridMap extends Component {
           onDistrictMeters={this.renderDistrictMeters(this.props)}
           onRegionMeters={this.renderRegionMeters(this.props)}
           onTransformers={this.renderTransformers(this.props)}
+          onPowerSubStations={this.renderPowerSubStations(this.props)}
           onCenterChanged= {this.getPolygonCentroid(this.props)}
           onPolyline={this.renderPolyline(this.props)}
           onPowerPlantChanged={this.renderPowerPlants(this.props)}

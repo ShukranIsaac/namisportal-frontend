@@ -431,7 +431,7 @@ class GridSideBar extends Component {
             </Row>
             <Row>
               <Col lg='12'>
-                <FormLabel component="legend"><b>SubStations</b></FormLabel>
+                <FormLabel component="legend"><b>Sub Stations</b></FormLabel>
 
                 <FormGroup row className={classes.margin}>
 

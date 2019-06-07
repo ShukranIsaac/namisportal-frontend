@@ -266,3 +266,30 @@ export const powerPlantsFilters = () => {
   }
 
 }
+
+export const powerSubStations = (id) => {
+
+  // resource
+  const url = `districts/` + id + `/power-sub-stations`;
+
+  return async dispatch => {
+
+    dispatch(GeneralAction.isLoading(true));
+
+    return await get(dispatch, url) 
+
+    .then(response => {
+
+      dispatch(GeneralAction.fetchSuccess(GisType.FETCH_POWER_SUB_STATIONS, response, false));
+
+    })
+
+    .catch(error => {
+      console.log(error)
+      dispatch(GeneralAction.hasErrored(true));
+
+    });
+
+  }
+
+}

@@ -49,6 +49,8 @@ class GIS extends Component {
         this.transformers();
         // distribution lines
         this.distributionLines();
+        // fetch power sub stations
+        this.powerSubStations(this.props.district._id)
       } else {
 
         if (prevProps === this.props) {
@@ -60,6 +62,9 @@ class GIS extends Component {
 
           // distribution lines
           this.distributionLines();
+
+          // fetch power sub stations
+          this.powerSubStations(this.props.district._id)
         }
       }
     } else {
@@ -247,6 +252,22 @@ class GIS extends Component {
 
   }
 
+    /**
+   * Fetch power plants by the filters specified
+   */
+  powerSubStations = (id) => {
+
+    if(this.state.sub_station) {
+
+      const { fetchPowerSubStations } = this.props;
+
+      // call api
+      fetchPowerSubStations(id);
+
+    }
+
+  }
+
   handleChecked = (event) => {
 
     // console.log(event.target.checked);
@@ -364,6 +385,7 @@ const mapStateToProps = (state) => {
         general: state.general.general,
         m_centers: state.m_centers.coordinates,
         transformers: state.transformers.transformers,
+        power_sub_stations: state.power_sub_stations.power_sub_stations
     };
 
 }
@@ -377,6 +399,7 @@ const mapDispatchToProps = (dispatch) => {
         // fetchRegion: (region) => { dispatch(GisAction.fetchRegion(region)) },
         // fetchDistrict: (district) => { dispatch(GisAction.fetchDistrict(district))},
         // emptyProps: () => { dispatch(GisAction.emptyProps()) },
+        fetchPowerSubStations: (id) => { dispatch(GisAction.powerSubStations(id)) },
         fetchMarepCenters: (name) => { dispatch(GisAction.fetchMarepCenters(name)) },
         fetchMeters: (name) => { dispatch(GisAction.fetchEscomMeters(name)) },
         fetchTransformers: (distr_id, position) => { dispatch(GisAction.fetchTransformers(distr_id, position)) },

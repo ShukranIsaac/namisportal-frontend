@@ -43,6 +43,8 @@ export const CustomGoogleMap = withScriptjs(
 
                     { props.previewCenter }
 
+                    {props.onPowerSubStations}
+
                 </GoogleMap>
             </Fragment>
         );
