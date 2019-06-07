@@ -1,27 +1,28 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Divider, withStyles } from '@material-ui/core';
 import styles from '../contact/form.styles';
 import ButtonControl from '../forms/buttons/button.default.control';
-import { Intent, Button } from '@blueprintjs/core';
-import { Row, Col } from 'reactstrap';
+import { Intent, } from '@blueprintjs/core';
+import { Row, } from 'reactstrap';
 import { UserProfile, profile } from '../user/user.profile';
+import { CMSHomeSubCategory } from './cms.home.subcategory';
 
 /**
  * List all home subcategory
  * 
  * @author Isaac S. Mwakabira
  */
-export const ListHomeSubcategory = withStyles(styles)(({
-    category,
-    handleClick, classes, general
+export const ListHomeSubcategory = ({ 
+    category, handleClick, 
+    classes, general 
 }) => {
 
     // get the logged in user
     const user = UserProfile.get();
 
     return (
-        <Fragment>
+        <>
             
             <ButtonControl 
                 intent={Intent.NONE} 
@@ -45,40 +46,30 @@ export const ListHomeSubcategory = withStyles(styles)(({
                             (category !== null && category !== undefined) && (<Row>
 
                                 {
-                                    category.subCategories !== undefined && category.subCategories.map(({ name, about, _id }, index) => {
+                                    category.subCategories !== undefined && category.subCategories.map((section, index) => {
             
-                                        return(
-                                            <Col key={ index } sm='12' md='8' lg='6'>
-                                                <div className="card">
-                                                    <div className="card-body">
-                                                        <h4>
-                                                            <a name="edit" id={_id} key={_id} href="/cms" onClick={ (e) => handleClick(e) }>
-                                                                { name }
-                                                            </a>
-                                                        </h4>
-                                                        <p>{ about.substring(0, 150) }</p>
-            
-                                                        <Button name="edit" id={_id} disabled={ false } intent="primary" text="Edit" onClick={(e) => handleClick(e)} />
-                                                    </div>
-                                                </div>
-                                            </Col>
-                                        );
+                                        return (<CMSHomeSubCategory section={ section } handleClick={ handleClick } />);
             
                                     })
                                 }
             
                             </Row>)
-                        ) : <Row><div style={{ marginTop: `40px` }} className="loader" /></Row>
+                        ) : (<Row>
+                                <div style={{ marginTop: `40px` }} className="loader" />
+                            </Row>
+                        )
                     )
                 }
             </div>
 
-        </Fragment>
+        </>
     );
     
-})
+}
 
 
 ListHomeSubcategory.propTypes = {
     classes: PropTypes.object.isRequired,
 }
+
+export default withStyles(styles)(ListHomeSubcategory);

@@ -6,13 +6,14 @@ import { reduxForm } from 'redux-form';
 import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
 
-import * as GisAction from '../../actions/index';
+// import * as GisAction from '../../actions/index';
 import CMSMapPreview from './cms.map.preview';
 import { FormControl, Paper, withStyles } from '@material-ui/core';
 import { SelectInputControl } from '../forms/form.selectinput.field';
 import styles from '../contact/form.styles';
 import RadioButtons from '../forms/form.radiobtn.field';
-import { Divider, Button } from '@blueprintjs/core';
+import { Divider, Intent, Button } from '@blueprintjs/core';
+import ButtonControl from '../forms/buttons/button.default.control';
 import { FormTextInputField } from '../forms/form.textinput.field';
 
 /**
@@ -20,10 +21,10 @@ import { FormTextInputField } from '../forms/form.textinput.field';
  * 
  * @author Isaac S. Mwakabira
  */
-class GISComponent extends Component {
+class AddFeature extends Component {
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             zoom: 7,
             newCenter: {
@@ -37,14 +38,6 @@ class GISComponent extends Component {
 
         this.handleRadioBtnChange = this.handleRadioBtnChange.bind(this);
 
-    }
-
-
-    componentDidMount() {
-
-        // fetch initial filters
-        this.props.fetchFilters();
-    
     }
 
     handleChange = (e) => {
@@ -348,12 +341,28 @@ class GISComponent extends Component {
     render() {
 
         // loading status, gis_filters from props
-        const { classes } = this.props;
+        const { classes, handleClick } = this.props;
         // console.log(general);
         // console.log(this.state);
 
         return (
             <Fragment>
+                
+                <ButtonControl 
+                    intent={Intent.NONE} 
+                    value="List Features"
+                    name="default"
+                    handleClick={e => handleClick(e) }
+                />
+
+                <div className={ classes.margin }/>
+                <div className={ classes.margin }/>
+                <div className={ classes.margin }/>
+                <div className={ classes.margin }/>
+                <div className={ classes.margin }/>
+
+                <Divider />
+                
                 <ul className="nav nav-tabs" role="tablist">
                     <li className="nav-item">
                         <a className="nav-link active" data-toggle="tab" href="#gis">
@@ -491,12 +500,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 
     return {
-        fetchFilters: () => { dispatch(GisAction.fetchGisFilters()) },
+        // fetchFilters: () => { dispatch(GisAction.fetchGisFilters()) },
     };
 
 }
 
-GISComponent.propTypes = {
+AddFeature.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
@@ -504,4 +513,4 @@ export default reduxForm({
     form: 'gisAddFeatures',
     Validate,
     AsyncValidate
-})(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(GISComponent)));
+})(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AddFeature)));

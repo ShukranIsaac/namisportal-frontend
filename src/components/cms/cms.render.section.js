@@ -23,7 +23,7 @@ import EditFinancingRequestSupport from '../financing/financing.edit.request';
 import CreateContactDetails from '../contact/contact.create.form';
 import ContactShowDetails from '../contact/contact.show.details';
 import EditContactDetails from '../contact/contact.edit.form';
-import GISComponent from '../gis/gis.cms.component';    
+import AddFeature from '../gis/gis.cms.add_feature';    
 import ListUserAccounts from '../user/user.list.cms.component';
 import EditUserAccount from '../user/user.edit.cms.component';
 import EditUserProfile from '../user/user.details.cms.component';
@@ -34,6 +34,7 @@ import { ListLicensing } from '../licensing/licensing.list';
 import CreateLicensingStep from '../licensing/licensing.create';
 import EditLicensingStep from '../licensing/licensing.edit';
 import AddUserAccount from '../user/user.add.component';
+import GisFeatures from '../gis/gis.cms.features';
 
 /**
  * Renders a single section resource i.e. licencing, library at cms index
@@ -161,7 +162,12 @@ const RenderSection = ({
             return (
                 <Fragment>
                     
-                    <GISComponent { ...props } handleClick={ (e) => handleClick(e) } />
+                    <ResourceSection 
+                        option={props.user_event} 
+                        name="gis"
+                        List={ () => <GisFeatures handleClick={ (e) => handleClick(e) } /> }
+                        Create={ () => <AddFeature { ...props } handleClick={ (e) => handleClick(e) } /> }
+                    />
 
                 </Fragment>
             );
@@ -175,18 +181,18 @@ const RenderSection = ({
                         option={props.user_event} 
                         name="directory" 
                         List={ () => <ListDirectoryInstitution 
-                                        handleClick={ (e) => handleClick(e) } 
-                                        stakeholders={ props.stakeholders_list } 
-                                        handleChange={ (e) => { handleChange(e) } }
-                                    /> 
+                                    handleClick={ (e) => handleClick(e) } 
+                                    stakeholders={ props.stakeholders_list } 
+                                    handleChange={ (e) => { handleChange(e) } }
+                                /> 
                             }
                         Edit={ () => <EditDirectoryInstitution 
-                                        handleClick={ (e) => handleClick(e) }
-                                        stakeholder={ props.stakeholder }
-                                        editStakeholder={ props.editStakeholder }
-                                        // archiveStakeholder={ props.archiveStakeholder }
-                                        { ...props }
-                                    />
+                                    handleClick={ (e) => handleClick(e) }
+                                    stakeholder={ props.stakeholder }
+                                    editStakeholder={ props.editStakeholder }
+                                    // archiveStakeholder={ props.archiveStakeholder }
+                                    { ...props }
+                                />
                             }
                         Create={ () => <CreateDirectoryInstitution 
                                     stakeholder={ props.stakeholder }
