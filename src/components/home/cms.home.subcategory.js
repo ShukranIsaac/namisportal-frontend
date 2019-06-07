@@ -38,7 +38,7 @@ export class CMSHomeSubCategory extends React.Component{
 
         return (
             <Col key={ name + _id } sm='12' md='8' lg='6'>
-                <div className="card">
+                <div className="card" style={{minHeight: 'auto'}}>
                     <div className="card-body">
                         <h4>
                             <a name="edit" id={_id} key={_id} href="/cms" onClick={ (e) => handleClick(e) }>
@@ -57,7 +57,7 @@ export class CMSHomeSubCategory extends React.Component{
                 </div>
                 <Modal 
                     isOpen={modal} toggle={this.toggle}
-                    // style={{ marginLeft: '40%' }}
+                    style={{ minWidth: '20%' }}
                     centered={ true }
                     // modalTransition={{ timeout: 400 }} 
                     // backdropTransition={{ timeout: 1000 }}

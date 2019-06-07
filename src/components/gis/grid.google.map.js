@@ -358,7 +358,7 @@ class MinGridMap extends Component {
                   power_sub_stations.map((sub_station) => {
   
                     return (
-                      <PointMarker key={sub_station._id} point={sub_station} title='Power Sub-Station'/>
+                      <PointMarker key={sub_station._id} point={sub_station} title='Sub-Station'/>
                     )
   
                   })

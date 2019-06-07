@@ -101,20 +101,20 @@ export class HomeSubCategory extends React.Component{
             <Col sm='12' md='6' lg='4'>
                 <div className="card" style={{minHeight: '394px'}}>
                     <div className="card-body">
-                    <h4>
-                        <a className="heading" 
-                            href={ this.link(section) } 
-                            onClick={ redirect.to({ to: '/' + section })}>
-                            
-                            { section.name }
-                        </a>
-                    </h4>
-                    <p style={{textAlign: 'justify'}}>
-                        { `${section.about.substring(0, 250)} `} 
-                        {
-                            this.renderReadMore(section.about)
-                        }
-                    </p>
+                        <h4>
+                            <a className="heading" 
+                                href={ this.link(section) } 
+                                onClick={ redirect.to({ to: '/' + section })}>
+                                
+                                { section.name }
+                            </a>
+                        </h4>
+                        <p style={{textAlign: 'justify'}}>
+                            { `${section.about.substring(0, 250)} `} 
+                            {
+                                this.renderReadMore(section.about)
+                            }
+                        </p>
                     
                     </div>
                     <div className="card-footer" style={{  backgroundColor: 'unset', borderTop: 'unset' }}>
