@@ -46,7 +46,7 @@ class CMSIndex extends React.Component {
             searchTerm: '',
             doc_title: '',
             open: true,
-            subcategory: null
+            category: null
         }
 
         /**
@@ -85,15 +85,42 @@ class CMSIndex extends React.Component {
 
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    // componentDidUpdate(prevProps, prevState) {
 
-        // check if props or state changed
-        if (prevProps !== this.props) {
-            // Object.assign(this.props, { home: prevProps })
-            // this.props.homeSubcategory("Home");
-        }
+    //     // if props or state changed
+    //     switch (this.state.link) {
+    //         case 'licensing':
+    //             const { category } = this.state;
+    //             const { subcategory, user_event } = this.props;
+    //             if (subcategory !== null) {
+    //                 // if category subcategories length is 0
+    //                 // fetch category
+    //                 // console.log(user_event)
+    //                 // console.log(category)
+    //                 // console.log(subcategory)
+    //                 if (user_event === 'reload' && subcategory.subCategories.length === 0) {
+    //                     // if category is not null
+    //                     if (this.state.category !== null) {
+    //                         // fetch category
+    //                         if (category._id !== subcategory._id) {
+    //                             this.props.category(category.name);
+    //                             console.log(prevProps.subcategory)
+    //                             console.log(subcategory)
+    //                             this.props.defaultItem();
+    //                         }
+    //                     }
+    //                 } else {
+    //                     Object.assign(this.state, { category: this.props.subcategory });
+    //                 }
+    //             }
+    //             break;
+        
+    //         default:
+    //             break;
+    //     }
+        
 
-    }
+    // }
 
     componentWillUnmount() {
 
@@ -103,7 +130,7 @@ class CMSIndex extends React.Component {
          *  resource in the CMS.
          */
         this.setState({
-            event: 'default',
+            // event: 'default',
         });
 
     }
@@ -312,6 +339,7 @@ class CMSIndex extends React.Component {
                      * Then fetch category to edit
                      */
                     this.props.subCategory(event.currentTarget.id);
+                    // this.props.reload()
 
                 } else if(link === 'financing') {
 
@@ -354,8 +382,8 @@ class CMSIndex extends React.Component {
 
     render() {
         
-        const { classes } = this.props;
-        const { link } = this.state;
+        const { classes, general, actionType } = this.props;
+        const { link, } = this.state;
         
         // get loggedin user
         const user = UserProfile.get();
@@ -364,7 +392,16 @@ class CMSIndex extends React.Component {
         if(user === null) {
             return redirect.to({ url: `/login` })
         }
+        // console.log(this.props.general)
+        if (general !== null) {
+            // isLoading or not
+            if(!general.isLoading && actionType === 'REQUEST_CATEGORY') {
+                // console.log(this.props.subcategory)
+                Object.assign(this.state, { category: this.props.subcategory });
+            }
+        }
 
+        // console.log(this.state.category)
         return (
             <div className={classes.root}>
             
@@ -444,7 +481,7 @@ class CMSIndex extends React.Component {
                             <RenderSection
                                 link={ link } 
                                 handleClick={ this.handleClick } 
-                                categoryClick={ this.categoryClick }
+                                // categoryClick={ this.categoryClick }
                                 handleChange={ (e) => { this.handleChange(e) } }
                                 props={this.props}
                                 { ...this.state }
@@ -530,6 +567,7 @@ const mapStateToProps = (state) => {
     return {
         errored: state.news.errored,
         general: state.general.general,
+        actionType: state.cms.actionType,
         user_event: state.event.event,
         library: state.library.library,
         document: state.library.document,
@@ -559,6 +597,7 @@ const mapDispatchToProps = (dispatch) => {
         deleteItem : () => { dispatch(UserEventActions.remove()) },
         archiveItem : () => { dispatch(UserEventActions.archive()) },
         createItem : () => { dispatch(UserEventActions.create()) },
+        reload : () => { dispatch(UserEventActions.reload()) },
         // Library category
         fetchLibraryDocs: () => { dispatch(LibraryAction.fetchAllLibraryDocs()) },
         // library files and documents
@@ -570,7 +609,7 @@ const mapDispatchToProps = (dispatch) => {
         subCategory: (id) => { dispatch(CMSAction.fetchSubCategory(id)) },
         category: (name) => { dispatch(CMSAction.fetchCategory(name)) },
         createCategory: (i, c, t) => { dispatch(CMSAction.addCategory(i, c, t)) },
-        editCategory: (s, e, t) => { dispatch(CMSAction.editCategory(s, e, t)) },
+        editCategory: (s, e, t, state) => { dispatch(CMSAction.editCategory(s, e, t, state)) },
         archiveCategory: (c, t) => { dispatch(CMSAction.archiveCategory(c, t)) },
         // stakeholders
         createStakeholder: (s, t) => { dispatch(Stakeholder.createStakeholder(s, t)) },

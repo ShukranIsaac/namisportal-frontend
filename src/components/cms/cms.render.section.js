@@ -53,7 +53,8 @@ const RenderSection = ({
     link, 
     props, 
     handleClick, 
-    handleChange
+    handleChange,
+    category
 }) => {
     
     switch (link) {
@@ -115,6 +116,7 @@ const RenderSection = ({
                         }
                         Edit={ () => <EditLicensingStep 
                                 { ...props }
+                                category = { category }
                                 handleClick={ (e) => handleClick(e) } 
                                 handleChange={ (e) => { handleChange(e) } }
                             />

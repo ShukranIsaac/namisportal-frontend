@@ -45,14 +45,14 @@ class EditLicensingStep extends Component {
     handleSubmit = (values) => {
         
         // get category
-        const { subcategory } = this.props;
+        const { subcategory, category } = this.props;
         // authenticated user token
         const user = UserProfile.get();
         if(user !== null && user.token !== undefined) {
 
             if(values !== null && values !== undefined) {
                 // define sub-category structure
-                const category = {
+                const _sub_category = {
                     name: values.name,
                     shortName: values.shortName,
                     about: values.summary,
@@ -60,7 +60,7 @@ class EditLicensingStep extends Component {
 
                 if (subcategory !== null && subcategory !== undefined) {
                     // console.log(sub_category)
-                    this.props.editCategory(subcategory._id, category, user.token);
+                    this.props.editCategory(subcategory._id, _sub_category, user.token, category);
                     // then change state to default
                     // so that the page redirects and list all licensing items
                     this.props.defaultItem();

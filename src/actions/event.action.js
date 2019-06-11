@@ -62,3 +62,9 @@ export const list = () => {
     return action(UserEventType.EVENT_USER_LIST, 'list');
 
 }
+
+export const reload = () => {
+
+    return action(UserEventType.EVENT_USER_RELOAD, 'reload');
+
+}

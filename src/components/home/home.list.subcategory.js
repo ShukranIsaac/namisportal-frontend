@@ -48,7 +48,7 @@ export const ListHomeSubcategory = ({
                                 {
                                     category.subCategories !== undefined && category.subCategories.map((section, index) => {
             
-                                        return (<CMSHomeSubCategory section={ section } handleClick={ handleClick } />);
+                                        return (<CMSHomeSubCategory key={index} section={ section } handleClick={ handleClick } />);
             
                                     })
                                 }

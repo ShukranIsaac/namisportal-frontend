@@ -135,7 +135,7 @@ export const addCategory = (category_id, sub_category, token) => {
  * @param edited_sub_category
  * @param token
  */
-export const editCategory = (category_id, edited_sub_category, token) => {
+export const editCategory = (category_id, edited_sub_category, token, category) => {
     
     const url = `categories/` + category_id + `?token=` + token;
 
@@ -147,13 +147,12 @@ export const editCategory = (category_id, edited_sub_category, token) => {
         
         .then((response) => {
 
-            dispatch(
-                GeneralAction.fetchSuccess(
-                    CMSType.REQUEST_EDIT_SUB_CATE,
-                    response, 
-                    false
-                )
-            )
+            if (category.name === 'Licensing') {
+                category.subCategories.splice(category.subCategories.findIndex(o => o._id === response._id), 1, response);
+                dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_EDIT_SUB_CATE, category, false))
+            } else {
+                dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_EDIT_SUB_CATE, response, false))
+            }
 
         })
         

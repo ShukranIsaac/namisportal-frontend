@@ -16,7 +16,7 @@ export const ListLicensing = (withStyles(styles)(({
     subcategory,
     general,
 }) => {
-
+    
     return (
         <Fragment>
 

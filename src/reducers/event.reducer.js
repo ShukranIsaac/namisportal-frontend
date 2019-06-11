@@ -47,6 +47,10 @@ const userEvent = (state = initialState, action) => {
         case UserEventType.EVENT_USER_CREATE:
 
             return firedAction(state, action);
+
+        case UserEventType.EVENT_USER_RELOAD:
+
+            return firedAction(state, action);
             
         default:
             return state;
