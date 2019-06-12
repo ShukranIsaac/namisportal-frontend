@@ -54,7 +54,9 @@ const RenderSection = ({
     props, 
     handleClick, 
     handleChange,
-    category
+    category,
+    district_name,
+    region_name
 }) => {
     
     switch (link) {
@@ -160,14 +162,20 @@ const RenderSection = ({
             );
             
         case 'gis':
-
+            // console.log(region_name)
             return (
                 <Fragment>
                     
                     <ResourceSection 
                         option={props.user_event} 
                         name="gis"
-                        List={ () => <GisFeatures handleClick={ (e) => handleClick(e) } /> }
+                        List={ () => <GisFeatures 
+                                { ...props } 
+                                district_name={ district_name }
+                                region_name={ region_name }
+                                handleClick={ (e) => handleClick(e) } 
+                                handleChange={ (e) => handleChange(e) } /> 
+                            }
                         Create={ () => <AddFeature { ...props } handleClick={ (e) => handleClick(e) } /> }
                     />
 

@@ -232,6 +232,7 @@ export const powerPlants = (capacity, plantType) => {
 
     .catch(error => {
 
+      console.log(error)
       dispatch(GeneralAction.hasErrored(true));
 
     });
@@ -292,4 +293,28 @@ export const powerSubStations = (id) => {
 
   }
 
+}
+
+export const features = (district_id) => {
+  // api resource url
+  const url = `districts/` + district_id + `?count`;
+  // console.log(url);
+  return async dispatch => {
+
+    dispatch(GeneralAction.isLoading(true));
+
+    return await get(dispatch, url)
+    
+    .then((response) => {
+      // console.log(response);
+      dispatch(GeneralAction.fetchSuccess(GisType.FETCH_GIS_FEATURES, response, false))
+
+    })
+    
+    .catch(() => {
+
+      dispatch(GeneralAction.hasErrored(true))
+
+    });
+  };
 }

@@ -46,7 +46,8 @@ class CMSIndex extends React.Component {
             searchTerm: '',
             doc_title: '',
             open: true,
-            category: null
+            category: null,
+            selectedDistrict: null,
         }
 
         /**
@@ -82,56 +83,6 @@ class CMSIndex extends React.Component {
         // this.props.editItem();
         // console.log(this.props.user_event);
         this.props.homeSubcategory("Home");
-
-    }
-
-    // componentDidUpdate(prevProps, prevState) {
-
-    //     // if props or state changed
-    //     switch (this.state.link) {
-    //         case 'licensing':
-    //             const { category } = this.state;
-    //             const { subcategory, user_event } = this.props;
-    //             if (subcategory !== null) {
-    //                 // if category subcategories length is 0
-    //                 // fetch category
-    //                 // console.log(user_event)
-    //                 // console.log(category)
-    //                 // console.log(subcategory)
-    //                 if (user_event === 'reload' && subcategory.subCategories.length === 0) {
-    //                     // if category is not null
-    //                     if (this.state.category !== null) {
-    //                         // fetch category
-    //                         if (category._id !== subcategory._id) {
-    //                             this.props.category(category.name);
-    //                             console.log(prevProps.subcategory)
-    //                             console.log(subcategory)
-    //                             this.props.defaultItem();
-    //                         }
-    //                     }
-    //                 } else {
-    //                     Object.assign(this.state, { category: this.props.subcategory });
-    //                 }
-    //             }
-    //             break;
-        
-    //         default:
-    //             break;
-    //     }
-        
-
-    // }
-
-    componentWillUnmount() {
-
-        /**
-         * Set back state to default, to reproduce, uncheck this
-         *  and see the effects when moving from one resource to another i.e. edit or create new 
-         *  resource in the CMS.
-         */
-        this.setState({
-            // event: 'default',
-        });
 
     }
 
@@ -249,8 +200,30 @@ class CMSIndex extends React.Component {
     }
 
     handleChange = (e) => {
+        console.log(e.target.value)
+        this.setState({ [e.target.name]: e.target.value }, () => {
+            //set and fetch district which has been selected
+            const { gis_filters } = this.props;
+            const { district_name, region_name } = this.state;
+            if (district_name !== undefined) {
+                // region index
+                const index = gis_filters.findIndex(o => o.properties.name === region_name);
+                // filter district selected
+                let district = gis_filters[index].districts[gis_filters[index].districts.findIndex(o => o.properties.name === district_name)];
+                // then set state and 
+                // prevent page from refreshing
+                this.setState({ selectedDistrict: district }, () => {
 
-        this.setState({ [e.target.name]: e.target.value });
+                    const { selectedDistrict } = this.state;
+
+                    if (selectedDistrict !== null && selectedDistrict !== undefined) {
+                        // make request
+                        this.props.gisFeatures(selectedDistrict._id);
+                    }
+
+                })
+            }
+        });
         
     }
 
@@ -568,6 +541,7 @@ const mapStateToProps = (state) => {
         errored: state.news.errored,
         general: state.general.general,
         actionType: state.cms.actionType,
+        features: state.cms.features,
         user_event: state.event.event,
         library: state.library.library,
         document: state.library.document,
@@ -631,6 +605,7 @@ const mapDispatchToProps = (dispatch) => {
         fetchQuestion: (id) => { dispatch(CMSAction.fetchQuestion(id)) },
         // gis
         fetchFilters: () => { dispatch(GisAction.fetchGisFilters()) },
+        gisFeatures: (district_id) => { dispatch(GisAction.features(district_id)) }
     };
 
 }
