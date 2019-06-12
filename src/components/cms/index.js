@@ -200,7 +200,7 @@ class CMSIndex extends React.Component {
     }
 
     handleChange = (e) => {
-        console.log(e.target.value)
+        // console.log(e.target.value)
         this.setState({ [e.target.name]: e.target.value }, () => {
             //set and fetch district which has been selected
             const { gis_filters } = this.props;
@@ -605,7 +605,8 @@ const mapDispatchToProps = (dispatch) => {
         fetchQuestion: (id) => { dispatch(CMSAction.fetchQuestion(id)) },
         // gis
         fetchFilters: () => { dispatch(GisAction.fetchGisFilters()) },
-        gisFeatures: (district_id) => { dispatch(GisAction.features(district_id)) }
+        gisFeatures: (district_id) => { dispatch(GisAction.features(district_id)) },
+        addFeature: (feature, type, token) => { dispatch(GisAction.addFeature(feature, type, token)) }
     };
 
 }

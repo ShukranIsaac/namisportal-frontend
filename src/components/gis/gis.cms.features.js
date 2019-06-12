@@ -89,11 +89,16 @@ class GisFeatures extends Component {
 
     render() {
 
-        const { classes, handleClick, handleChange, region_name, district_name, features } = this.props;
+        const { 
+            classes, 
+            handleClick, 
+            handleChange, 
+            region_name, 
+            district_name, 
+            features 
+        } = this.props;
         // get the logged in user
         const user = UserProfile.get();
-
-        console.log(this.props.features)
 
         return (
             <Fragment>

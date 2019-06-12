@@ -162,7 +162,7 @@ const RenderSection = ({
             );
             
         case 'gis':
-            // console.log(region_name)
+            // console.log(props)
             return (
                 <Fragment>
                     

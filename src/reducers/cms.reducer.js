@@ -5,6 +5,7 @@ const initialState = {
     question: null,
     actionType: null,
     features: null,
+    feature: null
 }
 
 const cms = (state = initialState, action) => {
@@ -56,6 +57,12 @@ const cms = (state = initialState, action) => {
             return {
                 ...state,
                 features: action.payload,
+                actionType: action.type
+            }
+        case GisType.CREATE_NEW_GIS_FEATURE:
+            return {
+                ...state,
+                feature: action.payload,
                 actionType: action.type
             }
         default:

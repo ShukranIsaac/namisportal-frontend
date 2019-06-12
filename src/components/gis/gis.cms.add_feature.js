@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import { reduxForm } from 'redux-form';
 import AsyncValidate from '../contact/form.async-validate';
@@ -15,6 +16,8 @@ import RadioButtons from '../forms/form.radiobtn.field';
 import { Divider, Intent, Button } from '@blueprintjs/core';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { FormTextInputField } from '../forms/form.textinput.field';
+import { UserProfile } from '../user/user.profile';
+import { FormCheckboxControl } from '../forms/form.checkbox.field';
 
 /**
  * Render gis component to: upload new coordinates, and other features
@@ -41,12 +44,42 @@ class AddFeature extends Component {
     }
 
     handleChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value });
+        // console.log(e.currentTarget)
+        this.setState({ [e.target.name]: e.target.value }, () => {
+            // state
+            const state = this.state;
+            if (state.marep_center_latitude !== undefined && state.marep_center_latitude !== null &&
+                state.marep_center_ta !== undefined && state.marep_center_ta !== null &&
+                state.marep_center_longitude !== undefined && state.marep_center_longitude !== null) {
+                // define question structure
+                const center = {
+                    region: this.state.region_name,
+                    district: this.state.district_name,
+                    marep_center_ta: state.marep_center_ta,
+                    marep_center_latitude: state.marep_center_latitude,
+                    marep_center_longitude: state.marep_center_longitude
+                }
+
+                console.log(center)
+                // set feature state for preview on map
+                this.setState({ feature: center });
+            }
+        });
     }
 
     handleRadioBtnChange = event => {
         this.setState({ selectedValue: event.target.value });
     };
+
+    handleChecked = (event) => {
+
+        this.setState({ [event.target.name]: event.target.checked }, () => {
+            if (this.state.preview_feature !== undefined && this.state.preview_feature === true) {
+                this.setState({ point: this.state.feature });
+            }
+        });
+
+    }
 
     /**
      * Renders mapped object filter options (regions)
@@ -168,13 +201,142 @@ class AddFeature extends Component {
      */
     handleSubmit = (values) => {
 
-        const { previewMap } = this.state;
+        const { selectedValue, region_name, district_name } = this.state;
+        // const { props: { addFeature }, gis_filters } = this.props;
         // preview feature first before submitting
-        if (previewMap) {
-            this.setState({ previewMap: false, point: values });
-        } else {
-            // set state
-            this.setState({ previewMap: true });
+        if (selectedValue) {
+            // get authenticated user token
+            const user = UserProfile.get();
+            // feature type
+            switch (selectedValue) {
+                case 'marep_center':
+                    if(user !== null && user.token !== undefined) {
+
+                        // check if resource or file if being added
+                        if (values.marep_center_latitude !== undefined && values.marep_center_latitude !== null &&
+                            values.marep_center_ta !== undefined && values.marep_center_ta !== null &&
+                            values.marep_center_longitude !== undefined && values.marep_center_longitude !== null) {
+                            // define question structure
+                            const center = {
+                                region: region_name,
+                                district: district_name,
+                                ta: values.marep_center_ta,
+                                lat: values.marep_center_latitude,
+                                lng: values.marep_center_longitude
+                            }
+                            // create new center
+                            this.props.addFeature(center , "marep-centers", user.token);
+                            // // then change state to default
+                            // // so that the page redirects and list all frequently asked questions
+                            this.props.defaultItem();
+                        }
+        
+                    } 
+                    break;
+
+                case 'transformer':
+                    if(user !== null && user.token !== undefined) {
+
+                        // check if resource or file if being added
+                        if (values.marep_center_latitude !== undefined && values.marep_center_latitude !== null &&
+                            values.marep_center_ta !== undefined && values.marep_center_ta !== null &&
+                            values.marep_center_longitude !== undefined && values.marep_center_longitude !== null) {
+                            // define question structure
+                            const transformer = {
+                                region: region_name,
+                                district: district_name,
+                                ta: values.marep_center_ta,
+                                lat: values.marep_center_latitude,
+                                lng: values.marep_center_longitude
+                            }
+                            // create new transfomer
+                            // this.props.addFeature(transformer , "transformers", user.token);
+                            // // then change state to default
+                            // // so that the page redirects and list all frequently asked questions
+                            this.props.defaultItem();
+                        }
+        
+                    } 
+                    break;
+
+                case 'power_plant':
+                    if(user !== null && user.token !== undefined) {
+
+                        // check if resource or file if being added
+                        if (values.marep_center_latitude !== undefined && values.marep_center_latitude !== null &&
+                            values.marep_center_ta !== undefined && values.marep_center_ta !== null &&
+                            values.marep_center_longitude !== undefined && values.marep_center_longitude !== null) {
+                            // define question structure
+                            const power_plant = {
+                                region: region_name,
+                                district: district_name,
+                                ta: values.marep_center_ta,
+                                lat: values.marep_center_latitude,
+                                lng: values.marep_center_longitude
+                            }
+                            // create new power_plant
+                            // this.props.addFeature(power_plant , "power-plants", user.token);
+                            // // then change state to default
+                            // // so that the page redirects and list all frequently asked questions
+                            this.props.defaultItem();
+                        }
+        
+                    } 
+                    break;
+
+                case 'distribution_line':
+                    if(user !== null && user.token !== undefined) {
+
+                        // check if resource or file if being added
+                        if (values.marep_center_latitude !== undefined && values.marep_center_latitude !== null &&
+                            values.marep_center_ta !== undefined && values.marep_center_ta !== null &&
+                            values.marep_center_longitude !== undefined && values.marep_center_longitude !== null) {
+                            // define question structure
+                            const distribution_line = {
+                                region: region_name,
+                                district: district_name,
+                                ta: values.marep_center_ta,
+                                lat: values.marep_center_latitude,
+                                lng: values.marep_center_longitude
+                            }
+                            // create new distribution_line
+                            // this.props.addFeature(distribution_line , "distribution-lines", user.token);
+                            // // then change state to default
+                            // // so that the page redirects and list all frequently asked questions
+                            this.props.defaultItem();
+                        }
+        
+                    } 
+                    break;
+
+                case 'substation':
+                    if(user !== null && user.token !== undefined) {
+
+                        // check if resource or file if being added
+                        if (values.marep_center_latitude !== undefined && values.marep_center_latitude !== null &&
+                            values.marep_center_ta !== undefined && values.marep_center_ta !== null &&
+                            values.marep_center_longitude !== undefined && values.marep_center_longitude !== null) {
+                            // define question structure
+                            const substation = {
+                                region: region_name,
+                                district: district_name,
+                                ta: values.marep_center_ta,
+                                lat: values.marep_center_latitude,
+                                lng: values.marep_center_longitude
+                            }
+                            // create new substation
+                            // this.props.addFeature(substation , "sub-stations", user.token);
+                            // // then change state to default
+                            // // so that the page redirects and list all frequently asked questions
+                            this.props.defaultItem();
+                        }
+        
+                    } 
+                    break;
+            
+                default:
+                    break;
+            }
         }
 
     }
@@ -198,6 +360,14 @@ class AddFeature extends Component {
                     >
                         <FormTextInputField 
                             { ...this.props }
+                            name="marep_center_ta"
+                            placeholder="Enter new marep center traditional authority..."
+                            label="Traditioanal Authority"
+                            type="text"
+                        />
+
+                        <FormTextInputField 
+                            { ...this.props }
                             name="marep_center_latitude"
                             placeholder="Enter new marep center latitude coordinate..."
                             label="Center Latitude"
@@ -212,27 +382,15 @@ class AddFeature extends Component {
                             type="text"
                         />
 
-                        {
-                            !this.state.previewMap ? (
-                                <Fragment>
-                                    <Button 
-                                        className={ classes.margin }
-                                        name="save"
-                                        type="submit" 
-                                        disabled={!valid  || pristine || submitting} 
-                                        intent="success" text="Save Marep Center" 
-                                    />
-                                </Fragment>
-                            ) : (
-                                <Button 
-                                    className={ classes.margin }
-                                    name="Preview"
-                                    type="submit"
-                                    intent="success" 
-                                    text="Preview" 
-                                />
-                            )
-                        }
+                        <Fragment>
+                            <Button 
+                                className={ classes.margin }
+                                name="save"
+                                type="submit" 
+                                disabled={!valid  || pristine || submitting} 
+                                intent="success" text="Save Marep Center" 
+                            />
+                        </Fragment>
                     </form>
                 );
             case 'transformer':
@@ -370,7 +528,7 @@ class AddFeature extends Component {
                         </a>
                     </li>
                     {
-                        this.state.feature === 'other' && (
+                        (this.state.feature === 'other' && this.state.preview_feature) && (
                             <li className="nav-item">
                                 <a className="nav-link" data-toggle="tab" href="#preview">
                                     Preview
@@ -381,30 +539,28 @@ class AddFeature extends Component {
                 </ul>
 
                 <div className="tab-content">
-                    <div id="gis" className="tab-pane active"><br />
-                        <div className="row">
-                            { /** filter sections here */}
-                            <FormControl className={classes.margin}>
+                    <div id="gis" className={classNames(classes.marginTop, "tab-pane active")}>
+                        { /** filter sections here */}
+                        <FormControl className={classes.margin}>
 
-                                <Paper elevation={0}>
-                                    
-                                    <SelectInputControl 
-                                        name="feature"
-                                        label="Feature(*)"
-                                        { ...this.state }
-                                        // value={ this.state.section }
-                                        onChange={ e => this.handleChange(e) }
-                                    >
-                                        <option value="">{ `Add feature` }</option>
-                                        <option value="region">{ `Region` }</option>
-                                        <option value="district">{ `District` }</option>
-                                        <option value="other">{ `Other` }</option>
-                                    </SelectInputControl>
+                            <Paper elevation={0}>
+                                
+                                <SelectInputControl 
+                                    name="feature"
+                                    label="Feature(*)"
+                                    { ...this.state }
+                                    // value={ this.state.section }
+                                    onChange={ e => this.handleChange(e) }
+                                >
+                                    <option value="">{ `Add feature` }</option>
+                                    <option value="region">{ `Region` }</option>
+                                    <option value="district">{ `District` }</option>
+                                    <option value="other">{ `Other` }</option>
+                                </SelectInputControl>
 
-                                </Paper>
+                            </Paper>
 
-                            </FormControl>
-                        </div>
+                        </FormControl>
 
                         {
                             this.state.feature === 'other' ? (
@@ -461,6 +617,16 @@ class AddFeature extends Component {
                                         }
                                     </div>
 
+                                    <div className={ classes.margin }>
+                                        <FormCheckboxControl 
+                                            name='preview_feature' 
+                                            value='Preview on Map' 
+                                            isChecked={ this.state.preview_feature }
+                                            classes={ classes }
+                                            handleChange={ (e) => { this.handleChecked(e) } }
+                                        />
+                                    </div>
+
                                 </Fragment>
                             ) : (
                                 <Fragment className={classes.margin}>
@@ -476,7 +642,7 @@ class AddFeature extends Component {
                             )
                         }
                     </div>
-                    <div id="preview" className="tab-pane fade"><br />
+                    <div id="preview" className="tab-pane fade">
                         <CMSMapPreview { ...this.state } />
                     </div>
                 </div>
@@ -497,14 +663,6 @@ const mapStateToProps = (state) => {
 
 }
 
-const mapDispatchToProps = (dispatch) => {
-
-    return {
-        // fetchFilters: () => { dispatch(GisAction.fetchGisFilters()) },
-    };
-
-}
-
 AddFeature.propTypes = {
     classes: PropTypes.object.isRequired,
 }
@@ -513,4 +671,4 @@ export default reduxForm({
     form: 'gisAddFeatures',
     Validate,
     AsyncValidate
-})(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AddFeature)));
+})(connect(mapStateToProps, null)(withStyles(styles)(AddFeature)));

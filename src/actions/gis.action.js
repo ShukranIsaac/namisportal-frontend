@@ -1,7 +1,7 @@
 import { GisType, GeneralType } from '../action_type/index';
 
 import * as GeneralAction from './general.action';
-import { get } from './api.service';
+import { get, post } from './api.service';
 
 /**
  * Fetch region given its name or _id
@@ -313,6 +313,40 @@ export const features = (district_id) => {
     
     .catch(() => {
 
+      dispatch(GeneralAction.hasErrored(true))
+
+    });
+  };
+}
+
+/**
+ * create new feature
+ * 
+ * @param {String} id 
+ * @param {Object} feature 
+ * @param {String} type 
+ * @param {String} token 
+ */
+export const addFeature = (feature , type, token) => {
+  // api resource url
+  const url = type + `imkom?token=` + token;
+  // console.log(url);
+  // console.log(feature);
+  return async dispatch => {
+
+    dispatch(GeneralAction.isLoading(true));
+
+    return await post(dispatch, url, feature)
+    
+    .then((response) => {
+
+      dispatch(GeneralAction.fetchSuccess(GisType.CREATE_NEW_GIS_FEATURE, response, false))
+
+    })
+    
+    .catch(error => {
+
+      console.log(error);
       dispatch(GeneralAction.hasErrored(true))
 
     });
