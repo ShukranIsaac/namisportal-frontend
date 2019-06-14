@@ -78,7 +78,7 @@ const RadioButtons = ({
           checked: classes.checked,
         }}
       />
-      <InputLabel shrink htmlFor="option-open-radio">SubStation</InputLabel>
+      <InputLabel shrink htmlFor="option-open-radio">Sub-station</InputLabel>
 
       <Radio
           checked={selectedValue === 'distribution_line'}

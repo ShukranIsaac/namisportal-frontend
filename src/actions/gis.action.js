@@ -322,7 +322,6 @@ export const features = (district_id) => {
 /**
  * create new feature
  * 
- * @param {String} id 
  * @param {Object} feature 
  * @param {String} type 
  * @param {String} token 

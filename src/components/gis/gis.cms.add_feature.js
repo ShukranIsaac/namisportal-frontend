@@ -237,22 +237,22 @@ class AddFeature extends Component {
                 case 'transformer':
                     if(user !== null && user.token !== undefined) {
 
-                        // check if resource or file if being added
-                        if (values.marep_center_latitude !== undefined && values.marep_center_latitude !== null &&
-                            values.marep_center_ta !== undefined && values.marep_center_ta !== null &&
-                            values.marep_center_longitude !== undefined && values.marep_center_longitude !== null) {
-                            // define question structure
+                        // check if resource
+                        if (values.transformer_latitude !== undefined && values.transformer_latitude !== null &&
+                            values.transformer_ta !== undefined && values.transformer_ta !== null &&
+                            values.transformer_longitude !== undefined && values.transformer_longitude !== null) {
+                            // define transformer structure
                             const transformer = {
                                 region: region_name,
                                 district: district_name,
-                                ta: values.marep_center_ta,
-                                lat: values.marep_center_latitude,
-                                lng: values.marep_center_longitude
+                                ta: values.transformer_ta,
+                                lat: values.transformer_latitude,
+                                lng: values.transformer_longitude
                             }
                             // create new transfomer
-                            // this.props.addFeature(transformer , "transformers", user.token);
+                            this.props.addFeature(transformer , "transformers", user.token);
                             // // then change state to default
-                            // // so that the page redirects and list all frequently asked questions
+                            // // so that the page redirects
                             this.props.defaultItem();
                         }
         
@@ -262,20 +262,20 @@ class AddFeature extends Component {
                 case 'power_plant':
                     if(user !== null && user.token !== undefined) {
 
-                        // check if resource or file if being added
-                        if (values.marep_center_latitude !== undefined && values.marep_center_latitude !== null &&
-                            values.marep_center_ta !== undefined && values.marep_center_ta !== null &&
-                            values.marep_center_longitude !== undefined && values.marep_center_longitude !== null) {
-                            // define question structure
+                        // check if resource
+                        if (values.power_plant_latitude !== undefined && values.power_plant_latitude !== null &&
+                            values.plant_ta !== undefined && values.plant_ta !== null &&
+                            values.power_plant_longitude !== undefined && values.power_plant_longitude !== null) {
+                            // define power plant structure
                             const power_plant = {
                                 region: region_name,
                                 district: district_name,
-                                ta: values.marep_center_ta,
-                                lat: values.marep_center_latitude,
-                                lng: values.marep_center_longitude
+                                ta: values.plant_ta,
+                                lat: values.power_plant_latitude,
+                                lng: values.power_plant_longitude
                             }
                             // create new power_plant
-                            // this.props.addFeature(power_plant , "power-plants", user.token);
+                            this.props.addFeature(power_plant , "power-plants", user.token);
                             // // then change state to default
                             // // so that the page redirects and list all frequently asked questions
                             this.props.defaultItem();
@@ -288,19 +288,19 @@ class AddFeature extends Component {
                     if(user !== null && user.token !== undefined) {
 
                         // check if resource or file if being added
-                        if (values.marep_center_latitude !== undefined && values.marep_center_latitude !== null &&
-                            values.marep_center_ta !== undefined && values.marep_center_ta !== null &&
-                            values.marep_center_longitude !== undefined && values.marep_center_longitude !== null) {
+                        if (values.distribution_line_latitude !== undefined && values.distribution_line_latitude !== null &&
+                            values.distribution_line_ta !== undefined && values.distribution_line_ta !== null &&
+                            values.distribution_line_longitude !== undefined && values.distribution_line_longitude !== null) {
                             // define question structure
                             const distribution_line = {
                                 region: region_name,
                                 district: district_name,
-                                ta: values.marep_center_ta,
-                                lat: values.marep_center_latitude,
-                                lng: values.marep_center_longitude
+                                ta: values.distribution_line_ta,
+                                lat: values.distribution_line_latitude,
+                                lng: values.distribution_line_longitude
                             }
                             // create new distribution_line
-                            // this.props.addFeature(distribution_line , "distribution-lines", user.token);
+                            this.props.addFeature(distribution_line , "distribution-lines", user.token);
                             // // then change state to default
                             // // so that the page redirects and list all frequently asked questions
                             this.props.defaultItem();
@@ -313,19 +313,19 @@ class AddFeature extends Component {
                     if(user !== null && user.token !== undefined) {
 
                         // check if resource or file if being added
-                        if (values.marep_center_latitude !== undefined && values.marep_center_latitude !== null &&
-                            values.marep_center_ta !== undefined && values.marep_center_ta !== null &&
-                            values.marep_center_longitude !== undefined && values.marep_center_longitude !== null) {
+                        if (values.substation_latitude !== undefined && values.substation_latitude !== null &&
+                            values.substation_ta !== undefined && values.substation_ta !== null &&
+                            values.substation_longitude !== undefined && values.substation_longitude !== null) {
                             // define question structure
                             const substation = {
                                 region: region_name,
                                 district: district_name,
-                                ta: values.marep_center_ta,
-                                lat: values.marep_center_latitude,
-                                lng: values.marep_center_longitude
+                                ta: values.substation_ta,
+                                lat: values.substation_latitude,
+                                lng: values.substation_longitude
                             }
                             // create new substation
-                            // this.props.addFeature(substation , "sub-stations", user.token);
+                            this.props.addFeature(substation , "sub-stations", user.token);
                             // // then change state to default
                             // // so that the page redirects and list all frequently asked questions
                             this.props.defaultItem();
@@ -398,6 +398,46 @@ class AddFeature extends Component {
                     <form autoComplete="off">
                         <FormTextInputField 
                             { ...this.props }
+                            name="transformer_station"
+                            placeholder="Enter new transformer station..."
+                            label="Station"
+                            type="text"
+                        />
+
+                        <FormTextInputField 
+                            { ...this.props }
+                            name="transformer_voltage"
+                            placeholder="Enter new transformer voltage..."
+                            label="Voltage"
+                            type="text"
+                        />
+
+                        <FormTextInputField 
+                            { ...this.props }
+                            name="transformer_location"
+                            placeholder="Enter new transformer location..."
+                            label="Location"
+                            type="text"
+                        />
+
+                        <FormTextInputField 
+                            { ...this.props }
+                            name="transformer_position"
+                            placeholder="Enter new transformer position..."
+                            label="Position"
+                            type="text"
+                        />
+
+                        <FormTextInputField 
+                            { ...this.props }
+                            name="transformer_primary"
+                            placeholder="Enter new transformer primary..."
+                            label="Primary"
+                            type="text"
+                        />
+
+                        <FormTextInputField 
+                            { ...this.props }
                             name="transformer_latitude"
                             placeholder="Enter new transformer latitude coordinate..."
                             label="Transformer Latitude"
@@ -421,7 +461,40 @@ class AddFeature extends Component {
                 );
             case 'power_plant':
                 return (
-                    <form autoComplete="off">
+                    <form onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
+
+                        <FormTextInputField 
+                            { ...this.props }
+                            name="plant_name"
+                            placeholder="Enter new power plant name..."
+                            label="Plant Name"
+                            type="text"
+                        />
+
+                        <FormTextInputField 
+                            { ...this.props }
+                            name="plant_status"
+                            placeholder="Enter new power plant status..."
+                            label="Plant Status"
+                            type="text"
+                        />
+
+                        <FormTextInputField 
+                            { ...this.props }
+                            name="plant_type"
+                            placeholder="Enter new power plant type..."
+                            label="Plant Type"
+                            type="text"
+                        />
+
+                        <FormTextInputField 
+                            { ...this.props }
+                            name="plant_ta"
+                            placeholder="Enter new power plant traditional authority..."
+                            label="Traditioanal Authority"
+                            type="text"
+                        />
+
                         <FormTextInputField 
                             { ...this.props }
                             name="plant_latitude"
@@ -448,6 +521,46 @@ class AddFeature extends Component {
             case 'substation':
                 return (
                     <form autoComplete="off">
+                        <FormTextInputField 
+                            { ...this.props }
+                            name="substation_name"
+                            placeholder="Enter new sub station name..."
+                            label="Substation Name"
+                            type="text"
+                        />
+
+                        <FormTextInputField 
+                            { ...this.props }
+                            name="plant_ta"
+                            placeholder="Enter new power plant traditional authority..."
+                            label="Traditioanal Authority"
+                            type="text"
+                        />
+
+                        <FormTextInputField 
+                            { ...this.props }
+                            name="substation_transmission"
+                            placeholder="Enter new transmission..."
+                            label="Transmission"
+                            type="text"
+                        />
+
+                        <FormTextInputField 
+                            { ...this.props }
+                            name="substation_location"
+                            placeholder="Enter new sub station location..."
+                            label="Location"
+                            type="text"
+                        />
+
+                        <FormTextInputField 
+                            { ...this.props }
+                            name="substation_secondary"
+                            placeholder="Enter secondary..."
+                            label="Secondary"
+                            type="text"
+                        />
+
                         <FormTextInputField 
                             { ...this.props }
                             name="substation_latitude"
@@ -643,7 +756,7 @@ class AddFeature extends Component {
                         }
                     </div>
                     <div id="preview" className="tab-pane fade">
-                        <CMSMapPreview { ...this.state } />
+                        {/* <CMSMapPreview { ...this.state } /> */}
                     </div>
                 </div>
             </Fragment>
