@@ -14,7 +14,7 @@ export class FormTextInputField extends Component {
 
     handleChange = (event) => {
 
-        this.setState({ [event.target.name]: event.target.valaue });
+        this.setState({ [event.target.name]: event.target.value });
 
     }
 
@@ -26,21 +26,22 @@ export class FormTextInputField extends Component {
             <Field
                 name={ name }
                 component={ input => {
-                    
-                    return (
-                        <RenderBootstrapField
-                            { ...this.props }
-                            label={ label }
-                            defaultValue={ placeholder }
-                            name={ name }
-                            type={ type }
-                            props={ input }
-                            className='test-this'
-                            disabled={ disabled }
-                        />
-                    );
+                        
+                        return (
+                            <RenderBootstrapField
+                                { ...this.props }
+                                label={ label }
+                                defaultValue={ placeholder }
+                                name={ name }
+                                type={ type }
+                                { ...input }
+                                className='test-this'
+                                disabled={ disabled }
+                            />
+                        );
 
-                }}
+                    }
+                }
                 multiline={ multiline }
                 rows={ rows }
             />

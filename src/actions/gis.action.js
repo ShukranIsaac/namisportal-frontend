@@ -328,7 +328,7 @@ export const features = (district_id) => {
  */
 export const addFeature = (feature , type, token) => {
   // api resource url
-  const url = type + `imkom?token=` + token;
+  const url = type + `?token=` + token;
   // console.log(url);
   // console.log(feature);
   return async dispatch => {

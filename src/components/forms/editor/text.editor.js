@@ -501,7 +501,7 @@ export default class TextEditor extends Component {
 		return (
 			<Toolbar>
 
-				<EditorMarkerIcon 
+				{/* <EditorMarkerIcon 
 					type='bold' icon={ bold } 
 					onMarkClick={ this.onMarkClick } 
 					onMarkFocus={ this.onMarkFocus } 
@@ -534,7 +534,7 @@ export default class TextEditor extends Component {
 					onMarkClick={ this.onMarkClick } 
 					onMarkFocus={ this.onMarkFocus } 
 					hasMark={ this.hasMark }
-				/>
+				/> */}
 
 				<EditorMarkerIcon 
 					type='link' icon={ link2 } 
@@ -544,7 +544,7 @@ export default class TextEditor extends Component {
 					hasMark={ this.hasMark }
 				/>
 
-				<EditorMarkerIcon 
+				{/* <EditorMarkerIcon 
 					type='list-numbered' icon={ ic_format_list_numbered } 
 					onMarkClick={ this.onMarkClick } 
 					onMarkFocus={ this.onMarkFocus } 
@@ -556,7 +556,7 @@ export default class TextEditor extends Component {
 					onMarkClick={ this.onMarkClick } 
 					onMarkFocus={ this.onMarkFocus } 
 					hasMark={ this.hasMark }
-				/>
+				/> */}
 				{/* {this.renderMarkButton('bold', bold)}
 				{this.renderMarkButton('italic', italic)}
 				{this.renderMarkButton('underlined', underline)}

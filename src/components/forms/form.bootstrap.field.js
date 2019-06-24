@@ -20,9 +20,8 @@ const styles = theme => ({
 })
 
 const RenderBootstrapField = ({ 
-  classes, label, 
-  defaultValue, name, 
-  type, props, value
+  classes, label, defaultValue, name, 
+  type, value, input, meta
 }) => {
 
     return (
@@ -33,13 +32,12 @@ const RenderBootstrapField = ({
           name={name}
           placeholder={defaultValue}
           type={type}
-          value={props.input.value || value}
-          onChange={(e) => props.input.onChange(e)}
+          onChange={(e) => input.onChange(e)}
           classes={{
             root: classes.bootstrapRoot,
             input: classes.bootstrapInput,
           }}
-          { ...props }
+          { ...input }
           className={classes.inputFillWhole}
         />
       </FormControl>

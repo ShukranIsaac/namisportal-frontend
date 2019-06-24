@@ -105,8 +105,8 @@ class UserLogin extends Component {
 
     render() {
 
-        const { valid , pristine, submitting, handleSubmit } = this.props;
-        // console.log(this.context);
+        const { valid , pristine, submitting, handleSubmit, general } = this.props;
+        // console.log(this.props);
         // Get the user from local storage or session storage
         // making sure their token is available.
         const user = UserProfile.get();
@@ -184,6 +184,18 @@ class UserLogin extends Component {
                           <Button type="submit" disabled={!valid  || pristine || submitting} color="success">Login</Button>
 
                         </div>
+                        
+                        <div className="margin-fix">
+                          {
+                            (general && !submitting) && (
+                              general.hasErrored && (
+                                <div class="alert alert-danger alert-dismissible fade show">
+                                    <strong>Error!</strong> Username or password is incorrect
+                                </div>
+                              )
+                            )
+                          }
+                        </div>
                       </form>
 
                       </CardBody>
@@ -228,6 +240,7 @@ UserLogin.propTypes = {
 const mapStateToProps = state => {
 
   return {
+    general: state.general.general,
     user: state.user.user,
   }
 
@@ -245,7 +258,4 @@ export default reduxForm({
   form: "login",
   Validate,
   AsyncValidate
-})(withStyles(styles)(
-    connect(mapStateToProps, mapDispatchToProps)(UserLogin)
-  )
-);
+})(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(UserLogin)));

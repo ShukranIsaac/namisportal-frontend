@@ -42,9 +42,9 @@ export const post = async (dispatch, url, data) => {
     return await Config.REMOTE_API_URL.post(url, data, config)
 
     .then(response => {
-        
+
         if (response.status !== 200) {
-            throw Error(response.statusText);
+            throw Error(response); 
         }
     
         dispatch(GeneralAction.isLoading(false));

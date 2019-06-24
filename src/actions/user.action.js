@@ -28,8 +28,9 @@ export const login = (credentials) => {
 
         })
         
-        .catch(() => {
+        .catch(error => {
 
+            console.log(error)
             dispatch(GeneralAction.hasErrored(true))
 
         });

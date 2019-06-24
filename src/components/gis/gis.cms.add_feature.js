@@ -19,6 +19,17 @@ import { FormTextInputField } from '../forms/form.textinput.field';
 import { UserProfile } from '../user/user.profile';
 import { FormCheckboxControl } from '../forms/form.checkbox.field';
 
+// const arrayContainsAnother = (first, second) => {
+//     for (let index = 0; index < first.length; index++) {
+//         if(second.indexOf(first[index]) == -1) {
+//             return false;
+//         }
+//     }
+//     return true;
+// }
+
+// const arrayContainsAnother = (first = [], second = []) => first.every(el => second.includes(el));
+
 /**
  * Render gis component to: upload new coordinates, and other features
  * 
@@ -756,7 +767,7 @@ class AddFeature extends Component {
                         }
                     </div>
                     <div id="preview" className="tab-pane fade">
-                        {/* <CMSMapPreview { ...this.state } /> */}
+                        <CMSMapPreview { ...this.state } />
                     </div>
                 </div>
             </Fragment>
