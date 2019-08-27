@@ -17,6 +17,7 @@ import { FormTextInputField } from '../forms/form.textinput.field';
 import InitialSchema from '../forms/utils/initial.schema';
 import { editor } from '../forms/editor/text.editor.utils';
 import { UserProfile } from '../user/user.profile';
+import OnlineEditor from '../forms/editor/online.editor';
 
 /**
  * Edit a single news article
@@ -30,7 +31,8 @@ class EditNewsItem extends Component {
         super();
         this.state = {
             article: '',
-            value: InitialSchema
+            value: InitialSchema,
+            text: ''
         }
 
         /**
@@ -41,6 +43,7 @@ class EditNewsItem extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleEditorChange = this.handleEditorChange.bind(this);
+        this.handleEditorTextChange = this.handleEditorTextChange.bind(this);
 
     }
 
@@ -71,6 +74,15 @@ class EditNewsItem extends Component {
         this.setState({[event.target.name]: event.target.value});
   
     }
+
+    /**
+	 * On change, update the app's React state with event type value.
+	 *
+	 * @param {Event} event
+	 */
+    handleEditorTextChange = (text) => {
+        this.setState({text: text});
+      }
 
 	/**
 	 * On change, update the app's React state with the new editor value.
@@ -193,6 +205,12 @@ class EditNewsItem extends Component {
                                                     content={article.article} 
                                                     editorChange={ this.handleEditorChange } 
                                                 />
+
+                                                {/* <OnlineEditor 
+                                                    handleEditorTextChange={ this.handleEditorTextChange }
+                                                    placeholder={`Edit article item here...`}
+                                                    text={this.state.text}
+                                                /> */}
                                             </>
                                         )
                                     }
