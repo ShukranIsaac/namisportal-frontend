@@ -205,7 +205,7 @@ class EditDirectoryInstitution extends Component {
     render() {
 
         const {
-            classes, stakeholder, handleClick, handleSubmit,
+            classes, handleClick, handleSubmit,
             valid, pristine, submitting, general
         } = this.props;
 
@@ -313,7 +313,7 @@ class EditDirectoryInstitution extends Component {
                                                     <FormTextInputField
                                                         classes={classes}
                                                         name='stakeholder_name'
-                                                        value={stakeholder.name}
+                                                        value={this.state.stakeholder.name}
                                                         label="Stakeholder's Name (Legal)"
                                                         placeholder="Edit stakeholder name..."
                                                         type="text"
@@ -322,7 +322,7 @@ class EditDirectoryInstitution extends Component {
                                                     <FormTextInputField
                                                         classes={classes}
                                                         name='physical_address'
-                                                        value={stakeholder.address}
+                                                        value={this.state.stakeholder.address}
                                                         label="Physical Address"
                                                         placeholder="Stakeholder's physical address..."
                                                         type="text"
@@ -333,7 +333,7 @@ class EditDirectoryInstitution extends Component {
                                                     <FormTextInputField
                                                         classes={classes}
                                                         name='telephone'
-                                                        value={stakeholder.contacts.telephone}
+                                                        value={this.state.stakeholder.contacts.telephone}
                                                         label="Telephone"
                                                         placeholder="Stakeholder's telephone number..."
                                                         type="text"
@@ -342,7 +342,7 @@ class EditDirectoryInstitution extends Component {
                                                     <FormTextInputField
                                                         classes={classes}
                                                         name='website'
-                                                        value={stakeholder.contacts.website}
+                                                        value={this.state.Intentstakeholder.contacts.website}
                                                         label="Website"
                                                         placeholder="Stakeholder's website..."
                                                         type="text"
@@ -351,8 +351,8 @@ class EditDirectoryInstitution extends Component {
                                                     <FormTextInputField
                                                         classes={classes}
                                                         name='summary'
-                                                        value={stakeholder.about}
-                                                        label={`${stakeholder.name + ' - Summary Background'}`}
+                                                        value={this.state.stakeholder.about}
+                                                        label={`${this.state.stakeholder.name + ' - Summary Background'}`}
                                                         placeholder="Edit stakeholders summary..."
                                                         type="text"
                                                         multiline={true}
@@ -362,7 +362,7 @@ class EditDirectoryInstitution extends Component {
                                                     <FormTextInputField
                                                         classes={classes}
                                                         name='email'
-                                                        value={stakeholder.contacts.email}
+                                                        value={this.state.stakeholder.contacts.email}
                                                         label="Email"
                                                         placeholder="Stakeholder's email address..."
                                                         type="text"
@@ -371,7 +371,7 @@ class EditDirectoryInstitution extends Component {
                                                     <FormTextInputField
                                                         classes={classes}
                                                         name='vision'
-                                                        value={stakeholder.vision}
+                                                        value={this.state.stakeholder.vision}
                                                         label="Vision"
                                                         placeholder="Edit stakeholders vision..."
                                                         type="text"
@@ -382,7 +382,7 @@ class EditDirectoryInstitution extends Component {
                                                     <FormTextInputField
                                                         classes={classes}
                                                         name='mission'
-                                                        value={stakeholder.mission}
+                                                        value={this.state.stakeholder.mission}
                                                         label="Mission Statement"
                                                         placeholder="Edit stakeholder's mission..."
                                                         type="text"
@@ -393,7 +393,7 @@ class EditDirectoryInstitution extends Component {
                                                     <FormTextInputField
                                                         classes={classes}
                                                         name='image'
-                                                        value={stakeholder.image}
+                                                        value={this.state.stakeholder.image}
                                                         label="Image Url"
                                                         placeholder="Edit stakeholder's image..."
                                                         type="text"
