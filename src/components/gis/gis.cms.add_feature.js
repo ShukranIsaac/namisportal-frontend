@@ -677,6 +677,7 @@ class AddFeature extends Component {
                                     onChange={ e => this.handleChange(e) }
                                 >
                                     <option value="">{ `Add feature` }</option>
+                                    <option value="national">{ `National` }</option>
                                     <option value="region">{ `Region` }</option>
                                     <option value="district">{ `District` }</option>
                                     <option value="other">{ `Other` }</option>
@@ -687,7 +688,7 @@ class AddFeature extends Component {
                         </FormControl>
 
                         {
-                            this.state.feature === 'other' ? (
+                            this.state.feature === 'other' || this.state.feature === 'national' ? (
                                 <Fragment>
 
                                     { /** filter sections here */}
