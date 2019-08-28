@@ -342,7 +342,7 @@ class EditDirectoryInstitution extends Component {
                                                     <FormTextInputField
                                                         classes={classes}
                                                         name='website'
-                                                        value={this.state.Intentstakeholder.contacts.website}
+                                                        value={this.state.stakeholder.contacts.website}
                                                         label="Website"
                                                         placeholder="Stakeholder's website..."
                                                         type="text"
