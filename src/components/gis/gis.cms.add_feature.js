@@ -55,6 +55,14 @@ class AddFeature extends Component {
     }
 
     handleChange = (e) => {
+        // if feature equals natinal
+        // set state to power-plant
+        if (e.target.value === 'national') {
+            this.setState({ selectedValue: 'power_plant' });
+        } else {
+            this.setState({ selectedValue: 'marep_center' });
+        }
+        
         // console.log(e.currentTarget)
         this.setState({ [e.target.name]: e.target.value }, () => {
             // state
@@ -625,7 +633,7 @@ class AddFeature extends Component {
         // loading status, gis_filters from props
         const { classes, handleClick } = this.props;
         // console.log(general);
-        // console.log(this.state);
+        // console.log(this.state.feature);
 
         return (
             <Fragment>
