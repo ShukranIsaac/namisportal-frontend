@@ -62,7 +62,7 @@ class AddFeature extends Component {
         } else {
             this.setState({ selectedValue: 'marep_center' });
         }
-        
+
         // console.log(e.currentTarget)
         this.setState({ [e.target.name]: e.target.value }, () => {
             // state
@@ -381,7 +381,7 @@ class AddFeature extends Component {
                             {...this.props}
                             name="marep_center_ta"
                             placeholder="Enter new marep center traditional authority..."
-                            label="Traditioanal Authority"
+                            label="Traditional Authority"
                             type="text"
                         />
 
