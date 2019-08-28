@@ -221,7 +221,7 @@ export const updateUser = (id, user, auth) => {
     
     // url to update user
     const url = `users/${ id }?token=${ auth.token }`;
-    
+    // console.log(user)
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
@@ -244,7 +244,7 @@ export const updateUser = (id, user, auth) => {
         })
         
         .catch((error) => {
-
+            console.log(error)
             dispatch(GeneralAction.hasErrored(true))
 
         });
