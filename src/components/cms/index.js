@@ -141,6 +141,7 @@ class CMSIndex extends React.Component {
                  * Fetch all directory of stakeholders and their details
                  */
                 this.props.fetchStakeholders();
+                this.props.category(this.capitalize(link));
                 break;
             case 'financing':
                 /**
