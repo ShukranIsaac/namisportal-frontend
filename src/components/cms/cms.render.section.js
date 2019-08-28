@@ -58,7 +58,7 @@ const RenderSection = ({
     district_name,
     region_name
 }) => {
-    
+    // console.log(props.subcategory)
     switch (link) {
 
         case 'home':

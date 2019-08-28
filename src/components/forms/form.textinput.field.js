@@ -20,8 +20,8 @@ export class FormTextInputField extends Component {
 
     render() {
 
-        const { name, label, placeholder, type, multiline, rows, disabled } = this.props;
-
+        const { name, value, label, placeholder, type, multiline, rows, disabled } = this.props;
+        // console.log(this.props)
         return (
             <Field
                 name={ name }
@@ -33,8 +33,9 @@ export class FormTextInputField extends Component {
                                 label={ label }
                                 defaultValue={ placeholder }
                                 name={ name }
+                                value={ value }
                                 type={ type }
-                                { ...input }
+                                props={ input }
                                 className='test-this'
                                 disabled={ disabled }
                             />

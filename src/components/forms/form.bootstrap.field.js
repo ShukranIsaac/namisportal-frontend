@@ -14,39 +14,40 @@ import { withStyles } from '@material-ui/core/styles';
  */
 
 const styles = theme => ({
-  inputFillWhole: {
-    width: '100%'
-  }
+    inputFillWhole: {
+        width: '100%'
+    }
 })
 
-const RenderBootstrapField = ({ 
-  classes, label, defaultValue, name, 
-  type, value, input, meta
+const RenderBootstrapField = ({
+    classes, label, defaultValue, name,
+    type, value, props, meta
 }) => {
-
+    
     return (
-      <FormControl className={classNames(classes.margin, classes.inputFillWhole)}>
-        <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}> {label} </InputLabel>
-        <InputBase
-          id={ `${name + defaultValue}` }
-          name={name}
-          placeholder={defaultValue}
-          type={type}
-          onChange={(e) => input.onChange(e)}
-          classes={{
-            root: classes.bootstrapRoot,
-            input: classes.bootstrapInput,
-          }}
-          { ...input }
-          className={classes.inputFillWhole}
-        />
-      </FormControl>
+        <FormControl className={classNames(classes.margin, classes.inputFillWhole)}>
+            <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}> {label} </InputLabel>
+            <InputBase
+                id={`${name + defaultValue}`}
+                name={name}
+                placeholder={defaultValue}
+                value={props.input.value || value}
+                type={type}
+                onChange={(e) => props.input.onChange(e)}
+                classes={{
+                    root: classes.bootstrapRoot,
+                    input: classes.bootstrapInput,
+                }}
+                {...props}
+                className={classes.inputFillWhole}
+            />
+        </FormControl>
     );
 
 }
 
 RenderBootstrapField.propTypes = {
-  classes: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(RenderBootstrapField)

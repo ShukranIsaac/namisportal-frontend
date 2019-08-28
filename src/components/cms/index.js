@@ -200,12 +200,12 @@ class CMSIndex extends React.Component {
     }
 
     handleChange = (e) => {
-        console.log(e.target.value)
+        
         this.setState({ [e.target.name]: e.target.value }, () => {
             //set and fetch district which has been selected
             const { gis_filters } = this.props;
             const { district_name, region_name } = this.state;
-            if (district_name !== undefined) {
+            if (district_name !== undefined && district_name !== "") {
                 // region index
                 const index = gis_filters.findIndex(o => o.properties.name === region_name);
                 // filter district selected
@@ -374,7 +374,7 @@ class CMSIndex extends React.Component {
             }
         }
 
-        // console.log(this.state.category)
+        // console.log(this.props.subcategory)
         return (
             <div className={classes.root}>
             
