@@ -103,7 +103,7 @@ class AddFeature extends Component {
 
         return gis_filters.map(({ properties, _id }) => {
 
-            return <option value={ properties.name } key={ _id }>{ properties.name }</option>
+            return <option value={properties.name} key={_id}>{properties.name}</option>
 
         });
 
@@ -140,15 +140,15 @@ class AddFeature extends Component {
      * @returns {Option} fragment
      * 
      */
-    renderDistricts = ({gis_filters}) => {
+    renderDistricts = ({ gis_filters }) => {
         // console.log(gis_filters)
         if (this.state.region_name !== undefined && this.state.region_name !== null) {
 
-            return this.filterDistrictsPerRegion(gis_filters).map(({districts}) => {
+            return this.filterDistrictsPerRegion(gis_filters).map(({ districts }) => {
 
                 return districts.map(({ properties, _id }) => {
 
-                    return <option value={ properties.name } key={ _id }>{ properties.name }</option>
+                    return <option value={properties.name} key={_id}>{properties.name}</option>
 
                 });
             });
@@ -165,40 +165,40 @@ class AddFeature extends Component {
          * Check which feature is to be added
          * between region and district.
          */
-        switch(name) {
+        switch (name) {
             case 'region':
                 return (
                     <form autoComplete="off">
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="region_name"
                             placeholder="Create new region name..."
                             label="Region Name"
                             type="text"
                         />
 
-                        <Button 
-                            className={ classes.margin }
-                            type="submit" disabled={!valid  || pristine || submitting} 
-                            intent="success" text="Save" 
+                        <Button
+                            className={classes.margin}
+                            type="submit" disabled={!valid || pristine || submitting}
+                            intent="success" text="Save"
                         />
                     </form>
                 );
             case 'district':
                 return (
                     <form autoComplete="off">
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="district_name"
                             placeholder="Create new district name..."
                             label="District Name"
                             type="text"
                         />
 
-                        <Button 
-                            className={ classes.margin }
-                            type="submit" disabled={!valid  || pristine || submitting} 
-                            intent="success" text="Save" 
+                        <Button
+                            className={classes.margin}
+                            type="submit" disabled={!valid || pristine || submitting}
+                            intent="success" text="Save"
                         />
                     </form>
                 );
@@ -221,7 +221,7 @@ class AddFeature extends Component {
             // feature type
             switch (selectedValue) {
                 case 'marep_center':
-                    if(user !== null && user.token !== undefined) {
+                    if (user !== null && user.token !== undefined) {
 
                         // check if resource or file if being added
                         if (values.marep_center_latitude !== undefined && values.marep_center_latitude !== null &&
@@ -236,17 +236,17 @@ class AddFeature extends Component {
                                 lng: values.marep_center_longitude
                             }
                             // create new center
-                            this.props.addFeature(center , "marep-centers", user.token);
+                            this.props.addFeature(center, "marep-centers", user.token);
                             // // then change state to default
                             // // so that the page redirects and list all frequently asked questions
                             this.props.defaultItem();
                         }
-        
-                    } 
+
+                    }
                     break;
 
                 case 'transformer':
-                    if(user !== null && user.token !== undefined) {
+                    if (user !== null && user.token !== undefined) {
 
                         // check if resource
                         if (values.transformer_latitude !== undefined && values.transformer_latitude !== null &&
@@ -261,17 +261,17 @@ class AddFeature extends Component {
                                 lng: values.transformer_longitude
                             }
                             // create new transfomer
-                            this.props.addFeature(transformer , "transformers", user.token);
+                            this.props.addFeature(transformer, "transformers", user.token);
                             // // then change state to default
                             // // so that the page redirects
                             this.props.defaultItem();
                         }
-        
-                    } 
+
+                    }
                     break;
 
                 case 'power_plant':
-                    if(user !== null && user.token !== undefined) {
+                    if (user !== null && user.token !== undefined) {
 
                         // check if resource
                         if (values.power_plant_latitude !== undefined && values.power_plant_latitude !== null &&
@@ -286,17 +286,17 @@ class AddFeature extends Component {
                                 lng: values.power_plant_longitude
                             }
                             // create new power_plant
-                            this.props.addFeature(power_plant , "power-plants", user.token);
+                            this.props.addFeature(power_plant, "power-plants", user.token);
                             // // then change state to default
                             // // so that the page redirects and list all frequently asked questions
                             this.props.defaultItem();
                         }
-        
-                    } 
+
+                    }
                     break;
 
                 case 'distribution_line':
-                    if(user !== null && user.token !== undefined) {
+                    if (user !== null && user.token !== undefined) {
 
                         // check if resource or file if being added
                         if (values.distribution_line_latitude !== undefined && values.distribution_line_latitude !== null &&
@@ -311,17 +311,17 @@ class AddFeature extends Component {
                                 lng: values.distribution_line_longitude
                             }
                             // create new distribution_line
-                            this.props.addFeature(distribution_line , "distribution-lines", user.token);
+                            this.props.addFeature(distribution_line, "distribution-lines", user.token);
                             // // then change state to default
                             // // so that the page redirects and list all frequently asked questions
                             this.props.defaultItem();
                         }
-        
-                    } 
+
+                    }
                     break;
 
                 case 'substation':
-                    if(user !== null && user.token !== undefined) {
+                    if (user !== null && user.token !== undefined) {
 
                         // check if resource or file if being added
                         if (values.substation_latitude !== undefined && values.substation_latitude !== null &&
@@ -336,15 +336,15 @@ class AddFeature extends Component {
                                 lng: values.substation_longitude
                             }
                             // create new substation
-                            this.props.addFeature(substation , "sub-stations", user.token);
+                            this.props.addFeature(substation, "sub-stations", user.token);
                             // // then change state to default
                             // // so that the page redirects and list all frequently asked questions
                             this.props.defaultItem();
                         }
-        
-                    } 
+
+                    }
                     break;
-            
+
                 default:
                     break;
             }
@@ -354,39 +354,39 @@ class AddFeature extends Component {
 
     renderForms = ({ selected }) => {
         // props
-        const { 
-            handleSubmit, 
-            classes, valid, pristine, submitting 
+        const {
+            handleSubmit,
+            classes, valid, pristine, submitting
         } = this.props;
         /**
          * Check which feature is to be added
          * Then render the corresponding form fields
          */
-        switch(selected) {
+        switch (selected) {
             case 'marep_center':
                 return (
-                    <form 
-                        onSubmit={ handleSubmit(values => this.handleSubmit(values)) } 
+                    <form
+                        onSubmit={handleSubmit(values => this.handleSubmit(values))}
                         autoComplete="off"
                     >
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="marep_center_ta"
                             placeholder="Enter new marep center traditional authority..."
                             label="Traditioanal Authority"
                             type="text"
                         />
 
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="marep_center_latitude"
                             placeholder="Enter new marep center latitude coordinate..."
                             label="Center Latitude"
                             type="text"
                         />
 
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="marep_center_longitude"
                             placeholder="Enter new marep center longitude coordinate..."
                             label="Center Longitude"
@@ -394,12 +394,12 @@ class AddFeature extends Component {
                         />
 
                         <Fragment>
-                            <Button 
-                                className={ classes.margin }
+                            <Button
+                                className={classes.margin}
                                 name="save"
-                                type="submit" 
-                                disabled={!valid  || pristine || submitting} 
-                                intent="success" text="Save Marep Center" 
+                                type="submit"
+                                disabled={!valid || pristine || submitting}
+                                intent="success" text="Save Marep Center"
                             />
                         </Fragment>
                     </form>
@@ -407,190 +407,190 @@ class AddFeature extends Component {
             case 'transformer':
                 return (
                     <form autoComplete="off">
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="transformer_station"
                             placeholder="Enter new transformer station..."
                             label="Station"
                             type="text"
                         />
 
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="transformer_voltage"
                             placeholder="Enter new transformer voltage..."
                             label="Voltage"
                             type="text"
                         />
 
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="transformer_location"
                             placeholder="Enter new transformer location..."
                             label="Location"
                             type="text"
                         />
 
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="transformer_position"
                             placeholder="Enter new transformer position..."
                             label="Position"
                             type="text"
                         />
 
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="transformer_primary"
                             placeholder="Enter new transformer primary..."
                             label="Primary"
                             type="text"
                         />
 
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="transformer_latitude"
                             placeholder="Enter new transformer latitude coordinate..."
                             label="Transformer Latitude"
                             type="text"
                         />
 
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="transformer_longitude"
                             placeholder="Enter new transformer longitude coordinate..."
                             label="Transformer Longitude"
                             type="text"
                         />
 
-                        <Button 
-                            className={ classes.margin }
-                            type="submit" disabled={!valid  || pristine || submitting} 
-                            intent="success" text="Save Transformer" 
+                        <Button
+                            className={classes.margin}
+                            type="submit" disabled={!valid || pristine || submitting}
+                            intent="success" text="Save Transformer"
                         />
                     </form>
                 );
             case 'power_plant':
                 return (
-                    <form onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
+                    <form onSubmit={handleSubmit(values => this.handleSubmit(values))} autoComplete="off">
 
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="plant_name"
                             placeholder="Enter new power plant name..."
                             label="Plant Name"
                             type="text"
                         />
 
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="plant_status"
                             placeholder="Enter new power plant status..."
                             label="Plant Status"
                             type="text"
                         />
 
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="plant_type"
                             placeholder="Enter new power plant type..."
                             label="Plant Type"
                             type="text"
                         />
 
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="plant_ta"
                             placeholder="Enter new power plant traditional authority..."
                             label="Traditioanal Authority"
                             type="text"
                         />
 
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="plant_latitude"
                             placeholder="Enter new plant latitude coordinate..."
                             label="Plant Latitude"
                             type="text"
                         />
 
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="plant_longitude"
                             placeholder="Enter new plant longitude coordinate..."
                             label="Plant Longitude"
                             type="text"
                         />
 
-                        <Button 
-                            className={ classes.margin }
-                            type="submit" disabled={!valid  || pristine || submitting} 
-                            intent="success" text="Save Plant" 
+                        <Button
+                            className={classes.margin}
+                            type="submit" disabled={!valid || pristine || submitting}
+                            intent="success" text="Save Plant"
                         />
                     </form>
                 );
             case 'substation':
                 return (
                     <form autoComplete="off">
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="substation_name"
                             placeholder="Enter new sub station name..."
                             label="Substation Name"
                             type="text"
                         />
 
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="plant_ta"
                             placeholder="Enter new power plant traditional authority..."
                             label="Traditioanal Authority"
                             type="text"
                         />
 
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="substation_transmission"
                             placeholder="Enter new transmission..."
                             label="Transmission"
                             type="text"
                         />
 
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="substation_location"
                             placeholder="Enter new sub station location..."
                             label="Location"
                             type="text"
                         />
 
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="substation_secondary"
                             placeholder="Enter secondary..."
                             label="Secondary"
                             type="text"
                         />
 
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="substation_latitude"
                             placeholder="Enter new substation latitude coordinate..."
                             label="Substation Latitude"
                             type="text"
                         />
 
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="substation_longitude"
                             placeholder="Enter new substation longitude coordinate..."
                             label="Substation Longitude"
                             type="text"
                         />
 
-                        <Button 
-                            className={ classes.margin }
-                            type="submit" disabled={!valid  || pristine || submitting} 
+                        <Button
+                            className={classes.margin}
+                            type="submit" disabled={!valid || pristine || submitting}
                             intent="success" text="Save Substation"
                         />
                     </form>
@@ -598,20 +598,20 @@ class AddFeature extends Component {
             case 'distribution_line':
                 return (
                     <form autoComplete="off">
-                        <FormTextInputField 
-                            { ...this.props }
+                        <FormTextInputField
+                            {...this.props}
                             name="valide_distribution_line"
                             placeholder="Enter new valid distribution line..."
                             label="Distribution Line"
                             type="text"
-                            multiline={ true }
+                            multiline={true}
                             rows="6"
                         />
 
-                        <Button 
-                            className={ classes.margin }
-                            type="submit" disabled={!valid  || pristine || submitting} 
-                            intent="success" text="Save Distribution Line" 
+                        <Button
+                            className={classes.margin}
+                            type="submit" disabled={!valid || pristine || submitting}
+                            intent="success" text="Save Distribution Line"
                         />
                     </form>
                 );
@@ -629,22 +629,22 @@ class AddFeature extends Component {
 
         return (
             <Fragment>
-                
-                <ButtonControl 
-                    intent={Intent.NONE} 
+
+                <ButtonControl
+                    intent={Intent.NONE}
                     value="List Features"
                     name="default"
-                    handleClick={e => handleClick(e) }
+                    handleClick={e => handleClick(e)}
                 />
 
-                <div className={ classes.margin }/>
-                <div className={ classes.margin }/>
-                <div className={ classes.margin }/>
-                <div className={ classes.margin }/>
-                <div className={ classes.margin }/>
+                <div className={classes.margin} />
+                <div className={classes.margin} />
+                <div className={classes.margin} />
+                <div className={classes.margin} />
+                <div className={classes.margin} />
 
                 <Divider />
-                
+
                 <ul className="nav nav-tabs" role="tablist">
                     <li className="nav-item">
                         <a className="nav-link active" data-toggle="tab" href="#gis">
@@ -668,19 +668,19 @@ class AddFeature extends Component {
                         <FormControl className={classes.margin}>
 
                             <Paper elevation={0}>
-                                
-                                <SelectInputControl 
+
+                                <SelectInputControl
                                     name="feature"
                                     label="Feature(*)"
-                                    { ...this.state }
+                                    {...this.state}
                                     // value={ this.state.section }
-                                    onChange={ e => this.handleChange(e) }
+                                    onChange={e => this.handleChange(e)}
                                 >
-                                    <option value="">{ `Add feature` }</option>
-                                    <option value="national">{ `National` }</option>
-                                    <option value="region">{ `Region` }</option>
-                                    <option value="district">{ `District` }</option>
-                                    <option value="other">{ `Other` }</option>
+                                    <option value="">{`Add feature`}</option>
+                                    <option value="national">{`National`}</option>
+                                    <option value="region">{`Region`}</option>
+                                    <option value="district">{`District`}</option>
+                                    <option value="other">{`Other`}</option>
                                 </SelectInputControl>
 
                             </Paper>
@@ -691,47 +691,53 @@ class AddFeature extends Component {
                             this.state.feature === 'other' || this.state.feature === 'national' ? (
                                 <Fragment>
 
-                                    { /** filter sections here */}
-                                    <FormControl className={classes.margin}>
+                                    {
+                                        this.state.feature !== 'national' && (
+                                            <>
+                                                { /** filter sections here */}
+                                                <FormControl className={classes.margin}>
 
-                                        <Paper elevation={0}>
-                                            
-                                            <SelectInputControl 
-                                                name="region_name"
-                                                label="Region(*)"
-                                                { ...this.state }
-                                                onChange={ e => this.handleChange(e) }
-                                            >
-                                                <option value="">{ `Choose region` }</option>
-                                                { this.renderRegions(this.props) }
-                                            </SelectInputControl>
+                                                    <Paper elevation={0}>
 
-                                        </Paper>
+                                                        <SelectInputControl
+                                                            name="region_name"
+                                                            label="Region(*)"
+                                                            {...this.state}
+                                                            onChange={e => this.handleChange(e)}
+                                                        >
+                                                            <option value="">{`Choose region`}</option>
+                                                            {this.renderRegions(this.props)}
+                                                        </SelectInputControl>
 
-                                    </FormControl>
+                                                    </Paper>
 
-                                    { /** filter sections here */}
-                                    <FormControl className={classes.margin}>
+                                                </FormControl>
 
-                                        <Paper elevation={0}>
-                                            
-                                            <SelectInputControl 
-                                                name="district_name"
-                                                label="District(*)"
-                                                { ...this.state }
-                                                onChange={ e => this.handleChange(e) }
-                                            >
-                                                <option value="">{ `Choose district` }</option>
-                                                { this.renderDistricts(this.props) }
-                                            </SelectInputControl>
+                                                { /** filter sections here */}
+                                                <FormControl className={classes.margin}>
 
-                                        </Paper>
+                                                    <Paper elevation={0}>
 
-                                    </FormControl>
-                                    
-                                    <RadioButtons 
-                                        { ...this.state } 
-                                        handleRadioBtnChange={ this.handleRadioBtnChange } 
+                                                        <SelectInputControl
+                                                            name="district_name"
+                                                            label="District(*)"
+                                                            {...this.state}
+                                                            onChange={e => this.handleChange(e)}
+                                                        >
+                                                            <option value="">{`Choose district`}</option>
+                                                            {this.renderDistricts(this.props)}
+                                                        </SelectInputControl>
+
+                                                    </Paper>
+
+                                                </FormControl>
+                                            </>
+                                        )
+                                    }
+
+                                    <RadioButtons
+                                        {...this.state}
+                                        handleRadioBtnChange={this.handleRadioBtnChange}
                                     />
 
                                     <Divider />
@@ -742,33 +748,33 @@ class AddFeature extends Component {
                                         }
                                     </div>
 
-                                    <div className={ classes.margin }>
-                                        <FormCheckboxControl 
-                                            name='preview_feature' 
-                                            value='Preview on Map' 
-                                            isChecked={ this.state.preview_feature }
-                                            classes={ classes }
-                                            handleChange={ (e) => { this.handleChecked(e) } }
+                                    <div className={classes.margin}>
+                                        <FormCheckboxControl
+                                            name='preview_feature'
+                                            value='Preview on Map'
+                                            isChecked={this.state.preview_feature}
+                                            classes={classes}
+                                            handleChange={(e) => { this.handleChecked(e) }}
                                         />
                                     </div>
 
                                 </Fragment>
                             ) : (
-                                <Fragment className={classes.margin}>
+                                    <Fragment className={classes.margin}>
 
-                                    <Divider />
+                                        <Divider />
 
-                                    <div className="row">
-                                        {
-                                            this.addFeature({ name: this.state.feature })
-                                        }
-                                    </div>
-                                </Fragment>
-                            )
+                                        <div className="row">
+                                            {
+                                                this.addFeature({ name: this.state.feature })
+                                            }
+                                        </div>
+                                    </Fragment>
+                                )
                         }
                     </div>
                     <div id="preview" className="tab-pane fade">
-                        <CMSMapPreview { ...this.state } />
+                        <CMSMapPreview {...this.state} />
                     </div>
                 </div>
             </Fragment>
