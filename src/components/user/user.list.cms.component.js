@@ -48,18 +48,25 @@ class ListUserAccounts extends Component {
         
     }
 
+    // check assigned roles
+    isAdmin = ({ user }) => {
+
+        return user.roles !== undefined && (user.roles.admin ? true : false);
+        
+    }
+
     // counter to store the number of objects we pushed the array
     counter = 0;
     /**
      * create a user list object to be pushed into the listOfUsers array
      * of objects in the accounts method.
      */
-    createUserList = (_id, date, fullname, username, writer, publisher, ...userroles) => {
+    createUserList = (_id, date, fullname, username, writer, publisher, admin, ...userroles) => {
 
         // incremet counter
         this.counter += 1;
         // return object
-        return { id: this.counter, _id, date, fullname, username, userroles, writer, publisher};
+        return { id: this.counter, _id, date, fullname, username, userroles, writer, publisher, admin};
         
     }
 
@@ -86,11 +93,20 @@ class ListUserAccounts extends Component {
                         // id, name, username, roles, write and publish
                         if (user.roles !== undefined) {
                             this.state.listOfUsers.push(
-                                this.createUserList(user._id,created,name,user.username,this.isWriter({user}),this.isPublisher({user}),Object.keys(user.roles))
+                                this.createUserList(
+                                    user._id,
+                                    created,
+                                    name,
+                                    user.username,
+                                    this.isWriter({user}),
+                                    this.isPublisher({user}),
+                                    this.isAdmin({ user }),
+                                    Object.keys(user.roles)
+                                )
                             );
                         } else {
                             this.state.listOfUsers.push(
-                                this.createUserList(user._id,created,name,user.username,false,false, [])
+                                this.createUserList(user._id,created,name,user.username,false,false,false,[])
                             );
                         }
 
@@ -310,6 +326,17 @@ class ListUserAccounts extends Component {
                                                                                         key={roles[1]} 
                                                                                         tabIndex={-1}
                                                                                         label={roles[1]} 
+                                                                                        className={classes.chip} 
+                                                                                    />
+                                                                                ) : <div></div>
+                                                                            }
+
+                                                                            {
+                                                                                user.admin === true ? (
+                                                                                    <Chip
+                                                                                        key={roles[2]} 
+                                                                                        tabIndex={-1}
+                                                                                        label={roles[2]} 
                                                                                         className={classes.chip} 
                                                                                     />
                                                                                 ) : <div></div>

@@ -82,6 +82,13 @@ class CMSIndex extends React.Component {
 
         // this.props.editItem();
         // console.log(this.props.user_event);
+        const user = UserProfile.get();
+        if (user.roles.admin) {
+            console.log(user)
+        } else {
+            console.log("Non Admin")
+        }
+
         this.props.homeSubcategory("Home");
 
     }

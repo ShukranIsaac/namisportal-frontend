@@ -65,7 +65,7 @@ class UserRegistration extends Component {
         firstName: values.firstname,
         lastName: values.lastname,
         email: values.email,
-        password: values.password
+        hash: values.password
       }
       // console.log(user);
       if (user !== undefined && user.username !== undefined && user !== null) {

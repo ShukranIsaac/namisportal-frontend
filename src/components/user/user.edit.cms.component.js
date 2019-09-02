@@ -62,6 +62,11 @@ class EditUserAccount extends Component {
                     Object.assign(this.state.user.roles, { publisher: true });
                 }
 
+                // user roles changed reassign new ones
+                if (this.isAssigned('admin')) {
+                    Object.assign(this.state.user.roles, { admin: true });
+                }
+
                 // Form has been edited, edit user fields
                 if(values !== null) {
 
@@ -235,6 +240,7 @@ class EditUserAccount extends Component {
                                                                 <option value="">{ `Assign new role(s)` }</option>
                                                                 <option value={ `writer` }>Writer</option>
                                                                 <option value={ `publisher` }>Publisher</option>
+                                                                <option value={ `admin` }>Admin</option>
                                                             </SelectInputControl>
 
                                                         </Paper>
@@ -368,6 +374,7 @@ class EditUserAccount extends Component {
                                                                 <option value="">{ `Assign new role(s)` }</option>
                                                                 <option value={ `writer` }>Writer</option>
                                                                 <option value={ `publisher` }>Publisher</option>
+                                                                <option value={ `admin` }>Admin</option>
                                                             </SelectInputControl>
 
                                                         </Paper>

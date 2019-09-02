@@ -26,14 +26,14 @@ import { FormTextInputField } from '../forms/form.textinput.field';
 class UserLogin extends Component {
 
     constructor() {
-      super();
-      this.state = {
-         username: '',
-         password: ''
-      }
+        super();
+        this.state = {
+            username: '',
+            password: ''
+        }
 
-      this.handleChange = this.handleChange.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
 
     }
 
@@ -42,7 +42,7 @@ class UserLogin extends Component {
      */
     handleChange = (event) => {
 
-      this.setState({[event.target.name]: event.target.value});
+        this.setState({ [event.target.name]: event.target.value });
 
     }
 
@@ -52,22 +52,22 @@ class UserLogin extends Component {
      * login object to contain user credentials.
      */
     handleSubmit = (values) => {
-      // console.log(values);
-      // Prevent default submit action
-      // event.preventDefault();
-      // define user login credentials
-      const user = {
-        username: values.username,
-        password: values.password
-      }
-      // console.log(values);
-      if (user !== undefined && user.username !== undefined && user !== null) {
+        // console.log(values);
+        // Prevent default submit action
+        // event.preventDefault();
+        // define user login credentials
+        const user = {
+            username: values.username,
+            password: values.password
+        }
+        // console.log(values);
+        if (user !== undefined && user.username !== undefined && user !== null) {
 
-        // Athenticate this user
-        const { login } = this.props;
-        login(user);
+            // Athenticate this user
+            const { login } = this.props;
+            login(user);
 
-      }
+        }
 
     }
 
@@ -82,36 +82,36 @@ class UserLogin extends Component {
      */
     authenticate = ({ user }) => {
 
-      // if user, then check if token still valid
-      // else return false and render loggin form
-      return user !== undefined && user !== null ? UserProfile.isAuthenticated(user) : false;
+        // if user, then check if token still valid
+        // else return false and render loggin form
+        return user !== undefined && user !== null ? UserProfile.isAuthenticated(user) : false;
 
     }
 
     newField = ({
-      input,
-      type,
-      placeholder,
-      id,
-      meta: { touched, error }
+        input,
+        type,
+        placeholder,
+        id,
+        meta: { touched, error }
     }) => {
-      return (
-        <div>
-          <input {...input} placeholder={placeholder} type={type} id={id} />
-          {touched && error && <p style={{ color: 'red' }}>{error}</p>}
-        </div>
-      );
+        return (
+            <div>
+                <input {...input} placeholder={placeholder} type={type} id={id} />
+                {touched && error && <p style={{ color: 'red' }}>{error}</p>}
+            </div>
+        );
     };
 
     render() {
 
-        const { valid , pristine, submitting, handleSubmit, general } = this.props;
+        const { valid, pristine, submitting, handleSubmit, general } = this.props;
         // console.log(this.props);
         // Get the user from local storage or session storage
         // making sure their token is available.
         const user = UserProfile.get();
         const auth = this.authenticate({ user });
-        
+
         // if user is successfully logged in or authenticated
         // then redirect to cms
         if (auth && user !== undefined && user !== null) {
@@ -123,111 +123,111 @@ class UserLogin extends Component {
             return redirect.to({ url: '/cms', from: this.context })
 
         }
-        
+
         return (
-          <Fragment>
-            <div
-              // className='page-content'
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                background: '#15B371'
-              }}>
-
-              <ParticlesComponent />
-
-              <Container>
+            <Fragment>
                 <div
-                  style={{
-                    width: '50%',
-                    margin: '0 auto',
-                    marginTop: '5%'
-                  }}>
-                    <Card>
-                      <CardBody>
-                        <div style={{textAlign: 'center'}}>
-                          <CardImg src={require("../../../src/assets/img/malawi.png")}/>
-                          <p>
-                            Department of Energy Affairs, Ministry of Energy and Natural Resources
+                    // className='page-content'
+                    style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        background: '#15B371'
+                    }}>
+
+                    <ParticlesComponent />
+
+                    <Container>
+                        <div
+                            style={{
+                                width: '50%',
+                                margin: '0 auto',
+                                marginTop: '5%'
+                            }}>
+                            <Card>
+                                <CardBody>
+                                    <div style={{ textAlign: 'center' }}>
+                                        <CardImg src={require("../../../src/assets/img/malawi.png")} />
+                                        <p>
+                                            Department of Energy Affairs, Ministry of Energy and Natural Resources
                           </p>
-                        </div>
-                        
-                        <form className={{style: 'center'}} onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
-                          
-                          <div className='margin-fix'>
+                                    </div>
 
-                            <FormTextInputField 
-                              name='username' 
-                              label='Username' 
-                              type='text' 
-                              placeholder='Your username or email...' 
-                              {...this.props}
-                            />
+                                    <form className={{ style: 'center' }} onSubmit={handleSubmit(values => this.handleSubmit(values))} autoComplete="off">
 
-                          </div>
-                          <div className='margin-fix'>
+                                        <div className='margin-fix'>
 
-                            <FormTextInputField 
-                              name='password' 
-                              label='Password' 
-                              type='password' 
-                              placeholder='Your password...' 
-                              {...this.props}
-                            />
+                                            <FormTextInputField
+                                                name='username'
+                                                label='Username'
+                                                type='text'
+                                                placeholder='Your username or email...'
+                                                {...this.props}
+                                            />
 
-                        </div>
-                        <div className="margin-fix">
+                                        </div>
+                                        <div className='margin-fix'>
 
-                          <Button type="submit" disabled={!valid  || pristine || submitting} color="success">Login</Button>
+                                            <FormTextInputField
+                                                name='password'
+                                                label='Password'
+                                                type='password'
+                                                placeholder='Your password...'
+                                                {...this.props}
+                                            />
 
-                        </div>
-                        
-                        <div className="margin-fix">
-                          {
-                            (general && !submitting) && (
-                              general.hasErrored && (
-                                <div class="alert alert-danger alert-dismissible fade show">
-                                    <strong>Error!</strong> Username or password is incorrect
+                                        </div>
+                                        <div className="margin-fix">
+
+                                            <Button type="submit" disabled={!valid || pristine || submitting} color="success">Login</Button>
+
+                                        </div>
+
+                                        <div className="margin-fix">
+                                            {
+                                                (general && !submitting) && (
+                                                    general.hasErrored && (
+                                                        <div class="alert alert-danger alert-dismissible fade show">
+                                                            <strong>Error!</strong> Username or password is incorrect
                                 </div>
-                              )
-                            )
-                          }
-                        </div>
-                      </form>
+                                                    )
+                                                )
+                                            }
+                                        </div>
+                                    </form>
 
-                      </CardBody>
+                                </CardBody>
 
-                      </Card>
-                    
-                    <div className='info-card-wrapper'>
-                        <Card>
-                          <CardBody>
+                            </Card>
 
-                            <p style={{textAlign: 'center', marginBottom: 'unset'}}>
-                              Don't have an account? 
+                            <div className='info-card-wrapper'>
+                                <Card>
+                                    <CardBody>
+
+                                        <p style={{ textAlign: 'center', marginBottom: 'unset' }}>
+                                            Don't have an account?
                               <span>
-                                <Link 
-                                  to="/register" 
-                                  // onClick={ () => redirect.to({ url: '/register' }) }
-                                  > Register
+                                                <Link
+                                                    to="/register"
+                                                // onClick={ () => redirect.to({ url: '/register' }) }
+                                                > Register
                                 </Link>
-                              </span>
-                            </p>
-                            
-                          </CardBody>
-                        </Card>
-                    </div>
+                                            </span>
+                                        </p>
 
-                      
-                  </div>
-                
-              </Container>
-            </div>
+                                    </CardBody>
+                                </Card>
+                            </div>
 
-          </Fragment>
+
+                        </div>
+
+                    </Container>
+                </div>
+
+            </Fragment>
         );
 
     }
@@ -235,28 +235,28 @@ class UserLogin extends Component {
 }
 
 UserLogin.propTypes = {
-   classes: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => {
 
-  return {
-    general: state.general.general,
-    user: state.user.user,
-  }
+    return {
+        general: state.general.general,
+        user: state.user.user,
+    }
 
 }
 
 const mapDispatchToProps = dispatch => {
 
-  return {
-    login: (user) => { dispatch(UserAuthActions.login(user)) },
-  }
+    return {
+        login: (user) => { dispatch(UserAuthActions.login(user)) },
+    }
 
 }
 
 export default reduxForm({
-  form: "login",
-  Validate,
-  AsyncValidate
+    form: "login",
+    Validate,
+    AsyncValidate
 })(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(UserLogin)));
