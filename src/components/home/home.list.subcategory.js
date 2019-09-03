@@ -13,9 +13,9 @@ import { CMSHomeSubCategory } from './cms.home.subcategory';
  * 
  * @author Isaac S. Mwakabira
  */
-export const ListHomeSubcategory = ({ 
-    category, handleClick, 
-    classes, general 
+export const ListHomeSubcategory = ({
+    category, handleClick,
+    classes, general
 }) => {
 
     // get the logged in user
@@ -23,19 +23,23 @@ export const ListHomeSubcategory = ({
 
     return (
         <>
-            
-            <ButtonControl 
-                intent={Intent.NONE} 
-                value="New SubCategory"
-                name="create"
-                handleClick={e => handleClick(e) }
-                disabled={ !profile.canWrite({ user }) }
-            />
 
-            <div className={ classes.margin }/>
-            <div className={ classes.margin }/>
-            <div className={ classes.margin }/>
-            <div className={ classes.margin }/>
+            {
+                category.length !== 0 && (
+                    <ButtonControl
+                        intent={Intent.NONE}
+                        value="New SubCategory"
+                        name="create"
+                        handleClick={e => handleClick(e)}
+                        disabled={!profile.canWrite({ user })}
+                    />
+                )
+            }
+
+            <div className={classes.margin} />
+            <div className={classes.margin} />
+            <div className={classes.margin} />
+            <div className={classes.margin} />
 
             <Divider />
 
@@ -47,24 +51,24 @@ export const ListHomeSubcategory = ({
 
                                 {
                                     category.subCategories !== undefined && category.subCategories.map((section, index) => {
-            
-                                        return (<CMSHomeSubCategory key={index} section={ section } handleClick={ handleClick } />);
-            
+
+                                        return (<CMSHomeSubCategory key={index} section={section} handleClick={handleClick} />);
+
                                     })
                                 }
-            
+
                             </Row>)
                         ) : (<Row>
-                                <div style={{ marginTop: `40px` }} className="loader" />
-                            </Row>
-                        )
+                            <div style={{ marginTop: `40px` }} className="loader" />
+                        </Row>
+                            )
                     )
                 }
             </div>
 
         </>
     );
-    
+
 }
 
 

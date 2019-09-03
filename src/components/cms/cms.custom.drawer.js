@@ -9,7 +9,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import FinancingIcon from '@material-ui/icons/AttachMoney';
-import DocumentIcon from '@material-ui/icons/InsertDriveFile' 
+import DocumentIcon from '@material-ui/icons/InsertDriveFile'
 import GisIcon from '@material-ui/icons/Map'
 import LicencingIcon from '@material-ui/icons/Gavel'
 import DirectoryIcon from '@material-ui/icons/LocalLibrary'
@@ -23,21 +23,21 @@ import FAQIcon from '@material-ui/icons/QuestionAnswer';
 import { UserProfile } from '../user/user.profile';
 
 const drawer_controls = [
-    { name: 'home', button: <HomeIcon />},
-    { name: 'licensing', button: <LicencingIcon />},
-    { name: 'financing', button: <FinancingIcon />},
-    { name: 'directory', button: <DirectoryIcon />},
-    { name: 'library', button: <DocumentIcon />},
-    { name: 'gis', button: <GisIcon />},
-    { name: 'news', button: <NewsIcon />},
+    { name: 'home', button: <HomeIcon /> },
+    { name: 'licensing', button: <LicencingIcon /> },
+    { name: 'financing', button: <FinancingIcon /> },
+    { name: 'directory', button: <DirectoryIcon /> },
+    { name: 'library', button: <DocumentIcon /> },
+    { name: 'gis', button: <GisIcon /> },
+    { name: 'news', button: <NewsIcon /> },
     // { name: 'contact', button: <ContactIcon/>},
-    { name: 'faqs', button: <FAQIcon />}
+    { name: 'faqs', button: <FAQIcon /> }
 ];
 
 const config = [
-    { name: 'accounts', button: <PersonAddIcon />},
+    { name: 'accounts', button: <PersonAddIcon /> },
     // { name: 'profile', button: <AccountIcon />},
-    { name: 'logout', button: <LogoutIcon />},
+    { name: 'logout', button: <LogoutIcon /> },
 ];
 
 /**
@@ -53,15 +53,16 @@ const config = [
  * @param {Function} drawerClose
  * 
  */
-const CustomDrawer = ({ 
-    classes, 
-    theme, 
-    handleLink, 
+const CustomDrawer = ({
+    classes,
+    theme,
+    handleLink,
     capitalize,
     drawerClose,
-    link
+    link,
+    home
 }) => {
-
+    // console.log(home)
     const auth = UserProfile.get();
 
     return (
@@ -77,17 +78,37 @@ const CustomDrawer = ({
 
             <List>
                 {
-                    auth.roles.admin && drawer_controls.map(({name, button}) => (
-                        <ListItem 
-                            button 
-                            key={name} 
-                            onClick={ (e) => handleLink(e, name) }
-                            className={ `${ link === name && classes.highlight }` }
-                        >
-                            <ListItemIcon>{ button }</ListItemIcon>
-                            <ListItemText primary={capitalize(name)} />
-                        </ListItem>
-                    ))
+                    auth.roles.admin && drawer_controls.map(({ name, button }) => {
+                        // 
+                        if (home.length === 0) {
+                            if (name === 'home') {
+                                return (
+                                    <ListItem
+                                        button
+                                        key={name}
+                                        onClick={(e) => handleLink(e, name)}
+                                        className={`${link === name && classes.highlight}`}
+                                    >
+                                        <ListItemIcon>{button}</ListItemIcon>
+                                        <ListItemText primary={capitalize(name)} />
+                                    </ListItem>
+                                );
+                            }
+                        } else {
+                            return (
+                                <ListItem
+                                    button
+                                    key={name}
+                                    onClick={(e) => handleLink(e, name)}
+                                    className={`${link === name && classes.highlight}`}
+                                >
+                                    <ListItemIcon>{button}</ListItemIcon>
+                                    <ListItemText primary={capitalize(name)} />
+                                </ListItem>
+                            );
+                        }
+
+                    })
                 }
             </List>
 
@@ -96,14 +117,14 @@ const CustomDrawer = ({
             }
 
             <List>
-                {config.map(({name, button}) => (
-                    <ListItem 
-                        button 
-                        key={name} 
-                        onClick={ (e) => handleLink(e, name) }
-                        className={ `${ link === name && classes.highlight }` }
+                {config.map(({ name, button }) => (
+                    <ListItem
+                        button
+                        key={name}
+                        onClick={(e) => handleLink(e, name)}
+                        className={`${link === name && classes.highlight}`}
                     >
-                        <ListItemIcon>{ button }</ListItemIcon>
+                        <ListItemIcon>{button}</ListItemIcon>
                         <ListItemText primary={capitalize(name)} />
                     </ListItem>
                 ))}
@@ -146,9 +167,9 @@ const styles = theme => ({
         marginLeft: theme.spacing.unit * 0,
     },
 });
-  
+
 CustomDrawer.propTypes = {
     classes: PropTypes.object.isRequired,
 };
-  
+
 export default withStyles(styles)(CustomDrawer);

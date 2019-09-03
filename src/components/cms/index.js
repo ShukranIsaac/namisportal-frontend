@@ -87,7 +87,11 @@ class CMSIndex extends React.Component {
         if (user !== null) {
             if (user.roles.admin) {
                 this.props.homeSubcategory("Home");
-                this.props.defaultItem();
+                if (this.props.home.length !== 0) {
+                    this.props.defaultItem();
+                } else {
+                    this.props.createItem();
+                }
             } else {
                 if (!user.roles.admin && this.state.link !== "logout") {
                     this.props.fetchUser(user._id, user.token);
@@ -131,9 +135,12 @@ class CMSIndex extends React.Component {
             }
         }
 
-        // if (this.state.link === "logout") {
-        //     this.props.logout(UserProfile.get());
-        // }
+        // 
+        if (this.state.link === "home") {
+            if (this.props.home.length === 0) {
+                this.props.createItem();
+            }
+        }
 
     }
 
@@ -157,7 +164,7 @@ class CMSIndex extends React.Component {
                 /**
                  * Fetch all home sub category
                  */
-                this.props.homeSubcategory(this.capitalize(link));
+                // this.props.homeSubcategory(this.capitalize(link));
                 break;
             case 'directory':
                 /**

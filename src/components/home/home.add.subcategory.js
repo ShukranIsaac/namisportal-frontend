@@ -23,7 +23,7 @@ class CreateHomeSubcategory extends Component {
 
     constructor() {
         super();
-        
+
         this.state = {}
 
         /**
@@ -42,9 +42,9 @@ class CreateHomeSubcategory extends Component {
 	 * @param {Event} event
 	 */
     handleChange = (event) => {
-        
-        this.setState({[event.target.name]: event.target.value});
-  
+
+        this.setState({ [event.target.name]: event.target.value });
+
     }
 
     handleChangeMultiple = event => {
@@ -58,7 +58,7 @@ class CreateHomeSubcategory extends Component {
             if (options[index].selected) {
 
                 value.push(options[index].value);
-                
+
             }
 
         }
@@ -73,10 +73,10 @@ class CreateHomeSubcategory extends Component {
         const { category, props } = this.props;
         // get authenticated user token
         const user = UserProfile.get();
-        if(user !== null && user.token !== undefined) {
+        if (user !== null && user.token !== undefined) {
 
             let sub_category;
-            if(values !== null && values !== undefined) {
+            if (values !== null && values !== undefined) {
                 // define sub-category structure
                 sub_category = {
                     name: values.subcategory,
@@ -84,45 +84,56 @@ class CreateHomeSubcategory extends Component {
                     about: values.about
                 }
 
-                this.props.createCategory(category._id, sub_category , user.token);
+                // home category exists
+                if (category.length !== 0) {
+                    // proceeed to adding new subcategories under it
+                    this.props.createCategory(category._id, sub_category, user.token);
+                } else {
+                    // creating new category
+                    this.props.createCategory(null, sub_category, user.token);
+                }
                 // then change state to default
                 // so that the page redirects and list all home items
                 props.defaultItem();
             }
 
-        } 
-        
+        }
+
     }
 
     render() {
 
-        const { 
+        const {
             classes, handleClick, handleSubmit,
-            valid, pristine, submitting
+            valid, pristine, submitting, category
         } = this.props;
         
         return (
             <Fragment>
 
-                <form onSubmit= { handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
+                <form onSubmit={handleSubmit(values => this.handleSubmit(values))} autoComplete="off">
 
-                    <ButtonControl 
-                        intent={Intent.NONE} 
-                        value="List SubCategories"
-                        name="default"
-                        handleClick={e => handleClick(e) }
-                    />
+                    {
+                        category.length !== 0 && (
+                            <ButtonControl
+                                intent={Intent.NONE}
+                                value="List SubCategories"
+                                name="default"
+                                handleClick={e => handleClick(e)}
+                            />
+                        )
+                    }
 
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
 
                     <Divider />
 
                     <FormTextInputField
-                        { ...this.props } 
+                        {...this.props}
                         name="subcategory"
                         label="Name"
                         placeholder="New sub-category name..."
@@ -130,7 +141,7 @@ class CreateHomeSubcategory extends Component {
                     />
 
                     <FormTextInputField
-                        { ...this.props } 
+                        {...this.props}
                         name="shortName"
                         label="Shortname"
                         placeholder="New sub-category shortname..."
@@ -138,7 +149,7 @@ class CreateHomeSubcategory extends Component {
                     />
 
                     <FormTextInputField
-                        { ...this.props } 
+                        {...this.props}
                         name="about"
                         label="Summary"
                         placeholder="New sub-category about..."
@@ -147,14 +158,14 @@ class CreateHomeSubcategory extends Component {
                         rows="10"
                     />
 
-                    <div className={ classes.margin } />
-                    <div className={ classes.margin } />
-                    <div className={ classes.margin } />
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
 
-                    <Button type="submit" disabled={!valid  || pristine || submitting} intent="success" text="Save" />
-                    
-                    <Button className={ classes.margin } name="default" intent="primary" text="Cancel" onClick={ e => handleClick(e) } /> 
-                
+                    <Button type="submit" disabled={!valid || pristine || submitting} intent="success" text="Save" />
+
+                    <Button className={classes.margin} name="default" intent="primary" text="Cancel" onClick={e => handleClick(e)} />
+
                 </form>
 
             </Fragment>
