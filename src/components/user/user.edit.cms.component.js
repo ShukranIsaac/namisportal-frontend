@@ -188,7 +188,7 @@ class EditUserAccount extends Component {
         // logged in user
         const current = UserProfile.get();
         const userAuth = this.props.user;
-        console.log(this.props)
+        // console.log(this.props)
 
         // access levels
         const accessLevels = profile.showActions();
@@ -236,7 +236,7 @@ class EditUserAccount extends Component {
                                 <div className="tab-content">
 
                                     {
-                                        userAuth !== null && (userAuth._id === current._id) ? (
+                                        userAuth !== null && ((userAuth._id === current._id) ? (
                                             <>
                                                 <div id="general" className="tab-pane active"><br />
 
@@ -369,7 +369,7 @@ class EditUserAccount extends Component {
                                                     <div id="general" className="tab-pane active"><br />
 
                                                         {
-                                                            this.formFields({ user: current })
+                                                            this.formFields({ user })
                                                         }
 
                                                         <Button type="submit" color="primary" text="Update" />
@@ -482,6 +482,7 @@ class EditUserAccount extends Component {
                                                     </div>
                                                 </>
                                             )
+                                        )
                                     }
 
                                 </div>
