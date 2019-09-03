@@ -41,7 +41,7 @@ class CMSIndex extends React.Component {
     constructor() {
         super();
         this.state = {
-            link: 'home',
+            link: UserProfile.get().roles.admin ? 'home' : 'accounts',
             event: 'default',  // default value required when rendering a single resource section
             searchTerm: '',
             doc_title: '',
@@ -81,15 +81,18 @@ class CMSIndex extends React.Component {
     componentDidMount() {
 
         // this.props.editItem();
+        // this.setState({ link: 'accounts' })
         // console.log(this.props.user_event);
         const user = UserProfile.get();
         if (user.roles.admin) {
-            console.log(user)
+            this.props.homeSubcategory("Home");
+            this.props.defaultItem();
         } else {
-            console.log("Non Admin")
+            if (!user.roles.admin && this.state.link !== "logout") {
+                this.props.fetchUser(user._id, user.token);
+                this.props.editItem();
+            }
         }
-
-        this.props.homeSubcategory("Home");
 
     }
 
@@ -99,25 +102,36 @@ class CMSIndex extends React.Component {
 		 *  disabling browser default behavior like page refresh, etc 
 		 */
         e.preventDefault();
-        
-        // fetch this component data is this link is clicked
-        this.fetchComponent(link)
 
         // Set state
         this.setState({ link });
 
-        const { match, history } = this.props;
+        // fetch this component data is this link is clicked
+        if (UserProfile.get().roles.admin) {
+            this.fetchComponent(link)
 
-        // get url navigated to, and change push to the navigation bar
-        const prevUrl = `${match.path}/${link}`;
-        if (prevUrl) {
-            history.push(prevUrl);
+            const { match, history } = this.props;
+
+            // get url navigated to, and change push to the navigation bar
+            const prevUrl = `${match.path}/${link}`;
+            if (prevUrl) {
+                history.push(prevUrl);
+            }
+
+            // then call default event action so that when a new section is visited on link change 
+            // the app should set state to deafult and show home page for that section.
+            // Not maintaining the previous section state
+            this.props.defaultItem();
+        } else {
+            if (this.state.link !== "logout") {
+                this.props.fetchUser(UserProfile.get()._id, UserProfile.get().token);
+                this.props.editItem();
+            } 
         }
 
-        // then call default event action so that when a new section is visited on link change 
-        // the app should set state to deafult and show home page for that section.
-        // Not maintaining the previous section state
-        this.props.defaultItem();
+        // if (this.state.link === "logout") {
+        //     this.props.logout(UserProfile.get());
+        // }
 
     }
 
@@ -128,7 +142,7 @@ class CMSIndex extends React.Component {
     fetchComponent = (link) => {
 
         // check which link has been visited
-        switch(link) {
+        switch (link) {
 
             case 'library':
                 /**
@@ -180,8 +194,10 @@ class CMSIndex extends React.Component {
                  */
                 const user = UserProfile.get();
                 // check if the user exist ie. logged in
-                if(user !== null) {
+                if (user !== null && user.roles.admin) {
                     this.props.fetchUsers(user);
+                } else {
+
                 }
                 break;
             case 'gis':
@@ -208,7 +224,7 @@ class CMSIndex extends React.Component {
     }
 
     handleChange = (e) => {
-        
+
         this.setState({ [e.target.name]: e.target.value }, () => {
             //set and fetch district which has been selected
             const { gis_filters } = this.props;
@@ -232,7 +248,7 @@ class CMSIndex extends React.Component {
                 })
             }
         });
-        
+
     }
 
     /**
@@ -268,52 +284,52 @@ class CMSIndex extends React.Component {
          * change state depending on the button the user clicked in the UI
          * 
          */
-        switch(event.currentTarget.name) {
+        switch (event.currentTarget.name) {
             case 'publish':
                 this.props.publishItem();
                 break;
             case 'edit':
-                
+
                 this.props.editItem();
                 // get cms component name, ie. current component
                 const { link } = this.state;
-                if(link === 'home') {
-                    
+                if (link === 'home') {
+
                     // fetch category
                     this.props.subCategory(event.currentTarget.id);
-                } else if(link === 'directory') {
-                    
+                } else if (link === 'directory') {
+
                     // fetch stakeholder
                     this.props.fetchSingleStakeholder(event.currentTarget.id)
-                } else if(link === 'news') {
-                    
+                } else if (link === 'news') {
+
                     // fetch news article
                     this.props.fetchArticle(event.currentTarget.id)
-                } else if(link === 'accounts') {
+                } else if (link === 'accounts') {
                     // fetch logged in user
                     const user = UserProfile.get();
-                    if(user !== null) {
+                    if (user !== null) {
                         if (user.token !== null && user.token !== undefined) {
                             // fetch account to edit
                             this.props.fetchUser(event.currentTarget.id, user.token);
                         }
                     }
 
-                } else if(link === 'faqs') {
+                } else if (link === 'faqs') {
                     /**
                      * To edit clicked question in the list
                      * Fetch logged in user,
                      * Then fetch question/category to edit
                      */
                     const user = UserProfile.get();
-                    if(user !== null) {
+                    if (user !== null) {
                         if (user.token !== null && user.token !== undefined) {
                             // fetch account to edit
                             this.props.fetchQuestion(event.currentTarget.id);
                         }
                     }
 
-                } else if(link === 'licensing') {
+                } else if (link === 'licensing') {
 
                     /**
                      * To edit clicked license step in the list
@@ -322,7 +338,7 @@ class CMSIndex extends React.Component {
                     this.props.subCategory(event.currentTarget.id);
                     // this.props.reload()
 
-                } else if(link === 'financing') {
+                } else if (link === 'financing') {
 
                     /**
                      * To edit chosen financing category
@@ -358,25 +374,25 @@ class CMSIndex extends React.Component {
                 this.props.defaultItem();
                 break;
         }
-        
+
     }
 
     render() {
-        
+
         const { classes, general, actionType } = this.props;
         const { link, } = this.state;
-        
+
         // get loggedin user
         const user = UserProfile.get();
         // Check if user is logged in before rendering this page
         // else redirect to login
-        if(user === null) {
+        if (user === null) {
             return redirect.to({ url: `/login` })
         }
         // console.log(this.props.general)
         if (general !== null) {
             // isLoading or not
-            if(!general.isLoading && actionType === 'REQUEST_CATEGORY') {
+            if (!general.isLoading && actionType === 'REQUEST_CATEGORY') {
                 // console.log(this.props.subcategory)
                 Object.assign(this.state, { category: this.props.subcategory });
             }
@@ -385,7 +401,7 @@ class CMSIndex extends React.Component {
         // console.log(this.props.subcategory)
         return (
             <div className={classes.root}>
-            
+
                 <CssBaseline />
 
                 <AppBar
@@ -423,16 +439,16 @@ class CMSIndex extends React.Component {
                     })}
                     classes={{
                         paper: classNames({
-                        [classes.drawerOpen]: this.state.open,
-                        [classes.drawerClose]: !this.state.open,
+                            [classes.drawerOpen]: this.state.open,
+                            [classes.drawerClose]: !this.state.open,
                         }),
                     }}
                     open={this.state.open}
                 >
-                
-                    <CustomDrawer 
-                        { ...this.props } 
-                        { ...this.state }
+
+                    <CustomDrawer
+                        {...this.props}
+                        {...this.state}
                         drawerClose={this.handleDrawerClose}
                         handleLink={this.handleLink}
                         capitalize={this.capitalize}
@@ -446,26 +462,26 @@ class CMSIndex extends React.Component {
 
                     <div className="card">
                         <div className="card-body">
-                            
+
                             {
-                                !this.state.open ? 
+                                !this.state.open ?
                                     <div>
                                         <h4 >
                                             <a className="heading" href="/#"/*href={`/`+ link}*/>
-                                                { this.capitalize(link) }
+                                                {this.capitalize(link)}
                                             </a>
                                         </h4>
                                     </div>
-                                : <div></div>
+                                    : <div></div>
                             }
 
                             <RenderSection
-                                link={ link } 
-                                handleClick={ this.handleClick } 
+                                link={link}
+                                handleClick={this.handleClick}
                                 // categoryClick={ this.categoryClick }
-                                handleChange={ (e) => { this.handleChange(e) } }
+                                handleChange={(e) => { this.handleChange(e) }}
                                 props={this.props}
-                                { ...this.state }
+                                {...this.state}
                             />
                         </div>
                     </div>
@@ -478,65 +494,65 @@ class CMSIndex extends React.Component {
 // styles
 const styles = theme => ({
     root: {
-      display: 'flex',
-      background: '#eeeeee'
+        display: 'flex',
+        background: '#eeeeee'
     },
     appBar: {
-      zIndex: theme.zIndex.drawer + 1,
-      background: '#15B371',
-      transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
+        zIndex: theme.zIndex.drawer + 1,
+        background: '#15B371',
+        transition: theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
     },
     appBarShift: {
-      marginLeft: drawerWidth,
-      width: `calc(100% - ${drawerWidth}px)`,
-      transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
+        marginLeft: drawerWidth,
+        width: `calc(100% - ${drawerWidth}px)`,
+        transition: theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
     },
     menuButton: {
-      marginLeft: 12,
-      marginRight: 36,
+        marginLeft: 12,
+        marginRight: 36,
     },
     hide: {
-      display: 'none',
+        display: 'none',
     },
     drawer: {
-      width: drawerWidth,
-      flexShrink: 0,
-      whiteSpace: 'nowrap',
+        width: drawerWidth,
+        flexShrink: 0,
+        whiteSpace: 'nowrap',
     },
     drawerOpen: {
-      width: drawerWidth,
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
+        width: drawerWidth,
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
     },
     drawerClose: {
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      overflowX: 'hidden',
-      width: theme.spacing.unit * 7 + 1,
-      [theme.breakpoints.up('sm')]: {
-        width: theme.spacing.unit * 9 + 1,
-      },
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        overflowX: 'hidden',
+        width: theme.spacing.unit * 7 + 1,
+        [theme.breakpoints.up('sm')]: {
+            width: theme.spacing.unit * 9 + 1,
+        },
     },
     toolbar: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-      padding: '0 8px',
-      ...theme.mixins.toolbar,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        padding: '0 8px',
+        ...theme.mixins.toolbar,
     },
     content: {
-      flexGrow: 1,
-      padding: theme.spacing.unit * 3
+        flexGrow: 1,
+        padding: theme.spacing.unit * 3
     },
     highlight: {
         background: '#dcdde1'
@@ -544,7 +560,7 @@ const styles = theme => ({
 });
 
 const mapStateToProps = (state) => {
-    
+
     return {
         errored: state.news.errored,
         general: state.general.general,
@@ -571,15 +587,15 @@ const mapDispatchToProps = (dispatch) => {
 
     return {
         // general category
-        editItem : () => { dispatch(UserEventActions.edit()) },
-        publishItem : () => { dispatch(UserEventActions.publish()) },
-        saveItem : () => { dispatch(UserEventActions.save()) },
-        defaultItem : () => { dispatch(UserEventActions.initial()) },
-        unpublishItem : () => { dispatch(UserEventActions.unpublish()) },
-        deleteItem : () => { dispatch(UserEventActions.remove()) },
-        archiveItem : () => { dispatch(UserEventActions.archive()) },
-        createItem : () => { dispatch(UserEventActions.create()) },
-        reload : () => { dispatch(UserEventActions.reload()) },
+        editItem: () => { dispatch(UserEventActions.edit()) },
+        publishItem: () => { dispatch(UserEventActions.publish()) },
+        saveItem: () => { dispatch(UserEventActions.save()) },
+        defaultItem: () => { dispatch(UserEventActions.initial()) },
+        unpublishItem: () => { dispatch(UserEventActions.unpublish()) },
+        deleteItem: () => { dispatch(UserEventActions.remove()) },
+        archiveItem: () => { dispatch(UserEventActions.archive()) },
+        createItem: () => { dispatch(UserEventActions.create()) },
+        reload: () => { dispatch(UserEventActions.reload()) },
         // Library category
         fetchLibraryDocs: () => { dispatch(LibraryAction.fetchAllLibraryDocs()) },
         // library files and documents
@@ -620,8 +636,8 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 CMSIndex.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
+    theme: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(

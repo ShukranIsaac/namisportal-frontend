@@ -62,6 +62,11 @@ class EditUserProfile extends Component {
                     Object.assign(this.state.user.roles, { publisher: true });
                 }
 
+                // user roles changed reassign new ones
+                if (this.isAssigned('admin')) {
+                    Object.assign(this.state.user.roles, { admin: true });
+                }
+
                 // Form has been edited, edit user fields
                 if(values !== null) {
 
@@ -195,6 +200,13 @@ class EditUserProfile extends Component {
                                 placeholder='Your lastname...' { ...this.props }
                                 />
                             </div>
+                            {/* <div className='margin-fix'>
+                                <FormTextInputField 
+                                value={user !== null ? user.email : ''} 
+                                name='email' label='Email' type='text' 
+                                placeholder='Your email address...' { ...this.props }
+                                />
+                            </div> */}
 
                             <Button type="submit" color="primary" text="Update" />
                             
@@ -216,6 +228,7 @@ class EditUserProfile extends Component {
                                         <option value="">{ `Assign new role(s)` }</option>
                                         <option value={ `writer` }>Writer</option>
                                         <option value={ `publisher` }>Publisher</option>
+                                        <option value={ `admin` }>Admin</option>
                                     </SelectInputControl>
 
                                 </Paper>

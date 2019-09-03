@@ -20,6 +20,7 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd'
 import LogoutIcon from '@material-ui/icons/ExitToApp';
 import HomeIcon from '@material-ui/icons/Home';
 import FAQIcon from '@material-ui/icons/QuestionAnswer';
+import { UserProfile } from '../user/user.profile';
 
 const drawer_controls = [
     { name: 'home', button: <HomeIcon />},
@@ -61,6 +62,8 @@ const CustomDrawer = ({
     link
 }) => {
 
+    const auth = UserProfile.get();
+
     return (
         <Fragment>
 
@@ -74,7 +77,7 @@ const CustomDrawer = ({
 
             <List>
                 {
-                    drawer_controls.map(({name, button}) => (
+                    auth.roles.admin && drawer_controls.map(({name, button}) => (
                         <ListItem 
                             button 
                             key={name} 
@@ -88,7 +91,9 @@ const CustomDrawer = ({
                 }
             </List>
 
-            <Divider />
+            {
+                auth.roles.admin && <Divider />
+            }
 
             <List>
                 {config.map(({name, button}) => (
@@ -103,6 +108,10 @@ const CustomDrawer = ({
                     </ListItem>
                 ))}
             </List>
+
+            {
+                !auth.roles.admin && <Divider />
+            }
 
         </Fragment>
     );

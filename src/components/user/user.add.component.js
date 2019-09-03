@@ -61,7 +61,12 @@ class AddUserAccount extends Component {
             firstName: values.firstname,
             lastName: values.lastname,
             email: values.email,
-            password: values.password
+            password: values.password,
+            roles: {
+                writer: false,
+                publisher: false,
+                admin: false
+            }
         }
 
         if (user !== undefined && user.username !== undefined && user !== null) {
