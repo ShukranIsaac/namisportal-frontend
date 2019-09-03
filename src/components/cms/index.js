@@ -41,7 +41,7 @@ class CMSIndex extends React.Component {
     constructor() {
         super();
         this.state = {
-            link: UserProfile.get().roles.admin ? 'home' : 'accounts',
+            link: UserProfile.get() !== null && (UserProfile.get().roles.admin ? 'home' : 'accounts'),
             event: 'default',  // default value required when rendering a single resource section
             searchTerm: '',
             doc_title: '',
@@ -84,13 +84,15 @@ class CMSIndex extends React.Component {
         // this.setState({ link: 'accounts' })
         // console.log(this.props.user_event);
         const user = UserProfile.get();
-        if (user.roles.admin) {
-            this.props.homeSubcategory("Home");
-            this.props.defaultItem();
-        } else {
-            if (!user.roles.admin && this.state.link !== "logout") {
-                this.props.fetchUser(user._id, user.token);
-                this.props.editItem();
+        if (user !== null) {
+            if (user.roles.admin) {
+                this.props.homeSubcategory("Home");
+                this.props.defaultItem();
+            } else {
+                if (!user.roles.admin && this.state.link !== "logout") {
+                    this.props.fetchUser(user._id, user.token);
+                    this.props.editItem();
+                }
             }
         }
 
@@ -126,7 +128,7 @@ class CMSIndex extends React.Component {
             if (this.state.link !== "logout") {
                 this.props.fetchUser(UserProfile.get()._id, UserProfile.get().token);
                 this.props.editItem();
-            } 
+            }
         }
 
         // if (this.state.link === "logout") {
