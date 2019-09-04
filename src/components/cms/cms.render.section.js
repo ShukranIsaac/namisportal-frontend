@@ -98,7 +98,7 @@ const RenderSection = ({
             );
 
         case 'licensing':
-console.log(props);
+
             return (
                 <Fragment>
 
@@ -194,6 +194,7 @@ console.log(props);
                                     handleClick={ (e) => handleClick(e) } 
                                     stakeholders={ props.stakeholders_list } 
                                     handleChange={ (e) => { handleChange(e) } }
+                                    { ...props }
                                 /> 
                             }
                         Edit={ () => <EditDirectoryInstitution 

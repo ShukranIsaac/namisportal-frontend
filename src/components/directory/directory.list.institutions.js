@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 // import SearchInputControl from '../forms/search.form.field';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent } from '@blueprintjs/core';
+import { Row, } from 'reactstrap';
 import { Divider, withStyles } from '@material-ui/core';
 import styles from '../contact/form.styles';
 
@@ -20,57 +21,65 @@ import styles from '../contact/form.styles';
 export const ListDirectoryInstitution = (withStyles(styles)(({
     stakeholders,
     handleClick,
-    isLoading, classes
+    general, classes
 }) => {
 
     // console.log(stakeholders);
-    if(stakeholders === null && stakeholders === undefined) {
+    if (stakeholders === null && stakeholders === undefined) {
         return <div>No stakeholders</div>
     }
 
     return (
         <Fragment>
 
-            <ButtonControl 
-                intent={Intent.NONE} 
+            <ButtonControl
+                intent={Intent.NONE}
                 value="New Stakeholder"
                 name="create"
-                handleClick={e => handleClick(e) }
+                handleClick={e => handleClick(e)}
             />
 
-            <div className={ classes.margin }/>
-            <div className={ classes.margin }/>
-            <div className={ classes.margin }/>
-            <div className={ classes.margin }/>
+            <div className={classes.margin} />
+            <div className={classes.margin} />
+            <div className={classes.margin} />
+            <div className={classes.margin} />
 
             <Divider />
 
             <ul>
                 {
-                    stakeholders !== null && stakeholders !== undefined ? (
-                        <Fragment>
-                            {
-                                stakeholders && stakeholders.map((stakeholder, index) => {
-                        
-                                    return (
-                                        <Fragment key={index}>
-                                            <li id={stakeholder._id} key={stakeholder._id}>
-                                                <a 
-                                                    href={ `${ 'directory/' + stakeholder.name }` } 
-                                                    onClick={ (e) => { handleClick(e) } }
-                                                    name="edit"
-                                                    id={stakeholder._id}
-                                                >
-                                                    { stakeholder.name }
-                                                </a>
-                                            </li>
-                                        </Fragment>
-                                    );
-            
-                                })
-                            }
-                        </Fragment>
-                    ) : <div style={{ marginTop: `35px` }} className='loader' />
+                    general && (
+                        !general.isLoading ? (
+                            (stakeholders !== null && stakeholders !== undefined) && (
+                                <Fragment>
+                                    {
+                                        stakeholders && stakeholders.map((stakeholder, index) => {
+
+                                            return (
+                                                <Fragment key={index}>
+                                                    <li id={stakeholder._id} key={stakeholder._id}>
+                                                        <a
+                                                            href={`${'directory/' + stakeholder.name}`}
+                                                            onClick={(e) => { handleClick(e) }}
+                                                            name="edit"
+                                                            id={stakeholder._id}
+                                                        >
+                                                            {stakeholder.name}
+                                                        </a>
+                                                    </li>
+                                                </Fragment>
+                                            );
+
+                                        })
+                                    }
+                                </Fragment>
+                            )
+                        ) : (<Row>
+                                <div style={{ marginTop: `40px` }} className="loader" />
+                            </Row>
+                        )
+                    )
+
                 }
             </ul>
 
