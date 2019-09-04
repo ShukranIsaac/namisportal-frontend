@@ -98,7 +98,7 @@ class EditLicensingStep extends Component {
         const { 
             classes, handleClick, handleSubmit, 
             valid, pristine, submitting, 
-            subcategory, general
+            subcategory, general, //handleLink
         } = this.props;
 
         return (

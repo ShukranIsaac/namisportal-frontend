@@ -90,7 +90,9 @@ class CMSIndex extends React.Component {
                 if (this.props.home.length !== 0) {
                     this.props.defaultItem();
                 } else {
-                    this.props.createItem();
+                    if (!Array.isArray(this.props.home)) {
+                        this.props.createItem();
+                    }
                 }
             } else {
                 if (!user.roles.admin && this.state.link !== "logout") {

@@ -98,7 +98,7 @@ const RenderSection = ({
             );
 
         case 'licensing':
-
+console.log(props);
             return (
                 <Fragment>
 
