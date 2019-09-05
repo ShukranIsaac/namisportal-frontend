@@ -104,8 +104,8 @@ export class HomeSubCategory extends React.Component{
                         <h4>
                             <a className="heading" 
                                 href={ this.link(section) } 
-                                onClick={ redirect.to({ to: '/' + section })}>
-                                
+                                // onClick={ redirect.to({ to: '/' + section })}
+                            >
                                 { section.name }
                             </a>
                         </h4>

@@ -85,7 +85,7 @@ class CMSIndex extends React.Component {
         // console.log(this.props.user_event);
         const user = UserProfile.get();
         if (user !== null) {
-            if (user.roles.admin) {
+            if (user.roles.admin && (user.roles.writer || user.roles.publisher)) {
                 this.props.homeSubcategory("Home");
                 if (this.props.home.length !== 0) {
                     this.props.defaultItem();

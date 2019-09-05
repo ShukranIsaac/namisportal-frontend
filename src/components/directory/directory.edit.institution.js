@@ -125,7 +125,8 @@ class EditDirectoryInstitution extends Component {
 
             if (values !== null && values !== undefined) {
 
-                if (values.stakeholder_name !== undefined && values.stakeholder_name !== null) {
+                if (values.stakeholder_name !== undefined || values.stakeholder_name !== undefined 
+                    || values.stakeholder_name !== undefined || values.physical_address !== undefined) {
                     // define sub-category structure
                     const stakeholder = {
                         name: values.stakeholder_name,
@@ -142,14 +143,15 @@ class EditDirectoryInstitution extends Component {
                     }
 
                     // console.log(stakeholder);
-                    // this.props.createStakeholder(stakeholder, user.token);
                     /**
                      * create new stakeholder under category selected
                      */
-                    this.props.createCategory(stakeholder_type._id, stakeholder, user.token);
-                    // then change state to default
-                    // so that the page redirects and list all home items
-                    this.props.defaultItem();
+                    if (stakeholder_type !== undefined && stakeholder_type !== null) {
+                        this.props.editStakeholder(this.props.stakeholder._id, stakeholder, user.token);
+                        // then change state to default
+                        // so that the page redirects and list all home items
+                        this.props.defaultItem();
+                    }
                 } else {
                     // we are adding a stakeholder category: sub-category essentially
                     // define object structure

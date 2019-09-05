@@ -145,10 +145,12 @@ class CreateDirectoryInstitution extends Component {
                     /**
                      * create new stakeholder under category selected
                      */
-                    this.props.createCategory(stakeholder_type._id, stakeholder, user.token);
-                    // then change state to default
-                    // so that the page redirects and list all home items
-                    this.props.defaultItem();
+                    if (stakeholder_type !== undefined && stakeholder_type !== null) {
+                        this.props.createCategory(stakeholder_type._id, stakeholder, user.token);
+                        // then change state to default
+                        // so that the page redirects and list all home items
+                        this.props.defaultItem();
+                    }
                 } else {
                     // we are adding a stakeholder category: sub-category essentially
                     // define object structure
@@ -160,6 +162,7 @@ class CreateDirectoryInstitution extends Component {
 
                     // category to add stakeholders to: Directory
                     const { subcategory } = this.props;
+                    console.log(subcategory)
                     // then check if null and undefined, then proceed otherwise
                     if (subcategory !== null && subcategory !== undefined) {
                         // create new stakeholderType category

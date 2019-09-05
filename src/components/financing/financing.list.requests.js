@@ -58,7 +58,7 @@ export const ListFinancingRequests = (withStyles(styles)(({
                                                             { category.name }
                                                         </a>
                                                     </h4>
-                                                    <p>{ category.about.substring(0, 150) }</p>
+                                                    <p>{ category.about !== undefined && category.about.substring(0, 150) }</p>
 
                                                     <Button 
                                                         name="edit" id={category._id} 
@@ -70,8 +70,12 @@ export const ListFinancingRequests = (withStyles(styles)(({
                                         </Col>
                                         {
                                             category.subCategories !== undefined 
-                                            && category.subCategories.map(({ name, about, _id }, index) => {
+                                            && (category.subCategories.length !== 0 && category.subCategories.map(({ name, about, _id }, index) => {
                                                 
+                                                if (about === undefined) {
+                                                    return null;
+                                                }
+
                                                 return(
                                                     <Col key={ index } sm='12' md='8' lg='6'>
                                                         <div className="card">
@@ -88,7 +92,7 @@ export const ListFinancingRequests = (withStyles(styles)(({
                                                                 <p 
                                                                     dangerouslySetInnerHTML={{ 
                                                                         // if text length more than 150, render a small portion.
-                                                                        __html: about !== null && about.length >= 140 ? about.substring(0, 150) : about
+                                                                        __html: about !== undefined ? (about.length >= 140 ? about.substring(0, 150) : about) : ''
                                                                     }}
                                                                 ></p>
 
@@ -102,7 +106,7 @@ export const ListFinancingRequests = (withStyles(styles)(({
                                                     </Col>
                                                 );
 
-                                            })
+                                            }))
                                         }
                                     </Row>
                                 </Fragment>

@@ -50,7 +50,7 @@ class EditFinancingRequestSupport extends Component {
     handleSubmit = (values) => {
         // category under which this subcategory should 
         // be uploaded to
-        const { subcategory: { subCategories } } = this.props;
+        const { subcategory } = this.props;
         // get authenticated user token
         const user = UserProfile.get();
         if(user !== null && user.token !== undefined) {
@@ -63,9 +63,7 @@ class EditFinancingRequestSupport extends Component {
                     about: values.about
                 }
 
-                // console.log(sub_category)
-                // console.log(subCategories[0])
-                this.props.editCategory(subCategories[0]._id, sub_category, user.token);
+                this.props.editCategory(subcategory._id, sub_category, user.token);
                 // then change state to default
                 // so that the page redirects and list all home items
                 this.props.defaultItem();

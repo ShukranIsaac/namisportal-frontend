@@ -71,7 +71,7 @@ class Home extends Component {
                         {
                           home.subCategories.length !== 0 ? 
                             home.subCategories.map((section, index) => {
-                              console.log(section)
+                              // console.log(section)
                               /**
                                * Making sure this main section does not appear twice
                                * on the home component.

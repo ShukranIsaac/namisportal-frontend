@@ -54,12 +54,12 @@ class EditUserAccount extends Component {
 
                 // user roles changed reassign new ones
                 if (this.isAssigned('writer')) {
-                    Object.assign(this.state.user.roles, { writer: true })
+                    Object.assign(this.state.user.roles, { writer: true, admin: true })
                 }
 
                 // user roles changed reassign new ones
                 if (this.isAssigned('publisher')) {
-                    Object.assign(this.state.user.roles, { publisher: true });
+                    Object.assign(this.state.user.roles, { publisher: true, admin: true });
                 }
 
                 // user roles changed reassign new ones
@@ -133,7 +133,12 @@ class EditUserAccount extends Component {
             roles: user.roles
         }
         // edit roles, or update roles
-        Object.assign(propertiesEdited.roles, { [role]: false });
+        // console.log([role][0][0])
+        if([role][0][0] === 'writer' || [role][0][0] === 'publisher') {
+            Object.assign(propertiesEdited.roles, { [role]: false, admin: false });
+        } else {
+            Object.assign(propertiesEdited.roles, { [role]: false });
+        }
 
         // authenticated user
         const auth = UserProfile.get();
@@ -141,6 +146,7 @@ class EditUserAccount extends Component {
 
             if (auth.token !== undefined && auth.token !== null) {
                 // if anything was edited then make put request to the API
+                // console.log(propertiesEdited)
                 this.props.updateUser(user._id, propertiesEdited, auth);
                 // list users
                 this.props.defaultItem();

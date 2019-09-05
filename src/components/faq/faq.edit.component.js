@@ -107,7 +107,7 @@ class EditQuestion extends Component {
             let edited_question;
             if(values !== null && values !== undefined) {
                 // check if resource or file if being added
-                if(values.question !== undefined && values.answer !== null) {
+                if(values.question !== undefined || values.answer !== undefined || values.shortName !== undefined) {
                     // get edited_question structure
                     edited_question = {
                         name: values.question,
