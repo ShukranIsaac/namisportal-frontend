@@ -77,7 +77,7 @@ class News extends Component {
 
               {/* <NavLink to="/news"><FormLegendField value="Latest news"/></NavLink> */}
 
-              <NavLink to="/faq"><FormLegendField value="Ask questions"/></NavLink>
+              <NavLink to="/faqs"><FormLegendField value="Ask questions"/></NavLink>
 
               <NavLink to="/contact"><FormLegendField value="Contact us"/></NavLink>
 

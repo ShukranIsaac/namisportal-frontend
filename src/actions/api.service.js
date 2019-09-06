@@ -104,7 +104,7 @@ export const put = async (dispatch, url, data) => {
     const config = new Headers();
     config.append('Access-Control-Allow-Origin', Config.ACCESS_ALLOW_ORIGIN);
 
-    return await Config.REMOTE_API_URL.put(url, data, config)
+    return await Config.REMOTE_API_URL.put(url, JSON.stringify(data), config)
 
     .then(response => {
         

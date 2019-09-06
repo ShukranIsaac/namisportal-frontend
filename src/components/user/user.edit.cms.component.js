@@ -25,10 +25,10 @@ import { FormTextInputField } from '../forms/form.textinput.field';
  */
 class EditUserAccount extends Component {
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
-            user: props.user,
+            user: { roles: null },
             roles: null,
             myRoles: [],
         }
@@ -49,8 +49,9 @@ class EditUserAccount extends Component {
     handleSubmit = (id, values) => {
 
         // check previous values of user and update if roles changed
-        if (this.state.user !== null) {
-            if (this.state.user.roles !== undefined) {
+        //this.state.user
+        if (values !== null) {
+            // if (this.state.user.roles !== undefined) {
 
                 // user roles changed reassign new ones
                 if (this.isAssigned('writer')) {
@@ -68,39 +69,46 @@ class EditUserAccount extends Component {
                 }
 
                 // Form has been edited, edit user fields
-                if (values !== null) {
+                // if (values !== null) {
 
-                    // if key exist then user has been edited
-                    Object.keys(this.state.user).map(key => {
+                //     // if key exist then user has been edited
+                //     Object.keys(this.state.user).map(key => {
 
-                        // check which key exist
-                        return Object.keys(values).map(which => {
+                //         // check which key exist
+                //         Object.keys(values).map(which => {
 
-                            if (key === which) {
-                                return Object.assign(this.state.user, { [which]: values[which] });
-                            }
+                //             if (key === which) {
+                //                 Object.assign(this.state.user, { [which]: values[which] });
+                //             }
 
-                            return null;
-                        });
+                //         });
 
-                    });
+                //     });
 
-                }
+                // }
 
                 // get auth user
                 let authUser = UserProfile.get();
+                let roles = this.state.user.roles;
                 // edited user
-                const { user } = this.state;
+                // const { user } = this.state;
+                const user = {
+                    "username": values.username,
+                    "firstName": values.firstName,
+                    "lastName": values.lastName,
+                    "roles": roles !== null ? roles : undefined,
+                }
 
                 if (authUser !== null) {
                     if (authUser.token !== undefined && authUser.token !== null) {
                         // if anything was edited then make put request to the API
+                        // console.log(user)
                         this.props.updateUser(id, user, authUser);
                         // list users
                         this.props.defaultItem();
                     }
                 }
-            }
+            // }
         }
 
     }
@@ -139,7 +147,7 @@ class EditUserAccount extends Component {
         } else {
             Object.assign(propertiesEdited.roles, { [role]: false });
         }
-
+        
         // authenticated user
         const auth = UserProfile.get();
         if (auth !== null) {
@@ -233,7 +241,7 @@ class EditUserAccount extends Component {
 
                             <form
                                 onSubmit={handleSubmit(values => {
-                                    this.handleSubmit(current.roles.admin ? user._id : current._id, values)
+                                    this.handleSubmit(current.roles.admin ? userAuth._id : current._id, values)
                                 }
                                 )}
                                 autoComplete="off"
@@ -295,7 +303,7 @@ class EditUserAccount extends Component {
                                                         <div>
                                                             {
                                                                 myRoles.length !== 0 && (
-                                                                    <p>The following role(s) will be assigned to <b>{user.username}</b>:</p>
+                                                                    <p>The following role(s) will be assigned to <b>{userAuth.username}</b>:</p>
                                                                 )
                                                             }
                                                         </div>
@@ -324,16 +332,16 @@ class EditUserAccount extends Component {
                                                     <div className="row">
                                                         <div>
                                                             {
-                                                                user !== null && ((this.assignedRoles({ user })).length !== 0
+                                                                userAuth !== null && ((this.assignedRoles({ user:userAuth })).length !== 0
                                                                     && accessLevels({ user: UserProfile.get() }) ? (
-                                                                        <p>The following role(s) are assigned to <b>{user.username}</b>:</p>
+                                                                        <p>The following role(s) are assigned to <b>{userAuth.username}</b>:</p>
                                                                     ) : <p></p>)
                                                             }
                                                         </div>
                                                     </div>
 
                                                     {
-                                                        user !== null && (this.assignedRoles({ user })).map(role => {
+                                                        userAuth !== null && (this.assignedRoles({ user: userAuth })).map(role => {
 
                                                             if (role !== null) {
 
@@ -375,7 +383,7 @@ class EditUserAccount extends Component {
                                                     <div id="general" className="tab-pane active"><br />
 
                                                         {
-                                                            this.formFields({ user })
+                                                            this.formFields({ user: userAuth })
                                                         }
 
                                                         <Button type="submit" color="primary" text="Update" />
@@ -417,7 +425,7 @@ class EditUserAccount extends Component {
                                                             <div>
                                                                 {
                                                                     myRoles.length !== 0 && (
-                                                                        <p>The following role(s) will be assigned to <b>{user.username}</b>:</p>
+                                                                        <p>The following role(s) will be assigned to <b>{userAuth.username}</b>:</p>
                                                                     )
                                                                 }
                                                             </div>
@@ -446,15 +454,15 @@ class EditUserAccount extends Component {
                                                         <div className="row">
                                                             <div>
                                                                 {
-                                                                    user !== null && ((this.assignedRoles({ user })).length !== 0 ? (
-                                                                        <p>The following role(s) are assigned to <b>{user.username}</b>:</p>
+                                                                    userAuth !== null && ((this.assignedRoles({ user: userAuth })).length !== 0 ? (
+                                                                        <p>The following role(s) are assigned to <b>{userAuth.username}</b>:</p>
                                                                     ) : <p></p>)
                                                                 }
                                                             </div>
                                                         </div>
 
                                                         {
-                                                            user !== null && (this.assignedRoles({ user })).map(role => {
+                                                            userAuth !== null && (this.assignedRoles({ user:userAuth })).map(role => {
 
                                                                 if (role !== null) {
 
@@ -463,7 +471,7 @@ class EditUserAccount extends Component {
                                                                             key={role}
                                                                             tabIndex={-1}
                                                                             label={role}
-                                                                            onDelete={() => this.deleteUserRole(role, user)}
+                                                                            onDelete={() => this.deleteUserRole(role, userAuth)}
                                                                             deleteIcon={<CancelIcon />}
                                                                         />
                                                                     );

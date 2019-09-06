@@ -1,7 +1,7 @@
 import { UserType } from '../action_type/index';
 
 import * as GeneralAction from './general.action';
-import { post, get, put, _delete } from './api.service';
+import { post, get, put, _delete, patch } from './api.service';
 import { UserProfile } from '../components/user/user.profile';
 
 /**
@@ -226,7 +226,7 @@ export const updateUser = (id, user, auth) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return await put(dispatch, url, user)
+        return await patch(dispatch, url, user)
         
         .then((response) => {
 

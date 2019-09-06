@@ -65,7 +65,12 @@ class UserRegistration extends Component {
         firstName: values.firstname,
         lastName: values.lastname,
         email: values.email,
-        hash: values.password
+        password: values.password,
+        roles: {
+          writer: false,
+          publisher: false,
+          admin: false
+        }
       }
       // console.log(user);
       if (user !== undefined && user.username !== undefined && user !== null) {
@@ -119,7 +124,7 @@ class UserRegistration extends Component {
                           </p>
                         </div>
 
-                        <form onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
+                        <form onSubmit={ (e) => handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
 
                           <PersonalProfile props={ this.props } />
 
