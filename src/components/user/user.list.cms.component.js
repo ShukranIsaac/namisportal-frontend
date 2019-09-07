@@ -357,19 +357,19 @@ class ListUserAccounts extends Component {
         
                                         })
                                     
-                                    : <TableRow className="loader" />
+                                    : <TableRow className="loader" style={{ marginTop: '-65px' }} />
 
                                 )
                                 
                             }
 
-                            {
+                            {/* {
                                 emptyRows > 0 && (
-                                    <TableRow style={{ height: 49 * emptyRows }}>
+                                    <TableRow style={{ height: 5 * emptyRows }}>
                                         <TableCell colSpan={6} />
                                     </TableRow>
                                 )
-                            }
+                            } */}
 
                         </TableBody>
                     </Table>

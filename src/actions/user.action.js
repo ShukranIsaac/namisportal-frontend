@@ -221,23 +221,32 @@ export const updateUser = (id, user, auth) => {
     
     // url to update user
     const url = `users/${ id }?token=${ auth.token }`;
-    // console.log(user)
+    console.log(user)
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return await patch(dispatch, url, user)
+        return await put(dispatch, url, user)
         
         .then((response) => {
 
-            // editing logged in account
+            /**
+             * 
+             * Compare ids from the edited acount from the api and the already
+             * authenticated user in the local storage.
+             * 
+             * if logged in account was updated, update their account too with new details.
+             * 
+             */
             if(response.userWithoutHash._id === auth._id) {
                 // update local storage
                 let editedUser = response.userWithoutHash;
                 Object.assign(editedUser, { token: auth.token });
                 // console.log(editedUser)
+                // save account
                 UserProfile.save(editedUser);
             } else {
+                // other account was updated
                 dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_EDIT, response, false))
             }
 

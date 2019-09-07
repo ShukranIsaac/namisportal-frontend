@@ -96,7 +96,7 @@ class EditUserAccount extends Component {
                     "username": values.username,
                     "firstName": values.firstName,
                     "lastName": values.lastName,
-                    "roles": roles !== null ? roles : undefined,
+                    "roles": this.props.user.roles//roles !== null ? roles : undefined,
                 }
 
                 if (authUser !== null) {
