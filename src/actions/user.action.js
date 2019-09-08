@@ -221,7 +221,7 @@ export const updateUser = (id, user, auth) => {
     
     // url to update user
     const url = `users/${ id }?token=${ auth.token }`;
-    console.log(user)
+    
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
@@ -235,7 +235,8 @@ export const updateUser = (id, user, auth) => {
              * Compare ids from the edited acount from the api and the already
              * authenticated user in the local storage.
              * 
-             * if logged in account was updated, update their account too with new details.
+             * if logged in account was updated, update their account too
+             * with new details.
              * 
              */
             if(response.userWithoutHash._id === auth._id) {

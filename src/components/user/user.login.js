@@ -181,7 +181,15 @@ class UserLogin extends Component {
                                         </div>
                                         <div className="margin-fix">
 
-                                            <Button type="submit" disabled={!valid || pristine || submitting} color="success">Login</Button>
+                                            <Button type="submit" disabled={!valid || pristine || submitting} color="success">
+                                                { 
+                                                    general ? (
+                                                        general.isLoading ? (
+                                                            <>Authenticating...</>
+                                                        ) : <>Login</>
+                                                    ) : <>Login</>
+                                                }
+                                            </Button>
 
                                         </div>
 
@@ -191,7 +199,7 @@ class UserLogin extends Component {
                                                     general.hasErrored && (
                                                         <div class="alert alert-danger alert-dismissible fade show">
                                                             <strong>Error!</strong> Username or password is incorrect
-                                </div>
+                                                        </div>
                                                     )
                                                 )
                                             }
