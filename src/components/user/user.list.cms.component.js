@@ -13,14 +13,14 @@ import { algorithms } from './user.sort';
 import { TablePaginationActionsWrapped } from './user.table.footer';
 import Chip from '@material-ui/core/Chip';
 import { UserProfile, profile } from './user.profile';
-import { green } from '@material-ui/core/colors';
+import { green, red } from '@material-ui/core/colors';
 import Radio from '@material-ui/core/Radio';
 
 const CustomRadioButton = withStyles({
     root: {
         color: green[400],
         '&$checked': {
-            color: green[600],
+            color: red[600],
         },
     },
     checked: {},
@@ -213,7 +213,7 @@ class ListUserAccounts extends Component {
             return (
                 <TableCell padding="checkbox">
                     <CustomRadioButton
-                        checked={this.state.selectedValue}
+                        checked={isSelected}
                         onChange={this.handleRadioChange}
                         name="radio-button"
                         inputProps={{ 'aria-label': 'C' }}

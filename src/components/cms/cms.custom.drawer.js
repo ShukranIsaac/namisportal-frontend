@@ -117,17 +117,40 @@ const CustomDrawer = ({
             }
 
             <List>
-                {config.map(({ name, button }) => (
-                    <ListItem
-                        button
-                        key={name}
-                        onClick={(e) => handleLink(e, name)}
-                        className={`${link === name && classes.highlight}`}
-                    >
-                        <ListItemIcon>{button}</ListItemIcon>
-                        <ListItemText primary={capitalize(name)} />
-                    </ListItem>
-                ))}
+                {
+                    // if user is admin show list of accounts
+                    auth.roles.admin ?
+                        <>
+                            {
+                                config.map(({ name, button }) => {
+
+                                    return (
+                                        <ListItem
+                                            button
+                                            key={name}
+                                            onClick={(e) => handleLink(e, name)}
+                                            className={`${link === name && classes.highlight}`}
+                                        >
+                                            <ListItemIcon>{button}</ListItemIcon>
+                                            <ListItemText primary={capitalize(name)} />
+                                        </ListItem>
+                                    );
+
+                                })
+                            }
+                        </>
+                        : <>
+                            <ListItem
+                                button
+                                key={config[1].name}
+                                onClick={(e) => handleLink(e, config[1].name)}
+                                className={`${link === config[1].name && classes.highlight}`}
+                            >
+                                <ListItemIcon>{config[1].button}</ListItemIcon>
+                                <ListItemText primary={capitalize(config[1].name)} />
+                            </ListItem>
+                        </>
+                }
             </List>
 
             {

@@ -134,6 +134,8 @@ class CMSIndex extends React.Component {
             if (this.state.link !== "logout") {
                 this.props.fetchUser(UserProfile.get()._id, UserProfile.get().token);
                 this.props.editItem();
+            } else {
+                this.props.defaultItem();
             }
         }
 

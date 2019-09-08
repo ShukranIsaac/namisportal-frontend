@@ -153,14 +153,10 @@ export class CustomizedSnackbars extends Component {
     }
 
     render() {
-        const { classes } = this.props;
         const { open } = this.state;
 
         return (
             <div>
-                <Button variant="outlined" className={classes.margin} onClick={this.handleClick}>
-                    Open success snackbar
-                </Button>
                 <Snackbar
                     anchorOrigin={{
                         vertical: 'bottom',
