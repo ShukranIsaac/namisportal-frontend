@@ -6,13 +6,25 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import Checkbox from '@material-ui/core/Checkbox';
+// import Checkbox from '@material-ui/core/Checkbox';
 import EnhancedTableToolbar from './user.table.headbar';
 import { EnhancedTableHead } from './user.table.headbar';
 import { algorithms } from './user.sort';
 import { TablePaginationActionsWrapped } from './user.table.footer';
 import Chip from '@material-ui/core/Chip';
 import { UserProfile, profile } from './user.profile';
+import { green } from '@material-ui/core/colors';
+import Radio from '@material-ui/core/Radio';
+
+const CustomRadioButton = withStyles({
+    root: {
+        color: green[400],
+        '&$checked': {
+            color: green[600],
+        },
+    },
+    checked: {},
+})(props => <Radio color="default" {...props} />);
 
 /**
  * A list of user accounts
@@ -45,14 +57,14 @@ class ListUserAccounts extends Component {
     isPublisher = ({ user }) => {
 
         return user.roles !== undefined && (user.roles.publisher ? true : false);
-        
+
     }
 
     // check assigned roles
     isAdmin = ({ user }) => {
 
         return user.roles !== undefined && (user.roles.admin ? true : false);
-        
+
     }
 
     // counter to store the number of objects we pushed the array
@@ -66,27 +78,27 @@ class ListUserAccounts extends Component {
         // incremet counter
         this.counter += 1;
         // return object
-        return { id: this.counter, _id, date, fullname, username, userroles, writer, publisher, admin};
-        
+        return { id: this.counter, _id, date, fullname, username, userroles, writer, publisher, admin };
+
     }
 
     accounts = ({ users }) => {
 
         // check length of users array object
-        if(users !== null) {
-            
+        if (users !== null) {
+
             // if listOfUsers array is not empty
             // do not add more users to it...This should be true only once, when all users 
             // have been loaded from the api
-            if(this.state.listOfUsers.length === 0) {
+            if (this.state.listOfUsers.length === 0) {
                 // map users
                 users.map(user => {
                     const name = user.lastName + ' ' + user.firstName;
                     let created = new Date(user.createdDate).toLocaleDateString();
-                    
+
                     // logged in user
                     const auth = UserProfile.get();
-                                    
+
                     // make sure the logged in user is not displayed in the list
                     if (auth._id !== user._id) {
 
@@ -98,15 +110,15 @@ class ListUserAccounts extends Component {
                                     created,
                                     name,
                                     user.username,
-                                    this.isWriter({user}),
-                                    this.isPublisher({user}),
+                                    this.isWriter({ user }),
+                                    this.isPublisher({ user }),
                                     this.isAdmin({ user }),
                                     Object.keys(user.roles)
                                 )
                             );
                         } else {
                             this.state.listOfUsers.push(
-                                this.createUserList(user._id,created,name,user.username,false,false,false,[])
+                                this.createUserList(user._id, created, name, user.username, false, false, false, [])
                             );
                         }
 
@@ -115,9 +127,9 @@ class ListUserAccounts extends Component {
                     } else {
 
                         return null;
-                    
+
                     }
-    
+
                 });
 
             } // else do nothing
@@ -130,11 +142,11 @@ class ListUserAccounts extends Component {
         const orderBy = property;
 
         let order = 'desc';
-    
+
         if (this.state.orderBy === property && this.state.order === 'desc') {
             order = 'asc';
         }
-    
+
         this.setState({ order, orderBy });
     };
 
@@ -154,7 +166,7 @@ class ListUserAccounts extends Component {
         const { selected, listOfUsers } = this.state;
         const selectedIndex = selected.indexOf(id);
         let newSelected = [];
-    
+
         if (selectedIndex === -1) {
             newSelected = newSelected.concat(selected, id);
         } else if (selectedIndex === 0) {
@@ -166,16 +178,20 @@ class ListUserAccounts extends Component {
         }
 
         // Do this when there is only one user clicked in the list
-        if(!(selectedIndex > 1)) {
+        if (!(selectedIndex > 1)) {
             // filter the user selected
             const user = listOfUsers.filter(u => u._id === event.currentTarget.id ? u : null)[0];
             // then add the one selected user to selectedAccount object
             Object.assign(this.state, { selectedAccount: user });
         }
-    
+
         this.setState({ selected: newSelected });
 
     };
+
+    handleRadioChange = (event) => {
+        this.setState({ selectedValue: event.target.value })
+    }
 
     handleChangePage = (event, page) => {
         this.setState({ page });
@@ -193,38 +209,29 @@ class ListUserAccounts extends Component {
      * If user logged in has both show checkbox
      */
     showCheckbox = ({ user, isSelected }) => {
-        if(user.roles.writer && !user.roles.publisher) {
+        if (user.roles.admin) {
             return (
                 <TableCell padding="checkbox">
-                    <Checkbox checked={isSelected} />
+                    <CustomRadioButton
+                        checked={this.state.selectedValue}
+                        onChange={this.handleRadioChange}
+                        name="radio-button"
+                        inputProps={{ 'aria-label': 'C' }}
+                    />
                 </TableCell>
             );
-        } else if(!user.roles.writer && user.roles.publisher) {
-            return (
-                <TableCell padding="checkbox">
-                    <Checkbox checked={isSelected} />
-                </TableCell>
-            );
-        } else if(user.roles.writer && user.roles.publisher) {
-            return (
-                <TableCell padding="checkbox">
-                    <Checkbox checked={isSelected} />
-                </TableCell>
-            );
-        } else {
-            return (<TableCell />);
-        }
+        } 
     }
 
     render() {
 
         const { classes, handleAccountClick, general } = this.props;
         const { listOfUsers, selectedAccount, order, orderBy, selected, rowsPerPage, page } = this.state;
-        const emptyRows = rowsPerPage - Math.min(rowsPerPage, listOfUsers.length - page * rowsPerPage);
+        // const emptyRows = rowsPerPage - Math.min(rowsPerPage, listOfUsers.length - page * rowsPerPage);
 
         // check if it is loading
-        if(general !== undefined && general !== null) {
-            
+        if (general !== undefined && general !== null) {
+
             // if loading show loader
             if (!general.isLoading) {
 
@@ -238,26 +245,26 @@ class ListUserAccounts extends Component {
         // logged in account
         const loggedInAccount = UserProfile.get();
         // console.log(roles)
-        
+
         // profile access levels
         const showActions = profile.showActions();
 
-        return(
+        return (
             <>
                 {
                     // returned false then then logged in user cannot edit, delete other accounts
                     // registered with the system.
-                    <EnhancedTableToolbar 
-                        classes={ classes } 
-                        numSelected={selected.length} 
-                        handleAccountClick={ (e) => handleAccountClick(e) } 
-                        handleEditProfileClick={ (e) => handleAccountClick(e) }
-                        handleAccountDelete={ (id, token) => this.props.deleteAccount(id, token) }
+                    <EnhancedTableToolbar
+                        classes={classes}
+                        numSelected={selected.length}
+                        handleAccountClick={(e) => handleAccountClick(e)}
+                        handleEditProfileClick={(e) => handleAccountClick(e)}
+                        handleAccountDelete={(id, token) => this.props.deleteAccount(id, token)}
                         selectedAccount={selectedAccount}
-                        showActions={ showActions }
+                        showActions={showActions}
                     />
                 }
-                
+
                 <div className={classes.tableWrapper}>
 
                     <Table className={classes.table} aria-labelledby="tableTitle">
@@ -269,18 +276,18 @@ class ListUserAccounts extends Component {
                             onSelectAllClick={this.handleSelectAllClick}
                             onRequestSort={this.handleRequestSort}
                             rowCount={listOfUsers.length}
-                            showActions={ showActions }
+                            showActions={showActions}
                         />
 
                         <TableBody>
                             {
-                                general !== null && ( 
-                                    !general.isLoading ? 
-                                    
+                                general !== null && (
+                                    !general.isLoading ?
+
                                         algorithms.stableSort(listOfUsers, algorithms.sort(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((user, index) => {
-                                    
+
                                             const isSelected = this.isSelected(user.id);
-                                            
+
                                             return (
                                                 <TableRow
                                                     hover
@@ -303,73 +310,65 @@ class ListUserAccounts extends Component {
                                                     <TableCell align="right">
                                                         {
                                                             user.userroles.length !== 0 ? user.userroles.map((roles, key) => {
-                                                                        
-                                                                if(roles.length !== 0) {
-        
+
+                                                                if (roles.length !== 0) {
+
                                                                     // for each user show the access level/s
                                                                     return (
-                                                                        <Fragment key={ key }>
+                                                                        <Fragment key={key}>
                                                                             {
                                                                                 user.writer === true ? (
                                                                                     <Chip
-                                                                                        key={roles[0]} 
+                                                                                        key={roles[0]}
                                                                                         tabIndex={-1}
-                                                                                        label={roles[0]} 
-                                                                                        className={classes.chip} 
+                                                                                        label={roles[0]}
+                                                                                        className={classes.chip}
                                                                                     />
-                                                                                ) : <div></div>
+                                                                                ) : null
                                                                             }
-        
+
                                                                             {
                                                                                 user.publisher === true ? (
                                                                                     <Chip
-                                                                                        key={roles[1]} 
+                                                                                        key={roles[1]}
                                                                                         tabIndex={-1}
-                                                                                        label={roles[1]} 
-                                                                                        className={classes.chip} 
+                                                                                        label={roles[1]}
+                                                                                        className={classes.chip}
                                                                                     />
-                                                                                ) : <div></div>
+                                                                                ) : null
                                                                             }
 
                                                                             {
                                                                                 user.admin === true ? (
                                                                                     <Chip
-                                                                                        key={roles[2]} 
+                                                                                        key={roles[2]}
                                                                                         tabIndex={-1}
-                                                                                        label={roles[2]} 
-                                                                                        className={classes.chip} 
+                                                                                        label={roles[2]}
+                                                                                        className={classes.chip}
                                                                                     />
-                                                                                ) : <div></div>
+                                                                                ) : null
                                                                             }
                                                                         </Fragment>
                                                                     );
-        
+
                                                                 }
-        
-                                                                return <div key={ key } />
-        
+
+                                                                return <div key={key} />
+
                                                             }) : ''
-                                                            
+
                                                         }
                                                     </TableCell>
                                                 </TableRow>
                                             );
-        
+
                                         })
-                                    
-                                    : <TableRow className="loader" style={{ marginTop: '-65px' }} />
+
+                                        : <TableRow className="loader" style={{ marginTop: '-65px' }} />
 
                                 )
-                                
+
                             }
-
-                            {/* {
-                                emptyRows > 0 && (
-                                    <TableRow style={{ height: 5 * emptyRows }}>
-                                        <TableCell colSpan={6} />
-                                    </TableRow>
-                                )
-                            } */}
 
                         </TableBody>
                     </Table>
@@ -385,9 +384,9 @@ class ListUserAccounts extends Component {
                     nextIconButtonProps={{ 'aria-label': 'Next Page' }}
                     onChangePage={this.handleChangePage}
                     onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                    ActionsComponent={ TablePaginationActionsWrapped }
+                    ActionsComponent={TablePaginationActionsWrapped}
                 />
-                
+
             </>
         );
 
@@ -397,14 +396,14 @@ class ListUserAccounts extends Component {
 
 const styles = theme => ({
     root: {
-      width: '100%',
-      marginTop: theme.spacing.unit * 3,
+        width: '100%',
+        marginTop: theme.spacing.unit * 3,
     },
     table: {
-      minWidth: `100%`,
+        minWidth: `100%`,
     },
     tableWrapper: {
-      overflowX: 'auto',
+        overflowX: 'auto',
     },
     spacer: {
         flex: '1 1 100%',

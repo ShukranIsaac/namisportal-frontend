@@ -52,6 +52,15 @@ export const ListHomeSubcategory = ({
                                 {
                                     category.subCategories !== undefined && category.subCategories.map((section, index) => {
 
+                                        /**
+                                        * Making sure this main section does not appear
+                                        * on the home component. To avoid being edited as its values
+                                        * are hard coded in the frontend
+                                        */
+                                        if (section.name === 'Information for Mini-Grid Developers') {
+                                            return null;
+                                        }
+
                                         return (<CMSHomeSubCategory key={index} section={section} handleClick={handleClick} />);
 
                                     })

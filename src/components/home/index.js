@@ -8,6 +8,7 @@ import * as HomeActions from '../../actions/home.action';
 import { HomeSubCategory } from './home.subcategory';
 import { NoDataCard } from '../card.text';
 import { Intent } from '@blueprintjs/core';
+import { CustomizedSnackbars } from '../cms/snackbar.feedback';
 
 /**
  * @author Paul Sembereka
@@ -16,15 +17,14 @@ import { Intent } from '@blueprintjs/core';
  */
 class Home extends Component {
 
-  componentDidMount() {
+    componentDidMount() {
 
-    this.props.fetchHome('Home');
+        this.props.fetchHome('Home');
 
-  }
+    }
 
-  render(){
-    
-    const { home, general } = this.props;
+    render() {
+        const { home, general } = this.props;
     
     return (
       <>
@@ -95,27 +95,34 @@ class Home extends Component {
             ) : (<div className="loader" />)
           )
         }
+
+        {
+            (general) && (
+                (!general.isLoading) && (
+                    (general.hasErrored) ? <CustomizedSnackbars type={`error`} /> : null
+                )
+            )
+        }
       </>
     );
-
-  }
+    }
 
 }
 
 const mapStateToProps = (state) => {
 
-  return {
-    home: state.home.home,
-    general: state.general.general,
-  }
+    return {
+        home: state.home.home,
+        general: state.general.general,
+    }
 
 }
 
 const mapDispatchToProps = (dispatch) => {
   
-  return {
-    fetchHome: (name) => { dispatch(HomeActions.fetchHomeDetails(name)) },
-  }
+    return {
+        fetchHome: (name) => { dispatch(HomeActions.fetchHomeDetails(name)) },
+    }
   
 }
 

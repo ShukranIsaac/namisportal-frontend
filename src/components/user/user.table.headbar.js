@@ -48,13 +48,13 @@ export class EnhancedTableHead extends React.Component {
                 <TableRow>
                     <TableCell padding="checkbox">
                         {
-                            numSelected > 1 && showActions({ user: auth }) ? (
-                                <Checkbox
-                                    indeterminate={numSelected > 0 && numSelected < rowCount}
-                                    checked={numSelected === rowCount}
-                                    onChange={onSelectAllClick}
-                                />
-                            ) : null
+                            // numSelected > 1 && showActions({ user: auth }) ? (
+                            //     <Checkbox
+                            //         indeterminate={numSelected > 0 && numSelected < rowCount}
+                            //         checked={numSelected === rowCount}
+                            //         onChange={onSelectAllClick}
+                            //     />
+                            // ) : null
                         }
                     </TableCell>
 
@@ -143,7 +143,7 @@ class EnhancedTableToolbar extends React.Component {
                             <Typography color="inherit" variant="subtitle1">
                                 {
                                     numSelected >= 1 && !showActions({user:auth}) ? 
-                                        `${auth.username + ', you are not an Admin'}` 
+                                        `${auth.username + ', adminstrators only allowed to perform this action'}` 
                                         : numSelected > 1 ? 
                                             `${numSelected + ' selected'}` 
                                             : null

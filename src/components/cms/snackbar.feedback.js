@@ -171,7 +171,6 @@ export class CustomizedSnackbars extends Component {
                     onClose={this.handleClose}
                 >
                     <RenderSnackbar 
-                        type={ `success` } 
                         { ...this.state } 
                         { ...this.props } 
                         handleClose= {this.handleClose}

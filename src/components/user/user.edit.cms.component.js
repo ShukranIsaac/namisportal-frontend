@@ -17,6 +17,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { SelectInputControl } from '../forms/form.selectinput.field';
 import { UserProfile, profile } from './user.profile';
 import { FormTextInputField } from '../forms/form.textinput.field';
+import { CustomizedSnackbars } from '../cms/snackbar.feedback';
 
 /**
  * Edit user account details
@@ -53,61 +54,68 @@ class EditUserAccount extends Component {
         if (values !== null) {
             // if (this.state.user.roles !== undefined) {
 
-                // user roles changed reassign new ones
-                if (this.isAssigned('writer')) {
-                    Object.assign(this.state.user.roles, { writer: true, admin: true })
-                }
+            // user roles changed reassign new ones
+            if (this.isAssigned('writer')) {
+                Object.assign(this.state.user.roles, { writer: true, admin: true })
+            }
 
-                // user roles changed reassign new ones
-                if (this.isAssigned('publisher')) {
-                    Object.assign(this.state.user.roles, { publisher: true, admin: true });
-                }
+            // user roles changed reassign new ones
+            if (this.isAssigned('publisher')) {
+                Object.assign(this.state.user.roles, { publisher: true, admin: true });
+            }
 
-                // user roles changed reassign new ones
-                if (this.isAssigned('admin')) {
-                    Object.assign(this.state.user.roles, { admin: true });
-                }
+            // user roles changed reassign new ones
+            if (this.isAssigned('admin')) {
+                Object.assign(this.state.user.roles, { admin: true });
+            }
 
-                // Form has been edited, edit user fields
-                // if (values !== null) {
+            // Form has been edited, edit user fields
+            // if (values !== null) {
 
-                //     // if key exist then user has been edited
-                //     Object.keys(this.state.user).map(key => {
+            //     // if key exist then user has been edited
+            //     Object.keys(this.state.user).map(key => {
 
-                //         // check which key exist
-                //         Object.keys(values).map(which => {
+            //         // check which key exist
+            //         Object.keys(values).map(which => {
 
-                //             if (key === which) {
-                //                 Object.assign(this.state.user, { [which]: values[which] });
-                //             }
+            //             if (key === which) {
+            //                 Object.assign(this.state.user, { [which]: values[which] });
+            //             }
 
-                //         });
+            //         });
 
-                //     });
+            //     });
 
-                // }
+            // }
 
-                // get auth user
-                let authUser = UserProfile.get();
-                let roles = this.state.user.roles;
-                // edited user
-                // const { user } = this.state;
-                const user = {
-                    "username": values.username,
-                    "firstName": values.firstName,
-                    "lastName": values.lastName,
-                    "roles": this.props.user.roles//roles !== null ? roles : undefined,
-                }
+            // get auth user
+            let authUser = UserProfile.get();
+            let roles = this.state.user.roles;
+            // edited user
+            // const { user } = this.state;
+            const user = {
+                "username": values.username,
+                "firstName": values.firstName,
+                "lastName": values.lastName,
+                "roles": this.props.user.roles
+            }
 
-                if (authUser !== null) {
-                    if (authUser.token !== undefined && authUser.token !== null) {
-                        // if anything was edited then make put request to the API
-                        // console.log(user)
-                        this.props.updateUser(id, user, authUser);
-                        // list users
-                        this.props.defaultItem();
+            if (authUser !== null) {
+                if (authUser.token !== undefined && authUser.token !== null) {
+                    // if anything was edited then make put request to the API
+                    // console.log(user)
+                    this.props.updateUser(id, user, authUser);
+                    // list users
+                    const { general } = this.props;
+                    if (general) {
+                        if (!general.isLoading) {
+                            if (!general.hasErrored) {
+                                this.props.defaultItem();
+                            }
+                        }
                     }
                 }
+            }
             // }
         }
 
@@ -142,12 +150,12 @@ class EditUserAccount extends Component {
         }
         // edit roles, or update roles
         // console.log([role][0][0])
-        if([role][0][0] === 'writer' || [role][0][0] === 'publisher') {
+        if ([role][0][0] === 'writer' || [role][0][0] === 'publisher') {
             Object.assign(propertiesEdited.roles, { [role]: false, admin: false });
         } else {
             Object.assign(propertiesEdited.roles, { [role]: false });
         }
-        
+
         // authenticated user
         const auth = UserProfile.get();
         if (auth !== null) {
@@ -156,8 +164,15 @@ class EditUserAccount extends Component {
                 // if anything was edited then make put request to the API
                 // console.log(propertiesEdited)
                 this.props.updateUser(user._id, propertiesEdited, auth);
-                // list users
-                this.props.defaultItem();
+                // list users if no error
+                const { general } = this.props;
+                if (general) {
+                    if (!general.isLoading) {
+                        if (!general.hasErrored) {
+                            this.props.defaultItem();
+                        }
+                    }
+                }
             }
 
         }
@@ -206,7 +221,7 @@ class EditUserAccount extends Component {
 
         // access levels
         const accessLevels = profile.showActions();
-        // console.log(current)
+
         return (
             <Fragment>
 
@@ -258,11 +273,11 @@ class EditUserAccount extends Component {
                                                         this.formFields({ user: current })
                                                     }
 
-                                                    <Button 
-                                                        type="submit" 
-                                                        color="primary" 
-                                                        text="Update" 
-                                                        disabled={ !dirty }
+                                                    <Button
+                                                        type="submit"
+                                                        color="primary"
+                                                        text="Update"
+                                                        disabled={!dirty}
                                                     />
 
                                                     {
@@ -332,7 +347,7 @@ class EditUserAccount extends Component {
                                                     <div className="row">
                                                         <div>
                                                             {
-                                                                userAuth !== null && ((this.assignedRoles({ user:userAuth })).length !== 0
+                                                                userAuth !== null && ((this.assignedRoles({ user: userAuth })).length !== 0
                                                                     && accessLevels({ user: UserProfile.get() }) ? (
                                                                         <p>The following role(s) are assigned to <b>{userAuth.username}</b>:</p>
                                                                     ) : <p></p>)
@@ -462,7 +477,7 @@ class EditUserAccount extends Component {
                                                         </div>
 
                                                         {
-                                                            userAuth !== null && (this.assignedRoles({ user:userAuth })).map(role => {
+                                                            userAuth !== null && (this.assignedRoles({ user: userAuth })).map(role => {
 
                                                                 if (role !== null) {
 
@@ -504,6 +519,14 @@ class EditUserAccount extends Component {
                             </form>
 
                         ) : <div className="loader" />
+                    )
+                }
+
+                {
+                    (general) && (
+                        (!general.isLoading) && (
+                            (general.hasErrored) ? <CustomizedSnackbars type={`error`} /> : null
+                        )
                     )
                 }
 
