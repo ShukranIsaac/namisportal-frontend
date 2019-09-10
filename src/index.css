@@ -81,3 +81,12 @@ blockquote span {
 	background: #ffffff
 }
 
+.form-group {
+	margin-top: 1em;
+}
+
+.form-group input, .form-group textarea, .md-form input {
+	background-color: #ededed;
+	width: 100%;
+}
+

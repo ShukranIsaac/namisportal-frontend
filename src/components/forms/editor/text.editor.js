@@ -4,15 +4,15 @@ import { Editor, getEventTransfer  } from 'slate-react';
 
 import isUrl from 'is-url';
 import { Icon } from 'react-icons-kit';
-import { bold } from 'react-icons-kit/feather/bold';
-import { italic } from 'react-icons-kit/feather/italic';
-import { code } from 'react-icons-kit/feather/code';
-import { list } from 'react-icons-kit/feather/list';
-import { underline } from 'react-icons-kit/feather/underline';
+// import { bold } from 'react-icons-kit/feather/bold';
+// import { italic } from 'react-icons-kit/feather/italic';
+// import { code } from 'react-icons-kit/feather/code';
+// import { list } from 'react-icons-kit/feather/list';
+// import { underline } from 'react-icons-kit/feather/underline';
 import { link2 } from 'react-icons-kit/feather/link2';
 
-import { ic_format_list_numbered } from 'react-icons-kit/md/ic_format_list_numbered';
-import { ic_format_quote } from 'react-icons-kit/md/ic_format_quote';
+// import { ic_format_list_numbered } from 'react-icons-kit/md/ic_format_list_numbered';
+// import { ic_format_quote } from 'react-icons-kit/md/ic_format_quote';
 import { BoldMark, ItalicMark } from './index';
 import { editor as EditorUtils } from './text.editor.utils';
 import { EditorMarkerIcon } from './editor.marker.icon';

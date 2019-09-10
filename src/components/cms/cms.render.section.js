@@ -23,7 +23,7 @@ import EditFinancingRequestSupport from '../financing/financing.edit.request';
 import CreateContactDetails from '../contact/contact.create.form';
 import ContactShowDetails from '../contact/contact.show.details';
 import EditContactDetails from '../contact/contact.edit.form';
-import AddFeature from '../gis/gis.cms.add_feature';    
+import AddFeature from '../gis/gis.cms.add_feature';
 import ListUserAccounts from '../user/user.list.cms.component';
 import EditUserAccount from '../user/user.edit.cms.component';
 import EditUserProfile from '../user/user.details.cms.component';
@@ -49,49 +49,53 @@ import GisFeatures from '../gis/gis.cms.features';
  * 
  * @returns {Component} resource  
  */
-const RenderSection = ({ 
-    link, 
-    props, 
-    handleClick, 
+const RenderSection = ({
+    link,
+    props,
+    handleClick,
     handleChange,
     category,
     district_name,
-    region_name
+    region_name,
+    capitalize
 }) => {
-    
+
     switch (link) {
 
         case 'home':
-            
+
             return (
                 <Fragment>
-                    
-                    <ResourceSection 
-                        option={props.user_event} 
-                        name="home" 
-                        List={ () => <ListHomeSubcategory
-                                    { ...props } 
-                                    handleClick={ (e) => handleClick(e) } 
-                                    category={ props.home } 
-                                    handleChange={ (e) => { handleChange(e) } }
-                                /> 
-                            }
-                        Edit={ () => <EditHomeSubcategory 
-                                    handleClick={ (e) => handleClick(e) }
-                                    category={ props.home }
-                                    subcategory={ props.subcategory }
-                                    editCategory={ props.editCategory }
-                                    archiveCategory={ props.archiveCategory }
-                                    { ...props }
-                                />
-                            }
-                        Create={ () => <CreateHomeSubcategory 
-                                    handleClick={ (e) => handleClick(e) } 
-                                    category={ props.home }
-                                    createCategory={ props.createCategory }
-                                    props={ props }
-                                />
-                            }
+
+                    <ResourceSection
+                        option={props.user_event}
+                        name="home"
+                        List={() => <ListHomeSubcategory
+                            {...props}
+                            handleClick={(e) => handleClick(e)}
+                            category={props.home}
+                            handleChange={(e) => { handleChange(e) }}
+                        />
+                        }
+                        Edit={() => <EditHomeSubcategory
+                            handleClick={(e) => handleClick(e)}
+                            category={props.home}
+                            subcategory={props.subcategory}
+                            editCategory={props.editCategory}
+                            archiveCategory={props.archiveCategory}
+                            {...props}
+                            link={link}
+                            capitalize={capitalize}
+                        />
+                        }
+                        Create={() => <CreateHomeSubcategory
+                            handleClick={(e) => handleClick(e)}
+                            category={props.home}
+                            createCategory={props.createCategory}
+                            props={props}
+                            link={link} capitalize={capitalize}
+                        />
+                        }
                     />
 
                 </Fragment>
@@ -102,26 +106,29 @@ const RenderSection = ({
             return (
                 <Fragment>
 
-                    <ResourceSection 
-                        option={props.user_event} 
+                    <ResourceSection
+                        option={props.user_event}
                         name="licensing"
-                        List={ () => <ListLicensing 
-                                { ...props }
-                                handleClick={ (e) => handleClick(e) }
-                            /> 
+                        List={() => <ListLicensing
+                            {...props}
+                            handleClick={(e) => handleClick(e)}
+                        />
                         }
-                        Create={ () => <CreateLicensingStep 
-                                handleClick={ (e) => handleClick(e) } 
-                                handleChange={ (e) => { handleChange(e) } }
-                                { ...props } 
-                            /> 
+                        Create={() => <CreateLicensingStep
+                            handleClick={(e) => handleClick(e)}
+                            handleChange={(e) => { handleChange(e) }}
+                            {...props}
+                            link={link} capitalize={capitalize}
+                        />
                         }
-                        Edit={ () => <EditLicensingStep 
-                                { ...props }
-                                category = { category }
-                                handleClick={ (e) => handleClick(e) } 
-                                handleChange={ (e) => { handleChange(e) } }
-                            />
+                        Edit={() => <EditLicensingStep
+                            {...props}
+                            category={category}
+                            handleClick={(e) => handleClick(e)}
+                            handleChange={(e) => { handleChange(e) }}
+                            link={link}
+                            capitalize={capitalize}
+                        />
                         }
                     />
 
@@ -136,47 +143,51 @@ const RenderSection = ({
                     <ResourceSection
                         option={props.user_event}
                         name="financing"
-                        List={ () => <ListFinancingRequests 
-                                    { ...props }
-                                    handleClick={ (e) => handleClick(e) }
-                                    handleChange={ (e) => handleChange(e) }
-                                    category={ props.subcategory }
-                                /> 
-                            }
-                        Edit={ () => <EditFinancingRequestSupport 
-                                    handleClick={ (e) => handleClick(e) }
-                                    editCategory={ props.editCategory }
-                                    { ...props }
-                                /> 
-                            }
-                        Create={ () => <FinancingRequestSupport 
-                                    handleClick={ (e) => handleClick(e) }
-                                    subcategory={ props.subcategory }
-                                    createCategory={ props.createCategory }
-                                    { ...props }
-                                /> 
-                            }
+                        List={() => <ListFinancingRequests
+                            {...props}
+                            handleClick={(e) => handleClick(e)}
+                            handleChange={(e) => handleChange(e)}
+                            maincategory={props.maincategory}
+                        />
+                        }
+                        Edit={() => <EditFinancingRequestSupport
+                            handleClick={(e) => handleClick(e)}
+                            editCategory={props.editCategory}
+                            {...props}
+                            link={link}
+                            capitalize={capitalize}
+                        />
+                        }
+                        Create={() => <FinancingRequestSupport
+                            handleClick={(e) => handleClick(e)}
+                            subcategory={props.subcategory}
+                            createCategory={props.createCategory}
+                            {...props}
+                        />
+                        }
                     />
 
                 </Fragment>
             );
-            
+
         case 'gis':
             // console.log(props)
             return (
                 <Fragment>
-                    
-                    <ResourceSection 
-                        option={props.user_event} 
+
+                    <ResourceSection
+                        option={props.user_event}
                         name="gis"
-                        List={ () => <GisFeatures 
-                                { ...props } 
-                                district_name={ district_name }
-                                region_name={ region_name }
-                                handleClick={ (e) => handleClick(e) } 
-                                handleChange={ (e) => handleChange(e) } /> 
-                            }
-                        Create={ () => <AddFeature { ...props } handleClick={ (e) => handleClick(e) } /> }
+                        List={() => <GisFeatures
+                            {...props}
+                            district_name={district_name}
+                            region_name={region_name}
+                            handleClick={(e) => handleClick(e)}
+                            handleChange={(e) => handleChange(e)}
+                        />
+
+                        }
+                        Create={() => <AddFeature {...props} handleClick={(e) => handleClick(e)} link={link} capitalize={capitalize} />}
                     />
 
                 </Fragment>
@@ -187,31 +198,34 @@ const RenderSection = ({
             return (
                 <Fragment>
 
-                    <ResourceSection 
-                        option={props.user_event} 
-                        name="directory" 
-                        List={ () => <ListDirectoryInstitution 
-                                    handleClick={ (e) => handleClick(e) } 
-                                    stakeholders={ props.stakeholders_list } 
-                                    handleChange={ (e) => { handleChange(e) } }
-                                    { ...props }
-                                /> 
-                            }
-                        Edit={ () => <EditDirectoryInstitution 
-                                    handleClick={ (e) => handleClick(e) }
-                                    stakeholder={ props.stakeholder }
-                                    editStakeholder={ props.editStakeholder }
-                                    // archiveStakeholder={ props.archiveStakeholder }
-                                    { ...props }
-                                />
-                            }
-                        Create={ () => <CreateDirectoryInstitution 
-                                    stakeholder={ props.stakeholder }
-                                    createStakeholder={ props.createStakeholder }
-                                    { ...props }
-                                    handleClick={ (e) => handleClick(e) } 
-                                />
-                            }
+                    <ResourceSection
+                        option={props.user_event}
+                        name="directory"
+                        List={() => <ListDirectoryInstitution
+                            handleClick={(e) => handleClick(e)}
+                            stakeholders={props.stakeholders_list}
+                            handleChange={(e) => { handleChange(e) }}
+                            {...props}
+                        />
+                        }
+                        Edit={() => <EditDirectoryInstitution
+                            handleClick={(e) => handleClick(e)}
+                            stakeholder={props.stakeholder}
+                            editStakeholder={props.editStakeholder}
+                            // archiveStakeholder={ props.archiveStakeholder }
+                            {...props}
+                            link={link}
+                            capitalize={capitalize}
+                        />
+                        }
+                        Create={() => <CreateDirectoryInstitution
+                            stakeholder={props.stakeholder}
+                            createStakeholder={props.createStakeholder}
+                            {...props}
+                            handleClick={(e) => handleClick(e)}
+                            link={link} capitalize={capitalize}
+                        />
+                        }
                     />
 
                 </Fragment>
@@ -222,35 +236,38 @@ const RenderSection = ({
             return (
                 <Fragment>
 
-                    <ResourceSection 
-                        option={props.user_event} 
-                        name="library" 
-                        List={ () => <ListLibraryDocuments 
-                                    handleClick={ (e) => handleClick(e) } 
-                                    docs={props.library} 
-                                    { ...props }
-                                    handleChange={ (e) => handleChange(e) }
-                                /> 
-                            }
-                        Edit={ () => <EditLibraryItem 
-                                    handleClick={ (e) => handleClick(e) }
-                                    { ...props }
-                                />
-                            }
-                        Create={ () => <CreateLibraryItem 
-                                        handleClick={ (e) => handleClick(e) } 
-                                        { ...props }
-                                        uploadFile={ props.uploadFile }
-                                        handleChange={ (e) => handleChange(e) }
-                                    />
-                                }
+                    <ResourceSection
+                        option={props.user_event}
+                        name="library"
+                        List={() => <ListLibraryDocuments
+                            handleClick={(e) => handleClick(e)}
+                            docs={props.library}
+                            {...props}
+                            handleChange={(e) => handleChange(e)}
+                        />
+                        }
+                        Edit={() => <EditLibraryItem
+                            handleClick={(e) => handleClick(e)}
+                            {...props}
+                            link={link}
+                            capitalize={capitalize}
+                        />
+                        }
+                        Create={() => <CreateLibraryItem
+                            handleClick={(e) => handleClick(e)}
+                            {...props}
+                            uploadFile={props.uploadFile}
+                            handleChange={(e) => handleChange(e)}
+                            link={link} capitalize={capitalize}
+                        />
+                        }
                     />
 
                 </Fragment>
             );
-        
+
         case 'faqs':
-            
+
             return (
                 <Fragment>
 
@@ -258,25 +275,28 @@ const RenderSection = ({
                         option={props.user_event}
                         name="faqs"
                         List={
-                            () => <ListFAQS 
-                                handleClick={ (e) => handleClick(e) }  
-                                { ...props }
-                                questions={ props.subcategory }
-                            /> 
+                            () => <ListFAQS
+                                handleClick={(e) => handleClick(e)}
+                                {...props}
+                                questions={props.maincategory}
+                            />
                         }
                         Create={
-                            () => <CreateQuestion 
-                                handleClick={ (e) => handleClick(e) } 
-                                handleChange={ (e) => handleChange(e) } 
-                                { ...props }
-                            /> 
+                            () => <CreateQuestion
+                                handleClick={(e) => handleClick(e)}
+                                handleChange={(e) => handleChange(e)}
+                                {...props}
+                                link={link} capitalize={capitalize}
+                            />
                         }
                         Edit={
-                            () => <EditQuestion 
-                                handleClick={ (e) => handleClick(e) } 
-                                handleChange={ (e) => handleChange(e) } 
-                                { ...props }
-                            /> 
+                            () => <EditQuestion
+                                handleClick={(e) => handleClick(e)}
+                                handleChange={(e) => handleChange(e)}
+                                {...props}
+                                link={link}
+                                capitalize={capitalize}
+                            />
                         }
                     />
 
@@ -288,27 +308,27 @@ const RenderSection = ({
             return (
                 <Fragment>
 
-                    <ResourceSection 
-                        option={props.user_event} 
-                        name="news" 
-                        List={ () => <ListNewsArticles 
-                                handleClick={ (e) => handleClick(e) } 
-                                handleChange={ e => handleChange(e) } 
-                                { ...props }
-                            /> 
+                    <ResourceSection
+                        option={props.user_event}
+                        name="news"
+                        List={() => <ListNewsArticles
+                            handleClick={(e) => handleClick(e)}
+                            handleChange={e => handleChange(e)}
+                            {...props}
+                        />
                         }
-                        Edit={ () => <EditNewsItem { ...props } handleClick={ (e) => handleClick(e) } /> }
-                        Create={ () => <CreateNewsItem handleClick={ (e) => handleClick(e) } { ...props } />}
+                        Edit={() => <EditNewsItem {...props} handleClick={(e) => handleClick(e)} link={link} capitalize={capitalize} />}
+                        Create={() => <CreateNewsItem handleClick={(e) => handleClick(e)} {...props} link={link} capitalize={capitalize} />}
                     />
 
                 </Fragment>
             );
 
         case 'logout':
-            
+
             // Get logged in user, then remove from local storage
             const user = UserProfile.get();
-            if(user !== undefined && user !== null) {
+            if (user !== undefined && user !== null) {
                 // logout user
                 props.logout(user);
                 // redirect the user to login
@@ -321,66 +341,68 @@ const RenderSection = ({
             }
 
         case 'accounts':
-            
+
             return (
                 <Fragment>
-                    
+
                     <ResourceSection
                         option={props.user_event}
                         name="accounts"
-                        List={ 
-                            () => <ListUserAccounts 
-                                { ...props } 
-                                handleAccountClick={ (e) => handleClick(e) }
-                            /> 
+                        List={
+                            () => <ListUserAccounts
+                                {...props}
+                                handleAccountClick={(e) => handleClick(e)}
+                            />
                         }
-                        Create={ () => <AddUserAccount 
-                                { ...props } 
-                                handleClick={ handleClick }
-                                handleChange={ handleChange }
-                            /> 
+                        Create={() => <AddUserAccount
+                            {...props}
+                            handleClick={handleClick}
+                            handleChange={handleChange}
+                            link={link} capitalize={capitalize}
+                        />
                         }
-                        Edit={ 
-                            () => <EditUserAccount 
-                                { ...props }
-                                handleClick={ handleClick }
-                                handleChange={ handleChange }
-                            /> 
+                        Edit={
+                            () => <EditUserAccount
+                                {...props}
+                                handleClick={handleClick}
+                                handleChange={handleChange}
+                                link={link} capitalize={capitalize}
+                            />
                         }
                     />
 
                 </Fragment>
             );
-        
+
         case 'profile':
 
             return (
                 <Fragment>
                     <ResourceSection
-                        option={ props.user_event }
+                        option={props.user_event}
                         name="profile"
-                        List={ () => <EditUserProfile 
-                                { ...props }
-                                handleClick={ (e) => handleClick(e) }
-                                handleChange={ e => handleChange(e) } 
-                            /> 
+                        List={() => <EditUserProfile
+                            {...props}
+                            handleClick={(e) => handleClick(e)}
+                            handleChange={e => handleChange(e)}
+                        />
                         }
-                        Create={ () => (<div>Create new account</div>) }
+                        Create={() => (<div>Create new account</div>)}
                     />
                 </Fragment>
             );
 
         case 'contact':
-            
+
             return (
                 <Fragment>
 
-                    <ResourceSection 
-                        option={props.user_event} 
-                        name="contact" 
-                        List={ () => <ContactShowDetails handleClick={ (e) => handleClick(e) } handleChange={ e => handleChange(e) } /> }
-                        Edit={ () => <EditContactDetails handleClick={ (e) => handleClick(e) } /> }
-                        Create={ () => <CreateContactDetails handleClick={ (e) => handleClick(e) } /> }
+                    <ResourceSection
+                        option={props.user_event}
+                        name="contact"
+                        List={() => <ContactShowDetails handleClick={(e) => handleClick(e)} handleChange={e => handleChange(e)} />}
+                        Edit={() => <EditContactDetails handleClick={(e) => handleClick(e)} />}
+                        Create={() => <CreateContactDetails handleClick={(e) => handleClick(e)} />}
                     />
 
                 </Fragment>
@@ -393,7 +415,7 @@ const RenderSection = ({
 
                 </Fragment>
             );
-            
+
         }
 
     }
@@ -401,11 +423,11 @@ const RenderSection = ({
 
 const styles = theme => ({
     content: {
-      height: `100%`,
-      width: `80%`,
-      flexGrow: 1,
-      padding: theme.spacing.unit * 0,
-      minWidth: 0, // So the Typography noWrap works
+        height: `100%`,
+        width: `80%`,
+        flexGrow: 1,
+        padding: theme.spacing.unit * 0,
+        minWidth: 0, // So the Typography noWrap works
     },
 });
 

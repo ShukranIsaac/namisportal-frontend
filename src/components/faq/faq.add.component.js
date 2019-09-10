@@ -31,7 +31,7 @@ class CreateQuestion extends Component {
         // if chosen section
         if (e.target.name) {
             const sectionName = e.target.value;
-            const sections = this.props.subcategory;
+            const sections = this.props.maincategory;
 
             // if sections not null
             if (sections !== null) {
@@ -87,7 +87,7 @@ class CreateQuestion extends Component {
                 // ids the same: chosen and what is in state
                 if (this.state.section._id === event.currentTarget.value) {
                     // proceeed to delete the selected section or category
-                    this.props.archiveCategory(this.state.section, user.token);
+                    this.props.archiveCategory(this.state.section, user.token,this.props.capitalize(this.props.link));
                     // then change state to default
                     // so that the page redirects and list all home items
                     this.props.defaultItem();
@@ -106,7 +106,7 @@ class CreateQuestion extends Component {
 
             let question;
             // check if resource or file if being added
-            if (values.question !== undefined && values.answer !== null) {
+            if (this.state.add_section) {
                 // define question structure
                 question = {
                     name: values.question,
@@ -115,7 +115,7 @@ class CreateQuestion extends Component {
                 }
 
                 // create new question under section selected
-                this.props.createCategory(section._id, question, user.token);
+                this.props.createCategory(section._id, question, user.token,this.props.capitalize(this.props.link));
                 // then change state to default
                 // so that the page redirects and list all frequently asked questions
                 this.props.defaultItem();
@@ -129,11 +129,11 @@ class CreateQuestion extends Component {
                 }
 
                 // category to add sections to: Faqs
-                const { subcategory } = this.props;
+                const { maincategory } = this.props;
                 // then check if null and undefined, then proceed otherwise
-                if (subcategory !== null && subcategory !== undefined) {
+                if (maincategory !== null && maincategory !== undefined) {
                     // create new section category
-                    this.props.createCategory(subcategory._id, section, user.token);
+                    this.props.createCategory(maincategory._id, section, user.token, null);
                     // then change state.add_section to false
                     // so that the page shows form fileds to add questions
                     this.setState({ add_section: false });
@@ -149,8 +149,8 @@ class CreateQuestion extends Component {
         const { classes, handleClick, handleSubmit, valid, pristine, submitting } = this.props;
 
         // Frequently asked question sections
-        const sections = this.props.subcategory;
-console.log(sections)
+        const sections = this.props.maincategory;
+
         return (
             <Fragment>
 

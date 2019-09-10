@@ -130,7 +130,7 @@ class FAQ extends Component {
 const mapStateToProps = (state) => {
 
   return {
-    questions: state.cms.subcategory,
+    questions: state.cms.maincategory,
     general: state.general.general,
   }
 

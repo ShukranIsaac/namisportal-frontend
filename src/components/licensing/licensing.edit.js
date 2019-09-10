@@ -168,7 +168,7 @@ class EditLicensingStep extends Component {
 
                     <Button 
                         className={ classes.margin }
-                        intent="danger" text="Archive" 
+                        intent="danger" text="Delete" 
                         onClick={ (e) => this.archiveCategory(e) } 
                     />
                     

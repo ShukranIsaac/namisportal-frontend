@@ -10,7 +10,7 @@ import Config from '../config';
  */
 export const get = async (dispatch, url) => {
 
-    return await Config.REMOTE_API_URL.get(url)
+    return await Config.APIUrl.get(url)
     
     .then((response) => {
         
@@ -39,7 +39,7 @@ export const post = async (dispatch, url, data) => {
     const config = new Headers();
     config.append('Access-Control-Allow-Origin', Config.ACCESS_ALLOW_ORIGIN);
 
-    return await Config.REMOTE_API_URL.post(url, data, config)
+    return await Config.APIUrl.post(url, data, config)
 
     .then(response => {
 
@@ -104,7 +104,7 @@ export const put = async (dispatch, url, data) => {
     const config = new Headers();
     config.append('Access-Control-Allow-Origin', Config.ACCESS_ALLOW_ORIGIN);
 
-    return await Config.REMOTE_API_URL.put(url, JSON.stringify(data), config)
+    return await Config.APIUrl.put(url, data, config)
 
     .then(response => {
         
@@ -135,7 +135,7 @@ export const patch = async (dispatch, url, data) => {
     const config = new Headers();
     config.append('Access-Control-Allow-Origin', Config.ACCESS_ALLOW_ORIGIN);
 
-    return await Config.REMOTE_API_URL.patch(url, data, config)
+    return await Config.APIUrl.patch(url, data, config)
 
     .then(response => {
         
@@ -160,7 +160,7 @@ export const patch = async (dispatch, url, data) => {
  */
 export const _delete = async (dispatch, url) => {
     
-    return await Config.REMOTE_API_URL.delete(url)
+    return await Config.APIUrl.delete(url)
 
     .then(response => {
         

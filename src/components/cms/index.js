@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -27,6 +26,7 @@ import { UserProfile } from '../user/user.profile';
 import { redirect } from '../user/user.redirect';
 
 import './style.css';
+import CustomizedSnackbars from './snackbar.feedback';
 
 const drawerWidth = 240;
 
@@ -41,7 +41,9 @@ class CMSIndex extends React.Component {
     constructor() {
         super();
         this.state = {
-            link: UserProfile.get() !== null && (UserProfile.get().roles.admin ? 'home' : 'accounts'),
+            link: UserProfile.get() !== null
+                && (UserProfile.get().roles.admin || UserProfile.get().roles.writer
+                    || UserProfile.get().roles.publisher ? 'home' : 'accounts'),
             event: 'default',  // default value required when rendering a single resource section
             searchTerm: '',
             doc_title: '',
@@ -85,20 +87,19 @@ class CMSIndex extends React.Component {
         // console.log(this.props.user_event);
         const user = UserProfile.get();
         if (user !== null) {
-            if (user.roles.admin && (user.roles.writer || user.roles.publisher)) {
+            if (user.roles.admin || user.roles.writer || user.roles.publisher) {
                 this.props.homeSubcategory("Home");
-                if (this.props.home.length !== 0) {
-                    this.props.defaultItem();
-                } else {
-                    if (!Array.isArray(this.props.home)) {
-                        this.props.createItem();
-                    }
-                }
-            } else {
-                if (!user.roles.admin && this.state.link !== "logout") {
-                    this.props.fetchUser(user._id, user.token);
-                    this.props.editItem();
-                }
+                // if (!Array.isArray(this.props.home)) {
+                //     this.props.createItem();
+                // } else {
+                //     this.props.defaultItem();
+                // }
+                this.props.defaultItem();
+            }
+
+            if (!(user.roles.admin || user.roles.publisher || user.roles.writer) && this.state.link !== "logout") {
+                this.props.fetchUser(user._id, user.token);
+                this.props.editItem();
             }
         }
 
@@ -114,8 +115,9 @@ class CMSIndex extends React.Component {
         // Set state
         this.setState({ link });
 
+        const roles = UserProfile.get().roles;
         // fetch this component data is this link is clicked
-        if (UserProfile.get().roles.admin) {
+        if (roles.admin || roles.writer || roles.publisher) {
             this.fetchComponent(link)
 
             const { match, history } = this.props;
@@ -133,9 +135,12 @@ class CMSIndex extends React.Component {
         } else {
             if (this.state.link !== "logout") {
                 this.props.fetchUser(UserProfile.get()._id, UserProfile.get().token);
-                this.props.editItem();
-            } else {
-                this.props.defaultItem();
+                // check previous user_event
+                if (this.props.event === 'edit') {
+                    this.props.defaultItem();
+                } else {
+                    this.props.editItem();
+                }
             }
         }
 
@@ -144,6 +149,10 @@ class CMSIndex extends React.Component {
             if (this.props.home.length === 0) {
                 this.props.createItem();
             }
+        }
+
+        if (this.state.link === "logout") {
+            this.props.defaultItem();
         }
 
     }
@@ -168,7 +177,7 @@ class CMSIndex extends React.Component {
                 /**
                  * Fetch all home sub category
                  */
-                // this.props.homeSubcategory(this.capitalize(link));
+                this.props.homeSubcategory(this.capitalize(link));
                 break;
             case 'directory':
                 /**
@@ -319,6 +328,7 @@ class CMSIndex extends React.Component {
                     // fetch news article
                     this.props.fetchArticle(event.currentTarget.id)
                 } else if (link === 'accounts') {
+
                     // fetch logged in user
                     const user = UserProfile.get();
                     if (user !== null) {
@@ -334,6 +344,7 @@ class CMSIndex extends React.Component {
                      * Fetch logged in user,
                      * Then fetch question/category to edit
                      */
+
                     const user = UserProfile.get();
                     if (user !== null) {
                         if (user.token !== null && user.token !== undefined) {
@@ -435,11 +446,11 @@ class CMSIndex extends React.Component {
                             <MenuIcon />
                         </IconButton>
 
-                        <Link to="/" style={{ color: `white` }}>
+                        <a href="/#" style={{ color: `white` }} onClick={ (event) => redirect.toExternalLink({ url: '/', event }) }>
                             <Typography variant="h6" color="inherit" noWrap>
                                 Malawi Mini Grids
                             </Typography>
-                        </Link>
+                        </a>
 
                     </Toolbar>
                 </AppBar>
@@ -495,10 +506,19 @@ class CMSIndex extends React.Component {
                                 handleChange={(e) => { this.handleChange(e) }}
                                 props={this.props}
                                 {...this.state}
+                                capitalize={this.capitalize}
                             />
                         </div>
                     </div>
                 </main>
+
+                {
+                    general && (
+                        general.hasErrored && <>{
+                            <CustomizedSnackbars type="error" />
+                        }</>
+                    )
+                }
             </div>
         );
     }
@@ -584,6 +604,7 @@ const mapStateToProps = (state) => {
         document: state.library.document,
         home: state.home.home,
         subcategory: state.cms.subcategory,
+        maincategory: state.cms.maincategory,
         question: state.cms.question,
         stakeholder: state.stakeholder.stakeholder,
         stakeholders_list: state.stakeholder.stakeholders_list,
@@ -619,9 +640,9 @@ const mapDispatchToProps = (dispatch) => {
         homeSubcategory: (c) => { dispatch(HomeAction.fetchHomeCategories(c)) },
         subCategory: (id) => { dispatch(CMSAction.fetchSubCategory(id)) },
         category: (name) => { dispatch(CMSAction.fetchCategory(name)) },
-        createCategory: (i, c, t) => { dispatch(CMSAction.addCategory(i, c, t)) },
-        editCategory: (s, e, t, state) => { dispatch(CMSAction.editCategory(s, e, t, state)) },
-        archiveCategory: (c, t) => { dispatch(CMSAction.archiveCategory(c, t)) },
+        createCategory: (i, c, t, link) => { dispatch(CMSAction.addCategory(i, c, t, link)) },
+        editCategory: (s, e, t, state, link) => { dispatch(CMSAction.editCategory(s, e, t, state, link)) },
+        archiveCategory: (c, t, link) => { dispatch(CMSAction.archiveCategory(c, t, link)) },
         // stakeholders
         createStakeholder: (s, t) => { dispatch(Stakeholder.createStakeholder(s, t)) },
         fetchSingleStakeholder: (i) => { dispatch(Stakeholder.fetchSingleStakeholder(i)) },

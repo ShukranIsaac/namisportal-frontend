@@ -126,3 +126,10 @@ We would also like to ask more clarification on the general CMS structure. Comme
 on the same will be highly appreciated.
 
 Regards.
+
+
+Comments: 
+    Licencing:
+        Main category deleted: all other subcategories are also deleted. No subcategory can be added again
+                                unless the main category exists. Thus the no saving effect encountored before
+        

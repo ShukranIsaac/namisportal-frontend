@@ -1,61 +1,109 @@
 import React, { Fragment } from 'react';
-import { FormTextInputField } from '../forms/form.textinput.field';
+import { BootsrapTextField } from '../forms/form.bootstrap.field';
 
 /**
  * Create user personal account
  * 
  * @author Isaac S. Mwakabira
  */
-export const PersonalProfile = ({ props }) => {
-
-  // user
-  const user = props.user;
+export const PersonalProfile = ({
+  email,
+  username,
+  password,
+  firstName,
+  lastName,
+  confirmPassword,
+  handleChange
+}) => {
 
   return (
     <Fragment>
 
-      <div className='margin-fix'>
-        <FormTextInputField  
-          value={user !== null ? props.user.username : ''} 
-          name='username' label='Username' type='text' 
-          placeholder='Your username...' {...props} 
-        />
+      <div className='margin-fix form-row'>
+        {/* <!-- Grid column --> */}
+        <div className="col">
+          {/* <!-- Material input --> */}
+          <div className="md-form mt-0">
+            <BootsrapTextField
+              name="firstName"
+              value={firstName}
+              placeholder="Your firstname..."
+              label='Firstname*' type='text'
+              handleChange={(e) => handleChange(e)}
+            />
+          </div>
+        </div>
+        {/* <!-- Grid column --> */}
+        <div className="col">
+          {/* <!-- Material input --> */}
+          <div className="md-form mt-0">
+            <BootsrapTextField
+              name="lastName"
+              value={lastName}
+              placeholder="Your lastname..."
+              label='Lastname*' type='text'
+              handleChange={(e) => handleChange(e)}
+            />
+          </div>
+        </div>
       </div>
-      <div className='margin-fix'>
-        <FormTextInputField 
-          value={user !== null ? props.user.firstName : ''} 
-          name='firstname' label='Firstname' type='text' 
-          placeholder='Your firstname...' {...props} 
-        />
+      <div className='margin-fix form-row'>
+        {/* <!-- Grid column --> */}
+        <div className="col">
+          {/* <!-- Material input --> */}
+          <div className="md-form mt-0">
+            <BootsrapTextField
+              name="username"
+              value={username}
+              placeholder="Your username..."
+              label='Username*' type='text'
+              handleChange={(e) => handleChange(e)}
+            />
+          </div>
+        </div>
+        {/* <!-- Grid column --> */}
+        <div className="col">
+          {/* <!-- Material input --> */}
+          <div className="md-form mt-0">
+            <BootsrapTextField
+              name="email"
+              value={email}
+              placeholder="Your email address..."
+              label='Email*' type='email'
+              handleChange={(e) => handleChange(e)}
+            />
+          </div>
+        </div>
       </div>
-      <div className='margin-fix'>
-        <FormTextInputField 
-          value={user !== null ? props.user.lastName : ''} 
-          name='lastname' label='Lastname' type='text' 
-          placeholder='Your lastname...' {...props} 
-        />
+      <div className='margin-fix form-row'>
+        {/* <!-- Grid column --> */}
+        <div className="col">
+          {/* <!-- Material input --> */}
+          <div className="md-form mt-0">
+            <BootsrapTextField
+              name="password"
+              value={password}
+              placeholder="Your password(at least 6 characters)..."
+              label='Password*' type='password'
+              handleChange={(e) => handleChange(e)}
+            />
+          </div>
+        </div>
+        {/* <!-- Grid column --> */}
+        <div className="col">
+          {/* <!-- Material input --> */}
+          <div className="md-form mt-0">
+            <BootsrapTextField
+              name="confirmPassword"
+              value={confirmPassword}
+              placeholder="Confirm your password..."
+              label='ConfirmPassword*' type='password'
+              handleChange={(e) => handleChange(e)}
+            />
+          </div>
+        </div>
       </div>
-      <div className='margin-fix'>
-        <FormTextInputField 
-          value={user !== null ? props.user.email : ''} 
-          name='email' label='Email' type='email' 
-          placeholder='Your email...' {...props} 
-        />
-      </div>
-      <div className='margin-fix'>
-        <FormTextInputField 
-          name='password' label='Password' type='password' 
-          placeholder='Your password...' {...props} 
-        />
-      </div>
-      <div className='margin-fix'>
-        <FormTextInputField 
-          name='confirmPassword' label='ConfirmPassword' 
-          type='password' placeholder='Confirm your password...' 
-          {...props} 
-        />
-      </div>
-      
+
     </Fragment>
   );
 

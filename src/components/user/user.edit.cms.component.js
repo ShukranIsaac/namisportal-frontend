@@ -56,12 +56,12 @@ class EditUserAccount extends Component {
 
             // user roles changed reassign new ones
             if (this.isAssigned('writer')) {
-                Object.assign(this.state.user.roles, { writer: true, admin: true })
+                Object.assign(this.state.user.roles, { writer: true })
             }
 
             // user roles changed reassign new ones
             if (this.isAssigned('publisher')) {
-                Object.assign(this.state.user.roles, { publisher: true, admin: true });
+                Object.assign(this.state.user.roles, { publisher: true });
             }
 
             // user roles changed reassign new ones
@@ -90,14 +90,13 @@ class EditUserAccount extends Component {
 
             // get auth user
             let authUser = UserProfile.get();
-            let roles = this.state.user.roles;
+            // let roles = this.state.user.roles;
             // edited user
             // const { user } = this.state;
             const user = {
-                "username": values.username,
-                "firstName": values.firstName,
-                "lastName": values.lastName,
-                "roles": this.props.user.roles
+                username: values.username,
+                firstName: values.firstName,
+                lastName: values.lastName
             }
 
             if (authUser !== null) {
@@ -211,7 +210,7 @@ class EditUserAccount extends Component {
 
     render() {
 
-        const { user, myRoles } = this.state;
+        const { /*user,*/ myRoles } = this.state;
         const { handleClick, classes, handleSubmit, general, dirty } = this.props;
 
         // logged in user

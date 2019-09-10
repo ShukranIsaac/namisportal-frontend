@@ -45,7 +45,7 @@ class CreateLicensingStep extends Component {
     handleSubmit = (values) => {
         
         // get category
-        const { subcategory } = this.props;
+        const { maincategory } = this.props;
         // authenticated user token
         const user = UserProfile.get();
         if(user !== null && user.token !== undefined) {
@@ -58,9 +58,9 @@ class CreateLicensingStep extends Component {
                     about: values.summary,
                 }
 
-                if (subcategory !== null && subcategory !== undefined) {
+                if (maincategory !== null && maincategory !== undefined) {
                     // console.log(sub_category)
-                    this.props.createCategory(subcategory._id, sub_category, user.token);
+                    this.props.createCategory(maincategory._id, sub_category, user.token);
                     // then change state to default
                     // so that the page redirects and list all licensing items
                     this.props.defaultItem();

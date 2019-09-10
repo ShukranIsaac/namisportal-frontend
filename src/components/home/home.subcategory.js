@@ -1,7 +1,6 @@
 import React from 'react';
 import { Col, Modal, ModalHeader, ModalBody } from 'reactstrap'
 import { Link } from "react-router-dom";
-import { redirect } from '../user/user.redirect';
 
 // Filter a section from home
 export const filterSection = (sections, name) => {

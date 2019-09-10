@@ -23,7 +23,7 @@ const RenderBootstrapField = ({
     classes, label, defaultValue, name,
     type, value, props, meta
 }) => {
-    
+
     return (
         <FormControl className={classNames(classes.margin, classes.inputFillWhole)}>
             <InputLabel shrink htmlFor="bootstrap-input" className={classes.bootstrapFormLabel}> {label} </InputLabel>
@@ -51,3 +51,35 @@ RenderBootstrapField.propTypes = {
 };
 
 export default withStyles(styles)(RenderBootstrapField)
+
+export const BootsrapTextField = ({
+    name,
+    type,
+    value,
+    placeholder,
+    label,
+    handleChange,
+    helper
+}) => {
+
+    return (
+        <>
+            <label htmlFor={name}>{label}</label>
+            <input 
+                required 
+                name={name} 
+                type={type} 
+                id={name} 
+                value={value}
+                placeholder={placeholder} 
+                className="form-control"
+                onChange={ (e) => handleChange(e) } 
+                aria-describedby= { 
+                    helper ? `${ name }Helper` : `${ name }` 
+                }
+            />
+            { helper && <small id="usernameHelper" className="form-text text-muted danger">Fill out required field!</small> }
+        </>
+    );
+
+}

@@ -94,7 +94,7 @@ export const fetchQuestion = (category_id) => {
  * @param token
  * 
  */
-export const addCategory = (category_id, sub_category, token) => {
+export const addCategory = (category_id, sub_category, token,link) => {
 
     // url
     let url;
@@ -113,11 +113,16 @@ export const addCategory = (category_id, sub_category, token) => {
         return await post(dispatch, url, sub_category)
 
         .then((response) => {
-
+            console.log(link)
             if(category_id === null) {
                 dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_ADD_CATEGORY, response, false))
             } else {
                 dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_ADD_SUB_CATE, response, false))
+            }
+
+            // fetch category: main category
+            if (link !== null) {
+                dispatch(fetchCategory(link));
             }
   
         })
@@ -135,7 +140,7 @@ export const addCategory = (category_id, sub_category, token) => {
  * @param edited_sub_category
  * @param token
  */
-export const editCategory = (category_id, edited_sub_category, token, category) => {
+export const editCategory = (category_id, edited_sub_category, token, category, link) => {
     
     const url = `categories/` + category_id + `?token=` + token;
 
@@ -153,6 +158,13 @@ export const editCategory = (category_id, edited_sub_category, token, category) 
             } else {
                 dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_EDIT_SUB_CATE, response, false))
             }
+            /**
+             * After updating a question
+             * make sure to fetch all questions
+             */
+            if (link) {
+                dispatch(fetchCategory(link));
+            }
 
         })
         
@@ -168,7 +180,7 @@ export const editCategory = (category_id, edited_sub_category, token, category) 
  * @param category
  * @param token
  */
-export const archiveCategory = (category, token) => {
+export const archiveCategory = (category, token, link) => {
 
     const url = `categories/` + category._id + `?token=` + token;
 
@@ -187,6 +199,10 @@ export const archiveCategory = (category, token) => {
                     false
                 )
             )
+
+            if (link) {
+                dispatch(fetchCategory(link));
+            }
 
         })
         

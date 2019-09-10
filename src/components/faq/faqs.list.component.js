@@ -68,6 +68,7 @@ const ListFAQS = ({ general, questions, handleClick, classes }) => {
                                                         name="edit" id={_id} 
                                                         key={_id} href={ `${ '/faqs/' + name }` } 
                                                         onClick={ (e) => handleClick(e) }
+                                                        disabled={ !profile.canWrite({ user }) }
                                                     >
                                                         { name }
                                                     </a>

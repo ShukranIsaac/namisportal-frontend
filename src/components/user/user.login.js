@@ -3,19 +3,17 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { reduxForm } from 'redux-form';
 import { Container, Button, Card, CardBody, CardImg } from 'reactstrap'
 
 import ParticlesComponent from './particles'
-import AsyncValidate from '../contact/form.async-validate';
-import Validate from '../contact/email.validate';
 
 import * as UserAuthActions from '../../actions/user.action';
 
 import styles from '../contact/form.styles';
 import { redirect } from './user.redirect';
 import { UserProfile } from './user.profile';
-import { FormTextInputField } from '../forms/form.textinput.field';
+import { BootsrapTextField } from '../forms/form.bootstrap.field';
+import CustomizedSnackbars from '../cms/snackbar.feedback';
 
 /**
  * User login
@@ -51,17 +49,17 @@ class UserLogin extends Component {
      * through redux-form's form reducer, construct user(username and password)
      * login object to contain user credentials.
      */
-    handleSubmit = (values) => {
-        // console.log(values);
+    handleSubmit = (e) => {
         // Prevent default submit action
-        // event.preventDefault();
-        // define user login credentials
+        e.preventDefault();
+        // define user login credentials object
+        const { username, password } = this.state;
         const user = {
-            username: values.username,
-            password: values.password
+            username: username,
+            password: password
         }
         // console.log(values);
-        if (user !== undefined && user.username !== undefined && user !== null) {
+        if (user !== undefined && username !== undefined && password !== null && user !== null) {
 
             // Athenticate this user
             const { login } = this.props;
@@ -105,7 +103,8 @@ class UserLogin extends Component {
 
     render() {
 
-        const { valid, pristine, submitting, handleSubmit, general } = this.props;
+        const { general } = this.props;
+        const { password, username } = this.state;
         // console.log(this.props);
         // Get the user from local storage or session storage
         // making sure their token is available.
@@ -115,6 +114,20 @@ class UserLogin extends Component {
         // if user is successfully logged in or authenticated
         // then redirect to cms
         if (auth && user !== undefined && user !== null) {
+
+            // before redirecting
+            // list all users if user just registered is defined
+            if (user !== null && general) {
+                if (!general.isLoading) {
+                    // list all user if no error returned
+                    if (general.hasErrored) {
+                        return <CustomizedSnackbars
+                            type="info"
+                            message="Successfully registerd. Please login"
+                        />
+                    }
+                }
+            }
 
             // check if token defined and authenticated i.e. not expired
             // then redirect to cms index page
@@ -152,37 +165,44 @@ class UserLogin extends Component {
                                         <CardImg src={require("../../../src/assets/img/malawi.png")} />
                                         <p>
                                             Department of Energy Affairs, Ministry of Energy and Natural Resources
-                          </p>
+                                        </p>
                                     </div>
 
-                                    <form className={{ style: 'center' }} onSubmit={handleSubmit(values => this.handleSubmit(values))} autoComplete="off">
+                                    <form className={{ style: 'center' }} onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
 
                                         <div className='margin-fix'>
-
-                                            <FormTextInputField
-                                                name='username'
-                                                label='Username'
-                                                type='text'
-                                                placeholder='Your username or email...'
-                                                {...this.props}
-                                            />
-
+                                            {/* <div className="container"> */}
+                                            <div className="form-group">
+                                                <BootsrapTextField
+                                                    type="text"
+                                                    name="username"
+                                                    label="Username*"
+                                                    helper={false}
+                                                    placeholder="Your username..."
+                                                    handleChange={this.handleChange}
+                                                />
+                                            </div>
                                         </div>
                                         <div className='margin-fix'>
 
-                                            <FormTextInputField
-                                                name='password'
-                                                label='Password'
-                                                type='password'
-                                                placeholder='Your password...'
-                                                {...this.props}
-                                            />
+                                            <div className="form-group">
+                                                <BootsrapTextField
+                                                    type="password"
+                                                    name="password"
+                                                    label="Password*"
+                                                    placeholder="Your password..."
+                                                    handleChange={this.handleChange}
+                                                />
+                                            </div>
 
                                         </div>
                                         <div className="margin-fix">
 
-                                            <Button type="submit" disabled={!valid || pristine || submitting} color="success">
-                                                { 
+                                            <Button
+                                                type="submit"
+                                                disabled={password && username ? false : true}
+                                                color="success">
+                                                {
                                                     general ? (
                                                         general.isLoading ? (
                                                             <>Authenticating...</>
@@ -195,9 +215,9 @@ class UserLogin extends Component {
 
                                         <div className="margin-fix">
                                             {
-                                                (general && !submitting) && (
+                                                (general) && (
                                                     general.hasErrored && (
-                                                        <div class="alert alert-danger alert-dismissible fade show">
+                                                        <div className="alert alert-danger alert-dismissible fade show">
                                                             <strong>Error!</strong> Username or password is incorrect
                                                         </div>
                                                     )
@@ -216,12 +236,12 @@ class UserLogin extends Component {
 
                                         <p style={{ textAlign: 'center', marginBottom: 'unset' }}>
                                             Don't have an account?
-                              <span>
+                                            <span>
                                                 <Link
                                                     to="/register"
-                                                // onClick={ () => redirect.to({ url: '/register' }) }
+                                                    onClick={() => redirect.to({ url: '/register' })}
                                                 > Register
-                                </Link>
+                                                </Link>
                                             </span>
                                         </p>
 
@@ -263,8 +283,4 @@ const mapDispatchToProps = dispatch => {
 
 }
 
-export default reduxForm({
-    form: "login",
-    Validate,
-    AsyncValidate
-})(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(UserLogin)));
+export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(UserLogin)));

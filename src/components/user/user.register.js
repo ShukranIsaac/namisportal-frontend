@@ -3,12 +3,8 @@ import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { reduxForm } from 'redux-form';
 
-import { Container, Button, Card, CardBody, CardImg } from 'reactstrap'
-
-import AsyncValidate from '../contact/form.async-validate';
-import Validate from '../contact/email.validate';
+import { Container, Button, Card, CardBody, CardImg } from 'reactstrap';
 
 import * as UserAuthActions from '../../actions/user.action';
 
@@ -18,163 +14,211 @@ import { redirect } from './user.redirect';
 // import { StakeholderProfile } from './user.register.company';
 import { PersonalProfile } from './user.register.personal';
 import ParticlesComponent from './particles';
+import CustomizedSnackbars from '../cms/snackbar.feedback';
 
 class UserRegistration extends Component {
 
     constructor() {
-      super();
-      this.state = {
-         email: '',
-         username: '',
-         password: '',
-         firstName: '',
-         lastName: '',
-         confirmPassword: '',
-         website: '',
-         telephone: '',
-         fax: '',
-         physicalAddress: '',
-      }
+        super();
+        this.state = {
+            email: '',
+            username: '',
+            password: '',
+            firstName: '',
+            lastName: '',
+            confirmPassword: '',
+            website: '',
+            telephone: '',
+            fax: '',
+            physicalAddress: '',
+        }
 
-      this.handleChange = this.handleChange.bind(this);
-      this.handleClick = this.handleClick.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
 
     }
 
     handleChange = (event) => {
-      // console.log(event.target.name)
-      this.setState({
-        [event.target.name]: event.target !== 'checked' ? event.target.value : event.target.checked 
-      });
+
+        this.setState({
+            [event.target.name]: event.target !== 'checked' ? event.target.value : event.target.checked
+        });
 
     }
 
     handleClick = (event) => {
 
-      this.setState({[event.target.name]: event.target.value});
+        this.setState({ [event.target.name]: event.target.value });
 
     }
 
-    handleSubmit = (values) => {
-      // Prevent default submit action
-      // event.preventDefault();
-      // define user structure
-      const user = {
-        username: values.username,
-        firstName: values.firstname,
-        lastName: values.lastname,
-        email: values.email,
-        password: values.password,
-        roles: {
-          writer: false,
-          publisher: false,
-          admin: false
+    handleSubmit = (event) => {
+        // Prevent default submit action
+        event.preventDefault();
+        const {
+            email,
+            username,
+            password,
+            firstName,
+            lastName,
+            confirmPassword
+        } = this.state;
+        // define user structure
+        const user = {
+            username: username,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password,
+            roles: {
+                writer: false,
+                publisher: false,
+                admin: false
+            }
         }
-      }
-      // console.log(user);
-      if (user !== undefined && user.username !== undefined && user !== null) {
 
-        const { register } = this.props;
-        // register this user if password confirmed is the same
-        if (user.password === values.confirmPassword) {
-          // console.log(values)
-          register(user);
+        if (user !== undefined && user !== null &&
+            email && username && password && firstName
+            && lastName && confirmPassword) {
+
+            const { register } = this.props;
+            // register this user if password confirmed is the same
+            if ((user.password === confirmPassword) && user.password.length > 7) {
+                // console.log(user)
+                register(user);
+            }
+
         }
-
-      }
 
     }
 
     render() {
 
-      const { 
-        pristine, user,
-        submitting,
-        handleSubmit, valid
-      } = this.props;
+        const { user, general } = this.props;
 
-      // check if user is successfully logged in or authenticated
-      if (user !== undefined && user !== null) {
+        const {
+            email,
+            username,
+            password,
+            firstName,
+            lastName,
+            confirmPassword
+        } = this.state;
 
-          // check if token defined
-          return redirect.to({ url: '/login', from: this.context })
+        // check if user is successfully logged in or authenticated
+        if (user !== undefined && user !== null) {
 
-      }
+            // check if token defined
+            return redirect.to({ url: '/login', from: this.context })
 
-      return (
-        <Fragment>
-          
-          <div className='page-content'>
-            
-              <ParticlesComponent />
+        }
 
-              <Container>
+        // check if there was any error
+        if (general) {
+            if (!general.isLoading) {
+                // list all user if no error returned
+                if (general.hasErrored) {
+                    return <CustomizedSnackbars type="error" />
+                }
+            }
+        }
 
-                <div style={{ width: '60%', margin: '0 auto' }}>
-                  
-                    <Card>
+        const fieldsValid = email && username && password && firstName && lastName && confirmPassword && password.length > 6 ? false : true;
 
-                      <CardBody>
+        return (
+            <Fragment>
 
-                        <div style={{textAlign: 'center'}}>
-                          <CardImg src={require("../../../src/assets/img/malawi.png")}/>
-                          <p>
-                            Department of Energy Affairs, Ministry of Energy and Natural Resources
-                          </p>
+                <div className='page-content'>
+
+                    <ParticlesComponent />
+
+                    <Container>
+
+                        <div style={{ width: '60%', margin: '0 auto' }}>
+
+                            <Card>
+
+                                <CardBody>
+
+                                    <div style={{ textAlign: 'center' }}>
+                                        <CardImg src={require("../../../src/assets/img/malawi.png")} />
+                                        <br />
+                                        <p>
+                                            Department of Energy Affairs, Ministry of Energy and Natural Resources
+                                        </p>
+                                    </div>
+
+                                    <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
+
+                                        <PersonalProfile handleChange={this.handleChange} {...this.state} />
+
+                                        <div className="margin-fix">
+
+                                            <Button
+                                                type="submit"
+                                                disabled={fieldsValid}
+                                                color="success">
+                                                {
+                                                    general ? (
+                                                        general.isLoading ? (
+                                                            <>Registering...</>
+                                                        ) : <>Register</>
+                                                    ) : <>Register</>
+                                                }
+                                            </Button>
+
+                                        </div>
+
+                                    </form>
+
+                                </CardBody>
+
+                            </Card>
+
                         </div>
 
-                        <form onSubmit={ (e) => handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
+                    </Container>
 
-                          <PersonalProfile props={ this.props } />
+                    {
+                        // check if there was no any error
+                        general && (
+                            !general.hasErrored && (
+                                <CustomizedSnackbars
+                                    type="info"
+                                    message="Successfully registerd. Please login"
+                                />
+                            )
+                        )
+                    }
 
-                          <div className="margin-fix">
+                </div>
 
-                            <Button type="submit" disabled={!valid  || pristine || submitting} color="success">Register</Button>
-
-                          </div>
-
-                        </form>
-
-                      </CardBody>
-
-                    </Card>
-
-                  </div>
-
-              </Container>
-
-          </div>
-
-        </Fragment>
-      );
+            </Fragment>
+        );
 
     }
 }
 
 const mapStateToProps = (state) => {
 
-  return {
-    user: state.user.user,
-  }
+    return {
+        user: state.user.user,
+    }
 
 }
 
 const mapDispatchToProps = (dispatch) => {
 
-  return {
-    register: (values) => { dispatch(UserAuthActions.register(values)) },
-    login: (user) => { dispatch(UserAuthActions.login(user)) },
-  }
+    return {
+        register: (values) => { dispatch(UserAuthActions.register(values)) },
+        login: (user) => { dispatch(UserAuthActions.login(user)) },
+    }
 
 }
 
 UserRegistration.propTypes = {
-   classes: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
 }
 
-export default reduxForm({
-  form: "registration",
-  Validate, 
-  AsyncValidate
-})(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(UserRegistration)));
+export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(UserRegistration)));

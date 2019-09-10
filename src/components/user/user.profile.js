@@ -6,7 +6,7 @@
  * @returns {Closure} user
  */
 export const UserProfile = (() => {
-    
+
     /**
      * Save user details to the local store/persist
      * 
@@ -17,9 +17,9 @@ export const UserProfile = (() => {
         let loggedIn = null;
         // copy user into user object and add to it time(seconds) when they logged in
         const u = Object.assign(user, { _l_time: ((Date.now() / 1000) / 60) });
-        
+
         try {
-            
+
             localStorage.setItem('cms_current_user', JSON.stringify(u));
 
         } catch (error) {
@@ -31,7 +31,7 @@ export const UserProfile = (() => {
         try {
 
             loggedIn = localStorage.getItem('cms_current_user');
-            if(JSON.parse(loggedIn).token !== null) {
+            if (JSON.parse(loggedIn).token !== null) {
 
                 return JSON.parse(loggedIn);
 
@@ -46,7 +46,7 @@ export const UserProfile = (() => {
             return error;
 
         }
-        
+
     };
 
     // loggedin user
@@ -55,16 +55,16 @@ export const UserProfile = (() => {
         try {
 
             const loggedIn = localStorage.getItem('cms_current_user');
-            if(JSON.parse(loggedIn) !== null && JSON.parse(loggedIn).token !== undefined) {
-                
+            if (JSON.parse(loggedIn) !== null && JSON.parse(loggedIn).token !== undefined) {
+
                 return JSON.parse(loggedIn);
-  
+
             } else {
-  
+
                 return null;
-  
+
             }
-  
+
         } catch (error) {
 
             return error;
@@ -78,7 +78,7 @@ export const UserProfile = (() => {
 
         try {
             const loggedIn = localStorage.getItem('cms_current_user');
-            if(JSON.parse(loggedIn).token!==null&&username!==null&&username!==undefined) {
+            if (JSON.parse(loggedIn).token !== null && username !== null && username !== undefined) {
                 // set to null
                 localStorage.setItem('cms_current_user', null);
                 // return null value
@@ -98,7 +98,7 @@ export const UserProfile = (() => {
      */
     const isAuthenticated = (user) => {
         // console.log(user.token);
-        if(user !== undefined && user !== null) {
+        if (user !== undefined && user !== null) {
             const difference = Math.floor((((Date.now() / 1000) / 60) - user._l_time));
             // console.log(difference);
             // return true if difference is within 30 minutes
@@ -126,16 +126,7 @@ export const profile = (() => {
         if (user !== null && user.roles !== null && user.roles !== undefined) {
 
             // publisher
-            if (!user.roles.writer && user.roles.publisher) {
-                return true;
-            } 
-
-            if (user.roles.writer && !user.roles.publisher) {
-                return true;
-            }
-            
-            // has both levels
-            if(user.roles.writer && user.roles.publisher) {
+            if (user.roles.writer || user.roles.publisher || user.roles.admin) {
                 return true;
             }
 
@@ -153,12 +144,7 @@ export const profile = (() => {
         if (user !== null && user.roles !== null && user.roles !== undefined) {
 
             // publisher
-            if (user.roles.writer && !user.roles.publisher) {
-                return true;
-            } 
-            
-            // has both levels
-            if(user.roles.writer && user.roles.publisher) {
+            if (user.roles.writer || user.roles.publisher || user.roles.admin) {
                 return true;
             }
 
@@ -177,12 +163,7 @@ export const profile = (() => {
         if (user !== null && user.roles !== null && user.roles !== undefined) {
 
             // publisher
-            if (!user.roles.writer && user.roles.publisher) {
-                return true;
-            } 
-            
-            // has both levels
-            if(user.roles.writer && user.roles.publisher) {
+            if (user.roles.publisher) {
                 return true;
             }
 
@@ -200,16 +181,16 @@ export const profile = (() => {
     const canDelete = ({ user }) => {
         if (user !== null && user.roles !== null && user.roles !== undefined) {
 
-            if (user.roles.writer && !user.roles.publisher) {
-                return false;
+            if (user.roles.publisher) {
+                return true;
             }
 
-            return true;
+            return false;
 
         } else {
 
             return false;
-            
+
         }
     }
 
@@ -217,14 +198,14 @@ export const profile = (() => {
      * Access levels
      */
     const showActions = () => {
-        
+
         // return this method as a value
         return ({ user }) => {
             if (user.roles.writer && !user.roles.publisher) {
                 return true;
-            } else if(!user.roles.writer && user.roles.publisher) {
+            } else if (!user.roles.writer && user.roles.publisher) {
                 return true;
-            } else if(user.roles.writer && user.roles.publisher) {
+            } else if (user.roles.writer && user.roles.publisher) {
                 return true;
             } else {
                 return false;
@@ -238,25 +219,23 @@ export const profile = (() => {
      */
     const isAdmin = ({ user }) => {
 
-        // has one level: publisher
-        if (!user.roles.writer && user.roles.publisher) {
-            return true;
-        } 
-        
-        // has both levels
-        if(user.roles.writer && user.roles.publisher) {
-            return true;
-        }
+        // has one level
+        if (user !== null && user.roles !== null && user.roles !== undefined) {
 
-        return false;
+            if (user.roles.admin) {
+                return true;
+            }
+
+            return false;
+        }
 
     }
 
     return {
         showActions,
-        canEdit, 
-        canPublish, 
-        canWrite, 
+        canEdit,
+        canPublish,
+        canWrite,
         canDelete,
         isAdmin
     }

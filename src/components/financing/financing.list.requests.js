@@ -14,14 +14,12 @@ import { Row, Col } from 'reactstrap';
  * 
  */
 export const ListFinancingRequests = (withStyles(styles)(({
-    category,
+    maincategory,
     handleClick,
-    handleChange,
     general,
-    // option,
     classes,
 }) => {
-    // console.log(category)
+
     return (
         <Fragment>
 
@@ -43,25 +41,25 @@ export const ListFinancingRequests = (withStyles(styles)(({
                 {
                     general && (
                         !general.isLoading ? (
-                            ((category !== null && category !== undefined)) && category !== undefined && (
+                            ((maincategory !== null && maincategory !== undefined)) && maincategory !== undefined && (
                                 <Fragment>
                                     <Row>
-                                        <Col key={ category.about } sm='12' md='8' lg='6'>
+                                        <Col key={ maincategory.about } sm='12' md='8' lg='6'>
                                             <div className="card">
                                                 <div className="card-body">
                                                     <h4>
                                                         <a 
-                                                            name="edit" id={category._id} 
-                                                            key={category._id} href="/cms" 
+                                                            name="edit" id={maincategory._id} 
+                                                            key={maincategory._id} href="/cms" 
                                                             onClick={ (e) => handleClick(e) }
                                                         >
-                                                            { category.name }
+                                                            { maincategory.name }
                                                         </a>
                                                     </h4>
-                                                    <p>{ category.about !== undefined && category.about.substring(0, 150) }</p>
+                                                    <p>{ maincategory.about !== undefined && maincategory.about.substring(0, 150) }</p>
 
                                                     <Button 
-                                                        name="edit" id={category._id} 
+                                                        name="edit" id={maincategory._id} 
                                                         disabled={ false } intent="primary" 
                                                         text="Edit" onClick={(e) => handleClick(e)} 
                                                     />
@@ -69,8 +67,8 @@ export const ListFinancingRequests = (withStyles(styles)(({
                                             </div>
                                         </Col>
                                         {
-                                            category.subCategories !== undefined 
-                                            && (category.subCategories.length !== 0 && category.subCategories.map(({ name, about, _id }, index) => {
+                                            maincategory.subCategories !== undefined 
+                                            && (maincategory.subCategories.length !== 0 && maincategory.subCategories.map(({ name, about, _id }, index) => {
                                                 
                                                 if (about === undefined) {
                                                     return null;

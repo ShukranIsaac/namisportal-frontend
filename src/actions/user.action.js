@@ -1,7 +1,7 @@
 import { UserType } from '../action_type/index';
 
 import * as GeneralAction from './general.action';
-import { post, get, put, _delete, patch } from './api.service';
+import { post, get, put, _delete } from './api.service';
 import { UserProfile } from '../components/user/user.profile';
 
 /**
@@ -19,21 +19,21 @@ export const login = (credentials) => {
         dispatch(GeneralAction.isLoading(true))
 
         return await post(dispatch, url, credentials)
-        
-        .then((response) => {
 
-            // Save the authenticated user to local storage
-            // And dispatch a success action to the store.
-            dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_LOGIN, UserProfile.save(response), false))
+            .then((response) => {
 
-        })
-        
-        .catch(error => {
+                // Save the authenticated user to local storage
+                // And dispatch a success action to the store.
+                dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_LOGIN, UserProfile.save(response), false))
 
-            console.log(error)
-            dispatch(GeneralAction.hasErrored(true))
+            })
 
-        });
+            .catch(error => {
+
+                console.log(error)
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
 
     };
 
@@ -48,7 +48,7 @@ export const logout = (user) => {
 
     return async (dispatch) => {
 
-        if(user !== null) {
+        if (user !== null) {
 
             dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_LOGOUT, UserProfile.logout(user), false))
 
@@ -65,7 +65,7 @@ export const logout = (user) => {
  * @returns {Function} dispatch
  */
 export const register = (user) => {
-    
+
     const url = `users/register`;
 
     return async (dispatch) => {
@@ -73,18 +73,23 @@ export const register = (user) => {
         dispatch(GeneralAction.isLoading(true));
 
         return await post(dispatch, url, user)
-        
-        .then((response) => {
 
-            dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_REGISTER, response, false))
+            .then((response) => {
 
-        })
-        
-        .catch((error) => {
+                dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_REGISTER, response, false))
+                // the list all users
+                const auth = UserProfile.get();
+                if(auth!==null && (auth.token!==undefined)) {
+                    dispatch(fetchUsers({ user:auth }))
+                }
 
-            dispatch(GeneralAction.hasErrored(true))
+            })
 
-        });
+            .catch((error) => {
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
     };
 
 }
@@ -96,27 +101,27 @@ export const register = (user) => {
  * @returns {Function} dispatch
  */
 export const contact = (contact) => {
-    
+
     const url = `contacts/message`;
 
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
-        
+
         return await post(dispatch, url, contact)
-        
-        .then((response) => {
 
-            dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_CONTACT_US, response, false))
+            .then((response) => {
 
-        })
-        
-        .catch((error) => {
+                dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_CONTACT_US, response, false))
 
-            console.log(error);
-            dispatch(GeneralAction.hasErrored(true))
+            })
 
-        });
+            .catch((error) => {
+
+                console.log(error);
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
     };
 
 }
@@ -128,7 +133,7 @@ export const contact = (contact) => {
  * @returns {Function} dispatch
  */
 export const fetchContact = (name) => {
-    
+
     const url = `users/contact?name=${name}`;
 
     return async (dispatch) => {
@@ -136,18 +141,18 @@ export const fetchContact = (name) => {
         dispatch(GeneralAction.isLoading(true));
 
         return await get(dispatch, url)
-        
-        .then((response) => {
 
-            dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_CONTACT, response, false))
+            .then((response) => {
 
-        })
-        
-        .catch((error) => {
+                dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_CONTACT, response, false))
 
-            dispatch(GeneralAction.hasErrored(true))
+            })
 
-        });
+            .catch((error) => {
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
     };
 
 }
@@ -158,26 +163,26 @@ export const fetchContact = (name) => {
  * @returns {Function} dispatch
  */
 export const fetchUsers = ({ user }) => {
-    
-    const url = `users?token=${ user.token }`;
+
+    const url = `users?token=${user.token}`;
 
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
         return await get(dispatch, url)
-        
-        .then((response) => {
 
-            dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_ALL, response, false))
+            .then((response) => {
 
-        })
-        
-        .catch((error) => {
+                dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_ALL, response, false))
 
-            dispatch(GeneralAction.hasErrored(true))
+            })
 
-        });
+            .catch((error) => {
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
     };
 
 }
@@ -188,26 +193,26 @@ export const fetchUsers = ({ user }) => {
  * @returns {Function} dispatch
  */
 export const fetchUser = (id, token) => {
-    
-    const url = `users/${ id }?token=${ token }`;
+
+    const url = `users/${id}?token=${token}`;
 
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
         return await get(dispatch, url)
-        
-        .then((response) => {
 
-            dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_SINGLE, response, false))
+            .then((response) => {
 
-        })
-        
-        .catch((error) => {
+                dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_SINGLE, response, false))
 
-            dispatch(GeneralAction.hasErrored(true))
+            })
 
-        });
+            .catch((error) => {
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
     };
 
 }
@@ -218,46 +223,49 @@ export const fetchUser = (id, token) => {
  * @returns {Function} dispatch
  */
 export const updateUser = (id, user, auth) => {
-    
+
     // url to update user
-    const url = `users/${ id }?token=${ auth.token }`;
-    
+    const url = `users/${id}?token=${auth.token}`;
+    console.log(user)
+
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
         return await put(dispatch, url, user)
-        
-        .then((response) => {
 
-            /**
-             * 
-             * Compare ids from the edited acount from the api and the already
-             * authenticated user in the local storage.
-             * 
-             * if logged in account was updated, update their account too
-             * with new details.
-             * 
-             */
-            if(response.userWithoutHash._id === auth._id) {
-                // update local storage
-                let editedUser = response.userWithoutHash;
-                Object.assign(editedUser, { token: auth.token });
-                // console.log(editedUser)
-                // save account
-                UserProfile.save(editedUser);
-            } else {
-                // other account was updated
-                dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_EDIT, response, false))
-            }
+            .then((response) => {
 
-        })
-        
-        .catch((error) => {
-            console.log(error)
-            dispatch(GeneralAction.hasErrored(true))
+                /**
+                 * 
+                 * Compare ids from the edited acount from the api and the already
+                 * authenticated user in the local storage.
+                 * 
+                 * if logged in account was updated, update their account too
+                 * with new details.
+                 * 
+                 */
+                if (response.userWithoutHash._id === auth._id) {
+                    // update local storage
+                    let editedUser = response.userWithoutHash;
+                    Object.assign(editedUser, { token: auth.token });
+                    // console.log(editedUser)
+                    // save account
+                    UserProfile.save(editedUser);
+                } else {
+                    // other account was updated
+                    dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_EDIT, response, false))
+                    // the list all users
+                    dispatch(fetchUsers({ user: UserProfile.get() }))
+                }
 
-        });
+            })
+
+            .catch((error) => {
+                console.log(error)
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
     };
 
 }
@@ -268,28 +276,30 @@ export const updateUser = (id, user, auth) => {
  * @returns {Function} dispatch
  */
 export const deleteAccount = (id, token) => {
-    
+
     // url to update user
-    const url = `users/${ id }?token=${ token }`;
-    
+    const url = `users/${id}?token=${token}`;
+
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
         return await _delete(dispatch, url)
-        
-        .then((response) => {
 
-            dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_DELETE, response, false))
+            .then((response) => {
 
-        })
-        
-        .catch((error) => {
+                dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_DELETE, response, false))
+                // the list all users
+                dispatch(fetchUsers({ user: UserProfile.get() }))
 
-            dispatch(GeneralAction.hasErrored(true))
+            })
 
-        });
-        
+            .catch((error) => {
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
+
     };
 
 }

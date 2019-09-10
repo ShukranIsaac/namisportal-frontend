@@ -246,7 +246,7 @@ class Licensing extends Component {
                 !general.isLoading ? (
                   <Fragment>
                     {
-                      category !== null && this.renderPanels(category)
+                      category !== null ? this.renderPanels(category) : <div>No content</div>
                     }
                   </Fragment>
                 ) : <div style={{ marginTop: `50px` }} className="loader" />

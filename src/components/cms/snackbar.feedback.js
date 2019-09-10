@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import Button from '@material-ui/core/Button';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
 import InfoIcon from '@material-ui/icons/Info';
@@ -83,60 +82,20 @@ const useStyles2 = theme => ({
     },
 });
 
-const RenderSnackbar = (props) => {
-
-    switch (props.type) {
-
-        case 'success':
-            return (
-                <SnackbarContentWrapper
-                    onClose={ (e) => props.handleClose(e) }
-                    variant="success"
-                    message="This is a success message!"
-                />
-            );
-
-        case 'warning':
-            return (
-                <SnackbarContentWrapper
-                    variant="warning"
-                    className={props.classes.margin}
-                    message="This is a warning message!"
-                    onClose={ (e) => props.handleClose(e) }
-                />
-            )
-
-        case 'error':
-            return (
-                <SnackbarContentWrapper
-                    variant="error"
-                    className={props.classes.margin}
-                    message="This is an error message!"
-                    onClose={ (e) => props.handleClose(e) }
-                />
-            )
-
-        case 'info': 
-            return (
-                <SnackbarContentWrapper
-                    variant="info"
-                    className={props.classes.margin}
-                    message="This is an information message!"
-                    onClose={ (e) => props.handleClose(e) }
-                />
-            )
-
-        default:
-            return;
-    }
-}
-
+/**
+ * Customized Snackbar 
+ * Please import and use the default exported component
+ * because the other one does not have some styles(useStyles2) applied, still there are some issues
+ * to sort them out.
+ * 
+ * @author Isaac S. Mwakabira
+ */
 export class CustomizedSnackbars extends Component {
 
     constructor() {
         super();
         this.state = {
-            open: false,
+            open: true,
         }
     }
 
@@ -154,6 +113,7 @@ export class CustomizedSnackbars extends Component {
 
     render() {
         const { open } = this.state;
+        const { message } = this.props;
 
         return (
             <div>
@@ -166,11 +126,54 @@ export class CustomizedSnackbars extends Component {
                     autoHideDuration={3000}
                     onClose={this.handleClose}
                 >
-                    <RenderSnackbar 
-                        { ...this.state } 
-                        { ...this.props } 
-                        handleClose= {this.handleClose}
-                    />
+                    {
+                        () => {
+                            switch (this.props.type) {
+
+                                case "success":
+                                    return (
+                                        <SnackbarContentWrapper
+                                            onClose={ (e) => this.handleClose(e) }
+                                            variant="success"
+                                            message="Success message"
+                                        />
+                                    );
+                        
+                                case "warning":
+                                    return (
+                                        <SnackbarContentWrapper
+                                            variant="warning"
+                                            className={this.props.classes.margin}
+                                            message="This is a warning message!"
+                                            onClose={ (e) => this.handleClose(e) }
+                                        />
+                                    )
+                        
+                                case "error":
+                                    return (
+                                        <SnackbarContentWrapper
+                                            variant="error"
+                                            className={this.props.classes.margin}
+                                            message="Request errored. Please try again!"
+                                            onClose={ (e) => this.handleClose(e) }
+                                        />
+                                    )
+                        
+                                case "info": 
+                                    return (
+                                        <SnackbarContentWrapper
+                                            variant="info"
+                                            className={this.props.classes.margin}
+                                            message={ message.length > 0 ? message : "Information message!"}
+                                            onClose={ (e) => this.handleClose(e) }
+                                        />
+                                    )
+                        
+                                default:
+                                    return <div>Snackbar</div>;
+                            }
+                        }
+                    }
                 </Snackbar>
             </div>
         );

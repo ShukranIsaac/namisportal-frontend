@@ -17,7 +17,7 @@ import { FormTextInputField } from '../forms/form.textinput.field';
 import InitialSchema from '../forms/utils/initial.schema';
 import { editor } from '../forms/editor/text.editor.utils';
 import { UserProfile } from '../user/user.profile';
-import OnlineEditor from '../forms/editor/online.editor';
+// import OnlineEditor from '../forms/editor/online.editor';
 
 /**
  * Edit a single news article

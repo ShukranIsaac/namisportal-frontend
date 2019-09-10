@@ -5,12 +5,10 @@ import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
 import { Divider, Paper, FormControl } from '@material-ui/core';
 import styles from '../contact/form.styles';
-import { reduxForm } from 'redux-form';
-import AsyncValidate from '../contact/form.async-validate';
-import Validate from '../contact/email.validate';
 import { UserProfile } from '../user/user.profile';
 import { SelectInputControl } from '../forms/form.selectinput.field';
-import { FormTextInputField } from '../forms/form.textinput.field';
+import { BootsrapTextField } from '../forms/form.bootstrap.field';
+import { BootsrapTextareaField } from '../forms/form.textarea.field';
 
 /**
  * Edit a particular question 
@@ -20,24 +18,37 @@ import { FormTextInputField } from '../forms/form.textinput.field';
  */
 class EditQuestion extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = { 
-            question: props.question 
+    constructor() {
+        super();
+        this.state = {
+            _question: null,
+            question: null,
+            section_name: null,
+            section_short_name: '',
+            section_summary: ''
         }
+    }
+
+    /**
+     * On event change, get field name and value, set state
+     */
+    handleTextChange = (event) => {
+
+        this.setState({ [event.target.name]: event.target.value });
+
     }
 
     // choosen section
     handleChange = (e) => {
 
         // if chosen section
-        if(e.target.name) {
+        if (e.target.name) {
             const sectionName = e.target.value;
-            const sections = this.props.subcategory;
-            
+            const sections = this.props.maincategory;
+
             // if sections not null
             if (sections !== null) {
-                
+
                 // then iterate through the subcategories
                 // and filter the chosen section
                 const filteredSection = sections.subCategories.length !== 0 && sections.subCategories.filter(section => {
@@ -46,7 +57,7 @@ class EditQuestion extends Component {
                         // check if the chosen section from the drop down list
                         // equals one of the sections/subCategories
                         // in the Frequently asked questions
-                        if(section.name === sectionName) {
+                        if (section.name === sectionName) {
                             return section;
                         } else {
                             return null;
@@ -84,12 +95,12 @@ class EditQuestion extends Component {
         // get authenticated user token
         const user = UserProfile.get();
         // if section to delete is selected
-        if(event.currentTarget.name === 'delete_section') {
-            if(this.state.section !== null && user !== null) {
+        if (event.currentTarget.name === 'delete_section') {
+            if (this.state.section !== null && user !== null) {
                 // ids the same: chosen and what is in state
                 if (this.state.section._id === event.currentTarget.value) {
                     // proceeed to delete the selected section or category
-                    this.props.archiveCategory(this.state.section, user.token);
+                    this.props.archiveCategory(this.state.section, user.token, this.props.capitalize(this.props.link));
                     // then change state to default
                     // so that the page redirects and list all home items
                     this.props.defaultItem();
@@ -98,46 +109,53 @@ class EditQuestion extends Component {
         }
     }
 
-    handleSubmit = (values) => {
+    handleSubmit = (e) => {
+        // Prevent default submit action
+        e.preventDefault();
         // question
-        const { question } = this.state;
+        const { _question, question, answer, shortName, section_name, section_short_name, section_summary } = this.state;
+
+        const emptyQFields = _question || answer || shortName ? false : true;
+        const emptySFields = section_name && section_short_name && section_summary ? false : true;
+
         // get authenticated user token
         const user = UserProfile.get();
-        if(user !== null && user.token !== undefined) {
+        if (user !== null && user.token !== undefined) {
             let edited_question;
-            if(values !== null && values !== undefined) {
-                // check if resource or file if being added
-                if(values.question !== undefined || values.answer !== undefined || values.shortName !== undefined) {
-                    // get edited_question structure
-                    edited_question = {
-                        name: values.question,
-                        shortName: values.shortName,
-                        about: values.answer
-                    }
+            // check if resource or file if being added
+            if (!this.state.add_section) {
+                // get edited_question structure
+                edited_question = {
+                    name: _question!==null ? _question : question.name,
+                    shortName: shortName ? shortName : question.shortName,
+                    about: answer ? answer : question.answer
+                }
 
-                    // question defined
-                    if (question !== null) {
-                        // then edit this edited_question
-                        this.props.editCategory(question._id, edited_question, user.token);
-                        // then change state to default
-                        // so that the page redirects and list all FAQs
-                        this.props.defaultItem();
-                    }
-                } else {
+                // question defined
+                if (!emptyQFields) {
+                    // then edit this edited_question
+                    this.props.editCategory(question._id, edited_question, user.token, question, this.props.capitalize(this.props.link));
+                    // then change state to default
+                    // so that the page redirects and list all FAQs
+                    this.props.defaultItem();
+                }
+            } else {
+                // adding section
+                if (this.state.add_section) {
                     // we are adding a section category: sub-category essentially
                     // define file structure
                     const section = {
-                        name: values.section_name,
-                        shortName: values.shortName,
-                        about: values.section_summary,
+                        name: section_name,
+                        shortName: section_short_name,
+                        about: section_summary,
                     }
 
                     // category to add sections to: Faqs
-                    const { subcategory } = this.props;
+                    const { maincategory } = this.props;
                     // then check if null and undefined, then proceed otherwise
-                    if (subcategory !== null && subcategory !== undefined) {
+                    if (maincategory !== null && maincategory !== undefined && !emptySFields) {
                         // create new section category
-                        this.props.createCategory(subcategory._id, section, user.token);
+                        this.props.createCategory(maincategory._id, section, user.token);
                         // then change state.add_section to false
                         // so that the page shows form fileds to add questions
                         this.setState({ add_section: false });
@@ -145,8 +163,8 @@ class EditQuestion extends Component {
                 }
             }
 
-        } 
-        
+        }
+
     }
 
     /**
@@ -158,11 +176,11 @@ class EditQuestion extends Component {
         // question to be deleted
         const { question } = this.props;
         // if question exists then delete
-        if(question !== null && question._id !== undefined) {
+        if (question !== null && question._id !== undefined) {
             // then get authenticated user token
             const user = UserProfile.get();
             if (user !== null && user.token !== undefined) {
-                this.props.archiveCategory(question, user.token);
+                this.props.archiveCategory(question, user.token,this.props.capitalize(this.props.link));
                 // then change state to default
                 // so that the page redirects and list all home items
                 this.props.defaultItem();
@@ -173,41 +191,50 @@ class EditQuestion extends Component {
 
     render() {
 
-        const { classes, handleClick, handleSubmit, valid, pristine, submitting, general } = this.props;
+        const { classes, handleClick, general, question } = this.props;
+
+        if (question !== null && this.state._question == null) {
+            Object.assign(this.state, { question });
+        }
 
         // Frequently asked question sections
-        const sections = this.props.subcategory;
+        const sections = this.props.maincategory;
+
+        const { _question, answer, shortName, section_name, section_short_name, section_summary } = this.state;
+
+        const emptyQFields = _question || answer || shortName ? false : true;
+        const emptySFields = section_name && section_short_name && section_summary ? false : true;
 
         return (
             <Fragment>
 
-                <ButtonControl 
-                    intent={Intent.NONE} 
+                <ButtonControl
+                    intent={Intent.NONE}
                     value="List Questions"
                     name="default"
-                    handleClick={e => handleClick(e) }
+                    handleClick={e => handleClick(e)}
                 />
 
-                <ButtonControl 
-                    intent={Intent.NONE} 
+                <ButtonControl
+                    intent={Intent.NONE}
                     value="New Question"
                     name="create"
-                    handleClick={e => handleClick(e) }
+                    handleClick={e => handleClick(e)}
                 />
 
-                <div className={ classes.margin }/>
-                <div className={ classes.margin }/>
-                <div className={ classes.margin }/>
-                <div className={ classes.margin }/>
+                <div className={classes.margin} />
+                <div className={classes.margin} />
+                <div className={classes.margin} />
+                <div className={classes.margin} />
 
                 <Divider />
 
-                <form onSubmit= { handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
+                <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
 
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
 
                     {
                         !this.state.add_section ? (
@@ -216,21 +243,21 @@ class EditQuestion extends Component {
                                 <FormControl>
 
                                     <Paper elevation={0}>
-                                        
-                                        <SelectInputControl 
+
+                                        <SelectInputControl
                                             name="section"
-                                            { ...this.state }
+                                            {...this.state}
                                             // value={ this.state.section }
-                                            onChange={ e => this.handleChange(e) }
+                                            onChange={e => this.handleChange(e)}
                                         >
-                                            <option value="">{ `Choose section` }</option>
+                                            <option value="">{`Choose section`}</option>
                                             {
                                                 (sections !== null && sections !== undefined) && (
                                                     sections.subCategories.length !== 0 && sections.subCategories.map(({ _id, name }, index) => {
-                                
+
                                                         // section
-                                                        return <option id={ _id } key={ `${ index }`} value={ name }>{ name }</option>
-                                                    
+                                                        return <option id={_id} key={`${index}`} value={name}>{name}</option>
+
                                                     })
                                                 )
                                             }
@@ -241,63 +268,78 @@ class EditQuestion extends Component {
                                 </FormControl>
 
                                 { /** New frequently asked questions section */}
-                                <Button 
-                                    className={ classes.margin } 
+                                <Button
+                                    className={classes.margin}
                                     name="add_section"
-                                    value={ this.state.add_section }
+                                    value={this.state.add_section}
                                     intent="primary" text="Add Section"
-                                    onClick={ e => this.handleAddSection(e) } 
+                                    onClick={e => this.handleAddSection(e)}
                                 />
 
                                 {
-                                    (this.state.section !== null 
-                                    && this.state.section !== undefined) && (
-                                        <Button 
-                                            className={ classes.margin } 
+                                    (this.state.section !== null
+                                        && this.state.section !== undefined) && (
+                                        <Button
+                                            className={classes.margin}
                                             name="delete_section"
-                                            value={ this.state.section._id }
+                                            value={this.state.section._id}
                                             intent="danger" text="Delete Selected"
-                                            onClick={ e => this.handleDeleteSection(e) } 
+                                            onClick={e => this.handleDeleteSection(e)}
                                         />
                                     )
                                 }
 
-                                <div className={ classes.margin }/>
-                                <div className={ classes.margin }/>
-                                <div className={ classes.margin }/>
-                                <div className={ classes.margin }/>
+                                <div className={classes.margin} />
+                                <div className={classes.margin} />
+                                <div className={classes.margin} />
+                                <div className={classes.margin} />
 
                                 {
                                     this.state.question !== null && (
                                         <Fragment>
-                                            <FormTextInputField 
-                                                { ...this.props }
-                                                name="question"
-                                                value={ this.state.question.name }
-                                                placeholder="Edit question here..."
-                                                label="Question"
-                                                type="text"
-                                            />
 
-                                            <FormTextInputField
-                                                classes={ classes } 
-                                                name="shortName"
-                                                label="Shortname"
-                                                value={ this.state.question.shortName }
-                                                placeholder="Edit question shortname..."
-                                                type="text"
-                                            />
+                                            <div className='margin-fix form-row'>
+                                                {/* <!-- Grid column --> */}
+                                                <div className="col">
+                                                    {/* <!-- Material input --> */}
+                                                    <div className="md-form mt-0">
+                                                        <BootsrapTextField
+                                                            name="_question"
+                                                            value={this.state.question ? (this.state._question ? this.state._question : this.state.question.name) : null}
+                                                            label="Question"
+                                                            type="text"
+                                                            placeholder="Edit question name..."
+                                                            handleChange={this.handleTextChange}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                {/* <!-- Grid column --> */}
+                                                <div className="col">
+                                                    {/* <!-- Material input --> */}
+                                                    <div className="md-form mt-0">
+                                                        <BootsrapTextField
+                                                            name="shortName"
+                                                            type="text"
+                                                            placeholder="Edit question shortname..."
+                                                            label="Shortname"
+                                                            value={this.state.question ? (this.state.shortName ? this.state.shortName : this.state.question.shortName) : null}
+                                                            handleChange={this.handleTextChange}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                            <FormTextInputField 
-                                                { ...this.props }
-                                                name="answer"
-                                                value={ this.state.question.about }
-                                                placeholder="Edit the answer to the question..."
-                                                label="Answer"
-                                                type="text"
-                                                multiline={true}
-                                                rows={8}
-                                            />
+                                            <div className="form-group">
+                                                <BootsrapTextareaField
+                                                    name="answer"
+                                                    value={this.state.question ? (this.state.answer ? this.state.answer : this.state.question.about) : null}
+                                                    placeholder="Edit the answer to the question..."
+                                                    label="Answer"
+                                                    type="text"
+                                                    rows={10}
+                                                    handleChange={this.handleTextChange}
+                                                />
+                                            </div>
 
                                             {
                                                 general !== undefined && general.isLoading ? (<div className="loader" />) : null
@@ -307,83 +349,95 @@ class EditQuestion extends Component {
                                     )
                                 }
 
-                                <div className={ classes.margin }/>
-                                <div className={ classes.margin }/>
+                                <div className={classes.margin} />
+                                <div className={classes.margin} />
 
-                                <Button 
-                                    className={ classes.margin }
-                                    type="submit" disabled={!valid  || pristine || submitting} 
-                                    intent="success" text="Save" 
-                                />
-                                
-                                <Button 
-                                    className={ classes.margin } 
-                                    name="default" 
-                                    intent="primary" text="Cancel" 
-                                    onClick={ e => handleClick(e) } 
+                                <Button
+                                    className={classes.margin}
+                                    type="submit" disabled={emptyQFields}
+                                    intent="success" text="Save"
                                 />
 
                                 {
                                     this.state.question !== null && (
-                                        <Button 
-                                            id={ this.state.question._id }
-                                            className={ classes.margin } 
-                                            name="archive" 
-                                            intent="danger" text="Delete" 
-                                            onClick={ e => this.archiveCategory(e) } 
+                                        <Button
+                                            id={this.state.question._id}
+                                            className={classes.margin}
+                                            name="archive"
+                                            intent="danger" text="Delete"
+                                            onClick={e => this.archiveCategory(e)}
                                         />
                                     )
                                 }
+
+                                <Button
+                                    className={classes.margin}
+                                    name="default"
+                                    intent="primary" text="Cancel"
+                                    onClick={e => handleClick(e)}
+                                />
                             </Fragment>
                         ) : (
-                            <Fragment>
-                                <FormTextInputField 
-                                    classes={ classes }
-                                    name='section_name'
-                                    label="Section"
-                                    placeholder="Enter section name..."
-                                    type="text"
-                                />
+                                <Fragment>
+                                    <div className='margin-fix form-row'>
+                                        {/* <!-- Grid column --> */}
+                                        <div className="col">
+                                            {/* <!-- Material input --> */}
+                                            <div className="md-form mt-0">
+                                                <BootsrapTextField
+                                                    name="section_name"
+                                                    label="Section"
+                                                    type="text"
+                                                    placeholder="Enter section name..."
+                                                    handleChange={this.handleTextChange}
+                                                />
+                                            </div>
+                                        </div>
+                                        {/* <!-- Grid column --> */}
+                                        <div className="col">
+                                            {/* <!-- Material input --> */}
+                                            <div className="md-form mt-0">
+                                                <BootsrapTextField
+                                                    name="section_short_name"
+                                                    type="text"
+                                                    placeholder="Enter section shortname..."
+                                                    label="Shortname"
+                                                    handleChange={this.handleTextChange}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                <FormTextInputField
-                                    classes={ classes } 
-                                    name="shortName"
-                                    label="Shortname"
-                                    placeholder="Enter section shortname..."
-                                    type="text"
-                                />
+                                    <BootsrapTextareaField
+                                        name="section_summary"
+                                        placeholder="Enter section summary..."
+                                        label="Summary"
+                                        type="text"
+                                        rows={10}
+                                        handleChange={this.handleTextChange}
+                                    />
 
-                                <FormTextInputField 
-                                    classes={ classes }
-                                    name='section_summary' 
-                                    label="Summary"
-                                    placeholder="Enter section summary..."
-                                    type="text"
-                                    multiline={true}
-                                    rows="3"
-                                />
+                                    <div className={classes.margin} />
+                                    <div className={classes.margin} />
+                                    <div className={classes.margin} />
 
-                                <div className={ classes.margin } />
-                                <div className={ classes.margin } />
-                                <div className={ classes.margin } />
+                                    <Button
+                                        type="submit" disabled={emptySFields}
+                                        intent="success" text="Save"
+                                    />
 
-                                <Button 
-                                    type="submit" disabled={!valid || pristine || submitting}
-                                    intent="success" text="Save" 
-                                />
-                                
-                                <Button 
-                                    className={ classes.margin } intent="primary" 
-                                    text="Cancel" onClick={ () => {
-                                        if (this.state.add_section) {
-                                            this.setState({ add_section: false })
-                                        }
-                                    }} 
-                                />
-                            </Fragment>
-                        )
+                                    <Button
+                                        className={classes.margin} intent="primary"
+                                        text="Cancel" onClick={() => {
+                                            if (this.state.add_section) {
+                                                this.setState({ add_section: false })
+                                            }
+                                        }}
+                                    />
+                                </Fragment>
+                            )
                     }
-                
+
                 </form>
 
             </Fragment>
@@ -397,8 +451,4 @@ EditQuestion.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default reduxForm({
-    form: 'editQuestion',
-    Validate,
-    AsyncValidate
-})(withStyles(styles)(EditQuestion));
+export default (withStyles(styles)(EditQuestion));

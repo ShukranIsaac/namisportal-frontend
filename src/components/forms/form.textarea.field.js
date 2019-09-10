@@ -6,11 +6,11 @@ const FormTextareaField = ({ value, placeholder, name, id, handleChange }) => {
     return (
         <Fragment>
 
-            <TextArea 
-                id={id} 
+            <TextArea
+                id={id}
                 name={name}
-                placeholder={placeholder} 
-                onChange={ (e) => handleChange(e) }
+                placeholder={placeholder}
+                onChange={(e) => handleChange(e)}
                 value={value}
                 large={true}
                 intent={Intent.PRIMARY}
@@ -18,6 +18,32 @@ const FormTextareaField = ({ value, placeholder, name, id, handleChange }) => {
             />
 
         </Fragment>
+    );
+
+}
+
+export const BootsrapTextareaField = ({
+    name,
+    placeholder,
+    label,
+    handleChange,
+    value,
+    rows
+}) => {
+
+    return (
+        <>
+            <label htmlFor={name}>{label}</label>
+            <textarea 
+                className="form-control" 
+                name={name}
+                value={value}
+                id={name} 
+                rows={rows} 
+                placeholder={placeholder} 
+                onChange={(e) => handleChange(e)}
+            />
+        </>
     );
 
 }

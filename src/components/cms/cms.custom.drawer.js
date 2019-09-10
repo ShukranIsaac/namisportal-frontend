@@ -60,7 +60,7 @@ const CustomDrawer = ({
     capitalize,
     drawerClose,
     link,
-    home
+    // home
 }) => {
     // console.log(home)
     const auth = UserProfile.get();
@@ -78,10 +78,13 @@ const CustomDrawer = ({
 
             <List>
                 {
-                    auth.roles.admin && drawer_controls.map(({ name, button }) => {
-                        // 
-                        if (home.length === 0) {
-                            if (name === 'home') {
+                    (auth.roles.admin || auth.roles.writer || auth.roles.publisher)
+                    && drawer_controls.map(({ name, button }) => {
+
+                        if (name === 'accounts' && auth.roles.admin) {
+                            // if user is admin show accounts button
+                            return config.map(({ name, button }) => {
+
                                 return (
                                     <ListItem
                                         button
@@ -93,8 +96,10 @@ const CustomDrawer = ({
                                         <ListItemText primary={capitalize(name)} />
                                     </ListItem>
                                 );
-                            }
+
+                            })
                         } else {
+
                             return (
                                 <ListItem
                                     button
@@ -106,7 +111,8 @@ const CustomDrawer = ({
                                     <ListItemText primary={capitalize(name)} />
                                 </ListItem>
                             );
-                        }
+
+                        } 
 
                     })
                 }
@@ -118,7 +124,7 @@ const CustomDrawer = ({
 
             <List>
                 {
-                    // if user is admin show list of accounts
+                    // if user is admin show accounts button
                     auth.roles.admin ?
                         <>
                             {
@@ -154,7 +160,7 @@ const CustomDrawer = ({
             </List>
 
             {
-                !auth.roles.admin && <Divider />
+                !(auth.roles.admin || auth.roles.writer || auth.roles.publisher) && <Divider />
             }
 
         </Fragment>

@@ -4,16 +4,13 @@ import { Button } from '@blueprintjs/core';
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { reduxForm } from 'redux-form';
-
-import AsyncValidate from '../contact/form.async-validate';
-import Validate from '../contact/email.validate';
 
 import * as UserAuthActions from '../../actions/user.action';
 
 import styles from '../contact/form.styles';
 
 import { PersonalProfile } from './user.register.personal';
+import CustomizedSnackbars from '../cms/snackbar.feedback';
 
 class AddUserAccount extends Component {
 
@@ -52,16 +49,25 @@ class AddUserAccount extends Component {
 
     }
 
-    handleSubmit = (values) => {
+    handleSubmit = (event) => {
         // Prevent default submit action
-        // event.preventDefault();
+        event.preventDefault();
         // define user structure
+        const {
+            email,
+            username,
+            password,
+            firstName,
+            lastName,
+            confirmPassword
+        } = this.state;
+        // user object
         const user = {
-            username: values.username,
-            firstName: values.firstname,
-            lastName: values.lastname,
-            email: values.email,
-            password: values.password,
+            username: username,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password,
             roles: {
                 writer: false,
                 publisher: false,
@@ -69,14 +75,14 @@ class AddUserAccount extends Component {
             }
         }
 
-        if (user !== undefined && user.username !== undefined && user !== null) {
+        if (user !== undefined && username !== undefined && user !== null) {
 
             const { register } = this.props;
             // register this user if password confirmed is the same
-            if (user.password === values.confirmPassword) {
+            if (user.password === confirmPassword && password > 6) {
                 // register new account
                 register(user);
-                // list all users
+                // list users
                 this.props.defaultItem();
             }
 
@@ -86,20 +92,48 @@ class AddUserAccount extends Component {
 
     render() {
 
+        const { classes, handleClick, general, user } = this.props;
+
         const {
-            pristine, classes,
-            submitting, handleClick,
-            handleSubmit, valid
-        } = this.props;
+            email,
+            username,
+            password,
+            firstName,
+            lastName,
+            confirmPassword
+        } = this.state;
+
+        const fieldsValid = email && username && password && firstName && lastName && confirmPassword ? false : true;
+
+        // list all users if user just registered is defined
+        if (user !== null && general) {
+            if (!general.isLoading) {
+                // list all user if no error returned
+                if (general.hasErrored) {
+                    return <CustomizedSnackbars type="error" />
+                } 
+            }
+        }
 
         return (
             <Fragment>
 
-                <form onSubmit={handleSubmit(values => this.handleSubmit(values))} autoComplete="off">
+                <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
 
-                    <PersonalProfile action="Create Account" props={this.props} />
+                    <PersonalProfile {...this.state} handleChange={this.handleChange} />
 
-                    <Button disabled={!valid || pristine || submitting} type="submit" color="success" text="Create Account" />
+                    <Button
+                        type="submit"
+                        disabled={fieldsValid}
+                        color="success">
+                        {
+                            general ? (
+                                general.isLoading ? (
+                                    <>Creating Account...</>
+                                ) : <>Create Account</>
+                            ) : <>Create Account</>
+                        }
+                    </Button>
 
                     <Button
                         name="default"
@@ -137,8 +171,4 @@ AddUserAccount.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default reduxForm({
-    form: "addUser",
-    Validate,
-    AsyncValidate
-})(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(AddUserAccount)));
+export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(AddUserAccount)));

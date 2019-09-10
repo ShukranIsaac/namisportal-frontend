@@ -2,6 +2,7 @@ import { CMSType, GisType } from '../action_type/index';
 
 const initialState = {
     subcategory: null,
+    maincategory: null,
     question: null,
     actionType: null,
     features: null,
@@ -50,7 +51,7 @@ const cms = (state = initialState, action) => {
         case CMSType.REQUEST_CATEGORY:
             return {
                 ...state,
-                subcategory: action.payload,
+                maincategory: action.payload,
                 actionType: action.type
             }
         case GisType.FETCH_GIS_FEATURES:
