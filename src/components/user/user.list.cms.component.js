@@ -7,6 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 // import Checkbox from '@material-ui/core/Checkbox';
+import CancelIcon from '@material-ui/icons/Cancel';
 import EnhancedTableToolbar from './user.table.headbar';
 import { EnhancedTableHead } from './user.table.headbar';
 import { algorithms } from './user.sort';
@@ -220,7 +221,48 @@ class ListUserAccounts extends Component {
                     />
                 </TableCell>
             );
-        } 
+        }
+    }
+
+    /**
+     * Re-assign user roles or delete already given user roles
+     */
+    deleteUserRole = (role, user) => {
+
+        // user object to be edited
+        const propertiesEdited = {
+            // get previously assigned roles
+            roles: {
+                writer: user.writer,
+                publisher: user.publisher,
+                admin: user.admin
+            }
+        }
+        // edit roles, or update roles
+        if (role === 'writer' || role === 'publisher' || role === 'admin') {
+            Object.assign(propertiesEdited.roles, { [role]: false });
+        }
+
+        // authenticated user
+        const auth = UserProfile.get();
+        if (auth !== null) {
+
+            if (auth.token !== undefined && auth.token !== null) {
+                // if anything was edited then make put request to the API
+                this.props.updateUser(user._id, propertiesEdited, auth);
+                // list users if no error
+                const { general } = this.props;
+                if (general) {
+                    if (!general.isLoading) {
+                        if (!general.hasErrored) {
+                            this.props.defaultItem();
+                        }
+                    }
+                }
+            }
+
+        }
+
     }
 
     render() {
@@ -319,10 +361,13 @@ class ListUserAccounts extends Component {
                                                                             {
                                                                                 user.writer === true ? (
                                                                                     <Chip
+                                                                                        id={user._id}
                                                                                         key={roles[0]}
                                                                                         tabIndex={-1}
                                                                                         label={roles[0]}
                                                                                         className={classes.chip}
+                                                                                        deleteIcon={<CancelIcon />}
+                                                                                        onDelete={() => this.deleteUserRole(roles[0], user)}
                                                                                     />
                                                                                 ) : null
                                                                             }
@@ -333,7 +378,10 @@ class ListUserAccounts extends Component {
                                                                                         key={roles[1]}
                                                                                         tabIndex={-1}
                                                                                         label={roles[1]}
+                                                                                        id={user._id}
                                                                                         className={classes.chip}
+                                                                                        deleteIcon={<CancelIcon />}
+                                                                                        onDelete={() => this.deleteUserRole(roles[1], user)}
                                                                                     />
                                                                                 ) : null
                                                                             }
@@ -344,7 +392,10 @@ class ListUserAccounts extends Component {
                                                                                         key={roles[2]}
                                                                                         tabIndex={-1}
                                                                                         label={roles[2]}
+                                                                                        id={user._id}
                                                                                         className={classes.chip}
+                                                                                        deleteIcon={<CancelIcon />}
+                                                                                        onDelete={() => this.deleteUserRole(roles[2], user)}
                                                                                     />
                                                                                 ) : null
                                                                             }

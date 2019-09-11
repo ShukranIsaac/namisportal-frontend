@@ -135,7 +135,6 @@ class EditUserAccount extends Component {
             roles: user.roles
         }
         // edit roles, or update roles
-        // console.log([role][0][0])
         if ([role][0][0] === 'writer' || [role][0][0] === 'publisher' || [role][0][0] === 'admin') {
             Object.assign(propertiesEdited.roles, { [role]: false });
         }
