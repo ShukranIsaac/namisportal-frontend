@@ -5,6 +5,7 @@ import styles from '../contact/form.styles';
 import { Intent } from '@blueprintjs/core';
 import ButtonControl from '../forms/buttons/button.default.control';
 import CustomizedSnackbars from '../cms/snackbar.feedback';
+import { profile, UserProfile } from '../user/user.profile';
 
 /**
  * List all licensing steps
@@ -18,6 +19,9 @@ export const ListLicensing = (withStyles(styles)(({
     general,
 }) => {
 
+    // authenticated user
+    const user = UserProfile.get();
+
     return (
         <Fragment>
 
@@ -26,6 +30,7 @@ export const ListLicensing = (withStyles(styles)(({
                 value="New Step"
                 name="create"
                 handleClick={e => handleClick(e)}
+                disabled={!profile.canWrite({ user })}
             />
 
             <div className={classes.margin} />
@@ -51,18 +56,20 @@ export const ListLicensing = (withStyles(styles)(({
                                         // if category has no name, do not render
                                         if (category.name !== undefined) {
                                             return (
-                                                <Fragment key={category.name}>
-                                                    <li key={index}>
-                                                        <a
-                                                            href={`${'/steps/' + category.name}`}
-                                                            onClick={(e) => handleClick(e)}
-                                                            name="edit"
-                                                            id={category._id}
-                                                        >
-                                                            {category.name}
-                                                        </a>
-                                                    </li>
-                                                </Fragment>
+                                                <li key={index}>
+                                                    {
+                                                        !profile.canWrite({ user })
+                                                            ? <a href="#/">{category.name}</a>
+                                                            : <a
+                                                                href={`${'/steps/' + category.name}`}
+                                                                onClick={(e) => handleClick(e)}
+                                                                name="edit"
+                                                                id={category._id}
+                                                            >
+                                                                {category.name}
+                                                            </a>
+                                                    }
+                                                </li>
                                             );
                                         } else {
 

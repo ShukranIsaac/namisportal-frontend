@@ -9,6 +9,9 @@ import { UserProfile } from '../user/user.profile';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
 import { FormTextInputField } from '../forms/form.textinput.field';
+import BootstrapGridColumn from '../forms/form.grid.column';
+import { BootsrapTextField } from '../forms/form.bootstrap.field';
+import { BootsrapTextareaField } from '../forms/form.textarea.field';
 
 /**
  * Create new licensing step
@@ -37,30 +40,36 @@ class CreateLicensingStep extends Component {
 	 * @param {Event} event
 	 */
     handleChange = (event) => {
-        
-        this.setState({[event.target.name]: event.target.value});
-  
+
+        this.setState({ [event.target.name]: event.target.value });
+
     }
 
-    handleSubmit = (values) => {
-        
+    handleSubmit = (event) => {
+        // prevent default behaviour
+        event.preventDefault();
         // get category
         const { maincategory } = this.props;
+        const { name, shortname, summary } = this.state;
         // authenticated user token
         const user = UserProfile.get();
-        if(user !== null && user.token !== undefined) {
+        if (user !== null && user.token !== undefined) {
 
-            if(values !== null && values !== undefined) {
+            if (name && shortname && summary) {
                 // define sub-category structure
                 const sub_category = {
-                    name: values.name,
-                    shortName: values.shortName,
-                    about: values.summary,
+                    name: name,
+                    shortName: shortname,
+                    about: summary
                 }
 
                 if (maincategory !== null && maincategory !== undefined) {
-                    // console.log(sub_category)
-                    this.props.createCategory(maincategory._id, sub_category, user.token);
+                    this.props.createCategory(
+                        maincategory._id, 
+                        sub_category, 
+                        user.token, 
+                        this.props.capitalize(this.props.link)
+                    );
                     // then change state to default
                     // so that the page redirects and list all licensing items
                     this.props.defaultItem();
@@ -74,73 +83,81 @@ class CreateLicensingStep extends Component {
     render() {
 
         // props
-        const { classes, handleClick, handleSubmit, valid, pristine, submitting } = this.props;
+        const { classes, handleClick } = this.props;
+        const { name, shortname, summary } = this.state;
 
         return (
             <Fragment>
-                <form onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
+                <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
 
-                    <ButtonControl 
-                        intent={Intent.NONE} 
+                    <ButtonControl
+                        intent={Intent.NONE}
                         value="List Steps"
                         name="default"
-                        handleClick={e => handleClick(e) }
+                        handleClick={e => handleClick(e)}
                     />
 
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
 
                     <Divider />
 
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
 
-                    <FormTextInputField 
-                        classes={ classes }
-                        name='name'
-                        label="Name"
-                        placeholder="Enter license process step..."
-                        type="text"
+                    <div className='margin-fix form-row'>
+                        <BootstrapGridColumn>
+                            <BootsrapTextField
+                                value={this.state.name}
+                                name="name"
+                                label="Name*"
+                                type="text"
+                                placeholder="Enter license process step..."
+                                handleChange={this.handleChange}
+                            />
+                        </BootstrapGridColumn>
+                        <BootstrapGridColumn>
+                            <BootsrapTextField
+                                name="shortname"
+                                type="text"
+                                placeholder="Enter license process step shortname..."
+                                label="Shortname*"
+                                value={this.state.shortname}
+                                handleChange={this.handleChange}
+                            />
+                        </BootstrapGridColumn>
+                    </div>
+
+                    <div className="form-group">
+                        <BootsrapTextareaField
+                            name="summary"
+                            value={this.state.summary}
+                            placeholder="Enter license process summary..."
+                            label="Summary Text*"
+                            type="text"
+                            rows={10}
+                            handleChange={this.handleChange}
+                        />
+                    </div>
+
+                    <div className={classes.margin} />
+
+                    <Button
+                        type="submit"
+                        disabled={!(name && shortname && summary)}
+                        intent="success"
+                        text="Save"
                     />
 
-                    <FormTextInputField
-                        classes={ classes } 
-                        name="shortName"
-                        label="Shortname"
-                        placeholder="Enter license process step shortname..."
-                        type="text"
+                    <Button
+                        className={classes.margin}
+                        name="default"
+                        intent="primary"
+                        text="Cancel"
+                        onClick={e => handleClick(e)}
                     />
-
-                    <FormTextInputField 
-                        classes={ classes }
-                        name='summary'
-                        label="Summary Text"
-                        placeholder="Enter license process summary..."
-                        type="text"
-                        multiline={ true }
-                        rows="10"
-                    />
-
-                    <div className={ classes.margin } />
-
-                    <Button 
-                        type="submit" 
-                        disabled={!valid || pristine || submitting} 
-                        intent="success" 
-                        text="Save" 
-                    />
-                    
-                    <Button 
-                        className={ classes.margin } 
-                        name="default" 
-                        intent="primary" 
-                        text="Cancel" 
-                        onClick={ e => handleClick(e) } 
-                    /> 
 
                 </form>
             </Fragment>
@@ -154,8 +171,4 @@ CreateLicensingStep.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default reduxForm({
-    form: "createLicenseStep",
-    Validate,
-    AsyncValidate,
-})(withStyles(styles)(CreateLicensingStep));
+export default (withStyles(styles)(CreateLicensingStep));

@@ -113,7 +113,7 @@ export const addCategory = (category_id, sub_category, token,link) => {
         return await post(dispatch, url, sub_category)
 
         .then((response) => {
-            console.log(link)
+            
             if(category_id === null) {
                 dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_ADD_CATEGORY, response, false))
             } else {
@@ -152,12 +152,13 @@ export const editCategory = (category_id, edited_sub_category, token, category, 
         
         .then((response) => {
 
-            if (category.name === 'Licensing') {
-                category.subCategories.splice(category.subCategories.findIndex(o => o._id === response._id), 1, response);
-                dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_EDIT_SUB_CATE, category, false))
-            } else {
-                dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_EDIT_SUB_CATE, response, false))
-            }
+            // if (category.name === 'Licensing') {
+            //     category.subCategories.splice(category.subCategories.findIndex(o => o._id === response._id), 1, response);
+            //     dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_EDIT_SUB_CATE, category, false))
+            // } else {
+            //     dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_EDIT_SUB_CATE, response, false))
+            // }
+            dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_EDIT_SUB_CATE, response, false))
             /**
              * After updating a category
              * make sure to fetch the main category and all its sub categories

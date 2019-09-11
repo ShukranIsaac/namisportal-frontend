@@ -21,7 +21,7 @@ const styles = theme => ({
 
 const RenderBootstrapField = ({
     classes, label, defaultValue, name,
-    type, value, props, meta
+    type, value, props
 }) => {
 
     return (
