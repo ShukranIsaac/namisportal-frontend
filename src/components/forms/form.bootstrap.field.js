@@ -59,7 +59,8 @@ export const BootsrapTextField = ({
     placeholder,
     label,
     handleChange,
-    helper
+    helper,
+    id
 }) => {
 
     return (
@@ -69,7 +70,7 @@ export const BootsrapTextField = ({
                 required 
                 name={name} 
                 type={type} 
-                id={name} 
+                id={id} 
                 value={value}
                 placeholder={placeholder} 
                 className="form-control"

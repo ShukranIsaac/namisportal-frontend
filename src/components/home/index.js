@@ -8,7 +8,7 @@ import * as HomeActions from '../../actions/home.action';
 import { HomeSubCategory } from './home.subcategory';
 import { NoDataCard } from '../card.text';
 import { Intent } from '@blueprintjs/core';
-import { CustomizedSnackbars } from '../cms/snackbar.feedback';
+import CustomizedSnackbars from '../cms/snackbar.feedback';
 
 /**
  * @author Paul Sembereka

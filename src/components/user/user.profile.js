@@ -126,7 +126,7 @@ export const profile = (() => {
         if (user !== null && user.roles !== null && user.roles !== undefined) {
 
             // publisher
-            if (user.roles.writer || user.roles.publisher || user.roles.admin) {
+            if (user.roles.writer || user.roles.publisher) {
                 return true;
             }
 
@@ -144,7 +144,7 @@ export const profile = (() => {
         if (user !== null && user.roles !== null && user.roles !== undefined) {
 
             // publisher
-            if (user.roles.writer || user.roles.publisher || user.roles.admin) {
+            if (user.roles.writer || user.roles.publisher) {
                 return true;
             }
 

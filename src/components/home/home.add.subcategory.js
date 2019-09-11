@@ -2,16 +2,14 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import { reduxForm } from 'redux-form';
-import AsyncValidate from '../contact/form.async-validate';
-import Validate from '../contact/email.validate';
-
 import { Divider } from '@material-ui/core';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 import { UserProfile } from '../user/user.profile';
-import { FormTextInputField } from '../forms/form.textinput.field';
+import BootstrapGridColumn from '../forms/form.grid.column';
+import { BootsrapTextField } from '../forms/form.bootstrap.field';
+import { BootsrapTextareaField } from '../forms/form.textarea.field';
 
 /**
  * Add a new home subcategory
@@ -67,7 +65,7 @@ class CreateHomeSubcategory extends Component {
 
     };
 
-    handleSubmit = (values) => {
+    handleSubmit = (event) => {
         // category under which this subcategory should 
         // be uploaded to
         const { category, props } = this.props;
@@ -75,22 +73,24 @@ class CreateHomeSubcategory extends Component {
         const user = UserProfile.get();
         if (user !== null && user.token !== undefined) {
 
+            const { name, shortname, about } = this.state;
+
             let sub_category;
-            if (values !== null && values !== undefined) {
+            if (name && shortname && about) {
                 // define sub-category structure
                 sub_category = {
-                    name: values.subcategory,
-                    shortName: values.shortName,
-                    about: values.about
+                    name: name,
+                    shortName: shortname,
+                    about: about
                 }
 
                 // home category exists
                 if (category.length !== 0) {
                     // proceeed to adding new subcategories under it
-                    this.props.createCategory(category._id, sub_category, user.token);
+                    this.props.createCategory(category._id, sub_category, user.token,this.props.capitalize(this.props.link));
                 } else {
                     // creating new category
-                    this.props.createCategory(null, sub_category, user.token);
+                    this.props.createCategory(null, sub_category, user.token,this.props.capitalize(this.props.link));
                 }
                 // then change state to default
                 // so that the page redirects and list all home items
@@ -103,15 +103,13 @@ class CreateHomeSubcategory extends Component {
 
     render() {
 
-        const {
-            classes, handleClick, handleSubmit,
-            valid, pristine, submitting, category
-        } = this.props;
-        
+        const { classes, handleClick, category } = this.props;
+        const { name, shortname, about } = this.state;
+
         return (
             <Fragment>
 
-                <form onSubmit={handleSubmit(values => this.handleSubmit(values))} autoComplete="off">
+                <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
 
                     {
                         category.length !== 0 && (
@@ -132,39 +130,56 @@ class CreateHomeSubcategory extends Component {
 
                     <Divider />
 
-                    <FormTextInputField
-                        {...this.props}
-                        name="subcategory"
-                        label="Name"
-                        placeholder="New sub-category name..."
-                        type="text"
-                    />
+                    <div className="margin-fix form-row">
+                        <BootstrapGridColumn>
+                            <BootsrapTextField
+                                value={this.state.name}
+                                name='name'
+                                label='Name*'
+                                type='text'
+                                placeholder='New sub-category name...'
+                                handleChange={this.handleChange}
+                            />
+                        </BootstrapGridColumn>
+                        <BootstrapGridColumn>
+                            <BootsrapTextField
+                                value={this.state.shortname}
+                                name='shortname'
+                                label='Shortname*'
+                                type='text'
+                                placeholder='New sub-category shortname...'
+                                handleChange={this.handleChange}
+                            />
+                        </BootstrapGridColumn>
+                    </div>
 
-                    <FormTextInputField
-                        {...this.props}
-                        name="shortName"
-                        label="Shortname"
-                        placeholder="New sub-category shortname..."
-                        type="text"
-                    />
-
-                    <FormTextInputField
-                        {...this.props}
-                        name="about"
-                        label="Summary"
-                        placeholder="New sub-category about..."
-                        type="text"
-                        multiline={true}
-                        rows="10"
-                    />
+                    <div className="form-group">
+                        <BootsrapTextareaField
+                            name="about"
+                            value={this.state.about}
+                            placeholder="New sub-category summary..."
+                            label="Summary*"
+                            type="text"
+                            rows={10}
+                            handleChange={this.handleChange}
+                        />
+                    </div>
 
                     <div className={classes.margin} />
                     <div className={classes.margin} />
                     <div className={classes.margin} />
 
-                    <Button type="submit" disabled={!valid || pristine || submitting} intent="success" text="Save" />
+                    <Button 
+                        type="submit" 
+                        disabled={!(name && shortname && about)} 
+                        intent="success" text="Save" 
+                    />
 
-                    <Button className={classes.margin} name="default" intent="primary" text="Cancel" onClick={e => handleClick(e)} />
+                    <Button 
+                        className={classes.margin} 
+                        name="default" intent="primary" 
+                        text="Cancel" onClick={e => handleClick(e)} 
+                    />
 
                 </form>
 
@@ -179,8 +194,4 @@ CreateHomeSubcategory.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default reduxForm({
-    form: 'createSubcategory',
-    Validate,
-    AsyncValidate
-})(withStyles(styles)(CreateHomeSubcategory));
+export default (withStyles(styles)(CreateHomeSubcategory));

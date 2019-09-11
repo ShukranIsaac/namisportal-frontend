@@ -5,10 +5,11 @@ import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
 import { Divider, Paper, FormControl } from '@material-ui/core';
 import styles from '../contact/form.styles';
-import { UserProfile } from '../user/user.profile';
+import { UserProfile, profile } from '../user/user.profile';
 import { SelectInputControl } from '../forms/form.selectinput.field';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import { BootsrapTextareaField } from '../forms/form.textarea.field';
+import BootstrapGridColumn from '../forms/form.grid.column';
 
 /**
  * Edit a particular question 
@@ -126,7 +127,7 @@ class EditQuestion extends Component {
             if (!this.state.add_section) {
                 // get edited_question structure
                 edited_question = {
-                    name: _question!==null ? _question : question.name,
+                    name: _question !== null ? _question : question.name,
                     shortName: shortName ? shortName : question.shortName,
                     about: answer ? answer : question.answer
                 }
@@ -171,7 +172,6 @@ class EditQuestion extends Component {
      * Delete question
      */
     archiveCategory = (event) => {
-
         event.preventDefault();
         // question to be deleted
         const { question } = this.props;
@@ -180,7 +180,7 @@ class EditQuestion extends Component {
             // then get authenticated user token
             const user = UserProfile.get();
             if (user !== null && user.token !== undefined) {
-                this.props.archiveCategory(question, user.token,this.props.capitalize(this.props.link));
+                this.props.archiveCategory(question, user.token, this.props.capitalize(this.props.link));
                 // then change state to default
                 // so that the page redirects and list all home items
                 this.props.defaultItem();
@@ -204,6 +204,9 @@ class EditQuestion extends Component {
 
         const emptyQFields = _question || answer || shortName ? false : true;
         const emptySFields = section_name && section_short_name && section_summary ? false : true;
+
+        // auth user
+        const user = UserProfile.get();
 
         return (
             <Fragment>
@@ -299,34 +302,26 @@ class EditQuestion extends Component {
                                         <Fragment>
 
                                             <div className='margin-fix form-row'>
-                                                {/* <!-- Grid column --> */}
-                                                <div className="col">
-                                                    {/* <!-- Material input --> */}
-                                                    <div className="md-form mt-0">
-                                                        <BootsrapTextField
-                                                            name="_question"
-                                                            value={this.state.question ? (this.state._question ? this.state._question : this.state.question.name) : null}
-                                                            label="Question"
-                                                            type="text"
-                                                            placeholder="Edit question name..."
-                                                            handleChange={this.handleTextChange}
-                                                        />
-                                                    </div>
-                                                </div>
-                                                {/* <!-- Grid column --> */}
-                                                <div className="col">
-                                                    {/* <!-- Material input --> */}
-                                                    <div className="md-form mt-0">
-                                                        <BootsrapTextField
-                                                            name="shortName"
-                                                            type="text"
-                                                            placeholder="Edit question shortname..."
-                                                            label="Shortname"
-                                                            value={this.state.question ? (this.state.shortName ? this.state.shortName : this.state.question.shortName) : null}
-                                                            handleChange={this.handleTextChange}
-                                                        />
-                                                    </div>
-                                                </div>
+                                                <BootstrapGridColumn>
+                                                    <BootsrapTextField
+                                                        name="_question"
+                                                        value={this.state.question ? (this.state._question ? this.state._question : this.state.question.name) : null}
+                                                        label="Question"
+                                                        type="text"
+                                                        placeholder="Edit question name..."
+                                                        handleChange={this.handleTextChange}
+                                                    />
+                                                </BootstrapGridColumn>
+                                                <BootstrapGridColumn>
+                                                    <BootsrapTextField
+                                                        name="shortName"
+                                                        type="text"
+                                                        placeholder="Edit question shortname..."
+                                                        label="Shortname"
+                                                        value={this.state.question ? (this.state.shortName ? this.state.shortName : this.state.question.shortName) : null}
+                                                        handleChange={this.handleTextChange}
+                                                    />
+                                                </BootstrapGridColumn>
                                             </div>
 
                                             <div className="form-group">
@@ -366,6 +361,7 @@ class EditQuestion extends Component {
                                             name="archive"
                                             intent="danger" text="Delete"
                                             onClick={e => this.archiveCategory(e)}
+                                            disabled={!profile.canDelete({ user })}
                                         />
                                     )
                                 }
@@ -380,42 +376,36 @@ class EditQuestion extends Component {
                         ) : (
                                 <Fragment>
                                     <div className='margin-fix form-row'>
-                                        {/* <!-- Grid column --> */}
-                                        <div className="col">
-                                            {/* <!-- Material input --> */}
-                                            <div className="md-form mt-0">
-                                                <BootsrapTextField
-                                                    name="section_name"
-                                                    label="Section"
-                                                    type="text"
-                                                    placeholder="Enter section name..."
-                                                    handleChange={this.handleTextChange}
-                                                />
-                                            </div>
-                                        </div>
-                                        {/* <!-- Grid column --> */}
-                                        <div className="col">
-                                            {/* <!-- Material input --> */}
-                                            <div className="md-form mt-0">
-                                                <BootsrapTextField
-                                                    name="section_short_name"
-                                                    type="text"
-                                                    placeholder="Enter section shortname..."
-                                                    label="Shortname"
-                                                    handleChange={this.handleTextChange}
-                                                />
-                                            </div>
-                                        </div>
+                                        <BootstrapGridColumn>
+                                            <BootsrapTextField
+                                                name="section_name"
+                                                label="Section*"
+                                                type="text"
+                                                placeholder="Enter section name..."
+                                                handleChange={this.handleTextChange}
+                                            />
+                                        </BootstrapGridColumn>
+                                        <BootstrapGridColumn>
+                                            <BootsrapTextField
+                                                name="section_short_name"
+                                                type="text"
+                                                placeholder="Enter section shortname..."
+                                                label="Shortname*"
+                                                handleChange={this.handleTextChange}
+                                            />
+                                        </BootstrapGridColumn>
                                     </div>
 
-                                    <BootsrapTextareaField
-                                        name="section_summary"
-                                        placeholder="Enter section summary..."
-                                        label="Summary"
-                                        type="text"
-                                        rows={10}
-                                        handleChange={this.handleTextChange}
-                                    />
+                                    <div className="form-group">
+                                        <BootsrapTextareaField
+                                            name="section_summary"
+                                            placeholder="Enter section summary..."
+                                            label="Summary*"
+                                            type="text"
+                                            rows={10}
+                                            handleChange={this.handleTextChange}
+                                        />
+                                    </div>
 
                                     <div className={classes.margin} />
                                     <div className={classes.margin} />

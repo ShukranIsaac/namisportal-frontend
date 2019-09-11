@@ -4,10 +4,6 @@ import { Intent, Button } from '@blueprintjs/core';
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { reduxForm } from 'redux-form';
-
-import AsyncValidate from '../contact/form.async-validate';
-import Validate from '../contact/email.validate';
 
 import styles from '../contact/form.styles';
 import Paper from '@material-ui/core/Paper';
@@ -16,8 +12,9 @@ import FormControl from '@material-ui/core/FormControl';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { SelectInputControl } from '../forms/form.selectinput.field';
 import { UserProfile, profile } from './user.profile';
-import { FormTextInputField } from '../forms/form.textinput.field';
-import { CustomizedSnackbars } from '../cms/snackbar.feedback';
+import CustomizedSnackbars from '../cms/snackbar.feedback';
+import BootstrapGridColumn from '../forms/form.grid.column';
+import { BootsrapTextField } from '../forms/form.bootstrap.field';
 
 /**
  * Edit user account details
@@ -29,7 +26,9 @@ class EditUserAccount extends Component {
     constructor() {
         super();
         this.state = {
-            user: { roles: null },
+            user: {
+                roles: {}
+            },
             roles: null,
             myRoles: [],
         }
@@ -47,11 +46,17 @@ class EditUserAccount extends Component {
 
     }
 
-    handleSubmit = (id, values) => {
+    handleTextChange = (event) => {
+        this.setState({ [event.target.name]: event.target.value });
+    }
+
+    handleSubmit = (id, event) => {
+        // Prevent default submit action
+        event.preventDefault();
+        const { username, firstname, lastname, myRoles } = this.state;
 
         // check previous values of user and update if roles changed
-        //this.state.user
-        if (values !== null) {
+        if (username || firstname || lastname || myRoles) {
             // if (this.state.user.roles !== undefined) {
 
             // user roles changed reassign new ones
@@ -69,34 +74,16 @@ class EditUserAccount extends Component {
                 Object.assign(this.state.user.roles, { admin: true });
             }
 
-            // Form has been edited, edit user fields
-            // if (values !== null) {
-
-            //     // if key exist then user has been edited
-            //     Object.keys(this.state.user).map(key => {
-
-            //         // check which key exist
-            //         Object.keys(values).map(which => {
-
-            //             if (key === which) {
-            //                 Object.assign(this.state.user, { [which]: values[which] });
-            //             }
-
-            //         });
-
-            //     });
-
-            // }
-
             // get auth user
             let authUser = UserProfile.get();
-            // let roles = this.state.user.roles;
+            let roles = this.state.user.roles;
             // edited user
             // const { user } = this.state;
             const user = {
-                username: values.username,
-                firstName: values.firstName,
-                lastName: values.lastName
+                username: username,
+                firstName: firstname,
+                lastName: lastname,
+                roles: roles
             }
 
             if (authUser !== null) {
@@ -149,9 +136,7 @@ class EditUserAccount extends Component {
         }
         // edit roles, or update roles
         // console.log([role][0][0])
-        if ([role][0][0] === 'writer' || [role][0][0] === 'publisher') {
-            Object.assign(propertiesEdited.roles, { [role]: false, admin: false });
-        } else {
+        if ([role][0][0] === 'writer' || [role][0][0] === 'publisher' || [role][0][0] === 'admin') {
             Object.assign(propertiesEdited.roles, { [role]: false });
         }
 
@@ -182,26 +167,39 @@ class EditUserAccount extends Component {
 
         return (
             <div>
-                <div className='margin-fix'>
-                    <FormTextInputField
-                        value={user !== null ? user.username : ''}
-                        name='username' label='Username' type='text'
-                        placeholder='Your username...' {...this.props}
-                    />
+                <div className='margin-fix form-row'>
+                    <BootstrapGridColumn>
+                        <BootsrapTextField
+                            value={user !== null ? (this.state.firstname ? this.state.firstname : user.firstName) : ''}
+                            name='firstname'
+                            label='Firstname'
+                            type='text'
+                            placeholder='Your firstname...'
+                            handleChange={this.handleTextChange}
+                        />
+                    </BootstrapGridColumn>
+                    <BootstrapGridColumn>
+                        <BootsrapTextField
+                            value={user !== null ? (this.state.lastname ? this.state.lastname : user.lastName) : ''}
+                            name='lastname'
+                            label='Lastname'
+                            type='text'
+                            placeholder='Your lastname...'
+                            handleChange={this.handleTextChange}
+                        />
+                    </BootstrapGridColumn>
                 </div>
-                <div className='margin-fix'>
-                    <FormTextInputField
-                        value={user !== null ? user.firstName : ''}
-                        name='firstName' label='Firstname' type='text'
-                        placeholder='Your firstname...' {...this.props}
-                    />
-                </div>
-                <div className='margin-fix'>
-                    <FormTextInputField
-                        value={user !== null ? user.lastName : ''}
-                        name='lastName' label='Lastname' type='text'
-                        placeholder='Your lastname...' {...this.props}
-                    />
+                <div className='margin-fix form-row'>
+                    <BootstrapGridColumn>
+                        <BootsrapTextField
+                            value={user !== null ? (this.state.username ? this.state.username : user.username) : ''}
+                            name='username'
+                            label='Username'
+                            type='text'
+                            placeholder='Your username...'
+                            handleChange={this.handleTextChange}
+                        />
+                    </BootstrapGridColumn>
                 </div>
             </div>
         );
@@ -210,8 +208,8 @@ class EditUserAccount extends Component {
 
     render() {
 
-        const { /*user,*/ myRoles } = this.state;
-        const { handleClick, classes, handleSubmit, general, dirty } = this.props;
+        const { /*user,*/ myRoles, username, firstname, lastname } = this.state;
+        const { handleClick, classes, general } = this.props;
 
         // logged in user
         const current = UserProfile.get();
@@ -254,10 +252,7 @@ class EditUserAccount extends Component {
                         !general.isLoading ? (
 
                             <form
-                                onSubmit={handleSubmit(values => {
-                                    this.handleSubmit(current.roles.admin ? userAuth._id : current._id, values)
-                                }
-                                )}
+                                onSubmit={(e) => this.handleSubmit(current.roles.admin ? userAuth._id : current._id, e)}
                                 autoComplete="off"
                             >
 
@@ -276,7 +271,7 @@ class EditUserAccount extends Component {
                                                         type="submit"
                                                         color="primary"
                                                         text="Update"
-                                                        disabled={!dirty}
+                                                        disabled={username||firstname||lastname}
                                                     />
 
                                                     {
@@ -540,8 +535,4 @@ EditUserAccount.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default reduxForm({
-    form: "editUser",
-    Validate,
-    AsyncValidate
-})(withStyles(styles)(EditUserAccount));
+export default (withStyles(styles)(EditUserAccount));

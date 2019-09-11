@@ -226,7 +226,6 @@ export const updateUser = (id, user, auth) => {
 
     // url to update user
     const url = `users/${id}?token=${auth.token}`;
-    console.log(user)
 
     return async (dispatch) => {
 
@@ -245,9 +244,9 @@ export const updateUser = (id, user, auth) => {
                  * with new details.
                  * 
                  */
-                if (response.userWithoutHash._id === auth._id) {
+                if (response.user._id === auth._id) {
                     // update local storage
-                    let editedUser = response.userWithoutHash;
+                    let editedUser = response.user;
                     Object.assign(editedUser, { token: auth.token });
                     // console.log(editedUser)
                     // save account

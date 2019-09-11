@@ -84,7 +84,7 @@ class UserRegistration extends Component {
 
             const { register } = this.props;
             // register this user if password confirmed is the same
-            if ((user.password === confirmPassword) && user.password.length > 7) {
+            if ((user.password === confirmPassword) && user.password.length > 6) {
                 // console.log(user)
                 register(user);
             }

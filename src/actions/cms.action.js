@@ -121,7 +121,7 @@ export const addCategory = (category_id, sub_category, token,link) => {
             }
 
             // fetch category: main category
-            if (link !== null) {
+            if (link) {
                 dispatch(fetchCategory(link));
             }
   
@@ -143,7 +143,7 @@ export const addCategory = (category_id, sub_category, token,link) => {
 export const editCategory = (category_id, edited_sub_category, token, category, link) => {
     
     const url = `categories/` + category_id + `?token=` + token;
-
+    console.log(link)
     return async dispatch => {
 
         dispatch(GeneralAction.isLoading(true));
@@ -159,8 +159,8 @@ export const editCategory = (category_id, edited_sub_category, token, category, 
                 dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_EDIT_SUB_CATE, response, false))
             }
             /**
-             * After updating a question
-             * make sure to fetch all questions
+             * After updating a category
+             * make sure to fetch the main category and all its sub categories
              */
             if (link) {
                 dispatch(fetchCategory(link));
