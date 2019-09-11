@@ -119,7 +119,11 @@ class EditDirectoryInstitution extends Component {
                 // ids the same: chosen and what is in state
                 if (this.state.stakeholder_type._id === event.currentTarget.value) {
                     // proceeed to delete the selected stakeholder_type
-                    this.props.archiveCategory(this.state.stakeholder_type, user.token);
+                    this.props.archiveCategory(
+                        this.state.stakeholder_type, 
+                        user.token,
+                        this.props.capitalize(this.props.link)
+                    );
                     // then change state to default
                     // so that the page redirects and list all home items
                     this.props.defaultItem();

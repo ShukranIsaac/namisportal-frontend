@@ -160,9 +160,11 @@ const RenderSection = ({
                         }
                         Create={() => <FinancingRequestSupport
                             handleClick={(e) => handleClick(e)}
-                            subcategory={props.subcategory}
+                            maincategory={props.maincategory}
                             createCategory={props.createCategory}
                             {...props}
+                            link={link}
+                            capitalize={capitalize}
                         />
                         }
                     />

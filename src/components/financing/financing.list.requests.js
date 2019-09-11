@@ -5,6 +5,8 @@ import { Intent, Divider, Button } from '@blueprintjs/core';
 import { withStyles } from '@material-ui/core';
 import styles from '../contact/form.styles';
 import { Row, Col } from 'reactstrap';
+import { UserProfile, profile } from '../user/user.profile';
+import { CustomizedSnackbars } from '../cms/snackbar.feedback';
 
 /**
  * Component to list all requests so far placed by each
@@ -20,14 +22,18 @@ export const ListFinancingRequests = (withStyles(styles)(({
     classes,
 }) => {
 
+    // authenticated account
+    const user = UserProfile.get();
+    
     return (
         <Fragment>
 
-            <ButtonControl 
-                intent={Intent.NONE} 
+            <ButtonControl
+                intent={Intent.NONE}
                 value="New Subcategory"
                 name="create"
-                handleClick={ e => handleClick(e) }
+                handleClick={e => handleClick(e)}
+                disabled={!profile.canWrite({ user })}
             />
 
             <div className={classes.margin} />
@@ -37,82 +43,53 @@ export const ListFinancingRequests = (withStyles(styles)(({
             <div className={classes.margin} />
             <div className={classes.margin} />
 
-            <div className='app-sections' style={{ marginTop: '-53px' }}>
+            <ul>
                 {
                     general && (
                         !general.isLoading ? (
-                            ((maincategory !== null && maincategory !== undefined)) && maincategory !== undefined && (
-                                <Fragment>
-                                    <Row>
-                                        <Col key={ maincategory.about } sm='12' md='8' lg='6'>
-                                            <div className="card">
-                                                <div className="card-body">
-                                                    <h4>
-                                                        <a 
-                                                            name="edit" id={maincategory._id} 
-                                                            key={maincategory._id} href="/cms" 
-                                                            onClick={ (e) => handleClick(e) }
-                                                        >
-                                                            { maincategory.name }
-                                                        </a>
-                                                    </h4>
-                                                    <p>{ maincategory.about !== undefined && maincategory.about.substring(0, 150) }</p>
+                            maincategory !== null ? (
+                                maincategory.subCategories.length !== 0 ? (
+                                    maincategory.subCategories.map((category, index) => {
 
-                                                    <Button 
-                                                        name="edit" id={maincategory._id} 
-                                                        disabled={ false } intent="primary" 
-                                                        text="Edit" onClick={(e) => handleClick(e)} 
-                                                    />
-                                                </div>
-                                            </div>
-                                        </Col>
-                                        {
-                                            maincategory.subCategories !== undefined 
-                                            && (maincategory.subCategories.length !== 0 && maincategory.subCategories.map(({ name, about, _id }, index) => {
-                                                
-                                                if (about === undefined) {
-                                                    return null;
-                                                }
+                                        // if category has no name, do not render
+                                        if (category.name !== undefined) {
+                                            return (
+                                                <li key={index}>
+                                                    {
+                                                        !profile.canWrite({ user })
+                                                            ? <a href="#/">{category.name}</a>
+                                                            : <a
+                                                                href={`${'/steps/' + category.name}`}
+                                                                onClick={(e) => handleClick(e)}
+                                                                name="edit"
+                                                                id={category._id}
+                                                            >
+                                                                {category.name}
+                                                            </a>
+                                                    }
+                                                </li>
+                                            );
+                                        } else {
 
-                                                return(
-                                                    <Col key={ index } sm='12' md='8' lg='6'>
-                                                        <div className="card">
-                                                            <div className="card-body">
-                                                                <h4>
-                                                                    <a 
-                                                                        name="edit" id={_id} 
-                                                                        key={_id} href="/cms" 
-                                                                        onClick={ (e) => handleClick(e) }
-                                                                    >
-                                                                        { name }
-                                                                    </a>
-                                                                </h4>
-                                                                <p 
-                                                                    dangerouslySetInnerHTML={{ 
-                                                                        // if text length more than 150, render a small portion.
-                                                                        __html: about !== undefined ? (about.length >= 140 ? about.substring(0, 150) : about) : ''
-                                                                    }}
-                                                                ></p>
+                                            return <div>No content. Please add!</div>;
 
-                                                                <Button 
-                                                                    name="edit" id={_id} 
-                                                                    disabled={ false } intent="primary" 
-                                                                    text="Edit" onClick={(e) => handleClick(e)} 
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                    </Col>
-                                                );
-
-                                            }))
                                         }
-                                    </Row>
-                                </Fragment>
-                            )
-                        ) : <div style={{ marginTop: `40px` }} className="loader" />
+
+                                    })
+                                ) : <div>No content. Please add!</div>
+                            ) : <div>No content</div>
+                        ) : <div style={{ marginTop: `50px` }} className="loader" />
                     )
                 }
-            </div>
+            </ul>
+
+            {
+                general ? (
+                    general.hasErrored !== undefined ? (
+                        general.hasErrored && <CustomizedSnackbars type="error" />
+                    ) : null
+                ) : null
+            }
 
         </Fragment>
     );

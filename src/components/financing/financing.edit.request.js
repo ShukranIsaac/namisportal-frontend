@@ -10,8 +10,11 @@ import { Divider } from '@material-ui/core';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
-import { UserProfile } from '../user/user.profile';
+import { UserProfile, profile } from '../user/user.profile';
 import { FormTextInputField } from '../forms/form.textinput.field';
+import BootstrapGridColumn from '../forms/form.grid.column';
+import { BootsrapTextField } from '../forms/form.bootstrap.field';
+import { BootsrapTextareaField } from '../forms/form.textarea.field';
 
 /**
  * A multi-step form component for the user to fill when applying or 
@@ -42,35 +45,45 @@ class EditFinancingRequestSupport extends Component {
 	 * @param {Event} event
 	 */
     handleChange = (event) => {
-        
-        this.setState({[event.target.name]: event.target.value});
-  
+
+        this.setState({ [event.target.name]: event.target.value });
+
     }
 
-    handleSubmit = (values) => {
+    handleSubmit = (event) => {
+        // prevent default behaviour
+        event.preventDefault();
         // category under which this subcategory should 
         // be uploaded to
-        const { subcategory } = this.props;
+        const { maincategory } = this.props;
+        const { subcategory, shortname, summary } = this.state;
         // get authenticated user token
         const user = UserProfile.get();
-        if(user !== null && user.token !== undefined) {
+        if (user !== null && user.token !== undefined) {
 
             let sub_category;
-            if(values !== null && values !== undefined) {
+            if (subcategory || shortname || summary) {
                 // define sub-category structure
                 sub_category = {
-                    name: values.subcategory,
-                    about: values.about
+                    name: subcategory,
+                    shortName: shortname,
+                    about: summary
                 }
 
-                this.props.editCategory(subcategory._id, sub_category, user.token);
+                this.props.editCategory(
+                    this.props.subcategory._id, 
+                    sub_category, 
+                    user.token,
+                    maincategory,
+                    this.props.capitalize(this.props.link)
+                );
                 // then change state to default
                 // so that the page redirects and list all home items
                 this.props.defaultItem();
             }
 
-        } 
-        
+        }
+
     }
 
     /**
@@ -81,11 +94,15 @@ class EditFinancingRequestSupport extends Component {
         // props holds state functions like defaultItem(), saveItem() etc 
         const { subcategory } = this.props;
         // if subcategory exists then delete
-        if(subcategory !== null && subcategory._id !== undefined) {
+        if (subcategory !== null && subcategory._id !== undefined) {
             // then get authenticated user token
             const user = UserProfile.get();
             if (user !== null && user.token !== undefined) {
-                this.props.archiveCategory(subcategory, user.token);
+                this.props.archiveCategory(
+                    subcategory, 
+                    user.token, 
+                    this.props.capitalize(this.props.link)
+                );
                 // then change state to default
                 // so that the page redirects and list all home items
                 this.props.defaultItem();
@@ -96,91 +113,113 @@ class EditFinancingRequestSupport extends Component {
 
     render() {
 
-        const { 
-            classes, 
-            handleClick, 
-            handleSubmit, 
-            valid, 
-            pristine, 
-            submitting,
-            subcategory,
-            general,
-            // option
-        } = this.props;
+        const { classes, handleClick, general } = this.props;
+        console.log(this.props.subcategory)
+
+        // state
+        const { subcategory, shortname, summary } = this.state;
+
+        // authenticated user
+        const user = UserProfile.get();
 
         return (
             <Fragment>
-                
-                <form onSubmit={ handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
 
-                    <ButtonControl 
-                        intent={Intent.NONE} 
-                        value="List Category"
+                <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
+
+                    <ButtonControl
+                        intent={Intent.NONE}
+                        value="List Subcategories"
                         name="default"
-                        handleClick={e => handleClick(e) }
+                        handleClick={e => handleClick(e)}
                     />
 
-                    <div className={ classes.margin } />
-                    <div className={ classes.margin } />
-                    <div className={ classes.margin } />
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
 
                     <Divider />
 
                     {
                         general && (
                             !general.isLoading ? (
-                                subcategory !== null ? (
+                                this.props.subcategory !== null ? (
                                     <Fragment>
-                                        <FormTextInputField
-                                            { ...this.props }
-                                            name='subcategory'
-                                            id="subcategory"
-                                            label='Name'
-                                            placeholder="New sub-category name..."
-                                            value={ subcategory.name }
-                                            type="text"
-                                        />
-                                        <br />
+                                        <div className='margin-fix form-row'>
+                                            <BootstrapGridColumn>
+                                                <BootsrapTextField
+                                                    value={
+                                                        this.props.subcategory 
+                                                        ? (subcategory 
+                                                            ? subcategory : this.props.subcategory.name) : ''
+                                                    }
+                                                    name='subcategory'
+                                                    id="subcategory"
+                                                    label='Name'
+                                                    placeholder="Edit sub-category name..."
+                                                    handleChange={this.handleChange}
+                                                />
+                                            </BootstrapGridColumn>
+                                            <BootstrapGridColumn>
+                                                <BootsrapTextField
+                                                    name="shortname"
+                                                    label="Shortname"
+                                                    placeholder="Edit sub-category shortname..."
+                                                    value={
+                                                        this.props.subcategory 
+                                                        ? (shortname 
+                                                            ? shortname : this.props.subcategory.shortName) : ''
+                                                    }
+                                                    type="text"
+                                                    handleChange={this.handleChange}
+                                                />
+                                            </BootstrapGridColumn>
+                                        </div>
 
-                                        <FormTextInputField
-                                            { ...this.props } 
-                                            name="shortName"
-                                            label="Shortname"
-                                            placeholder="New sub-category shortname..."
-                                            value={ subcategory.shortName }
-                                            type="text"
-                                        />
-    
-                                        <FormTextInputField
-                                            { ...this.props }
-                                            name='about'
-                                            id="about"
-                                            label='Summary'
-                                            placeholder="New sub-category about...."
-                                            value={ subcategory.about }
-                                            type="text"
-                                            multiline={true}
-                                            rows="10"
-                                        />
-                                        <br />
+                                        <div className="form-group">
+                                            <BootsrapTextareaField
+                                                name='summary'
+                                                id="summary"
+                                                label='Summary'
+                                                placeholder="Edit sub-category about...."
+                                                value={
+                                                    this.props.subcategory 
+                                                    ? (summary ? summary :  this.props.subcategory.about) : ''
+                                                }
+                                                type="text"
+                                                rows={10}
+                                                handleChange={this.handleChange}
+                                            />
+                                        </div>
                                     </Fragment>
                                 ) : null
                             ) : <div className="loader" />
                         )
                     }
 
-                    <Button type="submit" disabled={!valid  || pristine || submitting} intent="success" text="Save" />
-                    
-                    <Button 
-                        className={ classes.margin }
-                        intent="danger" text="Archive" 
-                        onClick={ (e) => this.archiveCategory(e) } 
+                    <Button
+                        type="submit"
+                        disabled={!(subcategory || shortname || summary)}
+                        intent="success"
+                        text="Save"
                     />
 
-                    <Button name="default" intent="primary" text="Cancel" onClick={ e => handleClick(e) } /> 
-                
+                    <Button
+                        className={classes.margin}
+                        intent="danger" text="Delete"
+                        onClick={(e) => this.archiveCategory(e)}
+                        disabled={!profile.canDelete({ user })}
+                    />
+
+                    <Button
+                        name="default"
+                        intent="primary"
+                        text="Cancel"
+                        onClick={e => handleClick(e)}
+                    />
+
                 </form>
-    
+
             </Fragment>
         );
 
