@@ -226,7 +226,7 @@ class Licensing extends Component {
       textAlign: 'center',
     }
 
-    const category = this.props.subcategory;
+    const category = this.props.maincategory;
     const { general } = this.props;
 
     return (
@@ -236,7 +236,7 @@ class Licensing extends Component {
           <Card>
             <p><strong>Licensing</strong></p>
             <p>
-              The process for requesting Minigrid Related Licensing-Generation and Distribution license the following 
+              The process for requesting Minigrid Related Licensing,Generation and Distribution, entails the following 
               steps. Further details are available by clicking on each step.
             </p>
           </Card>

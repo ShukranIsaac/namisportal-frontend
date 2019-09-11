@@ -75,7 +75,7 @@ const mapStateToProps = (state) => {
 
   return {
     general: state.general.general,
-    subcategory: state.cms.subcategory,
+    maincategory: state.cms.maincategory,
   };
 
 }

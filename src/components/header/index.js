@@ -36,6 +36,11 @@ export default class AppHeader extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
+                <Link to='/'>
+                  Home
+                    </Link>
+              </NavItem>
+              <NavItem>
                 <Link to='/licensing'>
                   Licensing
                     </Link>
@@ -80,8 +85,8 @@ export default class AppHeader extends React.Component {
                   <IconButton
                     aria-label="CMS"
                     buttonRef={node => {
-                        this.anchorEl = node
-                      }
+                      this.anchorEl = node
+                    }
                     }
                     aria-haspopup="true"
                     onClick={(event) => redirect.toExternalLink({ url: `/cms`, event })}
