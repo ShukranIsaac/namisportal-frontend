@@ -5,6 +5,7 @@ import { Intent } from '@blueprintjs/core';
 import { Row, } from 'reactstrap';
 import { Divider, withStyles } from '@material-ui/core';
 import styles from '../contact/form.styles';
+import { UserProfile, profile } from '../user/user.profile';
 
 /**
  * Lists all institutions in the directory
@@ -29,6 +30,9 @@ export const ListDirectoryInstitution = (withStyles(styles)(({
         return <div>No stakeholders</div>
     }
 
+    // authenticated user
+    const user = UserProfile.get();
+
     return (
         <Fragment>
 
@@ -37,9 +41,9 @@ export const ListDirectoryInstitution = (withStyles(styles)(({
                 value="New Stakeholder"
                 name="create"
                 handleClick={e => handleClick(e)}
+                disabled={!profile.canWrite({ user })}
             />
 
-            <div className={classes.margin} />
             <div className={classes.margin} />
             <div className={classes.margin} />
             <div className={classes.margin} />
@@ -58,14 +62,18 @@ export const ListDirectoryInstitution = (withStyles(styles)(({
                                             return (
                                                 <Fragment key={index}>
                                                     <li id={stakeholder._id} key={stakeholder._id}>
-                                                        <a
-                                                            href={`${'directory/' + stakeholder.name}`}
-                                                            onClick={(e) => { handleClick(e) }}
-                                                            name="edit"
-                                                            id={stakeholder._id}
-                                                        >
-                                                            {stakeholder.name}
-                                                        </a>
+                                                        {
+                                                            !profile.canEdit({ user })
+                                                                ? <a href="#/">{stakeholder.name}</a>
+                                                                : <a
+                                                                    href={`${'directory/' + stakeholder.name}`}
+                                                                    onClick={(e) => { handleClick(e) }}
+                                                                    name="edit"
+                                                                    id={stakeholder._id}
+                                                                >
+                                                                    {stakeholder.name}
+                                                                </a>
+                                                        }
                                                     </li>
                                                 </Fragment>
                                             );
@@ -75,9 +83,9 @@ export const ListDirectoryInstitution = (withStyles(styles)(({
                                 </Fragment>
                             )
                         ) : (<Row>
-                                <div style={{ marginTop: `40px` }} className="loader" />
-                            </Row>
-                        )
+                            <div style={{ marginTop: `40px` }} className="loader" />
+                        </Row>
+                            )
                     )
 
                 }

@@ -1,14 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import { reduxForm } from 'redux-form';
-import AsyncValidate from '../contact/form.async-validate';
-import Validate from '../contact/email.validate';
 import PropTypes from 'prop-types';
 import { withStyles, Divider } from '@material-ui/core';
 import styles from '../contact/form.styles';
 import { UserProfile } from '../user/user.profile';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
-import { FormTextInputField } from '../forms/form.textinput.field';
 import BootstrapGridColumn from '../forms/form.grid.column';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import { BootsrapTextareaField } from '../forms/form.textarea.field';

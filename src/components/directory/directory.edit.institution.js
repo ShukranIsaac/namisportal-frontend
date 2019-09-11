@@ -10,10 +10,12 @@ import { Divider, Paper, FormControl } from '@material-ui/core';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
-import { UserProfile } from '../user/user.profile';
-import { FormTextInputField } from '../forms/form.textinput.field';
+import { UserProfile, profile } from '../user/user.profile';
 import { MuiFormFileinputField } from '../forms/form.fileinput.field';
 import { SelectInputControl } from '../forms/form.selectinput.field';
+import BootstrapGridColumn from '../forms/form.grid.column';
+import { BootsrapTextField } from '../forms/form.bootstrap.field';
+import { BootsrapTextareaField } from '../forms/form.textarea.field';
 
 /**
  * @author Isaac S. Mwakabira
@@ -34,6 +36,17 @@ class EditDirectoryInstitution extends Component {
          */
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
+    }
+
+    /**
+	 * On change, update the app's React state with event type value.
+	 *
+	 * @param {Event} event
+	 */
+    handleTextChange = (event) => {
+
+        this.setState({ [event.target.name]: event.target.value });
 
     }
 
@@ -115,64 +128,77 @@ class EditDirectoryInstitution extends Component {
         }
     }
 
-    handleSubmit = (values) => {
+    handleSubmit = (event) => {
+        // prevent default behaviour
+        event.preventDefault();
         // category under which this stakeholder should 
         // be uploaded to
-        const { stakeholder_type } = this.state;
+        const {
+            add_stakeholder_type,
+            stakeholder_type_name, stakeholder_type_shortname, stakeholder_type_summary,
+            telephone, stakeholder_name,
+            website, email, physical_address,
+            mission, vision, summary,
+        } = this.state;
+
+        const empty = (telephone || stakeholder_name || website || email || physical_address || mission || vision || summary);
+
         // get authenticated user token
         const user = UserProfile.get();
         if (user !== null && user.token !== undefined) {
-
-            if (values !== null && values !== undefined) {
-
-                if (values.stakeholder_name !== undefined || values.stakeholder_name !== undefined 
-                    || values.stakeholder_name !== undefined || values.physical_address !== undefined) {
-                    // define sub-category structure
-                    const stakeholder = {
-                        name: values.stakeholder_name,
-                        about: values.physical_address,
-                        mission: values.physical_address,
-                        vision: values.stakeholder_name,
-                        contacts: {
-                            email: values.email,
-                            telephone: values.telephone,
-                            website: values.website,
-                            address: values.physical_address
-                        },
-                        image: values.website
-                    }
-
-                    // console.log(stakeholder);
-                    /**
-                     * create new stakeholder under category selected
-                     */
-                    if (stakeholder_type !== undefined && stakeholder_type !== null) {
-                        this.props.editStakeholder(this.props.stakeholder._id, stakeholder, user.token);
-                        // then change state to default
-                        // so that the page redirects and list all home items
-                        this.props.defaultItem();
-                    }
-                } else {
-                    // we are adding a stakeholder category: sub-category essentially
-                    // define object structure
-                    const stakeholderType = {
-                        name: values.stakeholder_type_name,
-                        shortName: values.stakeholder_type_shortname,
-                        about: values.stakeholder_type_summary,
-                    }
-
-                    // category to add stakeholders to: Directory
-                    const { subcategory } = this.props;
-                    // then check if null and undefined, then proceed otherwise
-                    if (subcategory !== null && subcategory !== undefined) {
-                        // create new stakeholderType category
-                        this.props.createCategory(subcategory._id, stakeholderType, user.token);
-                        // then change state.add_stakeholder_type to false
-                        // so that the page shows form fileds to add stakeholder types
-                        this.setState({ add_stakeholder_type: false });
+            /**
+             * If we are adding a new stakeholder type
+             * proceed to edit this stakeholder's details
+             */
+            if (!add_stakeholder_type) {
+                // define sub-category structure
+                const stakeholder = {
+                    name: stakeholder_name,
+                    about: physical_address,
+                    mission: mission,
+                    vision: vision,
+                    summary: summary,
+                    contacts: {
+                        email: email,
+                        telephone: telephone,
+                        website: website,
+                        address: physical_address
                     }
                 }
 
+                /**
+                 * create new stakeholder under category selected
+                 */
+                if (empty) {
+                    this.props.editStakeholder(this.props.stakeholder._id, stakeholder, user.token);
+                    // then change state to default
+                    // so that the page redirects and list all home items
+                    this.props.defaultItem();
+                }
+            } else {
+                // we are adding a stakeholder category: sub-category essentially
+                // define object structure
+                const stakeholderType = {
+                    name: stakeholder_type_name,
+                    shortName: stakeholder_type_shortname,
+                    about: stakeholder_type_summary,
+                }
+
+                // category to add stakeholders to: Directory
+                const { maincategory } = this.props;
+                // then check if null and undefined, then proceed otherwise
+                if (maincategory !== null && maincategory !== undefined) {
+                    // create new stakeholderType category
+                    this.props.createCategory(
+                        maincategory._id, 
+                        stakeholderType, 
+                        user.token, 
+                        this.props.capitalize(this.props.link)
+                    );
+                    // then change state.add_stakeholder_type to false
+                    // so that the page shows form fileds to add stakeholder types
+                    this.setState({ add_stakeholder_type: false });
+                }
             }
 
         }
@@ -204,15 +230,193 @@ class EditDirectoryInstitution extends Component {
         }
     }
 
+    editStakeholder = () => {
+
+        // state 
+        const {
+            stakeholder, telephone, stakeholder_name,
+            website, image, email, physical_address,
+            mission, vision, summary,
+        } = this.state;
+
+        return (
+            <>
+                <div className='margin-fix form-row'>
+                    <BootstrapGridColumn>
+                        <BootsrapTextField
+                            name='stakeholder_name'
+                            value={
+                                stakeholder
+                                    ? (stakeholder_name ? stakeholder_name : stakeholder.name) : ''
+                            }
+                            label="Stakeholder's Name (Legal)"
+                            placeholder="Edit stakeholder name..."
+                            type="text"
+                            handleChange={this.handleTextChange}
+                        />
+                    </BootstrapGridColumn>
+                    <BootstrapGridColumn>
+                        <BootsrapTextField
+                            name='website'
+                            value={
+                                stakeholder ? (website ? website : stakeholder.contacts.website) : ''
+                            }
+                            label="Website"
+                            placeholder="Stakeholder's website..."
+                            type="text"
+                            handleChange={this.handleTextChange}
+                        />
+                    </BootstrapGridColumn>
+                </div>
+                <div className='margin-fix form-row'>
+                    <BootstrapGridColumn>
+                        <BootsrapTextField
+                            name='email'
+                            value={stakeholder ? (email ? email : stakeholder.contacts.email) : ''}
+                            label="Email"
+                            placeholder="Stakeholder's email address..."
+                            type="text"
+                            handleChange={this.handleTextChange}
+                        />
+                    </BootstrapGridColumn>
+                    <BootstrapGridColumn>
+                        <BootsrapTextField
+                            name='telephone'
+                            value={
+                                stakeholder ? (telephone ? telephone : stakeholder.contacts.telephone) : ''
+                            }
+                            label="Telephone"
+                            placeholder="Stakeholder's telephone number..."
+                            type="text"
+                            handleChange={this.handleTextChange}
+                        />
+                    </BootstrapGridColumn>
+                    <BootstrapGridColumn>
+                        <BootsrapTextField
+                            name='image'
+                            value={stakeholder ? (image ? image : stakeholder.image) : ''}
+                            label="Image Url"
+                            placeholder="Edit stakeholder's image..."
+                            type="text"
+                            handleChange={this.handleTextChange}
+                            disabled={true}
+                        />
+                    </BootstrapGridColumn>
+                </div>
+                <div className="form-group">
+                    <BootsrapTextareaField
+                        name="physical_address"
+                        value={stakeholder ? (physical_address ? physical_address : stakeholder.address) : ''}
+                        placeholder="Stakeholder's physical address..."
+                        label="Physical Address"
+                        type="text"
+                        rows={1}
+                        handleChange={this.handleTextChange}
+                    />
+                </div>
+                <div className='margin-fix form-row'>
+                    <BootstrapGridColumn>
+                        <div className="form-group">
+                            <BootsrapTextareaField
+                                name='mission'
+                                value={stakeholder ? (mission ? mission : stakeholder.mission) : ''}
+                                label="Mission Statement"
+                                placeholder="Edit stakeholder's mission..."
+                                type="text"
+                                rows={6}
+                                handleChange={this.handleTextChange}
+                            />
+                        </div>
+                    </BootstrapGridColumn>
+                    <BootstrapGridColumn>
+                        <div className="form-group">
+                            <BootsrapTextareaField
+                                name='vision'
+                                value={stakeholder ? (vision ? vision : stakeholder.vision) : ''}
+                                label="Vision"
+                                placeholder="Edit stakeholders vision..."
+                                type="text"
+                                rows={6}
+                                handleChange={this.handleTextChange}
+                            />
+                        </div>
+                    </BootstrapGridColumn>
+                </div>
+                <div className="form-group">
+                    <BootsrapTextareaField
+                        name="summary"
+                        value={stakeholder ? (summary ? summary : stakeholder.mission) : ''}
+                        placeholder="Stakeholder's physical address..."
+                        label={`${stakeholder.name + ' - Summary Background'}`}
+                        type="text"
+                        rows={8}
+                        handleChange={this.handleTextChange}
+                    />
+                </div>
+            </>
+        );
+
+    }
+
+    addStakeholderType = () => {
+
+        return (
+            <>
+                <div className='margin-fix form-row'>
+                    <BootstrapGridColumn>
+                        <BootsrapTextField
+                            value={this.state.stakeholder_type_name}
+                            name='stakeholder_type_name'
+                            label="Type*"
+                            placeholder="Enter stakeholder type name..."
+                            handleChange={this.handleTextChange}
+                        />
+                    </BootstrapGridColumn>
+                    <BootstrapGridColumn>
+                        <BootsrapTextField
+                            name="stakeholder_type_shortname"
+                            type="text"
+                            placeholder="Enter stakeholder type shortname..."
+                            label="Shortname*"
+                            value={this.state.stakeholder_type_shortname}
+                            handleChange={this.handleTextChange}
+                        />
+                    </BootstrapGridColumn>
+                </div>
+
+                <div className="form-group">
+                    <BootsrapTextareaField
+                        name="stakeholder_type_summary"
+                        value={this.state.stakeholder_type_summary}
+                        placeholder="Enter stakeholder type summary..."
+                        label="Summary Text*"
+                        type="text"
+                        rows={10}
+                        handleChange={this.handleTextChange}
+                    />
+                </div>
+            </>
+        );
+
+    }
+
     render() {
 
+        const { classes, valid, pristine, submitting, handleClick, handleSubmit, general } = this.props;
+
+        // state
         const {
-            classes, handleClick, handleSubmit,
-            valid, pristine, submitting, general
-        } = this.props;
+            stakeholder_type_name, stakeholder_type_shortname, stakeholder_type_summary,
+            telephone, stakeholder_name,
+            website, email, physical_address,
+            mission, vision, summary,
+        } = this.state;
 
         // List of Stakeholder types/categories
-        const stakeholderTypes = this.props.subcategory;
+        const stakeholderTypes = this.props.maincategory;
+
+        // authenticated user
+        const user = UserProfile.get();
 
         /**
          * If the stakeholder is not defined and has no data just return loader.
@@ -247,7 +451,7 @@ class EditDirectoryInstitution extends Component {
 
                     <div id="stakeholder" class="tab-pane active"><br />
 
-                        <form onSubmit={handleSubmit(values => this.handleSubmit(values))} autoComplete="off">
+                        <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
 
                             {/* <div className={classes.margin} /> */}
 
@@ -312,112 +516,31 @@ class EditDirectoryInstitution extends Component {
                                                 <>
                                                     <Divider />
 
-                                                    <FormTextInputField
-                                                        classes={classes}
-                                                        name='stakeholder_name'
-                                                        value={this.state.stakeholder.name}
-                                                        label="Stakeholder's Name (Legal)"
-                                                        placeholder="Edit stakeholder name..."
-                                                        type="text"
-                                                    />
-
-                                                    <FormTextInputField
-                                                        classes={classes}
-                                                        name='physical_address'
-                                                        value={this.state.stakeholder.address}
-                                                        label="Physical Address"
-                                                        placeholder="Stakeholder's physical address..."
-                                                        type="text"
-                                                        multiline={true}
-                                                        rows="3"
-                                                    />
-
-                                                    <FormTextInputField
-                                                        classes={classes}
-                                                        name='telephone'
-                                                        value={this.state.stakeholder.contacts.telephone}
-                                                        label="Telephone"
-                                                        placeholder="Stakeholder's telephone number..."
-                                                        type="text"
-                                                    />
-
-                                                    <FormTextInputField
-                                                        classes={classes}
-                                                        name='website'
-                                                        value={this.state.stakeholder.contacts.website}
-                                                        label="Website"
-                                                        placeholder="Stakeholder's website..."
-                                                        type="text"
-                                                    />
-
-                                                    <FormTextInputField
-                                                        classes={classes}
-                                                        name='summary'
-                                                        value={this.state.stakeholder.about}
-                                                        label={`${this.state.stakeholder.name + ' - Summary Background'}`}
-                                                        placeholder="Edit stakeholders summary..."
-                                                        type="text"
-                                                        multiline={true}
-                                                        rows="5"
-                                                    />
-
-                                                    <FormTextInputField
-                                                        classes={classes}
-                                                        name='email'
-                                                        value={this.state.stakeholder.contacts.email}
-                                                        label="Email"
-                                                        placeholder="Stakeholder's email address..."
-                                                        type="text"
-                                                    />
-
-                                                    <FormTextInputField
-                                                        classes={classes}
-                                                        name='vision'
-                                                        value={this.state.stakeholder.vision}
-                                                        label="Vision"
-                                                        placeholder="Edit stakeholders vision..."
-                                                        type="text"
-                                                        multiline={true}
-                                                        rows="10"
-                                                    />
-
-                                                    <FormTextInputField
-                                                        classes={classes}
-                                                        name='mission'
-                                                        value={this.state.stakeholder.mission}
-                                                        label="Mission Statement"
-                                                        placeholder="Edit stakeholder's mission..."
-                                                        type="text"
-                                                        multiline={true}
-                                                        rows="10"
-                                                    />
-
-                                                    <FormTextInputField
-                                                        classes={classes}
-                                                        name='image'
-                                                        value={this.state.stakeholder.image}
-                                                        label="Image Url"
-                                                        placeholder="Edit stakeholder's image..."
-                                                        type="text"
-                                                    />
+                                                    {
+                                                        this.editStakeholder()
+                                                    }
 
                                                     {
-                                                        general !== undefined && general.isLoading 
-                                                        ? (<div className="loader" />) : null
+                                                        general !== undefined && general.isLoading
+                                                            ? (<div className="loader" />) : null
                                                     }
                                                 </>
                                             )
                                         }
 
                                         <Button
-                                            type="submit" disabled={!valid || pristine || submitting}
-                                            intent="primary" text="Save"
+                                            type="submit"
+                                            disabled={!(telephone || stakeholder_name || website || email || physical_address || mission || vision || summary)}
+                                            intent="primary"
+                                            text="Save"
                                         />
 
                                         <Button
-                                            className={classes.margin} name="default"
-                                            intent="danger" text="Archive"
+                                            className={classes.margin}
+                                            name="default"
+                                            intent="danger" text="Delete"
                                             onClick={e => this.handleClick}
+                                            disabled={!profile.canDelete({ user })}
                                         />
 
                                         <Button
@@ -427,39 +550,19 @@ class EditDirectoryInstitution extends Component {
                                     </>
                                 ) : (
                                         <>
-                                            <FormTextInputField
-                                                classes={classes}
-                                                name='stakeholder_type_name'
-                                                label="Name"
-                                                placeholder="Enter stakeholder type name..."
-                                                type="text"
-                                            />
-
-                                            <FormTextInputField
-                                                classes={classes}
-                                                name="stakeholder_type_shortname"
-                                                label="Shortname"
-                                                placeholder="Enter stakeholder type shortname..."
-                                                type="text"
-                                            />
-
-                                            <FormTextInputField
-                                                classes={classes}
-                                                name='stakeholder_type_summary'
-                                                label="Summary"
-                                                placeholder="Enter stakeholder type summary..."
-                                                type="text"
-                                                multiline={true}
-                                                rows="3"
-                                            />
+                                            {
+                                                this.addStakeholderType()
+                                            }
 
                                             <div className={classes.margin} />
                                             <div className={classes.margin} />
                                             <div className={classes.margin} />
 
                                             <Button
-                                                type="submit" disabled={!valid || pristine || submitting}
-                                                intent="success" text="Save"
+                                                type="submit"
+                                                disabled={!(stakeholder_type_name && stakeholder_type_shortname && stakeholder_type_summary)}
+                                                intent="success"
+                                                text="Save"
                                             />
 
                                             <Button
@@ -498,8 +601,10 @@ class EditDirectoryInstitution extends Component {
                             <div className={classes.margin} />
 
                             <Button
-                                type="submit" disabled={!valid || pristine || submitting}
-                                intent="primary" text="Upload"
+                                type="submit"
+                                disabled={!valid || pristine || submitting}
+                                intent="primary"
+                                text="Upload"
                             />
 
                             <Button

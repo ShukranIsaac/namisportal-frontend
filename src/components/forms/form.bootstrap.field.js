@@ -60,26 +60,28 @@ export const BootsrapTextField = ({
     label,
     handleChange,
     helper,
-    id
+    id,
+    disabled
 }) => {
 
     return (
         <>
             <label htmlFor={name}>{label}</label>
-            <input 
-                required 
-                name={name} 
-                type={type} 
-                id={id} 
+            <input
+                disabled={disabled}
+                required
+                name={name}
+                type={type}
+                id={id}
                 value={value}
-                placeholder={placeholder} 
+                placeholder={placeholder}
                 className="form-control"
-                onChange={ (e) => handleChange(e) } 
-                aria-describedby= { 
-                    helper ? `${ name }Helper` : `${ name }` 
+                onChange={(e) => handleChange(e)}
+                aria-describedby={
+                    helper ? `${name}Helper` : `${name}`
                 }
             />
-            { helper && <small id="usernameHelper" className="form-text text-muted danger">Fill out required field!</small> }
+            {helper && <small id="usernameHelper" className="form-text text-muted danger">Fill out required field!</small>}
         </>
     );
 

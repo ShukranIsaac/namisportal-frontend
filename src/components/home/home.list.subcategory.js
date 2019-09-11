@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Divider, withStyles } from '@material-ui/core';
 import styles from '../contact/form.styles';
@@ -23,21 +23,16 @@ export const ListHomeSubcategory = ({
     const user = UserProfile.get();
 
     return (
-        <>
+        <Fragment>
 
-            {
-                category.length !== 0 && (
-                    <ButtonControl
-                        intent={Intent.NONE}
-                        value="New SubCategory"
-                        name="create"
-                        handleClick={e => handleClick(e)}
-                        disabled={!profile.canWrite({ user })}
-                    />
-                )
-            }
+            <ButtonControl
+                intent={Intent.NONE}
+                value="New SubCategory"
+                name="create"
+                handleClick={e => handleClick(e)}
+                disabled={!profile.canWrite({ user })}
+            />
 
-            <div className={classes.margin} />
             <div className={classes.margin} />
             <div className={classes.margin} />
             <div className={classes.margin} />
@@ -83,7 +78,7 @@ export const ListHomeSubcategory = ({
                     )
                 ) : null
             }
-        </>
+        </Fragment>
     );
 
 }
