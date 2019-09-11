@@ -16,73 +16,73 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
  * 
  * @returns {Fragment} button
  */
-export const MuiFormFileinputField = ({ 
-    disabled = false, 
-    type = 'file', 
-    id,
+export const MuiFormFileinputField = ({
+    disabled,
+    type = 'file',
     name,
-    placeholder, 
-    handleFileChange,
-    classes
+    placeholder,
+    handleFileChange
 }) => {
 
     return (
-        <Fragment>
+        <>
             <CloudUploadIcon />
-            <Field 
-                name={ name } 
-                placeholder={ placeholder } 
-                type={ type } 
-                component={ FileUpload } 
+            <label htmlFor="pdf_document">{placeholder}</label>
+            <input
+                disabled={disabled}
+                type={type}
+                name={name}
+                className="form-control-file"
+                onChange={(e) => handleFileChange(e)}
             />
-        </Fragment>
+        </>
     );
 
 }
 
 export const FileUpload = ({ input, resetKey }) => {
 
-	const { value, ...inputProps } = input
+    const { value, ...inputProps } = input
 
-	const handleChange = (e) => {
-		input.onChange(e.target.files[0])
-	}
+    const handleChange = (e) => {
+        input.onChange(e.target.files[0])
+    }
 
-	return <input name="supporting_document" {...inputProps} key={resetKey} type="file" onChange={handleChange} />
+    return <input name="supporting_document" {...inputProps} key={resetKey} type="file" onChange={handleChange} />
 
 }
 
 export const ImageUpload = ({ input, resetKey }) => {
 
-	const { value, ...inputProps } = input
+    const { value, ...inputProps } = input
 
-	const handleChange = (e) => {
-		input.onChange(e.target.files[0])
-	}
+    const handleChange = (e) => {
+        input.onChange(e.target.files[0])
+    }
 
-	return <input name="image" {...inputProps} key={resetKey} alt="image" type="image" onChange={handleChange} />
+    return <input name="image" {...inputProps} key={resetKey} alt="image" type="image" onChange={handleChange} />
 
 }
 
-const FormFileinputField = ({ 
-    disabled = false, 
-    type = 'file', 
+const FormFileinputField = ({
+    disabled = false,
+    type = 'file',
     id,
     name,
-    placeholder, 
-    handleInputChange 
+    placeholder,
+    handleInputChange
 }) => {
 
     return (
         <Fragment>
 
-            <FileInput 
+            <FileInput
                 id={id}
                 name={name}
-                disabled={disabled} 
-                text={placeholder} 
+                disabled={disabled}
+                text={placeholder}
                 type={type}
-                onInputChange={ (e) => handleInputChange(e) }
+                onInputChange={(e) => handleInputChange(e)}
                 className="bp3-small"
             />
 

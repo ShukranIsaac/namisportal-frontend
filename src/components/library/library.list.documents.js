@@ -7,6 +7,7 @@ import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent } from '@blueprintjs/core';
 import { Divider, withStyles } from '@material-ui/core';
 import styles from '../contact/form.styles';
+import { UserProfile, profile } from '../user/user.profile';
 
 /**
  * List all documents by category groups
@@ -17,32 +18,34 @@ import styles from '../contact/form.styles';
  * @param {Function} handleChange
  * @returns {Fragment} fragment
  */
-export const ListLibraryDocuments = (withStyles(styles)(({ 
-    library, docs, general,  
-    handleClick, classes,
-    handleChange 
+export const ListLibraryDocuments = (withStyles(styles)(({
+    library, docs, general,
+    handleClick, classes
 }) => {
+
+    // authenticated user
+    const user = UserProfile.get();
 
     return (
         <Fragment>
 
-            <ButtonControl 
-                intent={Intent.NONE} 
+            <ButtonControl
+                intent={Intent.NONE}
                 value="New Document"
                 name="create"
-                handleClick={e => handleClick(e) }
+                handleClick={e => handleClick(e)}
+                disabled={!profile.canWrite({ user })}
             />
 
-            <div className={ classes.margin }/>
-            <div className={ classes.margin }/>
-            <div className={ classes.margin }/>
-            <div className={ classes.margin }/>
+            <div className={classes.margin} />
+            <div className={classes.margin} />
+            <div className={classes.margin} />
 
             <Divider />
 
-            <div className={ classes.margin }/>
-            <div className={ classes.margin }/>
-            <div className={ classes.margin }/>
+            <div className={classes.margin} />
+            <div className={classes.margin} />
+            <div className={classes.margin} />
 
             {/* <SearchInputControl 
                 id="search_id"
@@ -58,40 +61,44 @@ export const ListLibraryDocuments = (withStyles(styles)(({
                             (docs.documents !== null && docs.documents !== undefined) && (
                                 docs.documents.length !== 0 ? (
                                     <Fragment>
-                                        
+
                                         <ul>
                                             {
                                                 docs.documents.map((document, index) => {
-                                                    
+
                                                     return (
                                                         <Fragment key={document.name}>
                                                             <li id={index} key={document.name}>
-                                                                <a 
-                                                                    href={ `${ '/library/' + document.name }` } 
-                                                                    onClick={ (e) => handleClick(e) }
-                                                                    name="edit"
-                                                                    id={document.name}
-                                                                >
-                                                                    { document.name }
-                                                                </a>
+                                                                {
+                                                                    !profile.canWrite({ user })
+                                                                        ? <a href="#/">{document.name}</a>
+                                                                        : <a
+                                                                            href={`${'/library/' + document.name}`}
+                                                                            onClick={(e) => handleClick(e)}
+                                                                            name="edit"
+                                                                            id={document.name}
+                                                                        >
+                                                                            {document.name}
+                                                                        </a>
+                                                                }
                                                             </li>
                                                         </Fragment>
                                                     );
-                            
+
                                                 })
                                             }
                                         </ul>
-                            
+
                                     </Fragment>
                                 ) : <div>No library documents</div>
                             )
                         )
                     ) : (
-                        <div style={{ marginTop: `50px` }} className="loader" />
-                    )
+                            <div style={{ marginTop: `50px` }} className="loader" />
+                        )
                 )
             }
         </Fragment>
-        );
-    })
+    );
+})
 );
