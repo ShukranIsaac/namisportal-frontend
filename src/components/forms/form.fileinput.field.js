@@ -17,7 +17,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
  */
 export const MuiFormFileinputField = ({
     disabled,
-    type = 'file',
+    type = "file",
     name,
     placeholder,
     handleFileChange

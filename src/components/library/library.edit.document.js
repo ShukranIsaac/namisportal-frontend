@@ -154,6 +154,7 @@ class EditLibraryItem extends Component {
                                                 id="pdf_document"
                                                 placeholder="Upload PDF Document*"
                                                 classes={classes}
+                                                type="file"
                                                 name='supporting_document'
                                                 handleFileChange={this.handleChange}
                                             />

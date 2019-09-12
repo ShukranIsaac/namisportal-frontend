@@ -120,7 +120,7 @@ class EditDirectoryInstitution extends Component {
                 if (this.state.stakeholder_type._id === event.currentTarget.value) {
                     // proceeed to delete the selected stakeholder_type
                     this.props.archiveCategory(
-                        this.state.stakeholder_type, 
+                        this.state.stakeholder_type,
                         user.token,
                         this.props.capitalize(this.props.link)
                     );
@@ -194,9 +194,9 @@ class EditDirectoryInstitution extends Component {
                 if (maincategory !== null && maincategory !== undefined) {
                     // create new stakeholderType category
                     this.props.createCategory(
-                        maincategory._id, 
-                        stakeholderType, 
-                        user.token, 
+                        maincategory._id,
+                        stakeholderType,
+                        user.token,
                         this.props.capitalize(this.props.link)
                     );
                     // then change state.add_stakeholder_type to false
@@ -592,13 +592,17 @@ class EditDirectoryInstitution extends Component {
 
                         <form onSubmit={handleSubmit(values => this.uploadLogo(values))}>
 
-                            <MuiFormFileinputField
-                                placeholder="Upload Image"
-                                classes={classes}
-                                name='image'
-                                handleFileChange={this.handleChange}
-                                type='image'
-                            />
+                            <div className="margin-fix form-row" style={{ width: `30%` }}>
+                                <BootstrapGridColumn>
+                                    <MuiFormFileinputField
+                                        placeholder="Upload Image*"
+                                        classes={classes}
+                                        type="image"
+                                        name='image'
+                                        handleFileChange={this.handleChange}
+                                    />
+                                </BootstrapGridColumn>
+                            </div>
 
                             <div className={classes.margin} />
                             <div className={classes.margin} />
