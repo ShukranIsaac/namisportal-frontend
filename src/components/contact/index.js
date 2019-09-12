@@ -31,34 +31,10 @@ class Contact extends Component {
           <ParticlesComponent />
 
           <Container>
-            
-            <Row>
-                <Card>
-                  <CardBody style={{textAlign: 'center'}}>
-                    <h4><strong>Contact Us</strong></h4>
-                    <p>
-                      The Working Group welcomes questions and comments about this site.
-                      Please use the email, physical address or form below to contact us.
-                    </p>
-                    <br />
-                      <h4>For any questions:</h4>
-                      <p>
-                        Email us at <a href="mailto:info@energy.gov.mw" className={classes.link}> info@energy.gov.mw </a>
-                      </p>
-                      <br />
-                      <h4>Physical Address:</h4>
-                      <p>
-                        Mini-grids Malawi,<br />890 West Point<br />Blantyre
-                      </p>
-                  </CardBody> 
-                </Card>
-            </Row>
 
             <Row>
               <Card className={classes.width100}>
                 <CardBody>
-
-                  <h4 style={{textAlign: 'center'}}>Feel free to ask anything</h4>
 
                   <ContactForm { ...this.props } />
                   
