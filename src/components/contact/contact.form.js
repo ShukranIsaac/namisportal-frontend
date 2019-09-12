@@ -22,7 +22,7 @@ export const TextField = ({ icon, value }) => {
 
     return <>
         <div className="field col-md-12 col-sm-12">
-            <div className={`inline icon-field ${icon}`}></div>
+            <span className={`inline icon-field ${icon}`}></span>
             <div className="inline text-field">{value}</div>
         </div>
     </>
@@ -118,8 +118,10 @@ class ContactForm extends Component {
                             </h6>
                         </div>
                         <SidebarDefault col={`col-md-12 col-md-12`}>
+                            <TextField icon={`glyphicon glyphicon-home`} value={`Department of Energy Affairs, P/Bag 309, Lilongwe 3, Malawi`} />
                             <TextField icon={`glyphicon glyphicon-envelope`} value={`info@energy.gov.mw`} />
-                            <TextField icon={`glyphicon glyphicon-home`} value={`Minigrids Malawi, 890 West Point, Blantyre`} />
+                            <TextField icon={`glyphicon glyphicon-envelope`} value={`+265 (1) 770 688`} />
+                            <TextField icon={`glyphicon glyphicon-envelope`} value={`+265 (1) 770 094/771954`} />
                         </SidebarDefault>
                     </BootstrapGridColumn>
                     <BootstrapGridColumn>
