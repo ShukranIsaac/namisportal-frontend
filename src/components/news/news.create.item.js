@@ -3,10 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import { reduxForm } from 'redux-form';
-import AsyncValidate from '../contact/form.async-validate';
-import Validate from '../contact/email.validate';
-
 import { TextEditor } from '../forms/editor';
 import { Button } from 'reactstrap';
 import ButtonControl from '../forms/buttons/button.default.control';

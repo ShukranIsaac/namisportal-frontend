@@ -1,10 +1,9 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import ButtonControl from '../forms/buttons/button.default.control';
-import { Intent, Divider, Button } from '@blueprintjs/core';
+import { Intent, Divider } from '@blueprintjs/core';
 import { withStyles } from '@material-ui/core';
 import styles from '../contact/form.styles';
-import { Row, Col } from 'reactstrap';
 import { UserProfile, profile } from '../user/user.profile';
 import { CustomizedSnackbars } from '../cms/snackbar.feedback';
 

@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { Field } from 'redux-form';
 import { FileInput } from '@blueprintjs/core';
 // import { Button } from '@material-ui/core';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
