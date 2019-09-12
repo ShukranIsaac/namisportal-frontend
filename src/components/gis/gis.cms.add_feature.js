@@ -18,6 +18,9 @@ import ButtonControl from '../forms/buttons/button.default.control';
 import { FormTextInputField } from '../forms/form.textinput.field';
 import { UserProfile } from '../user/user.profile';
 import { FormCheckboxControl } from '../forms/form.checkbox.field';
+import BootstrapGridColumn from '../forms/form.grid.column';
+import { BootsrapTextField } from '../forms/form.bootstrap.field';
+import { BootsrapTextareaField } from '../forms/form.textarea.field';
 
 // const arrayContainsAnother = (first, second) => {
 //     for (let index = 0; index < first.length; index++) {
@@ -53,6 +56,8 @@ class AddFeature extends Component {
         this.handleRadioBtnChange = this.handleRadioBtnChange.bind(this);
 
     }
+
+    handleTextChange = event => this.setState({ [event.target.name]: event.target.value });
 
     handleChange = (e) => {
         // if feature equals natinal
@@ -167,7 +172,7 @@ class AddFeature extends Component {
 
     addFeature = ({ name }) => {
         // props
-        const { classes, valid, pristine, submitting } = this.props;
+        const { classes } = this.props;
 
         /**
          * Check which feature is to be added
@@ -176,37 +181,49 @@ class AddFeature extends Component {
         switch (name) {
             case 'region':
                 return (
-                    <form autoComplete="off">
-                        <FormTextInputField
-                            {...this.props}
-                            name="region_name"
-                            placeholder="Create new region name..."
-                            label="Region Name"
-                            type="text"
-                        />
+                    <form onSubmit={(e) => e.preventDefault()}>
+                        <BootstrapGridColumn>
+                            <BootsrapTextField
+                                value={this.state.region_name}
+                                name="region_name"
+                                placeholder="Create new region name..."
+                                label="Region Name"
+                                type="text"
+                                handleChange={this.handleTextChange}
+                            />
+                        </BootstrapGridColumn>
 
                         <Button
                             className={classes.margin}
-                            type="submit" disabled={!valid || pristine || submitting}
-                            intent="success" text="Save"
+                            type="submit"
+                            disabled={!(this.state.region_name)}
+                            intent="success"
+                            text="Save"
                         />
                     </form>
                 );
             case 'district':
                 return (
-                    <form autoComplete="off">
-                        <FormTextInputField
-                            {...this.props}
-                            name="district_name"
-                            placeholder="Create new district name..."
-                            label="District Name"
-                            type="text"
-                        />
+                    <form onSubmit={(e) => e.preventDefault()}>
+                        <div className='margin-fix form-row'>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    name="district_name"
+                                    value={this.state.district_name}
+                                    placeholder="Create new district name..."
+                                    label="District Name*"
+                                    type="text"
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                        </div>
 
                         <Button
                             className={classes.margin}
-                            type="submit" disabled={!valid || pristine || submitting}
-                            intent="success" text="Save"
+                            type="submit"
+                            disabled={!(this.state.district_name)}
+                            intent="success"
+                            text="Save"
                         />
                     </form>
                 );
@@ -218,9 +235,18 @@ class AddFeature extends Component {
     /**
      * Handle feature submit
      */
-    handleSubmit = (values) => {
+    handleSubmit = (event) => {
+        event.preventDefault();
 
-        const { selectedValue, region_name, district_name } = this.state;
+        const {
+            selectedValue, region_name, district_name,
+            marep_center_ta, marep_center_latitude, marep_center_longitude,
+            transformer_latitude, transformer_location, transformer_longitude, transformer_position,
+            transformer_primary, transformer_station, transformer_voltage,transformer_ta,
+            plant_latitude, plant_longitude, plant_status, plant_name, plant_type, plant_ta,
+            substation_latitude, substation_location, substation_name, substation_secondary, substation_ta,
+            substation_transmission, substation_longitude, _distribution_line
+        } = this.state;
         // const { props: { addFeature }, gis_filters } = this.props;
         // preview feature first before submitting
         if (selectedValue) {
@@ -232,16 +258,14 @@ class AddFeature extends Component {
                     if (user !== null && user.token !== undefined) {
 
                         // check if resource or file if being added
-                        if (values.marep_center_latitude !== undefined && values.marep_center_latitude !== null &&
-                            values.marep_center_ta !== undefined && values.marep_center_ta !== null &&
-                            values.marep_center_longitude !== undefined && values.marep_center_longitude !== null) {
+                        if (marep_center_latitude  && marep_center_ta && marep_center_longitude) {
                             // define question structure
                             const center = {
                                 region: region_name,
                                 district: district_name,
-                                ta: values.marep_center_ta,
-                                lat: values.marep_center_latitude,
-                                lng: values.marep_center_longitude
+                                ta: marep_center_ta,
+                                lat: marep_center_latitude,
+                                lng: marep_center_longitude
                             }
                             // create new center
                             this.props.addFeature(center, "marep-centers", user.token);
@@ -257,16 +281,14 @@ class AddFeature extends Component {
                     if (user !== null && user.token !== undefined) {
 
                         // check if resource
-                        if (values.transformer_latitude !== undefined && values.transformer_latitude !== null &&
-                            values.transformer_ta !== undefined && values.transformer_ta !== null &&
-                            values.transformer_longitude !== undefined && values.transformer_longitude !== null) {
+                        if (transformer_latitude && transformer_ta && transformer_longitude ) {
                             // define transformer structure
                             const transformer = {
                                 region: region_name,
                                 district: district_name,
-                                ta: values.transformer_ta,
-                                lat: values.transformer_latitude,
-                                lng: values.transformer_longitude
+                                ta: transformer_ta,
+                                lat: transformer_latitude,
+                                lng: transformer_longitude
                             }
                             // create new transfomer
                             this.props.addFeature(transformer, "transformers", user.token);
@@ -282,16 +304,14 @@ class AddFeature extends Component {
                     if (user !== null && user.token !== undefined) {
 
                         // check if resource
-                        if (values.power_plant_latitude !== undefined && values.power_plant_latitude !== null &&
-                            values.plant_ta !== undefined && values.plant_ta !== null &&
-                            values.power_plant_longitude !== undefined && values.power_plant_longitude !== null) {
+                        if (plant_latitude &&plant_ta&& plant_longitude ) {
                             // define power plant structure
                             const power_plant = {
                                 region: region_name,
                                 district: district_name,
-                                ta: values.plant_ta,
-                                lat: values.power_plant_latitude,
-                                lng: values.power_plant_longitude
+                                ta: plant_ta,
+                                lat: plant_latitude,
+                                lng: plant_longitude
                             }
                             // create new power_plant
                             this.props.addFeature(power_plant, "power-plants", user.token);
@@ -307,19 +327,15 @@ class AddFeature extends Component {
                     if (user !== null && user.token !== undefined) {
 
                         // check if resource or file if being added
-                        if (values.distribution_line_latitude !== undefined && values.distribution_line_latitude !== null &&
-                            values.distribution_line_ta !== undefined && values.distribution_line_ta !== null &&
-                            values.distribution_line_longitude !== undefined && values.distribution_line_longitude !== null) {
+                        if (_distribution_line) {
                             // define question structure
-                            const distribution_line = {
+                            const _line = {
                                 region: region_name,
                                 district: district_name,
-                                ta: values.distribution_line_ta,
-                                lat: values.distribution_line_latitude,
-                                lng: values.distribution_line_longitude
+                                line: _distribution_line
                             }
                             // create new distribution_line
-                            this.props.addFeature(distribution_line, "distribution-lines", user.token);
+                            this.props.addFeature(_line, "distribution-lines", user.token);
                             // // then change state to default
                             // // so that the page redirects and list all frequently asked questions
                             this.props.defaultItem();
@@ -332,16 +348,14 @@ class AddFeature extends Component {
                     if (user !== null && user.token !== undefined) {
 
                         // check if resource or file if being added
-                        if (values.substation_latitude !== undefined && values.substation_latitude !== null &&
-                            values.substation_ta !== undefined && values.substation_ta !== null &&
-                            values.substation_longitude !== undefined && values.substation_longitude !== null) {
+                        if (substation_latitude&&substation_ta&&substation_longitude) {
                             // define question structure
                             const substation = {
                                 region: region_name,
                                 district: district_name,
-                                ta: values.substation_ta,
-                                lat: values.substation_latitude,
-                                lng: values.substation_longitude
+                                ta: substation_ta,
+                                lat: substation_latitude,
+                                lng: substation_longitude
                             }
                             // create new substation
                             this.props.addFeature(substation, "sub-stations", user.token);
@@ -362,10 +376,15 @@ class AddFeature extends Component {
 
     renderForms = ({ selected }) => {
         // props
+        const { classes } = this.props;
         const {
-            handleSubmit,
-            classes, valid, pristine, submitting
-        } = this.props;
+            marep_center_ta, marep_center_latitude, marep_center_longitude,
+            transformer_latitude, transformer_location, transformer_longitude, transformer_position,
+            transformer_primary, transformer_station, transformer_voltage,
+            plant_latitude, plant_longitude, plant_status, plant_name, plant_type, plant_ta,
+            substation_latitude, substation_location, substation_name, substation_secondary, substation_ta,
+            substation_transmission, substation_longitude, distribution_line
+        } = this.state;
         /**
          * Check which feature is to be added
          * Then render the corresponding form fields
@@ -373,40 +392,48 @@ class AddFeature extends Component {
         switch (selected) {
             case 'marep_center':
                 return (
-                    <form
-                        onSubmit={handleSubmit(values => this.handleSubmit(values))}
-                        autoComplete="off"
-                    >
-                        <FormTextInputField
-                            {...this.props}
-                            name="marep_center_ta"
-                            placeholder="Enter new marep center traditional authority..."
-                            label="Traditional Authority"
-                            type="text"
-                        />
-
-                        <FormTextInputField
-                            {...this.props}
-                            name="marep_center_latitude"
-                            placeholder="Enter new marep center latitude coordinate..."
-                            label="Center Latitude"
-                            type="text"
-                        />
-
-                        <FormTextInputField
-                            {...this.props}
-                            name="marep_center_longitude"
-                            placeholder="Enter new marep center longitude coordinate..."
-                            label="Center Longitude"
-                            type="text"
-                        />
+                    <form onSubmit={(e) => this.handleSubmit(e)}>
+                        <div className='margin-fix form-row'>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    value={this.state.marep_center_ta}
+                                    name="marep_center_ta"
+                                    placeholder="Enter traditional authority..."
+                                    label="Traditional Authority*"
+                                    type="text"
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                        </div>
+                        <div className='margin-fix form-row'>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    value={this.state.marep_center_latitude}
+                                    name="marep_center_latitude"
+                                    placeholder="Enter new marep center latitude coordinate..."
+                                    label="Center Latitude*"
+                                    type="text"
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    name="marep_center_longitude"
+                                    placeholder="Enter new marep center longitude coordinate..."
+                                    label="Center Longitude*"
+                                    type="text"
+                                    value={this.state.marep_center_longitude}
+                                    handleChange={this.handleChange}
+                                />
+                            </BootstrapGridColumn>
+                        </div>
 
                         <Fragment>
                             <Button
                                 className={classes.margin}
                                 name="save"
                                 type="submit"
-                                disabled={!valid || pristine || submitting}
+                                disabled={!(marep_center_latitude && marep_center_longitude && marep_center_ta)}
                                 intent="success" text="Save Marep Center"
                             />
                         </Fragment>
@@ -414,212 +441,292 @@ class AddFeature extends Component {
                 );
             case 'transformer':
                 return (
-                    <form autoComplete="off">
-                        <FormTextInputField
-                            {...this.props}
-                            name="transformer_station"
-                            placeholder="Enter new transformer station..."
-                            label="Station"
-                            type="text"
-                        />
+                    <form onSubmit={(e) => this.handleSubmit(e)}>
+                        <div className='margin-fix form-row'>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    value={this.state.transformer_station}
+                                    name="transformer_station"
+                                    placeholder="Enter new transformer station..."
+                                    label="Station*"
+                                    type="text"
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    name="transformer_location"
+                                    placeholder="Enter new transformer location..."
+                                    label="Location*"
+                                    type="text"
+                                    value={this.state.transformer_location}
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                        </div>
+                        <div className='margin-fix form-row'>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    value={this.state.transformer_position}
+                                    name="transformer_position"
+                                    placeholder="Enter new transformer position..."
+                                    label="Position*"
+                                    type="text"
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    name="transformer_primary"
+                                    placeholder="Enter new transformer primary..."
+                                    label="Primary*"
+                                    type="text"
+                                    value={this.state.transformer_primary}
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    value={this.state.transformer_voltage}
+                                    name="transformer_voltage"
+                                    placeholder="Enter new transformer voltage..."
+                                    label="Voltage*"
+                                    type="text"
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                        </div>
 
-                        <FormTextInputField
-                            {...this.props}
-                            name="transformer_voltage"
-                            placeholder="Enter new transformer voltage..."
-                            label="Voltage"
-                            type="text"
-                        />
-
-                        <FormTextInputField
-                            {...this.props}
-                            name="transformer_location"
-                            placeholder="Enter new transformer location..."
-                            label="Location"
-                            type="text"
-                        />
-
-                        <FormTextInputField
-                            {...this.props}
-                            name="transformer_position"
-                            placeholder="Enter new transformer position..."
-                            label="Position"
-                            type="text"
-                        />
-
-                        <FormTextInputField
-                            {...this.props}
-                            name="transformer_primary"
-                            placeholder="Enter new transformer primary..."
-                            label="Primary"
-                            type="text"
-                        />
-
-                        <FormTextInputField
-                            {...this.props}
-                            name="transformer_latitude"
-                            placeholder="Enter new transformer latitude coordinate..."
-                            label="Transformer Latitude"
-                            type="text"
-                        />
-
-                        <FormTextInputField
-                            {...this.props}
-                            name="transformer_longitude"
-                            placeholder="Enter new transformer longitude coordinate..."
-                            label="Transformer Longitude"
-                            type="text"
-                        />
+                        <div className='margin-fix form-row'>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    value={this.state.transformer_latitude}
+                                    name="transformer_latitude"
+                                    placeholder="Enter new transformer latitude coordinate..."
+                                    label="Transformer Latitude*"
+                                    type="text"
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    name="transformer_longitude"
+                                    placeholder="Enter new transformer longitude coordinate..."
+                                    label="Transformer Longitude*"
+                                    type="text"
+                                    value={this.state.transformer_longitude}
+                                    handleChange={this.handleChange}
+                                />
+                            </BootstrapGridColumn>
+                        </div>
 
                         <Button
                             className={classes.margin}
-                            type="submit" disabled={!valid || pristine || submitting}
-                            intent="success" text="Save Transformer"
+                            type="submit"
+                            disabled={
+                                !(transformer_longitude && transformer_latitude && transformer_voltage &&
+                                    transformer_primary && transformer_position && transformer_location && transformer_station)}
+                            intent="success"
+                            text="Save Transformer"
                         />
                     </form>
                 );
             case 'power_plant':
                 return (
-                    <form onSubmit={handleSubmit(values => this.handleSubmit(values))} autoComplete="off">
+                    <form onSubmit={(e) => this.handleSubmit(e)}>
 
-                        <FormTextInputField
-                            {...this.props}
-                            name="plant_name"
-                            placeholder="Enter new power plant name..."
-                            label="Plant Name"
-                            type="text"
-                        />
+                        <div className='margin-fix form-row'>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    value={this.state.plant_name}
+                                    name="plant_name"
+                                    placeholder="Enter new power plant name..."
+                                    label="Plant Name*"
+                                    type="text"
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    name="plant_ta"
+                                    placeholder="Enter traditional authority..."
+                                    label="Traditioanal Authority*"
+                                    type="text"
+                                    value={this.state.plant_ta}
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                        </div>
 
-                        <FormTextInputField
-                            {...this.props}
-                            name="plant_status"
-                            placeholder="Enter new power plant status..."
-                            label="Plant Status"
-                            type="text"
-                        />
+                        <div className='margin-fix form-row'>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    value={this.state.plant_status}
+                                    name="plant_status"
+                                    placeholder="Enter new power plant status..."
+                                    label="Plant Status*"
+                                    type="text"
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    name="plant_type"
+                                    placeholder="Enter new plant type..."
+                                    label="Plant Type*"
+                                    type="text"
+                                    value={this.state.plant_type}
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                        </div>
 
-                        <FormTextInputField
-                            {...this.props}
-                            name="plant_type"
-                            placeholder="Enter new power plant type..."
-                            label="Plant Type"
-                            type="text"
-                        />
-
-                        <FormTextInputField
-                            {...this.props}
-                            name="plant_ta"
-                            placeholder="Enter new power plant traditional authority..."
-                            label="Traditioanal Authority"
-                            type="text"
-                        />
-
-                        <FormTextInputField
-                            {...this.props}
-                            name="plant_latitude"
-                            placeholder="Enter new plant latitude coordinate..."
-                            label="Plant Latitude"
-                            type="text"
-                        />
-
-                        <FormTextInputField
-                            {...this.props}
-                            name="plant_longitude"
-                            placeholder="Enter new plant longitude coordinate..."
-                            label="Plant Longitude"
-                            type="text"
-                        />
+                        <div className='margin-fix form-row'>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    value={this.state.plant_latitude}
+                                    name="plant_latitude"
+                                    placeholder="Enter new plant latitude coordinate..."
+                                    label="Plant Latitude*"
+                                    type="text"
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    name="plant_longitude"
+                                    placeholder="Enter new plant longitude coordinate..."
+                                    label="Plant Longitude*"
+                                    type="text"
+                                    value={this.state.plant_longitude}
+                                    handleChange={this.handleChange}
+                                />
+                            </BootstrapGridColumn>
+                        </div>
 
                         <Button
                             className={classes.margin}
-                            type="submit" disabled={!valid || pristine || submitting}
-                            intent="success" text="Save Plant"
+                            type="submit"
+                            disabled={!(plant_latitude && plant_longitude && plant_name && plant_status &&
+                                plant_ta && plant_type)}
+                            intent="success"
+                            text="Save Plant"
                         />
                     </form>
                 );
             case 'substation':
                 return (
-                    <form autoComplete="off">
-                        <FormTextInputField
-                            {...this.props}
-                            name="substation_name"
-                            placeholder="Enter new sub station name..."
-                            label="Substation Name"
-                            type="text"
-                        />
+                    <form onSubmit={(e) => this.handleSubmit(e)}>
+                        <div className='margin-fix form-row'>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    value={this.state.substation_name}
+                                    name="substation_name"
+                                    placeholder="Enter new sub station name..."
+                                    label="Substation Name*"
+                                    type="text"
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    name="substation_ta"
+                                    placeholder="Enter traditional authority..."
+                                    label="Traditioanal Authority*"
+                                    type="text"
+                                    value={this.state.substation_ta}
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    name="substation_location"
+                                    placeholder="Enter new sub station location..."
+                                    label="Location*"
+                                    type="text"
+                                    value={this.state.substation_location}
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                        </div>
 
-                        <FormTextInputField
-                            {...this.props}
-                            name="plant_ta"
-                            placeholder="Enter new power plant traditional authority..."
-                            label="Traditioanal Authority"
-                            type="text"
-                        />
+                        <div className='margin-fix form-row'>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    name="substation_secondary"
+                                    placeholder="Enter secondary..."
+                                    label="Secondary*"
+                                    type="text"
+                                    value={this.state.substation_secondary}
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    name="substation_transmission"
+                                    placeholder="Enter new transmission..."
+                                    label="Transmission*"
+                                    type="text"
+                                    value={this.state.substation_transmission}
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                        </div>
 
-                        <FormTextInputField
-                            {...this.props}
-                            name="substation_transmission"
-                            placeholder="Enter new transmission..."
-                            label="Transmission"
-                            type="text"
-                        />
-
-                        <FormTextInputField
-                            {...this.props}
-                            name="substation_location"
-                            placeholder="Enter new sub station location..."
-                            label="Location"
-                            type="text"
-                        />
-
-                        <FormTextInputField
-                            {...this.props}
-                            name="substation_secondary"
-                            placeholder="Enter secondary..."
-                            label="Secondary"
-                            type="text"
-                        />
-
-                        <FormTextInputField
-                            {...this.props}
-                            name="substation_latitude"
-                            placeholder="Enter new substation latitude coordinate..."
-                            label="Substation Latitude"
-                            type="text"
-                        />
-
-                        <FormTextInputField
-                            {...this.props}
-                            name="substation_longitude"
-                            placeholder="Enter new substation longitude coordinate..."
-                            label="Substation Longitude"
-                            type="text"
-                        />
+                        <div className='margin-fix form-row'>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    value={this.state.substation_latitude}
+                                    name="substation_latitude"
+                                    placeholder="Enter new substation latitude coordinate..."
+                                    label="Substation Latitude*"
+                                    type="text"
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    name="substation_longitude"
+                                    placeholder="Enter new substation longitude coordinate..."
+                                    label="Substation Longitude*"
+                                    type="text"
+                                    value={this.state.substation_longitude}
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                        </div>
 
                         <Button
                             className={classes.margin}
-                            type="submit" disabled={!valid || pristine || submitting}
-                            intent="success" text="Save Substation"
+                            type="submit"
+                            disabled={!(substation_latitude&&substation_secondary&&substation_location&&
+                                substation_longitude&&substation_name&&substation_ta&&substation_transmission)}
+                            intent="success"
+                            text="Save Substation"
                         />
                     </form>
                 );
             case 'distribution_line':
                 return (
-                    <form autoComplete="off">
-                        <FormTextInputField
-                            {...this.props}
-                            name="valide_distribution_line"
-                            placeholder="Enter new valid distribution line..."
-                            label="Distribution Line"
-                            type="text"
-                            multiline={true}
-                            rows="6"
-                        />
+                    <form onSubmit={(e) => this.handleSubmit(e)}>
+                        <div className="form-group">
+                            <BootsrapTextareaField
+                                name="_distribution_line"
+                                value={this.state._distribution_line}
+                                placeholder="Enter new valid distribution line, i.e [[34.234568, -0.243536],...]"
+                                label="Distribution Line*"
+                                type="text"
+                                rows={4}
+                                handleChange={this.handleTextChange}
+                            />
+                        </div>
 
                         <Button
                             className={classes.margin}
-                            type="submit" disabled={!valid || pristine || submitting}
-                            intent="success" text="Save Distribution Line"
+                            type="submit"
+                            disabled={!(distribution_line)}
+                            intent="success"
+                            text="Save Distribution Line"
                         />
                     </form>
                 );
@@ -632,8 +739,6 @@ class AddFeature extends Component {
 
         // loading status, gis_filters from props
         const { classes, handleClick } = this.props;
-        // console.log(general);
-        // console.log(this.state.feature);
 
         return (
             <Fragment>
@@ -750,11 +855,9 @@ class AddFeature extends Component {
 
                                     <Divider />
 
-                                    <div className="row">
-                                        {
-                                            this.renderForms({ selected: this.state.selectedValue })
-                                        }
-                                    </div>
+                                    {
+                                        this.renderForms({ selected: this.state.selectedValue })
+                                    }
 
                                     <div className={classes.margin}>
                                         <FormCheckboxControl
@@ -772,11 +875,9 @@ class AddFeature extends Component {
 
                                         <Divider />
 
-                                        <div className="row">
-                                            {
-                                                this.addFeature({ name: this.state.feature })
-                                            }
-                                        </div>
+                                        {
+                                            this.addFeature({ name: this.state.feature })
+                                        }
                                     </Fragment>
                                 )
                         }
