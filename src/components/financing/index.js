@@ -19,7 +19,7 @@ class Financing extends Component {
   componentDidMount() {
 
     // check if we already data for this category in state
-    if(this.props.subcategory !== null) {
+    if(this.props.maincategory !== null) {
 
     }
 
@@ -30,7 +30,7 @@ class Financing extends Component {
 
   render(){
 
-    const { subcategory, general } = this.props;
+    const { maincategory, general } = this.props;
 
     const header = {
       textAlign: 'center',
@@ -46,12 +46,12 @@ class Financing extends Component {
             {
               general && (
                 !general.isLoading ? (
-                  (subcategory !== undefined && subcategory !== null) && (
-                    subcategory.subCategories[0] !== undefined && (
+                  (maincategory !== undefined && maincategory !== null) && (
+                    maincategory.subCategories[0] !== undefined && (
                       <Card>
                         <CardBody>
-                          <p style={header}><strong>{ subcategory.subCategories[0].name }</strong></p>
-                          <div dangerouslySetInnerHTML={{ __html: subcategory.subCategories[0].about }} />
+                          <p style={header}><strong>{ maincategory.subCategories[0].name }</strong></p>
+                          <div dangerouslySetInnerHTML={{ __html: maincategory.subCategories[0].about }} />
                         </CardBody>
                       </Card>
                     )
@@ -82,7 +82,7 @@ const mapStateToProps = (state) => {
     
   return {
     general: state.general.general,
-    subcategory: state.cms.subcategory,
+    maincategory: state.cms.maincategory,
   };
 
 }

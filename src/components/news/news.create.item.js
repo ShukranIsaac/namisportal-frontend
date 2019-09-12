@@ -18,9 +18,9 @@ import * as NewsAction from '../../actions/news.action';
 
 import InitialSchema from '../forms/utils/initial.schema';
 import { Divider } from '@material-ui/core';
-import { FormTextInputField } from '../forms/form.textinput.field';
 import { editor } from '../forms/editor/text.editor.utils';
 import { UserProfile } from '../user/user.profile';
+import { BootsrapTextField } from '../forms/form.bootstrap.field';
 
 class CreateNewsItem extends Component {
 
@@ -43,14 +43,14 @@ class CreateNewsItem extends Component {
     }
 
 	/**
-	 * On component did mount, update the app's React state/props with new values.
+	 * On component did mount, update the app's React state/props with newvalues.
 	 *
 	 * @param {Props} props
 	 */
     componentDidMount() {
 
-        this.setState( () => {
-            return { 
+        this.setState(() => {
+            return {
                 content: InitialSchema
             }
         });
@@ -63,9 +63,9 @@ class CreateNewsItem extends Component {
 	 * @param {Event} event
 	 */
     handleChange = (event) => {
-        
-        this.setState({[event.target.name]: event.target.value});
-  
+
+        this.setState({ [event.target.name]: event.target.value });
+
     }
 
 	/**
@@ -75,18 +75,20 @@ class CreateNewsItem extends Component {
 	 */
     handleEditorChange = ({ value }) => {
         // console.log(value)
-        if(value !== undefined) {
+        if (value !== undefined) {
             this.setState({ content: value });
         }
 
     }
 
-    handleSubmit = (values) => {
-
+    handleSubmit = (event) => {
+        event.preventDefault();
+        // state
+        const { title } = this.state;
         // user logged
         const user = UserProfile.get();
         if (user !== null) {
-            
+
             if (user.token !== null && user.token !== undefined) {
                 /**
                  * serialize content
@@ -94,7 +96,7 @@ class CreateNewsItem extends Component {
                 let content = editor.html.serialize(this.state.content);
                 // define article object
                 const article = {
-                    title: values.title,
+                    title: title,
                     article: content
                 }
 
@@ -111,63 +113,71 @@ class CreateNewsItem extends Component {
 
     render() {
 
-        const { classes, handleClick, handleSubmit, valid, pristine, submitting } = this.props;
-        
+        const { classes, handleClick } = this.props;
+
         return (
             <Fragment>
 
-                <form onSubmit = { handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
+                <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
 
-                    <ButtonControl 
-                        intent={Intent.NONE} 
-                        value="List All Articles"
+                    <ButtonControl
+                        intent={Intent.NONE}
+                        value="List Articles"
                         name="default"
-                        handleClick={e => handleClick(e) }
+                        handleClick={e => handleClick(e)}
                     />
 
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
 
                     <Divider />
 
-                    <FormTextInputField 
-                        classes={ classes }
-                        name="title"
-                        label='Title'
-                        placeholder="Enter article title..."
-                        value={ this.state.title }
-                        type="text"
-                    />
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
 
-                    <TextEditor 
-                        name="content" 
-                        content={ this.state.content } 
-                        editorChange={ this.handleEditorChange } 
-                    />
+                    <div className="margin-fix form-row">
+                        <BootsrapTextField
+                            name="title"
+                            value={this.state.title}
+                            placeholder="Enter article title..."
+                            label="Article Title"
+                            type="text"
+                            handleChange={this.handleChange}
+                        />
+                    </div>
 
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
+                    <div style={{ margin: `1.1em` }}>
+                        <TextEditor
+                            name="content"
+                            content={this.state.content}
+                            editorChange={this.handleEditorChange}
+                        />
+                    </div>
 
-                    <Button 
-                        type="submit" 
-                        disabled={!valid  || pristine || submitting} 
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
+
+                    <Button
+                        type="submit"
+                        disabled={!(this.state.title)}
                         color="primary"
                     >
                         Save
                     </Button>
 
-                    <ButtonControl 
+                    <ButtonControl
                         name="default"
-                        className={ classes.margin }
-                        intent={Intent.PRIMARY} 
-                        value="Cancel" 
-                        handleClick={e => handleClick(e) } 
+                        className={classes.margin}
+                        intent={Intent.PRIMARY}
+                        value="Cancel"
+                        handleClick={e => handleClick(e)}
                     />
-                
+
                 </form>
 
             </Fragment>
@@ -199,8 +209,4 @@ const mapDispatchToProps = (dispatch) => {
 
 }
 
-export default reduxForm({
-    form: 'createNewsItem',
-    Validate,
-    AsyncValidate
-})(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(CreateNewsItem)));
+export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(CreateNewsItem)));

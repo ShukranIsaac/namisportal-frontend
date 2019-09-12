@@ -50,6 +50,9 @@ export const createArticle = (article, token) => {
         .then(response => {
 
             dispatch(GeneralAction.createSuccess(NewsType.REQUEST_CREATE_ARTICLE, response, false))
+
+            // fetch all articles
+            dispatch(fetchAllArticles())
             
         })
 
@@ -90,6 +93,8 @@ export const editArticle = (id, article, token) => {
 
             // dispatch response
             dispatch(GeneralAction.updateSuccess(NewsType.REQUEST_EDIT_ARTICLE, response, false))
+
+            dispatch(fetchAllArticles())
         })
 
         // if error, dispatch corresponding functions and data
@@ -164,6 +169,8 @@ export const deleteArticle = (id, token) => {
 
             // dispatch
             dispatch(GeneralAction.fetchSuccess(NewsType.REQUEST_DELETE_ARTICLE, response, false))
+
+            dispatch(fetchAllArticles())
 
         })
 

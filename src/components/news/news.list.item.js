@@ -23,7 +23,7 @@ const NewsListItem = ({ when, splitCount, classes, article })=> {
                                 article: {
                                     title: article.title,
                                     text: article.article,
-                                    createdDate: when(article.createdDate)
+                                    createdDate: article.createdDate
                                 }
                             }
                         }}
@@ -34,7 +34,7 @@ const NewsListItem = ({ when, splitCount, classes, article })=> {
                 <p variant="caption">
                     <i> 
                         {/* By John Doe (<a href="mailto:newseditor@grid.mw" className={classes.link}>newseditor@grid.mw</a>), */}
-                        <span className={classes.when}>{ when(article.createdDate) }</span>
+                        <span className={classes.when}>{ article.createdDate }</span>
                     </i>
                 </p>
             </div>
@@ -47,7 +47,7 @@ const NewsListItem = ({ when, splitCount, classes, article })=> {
                         article: {
                             title: article.title,
                             text: article.article,
-                            createdDate: when(article.createdDate)
+                            createdDate: article.createdDate
                         },
                     }
                 }}

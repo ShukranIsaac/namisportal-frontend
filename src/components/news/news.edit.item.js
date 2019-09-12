@@ -2,10 +2,6 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import { reduxForm } from 'redux-form';
-import AsyncValidate from '../contact/form.async-validate';
-import Validate from '../contact/email.validate';
-
 import { Divider, } from '@material-ui/core';
 import { TextEditor } from '../forms/editor';
 import { editor as EditorUtils } from '../forms/editor/text.editor.utils';
@@ -13,10 +9,10 @@ import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 
-import { FormTextInputField } from '../forms/form.textinput.field';
 import InitialSchema from '../forms/utils/initial.schema';
 import { editor } from '../forms/editor/text.editor.utils';
-import { UserProfile } from '../user/user.profile';
+import { UserProfile, profile } from '../user/user.profile';
+import { BootsrapTextField } from '../forms/form.bootstrap.field';
 // import OnlineEditor from '../forms/editor/online.editor';
 
 /**
@@ -70,9 +66,9 @@ class EditNewsItem extends Component {
 	 * @param {Event} event
 	 */
     handleChange = (event) => {
-        
-        this.setState({[event.target.name]: event.target.value});
-  
+
+        this.setState({ [event.target.name]: event.target.value });
+
     }
 
     /**
@@ -81,8 +77,8 @@ class EditNewsItem extends Component {
 	 * @param {Event} event
 	 */
     handleEditorTextChange = (text) => {
-        this.setState({text: text});
-      }
+        this.setState({ text: text });
+    }
 
 	/**
 	 * On change, update the app's React state with the new editor value.
@@ -90,19 +86,22 @@ class EditNewsItem extends Component {
 	 * @param {Editor} editor
 	 */
     handleEditorChange = (content) => {
-        
-        if(content !== null) {
+
+        if (content !== null) {
             const { value } = content;
             Object.assign(this.state.article, { article: value });
         }
 
     }
 
-    handleSubmit = (values) => {
+    handleSubmit = (event) => {
+        event.preventDefault();
+        // state
+        const { title } = this.state;
         // user logged
         const user = UserProfile.get();
         if (user !== null) {
-            
+
             if (user.token !== null && user.token !== undefined) {
                 /**
                  * serialize content
@@ -110,11 +109,11 @@ class EditNewsItem extends Component {
                 let content = editor.html.serialize(this.state.article);
                 // define article object
                 const article = {
-                    title: values.title,
+                    title: title,
                     article: content.article
                 }
-                console.log(article)
-                if (article.title !== undefined || article.article !== undefined) {
+
+                if (title || article.article !== undefined) {
                     // then make post request to the api
                     this.props.editArticle(this.state.article._id, article, user.token);
                     // then change state to default
@@ -124,7 +123,7 @@ class EditNewsItem extends Component {
             }
 
         }
-        
+
     }
 
     /**
@@ -135,7 +134,7 @@ class EditNewsItem extends Component {
         // props holds state functions like defaultItem(), saveItem() etc 
         const { article } = this.props;
         // if article exists then delete
-        if(article !== null && article._id !== undefined) {
+        if (article !== null && article._id !== undefined) {
             // then get authenticated user token
             const user = UserProfile.get();
             if (user !== null && user.token !== undefined) {
@@ -150,39 +149,41 @@ class EditNewsItem extends Component {
 
     render() {
 
-        const { classes, handleClick, handleSubmit, general, article, } = this.props;
+        const { classes, handleClick, general, article, } = this.props;
 
         // serialize the article text
-        if(article !== null) {
+        if (article !== null) {
             Object.assign(article, { article: EditorUtils.html.deserialize(article.article) })
         }
+
+        /**
+         * serialize content
+         */
+        const { title } = this.state;
+
+        const user = UserProfile.get();
 
         return (
             <Fragment>
 
-                <form onSubmit = { handleSubmit(values => this.handleSubmit(values)) } autoComplete="off">
+                <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
 
-                    <ButtonControl 
-                        intent={Intent.NONE} 
-                        value="New Article"
-                        name="create"
-                        handleClick={e => handleClick(e) }
-                    />
-
-                    <ButtonControl 
-                        intent={Intent.NONE} 
+                    <ButtonControl
+                        intent={Intent.NONE}
                         value="List All Articles"
                         name="default"
-                        handleClick={e => handleClick(e) }
+                        handleClick={e => handleClick(e)}
                     />
 
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
 
                     <Divider />
+
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
 
                     {
                         general && (
@@ -191,20 +192,24 @@ class EditNewsItem extends Component {
                                     {
                                         (article !== null && article !== undefined) && (
                                             <>
-                                                <FormTextInputField
-                                                    classes={ classes }
-                                                    name='title'
-                                                    value={article.title}
-                                                    label='Article Title'
-                                                    placeholder='Edit article title...'
-                                                    type='text'
-                                                />
+                                                <div className="margin-fix form-row">
+                                                    <BootsrapTextField
+                                                        name="title"
+                                                        value={article ? (title ? title : article.title) : ''}
+                                                        placeholder="Edit article title..."
+                                                        label="Article Title"
+                                                        type="text"
+                                                        handleChange={this.handleChange}
+                                                    />
+                                                </div>
 
-                                                <TextEditor 
-                                                    name="content" 
-                                                    content={article.article} 
-                                                    editorChange={ this.handleEditorChange } 
-                                                />
+                                                <div style={{ margin: `1.1em` }}>
+                                                    <TextEditor
+                                                        name="content"
+                                                        content={article.article}
+                                                        editorChange={this.handleEditorChange}
+                                                    />
+                                                </div>
 
                                                 {/* <OnlineEditor 
                                                     handleEditorTextChange={ this.handleEditorTextChange }
@@ -219,38 +224,39 @@ class EditNewsItem extends Component {
                         )
                     }
 
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
-                    <div className={ classes.margin }/>
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
+                    <div className={classes.margin} />
 
-                    <Button 
-                        type="submit" 
-                        // disabled={!valid  || pristine || submitting} 
+                    <Button
+                        type="submit"
+                        disabled={!(title)}
                         color="primary"
                     >
                         Save
                     </Button>
 
-                    <ButtonControl 
-                        className={classes.margin}
-                        intent={Intent.PRIMARY} 
-                        value="Cancel"
-                        name="default"
-                        handleClick={e => handleClick(e) }
-                    />
-
                     {
                         this.props.article !== null && (
-                            <Button 
-                                id={ this.props.article._id }
-                                className={ classes.margin } 
-                                name="archive" 
-                                intent="danger" text="Delete" 
-                                onClick={ e => this.archiveCategory(e) } 
+                            <Button
+                                id={this.props.article._id}
+                                className={classes.margin}
+                                name="archive"
+                                intent="danger" text="Delete"
+                                onClick={e => this.archiveCategory(e)}
+                                disabled={!profile.canDelete({ user })}
                             />
                         )
                     }
-                
+
+                    <ButtonControl
+                        className={classes.margin}
+                        intent={Intent.PRIMARY}
+                        value="Cancel"
+                        name="default"
+                        handleClick={e => handleClick(e)}
+                    />
+
                 </form>
 
             </Fragment>
@@ -264,8 +270,4 @@ EditNewsItem.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default reduxForm({
-    form: 'editNewsItem',
-    Validate,
-    AsyncValidate
-})(withStyles(styles)(EditNewsItem));
+export default (withStyles(styles)(EditNewsItem));
