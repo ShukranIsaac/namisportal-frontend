@@ -103,6 +103,7 @@ export const put = async (dispatch, url, data) => {
     // headers
     const config = new Headers();
     config.append('Access-Control-Allow-Origin', Config.ACCESS_ALLOW_ORIGIN);
+    // config.append('withCredentials', true);
 
     return await Config.REMOTE_API_URL.put(url, data, config)
 
@@ -134,6 +135,7 @@ export const patch = async (dispatch, url, data) => {
     // headers
     const config = new Headers();
     config.append('Access-Control-Allow-Origin', Config.ACCESS_ALLOW_ORIGIN);
+    // config.append('withCredentials', true);
 
     return await Config.REMOTE_API_URL.patch(url, data, config)
 
