@@ -349,7 +349,7 @@ class ListUserAccounts extends Component {
                                                     </TableCell>
                                                     <TableCell align="right">{user.fullname}</TableCell>
                                                     <TableCell align="right">{user.username}</TableCell>
-                                                    <TableCell align="right">
+                                                    <TableCell align="right" disabled={ !profile.isAdmin({user: loggedInAccount}) }>
                                                         {
                                                             user.userroles.length !== 0 ? user.userroles.map((roles, key) => {
 
@@ -368,6 +368,7 @@ class ListUserAccounts extends Component {
                                                                                         className={classes.chip}
                                                                                         deleteIcon={<CancelIcon />}
                                                                                         onDelete={() => this.deleteUserRole(roles[0], user)}
+                                                                                        disabled={ !profile.isAdmin({user: loggedInAccount}) }
                                                                                     />
                                                                                 ) : null
                                                                             }
@@ -382,6 +383,7 @@ class ListUserAccounts extends Component {
                                                                                         className={classes.chip}
                                                                                         deleteIcon={<CancelIcon />}
                                                                                         onDelete={() => this.deleteUserRole(roles[1], user)}
+                                                                                        disabled={ !profile.isAdmin({user: loggedInAccount}) }
                                                                                     />
                                                                                 ) : null
                                                                             }
@@ -396,6 +398,7 @@ class ListUserAccounts extends Component {
                                                                                         className={classes.chip}
                                                                                         deleteIcon={<CancelIcon />}
                                                                                         onDelete={() => this.deleteUserRole(roles[2], user)}
+                                                                                        disabled={ !profile.isAdmin({user: loggedInAccount}) }
                                                                                     />
                                                                                 ) : null
                                                                             }

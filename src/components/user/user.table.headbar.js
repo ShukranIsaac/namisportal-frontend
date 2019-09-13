@@ -143,7 +143,7 @@ class EnhancedTableToolbar extends React.Component {
                             <Typography color="inherit" variant="subtitle1">
                                 {
                                     numSelected >= 1 && !showActions({user:auth}) ? 
-                                        `${auth.username + ', adminstrators only allowed to perform this action'}` 
+                                        `${auth.username + ', Admins only allowed to perform this action'}` 
                                         : numSelected > 1 ? 
                                             `${numSelected + ' selected'}` 
                                             : null
@@ -169,13 +169,15 @@ class EnhancedTableToolbar extends React.Component {
                                                                 aria-label="Edit account" 
                                                                 onClick={ (e) => handleAccountClick(e) }
                                                                 id={selectedAccount._id}
+                                                                disabled={ !profile.isAdmin({user:auth}) }
                                                             >
                                                                 <EditIcon />
                                                             </IconButton>
                                                         </Tooltip>
-                                                        <Tooltip title="Delete" disabled={ !profile.canDelete({user:auth}) }>
+                                                        <Tooltip title="Delete">
                                                             <IconButton 
                                                                 aria-label="Delete account"
+                                                                disabled={ !profile.isAdmin({user:auth}) }
                                                                 onClick={ 
                                                                     () => {
                                                                         if (auth !== undefined && auth !== null) {
@@ -191,8 +193,11 @@ class EnhancedTableToolbar extends React.Component {
                                                         </Tooltip>
                                                     </Fragment>
                                                 ) : (
-                                                    <Tooltip title="Delete" disabled={ !profile.canDelete({user:auth}) }>
-                                                        <IconButton aria-label="Delete">
+                                                    <Tooltip title="Delete">
+                                                        <IconButton 
+                                                            aria-label="Delete"
+                                                            disabled={ !profile.isAdmin({user:auth}) }
+                                                        >
                                                             <DeleteIcon />
                                                         </IconButton>
                                                     </Tooltip>
@@ -204,7 +209,9 @@ class EnhancedTableToolbar extends React.Component {
                             </Fragment>
                         ) : (
                             <Fragment>
-                                <Tooltip title="My profile">
+                                <Tooltip 
+                                    title="My profile"
+                                >
                                     <IconButton 
                                         aria-label="My profile" 
                                         buttonRef={ node => {
@@ -217,6 +224,7 @@ class EnhancedTableToolbar extends React.Component {
                                         aria-owns={open ? 'menu-list-grow' : undefined}
                                         aria-haspopup="true"
                                         onClick={ (e) => handleEditProfileClick(e) }
+                                        disabled={ !profile.isAdmin({user:auth}) }
                                     >
                                         <PersonIcon />
                                     </IconButton>
