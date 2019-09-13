@@ -115,7 +115,7 @@ class EditNewsItem extends Component {
 
                 if (title || article.article !== undefined) {
                     // then make post request to the api
-                    this.props.editArticle(this.state.article._id, article, user.token);
+                    this.props.editArticle(this.props.article._id, article, user.token);
                     // then change state to default
                     // so that the page redirects and list all home items
                     this.props.defaultItem();
