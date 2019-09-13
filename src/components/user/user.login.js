@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -239,8 +239,13 @@ class UserLogin extends Component {
                                             <span>
                                                 <Link
                                                     to="/register"
-                                                    onClick={() => redirect.to({ url: '/register' })}
-                                                > Register
+                                                    onClick={ this.props.history.push("/login") }
+                                                > <i>Register</i>
+                                                </Link> |
+                                                <Link
+                                                    to="/"
+                                                    onClick={() => redirect.to({ url: '/' })}
+                                                > <i>Home</i>
                                                 </Link>
                                             </span>
                                         </p>
@@ -283,4 +288,4 @@ const mapDispatchToProps = dispatch => {
 
 }
 
-export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(UserLogin)));
+export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(withRouter(UserLogin))));
