@@ -434,7 +434,6 @@ class CMSIndex extends React.Component {
             }
         }
 
-        console.log(this.props.link)
         return (
             <div className={classes.root}>
 

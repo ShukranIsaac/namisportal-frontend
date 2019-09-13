@@ -10,6 +10,7 @@ import { SelectInputControl } from '../forms/form.selectinput.field';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import { BootsrapTextareaField } from '../forms/form.textarea.field';
 import BootstrapGridColumn from '../forms/form.grid.column';
+import CustomizedSnackbars from '../cms/snackbar.feedback';
 
 /**
  * Edit a particular question 
@@ -22,11 +23,8 @@ class EditQuestion extends Component {
     constructor() {
         super();
         this.state = {
-            _question: null,
             question: null,
-            section_name: null,
-            section_short_name: '',
-            section_summary: ''
+            add_section: false
         }
     }
 
@@ -127,15 +125,21 @@ class EditQuestion extends Component {
             if (!this.state.add_section) {
                 // get edited_question structure
                 edited_question = {
-                    name: _question !== null ? _question : question.name,
-                    shortName: shortName ? shortName : question.shortName,
-                    about: answer ? answer : question.answer
+                    name: _question,
+                    shortName: shortName,
+                    about: answer
                 }
 
                 // question defined
                 if (!emptyQFields) {
                     // then edit this edited_question
-                    this.props.editCategory(question._id, edited_question, user.token, question, this.props.capitalize(this.props.link));
+                    this.props.editCategory(
+                        question._id,
+                        edited_question,
+                        user.token,
+                        question,
+                        this.props.capitalize(this.props.link)
+                    );
                     // then change state to default
                     // so that the page redirects and list all FAQs
                     this.props.defaultItem();
@@ -156,7 +160,11 @@ class EditQuestion extends Component {
                     // then check if null and undefined, then proceed otherwise
                     if (maincategory !== null && maincategory !== undefined && !emptySFields) {
                         // create new section category
-                        this.props.createCategory(maincategory._id, section, user.token);
+                        this.props.createCategory(
+                            maincategory._id,
+                            section, user.token,
+                            this.props.capitalize(this.props.link)
+                        );
                         // then change state.add_section to false
                         // so that the page shows form fileds to add questions
                         this.setState({ add_section: false });
@@ -429,6 +437,12 @@ class EditQuestion extends Component {
                     }
 
                 </form>
+
+                {
+                    general && (
+                        !general.hasErrored && <CustomizedSnackbars type="info" message="Success!" />
+                    )
+                }
 
             </Fragment>
         );
