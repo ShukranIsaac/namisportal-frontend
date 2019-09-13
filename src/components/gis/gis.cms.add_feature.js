@@ -15,7 +15,6 @@ import styles from '../contact/form.styles';
 import RadioButtons from '../forms/form.radiobtn.field';
 import { Divider, Intent, Button } from '@blueprintjs/core';
 import ButtonControl from '../forms/buttons/button.default.control';
-import { FormTextInputField } from '../forms/form.textinput.field';
 import { UserProfile } from '../user/user.profile';
 import { FormCheckboxControl } from '../forms/form.checkbox.field';
 import BootstrapGridColumn from '../forms/form.grid.column';
@@ -241,11 +240,11 @@ class AddFeature extends Component {
         const {
             selectedValue, region_name, district_name,
             marep_center_ta, marep_center_latitude, marep_center_longitude,
-            transformer_latitude, transformer_location, transformer_longitude, transformer_position,
-            transformer_primary, transformer_station, transformer_voltage,transformer_ta,
-            plant_latitude, plant_longitude, plant_status, plant_name, plant_type, plant_ta,
-            substation_latitude, substation_location, substation_name, substation_secondary, substation_ta,
-            substation_transmission, substation_longitude, _distribution_line
+            transformer_latitude, /*transformer_location,*/ transformer_longitude, /*transformer_position,*/
+            /*transformer_primary, transformer_station, transformer_voltage,*/ transformer_ta,
+            plant_latitude, plant_longitude, /*plant_status, plant_name, plant_type,*/ plant_ta,
+            substation_latitude, /*substation_location, substation_name, substation_secondary,*/ substation_ta,
+            /*substation_transmission,*/ substation_longitude, _distribution_line
         } = this.state;
         // const { props: { addFeature }, gis_filters } = this.props;
         // preview feature first before submitting

@@ -15,7 +15,6 @@ import { UserProfile, profile } from './user.profile';
 import CustomizedSnackbars from '../cms/snackbar.feedback';
 import BootstrapGridColumn from '../forms/form.grid.column';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
-import { Divider } from '@material-ui/core';
 
 /**
  * Edit user account details
@@ -430,7 +429,7 @@ class EditUserAccount extends Component {
                                                         type="submit"
                                                         color="primary"
                                                         text="Update"
-                                                        disabled={myRoles.length == 0}
+                                                        disabled={myRoles.length === 0}
                                                     />
                                                     <Button
                                                         name="default" className={classes.margin}
@@ -579,7 +578,7 @@ class EditUserAccount extends Component {
                                                             type="submit"
                                                             color="primary"
                                                             text="Update"
-                                                            disabled={myRoles.length == 0}
+                                                            disabled={myRoles.length === 0}
                                                         />
 
                                                         <Button

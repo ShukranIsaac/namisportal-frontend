@@ -15,8 +15,6 @@ import { redirect } from './user.redirect';
 import { PersonalProfile } from './user.register.personal';
 import ParticlesComponent from './particles';
 import CustomizedSnackbars from '../cms/snackbar.feedback';
-import ButtonControl from '../forms/buttons/button.default.control';
-import { Intent } from '@blueprintjs/core';
 
 class UserRegistration extends Component {
 

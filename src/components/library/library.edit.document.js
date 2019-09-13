@@ -62,10 +62,11 @@ class EditLibraryItem extends Component {
                     file: supporting_document
                 }
 
+                console.log(data)
                 // this.props.createStakeholder(data, user.token);
                 // then change state to default
                 // so that the page redirects and list all home items
-                // this.props.defaultItem();
+                this.props.defaultItem();
             }
 
         }
