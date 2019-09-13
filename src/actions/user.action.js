@@ -248,9 +248,10 @@ export const updateUser = (id, user, auth) => {
                     // update local storage
                     let editedUser = response.user;
                     Object.assign(editedUser, { token: auth.token });
-                    // console.log(editedUser)
                     // save account
                     UserProfile.save(editedUser);
+                    // despatch the user response to update the user props
+                    dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_SINGLE, response.user, false))
                 } else {
                     // other account was updated
                     dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_EDIT, response, false))

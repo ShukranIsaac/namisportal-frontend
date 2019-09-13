@@ -15,6 +15,7 @@ import { UserProfile, profile } from './user.profile';
 import CustomizedSnackbars from '../cms/snackbar.feedback';
 import BootstrapGridColumn from '../forms/form.grid.column';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
+import { Divider } from '@material-ui/core';
 
 /**
  * Edit user account details
@@ -53,10 +54,17 @@ class EditUserAccount extends Component {
     handleSubmit = (id, event) => {
         // Prevent default submit action
         event.preventDefault();
-        const { username, firstname, lastname, myRoles } = this.state;
+        const {
+            username,
+            firstname,
+            lastname,
+            myRoles,
+            old_password,
+            new_password
+        } = this.state;
 
         // check previous values of user and update if roles changed
-        if (username || firstname || lastname || myRoles) {
+        if (username || firstname || lastname || myRoles || (new_password && old_password)) {
             // if (this.state.user.roles !== undefined) {
 
             // user roles changed reassign new ones
@@ -83,7 +91,8 @@ class EditUserAccount extends Component {
                 username: username,
                 firstName: firstname,
                 lastName: lastname,
-                roles: roles
+                roles: roles,
+                password: new_password && old_password ? new_password : undefined
             }
 
             if (authUser !== null) {
@@ -205,9 +214,43 @@ class EditUserAccount extends Component {
 
     }
 
+    changePassword = () => {
+
+        return (
+            <div className='margin-fix form-row'>
+                <BootstrapGridColumn>
+                    <BootsrapTextField
+                        value={this.state.old_password}
+                        name='old_password'
+                        label='Old Password*'
+                        type='password'
+                        placeholder='Your old password...'
+                        handleChange={this.handleTextChange}
+                    />
+                </BootstrapGridColumn>
+                <BootstrapGridColumn>
+                    <BootsrapTextField
+                        value={this.state.new_password}
+                        name='new_password'
+                        label='New Password*'
+                        type='password'
+                        placeholder='Your new password...'
+                        handleChange={this.handleTextChange}
+                    />
+                </BootstrapGridColumn>
+            </div>
+        );
+
+    }
+
     render() {
 
-        const { /*user,*/ myRoles, username, firstname, lastname } = this.state;
+        const {
+            /*user,*/
+            myRoles,
+            username, firstname, lastname,
+            new_password, old_password
+        } = this.state;
         const { handleClick, classes, general } = this.props;
 
         // logged in user
@@ -240,8 +283,20 @@ class EditUserAccount extends Component {
                     <li className="nav-item">
                         <a className="nav-link active" data-toggle="tab" href="#general">General</a>
                     </li>
+                    {
+                        // if logged in account is not an admin
+                        // do not show Add Role(s) tab, since they cannot assign or revoke user roles to and 
+                        // from their accounts or others accounts
+                        current && (
+                            current.roles.admin && (
+                                <li className="nav-item">
+                                    <a className="nav-link" data-toggle="tab" href="#roles">Add Role(s)</a>
+                                </li>
+                            )
+                        )
+                    }
                     <li className="nav-item">
-                        <a className="nav-link" data-toggle="tab" href="#roles">Roles</a>
+                        <a className="nav-link" data-toggle="tab" href="#changePassword">Change Password</a>
                     </li>
                 </ul>
 
@@ -253,6 +308,7 @@ class EditUserAccount extends Component {
                             <form
                                 onSubmit={(e) => this.handleSubmit(current.roles.admin ? userAuth._id : current._id, e)}
                                 autoComplete="off"
+                                noValidate
                             >
 
                                 <div className="tab-content">
@@ -270,17 +326,13 @@ class EditUserAccount extends Component {
                                                         type="submit"
                                                         color="primary"
                                                         text="Update"
-                                                        disabled={username||firstname||lastname}
+                                                        disabled={!(firstname || username || lastname)}
                                                     />
 
-                                                    {
-                                                        current.roles.admin && (
-                                                            <Button
-                                                                name="default" className={classes.margin}
-                                                                text="Cancel" onClick={e => handleClick(e)}
-                                                            />
-                                                        )
-                                                    }
+                                                    <Button
+                                                        name="default" className={classes.margin}
+                                                        text="Cancel" onClick={e => handleClick(e)}
+                                                    />
 
                                                 </div>
                                                 <div id="roles" className="tab-pane fade"><br />
@@ -373,17 +425,39 @@ class EditUserAccount extends Component {
                                                     <div className={classes.margin} />
                                                     <div className={classes.margin} />
                                                     <div className={classes.margin} />
-                                                    <div className={classes.margin} />
+
+                                                    <Button
+                                                        type="submit"
+                                                        color="primary"
+                                                        text="Update"
+                                                        disabled={myRoles.length == 0}
+                                                    />
+                                                    <Button
+                                                        name="default" className={classes.margin}
+                                                        text="Cancel" onClick={e => handleClick(e)}
+                                                    />
+
+                                                </div>
+                                                <div id="changePassword" className="tab-pane fade"><br />
+
+                                                    <h4>{`Change password for `}<b>{`${userAuth.username}`}</b></h4>
+                                                    {/* <br /> */}
 
                                                     {
-                                                        current.roles.admin && (
-                                                            <Button
-                                                                name="default" className={classes.margin}
-                                                                text="Cancel" onClick={e => handleClick(e)}
-                                                            />
-                                                        )
+                                                        this.changePassword()
                                                     }
 
+                                                    <Button
+                                                        type="submit"
+                                                        color="primary"
+                                                        text="Change"
+                                                        disabled={!(old_password && new_password)}
+                                                    />
+
+                                                    <Button
+                                                        name="default" className={classes.margin}
+                                                        text="Cancel" onClick={e => handleClick(e)}
+                                                    />
                                                 </div>
                                             </>
                                         ) : (
@@ -394,7 +468,12 @@ class EditUserAccount extends Component {
                                                             this.formFields({ user: userAuth })
                                                         }
 
-                                                        <Button type="submit" color="primary" text="Update" />
+                                                        <Button
+                                                            type="submit"
+                                                            color="primary"
+                                                            text="Update"
+                                                            disabled={!(firstname || username || lastname)}
+                                                        />
 
                                                         <Button
                                                             name="default" className={classes.margin}
@@ -497,8 +576,36 @@ class EditUserAccount extends Component {
                                                         <div className={classes.margin} />
 
                                                         <Button
+                                                            type="submit"
+                                                            color="primary"
+                                                            text="Update"
+                                                            disabled={myRoles.length == 0}
+                                                        />
+
+                                                        <Button
                                                             name="default"
                                                             className={classes.margin}
+                                                            text="Cancel" onClick={e => handleClick(e)}
+                                                        />
+                                                    </div>
+                                                    <div id="changePassword" className="tab-pane fade"><br />
+
+                                                        <h4>{`Change password for `}<b>{`${userAuth.username}`}</b></h4>
+                                                        {/* <br /> */}
+
+                                                        {
+                                                            this.changePassword()
+                                                        }
+
+                                                        <Button
+                                                            type="submit"
+                                                            color="primary"
+                                                            text="Change"
+                                                            disabled={!(old_password && new_password)}
+                                                        />
+
+                                                        <Button
+                                                            name="default" className={classes.margin}
                                                             text="Cancel" onClick={e => handleClick(e)}
                                                         />
                                                     </div>

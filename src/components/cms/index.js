@@ -105,6 +105,18 @@ class CMSIndex extends React.Component {
 
     }
 
+    componentDidUpdate() {
+        // if a non admin user account was edited
+        // and link equals logout
+        const user = UserProfile.get();
+        // if user exists
+        if (user !== null) {
+            if (!(user.roles.admin || user.roles.publisher || user.roles.writer) && this.state.link !== "logout") {
+                this.props.editItem();
+            }
+        }
+    }
+
     handleLink = (e, link) => {
 
 		/**
@@ -422,7 +434,7 @@ class CMSIndex extends React.Component {
             }
         }
 
-        // console.log(this.props.subcategory)
+        console.log(this.props.link)
         return (
             <div className={classes.root}>
 
@@ -446,7 +458,7 @@ class CMSIndex extends React.Component {
                             <MenuIcon />
                         </IconButton>
 
-                        <a href="/#" style={{ color: `white` }} onClick={ (event) => redirect.toExternalLink({ url: '/', event }) }>
+                        <a href="/#" style={{ color: `white` }} onClick={(event) => redirect.toExternalLink({ url: '/', event })}>
                             <Typography variant="h6" color="inherit" noWrap>
                                 Malawi Mini Grids
                             </Typography>
