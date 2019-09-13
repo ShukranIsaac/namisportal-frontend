@@ -25,7 +25,7 @@ export default class Footer extends Component {
             <div id='footer' style={stickToBottom}>
                 <Sponsors/>
                 <div style={footer}>
-                    <span style={span}>© 2019 Allrights Reserved | Department of Energy Affairs - Minigrids Portal</span>
+                    <span style={span}>© 2019 All rights Reserved | Department of Energy Affairs - Minigrids Portal</span>
                 </div>
             </div>
             
