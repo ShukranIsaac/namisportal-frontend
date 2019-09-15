@@ -66,6 +66,9 @@ class AddFeature extends Component {
         // construct different geometries depending on which form has been filled
         switch (selectedvalue) {
             case 'marep_center':
+            case 'transformer':
+            case 'substation':
+            case 'power_plant':
                 if (marep_center_latitude && marep_center_ta && marep_center_longitude) {
                     // define question structure
                     const center = {
@@ -79,8 +82,11 @@ class AddFeature extends Component {
                     // set feature state for preview on map
                     this.setState({ geometry_feature: center });
                 }
-                break;
 
+                break;
+            case 'distribution_line':
+
+                break;
             default:
                 break;
         }
