@@ -135,7 +135,7 @@ class ContactForm extends Component {
                                     value={this.state.fullname}
                                     label="Fullname*"
                                     type="text"
-                                    placeholder="Edit fullname..."
+                                    placeholder="Your fullname..."
                                     handleChange={this.handleChange}
                                 />
                             </BootstrapGridColumn>
