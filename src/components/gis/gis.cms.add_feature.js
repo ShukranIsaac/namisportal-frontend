@@ -8,7 +8,7 @@ import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
 
 // import * as GisAction from '../../actions/index';
-// import CMSMapPreview from './cms.map.preview';
+import CMSMapPreview from './cms.map.preview';
 import { FormControl, Paper, withStyles } from '@material-ui/core';
 import { SelectInputControl } from '../forms/form.selectinput.field';
 import styles from '../contact/form.styles';
@@ -42,12 +42,12 @@ class AddFeature extends Component {
         super();
         this.state = {
             zoom: 7,
-            newCenter: {
+            newcenter: {
                 lat: -13.2512, lng: 34.30154
             },
             show: false,
             h: `750px`,
-            previewMap: true,
+            previewmap: true,
         };
 
         this.handleSelectChange = this.handleSelectChange.bind(this);
@@ -56,29 +56,40 @@ class AddFeature extends Component {
 
     handleTextChange = event => this.setState({ [event.target.name]: event.target.value });
 
-    handleChange = (e) => {
+    constructGeometry = ({ selectedvalue }) => {
+        // state
+        const {
+            district_name,
+            marep_center_latitude, marep_center_longitude, marep_center_ta
+        } = this.state;
 
-        // console.log(e.currentTarget)
-        this.setState({ [e.target.name]: e.target.value }, () => {
-            // state
-            const state = this.state;
-            if (state.marep_center_latitude !== undefined && state.marep_center_latitude !== null &&
-                state.marep_center_ta !== undefined && state.marep_center_ta !== null &&
-                state.marep_center_longitude !== undefined && state.marep_center_longitude !== null) {
-                // define question structure
-                const center = {
-                    region: this.state.region_name,
-                    district: this.state.district_name,
-                    marep_center_ta: state.marep_center_ta,
-                    marep_center_latitude: state.marep_center_latitude,
-                    marep_center_longitude: state.marep_center_longitude
+        // construct different geometries depending on which form has been filled
+        switch (selectedvalue) {
+            case 'marep_center':
+                if (marep_center_latitude && marep_center_ta && marep_center_longitude) {
+                    // define question structure
+                    const center = {
+                        district: district_name,
+                        type: selectedvalue,
+                        marep_center_ta: marep_center_ta,
+                        marep_center_latitude: marep_center_latitude,
+                        marep_center_longitude: marep_center_longitude
+                    }
+
+                    // set feature state for preview on map
+                    this.setState({ geometry_feature: center });
                 }
+                break;
 
-                // console.log(center)
-                // set feature state for preview on map
-                this.setState({ feature: center });
-            }
-        });
+            default:
+                break;
+        }
+    }
+
+    handleChange = (e) => {
+        const { selectedvalue } = this.state;
+
+        this.setState({ [e.target.name]: e.target.value }, () => this.constructGeometry({ selectedvalue }));
     }
 
     handleSelectChange = event => {
@@ -88,8 +99,8 @@ class AddFeature extends Component {
     handleChecked = (event) => {
 
         this.setState({ [event.target.name]: event.target.checked }, () => {
-            if (this.state.preview_feature !== undefined && this.state.preview_feature === true) {
-                this.setState({ point: this.state.feature });
+            if (this.state.preview_feature) {
+                this.setState({ point: this.state.geometry_feature });
             }
         });
 
@@ -122,15 +133,9 @@ class AddFeature extends Component {
      */
     filterDistrictsPerRegion = (gis_filters) => {
 
-        return gis_filters.filter((region) => {
+        return gis_filters.map((region) => {
 
-            if (region.properties.name === this.state.region_name) {
-
-                return region;
-
-            }
-
-            return null;
+            return region;
 
         });
 
@@ -144,19 +149,16 @@ class AddFeature extends Component {
      * 
      */
     renderDistricts = ({ gis_filters }) => {
-        // console.log(gis_filters)
-        if (this.state.region_name !== undefined && this.state.region_name !== null) {
 
-            return this.filterDistrictsPerRegion(gis_filters).map(({ districts }) => {
+        return gis_filters.map(({ districts }) => {
 
-                return districts.map(({ properties, _id }) => {
+            return districts.map(({ properties, _id }) => {
 
-                    return <option value={properties.name} key={_id}>{properties.name}</option>
+                return <option value={properties.name} key={_id}>{properties.name}</option>
 
-                });
             });
 
-        }
+        });
 
     }
 
@@ -167,7 +169,7 @@ class AddFeature extends Component {
         event.preventDefault();
 
         const {
-            selectedvalue, region_name, district_name,
+            selectedvalue, district_name,
             marep_center_ta, marep_center_latitude, marep_center_longitude,
             transformer_latitude, /*transformer_location,*/ transformer_longitude, /*transformer_position,*/
             /*transformer_primary, transformer_station, transformer_voltage,*/ transformer_ta,
@@ -189,12 +191,12 @@ class AddFeature extends Component {
                         if (marep_center_latitude && marep_center_ta && marep_center_longitude) {
                             // define question structure
                             const center = {
-                                region: region_name,
                                 district: district_name,
                                 ta: marep_center_ta,
-                                lat: marep_center_latitude,
-                                lng: marep_center_longitude
+                                lat: Number(marep_center_latitude),
+                                lng: Number(marep_center_longitude)
                             }
+
                             // create new center
                             this.props.addFeature(center, "marep-centers", user.token);
                             // // then change state to default
@@ -211,7 +213,6 @@ class AddFeature extends Component {
                         if (transformer_latitude && transformer_ta && transformer_longitude) {
                             // define transformer structure
                             const transformer = {
-                                region: region_name,
                                 district: district_name,
                                 ta: transformer_ta,
                                 lat: transformer_latitude,
@@ -234,8 +235,6 @@ class AddFeature extends Component {
                         if (plant_latitude && plant_ta && plant_longitude) {
                             // define power plant structure
                             const power_plant = {
-                                region: region_name,
-                                district: district_name,
                                 ta: plant_ta,
                                 lat: plant_latitude,
                                 lng: plant_longitude
@@ -256,7 +255,6 @@ class AddFeature extends Component {
                         if (_distribution_line) {
                             // define question structure
                             const _line = {
-                                region: region_name,
                                 district: district_name,
                                 line: _distribution_line
                             }
@@ -276,8 +274,6 @@ class AddFeature extends Component {
                         if (substation_latitude && substation_ta && substation_longitude) {
                             // define question structure
                             const substation = {
-                                region: region_name,
-                                district: district_name,
                                 ta: substation_ta,
                                 lat: substation_latitude,
                                 lng: substation_longitude
@@ -302,13 +298,14 @@ class AddFeature extends Component {
         // props
         const { classes } = this.props;
         const {
-            marep_center_ta, marep_center_latitude, marep_center_longitude,
+            preview_feature, marep_center_ta, marep_center_latitude, marep_center_longitude,
             transformer_latitude, transformer_location, transformer_longitude, transformer_position,
             transformer_primary, transformer_station, transformer_voltage,
             plant_latitude, plant_longitude, plant_status, plant_name, plant_type, plant_ta,
             substation_latitude, substation_location, substation_name, substation_secondary, substation_ta,
             substation_transmission, substation_longitude, distribution_line
         } = this.state;
+
         /**
          * Check which feature is to be added
          * Then render the corresponding form fields
@@ -357,7 +354,9 @@ class AddFeature extends Component {
                                 className={classes.margin}
                                 name="save"
                                 type="submit"
-                                disabled={!(marep_center_latitude && marep_center_longitude && marep_center_ta)}
+                                disabled={
+                                    !(marep_center_latitude && marep_center_longitude && marep_center_ta && preview_feature)
+                                }
                                 intent="success"
                                 text="Save Marep Center"
                             />
@@ -673,7 +672,7 @@ class AddFeature extends Component {
         // loading status, gis_filters from props
         const { classes, handleClick } = this.props;
         // state props 
-        const { feature, district_name, selectedvalue } = this.state;
+        const { feature, district_name, selectedvalue, country_name } = this.state;
 
         return (
             <Fragment>
@@ -700,7 +699,7 @@ class AddFeature extends Component {
                         </a>
                     </li>
                     {
-                        (this.state.feature === 'other' && this.state.preview_feature) && (
+                        this.state.preview_feature && (
                             <li className="nav-item">
                                 <a className="nav-link" data-toggle="tab" href="#preview">
                                     Preview
@@ -750,7 +749,6 @@ class AddFeature extends Component {
                                                 >
                                                     <option value="">{`Choose district`}</option>
                                                     {this.renderDistricts(this.props)}
-                                                    <option value="Chitipa">Chitipa</option>
                                                 </SelectInputControl>
 
                                             </Paper>
@@ -794,15 +792,37 @@ class AddFeature extends Component {
                                             <Paper elevation={0}>
 
                                                 <SelectInputControl
-                                                    name="district_feature_type"
-                                                    label="Type(*)"
+                                                    name="country_name"
+                                                    label="Country(*)"
                                                     {...this.state}
-                                                    onChange={e => this.handleSelectChange(e)}
+                                                    onChange={e => this.handleChange(e)}
                                                 >
-                                                    <option value="">{`Choose feature type`}</option>
-                                                    <option value="power_plant">Power Plant</option>
-                                                    <option value="substation">Substation</option>
+                                                    <option value="">{`Choose country`}</option>
+                                                    <option value="Malawi">Malawi</option>
                                                 </SelectInputControl>
+
+                                            </Paper>
+
+                                        </FormControl>
+                                        { /** filter sections here */}
+                                        <FormControl className={classes.margin}>
+
+                                            <Paper elevation={0}>
+
+                                                {
+                                                    country_name && (
+                                                        <SelectInputControl
+                                                            name="district_feature_type"
+                                                            label="Type(*)"
+                                                            {...this.state}
+                                                            onChange={e => this.handleSelectChange(e)}
+                                                        >
+                                                            <option value="">{`Choose feature type`}</option>
+                                                            <option value="power_plant">Power Plant</option>
+                                                            <option value="substation">Substation</option>
+                                                        </SelectInputControl>
+                                                    )
+                                                }
 
                                             </Paper>
 
@@ -838,7 +858,7 @@ class AddFeature extends Component {
                         </Fragment>
                     </div>
                     <div id="preview" className="tab-pane fade">
-                        {/* <CMSMapPreview {...this.state} /> */}
+                        <CMSMapPreview {...this.state} />
                     </div>
                 </div>
             </Fragment>

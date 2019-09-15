@@ -34,8 +34,7 @@ class PointMarker extends Component {
    * @param {InfoWindow} window
    */
   showInforWindow = (information ) => {
-      console.log(information)
-    
+    console.log(information)
     // Show inforwindow only if all the givwn conditions hold true
     if(information !== undefined && information !== null && this.state.show) {
     

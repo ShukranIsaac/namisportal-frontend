@@ -26,24 +26,24 @@ class CMSMapPreview extends Component {
      * @param {Props} props
      * @returns {MarkerClusterer} markers
      */
-    renderDistrictMarepCenters = ({district_name, marep_center, m_centers, isLoading}) => {
-    
-        if(!isLoading) {
+    renderDistrictMarepCenters = ({ district_name, marep_center, m_centers, isLoading }) => {
+
+        if (!isLoading) {
 
             if (district_name !== null && district_name !== undefined && marep_center) {
 
                 if (m_centers !== null && m_centers !== undefined && m_centers.length !== null) {
-                
-                return this.markerClusterer(m_centers, 'Marep Center');
-        
+
+                    return this.markerClusterer(m_centers, 'Marep Center');
+
                 }
-        
+
             } else {
-        
+
                 return (
-                <>
-                    <MarkerClusterer />
-                </>
+                    <>
+                        <MarkerClusterer />
+                    </>
                 );
             }
 
@@ -55,46 +55,56 @@ class CMSMapPreview extends Component {
 
     }
 
-    previewCenter = ({ district_name, point }) => {
+    getType = ({ type }) => {
+        switch (type) {
+            case 'marep_center':
+                return 'Marep Center';
+            case 'transfomer':
+                return 'Transformer';
+            case 'power_plant':
+                return 'Power Plant';
+            default:
+                return undefined;
+        }
+    }
 
-        if (district_name !== null && district_name !== undefined) {
+    previewGeometry = ({ district_name, marep_center_ta, point }) => {
 
-            if (point !== null && point !== undefined) {
+        if (district_name) {
+
+            if (point) {
 
                 // lat: -12.32240657526815, lng: 33.43241472365981
-                const center = [
-                    {
-                        lat: Number(point.marep_center_latitude),
-                        lng: Number(point.marep_center_longitude)
+                const information = {
+                    properties: {
+                        district: district_name,
+                        ta: marep_center_ta
+                    },
+                    geometry: {
+                        coordinates: {
+                            lat: Number(point.marep_center_latitude),
+                            lng: Number(point.marep_center_longitude)
+                        },
+                        type: 'Point'
                     }
-                ]
+                }
 
                 return (
                     <Fragment>
-    
-                        {
-                            center.map((coordinates, key) => {
 
-                                console.log(coordinates)
-                                return (
-                                    <Marker key={key} position={coordinates}></Marker>
-                                )
+                        <PointMarker 
+                            title={ this.getType({ type: point.type }) } 
+                            point={information} 
+                        />
 
-                            })
-                        }
-    
                     </Fragment>
                 );
-    
+
             }
-    
+
         } else {
-    
-            return (
-            <>
-                <MarkerClusterer />
-            </>
-            );
+
+            return null
         }
 
     }
@@ -108,29 +118,29 @@ class CMSMapPreview extends Component {
      * @param {Boolean} distribution_lines
      * @returns {Polyline} polyline
      */
-    renderPolyline = ({polyline, distribution_lines, eleven_kv_lines}) => {
+    renderPolyline = ({ polyline, distribution_lines, eleven_kv_lines }) => {
 
         if ((distribution_lines || eleven_kv_lines) && polyline !== null && polyline !== undefined) {
 
             return polyline.map((line, key) => {
-            
+
                 return (
                     <Fragment key={line._id}>
-                    <Polyline
-                        path={line.geometry.coordinates[0]}
-                        geodesic={true}
-                        options={{
-                        strokeColor: distribution_lines ? "blue" : "#4cd137",
-                        strokeOpacity: 0.75,
-                        strokeWeight: 2,
-                        icons: [
-                            {
-                                offset: "0",
-                                repeat: "20px"
-                            }
-                        ]
-                        }}
-                    />
+                        <Polyline
+                            path={line.geometry.coordinates[0]}
+                            geodesic={true}
+                            options={{
+                                strokeColor: distribution_lines ? "blue" : "#4cd137",
+                                strokeOpacity: 0.75,
+                                strokeWeight: 2,
+                                icons: [
+                                    {
+                                        offset: "0",
+                                        repeat: "20px"
+                                    }
+                                ]
+                            }}
+                        />
                     </Fragment>
                 );
 
@@ -142,12 +152,12 @@ class CMSMapPreview extends Component {
 
     renderPowerPlants = ({ power_plants, isLoading }) => {
 
-        if(!isLoading) {
+        if (!isLoading) {
 
-            if(power_plants !== null) {
+            if (power_plants !== null) {
 
                 return this.markerClusterer(power_plants, 'Power Plant');
-        
+
             }
 
         } else {
@@ -176,7 +186,7 @@ class CMSMapPreview extends Component {
                             clusters.map((point) => {
 
                                 return (
-                                    <PointMarker point={point} title={title}/>
+                                    <PointMarker point={point} title={title} />
                                 )
 
                             })
@@ -190,7 +200,7 @@ class CMSMapPreview extends Component {
 
     }
 
-    
+
 
     /**
      * Renders region meters
@@ -199,7 +209,7 @@ class CMSMapPreview extends Component {
      * @param {Object} meters
      * @returns markers
      */
-    renderRegionMeters = ({region_name, meters, color}) => {
+    renderRegionMeters = ({ region_name, meters, color }) => {
 
         if (region_name !== null && region_name !== undefined) {
 
@@ -210,7 +220,7 @@ class CMSMapPreview extends Component {
 
                         {
                             meters.centers.map((point, key) => {
-                                
+
                                 return <Marker position={point.coordinates} key={key} />
 
                             })
@@ -240,7 +250,7 @@ class CMSMapPreview extends Component {
      * @param {Object} meters
      * @returns markers
      */
-    renderDistrictMeters = ({district_name, meters, color}) => {
+    renderDistrictMeters = ({ district_name, meters, color }) => {
 
         if (district_name !== null && district_name !== undefined) {
 
@@ -251,7 +261,7 @@ class CMSMapPreview extends Component {
 
                         {
                             meters.centers.map((point, key) => {
-                            
+
                                 return <Marker position={point.coordinates} key={key} />
 
                             })
@@ -274,54 +284,54 @@ class CMSMapPreview extends Component {
 
     }
 
-        /**
-     * Renders district transformers
-     * 
-     * @param {String} district_name
-     * @param {Object} transformers
-     * @param {Boolean} ground_transformers
-     * @param {Boolean} up_transformers
-     * @returns markers
-     */
+    /**
+ * Renders district transformers
+ * 
+ * @param {String} district_name
+ * @param {Object} transformers
+ * @param {Boolean} ground_transformers
+ * @param {Boolean} up_transformers
+ * @returns markers
+ */
     renderTransformers = ({
-        district_name, transformers, 
+        district_name, transformers,
         color, ground_transformers,
         up_transformers, isLoading
     }) => {
 
         if (!isLoading) {
-        
+
             if (district_name !== null && district_name !== undefined) {
 
                 if (transformers !== null && transformers !== undefined
                     && (ground_transformers || up_transformers)) {
-                
+
                     return (
                         <MarkerClusterer averageCenter>
-            
+
                             {
                                 transformers.map((transformer) => {
-                
+
                                     return (
-                                        <PointMarker key={transformer._id} point={transformer} title='Transformer'/>
+                                        <PointMarker key={transformer._id} point={transformer} title='Transformer' />
                                     )
-                
+
                                 })
                             }
-            
+
                         </MarkerClusterer>
                     );
-        
-                } 
-        
+
+                }
+
             } else {
-        
+
                 return (
                     <>
                         <MarkerClusterer />
                     </>
                 );
-        
+
             }
 
         } else {
@@ -343,7 +353,7 @@ class CMSMapPreview extends Component {
     renderPolygon = (polygons, color, opacity) => {
 
         if (polygons !== undefined && polygons !== null) {
-        
+
             return polygons.map(({ geometry: { coordinates }, _id }) => {
 
                 return (
@@ -359,13 +369,13 @@ class CMSMapPreview extends Component {
                         />
                     </Fragment>
                 );
-        
+
             });
 
         }
 
     }
-    
+
     /**
      * Region polygon
      * 
@@ -373,18 +383,18 @@ class CMSMapPreview extends Component {
      * @param {Array} r_polygons
      * @returns renderPolygon
      */
-    renderRegionPolygon = ({region, r_polygons, isLoading }) => {
+    renderRegionPolygon = ({ region, r_polygons, isLoading }) => {
 
         if (!isLoading) {
-        
-            if( region !== null && region !== undefined){
 
-                if(r_polygons !== undefined && r_polygons !== null) {
+            if (region !== null && region !== undefined) {
+
+                if (r_polygons !== undefined && r_polygons !== null) {
 
                     return this.renderPolygon(r_polygons.polygons, "red", 0.3);
 
                 }
-        
+
             }
 
         } else {
@@ -405,17 +415,17 @@ class CMSMapPreview extends Component {
     renderDistrictPolygon = ({ district_name, d_polygons, isLoading }) => {
 
         if (!isLoading) {
-        
+
             if (district_name !== null && district_name !== undefined) {
 
                 return this.renderPolygon(d_polygons, "yellow", 0.31);
-        
+
             }
 
         } else {
 
             return <div className="loader" />
-        
+
         }
 
     }
@@ -445,7 +455,7 @@ class CMSMapPreview extends Component {
      * 
      * @returns {Array} centroid
      */
-    getPolygonCentroid = ({district_name, centroids}) => {
+    getPolygonCentroid = ({ district_name, centroids }) => {
 
         if (district_name !== null && district_name !== undefined) {
 
@@ -457,7 +467,7 @@ class CMSMapPreview extends Component {
 
         } else {
 
-            return this.props.newCenter;
+            return this.props.newcenter;
 
         }
 
@@ -467,7 +477,6 @@ class CMSMapPreview extends Component {
 
         const google = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyA8-4amVHsfL-PCglVdff9yauniqT4hVQk&libraries=places';
         const { h } = this.props;
-        // console.log(this.props);
 
         return (
             <Fragment>
@@ -478,11 +487,11 @@ class CMSMapPreview extends Component {
                     onDistrictChanged={this.renderDistrictPolygon(this.props)}
                     onRegionChanged={this.renderRegionPolygon(this.props)}
                     onMarepCenter={this.renderDistrictMarepCenters(this.props)}
-                    previewCenter={ this.previewCenter(this.props) }
+                    preview={this.previewGeometry(this.props)}
                     onDistrictMeters={this.renderDistrictMeters(this.props)}
                     onRegionMeters={this.renderRegionMeters(this.props)}
                     onTransformers={this.renderTransformers(this.props)}
-                    onCenterChanged= {this.getPolygonCentroid(this.props)}
+                    onCenterChanged={this.getPolygonCentroid(this.props)}
                     onPolyline={this.renderPolyline(this.props)}
                     onPowerPlantChanged={this.renderPowerPlants(this.props)}
                     {...this.props}
