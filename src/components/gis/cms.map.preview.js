@@ -467,7 +467,7 @@ class CMSMapPreview extends Component {
 
         const google = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyA8-4amVHsfL-PCglVdff9yauniqT4hVQk&libraries=places';
         const { h } = this.props;
-        console.log(this.props);
+        // console.log(this.props);
 
         return (
             <Fragment>

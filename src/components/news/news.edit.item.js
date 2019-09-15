@@ -230,7 +230,11 @@ class EditNewsItem extends Component {
 
                     <Button
                         type="submit"
-                        disabled={!(title)}
+                        // should be disabled until some form field has been edited
+                        // but for now default it to false
+                        // because the editor's text is not managed by state thus currently no way to track
+                        // if anything was edited i.e !(title || article)
+                        disabled={false}
                         color="primary"
                     >
                         Save

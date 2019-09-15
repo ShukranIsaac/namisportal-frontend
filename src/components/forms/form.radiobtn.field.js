@@ -24,12 +24,12 @@ const RadioButtons = ({
     classes, selectedValue, feature,
     handleRadioBtnChange,
 }) => {
-    
+
     return (
         <div>
 
             {
-                feature !== 'national' && (
+                feature === 'national' && (
                     <>
                         <Radio
                             checked={selectedValue === 'marep_center'}
@@ -73,31 +73,37 @@ const RadioButtons = ({
                 )
             }
 
-            <Radio
-                checked={selectedValue === 'power_plant'}
-                onChange={(e) => handleRadioBtnChange(e)}
-                value="power_plant"
-                name="power_plant"
-                aria-label="Power Plant"
-                classes={{
-                    root: classes.root,
-                    checked: classes.checked,
-                }}
-            />
-            <InputLabel shrink htmlFor="option-open-radio">Power Plant</InputLabel>
+            {
+                feature === 'district' && (
+                    <>
+                        <Radio
+                            checked={selectedValue === 'power_plant'}
+                            onChange={(e) => handleRadioBtnChange(e)}
+                            value="power_plant"
+                            name="power_plant"
+                            aria-label="Power Plant"
+                            classes={{
+                                root: classes.root,
+                                checked: classes.checked,
+                            }}
+                        />
+                        <InputLabel shrink htmlFor="option-open-radio">Power Plant</InputLabel>
 
-            <Radio
-                checked={selectedValue === 'substation'}
-                onChange={(e) => handleRadioBtnChange(e)}
-                value="substation"
-                name="substation"
-                aria-label="SubStation"
-                classes={{
-                    root: classes.root,
-                    checked: classes.checked,
-                }}
-            />
-            <InputLabel shrink htmlFor="option-open-radio">Sub-station</InputLabel>
+                        <Radio
+                            checked={selectedValue === 'substation'}
+                            onChange={(e) => handleRadioBtnChange(e)}
+                            value="substation"
+                            name="substation"
+                            aria-label="SubStation"
+                            classes={{
+                                root: classes.root,
+                                checked: classes.checked,
+                            }}
+                        />
+                        <InputLabel shrink htmlFor="option-open-radio">Sub-station</InputLabel>
+                    </>
+                )
+            }
 
         </div>
     );

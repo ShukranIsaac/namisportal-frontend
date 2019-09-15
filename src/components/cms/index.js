@@ -132,13 +132,13 @@ class CMSIndex extends React.Component {
         if (roles.admin || roles.writer || roles.publisher) {
             this.fetchComponent(link)
 
-            const { match, history } = this.props;
+            // const { match, history } = this.props;
 
-            // get url navigated to, and change push to the navigation bar
-            const prevUrl = `${match.path}/${link}`;
-            if (prevUrl) {
-                history.push(prevUrl);
-            }
+            // // get url navigated to, and change push to the navigation bar
+            // const prevUrl = `${match.path}/${link}`;
+            // if (prevUrl) {
+            //     history.push(prevUrl);
+            // }
 
             // then call default event action so that when a new section is visited on link change 
             // the app should set state to deafult and show home page for that section.

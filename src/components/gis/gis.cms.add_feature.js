@@ -8,11 +8,10 @@ import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
 
 // import * as GisAction from '../../actions/index';
-import CMSMapPreview from './cms.map.preview';
+// import CMSMapPreview from './cms.map.preview';
 import { FormControl, Paper, withStyles } from '@material-ui/core';
 import { SelectInputControl } from '../forms/form.selectinput.field';
 import styles from '../contact/form.styles';
-import RadioButtons from '../forms/form.radiobtn.field';
 import { Divider, Intent, Button } from '@blueprintjs/core';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { UserProfile } from '../user/user.profile';
@@ -48,24 +47,16 @@ class AddFeature extends Component {
             },
             show: false,
             h: `750px`,
-            selectedValue: 'marep_center',
             previewMap: true,
         };
 
-        this.handleRadioBtnChange = this.handleRadioBtnChange.bind(this);
+        this.handleSelectChange = this.handleSelectChange.bind(this);
 
     }
 
     handleTextChange = event => this.setState({ [event.target.name]: event.target.value });
 
     handleChange = (e) => {
-        // if feature equals natinal
-        // set state to power-plant
-        if (e.target.value === 'national') {
-            this.setState({ selectedValue: 'power_plant' });
-        } else {
-            this.setState({ selectedValue: 'marep_center' });
-        }
 
         // console.log(e.currentTarget)
         this.setState({ [e.target.name]: e.target.value }, () => {
@@ -83,15 +74,15 @@ class AddFeature extends Component {
                     marep_center_longitude: state.marep_center_longitude
                 }
 
-                console.log(center)
+                // console.log(center)
                 // set feature state for preview on map
                 this.setState({ feature: center });
             }
         });
     }
 
-    handleRadioBtnChange = event => {
-        this.setState({ selectedValue: event.target.value });
+    handleSelectChange = event => {
+        this.setState({ selectedvalue: event.target.value });
     };
 
     handleChecked = (event) => {
@@ -169,68 +160,6 @@ class AddFeature extends Component {
 
     }
 
-    addFeature = ({ name }) => {
-        // props
-        const { classes } = this.props;
-
-        /**
-         * Check which feature is to be added
-         * between region and district.
-         */
-        switch (name) {
-            case 'region':
-                return (
-                    <form onSubmit={(e) => e.preventDefault()}>
-                        <BootstrapGridColumn>
-                            <BootsrapTextField
-                                value={this.state.region_name}
-                                name="region_name"
-                                placeholder="Create new region name..."
-                                label="Region Name"
-                                type="text"
-                                handleChange={this.handleTextChange}
-                            />
-                        </BootstrapGridColumn>
-
-                        <Button
-                            className={classes.margin}
-                            type="submit"
-                            disabled={!(this.state.region_name)}
-                            intent="success"
-                            text="Save"
-                        />
-                    </form>
-                );
-            case 'district':
-                return (
-                    <form onSubmit={(e) => e.preventDefault()}>
-                        <div className='margin-fix form-row'>
-                            <BootstrapGridColumn>
-                                <BootsrapTextField
-                                    name="district_name"
-                                    value={this.state.district_name}
-                                    placeholder="Create new district name..."
-                                    label="District Name*"
-                                    type="text"
-                                    handleChange={this.handleTextChange}
-                                />
-                            </BootstrapGridColumn>
-                        </div>
-
-                        <Button
-                            className={classes.margin}
-                            type="submit"
-                            disabled={!(this.state.district_name)}
-                            intent="success"
-                            text="Save"
-                        />
-                    </form>
-                );
-            default:
-                return null;
-        }
-    }
-
     /**
      * Handle feature submit
      */
@@ -238,7 +167,7 @@ class AddFeature extends Component {
         event.preventDefault();
 
         const {
-            selectedValue, region_name, district_name,
+            selectedvalue, region_name, district_name,
             marep_center_ta, marep_center_latitude, marep_center_longitude,
             transformer_latitude, /*transformer_location,*/ transformer_longitude, /*transformer_position,*/
             /*transformer_primary, transformer_station, transformer_voltage,*/ transformer_ta,
@@ -248,16 +177,16 @@ class AddFeature extends Component {
         } = this.state;
         // const { props: { addFeature }, gis_filters } = this.props;
         // preview feature first before submitting
-        if (selectedValue) {
+        if (selectedvalue) {
             // get authenticated user token
             const user = UserProfile.get();
             // feature type
-            switch (selectedValue) {
+            switch (selectedvalue) {
                 case 'marep_center':
                     if (user !== null && user.token !== undefined) {
 
                         // check if resource or file if being added
-                        if (marep_center_latitude  && marep_center_ta && marep_center_longitude) {
+                        if (marep_center_latitude && marep_center_ta && marep_center_longitude) {
                             // define question structure
                             const center = {
                                 region: region_name,
@@ -269,8 +198,7 @@ class AddFeature extends Component {
                             // create new center
                             this.props.addFeature(center, "marep-centers", user.token);
                             // // then change state to default
-                            // // so that the page redirects and list all frequently asked questions
-                            this.props.defaultItem();
+                            this.props.createItem();
                         }
 
                     }
@@ -280,7 +208,7 @@ class AddFeature extends Component {
                     if (user !== null && user.token !== undefined) {
 
                         // check if resource
-                        if (transformer_latitude && transformer_ta && transformer_longitude ) {
+                        if (transformer_latitude && transformer_ta && transformer_longitude) {
                             // define transformer structure
                             const transformer = {
                                 region: region_name,
@@ -293,7 +221,7 @@ class AddFeature extends Component {
                             this.props.addFeature(transformer, "transformers", user.token);
                             // // then change state to default
                             // // so that the page redirects
-                            this.props.defaultItem();
+                            this.props.createItem();
                         }
 
                     }
@@ -303,7 +231,7 @@ class AddFeature extends Component {
                     if (user !== null && user.token !== undefined) {
 
                         // check if resource
-                        if (plant_latitude &&plant_ta&& plant_longitude ) {
+                        if (plant_latitude && plant_ta && plant_longitude) {
                             // define power plant structure
                             const power_plant = {
                                 region: region_name,
@@ -315,8 +243,7 @@ class AddFeature extends Component {
                             // create new power_plant
                             this.props.addFeature(power_plant, "power-plants", user.token);
                             // // then change state to default
-                            // // so that the page redirects and list all frequently asked questions
-                            this.props.defaultItem();
+                            this.props.createItem();
                         }
 
                     }
@@ -336,8 +263,7 @@ class AddFeature extends Component {
                             // create new distribution_line
                             this.props.addFeature(_line, "distribution-lines", user.token);
                             // // then change state to default
-                            // // so that the page redirects and list all frequently asked questions
-                            this.props.defaultItem();
+                            this.props.createItem();
                         }
 
                     }
@@ -347,7 +273,7 @@ class AddFeature extends Component {
                     if (user !== null && user.token !== undefined) {
 
                         // check if resource or file if being added
-                        if (substation_latitude&&substation_ta&&substation_longitude) {
+                        if (substation_latitude && substation_ta && substation_longitude) {
                             // define question structure
                             const substation = {
                                 region: region_name,
@@ -358,9 +284,8 @@ class AddFeature extends Component {
                             }
                             // create new substation
                             this.props.addFeature(substation, "sub-stations", user.token);
-                            // // then change state to default
-                            // // so that the page redirects and list all frequently asked questions
-                            this.props.defaultItem();
+                            // then change state to default
+                            this.props.createItem();
                         }
 
                     }
@@ -427,15 +352,16 @@ class AddFeature extends Component {
                             </BootstrapGridColumn>
                         </div>
 
-                        <Fragment>
+                        <div className="form-button-margin">
                             <Button
                                 className={classes.margin}
                                 name="save"
                                 type="submit"
                                 disabled={!(marep_center_latitude && marep_center_longitude && marep_center_ta)}
-                                intent="success" text="Save Marep Center"
+                                intent="success"
+                                text="Save Marep Center"
                             />
-                        </Fragment>
+                        </div>
                     </form>
                 );
             case 'transformer':
@@ -519,15 +445,17 @@ class AddFeature extends Component {
                             </BootstrapGridColumn>
                         </div>
 
-                        <Button
-                            className={classes.margin}
-                            type="submit"
-                            disabled={
-                                !(transformer_longitude && transformer_latitude && transformer_voltage &&
-                                    transformer_primary && transformer_position && transformer_location && transformer_station)}
-                            intent="success"
-                            text="Save Transformer"
-                        />
+                        <div className="form-button-margin">
+                            <Button
+                                className={classes.margin}
+                                type="submit"
+                                disabled={
+                                    !(transformer_longitude && transformer_latitude && transformer_voltage &&
+                                        transformer_primary && transformer_position && transformer_location && transformer_station)}
+                                intent="success"
+                                text="Save Transformer"
+                            />
+                        </div>
                     </form>
                 );
             case 'power_plant':
@@ -603,14 +531,16 @@ class AddFeature extends Component {
                             </BootstrapGridColumn>
                         </div>
 
-                        <Button
-                            className={classes.margin}
-                            type="submit"
-                            disabled={!(plant_latitude && plant_longitude && plant_name && plant_status &&
-                                plant_ta && plant_type)}
-                            intent="success"
-                            text="Save Plant"
-                        />
+                        <div className="form-button-margin">
+                            <Button
+                                className={classes.margin}
+                                type="submit"
+                                disabled={!(plant_latitude && plant_longitude && plant_name && plant_status &&
+                                    plant_ta && plant_type)}
+                                intent="success"
+                                text="Save Plant"
+                            />
+                        </div>
                     </form>
                 );
             case 'substation':
@@ -695,14 +625,16 @@ class AddFeature extends Component {
                             </BootstrapGridColumn>
                         </div>
 
-                        <Button
-                            className={classes.margin}
-                            type="submit"
-                            disabled={!(substation_latitude&&substation_secondary&&substation_location&&
-                                substation_longitude&&substation_name&&substation_ta&&substation_transmission)}
-                            intent="success"
-                            text="Save Substation"
-                        />
+                        <div className="form-button-margin">
+                            <Button
+                                className={classes.margin}
+                                type="submit"
+                                disabled={!(substation_latitude && substation_secondary && substation_location &&
+                                    substation_longitude && substation_name && substation_ta && substation_transmission)}
+                                intent="success"
+                                text="Save Substation"
+                            />
+                        </div>
                     </form>
                 );
             case 'distribution_line':
@@ -712,7 +644,7 @@ class AddFeature extends Component {
                             <BootsrapTextareaField
                                 name="_distribution_line"
                                 value={this.state._distribution_line}
-                                placeholder="Enter new valid distribution line, i.e [[34.234568, -0.243536],...]"
+                                placeholder="Enter new distribution line, i.e [[34.234568, -0.243536],...]"
                                 label="Distribution Line*"
                                 type="text"
                                 rows={4}
@@ -720,13 +652,15 @@ class AddFeature extends Component {
                             />
                         </div>
 
-                        <Button
-                            className={classes.margin}
-                            type="submit"
-                            disabled={!(distribution_line)}
-                            intent="success"
-                            text="Save Distribution Line"
-                        />
+                        <div className="form-button-margin">
+                            <Button
+                                className={classes.margin}
+                                type="submit"
+                                disabled={!(distribution_line)}
+                                intent="success"
+                                text="Save Distribution Line"
+                            />
+                        </div>
                     </form>
                 );
             default:
@@ -738,6 +672,8 @@ class AddFeature extends Component {
 
         // loading status, gis_filters from props
         const { classes, handleClick } = this.props;
+        // state props 
+        const { feature, district_name, selectedvalue } = this.state;
 
         return (
             <Fragment>
@@ -785,104 +721,124 @@ class AddFeature extends Component {
                                     name="feature"
                                     label="Feature(*)"
                                     {...this.state}
-                                    // value={ this.state.section }
                                     onChange={e => this.handleChange(e)}
                                 >
                                     <option value="">{`Add feature`}</option>
                                     <option value="national">{`National`}</option>
-                                    <option value="region">{`Region`}</option>
                                     <option value="district">{`District`}</option>
-                                    <option value="other">{`Other`}</option>
                                 </SelectInputControl>
 
                             </Paper>
 
                         </FormControl>
 
-                        {
-                            this.state.feature === 'other' || this.state.feature === 'national' ? (
-                                <Fragment>
+                        <Fragment>
 
-                                    {
-                                        this.state.feature !== 'national' && (
-                                            <>
-                                                { /** filter sections here */}
-                                                <FormControl className={classes.margin}>
+                            {
+                                feature === 'district' && (
+                                    <>
+                                        { /** filter sections here */}
+                                        <FormControl className={classes.margin}>
 
-                                                    <Paper elevation={0}>
+                                            <Paper elevation={0}>
 
+                                                <SelectInputControl
+                                                    name="district_name"
+                                                    label="District(*)"
+                                                    {...this.state}
+                                                    onChange={e => this.handleChange(e)}
+                                                >
+                                                    <option value="">{`Choose district`}</option>
+                                                    {this.renderDistricts(this.props)}
+                                                    <option value="Chitipa">Chitipa</option>
+                                                </SelectInputControl>
+
+                                            </Paper>
+
+                                        </FormControl>
+
+                                        { /** filter sections here */}
+                                        <FormControl className={classes.margin}>
+
+                                            <Paper elevation={0}>
+
+                                                {
+                                                    district_name && (
                                                         <SelectInputControl
-                                                            name="region_name"
-                                                            label="Region(*)"
+                                                            name="district_feature_type"
+                                                            label="Type(*)"
                                                             {...this.state}
-                                                            onChange={e => this.handleChange(e)}
+                                                            onChange={e => this.handleSelectChange(e)}
                                                         >
-                                                            <option value="">{`Choose region`}</option>
-                                                            {this.renderRegions(this.props)}
+                                                            <option value="">{`Choose feature type`}</option>
+                                                            <option value="marep_center">Marep Center</option>
+                                                            <option value="transformer">Transformer</option>
+                                                            <option value="distribution_line">Distribution Line</option>
                                                         </SelectInputControl>
+                                                    )
+                                                }
 
-                                                    </Paper>
+                                            </Paper>
 
-                                                </FormControl>
-
-                                                { /** filter sections here */}
-                                                <FormControl className={classes.margin}>
-
-                                                    <Paper elevation={0}>
-
-                                                        <SelectInputControl
-                                                            name="district_name"
-                                                            label="District(*)"
-                                                            {...this.state}
-                                                            onChange={e => this.handleChange(e)}
-                                                        >
-                                                            <option value="">{`Choose district`}</option>
-                                                            {this.renderDistricts(this.props)}
-                                                        </SelectInputControl>
-
-                                                    </Paper>
-
-                                                </FormControl>
-                                            </>
-                                        )
-                                    }
-
-                                    <RadioButtons
-                                        {...this.state}
-                                        handleRadioBtnChange={this.handleRadioBtnChange}
-                                    />
-
-                                    <Divider />
-
-                                    {
-                                        this.renderForms({ selected: this.state.selectedValue })
-                                    }
-
-                                    <div className={classes.margin}>
-                                        <FormCheckboxControl
-                                            name='preview_feature'
-                                            value='Preview on Map'
-                                            isChecked={this.state.preview_feature}
-                                            classes={classes}
-                                            handleChange={(e) => { this.handleChecked(e) }}
-                                        />
-                                    </div>
-
-                                </Fragment>
-                            ) : (
-                                    <Fragment className={classes.margin}>
-
-                                        <Divider />
-
-                                        {
-                                            this.addFeature({ name: this.state.feature })
-                                        }
-                                    </Fragment>
+                                        </FormControl>
+                                    </>
                                 )
-                        }
+                            }
+
+                            {
+                                feature === 'national' && (
+                                    <>
+                                        { /** filter sections here */}
+                                        <FormControl className={classes.margin}>
+
+                                            <Paper elevation={0}>
+
+                                                <SelectInputControl
+                                                    name="district_feature_type"
+                                                    label="Type(*)"
+                                                    {...this.state}
+                                                    onChange={e => this.handleSelectChange(e)}
+                                                >
+                                                    <option value="">{`Choose feature type`}</option>
+                                                    <option value="power_plant">Power Plant</option>
+                                                    <option value="substation">Substation</option>
+                                                </SelectInputControl>
+
+                                            </Paper>
+
+                                        </FormControl>
+                                    </>
+                                )
+                            }
+
+                            <Divider />
+
+                            {
+                                feature || district_name
+                                    ? this.renderForms({ selected: this.state.selectedvalue })
+                                    : null
+                            }
+
+                            <div className={classes.margin}>
+                                {
+                                    feature && (
+                                        selectedvalue && (
+                                            <FormCheckboxControl
+                                                name='preview_feature'
+                                                value='Preview on Map'
+                                                isChecked={this.state.preview_feature}
+                                                classes={classes}
+                                                handleChange={(e) => { this.handleChecked(e) }}
+                                            />
+                                        )
+                                    )
+                                }
+                            </div>
+
+                        </Fragment>
                     </div>
                     <div id="preview" className="tab-pane fade">
-                        <CMSMapPreview {...this.state} />
+                        {/* <CMSMapPreview {...this.state} /> */}
                     </div>
                 </div>
             </Fragment>
