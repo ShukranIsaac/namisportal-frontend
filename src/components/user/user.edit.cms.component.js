@@ -293,9 +293,19 @@ class EditUserAccount extends Component {
                             )
                         )
                     }
-                    <li className="nav-item">
-                        <a className="nav-link" data-toggle="tab" href="#changePassword">Change Password</a>
-                    </li>
+
+                    {
+                        // if logged in account is different from that which is editing
+                        // disable change password tab, 
+                        // only the account owner must be allowed to change password
+                        (current && userAuth) && (
+                            current._id === userAuth._id && (
+                                <li className="nav-item">
+                                    <a className="nav-link" data-toggle="tab" href="#changePassword">Change Password</a>
+                                </li>
+                            )
+                        )
+                    }
                 </ul>
 
                 {
@@ -328,8 +338,8 @@ class EditUserAccount extends Component {
                                                     />
 
                                                     {
-                                                        (current.roles.admin 
-                                                            && current.roles.writer 
+                                                        (current.roles.admin
+                                                            && current.roles.writer
                                                             && current.roles.publisher) && (
                                                             <Button
                                                                 name="default"
