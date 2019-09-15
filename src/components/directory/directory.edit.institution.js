@@ -469,6 +469,7 @@ class EditDirectoryInstitution extends Component {
 
                                                 <SelectInputControl
                                                     name="stakeholder_type"
+                                                    disabled={true}
                                                     {...this.state}
                                                     onChange={e => this.handleChange(e)}
                                                 >
@@ -492,6 +493,7 @@ class EditDirectoryInstitution extends Component {
                                         { /** New Stakeholder Type */}
                                         <Button
                                             className={classes.margin}
+                                            disabled={true}
                                             name="add_stakeholder_type"
                                             value={this.state.add_stakeholder_type}
                                             intent="primary" text="Add Stakeholder Type"

@@ -256,6 +256,7 @@ class EditQuestion extends Component {
                                     <Paper elevation={0}>
 
                                         <SelectInputControl
+                                            disabled={ true }
                                             name="section"
                                             {...this.state}
                                             // value={ this.state.section }
@@ -285,6 +286,7 @@ class EditQuestion extends Component {
                                     value={this.state.add_section}
                                     intent="primary" text="Add Section"
                                     onClick={e => this.handleAddSection(e)}
+                                    disabled={true}
                                 />
 
                                 {
