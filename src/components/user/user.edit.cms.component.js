@@ -255,7 +255,6 @@ class EditUserAccount extends Component {
         // logged in user
         const current = UserProfile.get();
         const userAuth = this.props.user;
-        // console.log(this.props)
 
         // access levels
         const accessLevels = profile.showActions();
@@ -328,10 +327,18 @@ class EditUserAccount extends Component {
                                                         disabled={!(firstname || username || lastname)}
                                                     />
 
-                                                    <Button
-                                                        name="default" className={classes.margin}
-                                                        text="Cancel" onClick={e => handleClick(e)}
-                                                    />
+                                                    {
+                                                        (current.roles.admin 
+                                                            && current.roles.writer 
+                                                            && current.roles.publisher) && (
+                                                            <Button
+                                                                name="default"
+                                                                className={classes.margin}
+                                                                text="Cancel"
+                                                                onClick={e => handleClick(e)}
+                                                            />
+                                                        )
+                                                    }
 
                                                 </div>
                                                 <div id="roles" className="tab-pane fade"><br />
