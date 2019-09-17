@@ -75,11 +75,11 @@ class AddUserAccount extends Component {
             }
         }
 
-        if (user !== undefined && username !== undefined && user !== null) {
+        if (user && email && username && password && firstName && lastName && confirmPassword) {
 
             const { register } = this.props;
             // register this user if password confirmed is the same
-            if (user.password === confirmPassword && password > 6) {
+            if ((user.password === confirmPassword) && password.length > 6) {
                 // register new account
                 register(user);
                 // list users
