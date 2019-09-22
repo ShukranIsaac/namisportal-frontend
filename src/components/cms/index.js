@@ -10,6 +10,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 
 import * as UserEventActions from '../../actions/event.action';
 import * as LibraryAction from '../../actions/index';
@@ -50,6 +53,8 @@ class CMSIndex extends React.Component {
             open: true,
             category: null,
             selectedDistrict: null,
+            openMenu: false,
+            anchorEl: null
         }
 
         /**
@@ -65,6 +70,7 @@ class CMSIndex extends React.Component {
         this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
         this.capitalize = this.capitalize.bind(this);
         this.categoryClick = this.categoryClick.bind(this);
+        this.handleProfileEdit = this.handleProfileEdit.bind(this)
 
     }
 
@@ -131,14 +137,6 @@ class CMSIndex extends React.Component {
         // fetch this component data is this link is clicked
         if (roles.admin || roles.writer || roles.publisher) {
             this.fetchComponent(link)
-
-            // const { match, history } = this.props;
-
-            // // get url navigated to, and change push to the navigation bar
-            // const prevUrl = `${match.path}/${link}`;
-            // if (prevUrl) {
-            //     history.push(prevUrl);
-            // }
 
             // then call default event action so that when a new section is visited on link change 
             // the app should set state to deafult and show home page for that section.
@@ -413,6 +411,101 @@ class CMSIndex extends React.Component {
 
     }
 
+    handleProfileMenu = (event) => {
+        this.setState({ openMenu: true, anchorEl: event.currentTarget })
+    }
+
+    handleProfileEdit = (event) => {
+        this.setState({
+            openMenu: false,
+            anchorEl: null,
+            link: 'accounts',
+            /**
+             * This synthetic event is reused for performance reasons. 
+             * If you're seeing this, you're accessing the method `currentTarget` on a released/nullified 
+             * synthetic event. This is a no-op function. If you must keep the original synthetic event around,
+             * use event.persist(). See https://fb.me/react-event-pooling for more information.
+             * 
+             * To avoid the above error, set state here so that we can use the id in the callback function
+             * to fetch a new user. Instead of accessing the id directlry from the event.
+             */
+            accountId: event.currentTarget.id
+        }, () => {
+            // load logged in user
+            if (this.state.link === 'accounts') {
+
+                // fetch logged in user
+                const user = UserProfile.get();
+                if (user !== null) {
+                    if (user.token !== null && user.token !== undefined) {
+                        // fetch account to edit
+                        this.props.fetchUser(this.state.accountId, user.token);
+                    }
+                }
+
+                this.props.editItem();
+
+            }
+        })
+    }
+
+    handleProfileClose = () => {
+        this.setState({ openMenu: false, anchorEl: null })
+    }
+
+    handleLogout = (event) => {
+        // cloese menu
+        this.setState({ openMenu: false, anchorEl: null });
+        // handle logout
+        this.handleLink(event, event.currentTarget.id)
+    }
+
+    handleProfile = () => {
+
+        const auth = UserProfile.get();
+        const { classes } = this.props;
+
+        return (
+            <div>
+                <IconButton
+                    aria-label="Account of current user"
+                    title={ auth != null && auth.username }
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={this.handleProfileMenu}
+                    color="inherit"
+                    className={classes.marginRight}
+                >
+                    <AccountCircle />
+                </IconButton>
+                <Menu
+                    id="menu-appbar"
+                    anchorEl={this.state.anchorEl}
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    open={this.state.openMenu}
+                    onClose={this.handleProfileClose}
+                >
+                    <MenuItem
+                        onClick={this.handleProfileEdit}
+                        id={auth._id}
+                    >
+                        My account
+                    </MenuItem>
+                    <MenuItem onClick={this.handleLogout} id="logout">Logout</MenuItem>
+                </Menu>
+            </div>
+        );
+
+    }
+
     render() {
 
         const { classes, general, actionType } = this.props;
@@ -450,18 +543,21 @@ class CMSIndex extends React.Component {
                             color="inherit"
                             aria-label="Open drawer"
                             onClick={this.handleDrawerOpen}
-                            className={classNames(classes.menuButton, {
-                                [classes.hide]: this.state.open,
-                            })}
+                            className={classNames(classes.menuButton, { [classes.hide]: this.state.open })}
                         >
                             <MenuIcon />
                         </IconButton>
 
-                        <a href="/#" style={{ color: `white` }} onClick={(event) => redirect.toExternalLink({ url: '/', event })}>
-                            <Typography variant="h6" color="inherit" noWrap>
+                        <Typography variant="h6" color="inherit" noWrap className={classes.title}>
+                            <a
+                                href="/#" style={{ color: `white` }}
+                                onClick={(event) => redirect.toExternalLink({ url: '/', event })}
+                            >
                                 Malawi Mini Grids
-                            </Typography>
-                        </a>
+                            </a>
+                        </Typography>
+
+                        {user && this.handleProfile()}
 
                     </Toolbar>
                 </AppBar>
@@ -539,7 +635,8 @@ class CMSIndex extends React.Component {
 const styles = theme => ({
     root: {
         display: 'flex',
-        background: '#eeeeee'
+        background: '#eeeeee',
+        flexGrow: 1,
     },
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
@@ -600,7 +697,13 @@ const styles = theme => ({
     },
     highlight: {
         background: '#dcdde1'
-    }
+    },
+    menuProfileButton: {
+        marginRight: theme.spacing.unit * 2,
+    },
+    title: {
+        flexGrow: 1,
+    },
 });
 
 const mapStateToProps = (state) => {

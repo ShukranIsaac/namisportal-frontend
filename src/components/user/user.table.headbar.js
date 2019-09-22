@@ -163,7 +163,7 @@ class EnhancedTableToolbar extends React.Component {
                                             {
                                                 numSelected === 1 ? (
                                                     <Fragment>
-                                                        <Tooltip title="Edit">
+                                                        <Tooltip title="Edit account">
                                                             <IconButton 
                                                                 name="edit" 
                                                                 aria-label="Edit account" 
@@ -174,7 +174,7 @@ class EnhancedTableToolbar extends React.Component {
                                                                 <EditIcon />
                                                             </IconButton>
                                                         </Tooltip>
-                                                        <Tooltip title="Delete">
+                                                        <Tooltip title="Delete account">
                                                             <IconButton 
                                                                 aria-label="Delete account"
                                                                 disabled={ !profile.isAdmin({user:auth}) }
@@ -193,7 +193,7 @@ class EnhancedTableToolbar extends React.Component {
                                                         </Tooltip>
                                                     </Fragment>
                                                 ) : (
-                                                    <Tooltip title="Delete">
+                                                    <Tooltip title="Delete account">
                                                         <IconButton 
                                                             aria-label="Delete"
                                                             disabled={ !profile.isAdmin({user:auth}) }
@@ -209,9 +209,7 @@ class EnhancedTableToolbar extends React.Component {
                             </Fragment>
                         ) : (
                             <Fragment>
-                                <Tooltip 
-                                    title="My profile"
-                                >
+                                <Tooltip title="My profile">
                                     <IconButton 
                                         aria-label="My profile" 
                                         buttonRef={ node => {
