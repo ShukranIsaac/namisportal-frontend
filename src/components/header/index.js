@@ -87,7 +87,7 @@ export default class AppHeader extends React.Component {
                                 </Link>
                             </NavItem>
                             <NavItem>
-                                <Tooltip title={ user != null ? user.username : "Please login!" }>
+                                <Tooltip title={user != null ? user.username : "Please login!"}>
                                     <IconButton
                                         aria-label="CMS"
                                         buttonRef={node => {
