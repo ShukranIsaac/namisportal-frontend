@@ -469,7 +469,7 @@ class CMSIndex extends React.Component {
             <div>
                 <IconButton
                     aria-label="Account of current user"
-                    title={ auth != null && auth.username }
+                    title={`Logged in as ${ auth != null && auth.username }`}
                     aria-controls="menu-appbar"
                     aria-haspopup="true"
                     onClick={this.handleProfileMenu}
