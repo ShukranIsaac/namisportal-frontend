@@ -42,8 +42,8 @@ const ListNewsArticles = ({ articles, handleClick, general, classes }) => {
 
             <ul>
                 {
-                    general !== null && (
-                        general !== undefined && general.isLoading !== undefined && !general.isLoading ?
+                    general && (
+                        general.isLoading && !general.isLoading ?
                             articles !== null && articles.length !== 0 ?
                                 articles.map(({ _id, title }, index) => {
 
