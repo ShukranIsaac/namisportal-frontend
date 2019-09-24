@@ -462,17 +462,20 @@ class CMSIndex extends React.Component {
 
         return (
             <div>
-                <IconButton
-                    aria-label="Account of current user"
-                    title={`Logged in as ${ auth != null && auth.username }`}
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    onClick={this.handleProfileMenu}
-                    color="inherit"
-                    className={classes.marginRight}
-                >
-                    <AccountCircle />
-                </IconButton>
+                <span>
+                    {auth != null && auth.username} |
+                    <IconButton
+                        aria-label="Account of current user"
+                        title={`Logged in as ${auth != null && auth.username}`}
+                        aria-controls="menu-appbar"
+                        aria-haspopup="true"
+                        onClick={this.handleProfileMenu}
+                        color="inherit"
+                        className={classes.marginRight}
+                    >
+                        <AccountCircle />
+                    </IconButton>
+                </span>
                 <Menu
                     id="menu-appbar"
                     anchorEl={this.state.anchorEl}
@@ -488,12 +491,16 @@ class CMSIndex extends React.Component {
                     open={this.state.openMenu}
                     onClose={this.handleProfileClose}
                 >
-                    <MenuItem
-                        onClick={this.handleProfileEdit}
-                        id={auth._id}
-                    >
-                        My account
-                    </MenuItem>
+                    {
+                        (auth.roles.admin && auth.roles.writer && auth.roles.publisher) && (
+                            <MenuItem
+                                onClick={this.handleProfileEdit}
+                                id={auth._id}
+                            >
+                                My account
+                            </MenuItem>
+                        )
+                    }
                     <MenuItem onClick={this.handleLogout} id="logout">Logout</MenuItem>
                 </Menu>
             </div>

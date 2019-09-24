@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 // import * as GisAction from '../../actions/index';
-// import CMSMapPreview from './cms.map.preview';
+import CMSMapPreview from './cms.map.preview';
 import { FormControl, Paper, withStyles } from '@material-ui/core';
 import { SelectInputControl } from '../forms/form.selectinput.field';
 import styles from '../contact/form.styles';
@@ -952,7 +952,7 @@ class AddFeature extends Component {
                         </Fragment>
                     </div>
                     <div id="preview" className="tab-pane fade">
-                        {/* <CMSMapPreview {...this.state} /> */}
+                        <CMSMapPreview {...this.state} />
                     </div>
                 </div>
             </Fragment>

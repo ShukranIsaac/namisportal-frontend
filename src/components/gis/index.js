@@ -289,7 +289,6 @@ class GIS extends Component {
         const { classes, gis_filters, power_plant_filters, general, marep_center } = this.props;
 
         const { meters_checked } = this.state;
-        // console.log(this.state);
 
         if (general !== null) {
 
