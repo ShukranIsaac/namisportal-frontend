@@ -110,10 +110,7 @@ class CMSMapPreview extends Component {
                 return (
                     <Fragment>
 
-                        <PointMarker
-                            title={this.getType({ type: geometry.type })}
-                            point={information}
-                        />
+                        <PointMarker title={this.getType({ type: geometry.type })} point={information} />
 
                     </Fragment>
                 );
