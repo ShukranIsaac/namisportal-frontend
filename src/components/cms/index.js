@@ -82,15 +82,8 @@ class CMSIndex extends React.Component {
         this.setState({ open: false });
     };
 
-    /**
-     * Test - Unit: redux connected working perfect
-     * this.props.editItem();
-     */
     componentDidMount() {
 
-        // this.props.editItem();
-        // this.setState({ link: 'accounts' })
-        // console.log(this.props.user_event);
         const user = UserProfile.get();
         if (user !== null) {
             if (user.roles.admin || user.roles.writer || user.roles.publisher) {
@@ -130,7 +123,7 @@ class CMSIndex extends React.Component {
 		 */
         e.preventDefault();
 
-        // Set state
+        // Set state: which section has been visited
         this.setState({ link });
 
         const roles = UserProfile.get().roles;
@@ -156,6 +149,8 @@ class CMSIndex extends React.Component {
 
         // 
         if (this.state.link === "home") {
+            // if no home categories exists,
+            // create one to start.
             if (this.props.home.length === 0) {
                 this.props.createItem();
             }
