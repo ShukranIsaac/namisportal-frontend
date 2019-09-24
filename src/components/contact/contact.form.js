@@ -10,6 +10,10 @@ import { redirect } from '../user/user.redirect';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import { BootsrapTextareaField } from '../forms/form.textarea.field';
 import BootstrapGridColumn from '../forms/form.grid.column';
+import ContactMail from '@material-ui/icons/ContactMail';
+import ContactFax from '@material-ui/icons/ContactPhone';
+import ContactMobile from '@material-ui/icons/ContactPhoneOutlined';
+import ContactAddress from '@material-ui/icons/Home';
 
 import './text.field.css';
 
@@ -22,7 +26,7 @@ export const TextField = ({ icon, value }) => {
 
     return <>
         <div className="field col-md-12 col-sm-12">
-            <span className={`inline icon-field ${icon}`}></span>
+            <span className={`inline icon-field`}>{ icon }</span>
             <div className="inline text-field">{value}</div>
         </div>
     </>
@@ -118,10 +122,10 @@ class ContactForm extends Component {
                             </h6>
                         </div>
                         <SidebarDefault col={`col-md-12 col-md-12`}>
-                            <TextField icon={`glyphicon glyphicon-home`} value={`Department of Energy Affairs, P/Bag 309, Lilongwe 3, Malawi`} />
-                            <TextField icon={`glyphicon glyphicon-envelope`} value={`info@energy.gov.mw`} />
-                            <TextField icon={`glyphicon glyphicon-envelope`} value={`+265 (1) 770 688`} />
-                            <TextField icon={`glyphicon glyphicon-envelope`} value={`+265 (1) 770 094/771954`} />
+                            <TextField icon={ <ContactAddress /> } value={`Department of Energy Affairs, P/Bag 309, Lilongwe 3`} />
+                            <TextField icon={ <ContactMail /> } value={`info@energy.gov.mw`} />
+                            <TextField icon={ <ContactMobile /> } value={`+265 (1) 770 688`} />
+                            <TextField icon={ <ContactFax /> } value={`+265 (1) 770 094/771954`} />
                         </SidebarDefault>
                     </BootstrapGridColumn>
                     <BootstrapGridColumn>
