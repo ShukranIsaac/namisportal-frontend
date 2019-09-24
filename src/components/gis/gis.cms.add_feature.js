@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 // import * as GisAction from '../../actions/index';
-import CMSMapPreview from './cms.map.preview';
+// import CMSMapPreview from './cms.map.preview';
 import { FormControl, Paper, withStyles } from '@material-ui/core';
 import { SelectInputControl } from '../forms/form.selectinput.field';
 import styles from '../contact/form.styles';
@@ -56,8 +56,12 @@ class AddFeature extends Component {
         // state
         const {
             district_name,
-            marep_center_latitude, marep_center_longitude, marep_center_ta, _distribution_line,
+            marep_center_latitude, marep_center_longitude, marep_center_ta, _distribution_line, plant_capacity,
             plant_latitude, plant_longitude, plant_status, plant_name, plant_type, plant_ta, country_name,
+            transformer_latitude, transformer_location, transformer_longitude, transformer_position,
+            transformer_primary, transformer_station, transformer_voltage, transformer_ta,
+            substation_latitude, substation_location, substation_name, substation_secondary, substation_ta,
+            substation_transmission, substation_longitude,
         } = this.state;
 
         // construct different geometries depending on which form has been filled
@@ -66,7 +70,6 @@ class AddFeature extends Component {
             case 'transformer':
             case 'substation':
             case 'power_plant':
-                console.log(this.state)
                 if (marep_center_latitude && marep_center_ta && marep_center_longitude) {
                     // define object structure
                     const center = {
@@ -90,6 +93,7 @@ class AddFeature extends Component {
                         longitude: plant_longitude,
                         plant_status: plant_status,
                         plant_type: plant_type,
+                        plant_capacity: plant_capacity,
                         name: plant_name
                     }
 
@@ -238,7 +242,7 @@ class AddFeature extends Component {
             selectedvalue, district_name,
             marep_center_ta, marep_center_latitude, marep_center_longitude,
             transformer_latitude, transformer_location, transformer_longitude, transformer_position,
-            transformer_primary, transformer_station, transformer_voltage, transformer_ta,
+            transformer_primary, transformer_station, transformer_voltage, transformer_ta, plant_capacity,
             plant_latitude, plant_longitude, plant_status, plant_name, plant_type, plant_ta, country_name,
             substation_latitude, substation_location, substation_name, substation_secondary, substation_ta,
             substation_transmission, substation_longitude, _distribution_line,
@@ -310,7 +314,7 @@ class AddFeature extends Component {
                                 name: plant_name,
                                 type: plant_type,
                                 status: plant_status,
-                                capacity: null,
+                                capacity: plant_capacity,
                                 ta: plant_ta,
                                 lat: Number(plant_latitude),
                                 lng: Number(plant_longitude)
@@ -571,6 +575,16 @@ class AddFeature extends Component {
                                     name="plant_status"
                                     placeholder="Enter new power plant status..."
                                     label="Plant Status*"
+                                    type="text"
+                                    handleChange={this.handleTextChange}
+                                />
+                            </BootstrapGridColumn>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    value={this.state.plant_capacity}
+                                    name="plant_capacity"
+                                    placeholder="Enter new power plant capacity..."
+                                    label="Plant Capacity*"
                                     type="text"
                                     handleChange={this.handleTextChange}
                                 />
@@ -938,7 +952,7 @@ class AddFeature extends Component {
                         </Fragment>
                     </div>
                     <div id="preview" className="tab-pane fade">
-                        <CMSMapPreview {...this.state} />
+                        {/* <CMSMapPreview {...this.state} /> */}
                     </div>
                 </div>
             </Fragment>
