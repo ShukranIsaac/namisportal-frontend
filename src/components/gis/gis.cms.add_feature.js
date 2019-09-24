@@ -397,7 +397,7 @@ class AddFeature extends Component {
         switch (selected) {
             case 'marep_center':
                 return (
-                    <form onSubmit={(e) => this.handleSubmit(e)}>
+                    <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
                         <div className='margin-fix form-row'>
                             <BootstrapGridColumn>
                                 <BootsrapTextField
@@ -449,7 +449,7 @@ class AddFeature extends Component {
                 );
             case 'transformer':
                 return (
-                    <form onSubmit={(e) => this.handleSubmit(e)}>
+                    <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
                         <div className='margin-fix form-row'>
                             <BootstrapGridColumn>
                                 <BootsrapTextField
@@ -543,7 +543,7 @@ class AddFeature extends Component {
                 );
             case 'power_plant':
                 return (
-                    <form onSubmit={(e) => this.handleSubmit(e)}>
+                    <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
 
                         <div className='margin-fix form-row'>
                             <BootstrapGridColumn>
@@ -638,7 +638,7 @@ class AddFeature extends Component {
                 );
             case 'substation':
                 return (
-                    <form onSubmit={(e) => this.handleSubmit(e)}>
+                    <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
                         <div className='margin-fix form-row'>
                             <BootstrapGridColumn>
                                 <BootsrapTextField
@@ -732,7 +732,7 @@ class AddFeature extends Component {
                 );
             case 'distribution_line':
                 return (
-                    <form onSubmit={(e) => this.handleSubmit(e)}>
+                    <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
                         <div className="form-group">
                             <BootsrapTextareaField
                                 name="_distribution_line"
@@ -865,7 +865,7 @@ class AddFeature extends Component {
                                                             <option value="">{`Choose feature type`}</option>
                                                             <option value="marep_center">Marep Center</option>
                                                             <option value="transformer">Transformer</option>
-                                                            <option value="distribution_line">Distribution Line</option>
+                                                            {/* <option value="distribution_line">Distribution Line</option> */}
                                                         </SelectInputControl>
                                                     )
                                                 }

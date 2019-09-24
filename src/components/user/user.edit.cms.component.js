@@ -457,7 +457,12 @@ class EditUserAccount extends Component {
                                                     </div>
                                                     <div id="changePassword" className="tab-pane fade"><br />
 
-                                                        <h4>{`Change password for `}<b>{`${userAuth.username}`}</b></h4>
+                                                        <span>
+                                                            <h4>
+                                                                {`Change password for `}<b>{`${userAuth.username}`}</b>
+                                                            </h4>
+                                                            <hr />
+                                                        </span>
                                                         {/* <br /> */}
 
                                                         {
