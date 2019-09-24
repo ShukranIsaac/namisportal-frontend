@@ -59,7 +59,7 @@ class PointMarker extends Component {
         }
 
         else {
-            return 'https://mt.google.com/vt/icon/text=•&psize=16&font=fonts/arialuni_t.ttf&color=ff135C13&name=icons/spotlight/spotlight-waypoint-b.png&ax=44&ay=48&scale=1'
+            return 'https://mt.google.com/vt/icon/text=S&psize=16&font=fonts/arialuni_t.ttf&color=ff135C13&name=icons/spotlight/spotlight-waypoint-b.png&ax=44&ay=48&scale=1'
         }
     }
 
