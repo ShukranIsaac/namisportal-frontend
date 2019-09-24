@@ -17,13 +17,15 @@ export default class Sponsors extends Component{
         const imageElement = {
             height: '150px'
         }
-        const heading = {
-            textAlign: 'center'
-        }
+
+        // const heading = {
+        //     textAlign: 'center'
+        // }
+
         return(
             <div>
                 <div style={container}>
-                    <h3 style={heading}>Sponsors</h3>
+                    {/* <h3 style={heading}>Sponsors</h3> */}
                     <div className = "row">
                         <div className = "col-sm-4">
                             <div style={imageContainer}>
