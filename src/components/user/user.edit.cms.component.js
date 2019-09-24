@@ -313,175 +313,22 @@ class EditUserAccount extends Component {
 
                         !general.isLoading ? (
 
-                            <form
-                                onSubmit={(e) => this.handleSubmit(current.roles.admin ? userAuth._id : current._id, e)}
-                                autoComplete="off"
-                                noValidate
-                            >
+                            !general.hasErrored && (
+                                <form
+                                    onSubmit={(e) => this.handleSubmit(current.roles.admin ? userAuth._id : current._id, e)}
+                                    autoComplete="off"
+                                    noValidate
+                                >
 
-                                <div className="tab-content">
+                                    <div className="tab-content">
 
-                                    {
-                                        userAuth !== null && ((userAuth._id === current._id) ? (
-                                            <>
-                                                <div id="general" className="tab-pane active"><br />
-
-                                                    {
-                                                        this.formFields({ user: current })
-                                                    }
-
-                                                    <Button
-                                                        type="submit"
-                                                        color="primary"
-                                                        text="Update"
-                                                        disabled={!(firstname || username || lastname)}
-                                                    />
-
-                                                    {
-                                                        (current.roles.admin
-                                                            && current.roles.writer
-                                                            && current.roles.publisher) && (
-                                                            <Button
-                                                                name="default"
-                                                                className={classes.margin}
-                                                                text="Cancel"
-                                                                onClick={e => handleClick(e)}
-                                                            />
-                                                        )
-                                                    }
-
-                                                </div>
-                                                <div id="roles" className="tab-pane fade"><br />
-
-                                                    <FormControl>
-
-                                                        <Paper elevation={0}>
-
-                                                            <SelectInputControl
-                                                                name="roles"
-                                                                {...this.state}
-                                                                value={this.state.roles}
-                                                                onChange={e => this.handleChange(e)}
-                                                                disabled={!accessLevels({ user: current })}
-                                                            >
-                                                                <option value="">{`Assign new role(s)`}</option>
-                                                                <option value={`writer`}>Writer</option>
-                                                                <option value={`publisher`}>Publisher</option>
-                                                                <option value={`admin`}>Admin</option>
-                                                            </SelectInputControl>
-
-                                                        </Paper>
-
-                                                    </FormControl>
-
-                                                    <div className="row"><p> </p></div>
-                                                    <div className="row">
-                                                        <div>
-                                                            {
-                                                                myRoles.length !== 0 && (
-                                                                    <p>The following role(s) will be assigned to <b>{userAuth.username}</b>:</p>
-                                                                )
-                                                            }
-                                                        </div>
-                                                    </div>
-
-                                                    {
-                                                        myRoles && myRoles.map(role => {
-
-                                                            if (role === '') return null;
-
-                                                            return (
-                                                                <Chip
-                                                                    key={role}
-                                                                    tabIndex={-1}
-                                                                    label={role}
-                                                                    // cannot delete role not yet assigned
-                                                                    // however defining an undo action is in order
-                                                                    // onDelete={ () => this.deleteUserRole(user) }
-                                                                    deleteIcon={<CancelIcon />}
-                                                                />
-                                                            );
-
-                                                        })
-                                                    }
-
-                                                    <div className="row">
-                                                        <div>
-                                                            {
-                                                                userAuth !== null && ((this.assignedRoles({ user: userAuth })).length !== 0
-                                                                    && accessLevels({ user: UserProfile.get() }) ? (
-                                                                        <p>The following role(s) are assigned to <b>{userAuth.username}</b>:</p>
-                                                                    ) : <p></p>)
-                                                            }
-                                                        </div>
-                                                    </div>
-
-                                                    {
-                                                        userAuth !== null && (this.assignedRoles({ user: userAuth })).map(role => {
-
-                                                            if (role !== null) {
-
-                                                                return (
-                                                                    <Chip
-                                                                        key={role}
-                                                                        tabIndex={-1}
-                                                                        label={role}
-                                                                        onDelete={() => this.deleteUserRole(role, current)}
-                                                                        deleteIcon={<CancelIcon />}
-                                                                    />
-                                                                );
-
-                                                            }
-
-                                                            return null;
-
-                                                        })
-                                                    }
-
-                                                    <div className={classes.margin} />
-                                                    <div className={classes.margin} />
-                                                    <div className={classes.margin} />
-
-                                                    <Button
-                                                        type="submit"
-                                                        color="primary"
-                                                        text="Update"
-                                                        disabled={myRoles.length === 0}
-                                                    />
-                                                    <Button
-                                                        name="default" className={classes.margin}
-                                                        text="Cancel" onClick={e => handleClick(e)}
-                                                    />
-
-                                                </div>
-                                                <div id="changePassword" className="tab-pane fade"><br />
-
-                                                    <h4>{`Change password for `}<b>{`${userAuth.username}`}</b></h4>
-                                                    {/* <br /> */}
-
-                                                    {
-                                                        this.changePassword()
-                                                    }
-
-                                                    <Button
-                                                        type="submit"
-                                                        color="primary"
-                                                        text="Change"
-                                                        disabled={!(old_password && new_password)}
-                                                    />
-
-                                                    <Button
-                                                        name="default" className={classes.margin}
-                                                        text="Cancel" onClick={e => handleClick(e)}
-                                                    />
-                                                </div>
-                                            </>
-                                        ) : (
+                                        {
+                                            userAuth !== null && ((userAuth._id === current._id) ? (
                                                 <>
                                                     <div id="general" className="tab-pane active"><br />
 
                                                         {
-                                                            this.formFields({ user: userAuth })
+                                                            this.formFields({ user: current })
                                                         }
 
                                                         <Button
@@ -491,14 +338,21 @@ class EditUserAccount extends Component {
                                                             disabled={!(firstname || username || lastname)}
                                                         />
 
-                                                        <Button
-                                                            name="default" className={classes.margin}
-                                                            text="Cancel" onClick={e => handleClick(e)}
-                                                        />
+                                                        {
+                                                            (current.roles.admin
+                                                                && current.roles.writer
+                                                                && current.roles.publisher) && (
+                                                                <Button
+                                                                    name="default"
+                                                                    className={classes.margin}
+                                                                    text="Cancel"
+                                                                    onClick={e => handleClick(e)}
+                                                                />
+                                                            )
+                                                        }
 
                                                     </div>
-                                                    <div id="roles" className="tab-pane fade">
-                                                        <br />
+                                                    <div id="roles" className="tab-pane fade"><br />
 
                                                         <FormControl>
 
@@ -509,6 +363,7 @@ class EditUserAccount extends Component {
                                                                     {...this.state}
                                                                     value={this.state.roles}
                                                                     onChange={e => this.handleChange(e)}
+                                                                    disabled={!accessLevels({ user: current })}
                                                                 >
                                                                     <option value="">{`Assign new role(s)`}</option>
                                                                     <option value={`writer`}>Writer</option>
@@ -520,10 +375,7 @@ class EditUserAccount extends Component {
 
                                                         </FormControl>
 
-                                                        <div className="row">
-                                                            <p> </p>
-                                                        </div>
-
+                                                        <div className="row"><p> </p></div>
                                                         <div className="row">
                                                             <div>
                                                                 {
@@ -557,9 +409,10 @@ class EditUserAccount extends Component {
                                                         <div className="row">
                                                             <div>
                                                                 {
-                                                                    userAuth !== null && ((this.assignedRoles({ user: userAuth })).length !== 0 ? (
-                                                                        <p>The following role(s) are assigned to <b>{userAuth.username}</b>:</p>
-                                                                    ) : <p></p>)
+                                                                    userAuth !== null && ((this.assignedRoles({ user: userAuth })).length !== 0
+                                                                        && accessLevels({ user: UserProfile.get() }) ? (
+                                                                            <p>The following role(s) are assigned to <b>{userAuth.username}</b>:</p>
+                                                                        ) : <p></p>)
                                                                 }
                                                             </div>
                                                         </div>
@@ -574,7 +427,7 @@ class EditUserAccount extends Component {
                                                                             key={role}
                                                                             tabIndex={-1}
                                                                             label={role}
-                                                                            onDelete={() => this.deleteUserRole(role, userAuth)}
+                                                                            onDelete={() => this.deleteUserRole(role, current)}
                                                                             deleteIcon={<CancelIcon />}
                                                                         />
                                                                     );
@@ -589,7 +442,6 @@ class EditUserAccount extends Component {
                                                         <div className={classes.margin} />
                                                         <div className={classes.margin} />
                                                         <div className={classes.margin} />
-                                                        <div className={classes.margin} />
 
                                                         <Button
                                                             type="submit"
@@ -597,12 +449,11 @@ class EditUserAccount extends Component {
                                                             text="Update"
                                                             disabled={myRoles.length === 0}
                                                         />
-
                                                         <Button
-                                                            name="default"
-                                                            className={classes.margin}
+                                                            name="default" className={classes.margin}
                                                             text="Cancel" onClick={e => handleClick(e)}
                                                         />
+
                                                     </div>
                                                     <div id="changePassword" className="tab-pane fade"><br />
 
@@ -626,13 +477,164 @@ class EditUserAccount extends Component {
                                                         />
                                                     </div>
                                                 </>
+                                            ) : (
+                                                    <>
+                                                        <div id="general" className="tab-pane active"><br />
+
+                                                            {
+                                                                this.formFields({ user: userAuth })
+                                                            }
+
+                                                            <Button
+                                                                type="submit"
+                                                                color="primary"
+                                                                text="Update"
+                                                                disabled={!(firstname || username || lastname)}
+                                                            />
+
+                                                            <Button
+                                                                name="default" className={classes.margin}
+                                                                text="Cancel" onClick={e => handleClick(e)}
+                                                            />
+
+                                                        </div>
+                                                        <div id="roles" className="tab-pane fade">
+                                                            <br />
+
+                                                            <FormControl>
+
+                                                                <Paper elevation={0}>
+
+                                                                    <SelectInputControl
+                                                                        name="roles"
+                                                                        {...this.state}
+                                                                        value={this.state.roles}
+                                                                        onChange={e => this.handleChange(e)}
+                                                                    >
+                                                                        <option value="">{`Assign new role(s)`}</option>
+                                                                        <option value={`writer`}>Writer</option>
+                                                                        <option value={`publisher`}>Publisher</option>
+                                                                        <option value={`admin`}>Admin</option>
+                                                                    </SelectInputControl>
+
+                                                                </Paper>
+
+                                                            </FormControl>
+
+                                                            <div className="row">
+                                                                <p> </p>
+                                                            </div>
+
+                                                            <div className="row">
+                                                                <div>
+                                                                    {
+                                                                        myRoles.length !== 0 && (
+                                                                            <p>The following role(s) will be assigned to <b>{userAuth.username}</b>:</p>
+                                                                        )
+                                                                    }
+                                                                </div>
+                                                            </div>
+
+                                                            {
+                                                                myRoles && myRoles.map(role => {
+
+                                                                    if (role === '') return null;
+
+                                                                    return (
+                                                                        <Chip
+                                                                            key={role}
+                                                                            tabIndex={-1}
+                                                                            label={role}
+                                                                            // cannot delete role not yet assigned
+                                                                            // however defining an undo action is in order
+                                                                            // onDelete={ () => this.deleteUserRole(user) }
+                                                                            deleteIcon={<CancelIcon />}
+                                                                        />
+                                                                    );
+
+                                                                })
+                                                            }
+
+                                                            <div className="row">
+                                                                <div>
+                                                                    {
+                                                                        userAuth !== null && ((this.assignedRoles({ user: userAuth })).length !== 0 ? (
+                                                                            <p>The following role(s) are assigned to <b>{userAuth.username}</b>:</p>
+                                                                        ) : <p></p>)
+                                                                    }
+                                                                </div>
+                                                            </div>
+
+                                                            {
+                                                                userAuth !== null && (this.assignedRoles({ user: userAuth })).map(role => {
+
+                                                                    if (role !== null) {
+
+                                                                        return (
+                                                                            <Chip
+                                                                                key={role}
+                                                                                tabIndex={-1}
+                                                                                label={role}
+                                                                                onDelete={() => this.deleteUserRole(role, userAuth)}
+                                                                                deleteIcon={<CancelIcon />}
+                                                                            />
+                                                                        );
+
+                                                                    }
+
+                                                                    return null;
+
+                                                                })
+                                                            }
+
+                                                            <div className={classes.margin} />
+                                                            <div className={classes.margin} />
+                                                            <div className={classes.margin} />
+                                                            <div className={classes.margin} />
+
+                                                            <Button
+                                                                type="submit"
+                                                                color="primary"
+                                                                text="Update"
+                                                                disabled={myRoles.length === 0}
+                                                            />
+
+                                                            <Button
+                                                                name="default"
+                                                                className={classes.margin}
+                                                                text="Cancel" onClick={e => handleClick(e)}
+                                                            />
+                                                        </div>
+                                                        <div id="changePassword" className="tab-pane fade"><br />
+
+                                                            <h4>{`Change password for `}<b>{`${userAuth.username}`}</b></h4>
+                                                            {/* <br /> */}
+
+                                                            {
+                                                                this.changePassword()
+                                                            }
+
+                                                            <Button
+                                                                type="submit"
+                                                                color="primary"
+                                                                text="Change"
+                                                                disabled={!(old_password && new_password)}
+                                                            />
+
+                                                            <Button
+                                                                name="default" className={classes.margin}
+                                                                text="Cancel" onClick={e => handleClick(e)}
+                                                            />
+                                                        </div>
+                                                    </>
+                                                )
                                             )
-                                        )
-                                    }
+                                        }
 
-                                </div>
+                                    </div>
 
-                            </form>
+                                </form>
+                            )
 
                         ) : <div className="loader" />
                     )

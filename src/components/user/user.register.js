@@ -108,7 +108,7 @@ class UserRegistration extends Component {
         if (user !== null) {
 
             if (user.username !== null) {
-                return redirect.to({ url: '/login', from: this.context })
+                redirect.to({ url: '/login' })
             }
 
         }
