@@ -3,10 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { reduxForm } from 'redux-form';
-import AsyncValidate from '../contact/form.async-validate';
-import Validate from '../contact/email.validate';
-
 // import * as GisAction from '../../actions/index';
 import CMSMapPreview from './cms.map.preview';
 import { FormControl, Paper, withStyles } from '@material-ui/core';
@@ -60,7 +56,8 @@ class AddFeature extends Component {
         // state
         const {
             district_name,
-            marep_center_latitude, marep_center_longitude, marep_center_ta
+            marep_center_latitude, marep_center_longitude, marep_center_ta, _distribution_line,
+            plant_latitude, plant_longitude, plant_status, plant_name, plant_type, plant_ta, country_name,
         } = this.state;
 
         // construct different geometries depending on which form has been filled
@@ -69,23 +66,86 @@ class AddFeature extends Component {
             case 'transformer':
             case 'substation':
             case 'power_plant':
+                console.log(this.state)
                 if (marep_center_latitude && marep_center_ta && marep_center_longitude) {
-                    // define question structure
+                    // define object structure
                     const center = {
                         district: district_name,
                         type: selectedvalue,
-                        marep_center_ta: marep_center_ta,
-                        marep_center_latitude: marep_center_latitude,
-                        marep_center_longitude: marep_center_longitude
+                        ta: marep_center_ta,
+                        latitude: marep_center_latitude,
+                        longitude: marep_center_longitude
                     }
 
                     // set feature state for preview on map
                     this.setState({ geometry_feature: center });
+                } else if (plant_latitude && plant_longitude && plant_name && plant_status && plant_ta
+                    && plant_type && country_name) {
+                    // define object structure
+                    const plant = {
+                        country_name: country_name,
+                        type: selectedvalue,
+                        ta: plant_ta,
+                        latitude: plant_latitude,
+                        longitude: plant_longitude,
+                        plant_status: plant_status,
+                        plant_type: plant_type,
+                        name: plant_name
+                    }
+
+                    // set feature state for preview on map
+                    this.setState({ geometry_feature: plant });
+                } else if (substation_name && substation_latitude && substation_longitude && substation_ta
+                    && substation_location && country_name && substation_transmission) {
+                    // define object structure
+                    const station = {
+                        name: substation_name,
+                        country_name: country_name,
+                        type: selectedvalue,
+                        ta: substation_ta,
+                        latitude: substation_latitude,
+                        longitude: substation_longitude,
+                        location: substation_location,
+                        substation_transmission: substation_transmission,
+                        substation_secondary: substation_secondary
+                    }
+
+                    // set feature state for preview on map
+                    this.setState({ geometry_feature: station });
+                } else if (transformer_latitude && transformer_longitude && transformer_primary 
+                    && transformer_position && transformer_station && transformer_ta
+                    && transformer_voltage && district_name && transformer_location) {
+                    // define object structure
+                    const transfomer = {
+                        district: district_name,
+                        type: selectedvalue,
+                        ta: transformer_ta,
+                        transformer_primary: transformer_primary,
+                        transformer_position: transformer_position,
+                        transformer_station: transformer_station,
+                        transformer_voltage: transformer_voltage,
+                        location: transformer_location
+                    }
+
+                    // set feature state for preview on map
+                    this.setState({ geometry_feature: transfomer });
+                } else {
+
                 }
 
                 break;
             case 'distribution_line':
+                if (_distribution_line) {
+                    // define object structure
+                    const lines = {
+                        district: district_name,
+                        type: selectedvalue,
+                        line: _distribution_line
+                    }
 
+                    // set feature state for preview on map
+                    this.setState({ geometry_feature: lines });
+                }
                 break;
             default:
                 break;
@@ -106,7 +166,7 @@ class AddFeature extends Component {
 
         this.setState({ [event.target.name]: event.target.checked }, () => {
             if (this.state.preview_feature) {
-                this.setState({ point: this.state.geometry_feature });
+                this.setState({ geometry: this.state.geometry_feature });
             }
         });
 
@@ -177,11 +237,11 @@ class AddFeature extends Component {
         const {
             selectedvalue, district_name,
             marep_center_ta, marep_center_latitude, marep_center_longitude,
-            transformer_latitude, /*transformer_location,*/ transformer_longitude, /*transformer_position,*/
-            /*transformer_primary, transformer_station, transformer_voltage,*/ transformer_ta,
-            plant_latitude, plant_longitude, /*plant_status, plant_name, plant_type,*/ plant_ta,
-            substation_latitude, /*substation_location, substation_name, substation_secondary,*/ substation_ta,
-            /*substation_transmission,*/ substation_longitude, _distribution_line
+            transformer_latitude, transformer_location, transformer_longitude, transformer_position,
+            transformer_primary, transformer_station, transformer_voltage, transformer_ta,
+            plant_latitude, plant_longitude, plant_status, plant_name, plant_type, plant_ta, country_name,
+            substation_latitude, substation_location, substation_name, substation_secondary, substation_ta,
+            substation_transmission, substation_longitude, _distribution_line,
         } = this.state;
         // const { props: { addFeature }, gis_filters } = this.props;
         // preview feature first before submitting
@@ -221,8 +281,13 @@ class AddFeature extends Component {
                             const transformer = {
                                 district: district_name,
                                 ta: transformer_ta,
-                                lat: transformer_latitude,
-                                lng: transformer_longitude
+                                lat: Number(transformer_latitude),
+                                lng: Number(transformer_longitude),
+                                primary: transformer_primary,
+                                position: transformer_position,
+                                station: transformer_station,
+                                voltage: transformer_voltage,
+                                location: transformer_location
                             }
                             // create new transfomer
                             this.props.addFeature(transformer, "transformers", user.token);
@@ -241,9 +306,14 @@ class AddFeature extends Component {
                         if (plant_latitude && plant_ta && plant_longitude) {
                             // define power plant structure
                             const power_plant = {
+                                country: country_name,
+                                name: plant_name,
+                                type: plant_type,
+                                status: plant_status,
+                                capacity: null,
                                 ta: plant_ta,
-                                lat: plant_latitude,
-                                lng: plant_longitude
+                                lat: Number(plant_latitude),
+                                lng: Number(plant_longitude)
                             }
                             // create new power_plant
                             this.props.addFeature(power_plant, "power-plants", user.token);
@@ -277,12 +347,16 @@ class AddFeature extends Component {
                     if (user !== null && user.token !== undefined) {
 
                         // check if resource or file if being added
-                        if (substation_latitude && substation_ta && substation_longitude) {
+                        if (substation_latitude && substation_ta && substation_longitude && substation_name) {
                             // define question structure
                             const substation = {
+                                name: substation_name,
+                                secondary: substation_secondary,
+                                transmission: substation_transmission,
+                                location: substation_location,
                                 ta: substation_ta,
-                                lat: substation_latitude,
-                                lng: substation_longitude
+                                lat: Number(substation_latitude),
+                                lng: Number(substation_longitude)
                             }
                             // create new substation
                             this.props.addFeature(substation, "sub-stations", user.token);
@@ -888,8 +962,4 @@ AddFeature.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default reduxForm({
-    form: 'gisAddFeatures',
-    Validate,
-    AsyncValidate
-})(connect(mapStateToProps, null)(withStyles(styles)(AddFeature)));
+export default (connect(mapStateToProps, null)(withStyles(styles)(AddFeature)));

@@ -63,27 +63,44 @@ class CMSMapPreview extends Component {
                 return 'Transformer';
             case 'power_plant':
                 return 'Power Plant';
+            case 'substation':
+                return 'Power Substation';
             default:
                 return undefined;
         }
     }
 
-    previewGeometry = ({ district_name, marep_center_ta, point }) => {
+    previewGeometry = ({ geometry }) => {
 
-        if (district_name) {
+        if (geometry) {
 
-            if (point) {
+            const { type } = geometry;
 
+            /**
+             * If geometry type is a Point else it is a line
+             */
+            if (type !== 'distribution_line') {
                 // lat: -12.32240657526815, lng: 33.43241472365981
                 const information = {
                     properties: {
-                        district: district_name,
-                        ta: marep_center_ta
+                        district: geometry.district,
+                        ta: geometry.ta,
+                        status: geometry.plant_status,
+                        planType: geometry.plant_type,
+                        country: geometry.country_name,
+                        secondary: geometry.substation_secondary,
+                        transmission: geometry.substation_transmission,
+                        location: geometry.location,
+                        name: geometry.name,
+                        primary: geometry.transformer_primary,
+                        position: geometry.transformer_position,
+                        station: geometry.transformer_station,
+                        voltage: geometry.transformer_voltage
                     },
                     geometry: {
                         coordinates: {
-                            lat: Number(point.marep_center_latitude),
-                            lng: Number(point.marep_center_longitude)
+                            lat: Number(geometry.latitude),
+                            lng: Number(geometry.longitude)
                         },
                         type: 'Point'
                     }
@@ -92,19 +109,18 @@ class CMSMapPreview extends Component {
                 return (
                     <Fragment>
 
-                        <PointMarker 
-                            title={ this.getType({ type: point.type }) } 
-                            point={information} 
+                        <PointMarker
+                            title={this.getType({ type: geometry.type })}
+                            point={information}
                         />
 
                     </Fragment>
                 );
 
+            } else {
+
             }
 
-        } else {
-
-            return null
         }
 
     }

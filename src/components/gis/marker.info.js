@@ -14,7 +14,7 @@ class InformationBox extends Component {
         this.inforClose = this.inforClose.bind(this)
     }
 
-    inforClose = props => {
+    inforClose = () => {
         if (this.state.show) {
             this.setState({
                 activeMarker: null,
@@ -23,16 +23,31 @@ class InformationBox extends Component {
         }
     };
 
-    renderPowerPlantsInfoBox() {
-        const { district, title, ta, status, capacityInMW, plantType, name } = this.props.information
+    renderSubstationInfoBox() {
+        const { country, title, ta, location, transmission, secondary, name } = this.props.information
         return (
             <div>
                 <div><b><em>{title} Information</em></b></div>
                 <div>Name: {name}</div>
-                <div>District: {district} </div>
+                <div>National: {country} </div>
+                <div>TA: {ta} </div>
+                <div>Location: {location} </div>
+                <div>Transmission: {transmission}</div>
+                <div>Secondary: {secondary}</div>
+            </div>
+        )
+    }
+
+    renderPowerPlantsInfoBox() {
+        const { country, title, ta, status, capacity, plantType, name } = this.props.information
+        return (
+            <div>
+                <div><b><em>{title} Information</em></b></div>
+                <div>Name: {name}</div>
+                <div>National: {country} </div>
                 <div>TA: {ta} </div>
                 <div>Status: {status} </div>
-                <div>Capacity: {capacityInMW} MW </div>
+                <div>Capacity: {capacity} MW </div>
                 <div>Plant Type: {plantType} MW </div>
             </div>
         )
@@ -51,8 +66,12 @@ class InformationBox extends Component {
     }
 
     renderTransformerInfoBox() {
-        const { ta, manufacturer, yearManufactured, serialNumber, cooling,
-            mass, barcode, SSNumber, voltage, district, location, position, title } = this.props.information
+
+        const { 
+            ta, manufacturer, yearManufactured, serialNumber, cooling,
+            mass, barcode, SSNumber, voltage, district, location, position, title 
+        } = this.props.information
+
         return (
             <div>
                 <div><b><em>{title} Information</em></b></div>
@@ -69,17 +88,18 @@ class InformationBox extends Component {
                 <div>Manufacture Year: {yearManufactured} </div>
                 <div>Manufacturer: {manufacturer} </div>
             </div>
-        )
+        );
+
     }
 
     renderInfoBox(title) {
         if (title === 'Transformer') {
             return this.renderTransformerInfoBox()
-        }
-        else if (title === 'Marep Center') {
+        } else if (title === 'Marep Center') {
             return this.renderMarepCenterInfoBox()
-        }
-        else {
+        } else if (title === 'Power Substation') {
+            return this.renderSubstationInfoBox()
+        } else {
             return this.renderPowerPlantsInfoBox()
         }
     }
