@@ -22,127 +22,127 @@ import { Intent } from '@blueprintjs/core';
  */
 class FAQ extends Component {
 
-  componentDidMount() {
-    // fetch faqs
-    this.props.fetchFAQuestions("Faqs");
-  }
+    componentDidMount() {
+        // fetch faqs
+        this.props.fetchFAQuestions("Faqs");
+    }
 
-  handleChange = (event) => {
+    handleChange = (event) => {
 
-    this.setState({[event.target.name]: event.target.value})
+        this.setState({ [event.target.name]: event.target.value })
 
-  }
+    }
 
-  render(){
+    render() {
 
-    const { questions, general } = this.props;
-    const text = "The following are some of the frequently asked questions. If you have not been helped, please contact us through the link given."
+        const { questions, general } = this.props;
+        const text = "The following are some of the frequently asked questions. If you have not been helped, please contact us through the link given."
 
-    return (
-      <Row style={{ marginTop: '20px', marginLeft: '50px', marginRight: '50px' }}>
+        return (
+            <Row style={{ marginTop: '20px', marginLeft: '50px', marginRight: '50px' }}>
 
-        <CustomColumn sm='12' md='4' lg='2'>
+                <CustomColumn sm='12' md='4' lg='2'>
 
-          <Flex wrap column align='top' justify='left' m={1} w={1} p={1} style={{ borderLeft: 'solid #fff000'}}>
+                    <Flex wrap column align='top' justify='left' m={1} w={1} p={1} style={{ borderLeft: 'solid #fff000' }}>
 
-            <NavLink to="/contact"><FormLegendField value="Contact us"/></NavLink>
+                        <NavLink to="/contact"><FormLegendField value="Contact us" /></NavLink>
 
-          </Flex>
+                    </Flex>
 
-        </CustomColumn>
+                </CustomColumn>
 
-        <CustomColumn sm='12' md='12' lg='10'>
+                <CustomColumn sm='12' md='12' lg='10'>
 
-          <NoDataCard text={ text } header={ `Frequently asked questions` } intent={Intent.PRIMARY} />
+                    <NoDataCard text={text} header={`Frequently asked questions`} intent={Intent.PRIMARY} />
 
-          <form autoComplete='off' style={{ marginTop: '20px' }}>
+                    <form autoComplete='off' style={{ marginTop: '20px' }}>
 
-            <SearchInputControl 
-              handleChange={this.handleChange} 
-              placeholder="Search for previous asked questions..."
-              name="Faqs"
-            />
+                        <SearchInputControl
+                            handleChange={this.handleChange}
+                            placeholder="Search for previous asked questions..."
+                            name="Faqs"
+                        />
 
-          </form>
+                    </form>
 
-          {
-          
-            general !== null && general !== undefined ? 
+                    {
 
-              !general.isLoading ? 
+                        general !== null && general !== undefined ?
 
-                questions !== null && questions !== undefined ? 
+                            !general.isLoading ?
 
-                  questions.subCategories !== null && questions.subCategories !== undefined ? 
+                                questions !== null && questions !== undefined ?
 
-                    questions.subCategories.length !== 0 && questions.subCategories.map((category, index) => {
-                      
-                      // if this category has question render, else don't
-                      if(category.subCategories.length !== 0) {
-                    
-                        return (
-                          <QuestionCategory key={ category.name } index={ index } name={ category.name } >
-                    
-                            {
-                              category.subCategories.length !== 0 ? category.subCategories.map((question, index) => {
-                    
-                                return <QuestionListItem key={ index } question={ question } />
-                    
-                              }) : <NoDataCard header={ `No data` } intent={Intent.WARNING} />
-                            }
-                    
-                          </QuestionCategory>
-                        );
-                    
-                      } else {
-                    
-                        return (
-                          <QuestionCategory key={ category.name } index={ index } name={ category.name }>
-                    
-                            <NoDataCard header={ 'No questions' } intent={Intent.SUCCESS} />
-                    
-                          </QuestionCategory>
-                        );
-                    
-                      }
-                  
-                    })
+                                    questions.subCategories !== null && questions.subCategories !== undefined ?
 
-                  : <NoDataCard header="There are no questions to show. Please contact us!!" intent={Intent.SUCCESS} />
-                
-                : <NoDataCard header="There are no questions to show!!" intent={Intent.WARNING} /> 
-              
-              : <div className="loader" />
+                                        questions.subCategories.length !== 0 && questions.subCategories.map((category, index) => {
 
-            : <NoDataCard header={ `No data` } intent={Intent.WARNING} />
+                                            // if this category has question render, else don't
+                                            if (category.subCategories.length !== 0) {
 
-          }
+                                                return (
+                                                    <QuestionCategory key={category.name} index={index} name={category.name} >
 
-        </CustomColumn>
+                                                        {
+                                                            category.subCategories.length !== 0 ? category.subCategories.map((question, index) => {
 
-      </Row>
-    );
+                                                                return <QuestionListItem key={index} question={question} />
 
-  }
+                                                            }) : <NoDataCard header={`No data`} intent={Intent.WARNING} />
+                                                        }
+
+                                                    </QuestionCategory>
+                                                );
+
+                                            } else {
+
+                                                return (
+                                                    <QuestionCategory key={category.name} index={index} name={category.name}>
+
+                                                        <NoDataCard header={'No questions'} intent={Intent.SUCCESS} />
+
+                                                    </QuestionCategory>
+                                                );
+
+                                            }
+
+                                        })
+
+                                        : <NoDataCard header="There are no questions to show. Please contact us!!" intent={Intent.SUCCESS} />
+
+                                    : <NoDataCard header="There are no questions to show!!" intent={Intent.WARNING} />
+
+                                : <div className="loader" />
+
+                            : <NoDataCard header={`No data`} intent={Intent.WARNING} />
+
+                    }
+
+                </CustomColumn>
+
+            </Row>
+        );
+
+    }
 
 }
 
 const mapStateToProps = (state) => {
 
-  return {
-    questions: state.cms.maincategory,
-    general: state.general.general,
-  }
+    return {
+        questions: state.cms.maincategory,
+        general: state.general.general,
+    }
 
 }
 
 const mapDispatchToProps = (dispatch) => {
-  
-  return {
-    fetchFAQuestions: (name) => { dispatch(CMSAction.fetchCategory(name)) },
-    subCategory: (id) => { dispatch(CMSAction.fetchSubCategory(id)) },
-  }
-  
+
+    return {
+        fetchFAQuestions: (name) => { dispatch(CMSAction.fetchCategory(name)) },
+        subCategory: (id) => { dispatch(CMSAction.fetchSubCategory(id)) },
+    }
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FAQ);
