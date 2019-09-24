@@ -104,11 +104,12 @@ class UserRegistration extends Component {
             confirmPassword
         } = this.state;
 
-        // check if user is successfully logged in or authenticated
+        // check if user is successfully registered
         if (user !== null) {
 
-            // check if token defined
-            return redirect.to({ url: '/login', from: this.context })
+            if (user.username !== null) {
+                return redirect.to({ url: '/login', from: this.context })
+            }
 
         }
 
