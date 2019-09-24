@@ -117,6 +117,36 @@ class CMSMapPreview extends Component {
 
             } else {
 
+                if (geometry.type === 'ditribution_line') {
+
+                    const object = {
+                        properties: {},
+                        geometry: {
+                            coordinates: geometry.line,
+                            type: 'Polyline'
+                        }
+                    }
+
+                    return (
+                        <Polyline
+                            path={object.geometry.coordinates}
+                            geodesic={true}
+                            options={{
+                                strokeColor: "blue",
+                                strokeOpacity: 0.75,
+                                strokeWeight: 2,
+                                icons: [
+                                    {
+                                        offset: "0",
+                                        repeat: "20px"
+                                    }
+                                ]
+                            }}
+                        />
+                    );
+
+                }
+
             }
 
         }
