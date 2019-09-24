@@ -87,6 +87,7 @@ class CMSMapPreview extends Component {
                         ta: geometry.ta,
                         status: geometry.plant_status,
                         planType: geometry.plant_type,
+                        capacity: geometry.plant_capacity,
                         country: geometry.country_name,
                         secondary: geometry.substation_secondary,
                         transmission: geometry.substation_transmission,
