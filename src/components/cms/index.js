@@ -151,8 +151,10 @@ class CMSIndex extends React.Component {
         if (this.state.link === "home") {
             // if no home categories exists,
             // create one to start.
-            if (this.props.home.length === 0) {
-                this.props.createItem();
+            if (this.props.home) {
+                if (this.props.home.length === 0) {
+                    this.props.createItem();
+                }
             }
         }
 

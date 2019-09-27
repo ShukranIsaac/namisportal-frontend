@@ -66,6 +66,7 @@ class CreateHomeSubcategory extends Component {
     };
 
     handleSubmit = (event) => {
+        event.preventDefault();
         // category under which this subcategory should 
         // be uploaded to
         const { category, props } = this.props;
@@ -85,7 +86,7 @@ class CreateHomeSubcategory extends Component {
                 }
 
                 // home category exists
-                if (category.length !== 0) {
+                if (category && ( category.length !== 0 )) {
                     // proceeed to adding new subcategories under it
                     this.props.createCategory(category._id, sub_category, user.token,this.props.capitalize(this.props.link));
                 } else {

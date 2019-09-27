@@ -158,10 +158,9 @@ class EditDirectoryInstitution extends Component {
                 // define sub-category structure
                 const stakeholder = {
                     name: stakeholder_name,
-                    about: physical_address,
+                    about: summary,
                     mission: mission,
                     vision: vision,
-                    summary: summary,
                     contacts: {
                         email: email,
                         telephone: telephone,
@@ -176,6 +175,8 @@ class EditDirectoryInstitution extends Component {
                 if (empty) {
                     this.props.editStakeholder(this.props.stakeholder._id, stakeholder, user.token);
                     // then change state to default
+                    // console.log(this.props.stakeholder._id)
+                    // console.log(stakeholder)
                     // so that the page redirects and list all home items
                     this.props.defaultItem();
                 }
