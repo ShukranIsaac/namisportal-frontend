@@ -22,7 +22,7 @@ const Config = (() => {
 
     // production
     const PROD_REMOTE_API_URL = Axios.create({
-        baseURL: "http://109.74.196.98:4000"
+        baseURL: "http://109.74.196.98:8000"
     })
 
     // Client ip address

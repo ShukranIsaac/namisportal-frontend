@@ -133,3 +133,10 @@ Comments:
         Main category deleted: all other subcategories are also deleted. No subcategory can be added again
                                 unless the main category exists. Thus the no saving effect encountored before
         
+
+
+
+
+
+03 - 04 Sept. 2019, TNM Bought data bundle, 5000 MK...Hosting.
+30 Sept. 2019, TNM Data bundle, 2GB, Development.

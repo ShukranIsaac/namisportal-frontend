@@ -1,5 +1,5 @@
 import * as GeneralAction from './general.action';
-import { post, get, patch, upload } from './api.service';
+import { post, get, patch, upload, _delete } from './api.service';
 import { CMSType } from '../action_type';
 
 /**
@@ -24,6 +24,8 @@ export const createStakeholder = (stakeholder, token) => {
         .then(response => {
 
             dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_ADD_STAKEHOLDER, response, false))
+
+            dispatch(fetchAllStakeholders())
 
         })
 
@@ -92,6 +94,8 @@ export const editStakeholder = (id, stakeholder, token) => {
 
             dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_EDIT_STAKEHOLDER, response, false))
 
+            dispatch(fetchAllStakeholders())
+
         })
 
         .catch(error => {
@@ -102,6 +106,40 @@ export const editStakeholder = (id, stakeholder, token) => {
 
     }
 
+}
+
+/**
+ * Delete a single directory stakeholder 
+ * 
+ * @param {String} stakeholder_id 
+ * @param {String} token 
+ */
+export const deleteStakeholder = (stakeholder_id, token) => {
+    // url
+    const url = `stakeholders/` + stakeholder_id + `?token=` + token;
+
+    return async dispatch => {
+
+        dispatch(GeneralAction.isLoading(true))
+
+        return await _delete(dispatch, url, stakeholder_id)
+
+        .then(response => {
+
+            dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_DELETE_STAKEHOLDER, response, false))
+
+            dispatch(fetchAllStakeholders())
+
+        })
+
+        .catch(error => {
+
+            console.log(error)
+            dispatch(GeneralAction.hasErrored(false))
+
+        });
+
+    }
 }
 
 /**

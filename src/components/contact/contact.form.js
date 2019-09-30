@@ -95,12 +95,12 @@ class ContactForm extends Component {
 
         const { contact_us } = this.props;
         const { fullname, email, message, subject } = this.state;
-
-        if (contact_us !== undefined && contact_us !== null) {
+        console.log(contact_us)
+        if (contact_us) {
             const { success } = contact_us;
             // then redirect user accordingly
             if (success) {
-                return redirect.to({ url: `/faq` });
+                return redirect.to({ url: `/faqs` });
             }
 
         }
@@ -122,7 +122,7 @@ class ContactForm extends Component {
                             </h6>
                         </div>
                         <SidebarDefault col={`col-md-12 col-md-12`}>
-                            <TextField icon={ <ContactAddress /> } value={`Department of Energy Affairs, P/Bag 309, Lilongwe 3`} />
+                            <TextField icon={ <ContactAddress /> } value={`Energy Affairs Department, P/Bag 309, Lilongwe 3`} />
                             <TextField icon={ <ContactMail /> } value={`info@energy.gov.mw`} />
                             <TextField icon={ <ContactMobile /> } value={`+265 (1) 770 688`} />
                             <TextField icon={ <ContactFax /> } value={`+265 (1) 770 094/771954`} />

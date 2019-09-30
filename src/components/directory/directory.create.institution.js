@@ -53,7 +53,7 @@ class CreateDirectoryInstitution extends Component {
         // if chosen stakeholder
         if (event.target.name) {
             const stakeholderName = event.target.value;
-            const stakeholders = this.props.subcategory;
+            const stakeholders = this.props.maincategory;
 
             // if stakeholders not null
             if (stakeholders !== null) {
@@ -131,14 +131,14 @@ class CreateDirectoryInstitution extends Component {
         // category under which this stakeholder should 
         // be uploaded to
         const {
-            add_stakeholder_type, stakeholder_type,
+            add_stakeholder_type,
             stakeholder_type_name, stakeholder_type_shortname, stakeholder_type_summary,
             telephone, stakeholder_name,
             website, email, physical_address,
             mission, vision, summary,
         } = this.state;
 
-        const empty = (telephone && stakeholder_name && website && email && physical_address && mission && vision && summary);
+        const empty = (telephone && stakeholder_name && website && email && mission && vision && summary);
 
         // get authenticated user token
         const user = UserProfile.get();
@@ -148,7 +148,7 @@ class CreateDirectoryInstitution extends Component {
                 // define sub-category structure
                 const stakeholder = {
                     name: stakeholder_name,
-                    about: physical_address,
+                    about: summary,
                     mission: mission,
                     vision: vision,
                     contacts: {
@@ -159,17 +159,11 @@ class CreateDirectoryInstitution extends Component {
                     }
                 }
 
-                // this.props.createStakeholder(stakeholder, user.token);
                 /**
                  * create new stakeholder under category selected
                  */
                 if (empty) {
-                    this.props.createCategory(
-                        stakeholder_type._id,
-                        stakeholder,
-                        user.token,
-                        this.props.capitalize(this.props.link)
-                    );
+                    this.props.createStakeholder(stakeholder, user.token);
                     // then change state to default
                     // so that the page redirects and list all home items
                     this.props.defaultItem();
@@ -254,11 +248,10 @@ class CreateDirectoryInstitution extends Component {
         const {
             stakeholder_type_name, stakeholder_type_shortname, stakeholder_type_summary,
             telephone, stakeholder_name,
-            website, email, physical_address,
-            mission, vision, summary,
+            website, email, mission, vision, summary,
         } = this.state;
 
-        const isRequired = stakeholder_name && website && email && mission && vision && summary && telephone && physical_address;
+        const isRequired = stakeholder_name && website && email && mission && vision && summary && telephone;
 
         // List of Stakeholder types/categories
         const stakeholderTypes = this.props.maincategory;
@@ -471,7 +464,7 @@ class CreateDirectoryInstitution extends Component {
                         name="physical_address"
                         value={physical_address}
                         placeholder="Stakeholder's physical address..."
-                        label="Physical Address*"
+                        label="Physical Address"
                         type="text"
                         rows={1}
                         handleChange={this.handleTextChange}

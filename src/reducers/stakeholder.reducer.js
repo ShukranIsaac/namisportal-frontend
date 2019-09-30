@@ -8,15 +8,15 @@ const initialState = {
 
 const stakeholder = (state = initialState, action) => {
 
-    switch(action.type){
-        
+    switch (action.type) {
+
         case CMSType.REQUEST_ADD_STAKEHOLDER:
             return {
                 ...state,
                 stakeholder: action.payload
             }
         case CMSType.REQUEST_A_STAKEHOLDER:
-            
+
             return {
                 ...state,
                 stakeholder: action.payload
@@ -28,6 +28,12 @@ const stakeholder = (state = initialState, action) => {
             }
 
         case CMSType.REQUEST_EDIT_STAKEHOLDER:
+            return {
+                ...state,
+                stakeholder: action.payload
+            }
+
+        case CMSType.REQUEST_DELETE_STAKEHOLDER:
             return {
                 ...state,
                 stakeholder: action.payload

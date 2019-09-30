@@ -97,6 +97,23 @@ class EditDirectoryInstitution extends Component {
 
     }
 
+    handleDeleteStakeholder = (event) => {
+        event.preventDefault();
+        // stakeholder to be deleted
+        const stakeholder_id = event.currentTarget.id;
+        
+        if (stakeholder_id) {
+            // then get authenticated user token
+            const user = UserProfile.get();
+            if (user !== null && user.token !== undefined) {
+                this.props.deleteStakeholder(stakeholder_id, user.token);
+                // then change state to default
+                // so that the page redirects and list all stakeholders
+                this.props.defaultItem();
+            }
+        }
+    }
+
     /**
      * Add Stakeholder Type/Category
      */
@@ -175,8 +192,6 @@ class EditDirectoryInstitution extends Component {
                 if (empty) {
                     this.props.editStakeholder(this.props.stakeholder._id, stakeholder, user.token);
                     // then change state to default
-                    // console.log(this.props.stakeholder._id)
-                    // console.log(stakeholder)
                     // so that the page redirects and list all home items
                     this.props.defaultItem();
                 }
@@ -210,7 +225,8 @@ class EditDirectoryInstitution extends Component {
 
     }
 
-    uploadLogo = (values) => {
+    uploadLogo = (event, values) => {
+        event.preventDefault()
         // stakeholder to be edited
         const { stakeholder } = this.props;
         // get authenticated user token
@@ -350,7 +366,7 @@ class EditDirectoryInstitution extends Component {
                 <div className="form-group">
                     <BootsrapTextareaField
                         name="summary"
-                        value={stakeholder ? (summary ? summary : stakeholder.mission) : ''}
+                        value={stakeholder ? (summary ? summary : stakeholder.about) : ''}
                         placeholder="Stakeholder's physical address..."
                         label={`${stakeholder.name + ' - Summary Background'}`}
                         type="text"
@@ -412,7 +428,7 @@ class EditDirectoryInstitution extends Component {
         // state
         const {
             stakeholder_type_name, stakeholder_type_shortname, stakeholder_type_summary,
-            telephone, stakeholder_name,
+            telephone, stakeholder_name, stakeholder,
             website, email, physical_address,
             mission, vision, summary,
         } = this.state;
@@ -544,9 +560,11 @@ class EditDirectoryInstitution extends Component {
 
                                         <Button
                                             className={classes.margin}
-                                            name="default"
-                                            intent="danger" text="Delete"
-                                            onClick={e => this.handleClick}
+                                            name="archive"
+                                            intent="danger"
+                                            text="Delete"
+                                            id={stakeholder ? stakeholder._id : null}
+                                            onClick={e => this.handleDeleteStakeholder(e)}
                                             disabled={!profile.canDelete({ user })}
                                         />
 
@@ -593,7 +611,7 @@ class EditDirectoryInstitution extends Component {
 
                     <div id="logo" class="tab-pane fade"><br />
 
-                        <form onSubmit={handleSubmit(values => this.uploadLogo(values))}>
+                        <form onSubmit={e => handleSubmit(values => this.uploadLogo(e, values))}>
 
                             <div className="margin-fix form-row" style={{ width: `30%` }}>
                                 <BootstrapGridColumn>

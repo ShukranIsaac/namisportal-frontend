@@ -24,6 +24,7 @@ import { redirect } from '../user/user.redirect';
 const ItemProfile = ({ classes, location }) => {
 
   const { state: { stakeholder } } = location;
+  console.log(stakeholder)
   
   return (
     <div>
@@ -48,7 +49,7 @@ const ItemProfile = ({ classes, location }) => {
                   <CardBody >
                       <PostIcon style={{ fontSize: 50 }}/>
                       <h4 className="card-title">Postal Address:</h4>
-                      <p>P.O.Box 7617, Zomba Malawi</p>
+                      <p>{ stakeholder.contacts.address }</p>
                   </CardBody>
                 </Card>
             </Col>

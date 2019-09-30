@@ -766,6 +766,7 @@ const mapDispatchToProps = (dispatch) => {
         fetchSingleStakeholder: (i) => { dispatch(Stakeholder.fetchSingleStakeholder(i)) },
         fetchStakeholders: () => { dispatch(Stakeholder.fetchAllStakeholders()) },
         editStakeholder: (i, s, t) => { dispatch(Stakeholder.editStakeholder(i, s, t)) },
+        deleteStakeholder: (s, t) => { dispatch(Stakeholder.deleteStakeholder(s, t)) },
         uploadStakeholderLogo: (i, im, t) => { dispatch(Stakeholder.uploadStakeholderLogo(i, im, t)) },
         // news articles
         fetchNewsArticles: () => dispatch(NewsAction.fetchAllArticles()),
