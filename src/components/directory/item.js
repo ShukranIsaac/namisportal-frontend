@@ -8,71 +8,71 @@ import './directory.css';
 
 class Item extends Component {
 
-  render(){
+    render() {
 
-    const { classes, stakeholder } = this.props;
+        const { classes, stakeholder } = this.props;
 
-    if(stakeholder !== null && stakeholder !== undefined) {
+        if (stakeholder !== null && stakeholder !== undefined) {
 
-      return (
-        <Row>
-          <Col lg='12'>
-            <div style={{margin: '2.5px 0'}}>
-              <Card id={ stakeholder._id} className={classes.card}>
-                <CardBody className={classes.paddindUnset}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '20% 80%' }}>
+            return (
+                <Row>
+                    <Col lg='12'>
+                        <div style={{ margin: '2.5px 0' }}>
+                            <Card id={stakeholder._id} className={classes.card}>
+                                <CardBody className={classes.paddindUnset}>
+                                    <div style={{ display: 'grid', gridTemplateColumns: '20% 80%' }}>
 
-                    {
-                      stakeholder.name === 'Escom Malawi' ? 
-                        <CardImg src={ require("../../../src/assets/img/escom-logo.png") } />
-                        : <CardImg src={ require("../../../src/assets/img/malawi.png") } />
-                    }
+                                        {
+                                            stakeholder.name === 'Escom Malawi' ?
+                                                <CardImg src={require("../../../src/assets/img/escom-logo.png")} />
+                                                : <CardImg src={require("../../../src/assets/img/malawi.png")} />
+                                        }
 
-                    <div>
-                      <h4>
-                        <NavLink 
-                          to={{
-                              pathname: `/directory/` + stakeholder.name,
-                              state: {
-                                stakeholder: stakeholder
-                              }
-                          }}
-                        >
-                          { stakeholder.name }
-                        </NavLink>
-                      </h4>
-                      <p>{ stakeholder.about }</p>
-                    </div>
-                    
-                  </div>
-                </CardBody>
-              </Card>
-            </div>
-          </Col>
-        </Row> 
-      );
+                                        <div>
+                                            <h4>
+                                                <NavLink
+                                                    to={{
+                                                        pathname: `/directory/` + stakeholder.name,
+                                                        state: {
+                                                            stakeholder: stakeholder
+                                                        }
+                                                    }}
+                                                >
+                                                    {stakeholder.name}
+                                                </NavLink>
+                                            </h4>
+                                            <p>{stakeholder.about}</p>
+                                        </div>
+
+                                    </div>
+                                </CardBody>
+                            </Card>
+                        </div>
+                    </Col>
+                </Row>
+            );
+
+        }
 
     }
-    
-  }
 
 }
 
 const styles = theme => ({
-  card: {
-    margin: '0 auto',
-    maxWidth: '80%',
-    cursor: 'pointer'
-  },
-  paddindUnset: {
-    padding: 'unset'
-  },
+    card: {
+        margin: '0 auto',
+        maxWidth: '80%',
+        cursor: 'pointer'
+    },
+    paddindUnset: {
+        padding: 'unset'
+    },
 });
 
 
 Item.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
+    theme: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(Item);

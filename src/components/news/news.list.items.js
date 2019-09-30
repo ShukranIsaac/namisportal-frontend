@@ -43,7 +43,7 @@ const ListNewsArticles = ({ articles, handleClick, general, classes }) => {
             <ul>
                 {
                     general && (
-                        general.isLoading && !general.isLoading ?
+                        !general.isLoading ?
                             articles !== null && articles.length !== 0 ?
                                 articles.map(({ _id, title }, index) => {
 

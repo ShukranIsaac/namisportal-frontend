@@ -13,7 +13,7 @@ import BootstrapGridColumn from '../forms/form.grid.column';
 import ContactMail from '@material-ui/icons/ContactMail';
 import ContactFax from '@material-ui/icons/ContactPhone';
 import ContactMobile from '@material-ui/icons/ContactPhoneOutlined';
-import ContactAddress from '@material-ui/icons/Home';
+import ContactAddress from '@material-ui/icons/LocalPostOffice';
 
 import './text.field.css';
 
@@ -121,7 +121,7 @@ class ContactForm extends Component {
                                 <p>Please use the email, physical address or form below to contact us.</p>
                             </h6>
                         </div>
-                        <SidebarDefault col={`col-md-12 col-md-12`}>
+                        <SidebarDefault>
                             <TextField icon={ <ContactAddress /> } value={`Energy Affairs Department, P/Bag 309, Lilongwe 3`} />
                             <TextField icon={ <ContactMail /> } value={`info@energy.gov.mw`} />
                             <TextField icon={ <ContactMobile /> } value={`+265 (1) 770 688`} />
