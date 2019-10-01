@@ -106,7 +106,11 @@ class CreateLibraryItem extends Component {
                 // ids the same: chosen and what is in state
                 if (this.state.library_resource._id === event.currentTarget.value) {
                     // proceeed to delete the selected resource or category
-                    this.props.archiveCategory(this.state.library_resource, user.token);
+                    this.props.archiveCategory(
+                        this.state.library_resource,
+                        user.token,
+                        this.props.capitalize(this.props.link)
+                    );
                     // then change state to default
                     // so that the page redirects and list all home items
                     this.props.defaultItem();
@@ -120,6 +124,7 @@ class CreateLibraryItem extends Component {
         event.preventDefault();
         // get category
         const { maincategory } = this.props;
+
         const {
             name, shortname, summary, add_resource,
             resource_name, resource_short_name, resource_summary, supporting_document
@@ -127,45 +132,45 @@ class CreateLibraryItem extends Component {
         // get authenticated user token
         const user = UserProfile.get();
         if (user !== null && user.token !== undefined) {
+            // check if resource or file if being added
+            if (!add_resource) {
+                // define file structure
+                const data = {
+                    name: name,
+                    shortName: shortname,
+                    about: summary,
+                    file: supporting_document
+                }
 
-            if (name && shortname && summary) {
-                // check if resource or file if being added
-                if (!add_resource) {
-                    // define file structure
-                    const data = {
-                        name: name,
-                        shortName: shortname,
-                        about: summary,
-                        file: supporting_document
-                    }
+                if (maincategory !== null && maincategory !== undefined) {
+                    const { library_resource } = this.state;
+                    // create new file
+                    this.props.uploadFile(library_resource._id, data, user.token);
+                    // then change state to default
+                    // so that the page redirects and list all home items
+                    this.props.defaultItem();
+                }
+            } else {
+                // we are adding a resource category: sub-category essentially
+                // define file structure
+                const resource = {
+                    name: resource_name,
+                    shortName: resource_short_name,
+                    about: resource_summary,
+                }
 
-                    if (maincategory !== null && maincategory !== undefined) {
-                        const { library_resource } = this.state;
-                        // create new file
-                        this.props.uploadFile(library_resource._id, data, user.token);
-                        // then change state to default
-                        // so that the page redirects and list all home items
-                        this.props.defaultItem();
-                    }
-                } else {
-                    // we are adding a resource category: sub-category essentially
-                    // define file structure
-                    const resource = {
-                        name: resource_name,
-                        shortName: resource_short_name,
-                        about: resource_summary,
-                    }
-
-                    if (maincategory !== null && maincategory !== undefined) {
-                        // create new resource category
-                        // console.log(resource)
-                        this.props.createCategory(maincategory._id, resource, user.token);
-                        // then change state.add_resource to false
-                        // so that the page shows form fileds to add files and 
-                        // supporting documents
-                        this.setState({ add_resource: false });
-
-                    }
+                if (maincategory !== null && maincategory !== undefined) {
+                    // create new resource category
+                    this.props.createCategory(
+                        maincategory._id, 
+                        resource, 
+                        user.token,
+                        this.props.capitalize(this.props.link)
+                    );
+                    // then change state.add_resource to false
+                    // so that the page shows form fileds to add files and 
+                    // supporting documents
+                    this.setState({ add_resource: false });
                 }
             }
 
@@ -178,8 +183,8 @@ class CreateLibraryItem extends Component {
         const { classes, handleClick } = this.props;
 
         // state
-        const { 
-            name, shortname, summary, 
+        const {
+            name, shortname, summary,
             resource_name, resource_short_name, resource_summary, supporting_document
         } = this.state;
 
@@ -298,7 +303,7 @@ class CreateLibraryItem extends Component {
 
                                 <br />
 
-                                <div className="margin-fix form-row" style={{ width: `30%`}}>
+                                <div className="margin-fix form-row" style={{ width: `30%` }}>
                                     <BootstrapGridColumn>
                                         <MuiFormFileinputField
                                             id="pdf_document"

@@ -19,12 +19,13 @@ import { UserProfile, profile } from '../user/user.profile';
  * @returns {Fragment} fragment
  */
 export const ListLibraryDocuments = (withStyles(styles)(({
-    library, docs, general,
+    docs, general,
     handleClick, classes
 }) => {
 
     // authenticated user
     const user = UserProfile.get();
+    console.log(docs)
 
     return (
         <Fragment>
@@ -100,5 +101,4 @@ export const ListLibraryDocuments = (withStyles(styles)(({
             }
         </Fragment>
     );
-})
-);
+}));

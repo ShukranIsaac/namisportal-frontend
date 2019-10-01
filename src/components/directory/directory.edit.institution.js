@@ -11,11 +11,11 @@ import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 import { UserProfile, profile } from '../user/user.profile';
-import { MuiFormFileinputField } from '../forms/form.fileinput.field';
 import { SelectInputControl } from '../forms/form.selectinput.field';
 import BootstrapGridColumn from '../forms/form.grid.column';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import { BootsrapTextareaField } from '../forms/form.textarea.field';
+import { DefaultMuiFormFileinputField } from '../forms/form.fileinput.field';
 
 /**
  * @author Isaac S. Mwakabira
@@ -101,7 +101,7 @@ class EditDirectoryInstitution extends Component {
         event.preventDefault();
         // stakeholder to be deleted
         const stakeholder_id = event.currentTarget.id;
-        
+
         if (stakeholder_id) {
             // then get authenticated user token
             const user = UserProfile.get();
@@ -225,12 +225,12 @@ class EditDirectoryInstitution extends Component {
 
     }
 
-    uploadLogo = (event, values) => {
-        event.preventDefault()
+    uploadLogo = (values) => {
         // stakeholder to be edited
         const { stakeholder } = this.props;
         // get authenticated user token
         const user = UserProfile.get();
+        
         if (user !== null && user.token !== undefined) {
 
             // logo object
@@ -423,7 +423,7 @@ class EditDirectoryInstitution extends Component {
 
     render() {
 
-        const { classes, valid, pristine, submitting, handleClick, handleSubmit, general } = this.props;
+        const { classes, handleClick, handleSubmit, general } = this.props;
 
         // state
         const {
@@ -611,16 +611,16 @@ class EditDirectoryInstitution extends Component {
 
                     <div id="logo" class="tab-pane fade"><br />
 
-                        <form onSubmit={e => handleSubmit(values => this.uploadLogo(e, values))}>
+                        <form onSubmit={handleSubmit(values => this.uploadLogo(values))}>
 
                             <div className="margin-fix form-row" style={{ width: `30%` }}>
                                 <BootstrapGridColumn>
-                                    <MuiFormFileinputField
-                                        placeholder="Upload Image*"
+                                    <DefaultMuiFormFileinputField
+                                        placeholder="Upload Logo*"
                                         classes={classes}
-                                        type="image"
                                         name='image'
                                         handleFileChange={this.handleChange}
+                                        type='image'
                                     />
                                 </BootstrapGridColumn>
                             </div>
@@ -631,7 +631,7 @@ class EditDirectoryInstitution extends Component {
 
                             <Button
                                 type="submit"
-                                disabled={!valid || pristine || submitting}
+                                disabled={this.state.image}
                                 intent="primary"
                                 text="Upload"
                             />

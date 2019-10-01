@@ -21,114 +21,161 @@ import Document from './Document';
 import * as LibraryAction from '../../actions/index';
 
 const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    width: '100%',
-    backgroundColor: theme.palette.background.paper,
-  },
+    root: {
+        flexGrow: 1,
+        width: '100%',
+        backgroundColor: theme.palette.background.paper,
+    },
 });
 
 class Library extends Component {
 
-  state = {
-    value: "tarrifs"
-  };
+    constructor(props) {
+        super(props)
+        this.state = {
+            // set the default library category
+            // to be selected
+            value: "Tarrifs"
+        };
+    }
 
-  componentDidMount(){
+    componentDidMount() {
 
-    this.props.fetchLibrary(this.state.value);
+        // fetch main category
+        this.props.fetchLibrary(null, 'Library', null);
+        // fetch default child category
+        const { library } = this.props;
+        if (library !== null) {
+            this.props.fetchLibrary(library._id, this.state.value, 'children');   
+        }
 
-  }
+    }
 
-  handleChange = (event, value) => { 
-    this.setState({ value });
-    this.props.fetchLibrary(value);
-  };
+    handleChange = (event, value) => {
+        this.setState({ value });
+        const { library } = this.props;
+        this.props.fetchLibrary(library._id, value, 'children');
+    };
 
-  renderDocuments(docs){
+    renderDocuments(docs) {
 
-    return docs && docs.map(({name, path, summary}, key) => {
+        if(docs !== null) {
+            return docs && docs.map(({ name, path, summary }, key) => {
 
-        return <Document key={key} name={name} path={path} summary={summary}/>
-
-    });
-
-  }
-
-  render() {
-
-    const { classes } = this.props;
-    const { value } = this.state;
+                return <Document key={key} name={name} path={path} summary={summary} />
     
-    return (
-      <div className='page-content'>
+            });
+        }
 
-        <ParticlesComponent />
-        
-        <Container>
-          <Row>
-          <div className="card">
-              <div className="card-body">
-                <div className={classes.root}>
-                  <AppBar position="static" color="default">
-                    <Tabs
-                      value={value}
-                      onChange={this.handleChange}
-                      indicatorColor="primary"
-                      textColor="primary"
-                      variant="scrollable"
-                      scrollable={true}
-                      scrollButtons="auto"
-                    > 
-                      <Tab label="Tarrifs" value='tarrifs'/>
-                      <Tab label="Financing" value='financing'/>
-                      <Tab label="Policies and Strategies" value='policy_strategy'/>
-                      <Tab label="Deployment Toolkit" value='toolkit'/>
-                      <Tab label="Legal and Regulatory Frameworks" value='legal_regulatory_frameworks'/>
-                      <Tab label="Resource Plan" value='resource_plan'/>
-                    </Tabs>
-                  </AppBar>
+    }
 
-                  {value === 'tarrifs' && <Tarrifs {...this.props} renderDocuments={this.renderDocuments}/>}
-                  {value === 'financing' && <Financing {...this.props} renderDocuments={this.renderDocuments}/>}
-                  {value === 'policy_strategy' && <PoliciesStratigies {...this.props} renderDocuments={this.renderDocuments}/>}
-                  {value === 'toolkit' && <Toolkits {...this.props} renderDocuments={this.renderDocuments}/>}
-                  {value === 'legal_regulatory_frameworks' && <LegalRegFrameworks {...this.props} renderDocuments={this.renderDocuments}/>}
-                  {value === 'resource_plan' && <ResourcePlan {...this.props} renderDocuments={this.renderDocuments}/>}
-                
-                </div>
-              </div>
+    renderCategoryDocs = () => {
+
+        switch (this.state.value) {
+            case "Tarrifs":
+                return <Tarrifs {...this.props} renderDocuments={this.renderDocuments} />
+
+            case "Deployment Toolkit":
+                return <Toolkits {...this.props} renderDocuments={this.renderDocuments} />
+
+            case "Financing Plan":
+                return <Financing {...this.props} renderDocuments={this.renderDocuments} />
+
+            case "Legal and Regulatory Frameworks":
+                return <LegalRegFrameworks {...this.props} renderDocuments={this.renderDocuments} />
+
+            case "Resource Plan":
+                return <ResourcePlan {...this.props} renderDocuments={this.renderDocuments} />
+
+            case "Policies And Strategies":
+                return <PoliciesStratigies {...this.props} renderDocuments={this.renderDocuments} />
+
+            default:
+                return (<></>);
+        }
+
+    }
+
+    render() {
+
+        const { classes, library } = this.props;
+        const { value } = this.state;
+
+        return (
+            <div className='page-content'>
+
+                <ParticlesComponent />
+
+                <Container>
+                    <Row>
+                        <div className="card">
+                            <div className="card-body">
+                                <div className={classes.root}>
+                                    <AppBar position="static" color="default">
+                                        <Tabs
+                                            value={value}
+                                            onChange={this.handleChange}
+                                            indicatorColor="primary"
+                                            textColor="primary"
+                                            variant="scrollable"
+                                            scrollable={true}
+                                            scrollButtons="auto"
+                                        >
+                                            {
+                                                library && (
+                                                    library.subCategories && (
+                                                        library.subCategories.map(category => {
+                                                            
+                                                            return (
+                                                                <Tab
+                                                                    key={category.name}
+                                                                    label={category.name}
+                                                                    id={category._id}
+                                                                    value={category.name}
+                                                                />
+                                                            )
+                                                        })
+                                                    )
+                                                )
+                                            }
+                                        </Tabs>
+                                    </AppBar>
+
+                                    {
+                                        this.renderCategoryDocs()
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                    </Row>
+                </Container>
             </div>
-          
-          </Row>
-        </Container>
-      </div>
-    );
-  }
+        );
+    }
 }
 
 const mapStateToProps = state => {
 
-  return {
-    general: state.general.general,
-    library: state.library.library
-  }
+    return {
+        general: state.general.general,
+        library: state.library.library,
+        library_documents: state.library.library_documents,
+    }
 
 }
 const mapDispatchToProps = (dispatch) => {
 
-  return {
-    fetchLibrary: (name) => { dispatch(LibraryAction.fetchLibrary(name)) },
-    libraryCategory: (name) => { dispatch(LibraryAction.fetchLibraryCategory(name)) },
-    addSubCategory: (id,subcategory) => { 
-      dispatch(LibraryAction.addSubCategory(id,subcategory)) 
-    },
-  }
+    return {
+        fetchLibrary: (id, name, type) => { dispatch(LibraryAction.fetchLibrary(id, name, type)) },
+        libraryCategory: (name) => { dispatch(LibraryAction.fetchLibraryCategory(name)) },
+        addSubCategory: (id, subcategory) => { dispatch(LibraryAction.addSubCategory(id, subcategory)) },
+    }
 
 }
 
 Library.propTypes = {
-  classes: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Library));

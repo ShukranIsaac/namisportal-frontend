@@ -3,13 +3,14 @@ import { LibraryType } from '../action_type/index';
 const initialState = {
     library: null,
     document: null,
+    library_documents: null
 }
 
 export default (state = initialState, action) => {
 
     switch(action.type){
         case LibraryType.FETCH_LIBRARY:
-
+                console.log(action.payload)
             return {
                 ...state,
                 library: action.payload
@@ -19,7 +20,7 @@ export default (state = initialState, action) => {
         
             return {
                 ...state,
-                library: action.payload
+                library_documents: action.payload
             }
 
         case LibraryType.ADD_NEW_SUB_CATEGORY_DOCS:

@@ -2,35 +2,11 @@ import { LibraryType } from '../action_type/index';
 
 import * as GeneralAction from './general.action';
 
-import library_docs from '../components/library/library_docs';
 import { get, post, upload } from './api.service';
 
-/**
- * Filter or return all documents in this category
- * 
- * @param {Array} docs 
- * @param {String} category_name 
- * @returns {Array} category
- */
-const filterDocLibrary = (docs, category_name) => {
-   
-    return (Object.entries(docs).filter((category) => {
-
-        if (category[0] === category_name) {
-            
-            return category;
-
-        }
-
-        return null;
-    }));
-
-}
-
 export const addSubCategory = (id, subcategory) => {
-    // console.log(subcategory)
     // resource to post data to
-    const url = `/categoris/` + id + `/sub-categories`;
+    const url = `/categories/` + id + `/sub-categories`;
 
     return async dispatch => {
 
@@ -38,13 +14,13 @@ export const addSubCategory = (id, subcategory) => {
 
         return await post(dispatch, url, subcategory)
 
-        .then(response => {
+            .then(response => {
 
-            dispatch(GeneralAction.fetchSuccess(LibraryType.ADD_NEW_SUB_CATEGORY_DOCS, response, false))
+                dispatch(GeneralAction.fetchSuccess(LibraryType.ADD_NEW_SUB_CATEGORY_DOCS, response, false))
 
-        })
+            })
 
-        .catch(() => dispatch(GeneralAction.hasErrored(true)))
+            .catch(() => dispatch(GeneralAction.hasErrored(true)))
     }
 
 }
@@ -59,45 +35,68 @@ export const fetchLibraryCategory = (category) => {
 
         return await get(dispatch, url)
 
-        .then(response => {
+            .then(response => {
 
-            dispatch(GeneralAction.fetchSuccess(LibraryType.FETCH_LIBRARY, response, false))
-        
-        })
+                dispatch(GeneralAction.fetchSuccess(LibraryType.FETCH_LIBRARY, response, false))
 
-        .catch( error => {
+            })
 
-            console.log(error);
-            dispatch(GeneralAction.hasErrored(true))
+            .catch(error => {
 
-        })
+                console.log(error);
+                dispatch(GeneralAction.hasErrored(true))
+
+            })
     }
 
 }
 
-export const fetchLibrary = (category) => {
-    // console.log(category)
-    const url = `/categories`;
+export const fetchLibrary = (id, name, type) => {
+
+    let url = '';
+    // type not null
+    // then download children
+    // else download the main library category
+    if (type === 'children') { 
+        url += `/categories/${id}/documents`;
+    } else {
+        url += `/categories?name=${name}`;
+    }
 
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
         return await get(dispatch, url)
-        
-        .then((response) => {
 
-            // console.log(response)
-            dispatch(GeneralAction.fetchSuccess(LibraryType.FETCH_LIBRARY,filterDocLibrary(library_docs,category)[0][1],false))
+            .then((response) => {
 
-        })
-        
-        .catch((error) => {
+                // type not null
+                // then download children
+                // else download the main library category
+                if (type === 'children') {
+                    dispatch(GeneralAction.fetchSuccess(
+                        LibraryType.FETCH_LIBRARY_DOCS,
+                        response,
+                        false
+                    ))
+                } else {
+                    dispatch(GeneralAction.fetchSuccess(
+                        LibraryType.FETCH_LIBRARY,
+                        // filterDocLibrary(library_docs,category)[0][1],
+                        response,
+                        false
+                    ))
+                }
 
-            console.log(error)
-            dispatch(GeneralAction.hasErrored(true))
-            
-        });
+            })
+
+            .catch((error) => {
+
+                console.log(error)
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
     };
 
 }
@@ -111,14 +110,14 @@ export const fetchAllLibraryDocs = () => {
         dispatch(GeneralAction.isLoading(true));
 
         return await get(dispatch, url)
-        
-        .then((response) => {
 
-           dispatch(GeneralAction.fetchSuccess(LibraryType.FETCH_LIBRARY_DOCS, response, false));
-        
-        })
-        
-        .catch(() => dispatch(GeneralAction.hasErrored(true)));
+            .then((response) => {
+
+                dispatch(GeneralAction.fetchSuccess(LibraryType.FETCH_LIBRARY_DOCS, response, false));
+
+            })
+
+            .catch(() => dispatch(GeneralAction.hasErrored(true)));
     };
 
 }
@@ -142,19 +141,19 @@ export const uploadFile = (category_id, data, token) => {
 
         return await upload(dispatch, url, data)
 
-        .then(response => {
+            .then(response => {
 
-            // console.log(response)
-            dispatch(GeneralAction.fetchSuccess(LibraryType.UPLOAD_FILE, response, false));
+                // console.log(response)
+                dispatch(GeneralAction.fetchSuccess(LibraryType.UPLOAD_FILE, response, false));
 
-        })
+            })
 
-        .catch(error => {
+            .catch(error => {
 
-            console.log(error);
-            dispatch(GeneralAction.hasErrored(true));
+                console.log(error);
+                dispatch(GeneralAction.hasErrored(true));
 
-        });
+            });
 
     }
 

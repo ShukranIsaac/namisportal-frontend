@@ -177,7 +177,7 @@ class CMSIndex extends React.Component {
                 /**
                  * Fetch all library docs
                  */
-                this.props.fetchLibraryDocs();
+                // this.props.fetchLibraryDocs();
                 this.props.category(this.capitalize(link));
                 break;
             case 'home':

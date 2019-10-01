@@ -11,11 +11,11 @@ export default class PoliciesStratigies extends Component {
 
     render(){
 
-        const { library } = this.props;
+        const { library_documents } = this.props;
 
         return(
             <>
-                { this.renderDocuments(library) }
+                { this.renderDocuments(library_documents) }
             </>
 
         );

@@ -287,6 +287,7 @@ class CreateDirectoryInstitution extends Component {
                                         <SelectInputControl
                                             name="stakeholder_type"
                                             {...this.state}
+                                            disabled="true"
                                             onChange={e => this.handleChange(e)}
                                         >
                                             <option value="">{`Choose Stakeholder Type`}</option>
@@ -313,6 +314,7 @@ class CreateDirectoryInstitution extends Component {
                                     value={this.state.add_stakeholder_type}
                                     intent="primary" text="Add Stakeholder Type"
                                     onClick={e => this.handleAddStakeholderType(e)}
+                                    disabled="true"
                                 />
 
                                 {

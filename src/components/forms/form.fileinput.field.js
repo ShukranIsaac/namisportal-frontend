@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { FileInput } from '@blueprintjs/core';
 // import { Button } from '@material-ui/core';
+import { Field } from 'redux-form';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 /**
@@ -35,6 +36,42 @@ export const MuiFormFileinputField = ({
                 onChange={(e) => handleFileChange(e)}
             />
         </>
+    );
+
+}
+
+/**
+ * @author Isaac S. Mwakabira
+ * 
+ * @param {Boolean} disabled
+ * @param {Type} type 
+ * @param {String} id
+ * @param {String} name
+ * @param {String} placeholder
+ * @param {Function} handleInputChange
+ * 
+ * @returns {Fragment} button
+ */
+export const DefaultMuiFormFileinputField = ({
+    disabled = false,
+    type = 'file',
+    id,
+    name,
+    placeholder,
+    handleFileChange,
+    classes
+}) => {
+
+    return (
+        <Fragment>
+            <CloudUploadIcon />
+            <Field
+                name={name}
+                placeholder={placeholder}
+                type={type}
+                component={FileUpload}
+            />
+        </Fragment>
     );
 
 }

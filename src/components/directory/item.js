@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import './directory.css';
+import Config from '../../config';
 
 class Item extends Component {
 
@@ -14,6 +15,8 @@ class Item extends Component {
 
         if (stakeholder !== null && stakeholder !== undefined) {
 
+            const imageUrl = Config.REMOTE_PROD_SERVER + stakeholder.image;
+
             return (
                 <Row>
                     <Col lg='12'>
@@ -22,11 +25,7 @@ class Item extends Component {
                                 <CardBody className={classes.paddindUnset}>
                                     <div style={{ display: 'grid', gridTemplateColumns: '20% 80%' }}>
 
-                                        {
-                                            stakeholder.name === 'Escom Malawi' ?
-                                                <CardImg src={require("../../../src/assets/img/escom-logo.png")} />
-                                                : <CardImg src={require("../../../src/assets/img/malawi.png")} />
-                                        }
+                                        <CardImg src={ imageUrl.trim() } />
 
                                         <div>
                                             <h4>

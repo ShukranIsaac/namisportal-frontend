@@ -11,12 +11,12 @@ export default class ResourcePlan extends Component {
 
     render(){
 
-        const { library, general } = this.props;
+        const { library_documents, general } = this.props;
 
         return general && (
             !general.isLoading ? (
                 <Fragment>
-                    { this.renderDocuments(library) }
+                    { this.renderDocuments(library_documents) }
                 </Fragment>
             ) : <div className="loader"></div>
         );
