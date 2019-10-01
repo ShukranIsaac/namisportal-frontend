@@ -2,11 +2,15 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
+import { reduxForm } from 'redux-form';
+import AsyncValidate from '../contact/form.async-validate';
+import Validate from '../contact/email.validate';
+
 import { Divider, FormControl, Paper } from '@material-ui/core';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
-import { MuiFormFileinputField } from '../forms/form.fileinput.field';
+import { DefaultMuiFormFileinputField } from '../forms/form.fileinput.field';
 import { UserProfile } from '../user/user.profile';
 import { SelectInputControl } from '../forms/form.selectinput.field';
 import BootstrapGridColumn from '../forms/form.grid.column';
@@ -23,7 +27,6 @@ class CreateLibraryItem extends Component {
 
     constructor() {
         super();
-
         this.state = {
             document,
             add_resource: false,
@@ -119,15 +122,13 @@ class CreateLibraryItem extends Component {
         }
     }
 
-    handleSubmit = (event) => {
-        // prevent default behaviour
-        event.preventDefault();
+    handleSubmit = (values) => {
         // get category
         const { maincategory } = this.props;
 
         const {
             name, shortname, summary, add_resource,
-            resource_name, resource_short_name, resource_summary, supporting_document
+            resource_name, resource_short_name, resource_summary
         } = this.state;
         // get authenticated user token
         const user = UserProfile.get();
@@ -139,7 +140,7 @@ class CreateLibraryItem extends Component {
                     name: name,
                     shortName: shortname,
                     about: summary,
-                    file: supporting_document
+                    file: values.supporting_document
                 }
 
                 if (maincategory !== null && maincategory !== undefined) {
@@ -148,7 +149,7 @@ class CreateLibraryItem extends Component {
                     this.props.uploadFile(library_resource._id, data, user.token);
                     // then change state to default
                     // so that the page redirects and list all home items
-                    this.props.defaultItem();
+                    // this.props.defaultItem();
                 }
             } else {
                 // we are adding a resource category: sub-category essentially
@@ -180,12 +181,12 @@ class CreateLibraryItem extends Component {
 
     render() {
 
-        const { classes, handleClick } = this.props;
+        const { classes, handleClick, handleSubmit } = this.props;
 
         // state
         const {
             name, shortname, summary,
-            resource_name, resource_short_name, resource_summary, supporting_document
+            resource_name, resource_short_name, resource_summary
         } = this.state;
 
         // Library filters/subcategories
@@ -206,7 +207,7 @@ class CreateLibraryItem extends Component {
                 <div className={classes.margin} />
                 <div className={classes.margin} />
 
-                <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
+                <form onSubmit={handleSubmit(values => this.handleSubmit(values))} autoComplete="off">
 
                     <Divider />
 
@@ -305,7 +306,7 @@ class CreateLibraryItem extends Component {
 
                                 <div className="margin-fix form-row" style={{ width: `30%` }}>
                                     <BootstrapGridColumn>
-                                        <MuiFormFileinputField
+                                        <DefaultMuiFormFileinputField
                                             id="pdf_document"
                                             placeholder="Upload PDF Document*"
                                             classes={classes}
@@ -321,7 +322,7 @@ class CreateLibraryItem extends Component {
 
                                 <Button
                                     type="submit"
-                                    disabled={!(name && shortname && summary && supporting_document)}
+                                    disabled={!(name && shortname && summary)}
                                     intent="success"
                                     text="Save"
                                 />
@@ -406,4 +407,8 @@ CreateLibraryItem.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default (withStyles(styles)(CreateLibraryItem));
+export default reduxForm({
+    form: 'createLibraryDocument',
+    Validate,
+    AsyncValidate
+})(withStyles(styles)(CreateLibraryItem));
