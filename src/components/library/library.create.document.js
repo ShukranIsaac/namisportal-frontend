@@ -149,7 +149,7 @@ class CreateLibraryItem extends Component {
                     this.props.uploadFile(library_resource._id, data, user.token);
                     // then change state to default
                     // so that the page redirects and list all home items
-                    // this.props.defaultItem();
+                    this.props.defaultItem();
                 }
             } else {
                 // we are adding a resource category: sub-category essentially
