@@ -90,7 +90,7 @@ class EditUserAccount extends Component {
                 username: username,
                 firstName: firstname,
                 lastName: lastname,
-                roles: roles,
+                roles: Object.keys(roles).length === 0 ? undefined : roles,
                 password: new_password && old_password ? new_password : undefined
             }
 
