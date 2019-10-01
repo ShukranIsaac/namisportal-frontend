@@ -10,7 +10,7 @@ export default (state = initialState, action) => {
 
     switch(action.type){
         case LibraryType.FETCH_LIBRARY:
-                console.log(action.payload)
+            // console.log(action.payload)
             return {
                 ...state,
                 library: action.payload
