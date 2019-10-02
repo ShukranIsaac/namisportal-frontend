@@ -134,7 +134,7 @@ export const uploadFile = (category_id, data, token) => {
 
     // url
     const url = `categories/` + category_id + `/files?token=` + token;
-
+    
     return async dispatch => {
 
         dispatch(GeneralAction.isLoading(true));

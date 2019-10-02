@@ -512,7 +512,7 @@ class CMSIndex extends React.Component {
 
     render() {
 
-        const { classes, general, actionType } = this.props;
+        const { classes, general, actionType, loaded } = this.props;
         const { link, } = this.state;
 
         // get loggedin user
@@ -522,12 +522,18 @@ class CMSIndex extends React.Component {
         if (user === null) {
             return redirect.to({ url: `/login` })
         }
-        // console.log(this.props.general)
+        console.log(this.props.loaded)
         if (general !== null) {
             // isLoading or not
             if (!general.isLoading && actionType === 'REQUEST_CATEGORY') {
                 // console.log(this.props.subcategory)
                 Object.assign(this.state, { category: this.props.subcategory });
+            }
+        }
+
+        if (loaded) {
+            if (actionType === 'REQUEST_IS_UPLOADING') {
+                Object.assign(this.state, { loaded: loaded });
             }
         }
 
@@ -719,6 +725,7 @@ const mapStateToProps = (state) => {
         features: state.cms.features,
         user_event: state.event.event,
         library: state.library.library,
+        loaded: state.library.loaded,
         document: state.library.document,
         home: state.home.home,
         subcategory: state.cms.subcategory,

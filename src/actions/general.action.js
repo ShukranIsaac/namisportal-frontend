@@ -1,5 +1,12 @@
 import { GeneralType } from '../action_type/index';
 
+export const loaded = (progress) => {
+    return {
+        type: GeneralType.REQUEST_IS_UPLOADING,
+        loaded: progress
+    }
+}
+
 export const hasErrored = (bool) => {
 
     return {

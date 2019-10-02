@@ -1,6 +1,7 @@
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { Progress } from 'reactstrap';
 
 import { reduxForm } from 'redux-form';
 import AsyncValidate from '../contact/form.async-validate';
@@ -16,6 +17,24 @@ import { SelectInputControl } from '../forms/form.selectinput.field';
 import BootstrapGridColumn from '../forms/form.grid.column';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import { BootsrapTextareaField } from '../forms/form.textarea.field';
+
+export const UploadProgressContainer = ({ loaded }) => {
+
+    return (
+        <div class="form-group">
+            <Progress
+                max="100"
+                color="success"
+                value={loaded}
+            >
+                {
+                    Math.round(loaded, 2)
+                }%
+            </Progress>
+        </div>
+    );
+
+}
 
 /**
  * Create new rosource type,
@@ -124,7 +143,7 @@ class CreateLibraryItem extends Component {
 
     handleSubmit = (values) => {
         // get category
-        const { maincategory } = this.props;
+        const { maincategory, } = this.props;
 
         const {
             name, shortname, summary, add_resource,
@@ -147,9 +166,6 @@ class CreateLibraryItem extends Component {
                     const { library_resource } = this.state;
                     // create new file
                     this.props.uploadFile(library_resource._id, data, user.token);
-                    // then change state to default
-                    // so that the page redirects and list all home items
-                    this.props.defaultItem();
                 }
             } else {
                 // we are adding a resource category: sub-category essentially
@@ -163,8 +179,8 @@ class CreateLibraryItem extends Component {
                 if (maincategory !== null && maincategory !== undefined) {
                     // create new resource category
                     this.props.createCategory(
-                        maincategory._id, 
-                        resource, 
+                        maincategory._id,
+                        resource,
                         user.token,
                         this.props.capitalize(this.props.link)
                     );
@@ -181,13 +197,22 @@ class CreateLibraryItem extends Component {
 
     render() {
 
-        const { classes, handleClick, handleSubmit } = this.props;
+        const { classes, handleClick, handleSubmit, loaded } = this.props;
 
         // state
         const {
             name, shortname, summary,
             resource_name, resource_short_name, resource_summary
         } = this.state;
+
+        console.log(this.props.loaded)
+        // then change state to default
+        // so that the page redirects and list all home items
+        if (loaded) {
+            if (loaded === 100) {
+                this.props.defaultItem();
+            } 
+        }
 
         // Library filters/subcategories
         const resources = this.props.maincategory;
@@ -303,6 +328,9 @@ class CreateLibraryItem extends Component {
                                 </div>
 
                                 <br />
+                                {
+                                    loaded !== 0 && <UploadProgressContainer loaded={ loaded } />
+                                }
 
                                 <div className="margin-fix form-row" style={{ width: `30%` }}>
                                     <BootstrapGridColumn>

@@ -25,7 +25,7 @@ export const ListLibraryDocuments = (withStyles(styles)(({
 
     // authenticated user
     const user = UserProfile.get();
-    console.log(docs)
+    // console.log(docs)
 
     return (
         <Fragment>
