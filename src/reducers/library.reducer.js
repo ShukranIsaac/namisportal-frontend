@@ -4,7 +4,8 @@ const initialState = {
     library: null,
     document: null,
     library_documents: null,
-    loaded: 0
+    loaded: 0,
+    library_sub_cate_documents: null
 }
 
 export default (state = initialState, action) => {
@@ -22,6 +23,13 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 library_documents: action.payload
+            }
+        
+        case LibraryType.REQUEST_SUB_CATE_DOCS:
+            
+            return {
+                ...state,
+                library_sub_cate_documents: action.payload
             }
 
         case LibraryType.ADD_NEW_SUB_CATEGORY_DOCS:

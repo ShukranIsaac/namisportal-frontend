@@ -19,7 +19,7 @@ export const fetchCategory = (category) => {
         return await get(dispatch, url)
         
         .then((response) => {
-            
+
             dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_CATEGORY, response, false))
 
         })

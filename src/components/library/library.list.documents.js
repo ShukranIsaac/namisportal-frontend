@@ -1,71 +1,160 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, Component } from 'react';
 
 // import SearchInputControl from '../forms/search.form.field';
 
 import './library.css';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent } from '@blueprintjs/core';
-import { Divider, withStyles } from '@material-ui/core';
+import { Divider, withStyles, FormControl, Paper } from '@material-ui/core';
 import styles from '../contact/form.styles';
 import { UserProfile, profile } from '../user/user.profile';
+import { SelectInputControl } from '../forms/form.selectinput.field';
 
 /**
  * List all documents by category groups
+ * 
  * @author Isaac S. Mwakabira
  * 
- * @param {JSON} docs
- * @param {Function} handleClick
- * @param {Function} handleChange
- * @returns {Fragment} fragment
  */
-export const ListLibraryDocuments = (withStyles(styles)(({
-    docs, general,
-    handleClick, classes
-}) => {
+export class ListLibraryDocuments extends Component {
 
-    // authenticated user
-    const user = UserProfile.get();
-    // console.log(docs)
+    constructor() {
+        super()
+        this.state = {
+            lock: false
+        }
+    }
 
-    return (
-        <Fragment>
+    componentDidMount() {
 
-            <ButtonControl
-                intent={Intent.NONE}
-                value="New Document"
-                name="create"
-                handleClick={e => handleClick(e)}
-                disabled={!profile.canWrite({ user })}
-            />
+        // Library filters/subcategories
+        const resources = this.props.maincategory;
 
-            <div className={classes.margin} />
-            <div className={classes.margin} />
-            <div className={classes.margin} />
+        // if resources not null
+        if (resources !== null) {
 
-            <Divider />
+            if (resources.subCategories.length !== 0) {
+                // first subcategory in the library main category
+                const category = resources.subCategories[0];
 
-            <div className={classes.margin} />
-            <div className={classes.margin} />
-            <div className={classes.margin} />
+                console.log(category)
+                // fetch its documents
+                // this.props.fetchCategoryDocs(category._id);
 
-            {/* <SearchInputControl 
-                id="search_id"
-                name="search_docs"
-                placeholder="Search for specific document..."
-                handleChange={ (e) => handleChange(e) }
-            /> */}
+                // set lock to true
+                // Object.assign(this.state, { lock: true });
+            }
 
-            {
-                general && (
-                    !general.isLoading ? (
-                        (docs !== null && docs !== undefined) && (
-                            (docs.documents !== null && docs.documents !== undefined) && (
-                                docs.documents.length !== 0 ? (
+        }
+    }
+
+    handleChange = (event) => {
+
+        this.setState({ [event.target.name]: event.target.value })
+
+        const resourceSelected = event.target.value;
+
+        const resources = this.props.maincategory;
+
+        // if resources not null
+        if (resources !== null) {
+
+            // then iterate through the subcategories
+            // and filter the chosen section
+            const filteredResource = resources.subCategories.length !== 0 && resources.subCategories.filter(resource => {
+
+                if (resourceSelected !== null && resource !== null) {
+                    // check if the chosen resource from the drop down list
+                    // equals one of the resources/subCategories
+                    // in Library
+                    if (resource.name === resourceSelected) {
+                        return resource;
+                    } else {
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
+
+            });
+
+            // was anything returned
+            if (filteredResource) {
+                // fetch its documents
+                this.props.fetchCategoryDocs(filteredResource[0]._id);
+            }
+        }
+    }
+
+    render() {
+
+        const { classes, general, handleClick, sub_cate_documents } = this.props;
+
+        // Library filters/subcategories
+        const resources = this.props.maincategory;
+
+        // authenticated user
+        const user = UserProfile.get();
+
+        return (
+            <Fragment>
+
+                <ButtonControl
+                    intent={Intent.NONE}
+                    value="New Document"
+                    name="create"
+                    handleClick={e => handleClick(e)}
+                    disabled={!profile.canWrite({ user })}
+                />
+
+                <div className={classes.margin} />
+                <div className={classes.margin} />
+                <div className={classes.margin} />
+
+                <Divider />
+
+                <div className={classes.margin} />
+                <div className={classes.margin} />
+                <div className={classes.margin} />
+
+                { /** filter categories here */}
+                <FormControl>
+
+                    <Paper elevation={0}>
+
+                        <SelectInputControl
+                            name="library_resource"
+                            // {...this.state}
+                            onChange={e => this.handleChange(e)}
+                            value={this.state.library_resource}
+                        >
+                            <option value="">{`Choose library resource`}</option>
+                            {
+                                (resources !== null && resources !== undefined) && (
+                                    resources.subCategories.length !== 0 && resources.subCategories.map(({ _id, name }, index) => {
+
+                                        // filters
+                                        return <option id={_id} key={`${index}`} value={name}>{name}</option>
+
+                                    })
+                                )
+                            }
+                        </SelectInputControl>
+
+                    </Paper>
+
+                </FormControl>
+
+                {
+                    general && (
+                        !general.isLoading ? (
+                            sub_cate_documents !== null ? (
+                                sub_cate_documents.length !== 0 ? (
                                     <Fragment>
 
                                         <ul>
                                             {
-                                                docs.documents.map((document, index) => {
+                                                sub_cate_documents.map((document, index) => {
 
                                                     return (
                                                         <Fragment key={document.name}>
@@ -91,14 +180,17 @@ export const ListLibraryDocuments = (withStyles(styles)(({
                                         </ul>
 
                                     </Fragment>
-                                ) : <div>No library documents</div>
+                                ) : <div>No documents found</div>
+                            ) : <div>No documents found</div>
+                        ) : (
+                                <div style={{ marginTop: `50px` }} className="loader" />
                             )
-                        )
-                    ) : (
-                            <div style={{ marginTop: `50px` }} className="loader" />
-                        )
-                )
-            }
-        </Fragment>
-    );
-}));
+                    )
+                }
+            </Fragment>
+        );
+    }
+
+};
+
+export default withStyles(styles)(ListLibraryDocuments);

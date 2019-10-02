@@ -6,7 +6,7 @@ import { get, post, upload } from './api.service';
 
 export const addSubCategory = (id, subcategory) => {
     // resource to post data to
-    const url = `/categories/` + id + `/sub-categories`;
+    const url = `/categories/${ id }/sub-categories`;
 
     return async dispatch => {
 
@@ -27,7 +27,7 @@ export const addSubCategory = (id, subcategory) => {
 
 export const fetchLibraryCategory = (category) => {
 
-    const url = `/categories?name=` + category;
+    const url = `/categories?name=${ category }`;
 
     return async dispatch => {
 
@@ -133,7 +133,7 @@ export const fetchAllLibraryDocs = () => {
 export const uploadFile = (category_id, data, token) => {
 
     // url
-    const url = `categories/` + category_id + `/files?token=` + token;
+    const url = `categories/${ category_id }/files?token=` + token;
     
     return async dispatch => {
 
@@ -156,5 +156,37 @@ export const uploadFile = (category_id, data, token) => {
             });
 
     }
+
+}
+
+/**
+ * Archive a single category documents
+ * 
+ * @param id
+ */
+export const fetchCategoryDocuments = (id) => {
+
+    const url = `categories/${ id }/documents`;
+
+    return async dispatch => {
+
+        dispatch(GeneralAction.isLoading(true));
+
+        return await get(dispatch, url)
+        
+        .then((response) => {
+
+            dispatch(GeneralAction.fetchSuccess(LibraryType.REQUEST_SUB_CATE_DOCS, response, false))
+
+        })
+        
+        .catch((error) => {
+
+            console.log(error)
+            dispatch(GeneralAction.hasErrored(true))
+
+        });
+
+    };
 
 }

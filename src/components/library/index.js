@@ -19,6 +19,7 @@ import ParticlesComponent from '../user/particles';
 import Document from './Document';
 
 import * as LibraryAction from '../../actions/index';
+import Config from '../../config';
 
 const styles = theme => ({
     root: {
@@ -35,7 +36,8 @@ class Library extends Component {
         this.state = {
             // set the default library category
             // to be selected
-            value: "Tarrifs"
+            value: "Tarrifs",
+            lock: false
         };
     }
 
@@ -43,27 +45,80 @@ class Library extends Component {
 
         // fetch main category
         this.props.fetchLibrary(null, 'Library', null);
-        // fetch default child category
+        this.setState({ lock: true })
+
+    }
+
+    componentDidUpdate(prev, next) {
+
         const { library } = this.props;
-        if (library !== null) {
-            this.props.fetchLibrary(library._id, this.state.value, 'children');   
+        const { lock, value } = this.state;
+
+        if (prev !== undefined) {
+            if (prev.library !== this.props.library) {
+                if (lock && value) {
+                    // fetch default child category
+                    if (library !== null) {
+                        this.props.fetchCategoryDocuments(library.subCategories[0]._id);
+                        Object.assign({ lock: false });
+                    }
+                }
+            }
         }
 
     }
 
     handleChange = (event, value) => {
+        
         this.setState({ value });
-        const { library } = this.props;
-        this.props.fetchLibrary(library._id, value, 'children');
+        // const { library } = this.props;
+        // this.props.fetchLibrary(library._id, value, 'children');
+
+        const resources = this.props.library;
+
+        // if resources not null
+        if (resources !== null) {
+
+            // then iterate through the subcategories
+            // and filter the chosen section
+            const filteredResource = resources.subCategories.length !== 0 && resources.subCategories.filter(resource => {
+
+                if (value !== null && resource !== null) {
+                    // check if the chosen resource from the drop down list
+                    // equals one of the resources/subCategories
+                    // in Library
+                    if (resource.name === value) {
+                        return resource;
+                    } else {
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
+
+            });
+
+            // was anything returned
+            if (filteredResource) {
+                // fetch its documents
+                this.props.fetchCategoryDocuments(filteredResource[0]._id);
+            }
+        }
+
     };
 
     renderDocuments(docs) {
 
-        if(docs !== null) {
-            return docs && docs.map(({ name, path, summary }, key) => {
+        if (docs !== null) {
+            return docs && docs.map(({ name, path, filename }, key) => {
+                
+                return <Document 
+                    key={key} 
+                    name={name} 
+                    path={`${ Config.REMOTE_PROD_SERVER }/files/${ path }`} 
+                    summary={filename} 
+                />
 
-                return <Document key={key} name={name} path={path} summary={summary} />
-    
             });
         }
 
@@ -98,8 +153,11 @@ class Library extends Component {
 
     render() {
 
-        const { classes, library } = this.props;
+        const { classes, library, library_documents } = this.props;
         const { value } = this.state;
+
+        console.log(library_documents);
+        // console.log(library);
 
         return (
             <div className='page-content'>
@@ -125,7 +183,7 @@ class Library extends Component {
                                                 library && (
                                                     library.subCategories && (
                                                         library.subCategories.map(category => {
-                                                            
+
                                                             return (
                                                                 <Tab
                                                                     key={category.name}
@@ -160,7 +218,7 @@ const mapStateToProps = state => {
     return {
         general: state.general.general,
         library: state.library.library,
-        library_documents: state.library.library_documents,
+        library_documents: state.library.library_sub_cate_documents,
     }
 
 }
@@ -170,6 +228,7 @@ const mapDispatchToProps = (dispatch) => {
         fetchLibrary: (id, name, type) => { dispatch(LibraryAction.fetchLibrary(id, name, type)) },
         libraryCategory: (name) => { dispatch(LibraryAction.fetchLibraryCategory(name)) },
         addSubCategory: (id, subcategory) => { dispatch(LibraryAction.addSubCategory(id, subcategory)) },
+        fetchCategoryDocuments: (i) => { dispatch(LibraryAction.fetchCategoryDocuments(i)) }
     }
 
 }
