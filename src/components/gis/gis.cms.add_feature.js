@@ -60,7 +60,7 @@ class AddFeature extends Component {
         } else {
             this.setState({ zoom: 7 })
         }
-        
+
         // state
         const {
             district_name, country_name,
@@ -791,7 +791,7 @@ class AddFeature extends Component {
         const { classes, handleClick } = this.props;
         // state props 
         const { feature, district_name, selectedvalue, country_name } = this.state;
-
+console.log(this.state.geometry_feature)
         return (
             <Fragment>
 

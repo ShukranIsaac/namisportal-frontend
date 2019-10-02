@@ -178,7 +178,7 @@ class MinGridMap extends Component {
         if ((distribution_lines || eleven_kv_lines) && polyline !== null && polyline !== undefined) {
 
             return polyline.map((line, key) => {
-                console.log(line)
+                
                 return (
                     <Fragment key={line._id + key}>
                         <Polyline

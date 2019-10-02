@@ -120,8 +120,7 @@ class CMSMapPreview extends Component {
                 if (type === 'distribution_line') {
                     /**
                      * [[-10.30523325, 33.59792108333331], [-10.306009583333326, 33.598446], [-10.306739583333327, 33.59892391666665], [-10.307509166666664, 33.59940174999998] ,[-10.3082475, 33.59991224999999], [-10.309043, 33.600424], [-10.30979275, 33.60090849999998], [-10.310548916666665, 33.601409], [-10.311312, 33.60192508333332], [-10.312060916666661, 33.60240683333331]]
-                     */
-                    /**
+                     * 
                      * Convert all cordinates to the LatLng format
                      */
                     const _line = (JSON.parse(geometry_feature.line)).map(pt => {
@@ -135,7 +134,7 @@ class CMSMapPreview extends Component {
                     const object = {
                         properties: {
                             district: geometry_feature.district,
-                            voltage: geometry_feature.voltage,
+                            voltage: Number(geometry_feature.voltage),
                         },
                         geometry: {
                             coordinates: _line,
