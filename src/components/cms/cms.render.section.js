@@ -8,7 +8,7 @@ import CreateNewsItem from '../news/news.create.item';
 import CreateLibraryItem from '../library/library.create.document';
 import ResourceSection from './cms.section.resource';
 import ListNewsArticles from '../news/news.list.items';
-import { ListLibraryDocuments } from '../library/library.list.documents';
+import ListLibraryDocuments from '../library/library.list.documents';
 import { ListDirectoryInstitution } from '../directory/directory.list.institutions';
 import EditDirectoryInstitution from '../directory/directory.edit.institution';
 import CreateDirectoryInstitution from '../directory/directory.create.institution';

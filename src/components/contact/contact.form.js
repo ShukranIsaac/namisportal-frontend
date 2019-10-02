@@ -95,7 +95,7 @@ class ContactForm extends Component {
 
         const { contact_us } = this.props;
         const { fullname, email, message, subject } = this.state;
-        console.log(contact_us)
+        // console.log(contact_us)
         if (contact_us) {
             const { success } = contact_us;
             // then redirect user accordingly

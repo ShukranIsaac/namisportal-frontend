@@ -16,7 +16,7 @@ import { SelectInputControl } from '../forms/form.selectinput.field';
  * @author Isaac S. Mwakabira
  * 
  */
-export class ListLibraryDocuments extends Component {
+class ListLibraryDocuments extends Component {
 
     constructor() {
         super()
@@ -29,20 +29,19 @@ export class ListLibraryDocuments extends Component {
 
         // Library filters/subcategories
         const resources = this.props.maincategory;
+        const { lock } = this.state;
 
         // if resources not null
-        if (resources !== null) {
+        if (resources !== null && !lock) {
 
             if (resources.subCategories.length !== 0) {
                 // first subcategory in the library main category
-                const category = resources.subCategories[0];
-
-                console.log(category)
+                
                 // fetch its documents
-                // this.props.fetchCategoryDocs(category._id);
+                // this.props.fetchCategoryDocs(resources.subCategories[0]._id);
 
                 // set lock to true
-                // Object.assign(this.state, { lock: true });
+                Object.assign(this.state, { lock: true });
             }
 
         }
@@ -108,13 +107,9 @@ export class ListLibraryDocuments extends Component {
                 />
 
                 <div className={classes.margin} />
-                <div className={classes.margin} />
-                <div className={classes.margin} />
 
                 <Divider />
 
-                <div className={classes.margin} />
-                <div className={classes.margin} />
                 <div className={classes.margin} />
 
                 { /** filter categories here */}
@@ -159,7 +154,10 @@ export class ListLibraryDocuments extends Component {
                                                     return (
                                                         <Fragment key={document.name}>
                                                             <li id={index} key={document.name}>
-                                                                {
+                                                                <div style={{ marginTop: `0.5em` }}>
+                                                                    {`${document.name}(${document.filename})`}
+                                                                </div>
+                                                                {/* {
                                                                     !profile.canWrite({ user })
                                                                         ? <a href="#/">{document.name}</a>
                                                                         : <a
@@ -170,7 +168,7 @@ export class ListLibraryDocuments extends Component {
                                                                         >
                                                                             {document.name}
                                                                         </a>
-                                                                }
+                                                                } */}
                                                             </li>
                                                         </Fragment>
                                                     );

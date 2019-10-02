@@ -104,7 +104,7 @@ class CMSIndex extends React.Component {
 
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prev, next) {
         // if a non admin user account was edited
         // and link equals logout
         const user = UserProfile.get();
@@ -114,6 +114,14 @@ class CMSIndex extends React.Component {
                 this.props.editItem();
             }
         }
+
+        // const { sub_cate_documents } = this.props;
+        // if (prev !== undefined) {
+        //     if (prev.sub_cate_documents !== sub_cate_documents) {
+        //         console.log(sub_cate_documents)
+        //     }
+        // }
+
     }
 
     handleLink = (e, link) => {
