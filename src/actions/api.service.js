@@ -5,11 +5,11 @@ import { initial } from './event.action';
 const progressEvent = (dispatch, config) => {
     return {
         onUploadProgress: ProgressEvent => {
-            const loaded = (ProgressEvent.loaded / ProgressEvent.total * 100)
+            const percetange = (ProgressEvent.loaded / ProgressEvent.total * 100)
             //  update store and show upload progress
-            dispatch(GeneralAction.loaded(loaded))
+            dispatch(GeneralAction.loaded(percetange))
 
-            if (loaded === 100) {
+            if (percetange === 100) {
                 // then change state to default
                 // so that the page redirects and list all home items
                 dispatch(initial())
