@@ -53,11 +53,19 @@ class AddFeature extends Component {
     handleTextChange = event => this.setState({ [event.target.name]: event.target.value });
 
     constructGeometry = ({ selectedvalue }) => {
+
+        // set zoom level depending which is being constructed
+        if (selectedvalue === "distribution_line") {
+            this.setState({ zoom: 12 })
+        } else {
+            this.setState({ zoom: 7 })
+        }
+        
         // state
         const {
-            district_name,
-            marep_center_latitude, marep_center_longitude, marep_center_ta, _distribution_line, plant_capacity,
-            plant_latitude, plant_longitude, plant_status, plant_name, plant_type, plant_ta, country_name,
+            district_name, country_name,
+            marep_center_latitude, marep_center_longitude, marep_center_ta, _distribution_line, voltage, 
+            plant_capacity, plant_latitude, plant_longitude, plant_status, plant_name, plant_type, plant_ta,
             transformer_latitude, transformer_location, transformer_longitude, transformer_position,
             transformer_primary, transformer_station, transformer_voltage, transformer_ta,
             substation_latitude, substation_location, substation_name, substation_secondary, substation_ta,
@@ -116,7 +124,7 @@ class AddFeature extends Component {
 
                     // set feature state for preview on map
                     this.setState({ geometry_feature: station });
-                } else if (transformer_latitude && transformer_longitude && transformer_primary 
+                } else if (transformer_latitude && transformer_longitude && transformer_primary
                     && transformer_position && transformer_station && transformer_ta
                     && transformer_voltage && district_name && transformer_location) {
                     // define object structure
@@ -144,7 +152,8 @@ class AddFeature extends Component {
                     const lines = {
                         district: district_name,
                         type: selectedvalue,
-                        line: _distribution_line
+                        line: _distribution_line,
+                        voltage: voltage
                     }
 
                     // set feature state for preview on map
@@ -175,7 +184,7 @@ class AddFeature extends Component {
         });
 
     }
-
+    
     /**
      * Renders mapped object filter options (regions)
      * 
@@ -245,7 +254,7 @@ class AddFeature extends Component {
             transformer_primary, transformer_station, transformer_voltage, transformer_ta, plant_capacity,
             plant_latitude, plant_longitude, plant_status, plant_name, plant_type, plant_ta, country_name,
             substation_latitude, substation_location, substation_name, substation_secondary, substation_ta,
-            substation_transmission, substation_longitude, _distribution_line,
+            substation_transmission, substation_longitude, _distribution_line, voltage
         } = this.state;
         // const { props: { addFeature }, gis_filters } = this.props;
         // preview feature first before submitting
@@ -336,7 +345,8 @@ class AddFeature extends Component {
                             // define question structure
                             const _line = {
                                 district: district_name,
-                                line: _distribution_line
+                                line: JSON.parse(_distribution_line),
+                                voltage: Number(voltage)
                             }
                             // create new distribution_line
                             this.props.addFeature(_line, "distribution-lines", user.token);
@@ -387,7 +397,7 @@ class AddFeature extends Component {
             transformer_primary, transformer_station, transformer_voltage,
             plant_latitude, plant_longitude, plant_status, plant_name, plant_type, plant_ta,
             substation_latitude, substation_location, substation_name, substation_secondary, substation_ta,
-            substation_transmission, substation_longitude, distribution_line
+            substation_transmission, substation_longitude, _distribution_line, voltage
         } = this.state;
 
         /**
@@ -741,15 +751,29 @@ class AddFeature extends Component {
                                 label="Distribution Line*"
                                 type="text"
                                 rows={4}
-                                handleChange={this.handleTextChange}
+                                handleChange={this.handleChange}
                             />
                         </div>
+                        <FormControl className={classes.margin}>
+                            <Paper elevation={0}>
+                                <SelectInputControl
+                                    name="voltage"
+                                    label="Voltage(*)"
+                                    {...this.state}
+                                    onChange={e => this.handleChange(e)}
+                                >
+                                    <option value="">{`Choose Voltage`}</option>
+                                    <option value="33">33 KV</option>
+                                    <option value="11">11 KV</option>
+                                </SelectInputControl>
+                            </Paper>
+                        </FormControl>
 
                         <div className="form-button-margin">
                             <Button
                                 className={classes.margin}
                                 type="submit"
-                                disabled={!(distribution_line)}
+                                disabled={!(_distribution_line && voltage)}
                                 intent="success"
                                 text="Save Distribution Line"
                             />
@@ -865,7 +889,7 @@ class AddFeature extends Component {
                                                             <option value="">{`Choose feature type`}</option>
                                                             <option value="marep_center">Marep Center</option>
                                                             <option value="transformer">Transformer</option>
-                                                            {/* <option value="distribution_line">Distribution Line</option> */}
+                                                            <option value="distribution_line">Distribution Line</option>
                                                         </SelectInputControl>
                                                     )
                                                 }

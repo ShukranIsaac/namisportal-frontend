@@ -70,38 +70,38 @@ class CMSMapPreview extends Component {
         }
     }
 
-    previewGeometry = ({ geometry }) => {
+    previewGeometry = ({ geometry_feature }) => {
+        
+        if (geometry_feature) {
 
-        if (geometry) {
-
-            const { type } = geometry;
+            const { type } = geometry_feature;
 
             /**
-             * If geometry type is a Point else it is a line
+             * If geometry_feature type is a Point else it is a line
              */
             if (type !== 'distribution_line') {
                 // lat: -12.32240657526815, lng: 33.43241472365981
                 const information = {
                     properties: {
-                        district: geometry.district,
-                        ta: geometry.ta,
-                        status: geometry.plant_status,
-                        planType: geometry.plant_type,
-                        capacity: geometry.plant_capacity,
-                        country: geometry.country_name,
-                        secondary: geometry.substation_secondary,
-                        transmission: geometry.substation_transmission,
-                        location: geometry.location,
-                        name: geometry.name,
-                        primary: geometry.transformer_primary,
-                        position: geometry.transformer_position,
-                        station: geometry.transformer_station,
-                        voltage: geometry.transformer_voltage
+                        district: geometry_feature.district,
+                        ta: geometry_feature.ta,
+                        status: geometry_feature.plant_status,
+                        planType: geometry_feature.plant_type,
+                        capacity: geometry_feature.plant_capacity,
+                        country: geometry_feature.country_name,
+                        secondary: geometry_feature.substation_secondary,
+                        transmission: geometry_feature.substation_transmission,
+                        location: geometry_feature.location,
+                        name: geometry_feature.name,
+                        primary: geometry_feature.transformer_primary,
+                        position: geometry_feature.transformer_position,
+                        station: geometry_feature.transformer_station,
+                        voltage: geometry_feature.transformer_voltage
                     },
                     geometry: {
                         coordinates: {
-                            lat: Number(geometry.latitude),
-                            lng: Number(geometry.longitude)
+                            lat: Number(geometry_feature.latitude),
+                            lng: Number(geometry_feature.longitude)
                         },
                         type: 'Point'
                     }
@@ -110,19 +110,35 @@ class CMSMapPreview extends Component {
                 return (
                     <Fragment>
 
-                        <PointMarker title={this.getType({ type: geometry.type })} point={information} />
+                        <PointMarker title={this.getType({ type: geometry_feature.type })} point={information} />
 
                     </Fragment>
                 );
 
             } else {
 
-                if (geometry.type === 'ditribution_line') {
+                if (type === 'distribution_line') {
+                    /**
+                     * [[-10.30523325, 33.59792108333331], [-10.306009583333326, 33.598446], [-10.306739583333327, 33.59892391666665], [-10.307509166666664, 33.59940174999998] ,[-10.3082475, 33.59991224999999], [-10.309043, 33.600424], [-10.30979275, 33.60090849999998], [-10.310548916666665, 33.601409], [-10.311312, 33.60192508333332], [-10.312060916666661, 33.60240683333331]]
+                     */
+                    /**
+                     * Convert all cordinates to the LatLng format
+                     */
+                    const _line = (JSON.parse(geometry_feature.line)).map(pt => {
+                        const temp = [];
+                        // convert coords to latlng
+                        temp.push({lat: Number(pt[0]), lng: Number(pt[1])})
+                        // then flatten the array([[],[],...]) to a single json array i.e. [{},{},...]
+                        return temp.reduce((prev, next) => prev.push(next));
+                    });
 
                     const object = {
-                        properties: {},
+                        properties: {
+                            district: geometry_feature.district,
+                            voltage: geometry_feature.voltage,
+                        },
                         geometry: {
-                            coordinates: geometry.line,
+                            coordinates: _line,
                             type: 'Polyline'
                         }
                     }
@@ -132,9 +148,9 @@ class CMSMapPreview extends Component {
                             path={object.geometry.coordinates}
                             geodesic={true}
                             options={{
-                                strokeColor: "blue",
-                                strokeOpacity: 0.75,
-                                strokeWeight: 2,
+                                strokeColor: "red",
+                                strokeOpacity: 0.85,
+                                strokeWeight: 3,
                                 icons: [
                                     {
                                         offset: "0",
