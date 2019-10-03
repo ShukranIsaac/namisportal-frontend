@@ -1,6 +1,6 @@
 import * as GeneralAction from './general.action';
 import Config from '../config';
-import { initial } from './event.action';
+// import Toast from '../toastfy';
 
 const progressEvent = (dispatch, config) => {
     return {
@@ -9,11 +9,8 @@ const progressEvent = (dispatch, config) => {
             //  update store and show upload progress
             dispatch(GeneralAction.loaded(percetange))
 
-            if (percetange === 100) {
-                // then change state to default
-                // so that the page redirects and list all home items
-                dispatch(initial())
-            }
+            // show progress and keep toast reference id
+            // Toast.progress(percetange);
         },
         ...config
     }
@@ -97,10 +94,17 @@ export const upload = async (dispatch, url, data) => {
     }
 
     return await Config.PROD_REMOTE_API_URL
-        
+
         .post(url, form, progressEvent(dispatch, null))
 
         .then(response => {
+
+            // Upload is done! 
+            // The remaining progress bar will be filled up
+            // The toast will be closed when the transition end
+            // cancel toast progress and exit
+            // using the reference returned from progress
+            // Toast.progress(100).done();
 
             dispatch(GeneralAction.isLoading(false));
 

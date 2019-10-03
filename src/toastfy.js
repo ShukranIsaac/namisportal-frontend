@@ -5,24 +5,62 @@ export const Toast = (() => {
     const TYPES = (() => {
 
         const SUCCESS = 'success';
-    
+
         const INFO = 'info';
-    
+
         const WARN = 'warning';
-    
+
         const DEFAULT = 'default';
-    
+
         const ERROR = 'error';
-    
+
+        const UPLOAD_PROGRESS = 'progress';
+
         return {
             SUCCESS,
             INFO,
             WARN,
             DEFAULT,
-            ERROR
+            ERROR,
+            UPLOAD_PROGRESS
         }
-    
+
     })();
+
+    const progress = (progress) => {
+        // we need to keep a reference of the 
+        // id to be able to update it
+        let id = null;
+
+        // check if we already displayed a toast
+        if (id === null) {
+
+            id = toast('Upload in Progress', {
+                position: "bottom-center",
+                progress: progress,
+                autoClose: 100
+            });
+
+        } else {
+
+            toast.update(id, {
+                position: "bottom-center",
+                progress: progress
+            })
+
+        }
+
+        const done = () => toast.done(id);
+
+        return (() => {
+
+            // when update is done
+            // cancel
+            return { toast, id, done };
+
+        })();
+
+    }
 
     const emit = ({ type, message }) => {
 
@@ -82,7 +120,8 @@ export const Toast = (() => {
 
     return {
         emit,
-        TYPES
+        TYPES,
+        progress
     }
 
 })();
