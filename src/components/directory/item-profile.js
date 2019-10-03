@@ -1,6 +1,5 @@
 import React from 'react';
-import { Card, CardBody, Col, Row } from 'reactstrap'
-import { Jumbotron } from 'reactstrap';
+import { Card, CardBody, Col, Row, Jumbotron, Container } from 'reactstrap'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -8,6 +7,7 @@ import PhoneIcon from '@material-ui/icons/Phone'
 import EmailIcon from '@material-ui/icons/AlternateEmail'
 import WebIcon from '@material-ui/icons/Web'
 import PostIcon from '@material-ui/icons/LocalPostOffice'
+import ParticlesComponent from '../user/particles';
 
 import './directory.css'
 import { redirect } from '../user/user.redirect';
@@ -25,75 +25,98 @@ const ItemProfile = ({ classes, location }) => {
 
     const { state: { stakeholder } } = location;
 
+    const content = () => {
+
+        return (
+            <>
+                <Jumbotron>
+                    <div className={classes.headerPart}>
+                        <h4>{stakeholder.name}</h4>
+                    </div>
+
+                    <h4>Our Mission</h4>
+                    <p>{stakeholder.mission}</p>
+
+                    <h4>Our Vision</h4><p>{stakeholder.vision}</p>
+
+                    <hr className="my-2" />
+                    <h4>About Us</h4><p>{stakeholder.about}</p>
+
+                </Jumbotron>
+
+                <Row className={classes.contactCards}>
+                    <Col lg='3' md='12' sm='12'>
+                        <Card className={classes.cardHeight}>
+                            <CardBody >
+                                <PostIcon style={{ fontSize: 50 }} />
+                                <h4 className="card-title">Postal Address:</h4>
+                                <p>{stakeholder.contacts.address}</p>
+                            </CardBody>
+                        </Card>
+                    </Col>
+                    <Col lg='3' md='12' sm='12'>
+                        <Card className={classes.cardHeight}>
+                            <CardBody >
+                                <PhoneIcon style={{ fontSize: 50 }} />
+                                <h4 className="card-title">Call Us:</h4>
+                                <p>{stakeholder.contacts.telephone}</p>
+                            </CardBody>
+                        </Card>
+                    </Col>
+                    <Col lg='3' md='12' sm='12'>
+                        <Card className={classes.cardHeight}>
+                            <CardBody>
+                                <EmailIcon style={{ fontSize: 50 }} />
+                                <h4 className="card-title">Email Us:</h4>
+                                <p>
+                                    <a href={`${'mailto:' + stakeholder.contacts.email}`}>
+                                        {stakeholder.contacts.email}
+                                    </a>
+                                </p>
+                            </CardBody>
+                        </Card>
+                    </Col>
+                    <Col lg='3' md='12' sm='12'>
+                        <Card className={classes.cardHeight}>
+                            <CardBody>
+                                <WebIcon style={{ fontSize: 50 }} />
+                                <h4 className="card-title">Website:</h4>
+                                <p>
+                                    <a
+                                        href={stakeholder.contacts.website}
+                                        onClick={(event) => redirect.toExternalLink({
+                                            url: stakeholder.contacts.website, event: event
+                                        })
+                                        }
+                                    >
+                                        {stakeholder.contacts.website}
+                                    </a>
+                                </p>
+                            </CardBody>
+                        </Card>
+                    </Col>
+                </Row>
+            </>
+        );
+
+    }
+
     return (
-        <div>
-            <Jumbotron>
-                <div className={classes.headerPart}>
-                    <h4>{stakeholder.name}</h4>
-                </div>
+        <div className='page-content'>
 
-                <h4>Our Mission</h4>
-                <p>{stakeholder.mission}</p>
+            <ParticlesComponent />
 
-                <h4>Our Vision</h4><p>{stakeholder.vision}</p>
-
-                <hr className="my-2" />
-                <h4>About Us</h4><p>{stakeholder.about}</p>
-
-            </Jumbotron>
-
-            <Row className={classes.contactCards}>
-                <Col lg='3' md='12' sm='12'>
-                    <Card className={classes.cardHeight}>
-                        <CardBody >
-                            <PostIcon style={{ fontSize: 50 }} />
-                            <h4 className="card-title">Postal Address:</h4>
-                            <p>{stakeholder.contacts.address}</p>
-                        </CardBody>
-                    </Card>
-                </Col>
-                <Col lg='3' md='12' sm='12'>
-                    <Card className={classes.cardHeight}>
-                        <CardBody >
-                            <PhoneIcon style={{ fontSize: 50 }} />
-                            <h4 className="card-title">Call Us:</h4>
-                            <p>{stakeholder.contacts.telephone}</p>
-                        </CardBody>
-                    </Card>
-                </Col>
-                <Col lg='3' md='12' sm='12'>
-                    <Card className={classes.cardHeight}>
-                        <CardBody>
-                            <EmailIcon style={{ fontSize: 50 }} />
-                            <h4 className="card-title">Email Us:</h4>
-                            <p>
-                                <a href={`${'mailto:' + stakeholder.contacts.email}`}>
-                                    {stakeholder.contacts.email}
-                                </a>
-                            </p>
-                        </CardBody>
-                    </Card>
-                </Col>
-                <Col lg='3' md='12' sm='12'>
-                    <Card className={classes.cardHeight}>
-                        <CardBody>
-                            <WebIcon style={{ fontSize: 50 }} />
-                            <h4 className="card-title">Website:</h4>
-                            <p>
-                                <a
-                                    href={stakeholder.contacts.website}
-                                    onClick={(event) => redirect.toExternalLink({
-                                        url: stakeholder.contacts.website, event: event
-                                    })
-                                    }
-                                >
-                                    {stakeholder.contacts.website}
-                                </a>
-                            </p>
-                        </CardBody>
-                    </Card>
-                </Col>
-            </Row>
+            <Container>
+                <Row>
+                    <div className="card">
+                        <div className="card-body">
+                            <div className={classes.root}>
+                                { content() }
+                            </div>
+                        </div>
+                    </div>
+                </Row>
+            </Container>
         </div>
     );
 
