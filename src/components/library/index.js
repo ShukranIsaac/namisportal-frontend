@@ -114,6 +114,7 @@ class Library extends Component {
                 
                 return <Document 
                     key={key} 
+                    index={ key + 1 }
                     name={name} 
                     path={`${ Config.REMOTE_PROD_SERVER }/files/${ path }`} 
                     summary={filename} 

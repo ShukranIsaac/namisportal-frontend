@@ -34,12 +34,12 @@ export default class Document extends Component {
             textAlign: 'center'
         }
 
-        let { name, path, summary } = this.props;
+        let { name, path, summary, index } = this.props;
 
         return (
             <div style={docContainer}>
                 <Callout onClick={this.handleClick} style={button} righticon="add">
-                    <div style={{ alignSelf: 'flex-start'}}>{ name }</div>
+                    <div style={{ alignSelf: 'flex-start'}}>{`${ index }. ${ name }`}</div>
                     <div style={{marginLeft: 'auto'}}>
                         { this.state.isOpen ? <Icon icon="remove"/> : <Icon icon="add"/>}
                     </div>
