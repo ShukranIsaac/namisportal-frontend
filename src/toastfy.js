@@ -4,15 +4,15 @@ export const Toast = (() => {
 
     const TYPES = (() => {
 
-        const SUCCESS = 'success';
+        const SUCCESS = toast.TYPE.SUCCESS;
 
-        const INFO = 'info';
+        const INFO = toast.TYPE.INFO;
 
-        const WARN = 'warning';
+        const WARN = toast.TYPE.WARNING;
 
-        const DEFAULT = 'default';
+        const DEFAULT = toast.TYPE.DEFAULT;
 
-        const ERROR = 'error';
+        const ERROR = toast.TYPE.ERROR;
 
         const UPLOAD_PROGRESS = 'progress';
 
