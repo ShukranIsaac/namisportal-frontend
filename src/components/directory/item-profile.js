@@ -24,7 +24,6 @@ import { redirect } from '../user/user.redirect';
 const ItemProfile = ({ classes, location }) => {
 
     const { state: { stakeholder } } = location;
-    console.log(stakeholder)
 
     return (
         <div>

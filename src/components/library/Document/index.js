@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Card, Callout, Collapse, Elevation, Icon } from "@blueprintjs/core"
+import { redirect } from '../../user/user.redirect';
 
 export default class Document extends Component {
 
@@ -46,7 +47,7 @@ export default class Document extends Component {
                 <Collapse isOpen={this.state.isOpen}>
                 <Card interactive={true} elevation={Elevation.ZERO}>
                     <p> { summary } </p>
-                    <a  href={path} download={name}>
+                    <a  href="#/" onClick={ e => redirect.toExternalLink({ url: path, event: e })} download={name}>
                         <Button style={alignCenter} rightIcon="download" intent="success" text="Download" />
                     </a>
                 </Card>
