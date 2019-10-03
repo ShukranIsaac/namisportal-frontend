@@ -29,7 +29,6 @@ import { UserProfile } from '../user/user.profile';
 import { redirect } from '../user/user.redirect';
 
 import './style.css';
-import CustomizedSnackbars from './snackbar.feedback';
 
 const drawerWidth = 240;
 
@@ -631,13 +630,6 @@ class CMSIndex extends React.Component {
                     </div>
                 </main>
 
-                {
-                    general && (
-                        general.hasErrored && <>{
-                            <CustomizedSnackbars type="error" />
-                        }</>
-                    )
-                }
             </div>
         );
     }

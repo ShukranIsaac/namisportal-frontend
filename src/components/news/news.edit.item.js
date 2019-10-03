@@ -113,13 +113,8 @@ class EditNewsItem extends Component {
                     article: content.article
                 }
 
-                if (title || article.article !== undefined) {
-                    // then make post request to the api
-                    this.props.editArticle(this.props.article._id, article, user.token);
-                    // then change state to default
-                    // so that the page redirects and list all home items
-                    this.props.defaultItem();
-                }
+                // then make post request to the api
+                this.props.editArticle(this.props.article._id, article, user.token);
             }
 
         }
@@ -139,9 +134,6 @@ class EditNewsItem extends Component {
             const user = UserProfile.get();
             if (user !== null && user.token !== undefined) {
                 this.props.deleteArticle(article._id, user.token);
-                // then change state to default
-                // so that the page redirects and list all home items
-                this.props.defaultItem();
             }
         }
 
@@ -234,7 +226,7 @@ class EditNewsItem extends Component {
                         // but for now default it to false
                         // because the editor's text is not managed by state thus currently no way to track
                         // if anything was edited i.e !(title || article)
-                        disabled={false}
+                        // disabled={ !(title || article) }
                         color="primary"
                     >
                         Save

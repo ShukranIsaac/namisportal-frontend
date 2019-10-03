@@ -4,7 +4,6 @@ import { withStyles, Divider } from '@material-ui/core';
 import styles from '../contact/form.styles';
 import { Intent } from '@blueprintjs/core';
 import ButtonControl from '../forms/buttons/button.default.control';
-import CustomizedSnackbars from '../cms/snackbar.feedback';
 import { profile, UserProfile } from '../user/user.profile';
 
 /**
@@ -84,14 +83,6 @@ export const ListLicensing = (withStyles(styles)(({
                     )
                 }
             </ul>
-
-            {
-                general ? (
-                    general.hasErrored !== undefined ? (
-                        general.hasErrored && <CustomizedSnackbars type="error" />
-                    ) : null
-                ) : null
-            }
         </Fragment>
     )
 

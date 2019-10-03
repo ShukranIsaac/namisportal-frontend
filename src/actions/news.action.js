@@ -1,6 +1,8 @@
 import * as GeneralAction from './general.action';
 import { get, post, patch, _delete } from './api.service';
 import { NewsType } from '../action_type';
+import Toast from '../toastfy';
+import { initial } from './event.action';
 
 /**
  * Fetch all news articles
@@ -16,18 +18,24 @@ export const fetchAllArticles = () => {
 
         return await get(dispatch, url)
 
-        .then(response => {
+            .then(response => {
 
-            dispatch(GeneralAction.fetchSuccess(NewsType.REQUEST_ALL_ARTICLES, response, false))
-            
-        })
+                dispatch(GeneralAction.fetchSuccess(NewsType.REQUEST_ALL_ARTICLES, response, false))
 
-        .catch(error => {
+            })
 
-            console.log(error);
-            dispatch(GeneralAction.hasErrored(true));
+            .catch(error => {
 
-        })
+                console.log(error);
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to download all articles. Please try again. ${error}`
+                })
+
+                dispatch(GeneralAction.hasErrored(true));
+
+            })
     }
 
 }
@@ -39,7 +47,7 @@ export const fetchAllArticles = () => {
 export const createArticle = (article, token) => {
 
     // url resource
-    const url = `/news?token=` + token;
+    const url = `/news?token=${token}`;
 
     return async dispatch => {
 
@@ -47,22 +55,38 @@ export const createArticle = (article, token) => {
 
         return await post(dispatch, url, article)
 
-        .then(response => {
+            .then(response => {
 
-            dispatch(GeneralAction.createSuccess(NewsType.REQUEST_CREATE_ARTICLE, response, false))
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.SUCCESS,
+                    message: `New article successfully created.`
+                })
 
-            // fetch all articles
-            dispatch(fetchAllArticles())
-            
-        })
+                dispatch(GeneralAction.createSuccess(NewsType.REQUEST_CREATE_ARTICLE, response, false))
 
-        .catch(error => {
+                // fetch all articles
+                dispatch(fetchAllArticles())
 
-            console.log(error);
-            dispatch(GeneralAction.hasErrored(true));
+                // then change state to default
+                // so that the page redirects and list all
+                dispatch(initial())
 
-        });
-        
+            })
+
+            .catch(error => {
+
+                console.log(error);
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to  create new article. Please try again. ${error}`
+                })
+
+                dispatch(GeneralAction.hasErrored(true));
+
+            });
+
     }
 
 }
@@ -77,7 +101,7 @@ export const createArticle = (article, token) => {
 export const editArticle = (id, article, token) => {
 
     // url resource
-    const url = `news/` + id + `?token=` + token;
+    const url = `news/${id}?token=${token}`;
 
     // fetch
     return async dispatch => {
@@ -88,22 +112,39 @@ export const editArticle = (id, article, token) => {
         // make patch request
         return await patch(dispatch, url, article)
 
-        // success then return response from server
-        .then(response => {
+            // success then return response from server
+            .then(response => {
 
-            // dispatch response
-            dispatch(GeneralAction.updateSuccess(NewsType.REQUEST_EDIT_ARTICLE, response, false))
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.SUCCESS,
+                    message: `Article successfully updated.`
+                })
 
-            dispatch(fetchAllArticles())
-        })
+                // dispatch response
+                dispatch(GeneralAction.updateSuccess(NewsType.REQUEST_EDIT_ARTICLE, response, false))
 
-        // if error, dispatch corresponding functions and data
-        .catch(error => {
+                dispatch(fetchAllArticles())
 
-            console.log(error);
-            dispatch(GeneralAction.hasErrored(true));
+                // then change state to default
+                // so that the page redirects and list all
+                dispatch(initial())
 
-        })
+            })
+
+            // if error, dispatch corresponding functions and data
+            .catch(error => {
+
+                console.log(error);
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to update article. Please try again. ${error}`
+                })
+
+                dispatch(GeneralAction.hasErrored(true));
+
+            })
 
     }
 
@@ -117,7 +158,7 @@ export const editArticle = (id, article, token) => {
 export const fetchArticleById = (id) => {
 
     // url resource
-    const url = `news/` + id;
+    const url = `news/${id}`;
 
     // fetch
     return async dispatch => {
@@ -128,19 +169,25 @@ export const fetchArticleById = (id) => {
         // make request
         return await get(dispatch, url)
 
-        .then(response => {
+            .then(response => {
 
-            // dispatch
-            dispatch(GeneralAction.fetchSuccess(NewsType.REQUEST_SINGLE_ARTICLE, response, false))
+                // dispatch
+                dispatch(GeneralAction.fetchSuccess(NewsType.REQUEST_SINGLE_ARTICLE, response, false))
 
-        })
+            })
 
-        .catch(error => {
+            .catch(error => {
 
-            console.log(error);
-            dispatch(GeneralAction.hasErrored(true));
+                console.log(error);
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to download article. Please try again. ${error}`
+                })
 
-        });
+                dispatch(GeneralAction.hasErrored(true));
+
+            });
 
     }
 
@@ -154,7 +201,7 @@ export const fetchArticleById = (id) => {
 export const deleteArticle = (id, token) => {
 
     // url resource
-    const url = `news/` + id + `?token=` + token;
+    const url = `news/${id}?token=${token}`;
 
     // fetch
     return async dispatch => {
@@ -165,21 +212,37 @@ export const deleteArticle = (id, token) => {
         // make request
         return await _delete(dispatch, url)
 
-        .then(response => {
+            .then(response => {
 
-            // dispatch
-            dispatch(GeneralAction.fetchSuccess(NewsType.REQUEST_DELETE_ARTICLE, response, false))
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.SUCCESS,
+                    message: `Article successfully deleted.`
+                })
 
-            dispatch(fetchAllArticles())
+                // dispatch
+                dispatch(GeneralAction.fetchSuccess(NewsType.REQUEST_DELETE_ARTICLE, response, false))
 
-        })
+                dispatch(fetchAllArticles())
 
-        .catch(error => {
+                // then change state to default
+                // so that the page redirects and list all
+                dispatch(initial())
 
-            console.log(error);
-            dispatch(GeneralAction.hasErrored(true));
+            })
 
-        });
+            .catch(error => {
+
+                console.log(error);
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to delete article. Please try again. ${error}`
+                })
+
+                dispatch(GeneralAction.hasErrored(true));
+
+            });
 
     }
 

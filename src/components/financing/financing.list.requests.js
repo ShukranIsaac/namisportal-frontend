@@ -5,7 +5,6 @@ import { Intent, Divider } from '@blueprintjs/core';
 import { withStyles } from '@material-ui/core';
 import styles from '../contact/form.styles';
 import { UserProfile, profile } from '../user/user.profile';
-import CustomizedSnackbars from '../cms/snackbar.feedback';
 
 /**
  * Component to list all requests so far placed by each
@@ -81,14 +80,6 @@ export const ListFinancingRequests = (withStyles(styles)(({
                     )
                 }
             </ul>
-
-            {
-                general ? (
-                    general.hasErrored !== undefined ? (
-                        general.hasErrored && <CustomizedSnackbars type="error" />
-                    ) : null
-                ) : null
-            }
 
         </Fragment>
     );

@@ -7,7 +7,6 @@ import { Intent, } from '@blueprintjs/core';
 import { Row, } from 'reactstrap';
 import { UserProfile, profile } from '../user/user.profile';
 import { CMSHomeSubCategory } from './cms.home.subcategory';
-import CustomizedSnackbars from '../cms/snackbar.feedback';
 
 /**
  * List all home subcategory
@@ -71,13 +70,6 @@ export const ListHomeSubcategory = ({
                 }
             </div>
 
-            {
-                general ? (
-                    general.hasErrored !== undefined && (
-                        general.hasErrored && <CustomizedSnackbars type="error" />
-                    )
-                ) : null
-            }
         </Fragment>
     );
 

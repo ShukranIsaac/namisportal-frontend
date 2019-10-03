@@ -2,6 +2,8 @@ import { GisType, GeneralType } from '../action_type/index';
 
 import * as GeneralAction from './general.action';
 import { get, post } from './api.service';
+import Toast from '../toastfy';
+import { initial } from './event.action';
 
 /**
  * Fetch region given its name or _id
@@ -12,20 +14,20 @@ import { get, post } from './api.service';
 export const fetchRegion = (region) => {
     // region resource api url
     const url = `regions/` + region;
-    
+
     return async (dispatch) => {
 
         dispatch(GeneralAction.isLoading(true));
 
         return await get(dispatch, url)
-        
-        .then((response) => {
 
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_REGION, response, false))
+            .then((response) => {
 
-        })
-        
-        .catch(() => dispatch(GeneralAction.hasErrored(true)));
+                dispatch(GeneralAction.fetchSuccess(GisType.FETCH_REGION, response, false))
+
+            })
+
+            .catch(() => dispatch(GeneralAction.hasErrored(true)));
 
     };
 
@@ -40,18 +42,18 @@ export const fetchDistrict = (district) => {
         dispatch(GeneralAction.isLoading(true));
 
         return await get(dispatch, url)
-        
-        .then((response) => {
-          
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_DISTRICT, response, false))
 
-        })
-        
-        .catch(() => {
+            .then((response) => {
 
-          dispatch(GeneralAction.hasErrored(true))
+                dispatch(GeneralAction.fetchSuccess(GisType.FETCH_DISTRICT, response, false))
 
-        });
+            })
+
+            .catch(() => {
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
     };
 
 }
@@ -65,18 +67,18 @@ export const fetchGisFilters = () => {
         dispatch(GeneralAction.isLoading(true));
 
         return await get(dispatch, url)
-        
-        .then((response) => {
 
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_REGIONS, response, false))
+            .then((response) => {
 
-        })
-        
-        .catch(() => {
+                dispatch(GeneralAction.fetchSuccess(GisType.FETCH_REGIONS, response, false))
 
-          dispatch(GeneralAction.hasErrored(true))
+            })
 
-        });
+            .catch(() => {
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
 
     };
 }
@@ -90,18 +92,18 @@ export const fetchMarepCenters = (district_id) => {
         dispatch(GeneralAction.isLoading(true));
 
         return await get(dispatch, url)
-        
-        .then((response) => {
-          // console.log(response);
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_MAREP_CENTERS, response, false))
 
-        })
-        
-        .catch(() => {
+            .then((response) => {
+                // console.log(response);
+                dispatch(GeneralAction.fetchSuccess(GisType.FETCH_MAREP_CENTERS, response, false))
 
-          dispatch(GeneralAction.hasErrored(true))
+            })
 
-        });
+            .catch(() => {
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
     };
 
 }
@@ -116,20 +118,20 @@ export const fetchEscomMeters = (name) => {
 
         return await get(dispatch, url)
 
-        .then((response) => {
+            .then((response) => {
 
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_ESCOM_METERS, response, false))
+                dispatch(GeneralAction.fetchSuccess(GisType.FETCH_ESCOM_METERS, response, false))
 
-        })
-        
-        .catch(() => dispatch(GeneralAction.hasErrored(true)));
+            })
+
+            .catch(() => dispatch(GeneralAction.hasErrored(true)));
 
     };
 
 }
 
 export const fetchDistributionLines = (district, voltage) => {
-  
+
     // api resource url
     const url = `districts/` + district + `/distribution-lines?voltage=` + voltage;
     // const url = `districts/` + district + `/distribution-lines`;
@@ -139,16 +141,16 @@ export const fetchDistributionLines = (district, voltage) => {
         dispatch(GeneralAction.isLoading(true));
 
         return await get(dispatch, url)
-        
-        .then((response) => {
 
-          dispatch(GeneralAction.fetchSuccess(GisType.FETCH_DISTRIBUTION_LINES, response, false))
+            .then((response) => {
 
-        }).catch(() => {
+                dispatch(GeneralAction.fetchSuccess(GisType.FETCH_DISTRIBUTION_LINES, response, false))
 
-          dispatch(GeneralAction.hasErrored(true))
+            }).catch(() => {
 
-        });
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
     };
 
 }
@@ -161,21 +163,21 @@ export const fetchTransformers = (district, position) => {
 
     return async dispatch => {
 
-      dispatch(GeneralAction.isLoading(true))
+        dispatch(GeneralAction.isLoading(true))
 
-      return await get(dispatch, url)
+        return await get(dispatch, url)
 
-      .then((response) => {
+            .then((response) => {
 
-        dispatch(GeneralAction.fetchSuccess(GisType.FETCH_TRANSFORMERS, response, false))
+                dispatch(GeneralAction.fetchSuccess(GisType.FETCH_TRANSFORMERS, response, false))
 
-      })
+            })
 
-      .catch(() => {
+            .catch(() => {
 
-        dispatch(GeneralAction.hasErrored(true))
+                dispatch(GeneralAction.hasErrored(true))
 
-      });
+            });
 
     }
 
@@ -187,11 +189,11 @@ export const fetchTransformers = (district, position) => {
  */
 export const emptyProps = () => {
 
-  return dispatch => {
+    return dispatch => {
 
-    dispatch(GeneralAction.fetchSuccess(GeneralType.REQUEST_CLEAR_PROPS, {}, false))
+        dispatch(GeneralAction.fetchSuccess(GeneralType.REQUEST_CLEAR_PROPS, {}, false))
 
-  }
+    }
 
 }
 
@@ -203,120 +205,126 @@ export const emptyProps = () => {
  */
 export const powerPlants = (capacity, plantType) => {
 
-  // url
-  let url = `power-plants`;
+    // url
+    let url = `power-plants`;
 
-  if( capacity !== null ) {
+    if (capacity !== null) {
 
-    url += `?capacity=` + capacity;
+        url += `?capacity=` + capacity;
 
-  } else if( plantType !== null) {
+    } else if (plantType !== null) {
 
-    url += `?plantType=` + plantType;
+        url += `?plantType=` + plantType;
 
-  } else {
+    } else {
 
-  }
+    }
 
-  return async dispatch => {
+    return async dispatch => {
 
-    dispatch(GeneralAction.isLoading(true));
+        dispatch(GeneralAction.isLoading(true));
 
-    return await get(dispatch, url)
+        return await get(dispatch, url)
 
-    .then(response => {
-      // console.log(response)
-      dispatch(GeneralAction.fetchSuccess(GisType.FETCH_POWER_PLANTS, response, false));
+            .then(response => {
+                // console.log(response)
+                dispatch(GeneralAction.fetchSuccess(GisType.FETCH_POWER_PLANTS, response, false));
 
-    })
+            })
 
-    .catch(error => {
+            .catch(error => {
 
-      console.log(error)
-      dispatch(GeneralAction.hasErrored(true));
+                console.log(error)
+                dispatch(GeneralAction.hasErrored(true));
 
-    });
+            });
 
-  } 
+    }
 
 }
 
 export const powerPlantsFilters = () => {
 
-  // resource
-  const url = `power-plants/haslcvahcialius/filters`;
+    // resource
+    const url = `power-plants/haslcvahcialius/filters`;
 
-  return async dispatch => {
+    return async dispatch => {
 
-    dispatch(GeneralAction.isLoading(true));
+        dispatch(GeneralAction.isLoading(true));
 
-    return await get(dispatch, url) 
+        return await get(dispatch, url)
 
-    .then(response => {
+            .then(response => {
 
-      dispatch(GeneralAction.fetchSuccess(GisType.FETCH_POWER_PLANT_FILTERS, response, false));
+                dispatch(GeneralAction.fetchSuccess(GisType.FETCH_POWER_PLANT_FILTERS, response, false));
 
-    })
+            })
 
-    .catch(error => {
+            .catch(error => {
 
-      dispatch(GeneralAction.hasErrored(true));
+                dispatch(GeneralAction.hasErrored(true));
 
-    });
+            });
 
-  }
+    }
 
 }
 
 export const powerSubStations = (id) => {
 
-  // resource
-  const url = `districts/` + id + `/power-sub-stations`;
+    // resource
+    const url = `districts/` + id + `/power-sub-stations`;
 
-  return async dispatch => {
+    return async dispatch => {
 
-    dispatch(GeneralAction.isLoading(true));
+        dispatch(GeneralAction.isLoading(true));
 
-    return await get(dispatch, url) 
+        return await get(dispatch, url)
 
-    .then(response => {
+            .then(response => {
 
-      dispatch(GeneralAction.fetchSuccess(GisType.FETCH_POWER_SUB_STATIONS, response, false));
+                dispatch(GeneralAction.fetchSuccess(GisType.FETCH_POWER_SUB_STATIONS, response, false));
 
-    })
+            })
 
-    .catch(error => {
-      console.log(error)
-      dispatch(GeneralAction.hasErrored(true));
+            .catch(error => {
+                console.log(error)
+                dispatch(GeneralAction.hasErrored(true));
 
-    });
+            });
 
-  }
+    }
 
 }
 
 export const features = (district_id) => {
-  // api resource url
-  const url = `districts/` + district_id + `?count`;
-  // console.log(url);
-  return async dispatch => {
+    // api resource url
+    const url = `districts/${district_id}?count`;
+    // console.log(url);
+    return async dispatch => {
 
-    dispatch(GeneralAction.isLoading(true));
+        dispatch(GeneralAction.isLoading(true));
 
-    return await get(dispatch, url)
-    
-    .then((response) => {
-      // console.log(response);
-      dispatch(GeneralAction.fetchSuccess(GisType.FETCH_GIS_FEATURES, response, false))
+        return await get(dispatch, url)
 
-    })
-    
-    .catch(() => {
+            .then((response) => {
+                // console.log(response);
+                dispatch(GeneralAction.fetchSuccess(GisType.FETCH_GIS_FEATURES, response, false))
 
-      dispatch(GeneralAction.hasErrored(true))
+            })
 
-    });
-  };
+            .catch((error) => {
+
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Error. Please try again. ${ error }`
+                })
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
+    };
 }
 
 /**
@@ -326,28 +334,44 @@ export const features = (district_id) => {
  * @param {String} type 
  * @param {String} token 
  */
-export const addFeature = (feature , type, token) => {
-  // api resource url
-  const url = type + `?token=` + token;
-  // console.log(url);
-  // console.log(feature);
-  return async dispatch => {
+export const addFeature = (feature, type, token) => {
+    // api resource url
+    const url = type + `?token=` + token;
+    // console.log(url);
+    // console.log(feature);
+    return async dispatch => {
 
-    dispatch(GeneralAction.isLoading(true));
+        dispatch(GeneralAction.isLoading(true));
 
-    return await post(dispatch, url, feature)
-    
-    .then((response) => {
+        return await post(dispatch, url, feature)
 
-      dispatch(GeneralAction.fetchSuccess(GisType.CREATE_NEW_GIS_FEATURE, response, false))
+            .then((response) => {
 
-    })
-    
-    .catch(error => {
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.SUCCESS,
+                    message: `Feature successfully created!`
+                })
 
-      console.log(error);
-      dispatch(GeneralAction.hasErrored(true))
+                dispatch(GeneralAction.fetchSuccess(GisType.CREATE_NEW_GIS_FEATURE, response, false))
 
-    });
-  };
+                // then change state to default
+                // so that the page redirects and list all
+                dispatch(initial());
+
+            })
+
+            .catch(error => {
+
+                console.log(error);
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to add new feature. Please try again. ${ error }`
+                })
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
+    };
 }

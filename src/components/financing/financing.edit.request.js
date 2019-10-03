@@ -76,9 +76,6 @@ class EditFinancingRequestSupport extends Component {
                     maincategory,
                     this.props.capitalize(this.props.link)
                 );
-                // then change state to default
-                // so that the page redirects and list all home items
-                this.props.defaultItem();
             }
 
         }
@@ -102,9 +99,6 @@ class EditFinancingRequestSupport extends Component {
                     user.token, 
                     this.props.capitalize(this.props.link)
                 );
-                // then change state to default
-                // so that the page redirects and list all home items
-                this.props.defaultItem();
             }
         }
 
@@ -154,6 +148,7 @@ class EditFinancingRequestSupport extends Component {
                                                     }
                                                     name='subcategory'
                                                     id="subcategory"
+                                                    disabled={ true }
                                                     label='Name'
                                                     placeholder="Edit sub-category name..."
                                                     handleChange={this.handleChange}

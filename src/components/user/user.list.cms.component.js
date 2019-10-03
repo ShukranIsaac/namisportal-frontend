@@ -250,15 +250,6 @@ class ListUserAccounts extends Component {
             if (auth.token !== undefined && auth.token !== null) {
                 // if anything was edited then make put request to the API
                 this.props.updateUser(user._id, propertiesEdited, auth);
-                // list users if no error
-                const { general } = this.props;
-                if (general) {
-                    if (!general.isLoading) {
-                        if (!general.hasErrored) {
-                            this.props.defaultItem();
-                        }
-                    }
-                }
             }
 
         }

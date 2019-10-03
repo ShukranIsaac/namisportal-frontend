@@ -72,9 +72,6 @@ class FinancingRequestSupport extends Component {
                     user.token,
                     this.props.capitalize(this.props.link)
                 );
-                // then change state to default
-                // so that the page redirects and list all home items
-                this.props.defaultItem();
             }
 
         }

@@ -13,7 +13,6 @@ import styles from '../contact/form.styles';
 import { redirect } from './user.redirect';
 import { UserProfile } from './user.profile';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
-import CustomizedSnackbars from '../cms/snackbar.feedback';
 
 /**
  * User login
@@ -114,20 +113,6 @@ class UserLogin extends Component {
         // if user is successfully logged in or authenticated
         // then redirect to cms
         if (auth && user !== undefined && user !== null) {
-
-            // before redirecting
-            // list all users if user just registered is defined
-            if (user !== null && general) {
-                if (!general.isLoading) {
-                    // list all user if no error returned
-                    if (general.hasErrored) {
-                        return <CustomizedSnackbars
-                            type="info"
-                            message="Successfully registerd. Please login"
-                        />
-                    }
-                }
-            }
 
             // check if token defined and authenticated i.e. not expired
             // then redirect to cms index page

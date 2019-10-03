@@ -3,6 +3,8 @@ import { UserType } from '../action_type/index';
 import * as GeneralAction from './general.action';
 import { post, get, put, _delete } from './api.service';
 import { UserProfile } from '../components/user/user.profile';
+import Toast from '../toastfy';
+import { initial } from './event.action';
 
 /**
  * Authenticate user with API and return authenticated user with token
@@ -79,13 +81,30 @@ export const register = (user) => {
                 dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_REGISTER, response, false))
                 // the list all users
                 const auth = UserProfile.get();
-                if(auth!==null && (auth.token!==undefined)) {
-                    dispatch(fetchUsers({ user:auth }))
+                if (auth !== null && (auth.token !== undefined)) {
+
+                    // toast message for user feedback
+                    Toast.emit({
+                        type: Toast.TYPES.SUCCESS,
+                        message: `User account successfully registered.`
+                    })
+
+                    dispatch(fetchUsers({ user: auth }))
+
+                    // then change state to default
+                    // so that the page redirects and list all
+                    dispatch(initial())
                 }
 
             })
 
             .catch((error) => {
+
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to register user account. Please try again. ${error}`
+                })
 
                 dispatch(GeneralAction.hasErrored(true))
 
@@ -112,6 +131,12 @@ export const contact = (contact) => {
 
             .then((response) => {
 
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.SUCCESS,
+                    message: `Message successfully sent`
+                })
+
                 dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_CONTACT_US, response, false))
 
             })
@@ -119,6 +144,12 @@ export const contact = (contact) => {
             .catch((error) => {
 
                 console.log(error);
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Message not sent. Please try again. ${error}`
+                })
+
                 dispatch(GeneralAction.hasErrored(true))
 
             });
@@ -150,6 +181,12 @@ export const fetchContact = (name) => {
 
             .catch((error) => {
 
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to fetch contacts. Please try again. ${error}`
+                })
+
                 dispatch(GeneralAction.hasErrored(true))
 
             });
@@ -179,6 +216,12 @@ export const fetchUsers = ({ user }) => {
             })
 
             .catch((error) => {
+
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed download user accounts. Please try again. ${error}`
+                })
 
                 dispatch(GeneralAction.hasErrored(true))
 
@@ -210,6 +253,12 @@ export const fetchUser = (id, token) => {
 
             .catch((error) => {
 
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Errror fetching user. Please try again. ${error}`
+                })
+
                 dispatch(GeneralAction.hasErrored(true))
 
             });
@@ -235,6 +284,12 @@ export const updateUser = (id, user, auth) => {
 
             .then((response) => {
 
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.SUCCESS,
+                    message: `${response.user.username}'s account successfully updated.`
+                })
+
                 /**
                  * 
                  * Compare ids from the edited acount from the api and the already
@@ -259,10 +314,21 @@ export const updateUser = (id, user, auth) => {
                     dispatch(fetchUsers({ user: UserProfile.get() }))
                 }
 
+                // then change state to default
+                // so that the page redirects and list all
+                dispatch(initial())
+
             })
 
             .catch((error) => {
                 console.log(error)
+
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to update user account. Please try again. ${error}`
+                })
+
                 dispatch(GeneralAction.hasErrored(true))
 
             });
@@ -288,13 +354,29 @@ export const deleteAccount = (id, token) => {
 
             .then((response) => {
 
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.SUCCESS,
+                    message: `User account successfully deleted.`
+                })
+
                 dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_DELETE, response, false))
                 // the list all users
                 dispatch(fetchUsers({ user: UserProfile.get() }))
 
+                // then change state to default
+                // so that the page redirects and list all
+                dispatch(initial())
+
             })
 
             .catch((error) => {
+
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to delete user account. Please try again. ${error}`
+                })
 
                 dispatch(GeneralAction.hasErrored(true))
 

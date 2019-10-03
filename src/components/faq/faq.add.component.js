@@ -10,7 +10,7 @@ import { SelectInputControl } from '../forms/form.selectinput.field';
 import BootstrapGridColumn from '../forms/form.grid.column';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import { BootsrapTextareaField } from '../forms/form.textarea.field';
-import CustomizedSnackbars from '../cms/snackbar.feedback';
+import Toast from '../../toastfy';
 
 /**
  * Add new question sections(general categories)
@@ -132,12 +132,22 @@ class CreateQuestion extends Component {
                     about: answer
                 }
 
-                if (!emptyQFields) {
-                    // create new question under section selected
-                    this.props.createCategory(section._id, edited_question, user.token, this.props.capitalize(this.props.link));
-                    // then change state to default
-                    // so that the page redirects and list all frequently asked questions
-                    this.props.defaultItem();
+                if (section) {
+                    if (!emptyQFields) {
+                        // create new question under section selected
+                        this.props.createCategory(
+                            section._id,
+                            edited_question,
+                            user.token,
+                            this.props.capitalize(this.props.link)
+                        );
+                    }
+                } else {
+                    // toast message for user feedback
+                    Toast.emit({
+                        type: Toast.TYPES.WARN,
+                        message: `  Please make sure all fields are filled!!`
+                    })
                 }
             } else {
                 // we are adding a section category: sub-category essentially
@@ -166,7 +176,7 @@ class CreateQuestion extends Component {
 
     render() {
 
-        const { classes, handleClick, general } = this.props;
+        const { classes, handleClick } = this.props;
         const {
             _question, answer, shortname,
             section_name, section_short_name, section_summary
@@ -376,12 +386,6 @@ class CreateQuestion extends Component {
                     }
 
                 </form>
-
-                {
-                    general && (
-                        !general.hasErrored && <CustomizedSnackbars type="info" message="Success!" />
-                    )
-                }
 
             </Fragment>
         );

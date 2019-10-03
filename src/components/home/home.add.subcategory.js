@@ -69,7 +69,7 @@ class CreateHomeSubcategory extends Component {
         event.preventDefault();
         // category under which this subcategory should 
         // be uploaded to
-        const { category, props } = this.props;
+        const { category } = this.props;
         // get authenticated user token
         const user = UserProfile.get();
         if (user !== null && user.token !== undefined) {
@@ -93,9 +93,6 @@ class CreateHomeSubcategory extends Component {
                     // creating new category
                     this.props.createCategory(null, sub_category, user.token,this.props.capitalize(this.props.link));
                 }
-                // then change state to default
-                // so that the page redirects and list all home items
-                props.defaultItem();
             }
 
         }

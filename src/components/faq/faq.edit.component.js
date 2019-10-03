@@ -10,7 +10,6 @@ import { SelectInputControl } from '../forms/form.selectinput.field';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import { BootsrapTextareaField } from '../forms/form.textarea.field';
 import BootstrapGridColumn from '../forms/form.grid.column';
-import CustomizedSnackbars from '../cms/snackbar.feedback';
 
 /**
  * Edit a particular question 
@@ -140,9 +139,6 @@ class EditQuestion extends Component {
                         question,
                         this.props.capitalize(this.props.link)
                     );
-                    // then change state to default
-                    // so that the page redirects and list all FAQs
-                    this.props.defaultItem();
                 }
             } else {
                 // adding section
@@ -189,9 +185,6 @@ class EditQuestion extends Component {
             const user = UserProfile.get();
             if (user !== null && user.token !== undefined) {
                 this.props.archiveCategory(question, user.token, this.props.capitalize(this.props.link));
-                // then change state to default
-                // so that the page redirects and list all home items
-                this.props.defaultItem();
             }
         }
 
@@ -439,12 +432,6 @@ class EditQuestion extends Component {
                     }
 
                 </form>
-
-                {
-                    general && (
-                        !general.hasErrored && <CustomizedSnackbars type="info" message="Success!" />
-                    )
-                }
 
             </Fragment>
         );

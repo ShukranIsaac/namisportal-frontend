@@ -141,9 +141,6 @@ class EditDirectoryInstitution extends Component {
                         user.token,
                         this.props.capitalize(this.props.link)
                     );
-                    // then change state to default
-                    // so that the page redirects and list all home items
-                    this.props.defaultItem();
                 }
             }
         }
@@ -191,9 +188,6 @@ class EditDirectoryInstitution extends Component {
                  */
                 if (empty) {
                     this.props.editStakeholder(this.props.stakeholder._id, stakeholder, user.token);
-                    // then change state to default
-                    // so that the page redirects and list all home items
-                    this.props.defaultItem();
                 }
             } else {
                 // we are adding a stakeholder category: sub-category essentially
@@ -243,9 +237,6 @@ class EditDirectoryInstitution extends Component {
 
                 // then upload logo for this stakeholder
                 this.props.uploadStakeholderLogo(stakeholder._id, logo, user.token);
-                // then change state to default
-                // so that the page redirects and list all diretory stakeholders
-                this.props.defaultItem();
             }
 
         }

@@ -14,7 +14,6 @@ import { redirect } from './user.redirect';
 // import { StakeholderProfile } from './user.register.company';
 import { PersonalProfile } from './user.register.personal';
 import ParticlesComponent from './particles';
-import CustomizedSnackbars from '../cms/snackbar.feedback';
 
 class UserRegistration extends Component {
 
@@ -113,16 +112,6 @@ class UserRegistration extends Component {
 
         }
 
-        // check if there was any error
-        if (general) {
-            if (!general.isLoading) {
-                // list all user if no error returned
-                if (general.hasErrored) {
-                    return <CustomizedSnackbars type="error" />
-                }
-            }
-        }
-
         const fieldsValid = email && username && password && firstName && lastName && confirmPassword && password.length > 6 ? false : true;
 
         return (
@@ -185,18 +174,6 @@ class UserRegistration extends Component {
                         </div>
 
                     </Container>
-
-                    {
-                        // check if there was no any error
-                        general && (
-                            !general.hasErrored && (
-                                <CustomizedSnackbars
-                                    type="info"
-                                    message="Successfully registerd. Please login"
-                                />
-                            )
-                        )
-                    }
 
                 </div>
 

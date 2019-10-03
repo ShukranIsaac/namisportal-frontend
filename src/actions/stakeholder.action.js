@@ -1,6 +1,8 @@
 import * as GeneralAction from './general.action';
 import { post, get, patch, upload, _delete } from './api.service';
 import { CMSType } from '../action_type';
+import Toast from '../toastfy';
+import { initial } from './event.action';
 
 /**
  * Create new stakeholder
@@ -13,7 +15,7 @@ import { CMSType } from '../action_type';
 export const createStakeholder = (stakeholder, token) => {
 
     // post stakeholder to resource
-    const url = `stakeholders?token` + token;
+    const url = `stakeholders?token=${token}`;
 
     return async dispatch => {
 
@@ -21,19 +23,35 @@ export const createStakeholder = (stakeholder, token) => {
 
         return await post(dispatch, url, stakeholder)
 
-        .then(response => {
+            .then(response => {
 
-            dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_ADD_STAKEHOLDER, response, false))
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.SUCCESS,
+                    message: `${response.name} successfully created.`
+                })
 
-            dispatch(fetchAllStakeholders())
+                dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_ADD_STAKEHOLDER, response, false))
 
-        })
+                dispatch(fetchAllStakeholders())
 
-        .catch(error => {
+                // then change state to default
+                // so that the page redirects and list all
+                dispatch(initial())
 
-            dispatch(GeneralAction.hasErrored(true))
+            })
 
-        });
+            .catch(error => {
+
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to create new stakeholder. Please try again. ${error}`
+                })
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
 
     }
 
@@ -54,17 +72,23 @@ export const fetchAllStakeholders = () => {
 
         return await get(dispatch, url)
 
-        .then(response => {
+            .then(response => {
 
-            dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_LIST_STAKEHOLDER, response, false))
+                dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_LIST_STAKEHOLDER, response, false))
 
-        })
+            })
 
-        .catch(error => {
+            .catch(error => {
 
-            dispatch(GeneralAction.hasErrored(true))
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to download all stakeholders. Please try again. ${error}`
+                })
 
-        });
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
 
     }
 
@@ -82,7 +106,7 @@ export const fetchAllStakeholders = () => {
 export const editStakeholder = (id, stakeholder, token) => {
 
     // url
-    const url = `stakeholders/` + id + `?token=` + token;
+    const url = `stakeholders/${id}?token=${token}`;
 
     return async dispatch => {
 
@@ -90,19 +114,35 @@ export const editStakeholder = (id, stakeholder, token) => {
 
         return await patch(dispatch, url, stakeholder)
 
-        .then(response => {
+            .then(response => {
 
-            dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_EDIT_STAKEHOLDER, response, false))
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.SUCCESS,
+                    message: `Stakeholder successfully updated.`
+                })
 
-            dispatch(fetchAllStakeholders())
+                dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_EDIT_STAKEHOLDER, response, false))
 
-        })
+                dispatch(fetchAllStakeholders())
 
-        .catch(error => {
+                // then change state to default
+                // so that the page redirects and list all
+                dispatch(initial())
 
-            dispatch(GeneralAction.hasErrored(false))
+            })
 
-        });
+            .catch(error => {
+
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to edit stakeholder. Please try again. ${error}`
+                })
+
+                dispatch(GeneralAction.hasErrored(false))
+
+            });
 
     }
 
@@ -116,7 +156,7 @@ export const editStakeholder = (id, stakeholder, token) => {
  */
 export const deleteStakeholder = (stakeholder_id, token) => {
     // url
-    const url = `stakeholders/` + stakeholder_id + `?token=` + token;
+    const url = `stakeholders/${stakeholder_id}?token=${token}`;
 
     return async dispatch => {
 
@@ -124,20 +164,36 @@ export const deleteStakeholder = (stakeholder_id, token) => {
 
         return await _delete(dispatch, url, stakeholder_id)
 
-        .then(response => {
+            .then(response => {
 
-            dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_DELETE_STAKEHOLDER, response, false))
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.SUCCESS,
+                    message: `Stakeholder successfully deleted.`
+                })
 
-            dispatch(fetchAllStakeholders())
+                dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_DELETE_STAKEHOLDER, response, false))
 
-        })
+                dispatch(fetchAllStakeholders())
 
-        .catch(error => {
+                // then change state to default
+                // so that the page redirects and list all
+                dispatch(initial())
 
-            console.log(error)
-            dispatch(GeneralAction.hasErrored(false))
+            })
 
-        });
+            .catch(error => {
+
+                console.log(error)
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to delete stakeholder. Please try again. ${error}`
+                })
+
+                dispatch(GeneralAction.hasErrored(false))
+
+            });
 
     }
 }
@@ -150,9 +206,9 @@ export const deleteStakeholder = (stakeholder_id, token) => {
  * @returns {Function} dispatch
  */
 export const fetchSingleStakeholder = (id) => {
-    
+
     // url
-    const url = `stakeholders/` + id;
+    const url = `stakeholders/${id}`;
 
     return async dispatch => {
 
@@ -160,17 +216,23 @@ export const fetchSingleStakeholder = (id) => {
 
         return await get(dispatch, url)
 
-        .then(response => {
-            
-            dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_A_STAKEHOLDER, response, false))
+            .then(response => {
 
-        })
+                dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_A_STAKEHOLDER, response, false))
 
-        .catch(error => {
+            })
 
-            dispatch(GeneralAction.hasErrored(true))
+            .catch(error => {
 
-        });
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to download single stakeholder. Please try again. ${error}`
+                })
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
 
     }
 
@@ -186,26 +248,43 @@ export const fetchSingleStakeholder = (id) => {
 export const uploadStakeholderLogo = (id, image, token) => {
 
     // url
-    const url = `stakeholders/` + id + `/files?token=` + token;
-    
+    const url = `stakeholders/${id}/files?token=${token}`;
+
     return async dispatch => {
 
         dispatch(GeneralAction.isLoading(true));
 
         return await upload(dispatch, url, image)
 
-        .then(response => {
-            
-            dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_ADD_STAKEHOLDER_IMAGE, response, false))
+            .then(response => {
 
-        })
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.SUCCESS,
+                    message: `Stakeholder's logo successfully uploaded.`
+                })
 
-        .catch(error => {
-            console.log(error)
-            dispatch(GeneralAction.hasErrored(true))
+                dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_ADD_STAKEHOLDER_IMAGE, response, false))
 
-        });
-        
+                // then change state to default
+                // so that the page redirects and list all
+                dispatch(initial())
+
+            })
+
+            .catch(error => {
+                console.log(error)
+
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to upload stakeholder's logo. Please try again. ${error}`
+                })
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
+
     }
 
 }

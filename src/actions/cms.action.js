@@ -1,6 +1,8 @@
 import { CMSType } from '../action_type/index';
 import * as GeneralAction from './general.action';
 import { get, post, patch, _delete } from './api.service';
+import Toast from '../toastfy';
+import { initial } from './event.action';
 
 /**
  * Get a single category
@@ -17,14 +19,24 @@ export const fetchCategory = (category) => {
         dispatch(GeneralAction.isLoading(true));
 
         return await get(dispatch, url)
-        
-        .then((response) => {
 
-            dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_CATEGORY, response, false))
+            .then((response) => {
 
-        })
-        
-        .catch(() => dispatch(GeneralAction.hasErrored(true)));
+                dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_CATEGORY, response, false))
+
+            })
+
+            .catch((error) => {
+
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to download category. Please try again. ${ error }`
+                })
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
 
     };
 
@@ -45,14 +57,24 @@ export const fetchSubCategory = (category_id) => {
         dispatch(GeneralAction.isLoading(true));
 
         return await get(dispatch, url)
-        
-        .then((response) => {
-            
-            dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_SUB_CATEGORY, response, false))
 
-        })
-        
-        .catch(() => dispatch(GeneralAction.hasErrored(true)));
+            .then((response) => {
+
+                dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_SUB_CATEGORY, response, false))
+
+            })
+
+            .catch((error) => {
+
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to download sub-category. Please try again. ${ error }`
+                })
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
 
     };
 
@@ -73,14 +95,24 @@ export const fetchQuestion = (category_id) => {
         dispatch(GeneralAction.isLoading(true));
 
         return await get(dispatch, url)
-        
-        .then((response) => {
-            
-            dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_FA_QUESTION, response, false))
 
-        })
-        
-        .catch(() => dispatch(GeneralAction.hasErrored(true)));
+            .then((response) => {
+
+                dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_FA_QUESTION, response, false))
+
+            })
+
+            .catch((error) => {
+
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to download question. Please try again. ${ error }`
+                })
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
 
     };
 
@@ -94,11 +126,11 @@ export const fetchQuestion = (category_id) => {
  * @param token
  * 
  */
-export const addCategory = (category_id, sub_category, token,link) => {
+export const addCategory = (category_id, sub_category, token, link) => {
 
     // url
     let url;
-    if(category_id === null) {
+    if (category_id === null) {
         // create new category
         url = `categories?token=` + token;
     } else {
@@ -112,22 +144,42 @@ export const addCategory = (category_id, sub_category, token,link) => {
 
         return await post(dispatch, url, sub_category)
 
-        .then((response) => {
-            
-            if(category_id === null) {
-                dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_ADD_CATEGORY, response, false))
-            } else {
-                dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_ADD_SUB_CATE, response, false))
-            }
+            .then((response) => {
 
-            // fetch category: main category
-            if (link) {
-                dispatch(fetchCategory(link));
-            }
-  
-        })
-        
-        .catch(() => dispatch(GeneralAction.hasErrored(true)));
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.SUCCESS,
+                    message: `Category successfully created!`
+                })
+
+                if (category_id === null) {
+                    dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_ADD_CATEGORY, response, false))
+                } else {
+                    dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_ADD_SUB_CATE, response, false))
+                }
+
+                // fetch category: main category
+                if (link) {
+                    dispatch(fetchCategory(link));
+                }
+
+                // then change state to default
+                // so that the page redirects and list all
+                dispatch(initial());
+
+            })
+
+            .catch((error) => {
+
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `${error.message}: failed to create!`
+                })
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
 
     }
 
@@ -141,35 +193,49 @@ export const addCategory = (category_id, sub_category, token,link) => {
  * @param token
  */
 export const editCategory = (category_id, edited_sub_category, token, category, link) => {
-    
-    const url = `categories/` + category_id + `?token=` + token;
-    console.log(link)
+
+    const url = `categories/${category_id}?token=` + token;
+
     return async dispatch => {
 
         dispatch(GeneralAction.isLoading(true));
 
         return await patch(dispatch, url, edited_sub_category)
-        
-        .then((response) => {
 
-            // if (category.name === 'Licensing') {
-            //     category.subCategories.splice(category.subCategories.findIndex(o => o._id === response._id), 1, response);
-            //     dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_EDIT_SUB_CATE, category, false))
-            // } else {
-            //     dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_EDIT_SUB_CATE, response, false))
-            // }
-            dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_EDIT_SUB_CATE, response, false))
-            /**
-             * After updating a category
-             * make sure to fetch the main category and all its sub categories
-             */
-            if (link) {
-                dispatch(fetchCategory(link));
-            }
+            .then((response) => {
 
-        })
-        
-        .catch(() => dispatch(GeneralAction.hasErrored(true)));
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.SUCCESS,
+                    message: `${ response.name } successfully updated.`
+                })
+
+                dispatch(GeneralAction.fetchSuccess(CMSType.REQUEST_EDIT_SUB_CATE, response, false))
+                /**
+                 * After updating a category
+                 * make sure to fetch the main category and all its sub categories
+                 */
+                if (link) {
+                    dispatch(fetchCategory(link));
+                }
+
+                // then change state to default
+                // so that the page redirects and list all
+                dispatch(initial());
+
+            })
+
+            .catch(error => {
+
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `${error.message}: ${edited_sub_category.name} failed to update!`
+                })
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
 
     };
 
@@ -190,24 +256,44 @@ export const archiveCategory = (category, token, link) => {
         dispatch(GeneralAction.isLoading(true));
 
         return await _delete(dispatch, url)
-        
-        .then((response) => {
 
-            dispatch(
-                GeneralAction.fetchSuccess(
-                    CMSType.REQUEST_DELETE_SUB_CATE,
-                    response, 
-                    false
+            .then((response) => {
+
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.SUCCESS,
+                    message: `${ category.name } successfully deleted`
+                })
+
+                dispatch(
+                    GeneralAction.fetchSuccess(
+                        CMSType.REQUEST_DELETE_SUB_CATE,
+                        response,
+                        false
+                    )
                 )
-            )
 
-            if (link) {
-                dispatch(fetchCategory(link));
-            }
+                if (link) {
+                    dispatch(fetchCategory(link));
+                }
 
-        })
-        
-        .catch(() => dispatch(GeneralAction.hasErrored(true)));
+                // then change state to default
+                // so that the page redirects and list all
+                dispatch(initial())
+
+            })
+
+            .catch((error) => {
+
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to delete. Please try again. ${ error }`
+                })
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
 
     };
 

@@ -12,7 +12,6 @@ import FormControl from '@material-ui/core/FormControl';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { SelectInputControl } from '../forms/form.selectinput.field';
 import { UserProfile, profile } from './user.profile';
-import CustomizedSnackbars from '../cms/snackbar.feedback';
 import BootstrapGridColumn from '../forms/form.grid.column';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 
@@ -99,15 +98,6 @@ class EditUserAccount extends Component {
                     // if anything was edited then make put request to the API
                     // console.log(user)
                     this.props.updateUser(id, user, authUser);
-                    // list users
-                    const { general } = this.props;
-                    if (general) {
-                        if (!general.isLoading) {
-                            if (!general.hasErrored) {
-                                this.props.defaultItem();
-                            }
-                        }
-                    }
                 }
             }
             // }
@@ -155,15 +145,6 @@ class EditUserAccount extends Component {
                 // if anything was edited then make put request to the API
                 // console.log(propertiesEdited)
                 this.props.updateUser(user._id, propertiesEdited, auth);
-                // list users if no error
-                const { general } = this.props;
-                if (general) {
-                    if (!general.isLoading) {
-                        if (!general.hasErrored) {
-                            this.props.defaultItem();
-                        }
-                    }
-                }
             }
 
         }
@@ -642,14 +623,6 @@ class EditUserAccount extends Component {
                             )
 
                         ) : <div className="loader" />
-                    )
-                }
-
-                {
-                    (general) && (
-                        (!general.isLoading) && (
-                            (general.hasErrored) ? <CustomizedSnackbars type={`error`} /> : null
-                        )
                     )
                 }
 

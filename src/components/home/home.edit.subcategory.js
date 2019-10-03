@@ -67,9 +67,7 @@ class EditHomeSubcategory extends Component {
 
                 // then edit this sub category
                 this.props.editCategory(subcategory._id, edited_sub_category, user.token, subcategory, this.props.capitalize(this.props.link));
-                // then change state to default
-                // so that the page redirects and list all home items
-                this.props.defaultItem();
+                
             }
 
         }
@@ -89,9 +87,6 @@ class EditHomeSubcategory extends Component {
             const user = UserProfile.get();
             if (user !== null && user.token !== undefined) {
                 this.props.archiveCategory(subcategory, user.token, this.props.capitalize(this.props.link));
-                // then change state to default
-                // so that the page redirects and list all home items
-                this.props.defaultItem();
             }
         }
 
@@ -143,6 +138,7 @@ class EditHomeSubcategory extends Component {
                                             }
                                             name='name'
                                             label='Name'
+                                            disabled={ true }
                                             type='text'
                                             id={subcategory._id}
                                             placeholder='Edit sub-category name...'

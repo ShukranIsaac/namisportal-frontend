@@ -133,9 +133,6 @@ class CreateLibraryItem extends Component {
                         user.token,
                         this.props.capitalize(this.props.link)
                     );
-                    // then change state to default
-                    // so that the page redirects and list all home items
-                    this.props.defaultItem();
                 }
             }
         }
@@ -204,15 +201,6 @@ class CreateLibraryItem extends Component {
             name, shortname, summary,
             resource_name, resource_short_name, resource_summary
         } = this.state;
-
-        console.log(this.props.loaded)
-        // then change state to default
-        // so that the page redirects and list all home items
-        if (loaded) {
-            if (loaded === 100) {
-                this.props.defaultItem();
-            } 
-        }
 
         // Library filters/subcategories
         const resources = this.props.maincategory;

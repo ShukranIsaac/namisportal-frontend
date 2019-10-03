@@ -3,10 +3,12 @@ import { LibraryType } from '../action_type/index';
 import * as GeneralAction from './general.action';
 
 import { get, post, upload } from './api.service';
+import { initial } from './event.action';
+import Toast from '../toastfy';
 
 export const addSubCategory = (id, subcategory) => {
     // resource to post data to
-    const url = `/categories/${ id }/sub-categories`;
+    const url = `/categories/${id}/sub-categories`;
 
     return async dispatch => {
 
@@ -16,18 +18,34 @@ export const addSubCategory = (id, subcategory) => {
 
             .then(response => {
 
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.SUCCESS,
+                    message: `New document successfully created.`
+                })
+
                 dispatch(GeneralAction.fetchSuccess(LibraryType.ADD_NEW_SUB_CATEGORY_DOCS, response, false))
 
             })
 
-            .catch(() => dispatch(GeneralAction.hasErrored(true)))
+            .catch((error) => {
+
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to create new sub-category. Please try again. ${error}`
+                })
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            })
     }
 
 }
 
 export const fetchLibraryCategory = (category) => {
 
-    const url = `/categories?name=${ category }`;
+    const url = `/categories?name=${category}`;
 
     return async dispatch => {
 
@@ -44,6 +62,12 @@ export const fetchLibraryCategory = (category) => {
             .catch(error => {
 
                 console.log(error);
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Error. Please try again. ${error}`
+                })
+
                 dispatch(GeneralAction.hasErrored(true))
 
             })
@@ -57,7 +81,7 @@ export const fetchLibrary = (id, name, type) => {
     // type not null
     // then download children
     // else download the main library category
-    if (type === 'children') { 
+    if (type === 'children') {
         url += `/categories/${id}/documents`;
     } else {
         url += `/categories?name=${name}`;
@@ -94,6 +118,12 @@ export const fetchLibrary = (id, name, type) => {
             .catch((error) => {
 
                 console.log(error)
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Errored. Please try again. ${error}`
+                })
+
                 dispatch(GeneralAction.hasErrored(true))
 
             });
@@ -117,7 +147,17 @@ export const fetchAllLibraryDocs = () => {
 
             })
 
-            .catch(() => dispatch(GeneralAction.hasErrored(true)));
+            .catch((error) => {
+
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to download documents. Please try to refresh. ${error}`
+                })
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
     };
 
 }
@@ -133,8 +173,8 @@ export const fetchAllLibraryDocs = () => {
 export const uploadFile = (category_id, data, token) => {
 
     // url
-    const url = `categories/${ category_id }/files?token=` + token;
-    
+    const url = `categories/${category_id}/files?token=` + token;
+
     return async dispatch => {
 
         dispatch(GeneralAction.isLoading(true));
@@ -143,14 +183,30 @@ export const uploadFile = (category_id, data, token) => {
 
             .then(response => {
 
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.SUCCESS,
+                    message: `New document successfully uploaded.`
+                })
+
                 // console.log(response)
                 dispatch(GeneralAction.fetchSuccess(LibraryType.UPLOAD_FILE, response, false));
+
+                // then change state to default
+                // so that the page redirects and list all
+                dispatch(initial())
 
             })
 
             .catch(error => {
 
                 console.log(error);
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to  create new document. Please try again. ${error}`
+                })
+
                 dispatch(GeneralAction.hasErrored(true));
 
             });
@@ -166,26 +222,32 @@ export const uploadFile = (category_id, data, token) => {
  */
 export const fetchCategoryDocuments = (id) => {
 
-    const url = `categories/${ id }/documents`;
+    const url = `categories/${id}/documents`;
 
     return async dispatch => {
 
         dispatch(GeneralAction.isLoading(true));
 
         return await get(dispatch, url)
-        
-        .then((response) => {
 
-            dispatch(GeneralAction.fetchSuccess(LibraryType.REQUEST_SUB_CATE_DOCS, response, false))
+            .then((response) => {
 
-        })
-        
-        .catch((error) => {
+                dispatch(GeneralAction.fetchSuccess(LibraryType.REQUEST_SUB_CATE_DOCS, response, false))
 
-            console.log(error)
-            dispatch(GeneralAction.hasErrored(true))
+            })
 
-        });
+            .catch((error) => {
+
+                console.log(error)
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to download documents. Please try again. ${error}`
+                })
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
 
     };
 

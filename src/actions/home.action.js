@@ -1,6 +1,7 @@
 import { HomeType } from '../action_type/index';
 import * as GeneralAction from './general.action';
 import { get } from './api.service';
+import Toast from '../toastfy';
 
 /**
  * Fetch initial home details: Components
@@ -10,7 +11,7 @@ import { get } from './api.service';
  */
 export const fetchHomeDetails = (name) => {
 
-    const url = `categories?name=` + name;
+    const url = `categories?name=${name}`;
     
     return async (dispatch) => {
 
@@ -24,7 +25,17 @@ export const fetchHomeDetails = (name) => {
 
         })
         
-        .catch(() => dispatch(GeneralAction.hasErrored(true)));
+        .catch((error) => {
+
+            // toast message for user feedback
+            Toast.emit({
+                type: Toast.TYPES.ERROR,
+                message: `Failed to download home sub-categories. Please try again. ${error}`
+            })
+
+            dispatch(GeneralAction.hasErrored(true))
+
+        });
 
     };
 
@@ -38,7 +49,7 @@ export const fetchHomeDetails = (name) => {
  */
 export const fetchHomeCategories = (category) => {
 
-    const url = `categories?name=` + category;
+    const url = `categories?name=${category}`;
 
     return async dispatch => {
 
@@ -52,7 +63,17 @@ export const fetchHomeCategories = (category) => {
 
         })
         
-        .catch(() => dispatch(GeneralAction.hasErrored(true)));
+        .catch((error) => {
+
+            // toast message for user feedback
+            Toast.emit({
+                type: Toast.TYPES.ERROR,
+                message: `Failed to download home sub-categories. Please try again. ${error}`
+            })
+
+            dispatch(GeneralAction.hasErrored(true))
+
+        });
 
     };
 

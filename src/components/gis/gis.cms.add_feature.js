@@ -278,8 +278,6 @@ class AddFeature extends Component {
 
                             // create new center
                             this.props.addFeature(center, "marep-centers", user.token);
-                            // // then change state to default
-                            this.props.createItem();
                         }
 
                     }
@@ -304,9 +302,6 @@ class AddFeature extends Component {
                             }
                             // create new transfomer
                             this.props.addFeature(transformer, "transformers", user.token);
-                            // // then change state to default
-                            // // so that the page redirects
-                            this.props.createItem();
                         }
 
                     }
@@ -330,8 +325,6 @@ class AddFeature extends Component {
                             }
                             // create new power_plant
                             this.props.addFeature(power_plant, "power-plants", user.token);
-                            // // then change state to default
-                            this.props.createItem();
                         }
 
                     }
@@ -350,8 +343,6 @@ class AddFeature extends Component {
                             }
                             // create new distribution_line
                             this.props.addFeature(_line, "distribution-lines", user.token);
-                            // // then change state to default
-                            this.props.createItem();
                         }
 
                     }
@@ -374,8 +365,6 @@ class AddFeature extends Component {
                             }
                             // create new substation
                             this.props.addFeature(substation, "sub-stations", user.token);
-                            // then change state to default
-                            this.props.createItem();
                         }
 
                     }

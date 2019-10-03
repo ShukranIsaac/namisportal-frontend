@@ -10,7 +10,6 @@ import * as UserAuthActions from '../../actions/user.action';
 import styles from '../contact/form.styles';
 
 import { PersonalProfile } from './user.register.personal';
-import CustomizedSnackbars from '../cms/snackbar.feedback';
 
 class AddUserAccount extends Component {
 
@@ -82,8 +81,6 @@ class AddUserAccount extends Component {
             if ((user.password === confirmPassword) && password.length > 6) {
                 // register new account
                 register(user);
-                // list users
-                this.props.defaultItem();
             }
 
         }
@@ -92,7 +89,7 @@ class AddUserAccount extends Component {
 
     render() {
 
-        const { classes, handleClick, general, user } = this.props;
+        const { classes, handleClick, general } = this.props;
 
         const {
             email,
@@ -104,16 +101,6 @@ class AddUserAccount extends Component {
         } = this.state;
 
         const fieldsValid = email && username && password && firstName && lastName && confirmPassword ? false : true;
-
-        // list all users if user just registered is defined
-        if (user !== null && general) {
-            if (!general.isLoading) {
-                // list all user if no error returned
-                if (general.hasErrored) {
-                    return <CustomizedSnackbars type="error" />
-                } 
-            }
-        }
 
         return (
             <Fragment>
