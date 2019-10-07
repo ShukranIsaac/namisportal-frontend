@@ -49,8 +49,6 @@ class ListLibraryDocuments extends Component {
 
     handleChange = (event) => {
 
-        this.setState({ [event.target.name]: event.target.value })
-
         const resourceSelected = event.target.value;
 
         const resources = this.props.maincategory;
@@ -81,6 +79,8 @@ class ListLibraryDocuments extends Component {
             if (filteredResource) {
                 // fetch its documents
                 this.props.fetchCategoryDocs(filteredResource[0]._id);
+
+                this.setState({ [event.target.name]: resourceSelected })
             }
         }
     }
@@ -119,9 +119,9 @@ class ListLibraryDocuments extends Component {
 
                         <SelectInputControl
                             name="library_resource"
-                            // {...this.state}
+                            {...this.state}
                             onChange={e => this.handleChange(e)}
-                            value={this.state.library_resource}
+                            value={this.state.library_resource }
                         >
                             <option value="">{`Choose library resource`}</option>
                             {

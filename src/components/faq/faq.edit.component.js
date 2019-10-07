@@ -98,10 +98,11 @@ class EditQuestion extends Component {
                 // ids the same: chosen and what is in state
                 if (this.state.section._id === event.currentTarget.value) {
                     // proceeed to delete the selected section or category
-                    this.props.archiveCategory(this.state.section, user.token, this.props.capitalize(this.props.link));
-                    // then change state to default
-                    // so that the page redirects and list all home items
-                    this.props.defaultItem();
+                    this.props.archiveCategory(
+                        this.state.section, 
+                        user.token, 
+                        this.props.capitalize(this.props.link)
+                    );
                 }
             }
         }

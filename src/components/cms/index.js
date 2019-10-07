@@ -762,8 +762,11 @@ const mapDispatchToProps = (dispatch) => {
         subCategory: (id) => { dispatch(CMSAction.fetchSubCategory(id)) },
         category: (name) => { dispatch(CMSAction.fetchCategory(name)) },
         createCategory: (i, c, t, link) => { dispatch(CMSAction.addCategory(i, c, t, link)) },
+        addResourceCategory: (i, c, t, link) => { dispatch(CMSAction.addResourceCategory(i, c, t, link)) },
         editCategory: (s, e, t, state, link) => { dispatch(CMSAction.editCategory(s, e, t, state, link)) },
+        editResourceCategory: (s, e, t, state, link) => { dispatch(CMSAction.editResourceCategory(s, e, t, state, link)) },
         archiveCategory: (c, t, link) => { dispatch(CMSAction.archiveCategory(c, t, link)) },
+        archiveResourceCategory: (c, t, link) => { dispatch(CMSAction.archiveResourceCategory(c, t, link)) },
         // stakeholders
         createStakeholder: (s, t) => { dispatch(Stakeholder.createStakeholder(s, t)) },
         fetchSingleStakeholder: (i) => { dispatch(Stakeholder.fetchSingleStakeholder(i)) },

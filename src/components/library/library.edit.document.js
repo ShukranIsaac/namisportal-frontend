@@ -45,28 +45,25 @@ class EditLibraryItem extends Component {
 
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = (event, values) => {
         // prevent default behaviour
         event.preventDefault();
-        const { name, shortname, summary, supporting_document } = this.state;
+        const { name, shortname, summary } = this.state;
         // get authenticated user token
         const user = UserProfile.get();
         if (user !== null && user.token !== undefined) {
 
-            if (name || shortname || summary || supporting_document) {
+            if (name || shortname || summary || values) {
                 // define sub-category structure
                 const data = {
                     name: name,
                     shortName: shortname,
                     about: summary,
-                    file: supporting_document
+                    file: values.supporting_document
                 }
 
                 console.log(data)
                 // this.props.createStakeholder(data, user.token);
-                // then change state to default
-                // so that the page redirects and list all home items
-                this.props.defaultItem();
             }
 
         }
@@ -81,7 +78,7 @@ class EditLibraryItem extends Component {
         const user = UserProfile.get();
 
         // state
-        const { name, shortname, summary, supporting_document } = this.state;
+        const { name, shortname, summary } = this.state;
 
         return (
             <Fragment>
@@ -172,7 +169,7 @@ class EditLibraryItem extends Component {
 
                     <Button
                         type="submit"
-                        disabled={!(name || shortname || summary || supporting_document)}
+                        disabled={!(name || shortname || summary)}
                         intent="success"
                         text="Save"
                     />

@@ -49,6 +49,8 @@ class CreateLibraryItem extends Component {
         this.state = {
             document,
             add_resource: false,
+            edit_resource: false,
+            add_category: false
         }
 
         /**
@@ -59,7 +61,8 @@ class CreateLibraryItem extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleDeleteResource = this.handleDeleteResource.bind(this);
-
+        this.handleAddResource = this.handleAddResource.bind(this);
+        this.handleEditResource = this.handleEditResource.bind(this);
     }
 
 	/**
@@ -99,12 +102,12 @@ class CreateLibraryItem extends Component {
                 // was anything returned
                 if (filteredResource) {
 
-                    this.setState({ [event.target.name]: filteredResource[0] });
+                    this.setState({ [event.target.name]: filteredResource[0], add_category: false });
 
                 }
             }
         } else {
-            this.setState({ [event.target.name]: event.target.value });
+            this.setState({ [event.target.name]: event.target.value, add_category: true });
         }
 
     }
@@ -114,7 +117,15 @@ class CreateLibraryItem extends Component {
         event.preventDefault();
         // if add_resource if false
         // then set it to true else false
-        this.setState({ add_resource: true })
+        this.setState({ add_resource: true, edit_resource: false })
+    }
+
+    handleEditResource = (event) => {
+        // prevent default events
+        event.preventDefault();
+        // if edit_resource if false
+        // then set it to true else false
+        this.setState({ edit_resource: true, add_resource: false })
     }
 
     handleDeleteResource = (event) => {
@@ -128,7 +139,7 @@ class CreateLibraryItem extends Component {
                 // ids the same: chosen and what is in state
                 if (this.state.library_resource._id === event.currentTarget.value) {
                     // proceeed to delete the selected resource or category
-                    this.props.archiveCategory(
+                    this.props.archiveResourceCategory(
                         this.state.library_resource,
                         user.token,
                         this.props.capitalize(this.props.link)
@@ -143,14 +154,58 @@ class CreateLibraryItem extends Component {
         const { maincategory, } = this.props;
 
         const {
-            name, shortname, summary, add_resource,
+            name, shortname, summary, add_resource, edit_resource, library_resource,
             resource_name, resource_short_name, resource_summary
         } = this.state;
         // get authenticated user token
         const user = UserProfile.get();
         if (user !== null && user.token !== undefined) {
             // check if resource or file if being added
-            if (!add_resource) {
+            if (add_resource) {
+                // we are adding a resource category: sub-category essentially
+                // define file structure
+                const resource = {
+                    name: resource_name,
+                    shortName: resource_short_name,
+                    about: resource_summary,
+                }
+
+                if (maincategory !== null && maincategory !== undefined) {
+                    // create new resource category
+                    this.props.addResourceCategory(
+                        maincategory._id,
+                        resource,
+                        user.token,
+                        this.props.capitalize(this.props.link)
+                    );
+                    // then change state.add_resource to false
+                    // so that the page shows form fileds to add files and 
+                    // supporting documents
+                    this.setState({ add_resource: false, add_category: true });
+                }
+            } else if (edit_resource) {
+                // we are editing a resource category: sub-category essentially
+                // define file structure
+                const resource = {
+                    name: resource_name,
+                    shortName: resource_short_name,
+                    about: resource_summary,
+                }
+
+                if (maincategory !== null && maincategory !== undefined) {
+                    // make request
+                    this.props.editResourceCategory(
+                        library_resource._id, // resource to be edited
+                        resource, // edited params
+                        user.token, // authenticated account
+                        this.props.capitalize(this.props.link)
+                    );
+                    // then change state.edit_resource to false
+                    // so that the page shows form fields to add files and 
+                    // supporting documents
+                    this.setState({ edit_resource: false, add_category: true });
+                }
+            } else {
                 // define file structure
                 const data = {
                     name: name,
@@ -164,31 +219,149 @@ class CreateLibraryItem extends Component {
                     // create new file
                     this.props.uploadFile(library_resource._id, data, user.token);
                 }
-            } else {
-                // we are adding a resource category: sub-category essentially
-                // define file structure
-                const resource = {
-                    name: resource_name,
-                    shortName: resource_short_name,
-                    about: resource_summary,
-                }
-
-                if (maincategory !== null && maincategory !== undefined) {
-                    // create new resource category
-                    this.props.createCategory(
-                        maincategory._id,
-                        resource,
-                        user.token,
-                        this.props.capitalize(this.props.link)
-                    );
-                    // then change state.add_resource to false
-                    // so that the page shows form fileds to add files and 
-                    // supporting documents
-                    this.setState({ add_resource: false });
-                }
             }
 
         }
+
+    }
+
+    addResource = () => {
+
+        const { classes } = this.props;
+
+        // state
+        const {
+            resource_name, resource_short_name, resource_summary
+        } = this.state;
+
+        return (
+            <Fragment>
+                <div className='margin-fix form-row'>
+                    <BootstrapGridColumn>
+                        <BootsrapTextField
+                            value={this.state.resource_name}
+                            name='resource_name'
+                            label="Resource*"
+                            placeholder="Enter resource name..."
+                            type="text"
+                            handleChange={this.handleChange}
+                        />
+                    </BootstrapGridColumn>
+                    <BootstrapGridColumn>
+                        <BootsrapTextField
+                            name="resource_short_name"
+                            placeholder="Enter document shortname..."
+                            type="text"
+                            label="Shortname*"
+                            value={this.state.resource_short_name}
+                            handleChange={this.handleChange}
+                        />
+                    </BootstrapGridColumn>
+                </div>
+
+                <div className="form-group">
+                    <BootsrapTextareaField
+                        value={this.state.resource_summary}
+                        name='resource_summary'
+                        label="Summary*"
+                        placeholder="Enter resource summary..."
+                        type="text"
+                        rows={10}
+                        handleChange={this.handleChange}
+                    />
+                </div>
+
+                <div className={classes.margin} />
+                <div className={classes.margin} />
+                <div className={classes.margin} />
+
+                <Button
+                    type="submit"
+                    disabled={!(resource_name && resource_short_name && resource_summary)}
+                    intent="success"
+                    text="Save"
+                />
+
+                <Button
+                    className={classes.margin} intent="primary"
+                    text="Cancel" onClick={() => {
+                        if (this.state.add_resource) {
+                            this.setState({ add_resource: false, add_category: true })
+                        }
+                    }}
+                />
+            </Fragment>
+        );
+
+    }
+
+    editResource = () => {
+
+        const { classes } = this.props;
+
+        // state
+        const {
+            resource_name, resource_short_name, resource_summary, library_resource
+        } = this.state;
+
+        return (
+            <Fragment>
+                <div className='margin-fix form-row'>
+                    <BootstrapGridColumn>
+                        <BootsrapTextField
+                            value={library_resource ? (resource_name ? resource_name : library_resource.name) : null}
+                            name='resource_name'
+                            label="Resource*"
+                            placeholder="Edit resource name..."
+                            type="text"
+                            handleChange={this.handleChange}
+                        />
+                    </BootstrapGridColumn>
+                    <BootstrapGridColumn>
+                        <BootsrapTextField
+                            name="resource_short_name"
+                            placeholder="Edit document shortname..."
+                            type="text"
+                            label="Shortname*"
+                            value={library_resource ? (resource_short_name ? resource_short_name : library_resource.shortName) : null}
+                            handleChange={this.handleChange}
+                        />
+                    </BootstrapGridColumn>
+                </div>
+
+                <div className="form-group">
+                    <BootsrapTextareaField
+                        value={library_resource ? (resource_summary ? resource_summary : library_resource.about) : null}
+                        name='resource_summary'
+                        label="Summary*"
+                        placeholder="Edit resource summary..."
+                        type="text"
+                        rows={10}
+                        handleChange={this.handleChange}
+                    />
+                </div>
+
+                <div className={classes.margin} />
+                <div className={classes.margin} />
+                <div className={classes.margin} />
+
+                <Button
+                    type="submit"
+                    disabled={!(resource_name || resource_short_name || resource_summary)}
+                    intent="success"
+                    text="Save"
+                />
+
+                <Button
+                    className={classes.margin} intent="primary"
+                    text="Cancel" onClick={() => {
+                        if (this.state.edit_resource) {
+                            this.setState({ edit_resource: false, add_category: true })
+                        }
+                    }}
+                />
+            </Fragment>
+        );
 
     }
 
@@ -199,7 +372,6 @@ class CreateLibraryItem extends Component {
         // state
         const {
             name, shortname, summary,
-            resource_name, resource_short_name, resource_summary
         } = this.state;
 
         // Library filters/subcategories
@@ -230,7 +402,7 @@ class CreateLibraryItem extends Component {
                     <div className={classes.margin} />
 
                     {
-                        !this.state.add_resource ? (
+                        (!this.state.add_resource && !this.state.edit_resource) ? (
                             <Fragment>
                                 { /** filter categories here */}
                                 <FormControl>
@@ -245,7 +417,7 @@ class CreateLibraryItem extends Component {
                                             <option value="">{`Choose library resource`}</option>
                                             {
                                                 (resources !== null && resources !== undefined) && (
-                                                    resources.subCategories.length !== 0 && resources.subCategories.map(({ _id, name }, index) => {
+                                                    resources.subCategories.map(({ _id, name }, index) => {
 
                                                         // filters
                                                         return <option id={_id} key={`${index}`} value={name}>{name}</option>
@@ -270,13 +442,26 @@ class CreateLibraryItem extends Component {
                                 {
                                     (this.state.library_resource !== null
                                         && this.state.library_resource !== undefined) && (
-                                        <Button
-                                            className={classes.margin}
-                                            name="delete_resource"
-                                            value={this.state.library_resource._id}
-                                            intent="danger" text="Delete Selected"
-                                            onClick={e => this.handleDeleteResource(e)}
-                                        />
+                                            // show these buttons only when
+                                            // an item is selected.
+                                        !this.state.add_category && (
+                                            <>
+                                                <Button
+                                                    className={classes.margin}
+                                                    name="edit_resource"
+                                                    value={this.state.edit_resource}
+                                                    intent="primary" text="Edit Selected"
+                                                    onClick={e => this.handleEditResource(e)}
+                                                />
+                                                <Button
+                                                    className={classes.margin}
+                                                    name="delete_resource"
+                                                    value={this.state.library_resource._id}
+                                                    intent="danger" text="Delete Selected"
+                                                    onClick={e => this.handleDeleteResource(e)}
+                                                />
+                                            </>
+                                        )
                                     )
                                 }
 
@@ -317,7 +502,7 @@ class CreateLibraryItem extends Component {
 
                                 <br />
                                 {
-                                    loaded !== 0 && <UploadProgressContainer loaded={ loaded } />
+                                    loaded !== 0 && <UploadProgressContainer loaded={loaded} />
                                 }
 
                                 <div className="margin-fix form-row" style={{ width: `30%` }}>
@@ -352,60 +537,13 @@ class CreateLibraryItem extends Component {
                             </Fragment>
                         ) : (
                                 <Fragment>
-                                    <div className='margin-fix form-row'>
-                                        <BootstrapGridColumn>
-                                            <BootsrapTextField
-                                                value={this.state.resource_name}
-                                                name='resource_name'
-                                                label="Resource*"
-                                                placeholder="Enter resource name..."
-                                                type="text"
-                                                handleChange={this.handleChange}
-                                            />
-                                        </BootstrapGridColumn>
-                                        <BootstrapGridColumn>
-                                            <BootsrapTextField
-                                                name="resource_short_name"
-                                                placeholder="Enter document shortname..."
-                                                type="text"
-                                                label="Shortname*"
-                                                value={this.state.resource_short_name}
-                                                handleChange={this.handleChange}
-                                            />
-                                        </BootstrapGridColumn>
-                                    </div>
+                                    {
+                                        this.state.add_resource && this.addResource()
+                                    }
 
-                                    <div className="form-group">
-                                        <BootsrapTextareaField
-                                            value={this.state.resource_summary}
-                                            name='resource_summary'
-                                            label="Summary*"
-                                            placeholder="Enter resource summary..."
-                                            type="text"
-                                            rows={10}
-                                            handleChange={this.handleChange}
-                                        />
-                                    </div>
-
-                                    <div className={classes.margin} />
-                                    <div className={classes.margin} />
-                                    <div className={classes.margin} />
-
-                                    <Button
-                                        type="submit"
-                                        disabled={!(resource_name && resource_short_name && resource_summary)}
-                                        intent="success"
-                                        text="Save"
-                                    />
-
-                                    <Button
-                                        className={classes.margin} intent="primary"
-                                        text="Cancel" onClick={() => {
-                                            if (this.state.add_resource) {
-                                                this.setState({ add_resource: false })
-                                            }
-                                        }}
-                                    />
+                                    {
+                                        this.state.edit_resource && this.editResource()
+                                    }
                                 </Fragment>
                             )
                     }
