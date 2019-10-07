@@ -73,6 +73,8 @@ class CMSIndex extends React.Component {
 
     }
 
+    handleFilteredResource = (filter) => filter && this.setState({ filteredResource: filter });
+
     handleDrawerOpen = () => {
         this.setState({ open: true });
     };
@@ -384,6 +386,12 @@ class CMSIndex extends React.Component {
                      */
                     this.props.subCategory(event.currentTarget.id);
 
+                } else if(link === 'library') {
+
+                    console.log(event.currentTarget.id)
+                    // fetch the document to be edited
+                    this.props.downloadFile(event.currentTarget.id)
+
                 } else {
                     /** 
                      * do nothing, 
@@ -625,6 +633,7 @@ class CMSIndex extends React.Component {
                                 props={this.props}
                                 {...this.state}
                                 capitalize={this.capitalize}
+                                handleFilteredResource={ this.handleFilteredResource }
                             />
                         </div>
                     </div>
@@ -754,7 +763,10 @@ const mapDispatchToProps = (dispatch) => {
         fetchLibraryDocs: () => { dispatch(LibraryAction.fetchAllLibraryDocs()) },
         // library files and documents
         uploadFile: (i, d, t) => { dispatch(LibraryAction.uploadFile(i, d, t)) },
+        downloadFile: (i) => { dispatch(LibraryAction.fetchFileDocument(i)) },
         fetchCategoryDocs: (i) => { dispatch(LibraryAction.fetchCategoryDocuments(i)) },
+        editDocument: (d, t, c, o) => { dispatch(LibraryAction.editDocument(d,t,c,o)) },
+        archiveFileDocument: (id, token) => { dispatch(LibraryAction.archiveFileDocument(id, token)) },
         // logout
         logout: (user) => { dispatch(UserAuthAction.logout(user)) },
         // home and cms home

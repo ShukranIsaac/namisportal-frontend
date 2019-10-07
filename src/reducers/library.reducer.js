@@ -9,7 +9,7 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-    
+
     switch (action.type) {
         case LibraryType.FETCH_LIBRARY:
 
@@ -24,9 +24,9 @@ export default (state = initialState, action) => {
                 ...state,
                 library_documents: action.payload
             }
-        
+
         case LibraryType.REQUEST_SUB_CATE_DOCS:
-            
+
             return {
                 ...state,
                 library_sub_cate_documents: action.payload
@@ -40,6 +40,14 @@ export default (state = initialState, action) => {
             }
 
         case LibraryType.UPLOAD_FILE:
+
+            return {
+                ...state,
+                document: action.payload
+            }
+
+        case LibraryType.UPDATE_LIBRARY_FILE:
+        case LibraryType.FETCH_LIBRARY_FILE:
 
             return {
                 ...state,

@@ -115,6 +115,49 @@ export const upload = async (dispatch, url, data) => {
 }
 
 /**
+ * Upload data to the api, and return a Promise
+ * 
+ * @param {Function} dispatch
+ * @param {String} url 
+ * @param {Object} data
+ * @returns {Promise} promise
+ */
+export const update = async (dispatch, url, data) => {
+
+    let form = new FormData();
+    // check the file type
+    if (data.file !== undefined && data.file !== null) {
+        if (data.file[0].type === 'application/pdf') {
+            form.append('file', data.file ? data.file[0] : null);
+            form.append('name', data.name);
+            form.append('description', data.about);
+            form.append('content-type', 'multipart/form-data')
+        }
+    } else {
+        form.append('file', data.image[0]);
+    }
+
+    return await Config.PROD_REMOTE_API_URL
+
+        .put(url, form, progressEvent(dispatch, null))
+
+        .then(response => {
+
+            // Upload is done! 
+            // The remaining progress bar will be filled up
+            // The toast will be closed when the transition end
+            // cancel toast progress and exit
+            // using the reference returned from progress
+            // Toast.progress(100).done();
+            dispatch(GeneralAction.isLoading(false));
+
+            return response;
+
+        });
+
+}
+
+/**
  * Edit a resource via the api, and return a Promise
  * 
  * @param {Function} dispatch

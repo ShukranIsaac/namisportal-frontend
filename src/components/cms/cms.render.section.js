@@ -54,7 +54,9 @@ const RenderSection = ({
     category,
     district_name,
     region_name,
-    capitalize
+    capitalize,
+    handleFilteredResource,
+    filteredResource
 }) => {
 
     switch (link) {
@@ -243,6 +245,7 @@ const RenderSection = ({
                             docs={props.library}
                             {...props}
                             handleChange={(e) => handleChange(e)}
+                            handleFilteredResource={ handleFilteredResource }
                         />
                         }
                         Edit={() => <EditLibraryItem
@@ -250,6 +253,7 @@ const RenderSection = ({
                             {...props}
                             link={link}
                             capitalize={capitalize}
+                            filteredResource={ filteredResource }
                         />
                         }
                         Create={() => <CreateLibraryItem

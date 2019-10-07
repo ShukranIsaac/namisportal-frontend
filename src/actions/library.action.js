@@ -2,7 +2,7 @@ import { LibraryType } from '../action_type/index';
 
 import * as GeneralAction from './general.action';
 
-import { get, post, upload } from './api.service';
+import { get, post, upload, update, _delete } from './api.service';
 import { initial } from './event.action';
 import Toast from '../toastfy';
 
@@ -26,6 +26,7 @@ export const addSubCategory = (id, subcategory) => {
 
                 dispatch(GeneralAction.fetchSuccess(LibraryType.ADD_NEW_SUB_CATEGORY_DOCS, response, false))
 
+                dispatch(initial())
             })
 
             .catch((error) => {
@@ -243,6 +244,118 @@ export const fetchCategoryDocuments = (id) => {
                 Toast.emit({
                     type: Toast.TYPES.ERROR,
                     message: `Failed to download documents. Please try again. ${error}`
+                })
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
+
+    };
+
+}
+
+/**
+ * Archive a single category documents
+ * 
+ * @param id
+ */
+export const fetchFileDocument = (id) => {
+
+    const url = `files/${id}`;
+
+    return async dispatch => {
+
+        dispatch(GeneralAction.isLoading(true));
+
+        return await get(dispatch, url)
+
+            .then((response) => {
+
+                dispatch(GeneralAction.fetchSuccess(LibraryType.FETCH_LIBRARY_FILE, response, false))
+
+            })
+
+            .catch((error) => {
+
+                console.log(error)
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to download document. Please try again. ${error}`
+                })
+
+                dispatch(GeneralAction.hasErrored(true))
+
+            });
+
+    };
+
+}
+
+export const editDocument = (payload, token, category, document) => {
+
+    // url
+    const url = `categories/${category._id}/documents/${document._id}?token=${token}`;
+
+    return async dispatch => {
+
+        dispatch(GeneralAction.isLoading(true));
+
+        return await update(dispatch, url, payload)
+
+            .then(response => {
+
+                Toast.emit({
+                    type: Toast.TYPES.SUCCESS,
+                    message: `(${ response.name }) - File successfully updated.`
+                })
+
+                dispatch(GeneralAction.fetchSuccess(LibraryType.UPDATE_LIBRARY_FILE, response, false))
+
+            })
+
+            .catch(error => {
+
+                console.log(error)
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to update file. Please try again. ${error}`
+                })
+
+                dispatch(GeneralAction.hasErrored(true))
+            })
+    }
+}
+
+/**
+ * Archive a single category documents
+ * 
+ * @param id
+ */
+export const archiveFileDocument = (id, token) => {
+
+    const url = `files/${id}?token=${token}`;
+
+    return async dispatch => {
+
+        dispatch(GeneralAction.isLoading(true));
+
+        return await _delete(dispatch, url)
+
+            .then((response) => {
+
+                dispatch(GeneralAction.fetchSuccess(LibraryType.FETCH_LIBRARY_FILE, response, false))
+
+            })
+
+            .catch((error) => {
+
+                console.log(error)
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.ERROR,
+                    message: `Failed to delete document. Please try again. ${error}`
                 })
 
                 dispatch(GeneralAction.hasErrored(true))

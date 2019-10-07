@@ -77,6 +77,8 @@ class ListLibraryDocuments extends Component {
 
             // was anything returned
             if (filteredResource) {
+
+                this.props.handleFilteredResource(filteredResource[0])
                 // fetch its documents
                 this.props.fetchCategoryDocs(filteredResource[0]._id);
 
@@ -121,7 +123,7 @@ class ListLibraryDocuments extends Component {
                             name="library_resource"
                             {...this.state}
                             onChange={e => this.handleChange(e)}
-                            value={this.state.library_resource }
+                            // value={this.state.library_resource }
                         >
                             <option value="">{`Choose library resource`}</option>
                             {
@@ -154,21 +156,21 @@ class ListLibraryDocuments extends Component {
                                                     return (
                                                         <Fragment key={document.name}>
                                                             <li id={index} key={document.name}>
-                                                                <div style={{ marginTop: `0.5em` }}>
+                                                                {/* <div style={{ marginTop: `0.5em` }}>
                                                                     {`${document.name}(${document.filename})`}
-                                                                </div>
-                                                                {/* {
+                                                                </div> */}
+                                                                {
                                                                     !profile.canWrite({ user })
-                                                                        ? <a href="#/">{document.name}</a>
+                                                                        ? <a href="#/">{`${document.name}(${document.filename})`}</a>
                                                                         : <a
                                                                             href={`${'/library/' + document.name}`}
                                                                             onClick={(e) => handleClick(e)}
                                                                             name="edit"
-                                                                            id={document.name}
+                                                                            id={document._id}
                                                                         >
-                                                                            {document.name}
+                                                                            {`${document.name}(${document.filename})`}
                                                                         </a>
-                                                                } */}
+                                                                }
                                                             </li>
                                                         </Fragment>
                                                     );

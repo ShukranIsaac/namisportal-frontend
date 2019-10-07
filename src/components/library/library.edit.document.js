@@ -2,6 +2,10 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
+import { reduxForm } from 'redux-form';
+import AsyncValidate from '../contact/form.async-validate';
+import Validate from '../contact/email.validate';
+
 import { Divider } from '@material-ui/core';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
@@ -11,6 +15,7 @@ import { UserProfile, profile } from '../user/user.profile';
 import BootstrapGridColumn from '../forms/form.grid.column';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import { BootsrapTextareaField } from '../forms/form.textarea.field';
+import Toast from '../../toastfy';
 
 /**
  * @author Isaac S. Mwakabira
@@ -32,6 +37,27 @@ class EditLibraryItem extends Component {
 
     }
 
+    filterCategory = (document_id) => {
+
+        const { maincategory } = this.props;
+
+        return maincategory && maincategory.subCategories.map(category => {
+
+            // for each category
+            // search if this id belongs to one of them and
+            // return this category
+            const documents = category.documents;
+            const matched = documents.filter(d_id => d_id === document_id);
+
+            if (matched) {
+                return category
+            } else {
+                return null
+            }
+        })
+
+    }
+
 	/**
 	 * On change, update the app's React state with event type value.
 	 *
@@ -48,37 +74,68 @@ class EditLibraryItem extends Component {
     handleSubmit = (event, values) => {
         // prevent default behaviour
         event.preventDefault();
-        const { name, shortname, summary } = this.state;
+        const { name, summary } = this.state;
+
+        // category under which this documnet falls
+        const { document, filteredResource } = this.props;
+
         // get authenticated user token
         const user = UserProfile.get();
         if (user !== null && user.token !== undefined) {
 
-            if (name || shortname || summary || values) {
+            if (name || summary || values) {
                 // define sub-category structure
                 const data = {
                     name: name,
-                    shortName: shortname,
-                    about: summary,
+                    description: summary,
                     file: values.supporting_document
                 }
 
-                console.log(data)
-                // this.props.createStakeholder(data, user.token);
+                // filtered resource category has to exist
+                if (filteredResource !== null) {
+                    this.props.editDocument(
+                        data, 
+                        user.token, 
+                        filteredResource,
+                        document
+                    );
+                } else {
+                    Toast.emit({
+                        type: Toast.TYPES.INFO,
+                        message: "Main Category does not exist. Please try again!"
+                    });
+                }
             }
 
         }
 
     }
 
+    archiveDocument = (event) => {
+
+        event.preventDefault();
+        // question to be deleted
+        const { document } = this.props;
+        // if question exists then delete
+        if (document !== null && document._id !== undefined) {
+            // then get authenticated user token
+            const user = UserProfile.get();
+            if (user !== null && user.token !== undefined) {
+                this.props.archiveFileDocument(document._id, user.token);
+            }
+        }
+
+    }
+
     render() {
 
-        const { classes, handleClick, handleSubmit, subcategory, general } = this.props;
+        const { classes, handleClick, handleSubmit, document, filteredResource, general } = this.props;
 
         // authenticated user
         const user = UserProfile.get();
 
         // state
-        const { name, shortname, summary } = this.state;
+        const { name, summary } = this.state;
 
         return (
             <Fragment>
@@ -105,30 +162,20 @@ class EditLibraryItem extends Component {
                                     <div className='margin-fix form-row'>
                                         <BootstrapGridColumn>
                                             <BootsrapTextField
-                                                value={subcategory ? (this.state.category ? this.state.category : subcategory.name) : ''}
+                                                value={filteredResource ? (this.state.category ? this.state.category : filteredResource.name) : ''}
                                                 name="category"
+                                                disabled={ true }
                                                 label='Category'
-                                                placeholder="Edit document category..."
+                                                placeholder="Edit document catgeory..."
                                                 handleChange={this.handleChange}
-                                                disabled={true}
                                             />
                                         </BootstrapGridColumn>
                                         <BootstrapGridColumn>
                                             <BootsrapTextField
-                                                value={subcategory ? (this.state.name ? this.state.name : subcategory.name) : ''}
+                                                value={document ? (this.state.name ? this.state.name : document.name) : ''}
                                                 name="name"
                                                 label='Name'
                                                 placeholder="Edit document name..."
-                                                handleChange={this.handleChange}
-                                            />
-                                        </BootstrapGridColumn>
-                                        <BootstrapGridColumn>
-                                            <BootsrapTextField
-                                                name="shortname"
-                                                type="text"
-                                                placeholder="Edit document shortname..."
-                                                label="Shortname"
-                                                value={subcategory ? (this.state.shortname ? this.state.shortname : subcategory.shortName) : ''}
                                                 handleChange={this.handleChange}
                                             />
                                         </BootstrapGridColumn>
@@ -137,7 +184,7 @@ class EditLibraryItem extends Component {
                                     <div className="form-group">
                                         <BootsrapTextareaField
                                             name="summary"
-                                            value={subcategory ? (this.state.summary ? this.state.summary : subcategory.about) : ''}
+                                            value={document ? (this.state.summary ? this.state.summary : document.description) : ''}
                                             placeholder="Edit document summary..."
                                             label="Summary Text"
                                             type="text"
@@ -169,7 +216,7 @@ class EditLibraryItem extends Component {
 
                     <Button
                         type="submit"
-                        disabled={!(name || shortname || summary)}
+                        disabled={!(name || summary)}
                         intent="success"
                         text="Save"
                     />
@@ -178,13 +225,13 @@ class EditLibraryItem extends Component {
                         intent={Intent.DANGER}
                         value="Delete"
                         name="archive"
-                        handleClick={e => handleClick(e)}
+                        handleClick={(e) => this.archiveDocument(e)}
                         disabled={!profile.canDelete({ user })}
                     />
 
                     <Button
                         className={classes.margin}
-                        name="default" 
+                        name="default"
                         intent="primary"
                         text="Cancel"
                         onClick={e => handleClick(e)}
@@ -203,4 +250,8 @@ EditLibraryItem.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default (withStyles(styles)(EditLibraryItem));
+export default reduxForm({
+    form: 'editLibraryDocument',
+    Validate,
+    AsyncValidate
+})(withStyles(styles)(EditLibraryItem));
