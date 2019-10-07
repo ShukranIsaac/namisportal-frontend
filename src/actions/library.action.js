@@ -312,6 +312,8 @@ export const editDocument = (payload, token, category, document) => {
 
                 dispatch(GeneralAction.fetchSuccess(LibraryType.UPDATE_LIBRARY_FILE, response, false))
 
+                dispatch(initial())
+
             })
 
             .catch(error => {
@@ -347,6 +349,8 @@ export const archiveFileDocument = (id, token) => {
 
                 dispatch(GeneralAction.fetchSuccess(LibraryType.FETCH_LIBRARY_FILE, response, false))
 
+                dispatch(initial())
+                
             })
 
             .catch((error) => {
