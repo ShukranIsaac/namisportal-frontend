@@ -105,13 +105,13 @@ const ItemProfile = ({ classes, location }) => {
         <div className='page-content'>
 
             <ParticlesComponent />
-
+            
             <Container>
                 <Row>
                     <div className="card">
                         <div className="card-body">
                             <div className={classes.root}>
-                                { content() }
+                                {content()}
                             </div>
                         </div>
                     </div>
