@@ -559,7 +559,7 @@ class AddFeature extends Component {
                                 <BootsrapTextField
                                     name="plant_ta"
                                     placeholder="Enter traditional authority..."
-                                    label="Traditioanal Authority*"
+                                    label="Traditional Authority*"
                                     type="text"
                                     value={this.state.plant_ta}
                                     handleChange={this.handleTextChange}
@@ -653,7 +653,7 @@ class AddFeature extends Component {
                                 <BootsrapTextField
                                     name="substation_ta"
                                     placeholder="Enter traditional authority..."
-                                    label="Traditioanal Authority*"
+                                    label="Traditional Authority*"
                                     type="text"
                                     value={this.state.substation_ta}
                                     handleChange={this.handleTextChange}
