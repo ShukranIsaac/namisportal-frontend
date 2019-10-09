@@ -77,7 +77,7 @@ class EditLibraryItem extends Component {
         const { name, summary } = this.state;
 
         // category under which this documnet falls
-        const { document, filteredResource } = this.props;
+        const { document } = this.props;
 
         // get authenticated user token
         const user = UserProfile.get();
@@ -91,20 +91,12 @@ class EditLibraryItem extends Component {
                     file: values.supporting_document
                 }
 
-                // filtered resource category has to exist
-                if (filteredResource !== null) {
-                    this.props.editDocument(
-                        data, 
-                        user.token, 
-                        filteredResource,
-                        document
-                    );
-                } else {
-                    Toast.emit({
-                        type: Toast.TYPES.INFO,
-                        message: "Main Category does not exist. Please try again!"
-                    });
-                }
+                this.props.editDocument(
+                    data, 
+                    user.token, 
+                    document
+                );
+                
             }
 
         }
@@ -115,13 +107,21 @@ class EditLibraryItem extends Component {
 
         event.preventDefault();
         // question to be deleted
-        const { document } = this.props;
+        const { document, filteredResource } = this.props;
         // if question exists then delete
         if (document !== null && document._id !== undefined) {
             // then get authenticated user token
             const user = UserProfile.get();
             if (user !== null && user.token !== undefined) {
-                this.props.archiveFileDocument(document._id, user.token);
+                // filtered resource category has to exist
+                if (filteredResource !== null) {
+                    this.props.archiveFileDocument(filteredResource, document, user.token);
+                } else {
+                    Toast.emit({
+                        type: Toast.TYPES.INFO,
+                        message: "Main Category does not exist. Please try again!"
+                    });
+                }
             }
         }
 

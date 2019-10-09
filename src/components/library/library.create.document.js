@@ -17,6 +17,7 @@ import { SelectInputControl } from '../forms/form.selectinput.field';
 import BootstrapGridColumn from '../forms/form.grid.column';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import { BootsrapTextareaField } from '../forms/form.textarea.field';
+import Toast from '../../toastfy';
 
 export const UploadProgressContainer = ({ loaded }) => {
 
@@ -206,18 +207,25 @@ class CreateLibraryItem extends Component {
                     this.setState({ edit_resource: false, add_category: true });
                 }
             } else {
-                // define file structure
-                const data = {
-                    name: name,
-                    shortName: shortname,
-                    about: summary,
-                    file: values.supporting_document
-                }
+                if (values.supporting_document !== undefined) {
+                    // define file structure
+                    const data = {
+                        name: name,
+                        shortName: shortname,
+                        about: summary,
+                        file: values.supporting_document
+                    }
 
-                if (maincategory !== null && maincategory !== undefined) {
-                    const { library_resource } = this.state;
-                    // create new file
-                    this.props.uploadFile(library_resource._id, data, user.token);
+                    if (maincategory !== null && maincategory !== undefined) {
+                        const { library_resource } = this.state;
+                        // create new file
+                        this.props.uploadFile(library_resource._id, data, user.token);
+                    }
+                } else {
+                    Toast.emit({
+                        type: Toast.TYPES.INFO,
+                        message: "Please choose file to upload!!"
+                    })
                 }
             }
 
@@ -442,8 +450,8 @@ class CreateLibraryItem extends Component {
                                 {
                                     (this.state.library_resource !== null
                                         && this.state.library_resource !== undefined) && (
-                                            // show these buttons only when
-                                            // an item is selected.
+                                        // show these buttons only when
+                                        // an item is selected.
                                         !this.state.add_category && (
                                             <>
                                                 <Button

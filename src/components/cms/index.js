@@ -765,8 +765,8 @@ const mapDispatchToProps = (dispatch) => {
         uploadFile: (i, d, t) => { dispatch(LibraryAction.uploadFile(i, d, t)) },
         downloadFile: (i) => { dispatch(LibraryAction.fetchFileDocument(i)) },
         fetchCategoryDocs: (i) => { dispatch(LibraryAction.fetchCategoryDocuments(i)) },
-        editDocument: (d, t, c, o) => { dispatch(LibraryAction.editDocument(d,t,c,o)) },
-        archiveFileDocument: (id, token) => { dispatch(LibraryAction.archiveFileDocument(id, token)) },
+        editDocument: (d, t, o) => { dispatch(LibraryAction.editDocument(d,t,o)) },
+        archiveFileDocument: (cat_id, id,token) => { dispatch(LibraryAction.archiveFileDocument(cat_id,id,token)) },
         // logout
         logout: (user) => { dispatch(UserAuthAction.logout(user)) },
         // home and cms home

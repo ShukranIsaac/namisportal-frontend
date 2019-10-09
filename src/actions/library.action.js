@@ -292,10 +292,10 @@ export const fetchFileDocument = (id) => {
 
 }
 
-export const editDocument = (payload, token, category, document) => {
+export const editDocument = (payload, token, document) => {
 
     // url
-    const url = `categories/${category._id}/documents/${document._id}?token=${token}`;
+    const url = `files/${document._id}?token=${token}`;
 
     return async dispatch => {
 
@@ -335,9 +335,10 @@ export const editDocument = (payload, token, category, document) => {
  * 
  * @param id
  */
-export const archiveFileDocument = (id, token) => {
+export const archiveFileDocument = (category, document, token) => {
 
-    const url = `files/${id}?token=${token}`;
+    // const url = `files/${id}?token=${token}`;
+    const url = `categories/${category._id}/documents/${document._id}?token=${token}`;
 
     return async dispatch => {
 
