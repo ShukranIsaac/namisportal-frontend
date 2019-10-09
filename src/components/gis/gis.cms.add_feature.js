@@ -64,7 +64,7 @@ class AddFeature extends Component {
         // state
         const {
             district_name, country_name,
-            marep_center_latitude, marep_center_longitude, marep_center_ta, _distribution_line, voltage, 
+            marep_center_latitude, marep_center_longitude, marep_center_ta, _distribution_line, voltage,
             plant_capacity, plant_latitude, plant_longitude, plant_status, plant_name, plant_type, plant_ta,
             transformer_latitude, transformer_location, transformer_longitude, transformer_position,
             transformer_primary, transformer_station, transformer_voltage, transformer_ta,
@@ -184,7 +184,7 @@ class AddFeature extends Component {
         });
 
     }
-    
+
     /**
      * Renders mapped object filter options (regions)
      * 
@@ -780,7 +780,7 @@ class AddFeature extends Component {
         const { classes, handleClick } = this.props;
         // state props 
         const { feature, district_name, selectedvalue, country_name } = this.state;
-console.log(this.state.geometry_feature)
+        // console.log(this.state.geometry_feature)
         return (
             <Fragment>
 

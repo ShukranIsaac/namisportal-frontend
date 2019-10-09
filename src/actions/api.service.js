@@ -134,12 +134,14 @@ export const update = async (dispatch, url, data) => {
             form.append('content-type', 'multipart/form-data')
         }
     } else {
-        form.append('file', data.image[0]);
+        // form.append('file', data.image[0]);
+        form.append('name', data.name)
+        form.append('description', data.description)
     }
 
     return await Config.PROD_REMOTE_API_URL
 
-        .put(url, form, progressEvent(dispatch, null))
+        .patch(url, form, progressEvent(dispatch, null))
 
         .then(response => {
 

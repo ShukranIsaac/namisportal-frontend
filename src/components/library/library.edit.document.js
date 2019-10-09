@@ -71,9 +71,9 @@ class EditLibraryItem extends Component {
 
     }
 
-    handleSubmit = (event, values) => {
+    handleSubmit = (values) => {
         // prevent default behaviour
-        event.preventDefault();
+        // event.preventDefault();
         const { name, summary } = this.state;
 
         // category under which this documnet falls
