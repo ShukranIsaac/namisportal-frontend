@@ -307,7 +307,7 @@ export const editDocument = (payload, token, document) => {
 
                 Toast.emit({
                     type: Toast.TYPES.SUCCESS,
-                    message: `(${ response.name }) - File successfully updated.`
+                    message: `File successfully updated.`
                 })
 
                 dispatch(GeneralAction.fetchSuccess(LibraryType.UPDATE_LIBRARY_FILE, response, false))

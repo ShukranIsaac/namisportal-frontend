@@ -10,7 +10,7 @@ import Axios from "axios";
  */
 const Config = (() => {
 
-    const REMOTE_PROD_SERVER = "http://109.74.196.98:8000";
+    const REMOTE_PROD_SERVER = "http://109.74.196.98:8082";
 
     // API base url
     const DEV_APIUrl = Axios.create({
