@@ -154,10 +154,10 @@ class Library extends Component {
 
     render() {
 
-        const { classes, library, library_documents } = this.props;
+        const { classes, library } = this.props;
         const { value } = this.state;
 
-        console.log(library_documents);
+        // console.log(library_documents);
         // console.log(library);
 
         return (
