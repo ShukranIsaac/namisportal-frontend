@@ -536,6 +536,11 @@ class CMSIndex extends React.Component {
         // else redirect to login
         if (user === null) {
             return redirect.to({ url: `/login` })
+        } else {
+            // TODO logout users if roles changed
+            // user is already logged in 
+            // but certain roles assigned to them have changed
+            // log them out first then redirect to login page
         }
         // console.log(this.props.loaded)
         if (general !== null) {
