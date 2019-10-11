@@ -105,9 +105,13 @@ class UserRegistration extends Component {
 
         // check if user is successfully registered
         if (user !== null) {
+            // force window reload to refresh and clear out the previous state
+            // to avoid not redirecting to login if user object in state is not null
+            // especially when user just logged out from the CMS
+            window.location.reload();
 
             if (user.username !== null) {
-                redirect.to({ url: '/login' })
+                return redirect.to({ url: '/login' })
             }
 
         }

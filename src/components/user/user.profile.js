@@ -126,7 +126,7 @@ export const profile = (() => {
         if (user !== null && user.roles !== null && user.roles !== undefined) {
 
             // publisher
-            if (user.roles.writer || user.roles.publisher) {
+            if (user.roles.writer || user.roles.publisher || user.roles.admin) {
                 return true;
             }
 
@@ -144,7 +144,7 @@ export const profile = (() => {
         if (user !== null && user.roles !== null && user.roles !== undefined) {
 
             // publisher
-            if (user.roles.writer || user.roles.publisher) {
+            if (user.roles.writer || user.roles.publisher || user.roles.admin) {
                 return true;
             }
 
@@ -163,7 +163,7 @@ export const profile = (() => {
         if (user !== null && user.roles !== null && user.roles !== undefined) {
 
             // publisher
-            if (user.roles.publisher) {
+            if (user.roles.publisher || user.roles.admin) {
                 return true;
             }
 
@@ -181,7 +181,7 @@ export const profile = (() => {
     const canDelete = ({ user }) => {
         if (user !== null && user.roles !== null && user.roles !== undefined) {
 
-            if (user.roles.publisher) {
+            if (user.roles.publisher || user.roles.admin) {
                 return true;
             }
 
