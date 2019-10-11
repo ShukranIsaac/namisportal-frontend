@@ -348,10 +348,16 @@ export const archiveFileDocument = (category, document, token) => {
 
             .then((response) => {
 
+                // toast message for user feedback
+                Toast.emit({
+                    type: Toast.TYPES.INFO,
+                    message: `File successfully deleted.`
+                })
+
                 dispatch(GeneralAction.fetchSuccess(LibraryType.FETCH_LIBRARY_FILE, response, false))
 
                 dispatch(initial())
-                
+
             })
 
             .catch((error) => {
