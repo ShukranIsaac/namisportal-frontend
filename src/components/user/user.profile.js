@@ -207,6 +207,8 @@ export const profile = (() => {
                 return true;
             } else if (user.roles.writer && user.roles.publisher) {
                 return true;
+            } else if (user.roles.admin) {
+                return true;
             } else {
                 return false;
             }

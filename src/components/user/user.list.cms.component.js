@@ -62,11 +62,7 @@ class ListUserAccounts extends Component {
     }
 
     // check assigned roles
-    isAdmin = ({ user }) => {
-
-        return user.roles !== undefined && (user.roles.admin ? true : false);
-
-    }
+    isAdmin = ({ user }) => profile.isAdmin({ user })
 
     // counter to store the number of objects we pushed the array
     counter = 0;

@@ -280,7 +280,7 @@ class EditUserAccount extends Component {
                         // disable change password tab, 
                         // only the account owner must be allowed to change password
                         (current && userAuth) && (
-                            current._id === userAuth._id && (
+                            (current._id === userAuth._id || current.roles.admin) && (
                                 <li className="nav-item">
                                     <a className="nav-link" data-toggle="tab" href="#changePassword">Change Password</a>
                                 </li>

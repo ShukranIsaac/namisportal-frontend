@@ -509,7 +509,7 @@ class CMSIndex extends React.Component {
                     onClose={this.handleProfileClose}
                 >
                     {
-                        (auth.roles.admin && auth.roles.writer && auth.roles.publisher) && (
+                        (auth.roles.admin || auth.roles.writer || auth.roles.publisher) && (
                             <MenuItem
                                 onClick={this.handleProfileEdit}
                                 id={auth._id}
