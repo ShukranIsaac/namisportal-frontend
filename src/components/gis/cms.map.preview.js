@@ -70,6 +70,55 @@ class CMSMapPreview extends Component {
         }
     }
 
+    renderDistrivutionLines = ({ type, ...other_properties }) => {
+
+        if (type === 'distribution_line') {
+            /**
+             * [[-10.30523325, 33.59792108333331], [-10.306009583333326, 33.598446], [-10.306739583333327, 33.59892391666665], [-10.307509166666664, 33.59940174999998] ,[-10.3082475, 33.59991224999999], [-10.309043, 33.600424], [-10.30979275, 33.60090849999998], [-10.310548916666665, 33.601409], [-10.311312, 33.60192508333332], [-10.312060916666661, 33.60240683333331]]
+             * 
+             * Convert all cordinates to the LatLng format
+             */
+            const _line = (JSON.parse(other_properties.line)).map(pt => {
+                const temp = [];
+                // convert coords to latlng
+                temp.push({lat: Number(pt[0]), lng: Number(pt[1])})
+                // then flatten the array([[],[],...]) to a single json array i.e. [{},{},...]
+                return temp.reduce((prev, next) => prev.push(next));
+            });
+
+            const object = {
+                properties: {
+                    district: other_properties.district,
+                    voltage: Number(other_properties.voltage),
+                },
+                geometry: {
+                    coordinates: _line,
+                    type: 'Polyline'
+                }
+            }
+
+            return (
+                <Polyline
+                    path={object.geometry.coordinates}
+                    geodesic={true}
+                    options={{
+                        strokeColor: "red",
+                        strokeOpacity: 0.85,
+                        strokeWeight: 3,
+                        icons: [
+                            {
+                                offset: "0",
+                                repeat: "20px"
+                            }
+                        ]
+                    }}
+                />
+            );
+
+        }
+
+    }
+
     previewGeometry = ({ geometry_feature }) => {
         
         if (geometry_feature) {
@@ -117,50 +166,11 @@ class CMSMapPreview extends Component {
 
             } else {
 
-                if (type === 'distribution_line') {
-                    /**
-                     * [[-10.30523325, 33.59792108333331], [-10.306009583333326, 33.598446], [-10.306739583333327, 33.59892391666665], [-10.307509166666664, 33.59940174999998] ,[-10.3082475, 33.59991224999999], [-10.309043, 33.600424], [-10.30979275, 33.60090849999998], [-10.310548916666665, 33.601409], [-10.311312, 33.60192508333332], [-10.312060916666661, 33.60240683333331]]
-                     * 
-                     * Convert all cordinates to the LatLng format
-                     */
-                    const _line = (JSON.parse(geometry_feature.line)).map(pt => {
-                        const temp = [];
-                        // convert coords to latlng
-                        temp.push({lat: Number(pt[0]), lng: Number(pt[1])})
-                        // then flatten the array([[],[],...]) to a single json array i.e. [{},{},...]
-                        return temp.reduce((prev, next) => prev.push(next));
-                    });
-
-                    const object = {
-                        properties: {
-                            district: geometry_feature.district,
-                            voltage: Number(geometry_feature.voltage),
-                        },
-                        geometry: {
-                            coordinates: _line,
-                            type: 'Polyline'
-                        }
-                    }
-
-                    return (
-                        <Polyline
-                            path={object.geometry.coordinates}
-                            geodesic={true}
-                            options={{
-                                strokeColor: "red",
-                                strokeOpacity: 0.85,
-                                strokeWeight: 3,
-                                icons: [
-                                    {
-                                        offset: "0",
-                                        repeat: "20px"
-                                    }
-                                ]
-                            }}
-                        />
-                    );
-
-                }
+                /**
+                 * Upload a zipped folder, so no need of previewing
+                 * before uploading. Everything will be validated by the API.
+                 */
+                // this.renderDistrivutionLines(geometry_feature);
 
             }
 

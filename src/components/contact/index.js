@@ -12,94 +12,94 @@ import * as UserAuthAction from '../../actions/user.action';
 
 class Contact extends Component {
 
-  componentDidMount() {
+    componentDidMount() {
 
-    // fetch
-    // this.props.fetchContact('Contact');
+        // fetch
+        // this.props.fetchContact('Contact');
 
-  }
+    }
 
-  render(){
+    render() {
 
-    const { classes } = this.props;
+        const { classes } = this.props;
 
-    return (
-      <Fragment>
+        return (
+            <Fragment>
 
-        <div className= "page-content">
+                <div className="page-content">
 
-          <ParticlesComponent />
+                    <ParticlesComponent />
 
-          <Container>
+                    <Container>
 
-            <Row>
-              <Card className={classes.width100}>
-                <CardBody>
+                        <Row>
+                            <Card className={classes.width100}>
+                                <CardBody>
 
-                  <ContactForm { ...this.props } />
-                  
-                </CardBody> 
-              </Card>
-            </Row>
-          </Container>
-          
-        </div>
-        
-      </Fragment>
-    );
+                                    <ContactForm {...this.props} />
 
-  }
+                                </CardBody>
+                            </Card>
+                        </Row>
+                    </Container>
+
+                </div>
+
+            </Fragment>
+        );
+
+    }
 }
 
 const mapStateToProps = (state) => {
-    
-  return {
-      contact_us: state.user.contact_us,
-      contact: state.user.contact,
-  };
+
+    return {
+        contact_us: state.user.contact_us,
+        contact: state.user.contact,
+    };
 
 }
 
 const mapDispatchToProps = (dispatch) => {
 
-  return {
-      // fetch contact details
-      fetchContact: (name) => { dispatch(UserAuthAction.fetchContact(name)) },
-      // contact us message, don't authenticate this route
-      // since any user of the system can send a message.
-      contactUs: (data) => { dispatch(UserAuthAction.contact(data)) },
-  };
+    return {
+        // fetch contact details
+        fetchContact: (name) => { dispatch(UserAuthAction.fetchContact(name)) },
+        // contact us message, don't authenticate this route
+        // since any user of the system can send a message.
+        contactUs: (data) => { dispatch(UserAuthAction.contact(data)) },
+    };
 
 }
 
 const styles = theme => ({
-  width100: {
-    width: '100%'
-  },
-  root: {
-    ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    width: `100%`,
-  },
-  details: {
-    alignItems: 'center',
-  },
-  helper: {
-    borderLeft: `1px solid ${theme.palette.divider}`,
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
-  },
-  link: {
-    color: theme.palette.primary.main,
-    textDecoration: 'none',
-    '&:hover': {
-      textDecoration: 'underline',
+    width100: {
+        width: '100%'
     },
-  },
+    root: {
+        ...theme.mixins.gutters(),
+        paddingTop: theme.spacing.unit * 2,
+        paddingBottom: theme.spacing.unit * 2,
+        width: `100%`,
+    },
+    details: {
+        alignItems: 'center',
+    },
+    helper: {
+        borderLeft: `1px solid ${theme.palette.divider}`,
+        padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
+    },
+    link: {
+        color: theme.palette.primary.main,
+        textDecoration: 'none',
+        '&:hover': {
+            textDecoration: 'underline',
+        },
+    },
 });
 
 Contact.propTypes = {
-  classes: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Contact));

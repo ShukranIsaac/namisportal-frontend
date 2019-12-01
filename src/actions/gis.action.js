@@ -338,7 +338,7 @@ export const addFeature = (feature, type, token) => {
     // api resource url
     const url = type + `?token=` + token;
     // console.log(url);
-    // console.log(feature);
+    console.log(feature);
     return async dispatch => {
 
         dispatch(GeneralAction.isLoading(true));

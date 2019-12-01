@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import { reduxForm } from 'redux-form';
+
 // import * as GisAction from '../../actions/index';
 import CMSMapPreview from './cms.map.preview';
 import { FormControl, Paper, withStyles } from '@material-ui/core';
@@ -14,18 +16,7 @@ import { UserProfile } from '../user/user.profile';
 import { FormCheckboxControl } from '../forms/form.checkbox.field';
 import BootstrapGridColumn from '../forms/form.grid.column';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
-import { BootsrapTextareaField } from '../forms/form.textarea.field';
-
-// const arrayContainsAnother = (first, second) => {
-//     for (let index = 0; index < first.length; index++) {
-//         if(second.indexOf(first[index]) == -1) {
-//             return false;
-//         }
-//     }
-//     return true;
-// }
-
-// const arrayContainsAnother = (first = [], second = []) => first.every(el => second.includes(el));
+import Toast from '../../toastfy';
 
 /**
  * Render gis component to: upload new coordinates, and other features
@@ -44,6 +35,19 @@ class AddFeature extends Component {
             show: false,
             h: `750px`,
             previewmap: true,
+            geoJson: {
+                type: "Feature",
+                geometry: {
+                    type: null,
+                    coordinates: []
+                },
+                properties: {
+                    district: null,
+                    region: null,
+                    length: 0,
+                    voltage: null
+                }
+            }
         };
 
         this.handleSelectChange = this.handleSelectChange.bind(this);
@@ -168,7 +172,10 @@ class AddFeature extends Component {
     handleChange = (e) => {
         const { selectedvalue } = this.state;
 
-        this.setState({ [e.target.name]: e.target.value }, () => this.constructGeometry({ selectedvalue }));
+        const value = e.target.value;
+        const name = e.target.name;
+
+        this.setState({ [name]: value }, () => this.constructGeometry({ selectedvalue }));
     }
 
     handleSelectChange = event => {
@@ -244,7 +251,7 @@ class AddFeature extends Component {
     /**
      * Handle feature submit
      */
-    handleSubmit = (event) => {
+    handleSubmit = (event, values) => {
         event.preventDefault();
 
         const {
@@ -254,7 +261,7 @@ class AddFeature extends Component {
             transformer_primary, transformer_station, transformer_voltage, transformer_ta, plant_capacity,
             plant_latitude, plant_longitude, plant_status, plant_name, plant_type, plant_ta, country_name,
             substation_latitude, substation_location, substation_name, substation_secondary, substation_ta,
-            substation_transmission, substation_longitude, _distribution_line, voltage
+            substation_transmission, substation_longitude, _distribution_line, /*voltage*/
         } = this.state;
         // const { props: { addFeature }, gis_filters } = this.props;
         // preview feature first before submitting
@@ -333,16 +340,26 @@ class AddFeature extends Component {
                 case 'distribution_line':
                     if (user !== null && user.token !== undefined) {
 
-                        // check if resource or file if being added
-                        if (_distribution_line) {
-                            // define question structure
-                            const _line = {
-                                district: district_name,
-                                line: JSON.parse(_distribution_line),
-                                voltage: Number(voltage)
+                        if (selectedvalue === 'distribution_line' && _distribution_line) {
+                            // check if anything was selected
+                            if (values !== null && values !== undefined) {
+                                if (values.files.length > 0) {
+                                    // check file size, should not be more than 10MB
+                                    const fileSize = Math.round((values.files.item(0).size) / 1024);
+                                    // folder
+                                    const folder = values.files.item(0);
+                                    // size
+                                    if (fileSize < 10000) {
+                                        // create new distribution_line
+                                        this.props.addFeature(folder, "distribution-lines", user.token);
+                                    } else {
+                                        Toast.emit({ 
+                                            type: Toast.TYPES.INFO, 
+                                            message: "Folder size cannot be more than 10MB!" 
+                                        });
+                                    }
+                                }
                             }
-                            // create new distribution_line
-                            this.props.addFeature(_line, "distribution-lines", user.token);
                         }
 
                     }
@@ -386,7 +403,7 @@ class AddFeature extends Component {
             transformer_primary, transformer_station, transformer_voltage,
             plant_latitude, plant_longitude, plant_status, plant_name, plant_type, plant_ta,
             substation_latitude, substation_location, substation_name, substation_secondary, substation_ta,
-            substation_transmission, substation_longitude, _distribution_line, voltage
+            substation_transmission, substation_longitude, _distribution_line, /*voltage*/
         } = this.state;
 
         /**
@@ -732,37 +749,24 @@ class AddFeature extends Component {
             case 'distribution_line':
                 return (
                     <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
-                        <div className="form-group">
-                            <BootsrapTextareaField
-                                name="_distribution_line"
-                                value={this.state._distribution_line}
-                                placeholder="Enter new distribution line, i.e [[34.234568, -0.243536],...]"
-                                label="Distribution Line*"
-                                type="text"
-                                rows={4}
-                                handleChange={this.handleChange}
-                            />
+                        <div className="margin-fix form-row" style={{ width: `30%` }}>
+                            <BootstrapGridColumn>
+                                <BootsrapTextField
+                                    name="_distribution_line"
+                                    value={this.state._distribution_line}
+                                    placeholder="Please upload a zipped folder..."
+                                    label="Please upload a zipped folder*"
+                                    type="file"
+                                    handleChange={this.handleChange}
+                                />
+                            </BootstrapGridColumn>
                         </div>
-                        <FormControl className={classes.margin}>
-                            <Paper elevation={0}>
-                                <SelectInputControl
-                                    name="voltage"
-                                    label="Voltage(*)"
-                                    {...this.state}
-                                    onChange={e => this.handleChange(e)}
-                                >
-                                    <option value="">{`Choose Voltage`}</option>
-                                    <option value="33">33 KV</option>
-                                    <option value="11">11 KV</option>
-                                </SelectInputControl>
-                            </Paper>
-                        </FormControl>
 
                         <div className="form-button-margin">
                             <Button
                                 className={classes.margin}
                                 type="submit"
-                                disabled={!(_distribution_line && voltage)}
+                                disabled={!(_distribution_line/*&& voltage*/)}
                                 intent="success"
                                 text="Save Distribution Line"
                             />
@@ -949,7 +953,7 @@ class AddFeature extends Component {
                             <div className={classes.margin}>
                                 {
                                     feature && (
-                                        selectedvalue && (
+                                        (selectedvalue && selectedvalue !== 'distribution_line') && (
                                             <FormCheckboxControl
                                                 name='preview_feature'
                                                 value='Preview on Map'
@@ -989,4 +993,6 @@ AddFeature.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default (connect(mapStateToProps, null)(withStyles(styles)(AddFeature)));
+export default reduxForm({
+    form: 'addFeatures'
+})(connect(mapStateToProps, null)(withStyles(styles)(AddFeature)));

@@ -1,7 +1,7 @@
 import { UserType } from '../action_type/index';
 
 import * as GeneralAction from './general.action';
-import { post, get, put, _delete } from './api.service';
+import { post, get, put, _delete, emailMessage } from './api.service';
 import { UserProfile } from '../components/user/user.profile';
 import Toast from '../toastfy';
 import { initial } from './event.action';
@@ -127,7 +127,7 @@ export const contact = (contact) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return await post(dispatch, url, contact)
+        return await emailMessage(dispatch, url, contact)
 
             .then((response) => {
 
