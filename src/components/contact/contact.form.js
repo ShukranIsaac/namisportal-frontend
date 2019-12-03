@@ -51,6 +51,18 @@ export class SidebarDefault extends React.Component {
 
 }
 
+const SendButton = ({ text, ...other }) => {
+
+    return (<Button
+        style={{ alignSelf: 'center' }}
+        type="submit"
+        disabled={!(other.fullname && other.email && other.message && other.subject)}
+        intent="success"
+        text={ text }
+    />);
+
+}
+
 /**
  * Contacts page
  */
@@ -73,7 +85,7 @@ class ContactForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        
+
         // state
         const { fullname, email, subject, message } = this.state;
 
@@ -94,9 +106,10 @@ class ContactForm extends Component {
 
     render() {
 
-        const { fullname, email, message, subject } = this.state;
+        const { fullname, email, message, subject, general } = this.state;
 
         const { contact_us } = this.props;
+        console.log(this.props);
 
         /**
          * Only redirect if and when one of these are value set
@@ -108,8 +121,8 @@ class ContactForm extends Component {
 
             if (success !== null && success) {
                 // set contact_us to null
-                Object.assign(this.state, { contact_us: null});
-                
+                Object.assign(this.state, { contact_us: null });
+
                 return redirect.to({ url: `/faqs` });
             }
 
@@ -146,7 +159,7 @@ class ContactForm extends Component {
                             <BootstrapGridColumn>
                                 <BootsrapTextField
                                     name="fullname"
-                                    value={this.state.fullname}
+                                    value={fullname}
                                     label="Fullname*"
                                     type="text"
                                     placeholder="Your fullname..."
@@ -159,7 +172,7 @@ class ContactForm extends Component {
                                     label='Email*'
                                     type='email'
                                     placeholder='Your email...'
-                                    value={this.state.email}
+                                    value={email}
                                     handleChange={this.handleChange}
                                 />
                             </BootstrapGridColumn>
@@ -167,7 +180,7 @@ class ContactForm extends Component {
 
                         <div className="form-group">
                             <BootsrapTextField
-                                value={this.state.subject}
+                                value={subject}
                                 name='subject'
                                 label='Subject*'
                                 type='text'
@@ -178,7 +191,7 @@ class ContactForm extends Component {
 
                         <div className="form-group">
                             <BootsrapTextareaField
-                                value={this.state.message}
+                                value={message}
                                 name='message'
                                 label='Message*'
                                 type='text'
@@ -188,13 +201,12 @@ class ContactForm extends Component {
                             />
                         </div>
 
-                        <Button
-                            style={{ alignSelf: 'center' }}
-                            type="submit"
-                            disabled={!(fullname && email && message && subject)}
-                            intent="success"
-                            text="Send"
-                        />
+                        {
+                            general ? 
+                                general.isLoading ? <SendButton text="Sending..." {...this.state} /> 
+                                : <SendButton text="Send" {...this.state} />
+                            : <SendButton text="Send" {...this.state} />
+                        }
                     </BootstrapGridColumn>
                 </div>
             </form>

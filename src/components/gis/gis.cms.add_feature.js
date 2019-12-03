@@ -882,7 +882,7 @@ class AddFeature extends Component {
                                                             <option value="">{`Choose feature type`}</option>
                                                             <option value="marep_center">Marep Center</option>
                                                             <option value="transformer">Transformer</option>
-                                                            <option value="distribution_line">Distribution Line</option>
+                                                            {/* <option value="distribution_line">Distribution Line</option> */}
                                                         </SelectInputControl>
                                                     )
                                                 }

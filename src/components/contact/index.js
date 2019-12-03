@@ -54,6 +54,7 @@ class Contact extends Component {
 const mapStateToProps = (state) => {
 
     return {
+        general: state.general.general,
         contact_us: state.user.contact_us,
         contact: state.user.contact,
     };
