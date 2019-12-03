@@ -26,7 +26,7 @@ export const TextField = ({ icon, value }) => {
 
     return <>
         <div className="field col-md-12 col-sm-12">
-            <span className={`inline icon-field`}>{ icon }</span>
+            <span className={`inline icon-field`}>{icon}</span>
             <div className="inline text-field">{value}</div>
         </div>
     </>
@@ -73,12 +73,13 @@ class ContactForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
+        
         // state
         const { fullname, email, subject, message } = this.state;
 
-        if (fullname&&email&&subject&&message) {
+        if (fullname && email && subject && message) {
             // define sub-category structure
-            const contact_us = {
+            const paylooad = {
                 fullName: fullname,
                 email: email,
                 subject: subject,
@@ -86,20 +87,29 @@ class ContactForm extends Component {
             }
 
             // send message
-            this.props.contactUs(contact_us);
+            this.props.contactUs(paylooad);
         }
 
     }
 
     render() {
 
-        const { contact_us } = this.props;
         const { fullname, email, message, subject } = this.state;
-        // console.log(contact_us)
-        if (contact_us) {
-            const { success } = contact_us;
+
+        const { contact_us } = this.props;
+
+        /**
+         * Only redirect if and when one of these are value set
+         * and contact_us is not null.
+         */
+        if (contact_us !== null && (message !== undefined || email !== undefined)) {
             // then redirect user accordingly
-            if (success) {
+            const { success } = contact_us;
+
+            if (success !== null && success) {
+                // set contact_us to null
+                Object.assign(this.state, { contact_us: null});
+                
                 return redirect.to({ url: `/faqs` });
             }
 
@@ -122,10 +132,10 @@ class ContactForm extends Component {
                             </h6>
                         </div>
                         <SidebarDefault>
-                            <TextField icon={ <ContactAddress /> } value={`Energy Affairs Department, P/Bag 309, Lilongwe 3`} />
-                            <TextField icon={ <ContactMail /> } value={`info@energy.gov.mw`} />
-                            <TextField icon={ <ContactMobile /> } value={`+265 (1) 770 688`} />
-                            <TextField icon={ <ContactFax /> } value={`+265 (1) 770 094/771954`} />
+                            <TextField icon={<ContactAddress />} value={`Energy Affairs Department, P/Bag 309, Lilongwe 3`} />
+                            <TextField icon={<ContactMail />} value={`info@energy.gov.mw`} />
+                            <TextField icon={<ContactMobile />} value={`+265 (1) 770 688`} />
+                            <TextField icon={<ContactFax />} value={`+265 (1) 770 094/771954`} />
                         </SidebarDefault>
                     </BootstrapGridColumn>
                     <BootstrapGridColumn>
@@ -180,8 +190,8 @@ class ContactForm extends Component {
 
                         <Button
                             style={{ alignSelf: 'center' }}
-                            type="submit" 
-                            disabled={!(fullname&&email&&message&&subject)}
+                            type="submit"
+                            disabled={!(fullname && email && message && subject)}
                             intent="success"
                             text="Send"
                         />
