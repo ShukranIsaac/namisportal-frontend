@@ -62,7 +62,7 @@ const App = () => {
                     <Route exact path="/library" render={props => <Wrapper><Library {...props}/></Wrapper>} />
                     <Route exact path="/directory" render={props => <Wrapper><Directory {...props}/></Wrapper>} />
                     <Route exact path="/directory/:id" render={props => <Wrapper><ItemProfile {...props} /></Wrapper>} />
-                    <Route exact path="/gis" render={props => (<><AppHeader /> <GIS {...props}/></>)} />
+                    <Route exact path="/gis" render={props => <Wrapper footer={false}><GIS {...props}/></Wrapper>} />
                     <Route exact path="/news" render={props => <Wrapper><News {...props}/></Wrapper>} />
                     <Route exact path="/news/:id" render={props => <Wrapper><NewsItemDetails {...props} /></Wrapper>} />
                     <Route exact path="/faqs" render={props => <Wrapper><FAQ {...props}/></Wrapper>} />
