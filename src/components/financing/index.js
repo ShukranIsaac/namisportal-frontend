@@ -16,88 +16,88 @@ import * as CMSAction from '../../actions/cms.action';
  */
 class Financing extends Component {
 
-  componentDidMount() {
+    componentDidMount() {
 
-    // check if we already data for this category in state
-    if(this.props.maincategory !== null) {
+        // check if we already data for this category in state
+        if (this.props.maincategory !== null) {
+
+        }
+
+        // fetch category
+        this.props.category('Financing');
 
     }
 
-    // fetch category
-    this.props.category('Financing');
+    render() {
 
-  }
+        const { maincategory, general } = this.props;
 
-  render(){
+        const header = {
+            textAlign: 'center',
+        }
 
-    const { maincategory, general } = this.props;
+        return (
+            <div className="page-content">
 
-    const header = {
-      textAlign: 'center',
+                <ParticlesComponent />
+
+                <Container>
+                    <Row>
+                        {
+                            general && (
+                                !general.isLoading ? (
+                                    (maincategory !== undefined && maincategory !== null) && (
+                                        maincategory.subCategories[0] !== undefined && (
+                                            <Card>
+                                                <CardBody>
+                                                    <p style={header}><strong>{maincategory.subCategories[0].name}</strong></p>
+                                                    <div dangerouslySetInnerHTML={{ __html: maincategory.subCategories[0].about }} />
+                                                </CardBody>
+                                            </Card>
+                                        )
+                                    )
+                                ) : <p className="loader" />
+                            )
+                        }
+                    </Row>
+                </Container>
+            </div>
+        );
+
     }
-
-    return (
-      <div className = "page-content">
-
-        <ParticlesComponent />
-        
-        <Container>
-          <Row>
-            {
-              general && (
-                !general.isLoading ? (
-                  (maincategory !== undefined && maincategory !== null) && (
-                    maincategory.subCategories[0] !== undefined && (
-                      <Card>
-                        <CardBody>
-                          <p style={header}><strong>{ maincategory.subCategories[0].name }</strong></p>
-                          <div dangerouslySetInnerHTML={{ __html: maincategory.subCategories[0].about }} />
-                        </CardBody>
-                      </Card>
-                    )
-                  )
-                ) : <p className="loader" />
-              )
-            }
-          </Row>
-        </Container>
-      </div> 
-    );
-    
-  }
 
 }
 
 const styles = {
-  header: {
-    textAlign: 'center',
-  },
-  financing: {
-    marginBottom: 8,
-    borderRadius: 0
-  }
+    header: {
+        textAlign: 'center',
+    },
+    financing: {
+        marginBottom: 8,
+        borderRadius: 0
+    }
 }
 
 const mapStateToProps = (state) => {
-    
-  return {
-    general: state.general.general,
-    maincategory: state.cms.maincategory,
-  };
+
+    return {
+        general: state.general.general,
+        maincategory: state.cms.maincategory,
+    };
 
 }
 
 const mapDispatchToProps = (dispatch) => {
 
-  return {
-      // Financing
-      category: (name) => { dispatch(CMSAction.fetchCategory(name)) },
-  };
+    return {
+        // Financing
+        category: (name) => { dispatch(CMSAction.fetchCategory(name)) },
+    };
 
 }
 
 Financing.propTypes = {
-  classes: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Financing));

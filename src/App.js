@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from "prop-types";
+import React from 'react';
 import { withRouter } from "react-router";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Home from './components/home';
 import Contact from './components/contact';
@@ -25,61 +24,54 @@ import AppHeader from './components/header/index';
 import CMSIndex from './components/cms';
 import ItemProfile from './components/directory/item-profile';
 
-class App extends Component {
+const defaultHeight = 0;
 
-    constructor() {
-        super()
+const wrapper = {
+    minHeight: '100vh',
+    position: 'relative'
+}
 
-        this.state = {
-            height: 0
-        }
+const content = {
+    paddingBottom: defaultHeight,
+}
 
-    }
+const Wrapper = (props) => {
 
-    static propTypes = {
-        match: PropTypes.object.isRequired,
-        location: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired
-    };
+    return (
+        <div style={content}>
+            <AppHeader />
+            {props.children}
+            <Footer />
+        </div>
+    )
 
-    render() {
+}
 
-        const wrapper = {
-            minHeight: '100vh',
-            position: 'relative'
-        }
+const App = () => {
 
-        const content = {
-            paddingBottom: this.state.height,
-        }
+    return (
+        <div style={wrapper}>
+            <Router>
+                <Switch>
+                    <Route exact path="/" render={props => <Wrapper><Home {...props} /></Wrapper>} />
+                    <UserPrivateRoute path="/cms" component={CMSIndex} />
+                    <Route exact path="/licensing" render={props => <Wrapper><Licensing {...props} /></Wrapper>} />
+                    <Route exact path="/financing" render={props => <Wrapper><Financing {...props} /></Wrapper>} />
+                    <Route exact path="/library" render={props => <Wrapper><Library {...props}/></Wrapper>} />
+                    <Route exact path="/directory" render={props => <Wrapper><Directory {...props}/></Wrapper>} />
+                    <Route exact path="/directory/:id" render={props => <Wrapper><ItemProfile {...props} /></Wrapper>} />
+                    <Route exact path="/gis" render={props => (<><AppHeader /> <GIS {...props}/></>)} />
+                    <Route exact path="/news" render={props => <Wrapper><News {...props}/></Wrapper>} />
+                    <Route exact path="/news/:id" render={props => <Wrapper><NewsItemDetails {...props} /></Wrapper>} />
+                    <Route exact path="/faqs" render={props => <Wrapper><FAQ {...props}/></Wrapper>} />
+                    <Route exact path="/contact" render={props => <Wrapper><Contact {...props}/></Wrapper>} />
+                    <Route exact path="/login" render={() => <UserLogin />} />
+                    <Route exact path="/register" render={() => <UserRegistration />} />
+                </Switch>
+            </Router>
+        </div>
+    );
 
-        return (
-            <div style={wrapper}>
-
-                <Router>
-                    <>
-                        <Route exact path="/" render={() => (<div style={content}><AppHeader /> <Home /> <Footer /></div>)} />
-                        <UserPrivateRoute path="/cms" component={CMSIndex} />
-                        <Route exact path="/licensing" render={() => (<div style={content}><AppHeader /> <Licensing /> <Footer /></div>)} />
-                        <Route exact path="/financing" render={() => (<div style={content}><AppHeader /> <Financing /> <Footer /></div>)} />
-                        <Route exact path="/library" render={() => (<div style={content}><AppHeader /> <Library /> <Footer /></div>)} />
-                        <Route exact path="/directory" render={() => (<div style={content}><AppHeader /> <Directory {...this.props} {...this.state} /> <Footer /></div>)} />
-                        <Route exact path="/directory/:id" render={(props) => (<div style={content}><AppHeader /> <ItemProfile {...props} /> <Footer /></div>)} />
-                        <Route exact path="/gis" render={() => (<><AppHeader /> <GIS /></>)} />
-                        <Route exact path="/news" render={() => (<div style={content}><AppHeader /> <News /> <Footer /></div>)} />
-                        <Route exact path="/news/:id" render={(props) => (<div style={content}><AppHeader /> <NewsItemDetails {...props} /> <Footer /></div>)} />
-                        <Route exact path="/faqs" render={() => (<div style={content}><AppHeader /> <FAQ /> <Footer /></div>)} />
-                        <Route exact path="/contact" render={() => (<div style={content}><AppHeader /> <Contact /> <Footer /></div>)} />
-                        <Route exact path="/login" render={() => <UserLogin />} />
-                        <Route exact path="/register" render={() => <UserRegistration />} />
-                    </>
-
-                </Router>
-
-            </div>
-        );
-
-    }
 }
 
 export default withRouter(App);
