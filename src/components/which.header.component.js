@@ -12,7 +12,7 @@ import { UserContext } from './user/user.context';
  */
 export const WhichHeaderComponent = (propName) => (WrappedComponent) => {
   
-    return class LoaderHOC extends Component {
+    return class HeaderComponent extends Component {
 
         // constructor
         constructor() {
