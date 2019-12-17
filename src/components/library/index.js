@@ -20,6 +20,9 @@ import Document from './Document';
 
 import * as LibraryAction from '../../actions/index';
 import Config from '../../config';
+import CustomColumn from '../news/custom.column';
+import { Card, Intent } from '@blueprintjs/core';
+import { NoDataCard } from '../card.text';
 
 const styles = theme => ({
     root: {
@@ -69,7 +72,7 @@ class Library extends Component {
     }
 
     handleChange = (event, value) => {
-        
+
         this.setState({ value });
         // const { library } = this.props;
         // this.props.fetchLibrary(library._id, value, 'children');
@@ -111,13 +114,13 @@ class Library extends Component {
 
         if (docs !== null) {
             return docs && docs.map(({ name, path, filename }, key) => {
-                
-                return <Document 
-                    key={key} 
-                    index={ key + 1 }
-                    name={name} 
-                    path={`${ Config.REMOTE_PROD_SERVER }/files/${ path }`} 
-                    summary={filename} 
+
+                return <Document
+                    key={key}
+                    index={key + 1}
+                    name={name}
+                    path={`${Config.REMOTE_PROD_SERVER}/files/${path}`}
+                    summary={filename}
                 />
 
             });
@@ -157,9 +160,6 @@ class Library extends Component {
         const { classes, library } = this.props;
         const { value } = this.state;
 
-        // console.log(library_documents);
-        // console.log(library);
-
         return (
             <div className='page-content'>
 
@@ -167,46 +167,58 @@ class Library extends Component {
 
                 <Container>
                     <Row>
-                        <div className="card">
-                            <div className="card-body">
-                                <div className={classes.root}>
-                                    <AppBar position="static" color="default">
-                                        <Tabs
-                                            value={value}
-                                            onChange={this.handleChange}
-                                            indicatorColor="primary"
-                                            textColor="primary"
-                                            variant="scrollable"
-                                            scrollable={true}
-                                            scrollButtons="auto"
-                                        >
-                                            {
-                                                library && (
-                                                    library.subCategories && (
-                                                        library.subCategories.map(category => {
+                        {
+                            library ?
+                                <div className="card">
+                                    <div className="card-body">
+                                        <div className={classes.root}>
+                                            <AppBar position="static" color="default">
+                                                <Tabs
+                                                    value={value}
+                                                    onChange={this.handleChange}
+                                                    indicatorColor="primary"
+                                                    textColor="primary"
+                                                    variant="scrollable"
+                                                    scrollable={true}
+                                                    scrollButtons="auto"
+                                                >
+                                                    {
+                                                        library && (
+                                                            library.subCategories && (
+                                                                library.subCategories.map(category => {
 
-                                                            return (
-                                                                <Tab
-                                                                    key={category.name}
-                                                                    label={category.name}
-                                                                    id={category._id}
-                                                                    value={category.name}
-                                                                />
+                                                                    return (
+                                                                        <Tab
+                                                                            key={category.name}
+                                                                            label={category.name}
+                                                                            id={category._id}
+                                                                            value={category.name}
+                                                                        />
+                                                                    )
+                                                                })
                                                             )
-                                                        })
-                                                    )
-                                                )
-                                            }
-                                        </Tabs>
-                                    </AppBar>
+                                                        )
+                                                    }
+                                                </Tabs>
+                                            </AppBar>
+                                        </div>
+                                    </div>
+                                </div> : (
+                                    <CustomColumn sm='12' md='12' lg='12'>
+                                        <Card>
+                                            <NoDataCard
+                                                text={`No information availble to show. Please check your device internet connection and refresh.`}
+                                                header={`Information!`}
+                                                intent={Intent.WARNING}
+                                            />
+                                        </Card>
+                                    </CustomColumn>
+                                )
+                        }
 
-                                    {
-                                        this.renderCategoryDocs()
-                                    }
-                                </div>
-                            </div>
-                        </div>
-
+                        {
+                            this.renderCategoryDocs()
+                        }
                     </Row>
                 </Container>
             </div>

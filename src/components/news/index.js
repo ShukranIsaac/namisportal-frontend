@@ -21,115 +21,121 @@ import * as moment from 'moment';
  */
 class News extends Component {
 
-  constructor(){
-    super()
+    constructor() {
+        super()
 
-    this.state = {
-      isMainOpen: false
+        this.state = {
+            isMainOpen: false
+        }
+
+        this.toggleMainItem = this.toggleMainItem.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+
     }
 
-    this.toggleMainItem = this.toggleMainItem.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    componentDidMount() {
+        // fetch all news items when this component mounts
+        this.props.fetchNewsArticles();
+    }
 
-  }
+    toggleMainItem = () => {
 
-  componentDidMount() {
-    // fetch all news items when this component mounts
-    this.props.fetchNewsArticles();
-  }
+        this.setState({ isOpen: !this.state.isMainOpen });
 
-  toggleMainItem = () => {
+    }
 
-    this.setState({isOpen: !this.state.isMainOpen});
+    handleChange = (event) => {
 
-  }
+        this.setState({ [event.target.name]: event.target.value })
 
-  handleChange = (event) => {
+    }
 
-    this.setState({[event.target.name]: event.target.value})
+    when = (time) => {
+        const t = new Date(time);
+        return moment().subtract(t.getUTCHours() / 24, 'days').calendar();
 
-  }
+    }
 
-  when = (time) => {
-    const t = new Date(time);
-    return moment().subtract(t.getUTCHours() / 24, 'days').calendar();
+    // split and splice the string passed
+    splitCount = (string) => {
 
-  }
+        return ((string.split(' ')).splice(0, 62)).join(' ');
 
-  // split and splice the string passed
-  splitCount = (string) => {
+    }
 
-    return ((string.split(' ')).splice(0, 62)).join(' ');
+    render() {
 
-  }
+        const { general, articles } = this.props;
 
-  render(){
+        return (
+            <Fragment>
+                <Row style={{ margin: '0px', marginTop: '30px', marginLeft: '60px' }}>
 
-    const { general, articles } =  this.props;
+                    <CustomColumn sm='12' md='4' lg='2' {...this.state}>
 
-    return (
-      <Fragment>
-        <Row style={{ margin: '0px', marginTop: '30px', marginLeft: '60px' }}>
+                        <Flex
+                            wrap column
+                            align='top' justify='left'
+                            m={1} w={1} p={1}
+                            style={{ borderLeft: 'solid #fff000' }}
+                        >
 
-          <CustomColumn sm='12' md='4' lg='2' {...this.state}>
+                            {/* <NavLink to="/news"><FormLegendField value="Latest news"/></NavLink> */}
 
-            <Flex wrap column align='top' justify='left' m={1} w={1} p={1} style={{ borderLeft: 'solid #fff000'}}>
+                            <NavLink to="/faqs"><FormLegendField value="Ask questions" /></NavLink>
 
-              {/* <NavLink to="/news"><FormLegendField value="Latest news"/></NavLink> */}
+                            <NavLink to="/contact"><FormLegendField value="Contact us" /></NavLink>
 
-              <NavLink to="/faqs"><FormLegendField value="Ask questions"/></NavLink>
+                        </Flex>
 
-              <NavLink to="/contact"><FormLegendField value="Contact us"/></NavLink>
+                    </CustomColumn>
 
-            </Flex>
+                    <CustomColumn sm='12' md='8' lg='9' onClick={this.toggleMainItem} {...this.state}>
 
-          </CustomColumn>
+                        {
+                            general && !general.isLoading ?
 
-          <CustomColumn sm='12' md='8' lg='9' onClick={this.toggleMainItem} {...this.state}>
+                                articles.length !== 0 ?
 
-            {
-              general !== null ? 
+                                    articles.map(article => {
 
-                !general.isLoading ? 
+                                        return <NewsListItem key={article.title} when={this.when} splitCount={this.splitCount} article={article} {...this.props} />
 
-                  articles.length !== 0 ? 
-                  
-                    articles.map(article => {
+                                    })
+                                    : <NoDataCard
+                                        text={`No articles available`}
+                                        header={`Information!`}
+                                        intent={Intent.WARNING}
+                                    />
 
-                      return <NewsListItem key={ article.title } when={ this.when } splitCount={ this.splitCount } article={ article } { ...this.props } />
+                                : <div className="loader" />
+                        }
 
-                    }) : <NoDataCard text="No articles available" intent={Intent.WARNING} />
-              
-                : <div className="loader" /> 
+                    </CustomColumn>
 
-              : <NoDataCard text="Ooops!! seems something is wrong." intent={Intent.WARNING} />
-            }
+                </Row>
+            </Fragment>
+        );
 
-          </CustomColumn>
-
-        </Row>
-      </Fragment>
-    );
-
-  }
+    }
 
 }
 
 const mapStateToProps = (state) => {
 
-  return {
-    errored: state.news.errored,
-    general: state.general.general,
-    articles: state.news.articles,
-  };
+    return {
+        errored: state.news.errored,
+        general: state.general.general,
+        articles: state.news.articles,
+    };
 
 }
 
 const mapDispatchToProps = (dispatch) => {
 
-  return {
-    fetchNewsArticles: () => dispatch(NewsAction.fetchAllArticles()),
-  };
+    return {
+        fetchNewsArticles: () => dispatch(NewsAction.fetchAllArticles()),
+    };
 
 }
 

@@ -10,6 +10,9 @@ import './directory.css';
 import * as Stakeholder from '../../actions/stakeholder.action';
 import { redirect } from '../user/user.redirect';
 import ParticlesComponent from '../user/particles';
+import { NoDataCard } from '../card.text';
+import { Intent } from '@blueprintjs/core';
+import CustomColumn from '../news/custom.column';
 
 class Directory extends Component {
 
@@ -37,20 +40,33 @@ class Directory extends Component {
                 <ParticlesComponent />
 
                 <Container>
-                    <Row>
-                        <Col lg='12'>
-                            <div style={{ margin: '2.5px 0' }}>
-                                <Card className={classes.headerCard}>
-                                    <CardBody className={classes.paddindUnset}>
-                                        <h5><strong>Directory</strong></h5>
-                                        <p>
-                                            Here is a list of some of the stakeholders we work together with
-                      </p>
-                                    </CardBody>
+                    {
+                        stakeholders_list ?
+                            <Row>
+                                <Col lg='12'>
+                                    <div style={{ margin: '2.5px 0' }}>
+                                        <Card className={classes.headerCard}>
+                                            <CardBody className={classes.paddindUnset}>
+                                                <NoDataCard
+                                                    text={`Here is a list of some of the stakeholders we work together with.`}
+                                                    header={`Directory`}
+                                                    intent={Intent.PRIMARY}
+                                                />
+                                            </CardBody>
+                                        </Card>
+                                    </div>
+                                </Col>
+                            </Row>
+                            : <CustomColumn sm='12' md='12' lg='12'>
+                                <Card>
+                                    <NoDataCard
+                                        text={`No information availble to show. Please check your device internet connection and refresh.`}
+                                        header={`Information!`}
+                                        intent={Intent.WARNING}
+                                    />
                                 </Card>
-                            </div>
-                        </Col>
-                    </Row>
+                            </CustomColumn>
+                    }
                     {
                         general && (
                             !general.isLoading ? (
@@ -76,27 +92,27 @@ class Directory extends Component {
                                                         <PaginationItem>
                                                             <PaginationLink href="#">
                                                                 1
-                            </PaginationLink>
+                                                            </PaginationLink>
                                                         </PaginationItem>
                                                         <PaginationItem>
                                                             <PaginationLink href="#">
                                                                 2
-                            </PaginationLink>
+                                                            </PaginationLink>
                                                         </PaginationItem>
                                                         <PaginationItem>
                                                             <PaginationLink href="#">
                                                                 3
-                            </PaginationLink>
+                                                            </PaginationLink>
                                                         </PaginationItem>
                                                         <PaginationItem>
                                                             <PaginationLink href="#">
                                                                 4
-                            </PaginationLink>
+                                                            </PaginationLink>
                                                         </PaginationItem>
                                                         <PaginationItem>
                                                             <PaginationLink href="#">
                                                                 5
-                            </PaginationLink>
+                                                            </PaginationLink>
                                                         </PaginationItem>
                                                         <PaginationItem>
                                                             <PaginationLink next href="#" />
@@ -132,7 +148,7 @@ const styles = theme => ({
     headerCard: {
         width: '80%',
         margin: '0 auto',
-        textAlign: 'center'
+        // textAlign: 'center'
     },
     details: {
         display: 'flex',

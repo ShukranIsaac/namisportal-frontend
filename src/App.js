@@ -35,13 +35,15 @@ const content = {
     paddingBottom: defaultHeight,
 }
 
-const Wrapper = (props) => {
+const Wrapper = ({ footer, children }) => {
 
     return (
         <div style={content}>
             <AppHeader />
-            {props.children}
-            <Footer />
+
+            {children}
+            
+            { !footer ? <Footer /> : null }
         </div>
     )
 
@@ -65,8 +67,8 @@ const App = () => {
                     <Route exact path="/news/:id" render={props => <Wrapper><NewsItemDetails {...props} /></Wrapper>} />
                     <Route exact path="/faqs" render={props => <Wrapper><FAQ {...props}/></Wrapper>} />
                     <Route exact path="/contact" render={props => <Wrapper><Contact {...props}/></Wrapper>} />
-                    <Route exact path="/login" render={() => <UserLogin />} />
-                    <Route exact path="/register" render={() => <UserRegistration />} />
+                    <Route exact path="/login" component={UserLogin} />
+                    <Route exact path="/register" component={UserRegistration} /> 
                 </Switch>
             </Router>
         </div>

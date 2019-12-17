@@ -16,67 +16,70 @@ import './licensing.css'
  */
 class Licensing extends Component {
 
-  constructor() {
-    super();
-    this.state = {}
+    constructor() {
+        super();
+        this.state = {}
 
-    this.handleChange = this.handleChange.bind(this);
-  }
+        this.handleChange = this.handleChange.bind(this);
+    }
 
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
+    handleChange = event => {
+        this.setState({ [event.target.name]: event.target.value });
+    };
 
-  componentDidMount() {
+    componentDidMount() {
 
-    this.props.fetchSubcategory('Licensing')
+        this.props.fetchSubcategory('Licensing')
 
-  }
+    }
 
-  render(){
+    render() {
 
-    return (
-      <div className = "page-content">
+        return (
+            <div className="page-content">
 
-        <ParticlesComponent />
-        
-        <Container>
-          <Row>
-            <LicensingProfile onChange={ this.handleChange } {...this.props} {...this.state}/>
-          </Row>
-        </Container>
-        
-      </div>
-    );
-    
-  }
+                <ParticlesComponent />
+
+                <Container>
+                    <Row>
+                        <LicensingProfile 
+                            onChange={this.handleChange} 
+                            {...this.props} {...this.state} 
+                        />
+                    </Row>
+                </Container>
+
+            </div>
+        );
+
+    }
 
 }
 
 const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    height: `100%`,
-    zIndex: 1,
-    overflow: 'hidden',
-    position: 'relative',
-    display: 'flex',
-  },
-  button: {
-    width: '100%',
-    textAlign: 'left',
-    borderRadius: '0',
-    background: '#BFCCD6',
-    fontSize: '1.2em'
-  },
+    root: {
+        flexGrow: 1,
+        height: `100%`,
+        zIndex: 1,
+        overflow: 'hidden',
+        position: 'relative',
+        display: 'flex',
+    },
+    button: {
+        width: '100%',
+        textAlign: 'left',
+        borderRadius: '0',
+        background: '#BFCCD6',
+        fontSize: '1.2em'
+    },
 });
 
 const mapStateToProps = (state) => {
 
-  return {
-    general: state.general.general,
-    maincategory: state.cms.maincategory,
-  };
+    return {
+        general: state.general.general,
+        maincategory: state.cms.maincategory,
+    };
 
 }
 

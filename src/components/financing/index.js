@@ -6,6 +6,9 @@ import { Container, Card, CardBody, Row } from 'reactstrap'
 import { withStyles } from '@material-ui/core';
 import ParticlesComponent from '../user/particles';
 import * as CMSAction from '../../actions/cms.action';
+import { NoDataCard } from '../card.text';
+import { Intent } from '@blueprintjs/core';
+import CustomColumn from '../news/custom.column';
 
 /**
  * Renders financing component
@@ -30,11 +33,7 @@ class Financing extends Component {
 
     render() {
 
-        const { maincategory, general } = this.props;
-
-        const header = {
-            textAlign: 'center',
-        }
+        const { maincategory, general, classes } = this.props;
 
         return (
             <div className="page-content">
@@ -46,16 +45,32 @@ class Financing extends Component {
                         {
                             general && (
                                 !general.isLoading ? (
-                                    (maincategory !== undefined && maincategory !== null) && (
+                                    (maincategory !== undefined && maincategory !== null) ? (
                                         maincategory.subCategories[0] !== undefined && (
                                             <Card>
                                                 <CardBody>
-                                                    <p style={header}><strong>{maincategory.subCategories[0].name}</strong></p>
-                                                    <div dangerouslySetInnerHTML={{ __html: maincategory.subCategories[0].about }} />
+                                                    <p className={classes.header}>
+                                                        <strong>{maincategory.subCategories[0].name}</strong>
+                                                    </p>
+                                                    <div
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: maincategory.subCategories[0].about
+                                                        }}
+                                                    />
                                                 </CardBody>
                                             </Card>
                                         )
-                                    )
+                                    ) : (
+                                            <CustomColumn sm='12' md='12' lg='12'>
+                                                <Card>
+                                                    <NoDataCard
+                                                        text={`No information availble to show. Please check your device internet connection and refresh.`}
+                                                        header={`Information!`}
+                                                        intent={Intent.WARNING}
+                                                    />
+                                                </Card>
+                                            </CustomColumn>
+                                        )
                                 ) : <p className="loader" />
                             )
                         }

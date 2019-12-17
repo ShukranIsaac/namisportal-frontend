@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Row } from 'reactstrap';
@@ -43,7 +43,14 @@ class FAQ extends Component {
 
                 <CustomColumn sm='12' md='4' lg='2'>
 
-                    <Flex wrap column align='top' justify='left' m={1} w={1} p={1} style={{ borderLeft: 'solid #fff000' }}>
+                    <Flex 
+                        wrap 
+                        column 
+                        align='top' 
+                        justify='left' 
+                        m={1} w={1} p={1} 
+                        style={{ borderLeft: 'solid #fff000' }}
+                    >
 
                         <NavLink to="/contact"><FormLegendField value="Contact us" /></NavLink>
 
@@ -53,17 +60,23 @@ class FAQ extends Component {
 
                 <CustomColumn sm='12' md='12' lg='10'>
 
-                    <NoDataCard text={text} header={`Frequently asked questions`} intent={Intent.PRIMARY} />
+                    {
+                        questions && (
+                            <Fragment>
+                                <NoDataCard text={text} header={`Frequently asked questions`} intent={Intent.PRIMARY} />
 
-                    <form autoComplete='off' style={{ marginTop: '20px' }}>
+                                <form autoComplete='off' style={{ marginTop: '20px' }}>
 
-                        <SearchInputControl
-                            handleChange={this.handleChange}
-                            placeholder="Search for previous asked questions..."
-                            name="Faqs"
-                        />
+                                    <SearchInputControl
+                                        handleChange={this.handleChange}
+                                        placeholder="Search for previous asked questions..."
+                                        name="Faqs"
+                                    />
 
-                    </form>
+                                </form>
+                            </Fragment>
+                        )
+                    }
 
                     {
 
@@ -110,7 +123,11 @@ class FAQ extends Component {
 
                                         : <NoDataCard header="There are no questions to show. Please contact us!!" intent={Intent.SUCCESS} />
 
-                                    : <NoDataCard header="There are no questions to show!!" intent={Intent.WARNING} />
+                                    : <NoDataCard
+                                        text={`There are no questions to show! Please check your device internet connection and refresh.`}
+                                        header={`Information!`}
+                                        intent={Intent.WARNING}
+                                    />
 
                                 : <div className="loader" />
 
