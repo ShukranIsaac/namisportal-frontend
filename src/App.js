@@ -42,14 +42,14 @@ const Wrapper = ({ footer, children }) => {
             <AppHeader />
 
             {children}
-            
-            { !footer ? <Footer /> : null }
+
+            {!footer ? <Footer /> : null}
         </div>
     )
 
 }
 
-const App = () => {
+export default withRouter(() => {
 
     return (
         <div style={wrapper}>
@@ -59,21 +59,19 @@ const App = () => {
                     <UserPrivateRoute path="/cms" component={CMSIndex} />
                     <Route exact path="/licensing" render={props => <Wrapper><Licensing {...props} /></Wrapper>} />
                     <Route exact path="/financing" render={props => <Wrapper><Financing {...props} /></Wrapper>} />
-                    <Route exact path="/library" render={props => <Wrapper><Library {...props}/></Wrapper>} />
-                    <Route exact path="/directory" render={props => <Wrapper><Directory {...props}/></Wrapper>} />
+                    <Route exact path="/library" render={props => <Wrapper><Library {...props} /></Wrapper>} />
+                    <Route exact path="/directory" render={props => <Wrapper><Directory {...props} /></Wrapper>} />
                     <Route exact path="/directory/:id" render={props => <Wrapper><ItemProfile {...props} /></Wrapper>} />
-                    <Route exact path="/gis" render={props => <Wrapper footer={false}><GIS {...props}/></Wrapper>} />
-                    <Route exact path="/news" render={props => <Wrapper><News {...props}/></Wrapper>} />
+                    <Route exact path="/gis" render={props => <Wrapper footer={false}><GIS {...props} /></Wrapper>} />
+                    <Route exact path="/news" render={props => <Wrapper><News {...props} /></Wrapper>} />
                     <Route exact path="/news/:id" render={props => <Wrapper><NewsItemDetails {...props} /></Wrapper>} />
-                    <Route exact path="/faqs" render={props => <Wrapper><FAQ {...props}/></Wrapper>} />
-                    <Route exact path="/contact" render={props => <Wrapper><Contact {...props}/></Wrapper>} />
+                    <Route exact path="/faqs" render={props => <Wrapper><FAQ {...props} /></Wrapper>} />
+                    <Route exact path="/contact" render={props => <Wrapper><Contact {...props} /></Wrapper>} />
                     <Route exact path="/login" component={UserLogin} />
-                    <Route exact path="/register" component={UserRegistration} /> 
+                    <Route exact path="/register" component={UserRegistration} />
                 </Switch>
             </Router>
         </div>
     );
 
-}
-
-export default withRouter(App);
+});
