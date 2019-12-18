@@ -29,7 +29,6 @@ export class Breadcrumb extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log(this.props)
 		let { data, hidden } = this.props
 
 		if ( !hidden ) this.props.add(this.state.id, data);

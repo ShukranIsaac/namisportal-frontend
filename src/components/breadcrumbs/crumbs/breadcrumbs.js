@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 // TODO: Use imitation and allow it to be passed as a prop
 import { NavLink } from 'react-router-dom'
 
-import '../../../style.css';
-
 // Specify BEM block name
 const block = 'breadcrumbs'
 
@@ -38,67 +36,62 @@ export class Breadcrumbs extends React.Component {
         separator: '>',
         setCrumbs: undefined,
         wrapper: props => (
-            <nav { ...props }>
-                { props.children }
+            <nav {...props}>
+                {props.children}
             </nav>
         )
     }
 
-    _unsubscribe = () => null;
-
     render() {
-        let { className, hidden, wrapper: Wrapper, setCrumbs, breadcrumbs } = this.props,
-            hiddenMod = hidden ? `${block}--hidden` : '';
+        let { className, hidden, wrapper: Wrapper, setCrumbs, breadcrumbs } = this.props;
+
+        let hiddenMod = hidden ? `${block}--hidden` : '';
 
         let crumbs = breadcrumbs.sort((a, b) => {
-          return a.pathname.length - b.pathname.length
+            return a.pathname.length - b.pathname.length
         })
+        console.log(crumbs)
 
-        if (setCrumbs) crumbs = setCrumbs(crumbs)
+        if (setCrumbs) {
+            crumbs = setCrumbs(crumbs)
+        }
 
         return (
-            <div className={ className }>
-                <Wrapper className={ `${block} ${hiddenMod}` }>
-                    <div className={ `${block}__inner` }>
+            <div className={className}>
+                <Wrapper className={`${block} ${hiddenMod}`}>
+                    <div className={`${block}__inner`}>
                         {
                             crumbs.map((crumb, i) => (
-                                <span key={ crumb.id } className={ `${block}__section` }>
+                                <span key={crumb.id} className={`${block}__section`}>
                                     <NavLink
                                         exact
-                                        className={ `${block}__crumb` }
-                                        activeClassName={ `${block}__crumb--active` }
+                                        className={`${block}__crumb`}
+                                        activeClassName={`${block}__crumb--active`}
                                         to={{
                                             pathname: crumb.pathname,
                                             search: crumb.search,
                                             state: crumb.state
                                         }}>
-                                        { crumb.title }
+                                        {crumb.title}
                                     </NavLink>
 
-                                    { i < crumbs.length - 1 ? (
-                                        <span className={ `${block}__separator` }>
-                                            { this.props.separator }
-                                        </span>
-                                    ) : null }
+                                    {
+                                        i < crumbs.length - 1 ? (
+                                            <span className={`${block}__separator`}>
+                                                {this.props.separator}
+                                            </span>
+                                        ) : null
+                                    }
                                 </span>
                             ))
                         }
                     </div>
                 </Wrapper>
 
-                { this.props.children }
+                {this.props.children}
+
             </div>
         )
-    }
-
-    componentDidMount() {
-        // this._unsubscribe = this.state.subscribe(() => {
-        //     this.forceUpdate()
-        // })
-    }
-
-    componentWillUnmount() {
-        this._unsubscribe();
     }
 }
 
