@@ -1,14 +1,13 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import { Flex } from 'reflexbox';
-import { Row } from 'reactstrap';
+import { Container, Row, Card } from 'reactstrap';
+
+import ParticlesComponent from '../user/particles';
 
 import * as NewsAction from '../../actions/news.action';
 
 import CustomColumn from './custom.column';
 import NewsListItem from './news.list.item';
-import FormLegendField from '../forms/form.legend.field';
 import { NoDataCard } from '../card.text';
 import { Intent } from '@blueprintjs/core';
 import * as moment from 'moment';
@@ -68,53 +67,47 @@ class News extends Component {
         const { general, articles } = this.props;
 
         return (
-            <Fragment>
-                <Row style={{ margin: '0px', marginTop: '30px', marginLeft: '60px' }}>
+            <div className="page-content">
 
-                    <CustomColumn sm='12' md='4' lg='2' {...this.state}>
+                <ParticlesComponent />
 
-                        <Flex
-                            wrap column
-                            align='top' justify='left'
-                            m={1} w={1} p={1}
-                            style={{ borderLeft: 'solid #fff000' }}
-                        >
+                <Container>
+                    <Row style={{ margin: '0px', marginTop: '30px', marginLeft: '60px' }}>
+                        <Card>
 
-                            {/* <NavLink to="/news"><FormLegendField value="Latest news"/></NavLink> */}
+                            <NoDataCard
+                                text={`The list below shows all news articles available.`}
+                                header={`News!`}
+                                intent={Intent.PRIMARY}
+                                style={{ marginBottom: '2em', width: '100%' }}
+                            />
 
-                            <NavLink to="/faqs"><FormLegendField value="Ask questions" /></NavLink>
+                            <CustomColumn sm='12' md='12' lg='12' onClick={this.toggleMainItem} {...this.state}>
 
-                            <NavLink to="/contact"><FormLegendField value="Contact us" /></NavLink>
+                                {
+                                    general && !general.isLoading ?
 
-                        </Flex>
+                                        articles.length !== 0 ?
 
-                    </CustomColumn>
+                                            articles.map(article => {
 
-                    <CustomColumn sm='12' md='8' lg='9' onClick={this.toggleMainItem} {...this.state}>
+                                                return <NewsListItem key={article.title} when={this.when} splitCount={this.splitCount} article={article} {...this.props} />
 
-                        {
-                            general && !general.isLoading ?
+                                            })
+                                            : <NoDataCard
+                                                text={`No articles available`}
+                                                header={`Information!`}
+                                                intent={Intent.WARNING}
+                                            />
 
-                                articles.length !== 0 ?
+                                        : <div className="loader" />
+                                }
 
-                                    articles.map(article => {
-
-                                        return <NewsListItem key={article.title} when={this.when} splitCount={this.splitCount} article={article} {...this.props} />
-
-                                    })
-                                    : <NoDataCard
-                                        text={`No articles available`}
-                                        header={`Information!`}
-                                        intent={Intent.WARNING}
-                                    />
-
-                                : <div className="loader" />
-                        }
-
-                    </CustomColumn>
-
-                </Row>
-            </Fragment>
+                            </CustomColumn>
+                        </Card>
+                    </Row>
+                </Container>
+            </div>
         );
 
     }

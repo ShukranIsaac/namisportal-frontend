@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -238,10 +238,7 @@ class UserLogin extends Component {
                                     </CardBody>
                                 </Card>
                             </div>
-
-
                         </div>
-
                     </Container>
                 </div>
 
@@ -273,4 +270,4 @@ const mapDispatchToProps = dispatch => {
 
 }
 
-export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(withRouter(UserLogin))));
+export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(UserLogin)));

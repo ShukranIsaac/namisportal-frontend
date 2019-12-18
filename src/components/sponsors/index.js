@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 
 export default class Sponsors extends Component{
+
     render(){
+        
         const container = {
             margin: '0 auto',
             width: '80%',
@@ -18,10 +20,6 @@ export default class Sponsors extends Component{
         const imageElement = {
             height: '150px'
         }
-
-        // const heading = {
-        //     textAlign: 'center'
-        // }
 
         return(
             <div>

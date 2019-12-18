@@ -34,7 +34,7 @@ export class Breadcrumb extends React.Component {
 		if ( !hidden ) this.props.add(this.state.id, data);
 	}
 
-	UNSAFE_componentWillReceiveProps(nextProps) {
+	componentWillReceiveProps(nextProps) {
 		let { data, hidden } = nextProps;
 
 		// Update the crumb if its data has changed

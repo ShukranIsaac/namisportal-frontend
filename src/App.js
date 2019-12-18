@@ -74,7 +74,7 @@ export default withRouter(() => {
                     <BreadRoute title="Library" exact path="/library" render={props => <Wrapper><Library {...props} /></Wrapper>} />
                     <BreadRoute title="Directory" exact path="/directory" render={props => <Wrapper><Directory {...props} /></Wrapper>} />
                     <BreadRoute title="Stakeholder" exact path="/directory/:id" render={props => <Wrapper><ItemProfile {...props} /></Wrapper>} />
-                    <Route exact path="/gis" render={props => <Wrapper render={`GIS`}><GIS {...props} /></Wrapper>} />
+                    <Route exact path="/gis" render={props => <Wrapper component={`GIS`}><GIS {...props} /></Wrapper>} />
                     <BreadRoute title="News" exact path="/news" render={props => <Wrapper><News {...props} /></Wrapper>} />
                     <BreadRoute title="Article" exact path="/news/:id" render={props => <Wrapper><NewsItemDetails {...props} /></Wrapper>} />
                     <BreadRoute title="Faqs" exact path="/faqs" render={props => <Wrapper><FAQ {...props} /></Wrapper>} />

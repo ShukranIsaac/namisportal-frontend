@@ -50,7 +50,6 @@ export class Breadcrumbs extends React.Component {
         let crumbs = breadcrumbs.sort((a, b) => {
             return a.pathname.length - b.pathname.length
         })
-        console.log(crumbs)
 
         if (setCrumbs) {
             crumbs = setCrumbs(crumbs)
