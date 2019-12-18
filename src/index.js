@@ -14,6 +14,7 @@ import store from './store';
 import * as serviceWorker from './serviceWorker';
 import UserProvider from './components/user/user.context';
 import enviromentalVariable from 'dotenv';
+import BreadRoute from './components/breadcrumbs/breadcrumb.route';
 
 //env fn
 enviromentalVariable.config();
@@ -30,16 +31,28 @@ toast.configure({
     pauseOnHover: true
 });
 
-ReactDOM.render(
-    <Provider store={store}>
-        <UserProvider>
-            <BrowserRouter>
-                <App />
-            </BrowserRouter>
-        </UserProvider>
-    </Provider>,
-    document.getElementById('root')
-);
+// Define root element and render method
+let RootElement = document.getElementById('root');
+
+let Render = Root => {
+    ReactDOM.render((
+        <Provider store={store}>
+            <UserProvider>
+                <BrowserRouter>
+                    <BreadRoute title="Home" path="/" component={Root} />
+                </BrowserRouter>
+            </UserProvider>
+        </Provider>
+    ), RootElement);
+}
+
+// Initial render
+Render(App);
+
+// Subsequent renders
+if (module.hot) {
+    module.hot.accept('./App', () => Render(App))
+}
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

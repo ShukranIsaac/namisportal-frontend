@@ -20,6 +20,7 @@ import power_plants from './power_plant.reducer';
 import generalReducer from './general.reducer';
 import news from './news.reducer';
 import power_sub_stations from './power_sub_stations.reducer';
+import breadCrumbsReducer from './breadcrumbs.reducer';
 
 export default combineReducers({
     form: formReducer,
@@ -42,4 +43,5 @@ export default combineReducers({
     power_plants: power_plants,
     news: news,
     power_sub_stations: power_sub_stations,
+    breadcrumbs: breadCrumbsReducer
 });

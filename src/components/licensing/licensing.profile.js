@@ -75,13 +75,19 @@ class Licensing extends Component {
                             </CardBody>
                         </Card>
                         : <CustomColumn sm='12' md='12' lg='12'>
-                            <Card>
-                                <NoDataCard
-                                    text={`No information availble to show. Please check your device internet connection and refresh.`}
-                                    header={`Information!`}
-                                    intent={Intent.WARNING}
-                                />
-                            </Card>
+                            {
+                                general && (
+                                    !general.isLoading ? (
+                                        <Card>
+                                            <NoDataCard
+                                                text={`No information availble to show. Please check your device internet connection and refresh.`}
+                                                header={`Information!`}
+                                                intent={Intent.WARNING}
+                                            />
+                                        </Card>
+                                    ) : <div style={{ marginTop: `50px` }} className="loader" />
+                                )
+                            }
                         </CustomColumn>
                 }
             </Fragment>

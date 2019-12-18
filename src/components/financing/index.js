@@ -45,7 +45,7 @@ class Financing extends Component {
                         {
                             general && (
                                 !general.isLoading ? (
-                                    (maincategory !== undefined && maincategory !== null) ? (
+                                    (maincategory && maincategory.subCategories) ? (
                                         maincategory.subCategories[0] !== undefined && (
                                             <Card>
                                                 <CardBody>
@@ -85,7 +85,7 @@ class Financing extends Component {
 
 const styles = {
     header: {
-        textAlign: 'center',
+        textAlign: 'left',
     },
     financing: {
         marginBottom: 8,

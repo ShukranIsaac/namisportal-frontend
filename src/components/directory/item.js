@@ -61,7 +61,7 @@ const styles = theme => ({
     card: {
         margin: '0 auto',
         maxWidth: '80%',
-        cursor: 'pointer'
+        // cursor: 'pointer'
     },
     paddindUnset: {
         padding: 'unset'

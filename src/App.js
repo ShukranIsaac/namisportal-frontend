@@ -16,6 +16,10 @@ import UserRegistration from './components/user/user.register';
 
 import UserPrivateRoute from './components/user/private.route';
 
+// Load Styling
+import './style.css';
+// import './app.css';
+
 import "./App.css";
 import Footer from './components/footer';
 import NewsItemDetails from './components/news/news.item.details';
@@ -23,6 +27,8 @@ import NewsItemDetails from './components/news/news.item.details';
 import AppHeader from './components/header/index';
 import CMSIndex from './components/cms';
 import ItemProfile from './components/directory/item-profile';
+import Breadcrumbs from './components/breadcrumbs/crumbs/breadcrumbs';
+import BreadRoute from './components/breadcrumbs/breadcrumb.route';
 
 const defaultHeight = 0;
 
@@ -35,15 +41,21 @@ const content = {
     paddingBottom: defaultHeight,
 }
 
-const Wrapper = ({ footer, children }) => {
+const PageNotFound = () => {
+    return <span style={{ alignItems: 'center' }}>Page not found...</span>;
+}
+
+export const Wrapper = ({ component, children }) => {
 
     return (
         <div style={content}>
             <AppHeader />
 
+            { component !== "GIS" ? <Breadcrumbs className="demo__crumbs" /> : null}
+
             {children}
 
-            {!footer ? <Footer /> : null}
+            {component !== "GIS" ? <Footer /> : null}
         </div>
     )
 
@@ -55,20 +67,21 @@ export default withRouter(() => {
         <div style={wrapper}>
             <Router>
                 <Switch>
-                    <Route exact path="/" render={props => <Wrapper><Home {...props} /></Wrapper>} />
+                    <BreadRoute title="Home" exact path="/" component={props => <Wrapper><Home {...props} /></Wrapper>} />
                     <UserPrivateRoute path="/cms" component={CMSIndex} />
-                    <Route exact path="/licensing" render={props => <Wrapper><Licensing {...props} /></Wrapper>} />
-                    <Route exact path="/financing" render={props => <Wrapper><Financing {...props} /></Wrapper>} />
-                    <Route exact path="/library" render={props => <Wrapper><Library {...props} /></Wrapper>} />
-                    <Route exact path="/directory" render={props => <Wrapper><Directory {...props} /></Wrapper>} />
-                    <Route exact path="/directory/:id" render={props => <Wrapper><ItemProfile {...props} /></Wrapper>} />
-                    <Route exact path="/gis" render={props => <Wrapper footer={false}><GIS {...props} /></Wrapper>} />
-                    <Route exact path="/news" render={props => <Wrapper><News {...props} /></Wrapper>} />
-                    <Route exact path="/news/:id" render={props => <Wrapper><NewsItemDetails {...props} /></Wrapper>} />
-                    <Route exact path="/faqs" render={props => <Wrapper><FAQ {...props} /></Wrapper>} />
-                    <Route exact path="/contact" render={props => <Wrapper><Contact {...props} /></Wrapper>} />
+                    <BreadRoute title="Licensing" exact path="/licensing" component={props => <Wrapper><Licensing {...props} /></Wrapper>} />
+                    <BreadRoute title="Financing" exact path="/financing" component={props => <Wrapper><Financing {...props} /></Wrapper>} />
+                    <BreadRoute title="Library" exact path="/library" component={props => <Wrapper><Library {...props} /></Wrapper>} />
+                    <BreadRoute title="Directory" exact path="/directory" component={props => <Wrapper><Directory {...props} /></Wrapper>} />
+                    <BreadRoute title="Stakeholder" exact path="/directory/:id" component={props => <Wrapper><ItemProfile {...props} /></Wrapper>} />
+                    <Route exact path="/gis" render={props => <Wrapper component={`GIS`}><GIS {...props} /></Wrapper>} />
+                    <BreadRoute title="News" exact path="/news" component={props => <Wrapper><News {...props} /></Wrapper>} />
+                    <BreadRoute title="Article" exact path="/news/:id" component={props => <Wrapper><NewsItemDetails {...props} /></Wrapper>} />
+                    <BreadRoute title="Faqs" exact path="/faqs" component={props => <Wrapper><FAQ {...props} /></Wrapper>} />
+                    <BreadRoute title="Contact" exact path="/contact" component={props => <Wrapper><Contact {...props} /></Wrapper>} />
                     <Route exact path="/login" component={UserLogin} />
                     <Route exact path="/register" component={UserRegistration} />
+                    <BreadRoute title="404 Not Found" component={ PageNotFound } />
                 </Switch>
             </Router>
         </div>

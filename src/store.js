@@ -7,4 +7,7 @@ const initialState = {};
 
 const middleware = process.env.NODE_ENV === 'production' ? [ thunk ] : [thunk, logger];
 
-export default createStore(rootReducer, initialState, applyMiddleware(...middleware));
+const store = createStore(rootReducer, initialState, applyMiddleware(...middleware));
+
+export default store;
+export let Dispatch = store.dispatch;

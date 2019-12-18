@@ -14,6 +14,41 @@ import { NoDataCard } from '../card.text';
 import { Intent } from '@blueprintjs/core';
 import CustomColumn from '../news/custom.column';
 
+const Nav = ({ 
+    stakeholders_list, classes 
+}) => {
+
+    return <Fragment>
+        {
+            stakeholders_list.length > 10 ?
+                (<Row>
+                    <Pagination aria-label="Page navigation example" className={classes.paginationStuff}>
+                        <PaginationItem>
+                            <PaginationLink className={classes.previous} previous href="#" />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink href="#">1</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink href="#">2</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink href="#">3</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink href="#">4</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink href="#">5</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink next href="#" />
+                        </PaginationItem>
+                    </Pagination>
+                </Row>) : <Row />
+        }
+    </Fragment>
+}
 class Directory extends Component {
 
     componentDidMount() {
@@ -25,7 +60,6 @@ class Directory extends Component {
 
     handleClick = (e) => {
         // e.preventDefault();
-        // console.log(e.target.value);
         return redirect.to({ url: `/directory/` + this.props.stakeholders_list[1].name, from: this.props });
 
     }
@@ -48,7 +82,7 @@ class Directory extends Component {
                                         <Card className={classes.headerCard}>
                                             <CardBody className={classes.paddindUnset}>
                                                 <NoDataCard
-                                                    text={`Here is a list of some of the stakeholders we work together with.`}
+                                                    text={`Here is a list of some of the stakeholders we work with.`}
                                                     header={`Directory`}
                                                     intent={Intent.PRIMARY}
                                                 />
@@ -58,13 +92,19 @@ class Directory extends Component {
                                 </Col>
                             </Row>
                             : <CustomColumn sm='12' md='12' lg='12'>
-                                <Card>
-                                    <NoDataCard
-                                        text={`No information availble to show. Please check your device internet connection and refresh.`}
-                                        header={`Information!`}
-                                        intent={Intent.WARNING}
-                                    />
-                                </Card>
+                                {
+                                    general && (
+                                        !general.isLoading && (
+                                            <Card>
+                                                <NoDataCard
+                                                    text={`No information availble to show. Please check your device internet connection and refresh.`}
+                                                    header={`Information!`}
+                                                    intent={Intent.WARNING}
+                                                />
+                                            </Card>
+                                        )
+                                    )
+                                }
                             </CustomColumn>
                     }
                     {
@@ -82,44 +122,7 @@ class Directory extends Component {
                                             })
                                         }
 
-                                        {
-                                            stakeholders_list.length > 5 ?
-                                                (<Row>
-                                                    <Pagination aria-label="Page navigation example" className={classes.paginationStuff}>
-                                                        <PaginationItem>
-                                                            <PaginationLink className={classes.previous} previous href="#" />
-                                                        </PaginationItem>
-                                                        <PaginationItem>
-                                                            <PaginationLink href="#">
-                                                                1
-                                                            </PaginationLink>
-                                                        </PaginationItem>
-                                                        <PaginationItem>
-                                                            <PaginationLink href="#">
-                                                                2
-                                                            </PaginationLink>
-                                                        </PaginationItem>
-                                                        <PaginationItem>
-                                                            <PaginationLink href="#">
-                                                                3
-                                                            </PaginationLink>
-                                                        </PaginationItem>
-                                                        <PaginationItem>
-                                                            <PaginationLink href="#">
-                                                                4
-                                                            </PaginationLink>
-                                                        </PaginationItem>
-                                                        <PaginationItem>
-                                                            <PaginationLink href="#">
-                                                                5
-                                                            </PaginationLink>
-                                                        </PaginationItem>
-                                                        <PaginationItem>
-                                                            <PaginationLink next href="#" />
-                                                        </PaginationItem>
-                                                    </Pagination>
-                                                </Row>) : <Row />
-                                        }
+                                        <Nav {...this.props} />
                                     </Fragment>
                                 )
                             ) : <div style={{ marginTop: `50px` }} className="loader" />

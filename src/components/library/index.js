@@ -157,7 +157,7 @@ class Library extends Component {
 
     render() {
 
-        const { classes, library } = this.props;
+        const { classes, library, general } = this.props;
         const { value } = this.state;
 
         return (
@@ -201,24 +201,29 @@ class Library extends Component {
                                                     }
                                                 </Tabs>
                                             </AppBar>
+
+                                            {
+                                                this.renderCategoryDocs()
+                                            }
                                         </div>
                                     </div>
-                                </div> : (
-                                    <CustomColumn sm='12' md='12' lg='12'>
-                                        <Card>
-                                            <NoDataCard
-                                                text={`No information availble to show. Please check your device internet connection and refresh.`}
-                                                header={`Information!`}
-                                                intent={Intent.WARNING}
-                                            />
-                                        </Card>
-                                    </CustomColumn>
-                                )
+                                </div> : <CustomColumn sm='12' md='12' lg='12'>
+                                    {
+                                        general && (
+                                            !general.isLoading ? (
+                                                <Card>
+                                                    <NoDataCard
+                                                        text={`No information availble to show. Please check your device internet connection and refresh.`}
+                                                        header={`Information!`}
+                                                        intent={Intent.WARNING}
+                                                    />
+                                                </Card>
+                                            ) : <div className="loader" />
+                                        )
+                                    }
+                                </CustomColumn>
                         }
 
-                        {
-                            this.renderCategoryDocs()
-                        }
                     </Row>
                 </Container>
             </div>
