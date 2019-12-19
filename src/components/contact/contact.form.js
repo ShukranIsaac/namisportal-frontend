@@ -109,7 +109,6 @@ class ContactForm extends Component {
         const { fullname, email, message, subject, general } = this.state;
 
         const { contact_us } = this.props;
-        console.log(this.props);
 
         /**
          * Only redirect if and when one of these are value set

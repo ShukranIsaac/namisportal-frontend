@@ -140,7 +140,7 @@ class EditHomeSubcategory extends Component {
                                             label='Name'
                                             disabled={ true }
                                             type='text'
-                                            id={subcategory._id}
+                                            // id={subcategory._id}
                                             placeholder='Edit sub-category name...'
                                             handleChange={this.handleChange}
                                         />
@@ -154,7 +154,7 @@ class EditHomeSubcategory extends Component {
                                             name='shortname'
                                             label='Shortname'
                                             type='text'
-                                            id={subcategory._id}
+                                            // id={subcategory._id}
                                             placeholder='Edit sub-category shortname...'
                                             handleChange={this.handleChange}
                                         />

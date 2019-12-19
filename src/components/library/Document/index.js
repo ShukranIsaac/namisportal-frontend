@@ -4,7 +4,7 @@ import { redirect } from '../../user/user.redirect';
 
 export default class Document extends Component {
 
-    constructor(){
+    constructor() {
         super();
         this.state = {
             isOpen: false
@@ -13,7 +13,8 @@ export default class Document extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
-    render(){
+    render() {
+        
         const button = {
             display: 'flex',
             flexDirection: 'row',
@@ -39,27 +40,27 @@ export default class Document extends Component {
         return (
             <div style={docContainer}>
                 <Callout onClick={this.handleClick} style={button} righticon="add">
-                    <div style={{ alignSelf: 'flex-start'}}>{`${ index }. ${ name }`}</div>
-                    <div style={{marginLeft: 'auto'}}>
-                        { this.state.isOpen ? <Icon icon="remove"/> : <Icon icon="add"/>}
+                    <div style={{ alignSelf: 'flex-start' }}>{`${index}. ${name}`}</div>
+                    <div style={{ marginLeft: 'auto' }}>
+                        {this.state.isOpen ? <Icon icon="remove" /> : <Icon icon="add" />}
                     </div>
                 </Callout>
                 <Collapse isOpen={this.state.isOpen}>
-                <Card interactive={true} elevation={Elevation.ZERO}>
-                    <p> { summary } </p>
-                    <a  href="#/" onClick={ e => redirect.toExternalLink({ url: path, event: e })} download={name}>
-                        <Button style={alignCenter} rightIcon="download" intent="success" text="Download" />
-                    </a>
-                </Card>
+                    <Card interactive={true} elevation={Elevation.ZERO}>
+                        <p> {summary} </p>
+                        <a href="#/" onClick={e => redirect.toExternalLink({ url: path, event: e })} download={name}>
+                            <Button style={alignCenter} rightIcon="download" intent="success" text="Download" />
+                        </a>
+                    </Card>
                 </Collapse>
 
             </div>
         );
     }
 
-    handleClick(){
+    handleClick() {
 
-        this.setState({isOpen: !this.state.isOpen})
-        
+        this.setState({ isOpen: !this.state.isOpen })
+
     }
 }

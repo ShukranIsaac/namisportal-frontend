@@ -376,7 +376,6 @@ class CMSIndex extends React.Component {
 
                 } else if(link === 'library') {
 
-                    console.log(event.currentTarget.id)
                     // fetch the document to be edited
                     this.props.downloadFile(event.currentTarget.id)
 

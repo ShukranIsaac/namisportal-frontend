@@ -234,7 +234,7 @@ class UserLogin extends Component {
                                         <p style={{ textAlign: 'center', marginBottom: 'unset' }}>
                                             <Link
                                                 to="/forgotpassword"
-                                                onClick={redirect.to({ url: '/forgotpassword' })}
+                                                // onClick={redirect.to({ url: '/forgotpassword' })}
                                             > <i>Forgot password?</i>
                                             </Link>
                                         </p>

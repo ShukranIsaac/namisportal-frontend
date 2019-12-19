@@ -7,13 +7,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-import Tarrifs from './Tarrifs';
-import './library.css'
-import Toolkits from './Toolkits';
-import Financing from './Financing';
-import PoliciesStratigies from './PoliciesStratigies';
-import LegalRegFrameworks from './LegalRegFrameworks';
-import ResourcePlan from './ResourcePlan';
+import Documents from './documents';
+import './library.css';
 import ParticlesComponent from '../user/particles';
 
 import Document from './Document';
@@ -110,10 +105,24 @@ class Library extends Component {
 
     };
 
+    toTitleCase(str) {
+
+        return str.toLowerCase().split(' ').map(function (word) {
+            return word.replace(word[0], word[0].toUpperCase());
+        }).join(' ');
+
+    }
+
     renderDocuments(docs) {
 
         if (docs !== null) {
+
             return docs && docs.map(({ name, path, filename }, key) => {
+
+                // Transform name to title case
+                // name = name.toLowerCase().split(' ').map(word => {
+                //     return word.replace(word[0], word[0].toUpperCase());
+                // }).join(' ');
 
                 return <Document
                     key={key}
@@ -124,33 +133,6 @@ class Library extends Component {
                 />
 
             });
-        }
-
-    }
-
-    renderCategoryDocs = () => {
-
-        switch (this.state.value) {
-            case "Tarrifs":
-                return <Tarrifs {...this.props} renderDocuments={this.renderDocuments} />
-
-            case "Deployment Toolkit":
-                return <Toolkits {...this.props} renderDocuments={this.renderDocuments} />
-
-            case "Financing Plan":
-                return <Financing {...this.props} renderDocuments={this.renderDocuments} />
-
-            case "Legal and Regulatory Frameworks":
-                return <LegalRegFrameworks {...this.props} renderDocuments={this.renderDocuments} />
-
-            case "Resource Plan":
-                return <ResourcePlan {...this.props} renderDocuments={this.renderDocuments} />
-
-            case "Policies And Strategies":
-                return <PoliciesStratigies {...this.props} renderDocuments={this.renderDocuments} />
-
-            default:
-                return (<></>);
         }
 
     }
@@ -202,9 +184,10 @@ class Library extends Component {
                                                 </Tabs>
                                             </AppBar>
 
-                                            {
-                                                this.renderCategoryDocs()
-                                            }
+                                            <Documents
+                                                {...this.props}
+                                                renderDocuments={this.renderDocuments}
+                                            />
                                         </div>
                                     </div>
                                 </div> : <CustomColumn sm='12' md='12' lg='12'>

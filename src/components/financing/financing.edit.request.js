@@ -107,7 +107,6 @@ class EditFinancingRequestSupport extends Component {
     render() {
 
         const { classes, handleClick, general } = this.props;
-        console.log(this.props.subcategory)
 
         // state
         const { subcategory, shortname, summary } = this.state;

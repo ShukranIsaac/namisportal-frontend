@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-const Toolkits = (props) => {
+const Documents = (props) => {
 
     const { library_documents, general } = props;
 
@@ -14,4 +14,4 @@ const Toolkits = (props) => {
 
 }
 
-export default Toolkits;
+export default Documents;
