@@ -29,6 +29,7 @@ import CMSIndex from './components/cms';
 import ItemProfile from './components/directory/item-profile';
 import Breadcrumbs from './components/breadcrumbs/crumbs/breadcrumbs';
 import BreadRoute from './components/breadcrumbs/breadcrumb.route';
+import PageNotFound from './components/page.not.found';
 
 const defaultHeight = 0;
 
@@ -41,17 +42,13 @@ const content = {
     paddingBottom: defaultHeight,
 }
 
-const PageNotFound = () => {
-    return <span style={{ alignItems: 'center' }}>Page not found...</span>;
-}
-
 export const Wrapper = ({ component, children }) => {
 
     return (
         <div style={content}>
             <AppHeader />
 
-            { component !== "GIS" ? <Breadcrumbs className="demo__crumbs" /> : null}
+            {component !== "GIS" ? <Breadcrumbs className="demo__crumbs" /> : null}
 
             {children}
 
@@ -79,9 +76,9 @@ export default withRouter(() => {
                     <BreadRoute title="Article" exact path="/news/:id" render={props => <Wrapper><NewsItemDetails {...props} /></Wrapper>} />
                     <BreadRoute title="Faqs" exact path="/faqs" render={props => <Wrapper><FAQ {...props} /></Wrapper>} />
                     <BreadRoute title="Contact" exact path="/contact" render={props => <Wrapper><Contact {...props} /></Wrapper>} />
-                    <Route exact path="/login" component={UserLogin} />
-                    <Route exact path="/register" component={UserRegistration} />
-                    <BreadRoute title="404 Not Found" component={ PageNotFound } />
+                    <BreadRoute exact path="/login" render={props => <UserLogin {...props} />} />
+                    <BreadRoute exact path="/register" render={props => <UserRegistration {...props} />} />
+                    <BreadRoute title="404 Not Found" render={PageNotFound} />
                 </Switch>
             </Router>
         </div>

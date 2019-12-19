@@ -57,8 +57,8 @@ class UserLogin extends Component {
             username: username,
             password: password
         }
-        // console.log(values);
-        if (user !== undefined && username !== undefined && password !== null && user !== null) {
+
+        if (user && username && password) {
 
             // Athenticate this user
             const { login } = this.props;
@@ -81,7 +81,7 @@ class UserLogin extends Component {
 
         // if user, then check if token still valid
         // else return false and render loggin form
-        return user !== undefined && user !== null ? UserProfile.isAuthenticated(user) : false;
+        return user ? UserProfile.isAuthenticated(user) : false;
 
     }
 
@@ -104,7 +104,7 @@ class UserLogin extends Component {
 
         const { general } = this.props;
         const { password, username } = this.state;
-        // console.log(this.props);
+
         // Get the user from local storage or session storage
         // making sure their token is available.
         const user = UserProfile.get();
@@ -112,7 +112,7 @@ class UserLogin extends Component {
 
         // if user is successfully logged in or authenticated
         // then redirect to cms
-        if (auth && user !== undefined && user !== null) {
+        if (auth && user) {
 
             // check if token defined and authenticated i.e. not expired
             // then redirect to cms index page
@@ -154,7 +154,6 @@ class UserLogin extends Component {
                                     </div>
 
                                     <form className={{ style: 'center' }} onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
-
                                         <div className='margin-fix'>
                                             {/* <div className="container"> */}
                                             <div className="form-group">
@@ -195,7 +194,6 @@ class UserLogin extends Component {
                                                     ) : <>Login</>
                                                 }
                                             </Button>
-
                                         </div>
 
                                         <div className="margin-fix">
@@ -212,19 +210,17 @@ class UserLogin extends Component {
                                     </form>
 
                                 </CardBody>
-
                             </Card>
 
                             <div className='info-card-wrapper'>
                                 <Card>
                                     <CardBody>
-
                                         <p style={{ textAlign: 'center', marginBottom: 'unset' }}>
                                             Don't have an account?
                                             <span>
                                                 <Link
                                                     to="/register"
-                                                    onClick={ this.props.history.push("/login") }
+                                                    onClick={redirect.to({ url: '/register' })}
                                                 > <i>Register</i>
                                                 </Link> |
                                                 <Link
@@ -235,6 +231,13 @@ class UserLogin extends Component {
                                             </span>
                                         </p>
 
+                                        <p style={{ textAlign: 'center', marginBottom: 'unset' }}>
+                                            <Link
+                                                to="/forgotpassword"
+                                                onClick={redirect.to({ url: '/forgotpassword' })}
+                                            > <i>Forgot password?</i>
+                                            </Link>
+                                        </p>
                                     </CardBody>
                                 </Card>
                             </div>
@@ -270,4 +273,4 @@ const mapDispatchToProps = dispatch => {
 
 }
 
-export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(UserLogin)));
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(UserLogin));

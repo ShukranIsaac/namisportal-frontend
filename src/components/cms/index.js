@@ -89,11 +89,6 @@ class CMSIndex extends React.Component {
         if (user !== null) {
             if (user.roles.admin || user.roles.writer || user.roles.publisher) {
                 this.props.homeSubcategory("Home");
-                // if (!Array.isArray(this.props.home)) {
-                //     this.props.createItem();
-                // } else {
-                //     this.props.defaultItem();
-                // }
                 this.props.defaultItem();
             }
 
@@ -115,13 +110,6 @@ class CMSIndex extends React.Component {
                 this.props.editItem();
             }
         }
-
-        // const { sub_cate_documents } = this.props;
-        // if (prev !== undefined) {
-        //     if (prev.sub_cate_documents !== sub_cate_documents) {
-        //         console.log(sub_cate_documents)
-        //     }
-        // }
 
     }
 

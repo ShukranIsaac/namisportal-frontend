@@ -31,28 +31,17 @@ toast.configure({
     pauseOnHover: true
 });
 
-// Define root element and render method
-let RootElement = document.getElementById('root');
+ReactDOM.render((
+    <Provider store={store}>
+        <UserProvider>
+            <BrowserRouter>
+                {/* <App /> */}
+                <BreadRoute title="Home" path="/" component={App} />
+            </BrowserRouter>
+        </UserProvider>
+    </Provider>
+), document.getElementById('root'));
 
-let Render = Root => {
-    ReactDOM.render((
-        <Provider store={store}>
-            <UserProvider>
-                <BrowserRouter>
-                    <BreadRoute title="Home" path="/" component={Root} />
-                </BrowserRouter>
-            </UserProvider>
-        </Provider>
-    ), RootElement);
-}
-
-// Initial render
-Render(App);
-
-// Subsequent renders
-if (module.hot) {
-    module.hot.accept('./App', () => Render(App))
-}
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
