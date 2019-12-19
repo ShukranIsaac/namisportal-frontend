@@ -59,7 +59,7 @@ export const Wrapper = ({ component, children }) => {
 }
 
 export default withRouter(() => {
-
+    
     return (
         <div style={wrapper}>
             <Router>

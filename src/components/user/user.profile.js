@@ -3,7 +3,6 @@
  * 
  * @author Isaac S. Mwakabira
  * 
- * @returns {Closure} user
  */
 class UserProfile {
 
@@ -15,12 +14,11 @@ class UserProfile {
     save(user) {
         // save user to local storage
         let loggedIn = null;
-        // copy user into user object and add to it time(seconds) when they logged in
-        const u = Object.assign(user, { _l_time: ((Date.now() / 1000) / 60) });
 
         try {
+            sessionStorage.setItem('cms_current_user', JSON.stringify(user))
 
-            localStorage.setItem('cms_current_user', JSON.stringify(u));
+            // localStorage.setItem('cms_current_user', JSON.stringify(user));
 
         } catch (error) {
 
@@ -30,8 +28,9 @@ class UserProfile {
 
         try {
 
-            loggedIn = localStorage.getItem('cms_current_user');
-            if (JSON.parse(loggedIn).token !== null) {
+            // loggedIn = localStorage.getItem('cms_current_user');
+            loggedIn = sessionStorage.getItem('cms_current_user')
+            if (JSON.parse(loggedIn).token) {
 
                 return JSON.parse(loggedIn);
 
@@ -54,8 +53,10 @@ class UserProfile {
 
         try {
 
-            const loggedIn = localStorage.getItem('cms_current_user');
-            if (JSON.parse(loggedIn) !== null && JSON.parse(loggedIn).token !== undefined) {
+            // const loggedIn = localStorage.getItem('cms_current_user');
+            const loggedIn = sessionStorage.getItem('cms_current_user');
+
+            if (JSON.parse(loggedIn) !== null && JSON.parse(loggedIn).token) {
 
                 return JSON.parse(loggedIn);
 
@@ -77,10 +78,11 @@ class UserProfile {
     logout({ username }) {
 
         try {
-            const loggedIn = localStorage.getItem('cms_current_user');
-            if (JSON.parse(loggedIn).token !== null && username !== null && username !== undefined) {
+            // const loggedIn = localStorage.getItem('cms_current_user');
+            const loggedIn = sessionStorage.getItem('cms_current_user');
+            if (JSON.parse(loggedIn).token !== null && username) {
                 // set to null
-                localStorage.setItem('cms_current_user', null);
+                sessionStorage.clear();
                 // return null value
                 return localStorage.getItem('cms_current_user');
             }
@@ -97,15 +99,7 @@ class UserProfile {
      * Use the time this user logged in to determine validity.
      */
     isAuthenticated(user) {
-        // console.log(user.token);
-        if (user !== undefined && user !== null) {
-            const difference = Math.floor((((Date.now() / 1000) / 60) - user._l_time));
-            // console.log(difference);
-            // return true if difference is within 30 minutes
-            return difference < 30 ? true : false;
-        } else {
-            return false;
-        }
+        return user ? true : false;
     };
 
 }

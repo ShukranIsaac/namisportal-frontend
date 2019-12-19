@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import UserProfile from './user.profile';
 
 /** 
  * Create context 
@@ -17,43 +16,22 @@ class UserProvider extends Component {
 
     constructor() {
         super();
-
-        this.state = {
-            user: UserProfile.get(),
-            isLoggedIn: UserProfile.isAuthenticated(UserProfile.get()),
-            isWebsite: true,
-        }
-
-        this.handleComponent = this.handleComponent.bind(this);
-
+        this.state = { seconds: 0 };
     }
 
-    /**
-     * Handle user navigation, CMS or Website show its custom header
-     */
-    handleComponent = ({ component }) => {
-        // console.log(component);
-        if (component !== null&&component !== undefined) {
-
-            if (component === 'cms_custom_header') {
-                Object.assign(this.state, { isWebsite: false })
-            }
-            
-            if(component === 'app_header') {
-                Object.assign(this.state, { isWebsite: true })
-            }
-        }
-
+    tick() {
+        this.setState(state => ({
+            seconds: state.seconds + 1
+        }));
     }
 
     render() {
 
         return (
-            <UserContext.Provider value={{ 
-                state: this.state, 
-                next: this.props,
-                handleComponent: this.handleComponent
-                }}
+            <UserContext.Provider value={{
+                state: this.state,
+                props: this.props
+            }}
             >
 
                 {this.props.children}
@@ -61,6 +39,10 @@ class UserProvider extends Component {
             </UserContext.Provider>
         );
 
+    }
+
+    componentDidMount() {
+        this.interval = setInterval(() => this.tick(), 1000);
     }
 
 }

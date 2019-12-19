@@ -220,7 +220,7 @@ class UserLogin extends Component {
                                             <span>
                                                 <Link
                                                     to="/register"
-                                                    onClick={redirect.to({ url: '/register' })}
+                                                    // onClick={redirect.to({ url: '/register' })}
                                                 > <i>Register</i>
                                                 </Link> |
                                                 <Link

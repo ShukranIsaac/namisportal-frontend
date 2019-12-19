@@ -12,7 +12,10 @@ import { Route, Redirect } from 'react-router-dom';
  * @param rest
  * @returns component
  */
-const UserPrivateRoute = ({ component: Component, ...rest }) => {
+const UserPrivateRoute = ({ 
+    component: Component, 
+    ...rest 
+}) => {
 
     return (
         <Fragment>
@@ -25,7 +28,7 @@ const UserPrivateRoute = ({ component: Component, ...rest }) => {
                         <Fragment>
                             
                             {   
-                                !localStorage.getItem('user') ? <Component {...props} /> : 
+                                !sessionStorage.getItem('user') ? <Component {...props} /> : 
 
                                 <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
                             }
