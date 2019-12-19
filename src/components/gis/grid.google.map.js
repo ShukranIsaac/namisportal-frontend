@@ -90,6 +90,15 @@ class MinGridMap extends Component {
 
                 fetchRegion(region_object[0]._id);
 
+                // zoom level back to 7
+                this.setState({ 
+                    zoom: 7, 
+                    newcenter: { 
+                        lat: -13.2512, 
+                        lng: 34.30154 
+                    } 
+                })
+
             }
 
         }
@@ -112,8 +121,9 @@ class MinGridMap extends Component {
             // fetch district
             fetchDistrict(district_name);
 
-            // if district changed fetch its marep centers
-            // this.marepCenters(prevProps, this.props);
+            const { district } = this.props;
+            // zoom level back to 9
+            this.setState({ zoom: 9, newcenter: district.centroids });
 
         }
 
@@ -178,7 +188,7 @@ class MinGridMap extends Component {
         if ((distribution_lines || eleven_kv_lines) && polyline !== null && polyline !== undefined) {
 
             return polyline.map((line, key) => {
-                
+
                 return (
                     <Fragment key={line._id + key}>
                         <Polyline
