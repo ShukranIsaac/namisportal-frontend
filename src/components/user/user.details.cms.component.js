@@ -15,7 +15,7 @@ import Chip from '@material-ui/core/Chip';
 import FormControl from '@material-ui/core/FormControl';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { SelectInputControl } from '../forms/form.selectinput.field';
-import { UserProfile, profile } from './user.profile';
+import UserProfile, { profile } from './user.profile';
 import { FormTextInputField } from '../forms/form.textinput.field';
 
 /**

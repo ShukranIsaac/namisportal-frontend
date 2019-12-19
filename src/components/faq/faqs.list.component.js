@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { NoDataCard } from '../card.text';
 import { Intent } from '@blueprintjs/core';
-import { profile, UserProfile } from '../user/user.profile';
+import UserProfile, { profile } from '../user/user.profile';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Divider, withStyles } from '@material-ui/core';
 import styles from '../contact/form.styles';

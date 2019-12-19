@@ -25,7 +25,7 @@ import * as GisAction from '../../actions/gis.action';
 
 import CustomDrawer from './cms.custom.drawer';
 import RenderSection from './cms.render.section';
-import { UserProfile } from '../user/user.profile';
+import UserProfile from '../user/user.profile';
 import { redirect } from '../user/user.redirect';
 
 import './style.css';

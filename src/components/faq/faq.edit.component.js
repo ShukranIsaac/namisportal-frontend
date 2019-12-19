@@ -5,7 +5,7 @@ import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
 import { Divider, Paper, FormControl } from '@material-ui/core';
 import styles from '../contact/form.styles';
-import { UserProfile, profile } from '../user/user.profile';
+import UserProfile, { profile } from '../user/user.profile';
 import { SelectInputControl } from '../forms/form.selectinput.field';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import { BootsrapTextareaField } from '../forms/form.textarea.field';

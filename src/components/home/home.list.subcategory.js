@@ -5,7 +5,7 @@ import styles from '../contact/form.styles';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, } from '@blueprintjs/core';
 import { Row, } from 'reactstrap';
-import { UserProfile, profile } from '../user/user.profile';
+import UserProfile, { profile } from '../user/user.profile';
 import { CMSHomeSubCategory } from './cms.home.subcategory';
 
 /**

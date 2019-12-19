@@ -11,7 +11,7 @@ import * as UserAuthActions from '../../actions/user.action';
 
 import styles from '../contact/form.styles';
 import { redirect } from './user.redirect';
-import { UserProfile } from './user.profile';
+import UserProfile from './user.profile';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 
 /**

@@ -7,7 +7,7 @@ import { SelectInputControl } from '../forms/form.selectinput.field';
 import styles from '../contact/form.styles';
 import { Divider, Intent } from '@blueprintjs/core';
 import ButtonControl from '../forms/buttons/button.default.control';
-import { UserProfile, profile } from '../user/user.profile';
+import UserProfile, { profile } from '../user/user.profile';
 
 /**
  * Render gis component to: upload new coordinates, and other features

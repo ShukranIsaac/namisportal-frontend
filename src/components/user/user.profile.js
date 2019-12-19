@@ -5,14 +5,14 @@
  * 
  * @returns {Closure} user
  */
-export const UserProfile = (() => {
+class UserProfile {
 
     /**
      * Save user details to the local store/persist
      * 
      * @param {Object} user 
      */
-    const save = (user) => {
+    save(user) {
         // save user to local storage
         let loggedIn = null;
         // copy user into user object and add to it time(seconds) when they logged in
@@ -50,7 +50,7 @@ export const UserProfile = (() => {
     };
 
     // loggedin user
-    const get = () => {
+    get() {
 
         try {
 
@@ -74,7 +74,7 @@ export const UserProfile = (() => {
     };
 
     // Logout user, set to null
-    const logout = ({ username }) => {
+    logout({ username }) {
 
         try {
             const loggedIn = localStorage.getItem('cms_current_user');
@@ -96,7 +96,7 @@ export const UserProfile = (() => {
      * Is user auth token still valid?
      * Use the time this user logged in to determine validity.
      */
-    const isAuthenticated = (user) => {
+    isAuthenticated(user) {
         // console.log(user.token);
         if (user !== undefined && user !== null) {
             const difference = Math.floor((((Date.now() / 1000) / 60) - user._l_time));
@@ -108,9 +108,9 @@ export const UserProfile = (() => {
         }
     };
 
-    return { save, get, logout, isAuthenticated };
+}
 
-})();
+export default new UserProfile();
 
 /**
  * User profile

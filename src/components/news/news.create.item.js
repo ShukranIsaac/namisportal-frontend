@@ -15,7 +15,7 @@ import * as NewsAction from '../../actions/news.action';
 import InitialSchema from '../forms/utils/initial.schema';
 import { Divider } from '@material-ui/core';
 import { editor } from '../forms/editor/text.editor.utils';
-import { UserProfile } from '../user/user.profile';
+import UserProfile from '../user/user.profile';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 
 class CreateNewsItem extends Component {

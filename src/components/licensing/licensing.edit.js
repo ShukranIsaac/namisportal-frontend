@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Divider } from '@material-ui/core';
 import styles from '../contact/form.styles';
-import { UserProfile, profile } from '../user/user.profile';
+import UserProfile, { profile } from '../user/user.profile';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
 import { BootsrapTextareaField } from '../forms/form.textarea.field';

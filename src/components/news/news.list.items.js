@@ -5,7 +5,7 @@ import { Intent } from '@blueprintjs/core';
 import { NoDataCard } from '../card.text';
 import { withStyles, Divider } from '@material-ui/core';
 import styles from '../contact/form.styles';
-import { UserProfile, profile } from '../user/user.profile';
+import UserProfile, { profile } from '../user/user.profile';
 
 /**
  * List of all news items

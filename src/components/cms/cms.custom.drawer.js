@@ -20,7 +20,7 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd'
 import LogoutIcon from '@material-ui/icons/ExitToApp';
 import HomeIcon from '@material-ui/icons/Home';
 import FAQIcon from '@material-ui/icons/QuestionAnswer';
-import { UserProfile } from '../user/user.profile';
+import UserProfile from '../user/user.profile';
 
 const drawer_controls = [
     { name: 'home', button: <HomeIcon /> },

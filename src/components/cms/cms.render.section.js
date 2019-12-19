@@ -13,7 +13,7 @@ import { ListDirectoryInstitution } from '../directory/directory.list.institutio
 import EditDirectoryInstitution from '../directory/directory.edit.institution';
 import CreateDirectoryInstitution from '../directory/directory.create.institution';
 import FinancingRequestSupport from '../financing/financing.request.support';
-import { UserProfile } from '../user/user.profile';
+import UserProfile from '../user/user.profile';
 import { redirect } from '../user/user.redirect';
 import { ListHomeSubcategory } from '../home/home.list.subcategory';
 import EditHomeSubcategory from '../home/home.edit.subcategory';

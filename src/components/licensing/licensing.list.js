@@ -4,7 +4,7 @@ import { withStyles, Divider } from '@material-ui/core';
 import styles from '../contact/form.styles';
 import { Intent } from '@blueprintjs/core';
 import ButtonControl from '../forms/buttons/button.default.control';
-import { profile, UserProfile } from '../user/user.profile';
+import UserProfile, { profile } from '../user/user.profile';
 
 /**
  * List all licensing steps

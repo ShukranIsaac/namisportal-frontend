@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { UserProfile } from './user.profile';
+import UserProfile from './user.profile';
 
 /** 
  * Create context 

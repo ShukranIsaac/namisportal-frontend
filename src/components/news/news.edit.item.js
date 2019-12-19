@@ -11,7 +11,7 @@ import styles from '../contact/form.styles';
 
 import InitialSchema from '../forms/utils/initial.schema';
 import { editor } from '../forms/editor/text.editor.utils';
-import { UserProfile, profile } from '../user/user.profile';
+import UserProfile, { profile } from '../user/user.profile';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 // import OnlineEditor from '../forms/editor/online.editor';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { Button, } from '@blueprintjs/core';
-import { profile, UserProfile } from '../user/user.profile';
+import UserProfile, { profile } from '../user/user.profile';
 
 export class CMSHomeSubCategory extends React.Component {
 

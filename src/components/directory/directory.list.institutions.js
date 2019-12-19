@@ -5,7 +5,7 @@ import { Intent } from '@blueprintjs/core';
 import { Row, } from 'reactstrap';
 import { Divider, withStyles } from '@material-ui/core';
 import styles from '../contact/form.styles';
-import { UserProfile, profile } from '../user/user.profile';
+import UserProfile, { profile } from '../user/user.profile';
 
 /**
  * Lists all institutions in the directory

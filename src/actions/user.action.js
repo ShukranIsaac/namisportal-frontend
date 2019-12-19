@@ -2,7 +2,7 @@ import { UserType } from '../action_type/index';
 
 import * as GeneralAction from './general.action';
 import { post, get, put, _delete, emailMessage } from './api.service';
-import { UserProfile } from '../components/user/user.profile';
+import UserProfile from '../components/user/user.profile';
 import Toast from '../toastfy';
 import { initial } from './event.action';
 
@@ -81,7 +81,7 @@ export const register = (user) => {
                 dispatch(GeneralAction.fetchSuccess(UserType.REQUEST_USER_REGISTER, response, false))
                 // the list all users
                 const auth = UserProfile.get();
-                if (auth !== null && (auth.token !== undefined)) {
+                if (auth && auth.token) {
 
                     // toast message for user feedback
                     Toast.emit({

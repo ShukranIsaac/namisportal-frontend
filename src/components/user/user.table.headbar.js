@@ -16,7 +16,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import AddAccountIcon from '@material-ui/icons/Add';
 import PersonIcon from '@material-ui/icons/Person';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
-import { UserProfile, profile } from './user.profile';
+import UserProfile, { profile } from './user.profile';
 
 /**
  * Enhanced table head

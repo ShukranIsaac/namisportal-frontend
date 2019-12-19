@@ -4,7 +4,7 @@ import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Divider } from '@blueprintjs/core';
 import { withStyles } from '@material-ui/core';
 import styles from '../contact/form.styles';
-import { UserProfile, profile } from '../user/user.profile';
+import UserProfile, { profile } from '../user/user.profile';
 
 /**
  * Component to list all requests so far placed by each

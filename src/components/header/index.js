@@ -12,7 +12,7 @@ import PersonIcon from '@material-ui/icons/People';
 import './header.css'
 import { redirect } from '../user/user.redirect';
 import { Tooltip, IconButton } from '@material-ui/core';
-import { UserProfile } from '../user/user.profile';
+import UserProfile from '../user/user.profile';
 
 export default class AppHeader extends React.Component {
     constructor(props) {

@@ -13,7 +13,7 @@ import { EnhancedTableHead } from './user.table.headbar';
 import { algorithms } from './user.sort';
 import { TablePaginationActionsWrapped } from './user.table.footer';
 import Chip from '@material-ui/core/Chip';
-import { UserProfile, profile } from './user.profile';
+import UserProfile, { profile } from './user.profile';
 import { green, red } from '@material-ui/core/colors';
 import Radio from '@material-ui/core/Radio';
 
