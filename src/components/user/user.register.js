@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -14,6 +15,7 @@ import { redirect } from './user.redirect';
 // import { StakeholderProfile } from './user.register.company';
 import { PersonalProfile } from './user.register.personal';
 import ParticlesComponent from './particles';
+import BootstrapGridColumn from '../forms/form.grid.column';
 
 class UserRegistration extends Component {
 
@@ -145,30 +147,32 @@ class UserRegistration extends Component {
 
                                         <PersonalProfile handleChange={this.handleChange} {...this.state} />
 
-                                        <div className="margin-fix">
-
-                                            <Button
-                                                type="submit"
-                                                disabled={fieldsValid}
-                                                color="success">
-                                                {
-                                                    general ? (
-                                                        general.isLoading ? (
-                                                            <>Registering...</>
+                                        <div className="margin-fix form-row">
+                                            <BootstrapGridColumn>
+                                                <Button
+                                                    type="submit"
+                                                    disabled={fieldsValid}
+                                                    color="success">
+                                                    {
+                                                        general ? (
+                                                            general.isLoading ? (
+                                                                <>Registering...</>
+                                                            ) : <>Register</>
                                                         ) : <>Register</>
-                                                    ) : <>Register</>
-                                                }
-                                            </Button>
-
+                                                    }
+                                                </Button>
+                                            </BootstrapGridColumn>
+                                            <BootstrapGridColumn>
+                                                <Link
+                                                    to="/login"    
+                                                >
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-default"
+                                                    >Cancel</button>
+                                                </Link>
+                                            </BootstrapGridColumn>
                                         </div>
-
-                                        {/* <ButtonControl
-                                            intent={Intent.NONE}
-                                            value="Back"
-                                            name="back"
-                                            handleClick={ (e) => {}}
-                                        /> */}
-
                                     </form>
 
                                 </CardBody>
