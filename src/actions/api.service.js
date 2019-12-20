@@ -54,7 +54,7 @@ export const emailMessage = async (dispatch, url, data) => {
     const config = new Headers();
     config.append('Access-Control-Allow-Origin', Config.ACCESS_ALLOW_ORIGIN);
 
-    return await Config.CTECH_PROD_REMOTE_API_URL.post(url, data, config)
+    return await Config.DEV_REMOTE_API_URL.post(url, data, config)
 
         .then(response => {
 
