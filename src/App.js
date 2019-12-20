@@ -20,7 +20,6 @@ import ForgotPassword from './components/user/user.forgot.password';
 
 // Load Styling
 import './style.css';
-// import './app.css';
 
 import "./App.css";
 import Footer from './components/footer';
