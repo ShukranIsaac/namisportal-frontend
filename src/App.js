@@ -16,7 +16,7 @@ import UserRegistration from './components/user/user.register';
 
 import UserPrivateRoute from './components/user/private.route';
 
-// import ForgotPassword from './components/user/user.forgot.password';
+import ForgotPassword from './components/user/user.forgot.password';
 
 // Load Styling
 import './style.css';
@@ -80,7 +80,7 @@ export default withRouter(() => {
                     <BreadRoute title="Contact" exact path="/contact" render={props => <Wrapper><Contact {...props} /></Wrapper>} />
                     <BreadRoute exact path="/login" render={props => <UserLogin {...props} />} />
                     <BreadRoute exact path="/register" render={props => <UserRegistration {...props} />} />
-                    {/* <BreadRoute exact path="/forgotpassword" render={props => <ForgotPassword {...props} /> } /> */}
+                    <BreadRoute exact path="/forgotpassword" render={props => <ForgotPassword {...props} /> } />
                     <BreadRoute title="404 Not Found" render={PageNotFound} />
                 </Switch>
             </Router>
