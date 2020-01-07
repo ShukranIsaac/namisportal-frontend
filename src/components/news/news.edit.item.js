@@ -3,17 +3,13 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import { Divider, } from '@material-ui/core';
-import { TextEditor } from '../forms/editor';
-import { editor as EditorUtils } from '../forms/editor/text.editor.utils';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 
-import InitialSchema from '../forms/utils/initial.schema';
-import { editor } from '../forms/editor/text.editor.utils';
 import UserProfile, { profile } from '../user/user.profile';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
-// import OnlineEditor from '../forms/editor/online.editor';
+import CustomCKEditor from '../ckeditor/editor.component';
 
 /**
  * Edit a single news article
@@ -27,7 +23,6 @@ class EditNewsItem extends Component {
         super();
         this.state = {
             article: '',
-            value: InitialSchema,
             text: ''
         }
 
@@ -38,25 +33,6 @@ class EditNewsItem extends Component {
          */
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleEditorChange = this.handleEditorChange.bind(this);
-        this.handleEditorTextChange = this.handleEditorTextChange.bind(this);
-
-    }
-
-	/**
-	 * On component did mount, update the app's React state/props with new values.
-	 *
-	 * @param {Props} props
-	 */
-    componentDidMount() {
-
-        if (this.state.article !== undefined) {
-            const { article } = this.props;
-            // console.log(article)
-            if (article !== null) {
-                Object.assign(this.state, { article: article.article });
-            }
-        }
 
     }
 
@@ -71,48 +47,25 @@ class EditNewsItem extends Component {
 
     }
 
-    /**
-	 * On change, update the app's React state with event type value.
-	 *
-	 * @param {Event} event
-	 */
-    handleEditorTextChange = (text) => {
-        this.setState({ text: text });
-    }
-
-	/**
-	 * On change, update the app's React state with the new editor value.
-	 *
-	 * @param {Editor} editor
-	 */
-    handleEditorChange = (content) => {
-
-        if (content !== null) {
-            const { value } = content;
-            Object.assign(this.state.article, { article: value });
-        }
-
+    setEditorText = (editor) => {
+        this.setState({ editorText: editor.getData() });
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
         // state
-        const { title } = this.state;
+        const { title, editorText } = this.state;
         // user logged
         const user = UserProfile.get();
         if (user !== null) {
 
             if (user.token !== null && user.token !== undefined) {
-                /**
-                 * serialize content
-                 */
-                let content = editor.html.serialize(this.state.article);
                 // define article object
                 const article = {
                     title: title,
-                    article: content.article
+                    article: editorText
                 }
-
+                
                 // then make post request to the api
                 this.props.editArticle(this.props.article._id, article, user.token);
             }
@@ -143,15 +96,14 @@ class EditNewsItem extends Component {
 
         const { classes, handleClick, general, article, } = this.props;
 
-        // serialize the article text
-        if (article !== null) {
-            Object.assign(article, { article: EditorUtils.html.deserialize(article.article) })
-        }
-
         /**
          * serialize content
          */
-        const { title } = this.state;
+        const { title, editorText } = this.state;
+
+        if (article && !editorText) {
+            Object.assign(this.state, { editorText: article.article })
+        }
 
         const user = UserProfile.get();
 
@@ -195,19 +147,11 @@ class EditNewsItem extends Component {
                                                     />
                                                 </div>
 
-                                                <div style={{ margin: `1.1em` }}>
-                                                    <TextEditor
-                                                        name="content"
-                                                        content={article.article}
-                                                        editorChange={this.handleEditorChange}
-                                                    />
-                                                </div>
-
-                                                {/* <OnlineEditor 
-                                                    handleEditorTextChange={ this.handleEditorTextChange }
-                                                    placeholder={`Edit article item here...`}
-                                                    text={this.state.text}
-                                                /> */}
+                                                <CustomCKEditor
+                                                    {...this.state}
+                                                    label="Article Contents"
+                                                    setEditorText={this.setEditorText}
+                                                />
                                             </>
                                         )
                                     }

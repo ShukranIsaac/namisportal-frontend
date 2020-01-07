@@ -307,7 +307,7 @@ const RenderSection = ({
             );
 
         case 'news':
-            console.log(props)
+            
             return (
                 <Fragment>
 

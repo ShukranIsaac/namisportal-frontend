@@ -25,7 +25,7 @@ const progressEvent = (dispatch, config) => {
  */
 export const get = async (dispatch, url) => {
 
-    return await Config.CTECH_PROD_REMOTE_API_URL.get(url)
+    return await Config.DEV_REMOTE_API_URL.get(url)
 
         .then((response) => {
 
@@ -84,7 +84,7 @@ export const post = async (dispatch, url, data) => {
     const config = new Headers();
     config.append('Access-Control-Allow-Origin', Config.ACCESS_ALLOW_ORIGIN);
 
-    return await Config.CTECH_PROD_REMOTE_API_URL.post(url, data, config)
+    return await Config.DEV_REMOTE_API_URL.post(url, data, config)
 
         .then(response => {
 
@@ -123,7 +123,7 @@ export const upload = async (dispatch, url, data) => {
         form.append('file', data.image[0]);
     }
 
-    return await Config.CTECH_PROD_REMOTE_API_URL
+    return await Config.DEV_REMOTE_API_URL
 
         .post(url, form, progressEvent(dispatch, null))
 
@@ -169,7 +169,7 @@ export const update = async (dispatch, url, data) => {
         form.append('description', data.description)
     }
 
-    return await Config.CTECH_PROD_REMOTE_API_URL
+    return await Config.DEV_REMOTE_API_URL
 
         .patch(url, form, progressEvent(dispatch, null))
 
@@ -205,7 +205,7 @@ export const put = async (dispatch, url, data) => {
     config.append('Access-Control-Allow-Origin', Config.ACCESS_ALLOW_ORIGIN);
     // config.append('withCredentials', true);
 
-    return await Config.CTECH_PROD_REMOTE_API_URL.put(url, data, config)
+    return await Config.DEV_REMOTE_API_URL.put(url, data, config)
 
         .then(response => {
 
@@ -237,7 +237,7 @@ export const patch = async (dispatch, url, data) => {
     config.append('Access-Control-Allow-Origin', Config.ACCESS_ALLOW_ORIGIN);
     // config.append('withCredentials', true);
 
-    return await Config.CTECH_PROD_REMOTE_API_URL.patch(url, data, progressEvent(dispatch))
+    return await Config.DEV_REMOTE_API_URL.patch(url, data, progressEvent(dispatch))
 
         .then(response => {
 
@@ -262,7 +262,7 @@ export const patch = async (dispatch, url, data) => {
  */
 export const _delete = async (dispatch, url) => {
 
-    return await Config.CTECH_PROD_REMOTE_API_URL.delete(url)
+    return await Config.DEV_REMOTE_API_URL.delete(url)
 
         .then(response => {
 

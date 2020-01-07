@@ -7,7 +7,7 @@ import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
 import BootstrapGridColumn from '../forms/form.grid.column';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
-import { BootsrapTextareaField } from '../forms/form.textarea.field';
+import CustomCKEditor from '../ckeditor/editor.component';
 
 /**
  * Create new licensing step
@@ -41,22 +41,26 @@ class CreateLicensingStep extends Component {
 
     }
 
+    setEditorText = (editor) => {
+        this.setState({ editorText: editor.getData() });
+    }
+
     handleSubmit = (event) => {
         // prevent default behaviour
         event.preventDefault();
         // get category
         const { maincategory } = this.props;
-        const { name, shortname, summary } = this.state;
+        const { name, shortname, editorText } = this.state;
         // authenticated user token
         const user = UserProfile.get();
         if (user !== null && user.token !== undefined) {
 
-            if (name && shortname && summary) {
+            if (name && shortname && editorText) {
                 // define sub-category structure
                 const sub_category = {
                     name: name,
                     shortName: shortname,
-                    about: summary
+                    about: editorText
                 }
 
                 if (maincategory !== null && maincategory !== undefined) {
@@ -80,7 +84,7 @@ class CreateLicensingStep extends Component {
 
         // props
         const { classes, handleClick } = this.props;
-        const { name, shortname, summary } = this.state;
+        const { name, shortname, editorText } = this.state;
 
         return (
             <Fragment>
@@ -125,24 +129,17 @@ class CreateLicensingStep extends Component {
                             />
                         </BootstrapGridColumn>
                     </div>
-
-                    <div className="form-group">
-                        <BootsrapTextareaField
-                            name="summary"
-                            value={this.state.summary}
-                            placeholder="Enter license process summary..."
-                            label="Summary Text*"
-                            type="text"
-                            rows={10}
-                            handleChange={this.handleChange}
-                        />
-                    </div>
-
+                    
+                    <CustomCKEditor
+                        {...this.state}
+                        label="Summary Text*"
+                        setEditorText={this.setEditorText}
+                    />
                     <div className={classes.margin} />
 
                     <Button
                         type="submit"
-                        disabled={!(name && shortname && summary)}
+                        disabled={!(name && shortname && editorText)}
                         intent="success"
                         text="Save"
                     />

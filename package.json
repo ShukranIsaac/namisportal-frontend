@@ -5,6 +5,8 @@
     "dependencies": {
         "@blueprintjs/core": "^3.18.0",
         "@blueprintjs/select": "^3.10.0",
+        "@ckeditor/ckeditor5-build-classic": "^16.0.0",
+        "@ckeditor/ckeditor5-react": "^2.0.0",
         "@emotion/core": "^10.0.16",
         "@emotion/styled": "^10.0.15",
         "@material-ui/core": "^3.9.3",
@@ -43,10 +45,6 @@
         "redux-logger": "^3.0.6",
         "redux-thunk": "^2.3.0",
         "reflexbox": "^3.0.1",
-        "slate": "^0.44.13",
-        "slate-html-serializer": "^0.7.39",
-        "slate-plain-serializer": "^0.6.39",
-        "slate-react": "^0.21.24",
         "source-map-explorer": "^1.8.0",
         "uuid": "^3.3.3"
     },

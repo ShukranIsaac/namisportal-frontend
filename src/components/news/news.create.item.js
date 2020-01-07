@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import { TextEditor } from '../forms/editor';
 import { Button } from 'reactstrap';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent } from '@blueprintjs/core';
@@ -12,19 +11,17 @@ import styles from '../contact/form.styles';
 
 import * as NewsAction from '../../actions/news.action';
 
-import InitialSchema from '../forms/utils/initial.schema';
 import { Divider } from '@material-ui/core';
-import { editor } from '../forms/editor/text.editor.utils';
 import UserProfile from '../user/user.profile';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
+import CustomCKEditor from '../ckeditor/editor.component';
 
 class CreateNewsItem extends Component {
 
     constructor() {
         super();
         this.state = {
-            title: '',
-            content: InitialSchema,
+            title: ''
         }
 
         /**
@@ -34,22 +31,6 @@ class CreateNewsItem extends Component {
          */
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleEditorChange = this.handleEditorChange.bind(this);
-
-    }
-
-	/**
-	 * On component did mount, update the app's React state/props with newvalues.
-	 *
-	 * @param {Props} props
-	 */
-    componentDidMount() {
-
-        this.setState(() => {
-            return {
-                content: InitialSchema
-            }
-        });
 
     }
 
@@ -64,43 +45,32 @@ class CreateNewsItem extends Component {
 
     }
 
-	/**
-	 * On change, update the app's React state with the new editor value.
-	 *
-	 * @param {Editor} editor
-	 */
-    handleEditorChange = ({ value }) => {
-        // console.log(value)
-        if (value !== undefined) {
-            this.setState({ content: value });
-        }
-
+    setEditorText = (editor) => {
+        this.setState({ editorText: editor.getData() });
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
         // state
-        const { title } = this.state;
+        const { title, editorText } = this.state;
         // user logged
         const user = UserProfile.get();
         if (user !== null) {
 
             if (user.token !== null && user.token !== undefined) {
-                /**
-                 * serialize content
-                 */
-                let content = editor.html.serialize(this.state.content);
                 // define article object
                 const article = {
                     title: title,
-                    article: content
+                    article: editorText
                 }
 
-                // then make post request to the api
-                this.props.createArticle(article, user.token);
-                // then change state to default
-                // so that the page redirects and list all home items
-                this.props.defaultItem();
+                if (article.article) {
+                    // then make post request to the api
+                    this.props.createArticle(article, user.token);
+                    // then change state to default
+                    // so that the page redirects and list all home items
+                    this.props.defaultItem();
+                }
             }
 
         }
@@ -146,13 +116,11 @@ class CreateNewsItem extends Component {
                         />
                     </div>
 
-                    <div style={{ margin: `1.1em` }}>
-                        <TextEditor
-                            name="content"
-                            content={this.state.content}
-                            editorChange={this.handleEditorChange}
-                        />
-                    </div>
+                    <CustomCKEditor
+                        {...this.state}
+                        label="Article Contents"
+                        setEditorText={this.setEditorText}
+                    />
 
                     <div className={classes.margin} />
                     <div className={classes.margin} />
@@ -160,7 +128,7 @@ class CreateNewsItem extends Component {
 
                     <Button
                         type="submit"
-                        disabled={!(this.state.title)}
+                        disabled={!(this.state.title && this.state.editorText)}
                         color="primary"
                     >
                         Save

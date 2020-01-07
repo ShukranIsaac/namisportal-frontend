@@ -5,9 +5,9 @@ import styles from '../contact/form.styles';
 import UserProfile, { profile } from '../user/user.profile';
 import ButtonControl from '../forms/buttons/button.default.control';
 import { Intent, Button } from '@blueprintjs/core';
-import { BootsrapTextareaField } from '../forms/form.textarea.field';
 import BootstrapGridColumn from '../forms/form.grid.column';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
+import CustomCKEditor from '../ckeditor/editor.component';
 
 /**
  * Create new licensing step
@@ -41,6 +41,10 @@ class EditLicensingStep extends Component {
 
     }
 
+    setEditorText = (editor) => {
+        this.setState({ editorText: editor.getData() });
+    }
+
     handleSubmit = (event) => {
         // prevent default behaviour
         event.preventDefault();
@@ -50,14 +54,14 @@ class EditLicensingStep extends Component {
         const user = UserProfile.get();
         if (user !== null && user.token !== undefined) {
             // get form fields values
-            const { name, shortname, summary } = this.state;
+            const { name, shortname, editorText } = this.state;
 
-            if (name || shortname || summary) {
+            if (name || shortname || editorText) {
                 // define sub-category structure
                 const _sub_category = {
                     name: name,
                     shortName: shortname,
-                    about: summary,
+                    about: editorText,
                 }
 
                 if (subcategory !== null && subcategory !== undefined) {
@@ -106,7 +110,7 @@ class EditLicensingStep extends Component {
         const { classes, handleClick, subcategory, general } = this.props;
 
         // state
-        const { name, shortname, summary } = this.state;
+        const { name, shortname, editorText } = this.state;
 
         // authenticated user
         const user = UserProfile.get();
@@ -157,17 +161,11 @@ class EditLicensingStep extends Component {
                                             </BootstrapGridColumn>
                                         </div>
 
-                                        <div className="form-group">
-                                            <BootsrapTextareaField
-                                                name="summary"
-                                                value={subcategory ? (this.state.summary ? this.state.summary : subcategory.about) : ''}
-                                                placeholder="Enter license process summary..."
-                                                label="Summary Text"
-                                                type="text"
-                                                rows={10}
-                                                handleChange={this.handleChange}
-                                            />
-                                        </div>
+                                        <CustomCKEditor
+                                            editorText={subcategory ? (this.state.summary ? this.state.summary : subcategory.about) : ''}
+                                            label="Summary Text"
+                                            setEditorText={this.setEditorText}
+                                        />
                                     </Fragment>
                                 ) : null
                             ) : <div className="loader" />
@@ -176,7 +174,7 @@ class EditLicensingStep extends Component {
 
                     <Button
                         type="submit"
-                        disabled={!(name || shortname || summary)}
+                        disabled={!(name || shortname || editorText)}
                         intent="success"
                         text="Update"
                     />
