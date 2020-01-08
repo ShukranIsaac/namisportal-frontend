@@ -11,6 +11,7 @@ import BootstrapGridColumn from '../forms/form.grid.column';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import { BootsrapTextareaField } from '../forms/form.textarea.field';
 import Toast from '../../toastfy';
+import CustomCKEditor from '../ckeditor/editor.component';
 
 /**
  * Add new question sections(general categories)
@@ -39,6 +40,10 @@ class CreateQuestion extends Component {
 
         this.setState({ [event.target.name]: event.target.value });
 
+    }
+
+    setEditorText = (editor) => {
+        this.setState({ editorText: editor.getData() });
     }
 
     // choosen section
@@ -127,12 +132,12 @@ class CreateQuestion extends Component {
         // be uploaded to
         const { section } = this.state;
         const {
-            _question, answer, shortname,
+            _question, editorText, shortname,
             section_name, section_short_name, section_summary,
             resource_name, resource_short_name, resource_summary
         } = this.state;
 
-        const emptyQFields = _question && answer && shortname ? false : true;
+        const emptyQFields = _question && editorText && shortname ? false : true;
         const emptySFields = section_name && section_short_name && section_summary ? false : true;
 
         // get authenticated user token
@@ -196,7 +201,7 @@ class CreateQuestion extends Component {
                 edited_question = {
                     name: _question,
                     shortName: shortname,
-                    about: answer
+                    about: editorText
                 }
 
                 if (section) {
@@ -226,10 +231,10 @@ class CreateQuestion extends Component {
 
         const { classes } = this.props;
         const {
-            section_name, section_short_name, section_summary
+            section_name, section_short_name, editorText
         } = this.state;
 
-        const emptySFields = section_name && section_short_name && section_summary ? false : true;
+        const emptySFields = section_name && section_short_name && editorText ? false : true;
 
         return (
             <Fragment>
@@ -255,12 +260,13 @@ class CreateQuestion extends Component {
                         />
                     </BootstrapGridColumn>
                 </div>
+
                 <div className="form-group">
                     <BootsrapTextareaField
-                        name='section_summary'
-                        value={this.state.section_summary}
-                        label="Summary*"
-                        placeholder="Enter section summary..."
+                        name="answer"
+                        value={this.state.question}
+                        placeholder="Enter answer to the question..."
+                        label="Answer*"
                         type="text"
                         rows={10}
                         handleChange={this.handleTextChange}
@@ -360,10 +366,10 @@ class CreateQuestion extends Component {
 
         const { classes, handleClick } = this.props;
         const {
-            _question, answer, shortname,
+            _question, editorText, shortname,
         } = this.state;
 
-        const emptyQFields = _question && answer && shortname ? false : true;
+        const emptyQFields = _question && editorText && shortname ? false : true;
         // Frequently asked question sections
         const sections = this.props.maincategory;
 
@@ -490,17 +496,12 @@ class CreateQuestion extends Component {
                                                         />
                                                     </BootstrapGridColumn>
                                                 </div>
-                                                <div className="form-group">
-                                                    <BootsrapTextareaField
-                                                        name="answer"
-                                                        value={this.state.question}
-                                                        placeholder="Enter answer to the question..."
-                                                        label="Answer*"
-                                                        type="text"
-                                                        rows={10}
-                                                        handleChange={this.handleTextChange}
-                                                    />
-                                                </div>
+
+                                                <CustomCKEditor
+                                                    editorText={this.state.editorText}
+                                                    label="Summary*"
+                                                    setEditorText={this.setEditorText}
+                                                />
                                             </>
                                         )
                                     )

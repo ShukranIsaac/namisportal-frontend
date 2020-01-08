@@ -54,7 +54,7 @@ const ListNewsArticles = ({ articles, handleClick, general, classes }) => {
                                                     ? <a href="#/">{title}</a>
                                                     : <a
                                                         name="edit" id={_id}
-                                                        key={_id} href={`${'/faqs/' + title}`}
+                                                        key={_id} href={`${'/news/' + title}`}
                                                         onClick={(e) => handleClick(e)}
                                                         disabled={!profile.canWrite({ user })}
                                                     >

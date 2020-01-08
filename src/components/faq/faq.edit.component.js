@@ -10,6 +10,7 @@ import { SelectInputControl } from '../forms/form.selectinput.field';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import { BootsrapTextareaField } from '../forms/form.textarea.field';
 import BootstrapGridColumn from '../forms/form.grid.column';
+import CustomCKEditor from '../ckeditor/editor.component';
 
 /**
  * Edit a particular question 
@@ -79,6 +80,10 @@ class EditQuestion extends Component {
 
     }
 
+    setEditorText = (editor) => {
+        this.setState({ editorText: editor.getData() });
+    }
+
     handleAddSection = (event) => {
         // prevent default events
         event.preventDefault();
@@ -99,8 +104,8 @@ class EditQuestion extends Component {
                 if (this.state.section._id === event.currentTarget.value) {
                     // proceeed to delete the selected section or category
                     this.props.archiveCategory(
-                        this.state.section, 
-                        user.token, 
+                        this.state.section,
+                        user.token,
                         this.props.capitalize(this.props.link)
                     );
                 }
@@ -112,9 +117,9 @@ class EditQuestion extends Component {
         // Prevent default submit action
         e.preventDefault();
         // question
-        const { _question, question, answer, shortName, section_name, section_short_name, section_summary } = this.state;
+        const { _question, question, editorText, shortName, section_name, section_short_name, section_summary } = this.state;
 
-        const emptyQFields = _question || answer || shortName ? false : true;
+        const emptyQFields = _question || editorText || shortName ? false : true;
         const emptySFields = section_name && section_short_name && section_summary ? false : true;
 
         // get authenticated user token
@@ -127,7 +132,7 @@ class EditQuestion extends Component {
                 edited_question = {
                     name: _question,
                     shortName: shortName,
-                    about: answer
+                    about: editorText
                 }
 
                 // question defined
@@ -202,9 +207,9 @@ class EditQuestion extends Component {
         // Frequently asked question sections
         const sections = this.props.maincategory;
 
-        const { _question, answer, shortName, section_name, section_short_name, section_summary } = this.state;
+        const { _question, editorText, shortName, section_name, section_short_name, section_summary } = this.state;
 
-        const emptyQFields = _question || answer || shortName ? false : true;
+        const emptyQFields = _question || editorText || shortName ? false : true;
         const emptySFields = section_name && section_short_name && section_summary ? false : true;
 
         // auth user
@@ -250,7 +255,7 @@ class EditQuestion extends Component {
                                     <Paper elevation={0}>
 
                                         <SelectInputControl
-                                            disabled={ true }
+                                            disabled={true}
                                             name="section"
                                             {...this.state}
                                             // value={ this.state.section }
@@ -328,17 +333,11 @@ class EditQuestion extends Component {
                                                 </BootstrapGridColumn>
                                             </div>
 
-                                            <div className="form-group">
-                                                <BootsrapTextareaField
-                                                    name="answer"
-                                                    value={this.state.question ? (this.state.answer ? this.state.answer : this.state.question.about) : null}
-                                                    placeholder="Edit the answer to the question..."
-                                                    label="Answer"
-                                                    type="text"
-                                                    rows={10}
-                                                    handleChange={this.handleTextChange}
-                                                />
-                                            </div>
+                                            <CustomCKEditor
+                                                editorText={this.state.question ? (this.state.editorText ? this.state.editorText : this.state.question.about) : null}
+                                                label="Answer"
+                                                setEditorText={this.setEditorText}
+                                            />
 
                                             {
                                                 general !== undefined && general.isLoading ? (<div className="loader" />) : null
