@@ -13,7 +13,7 @@ import styles from '../contact/form.styles';
 import UserProfile, { profile } from '../user/user.profile';
 import BootstrapGridColumn from '../forms/form.grid.column';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
-import { BootsrapTextareaField } from '../forms/form.textarea.field';
+import CustomCKEditor from '../ckeditor/editor.component';
 
 /**
  * A multi-step form component for the user to fill when applying or 
@@ -49,24 +49,28 @@ class EditFinancingRequestSupport extends Component {
 
     }
 
+    setEditorText = (editor) => {
+        this.setState({ editorText: editor.getData() });
+    }
+
     handleSubmit = (event) => {
         // prevent default behaviour
         event.preventDefault();
         // category under which this subcategory should 
         // be uploaded to
         const { maincategory } = this.props;
-        const { subcategory, shortname, summary } = this.state;
+        const { subcategory, shortname, editorText } = this.state;
         // get authenticated user token
         const user = UserProfile.get();
         if (user !== null && user.token !== undefined) {
 
             let sub_category;
-            if (subcategory || shortname || summary) {
+            if (subcategory || shortname || editorText) {
                 // define sub-category structure
                 sub_category = {
                     name: subcategory,
                     shortName: shortname,
-                    about: summary
+                    about: editorText
                 }
 
                 this.props.editCategory(
@@ -109,7 +113,7 @@ class EditFinancingRequestSupport extends Component {
         const { classes, handleClick, general } = this.props;
 
         // state
-        const { subcategory, shortname, summary } = this.state;
+        const { subcategory, shortname, editorText } = this.state;
 
         // authenticated user
         const user = UserProfile.get();
@@ -169,21 +173,14 @@ class EditFinancingRequestSupport extends Component {
                                             </BootstrapGridColumn>
                                         </div>
 
-                                        <div className="form-group">
-                                            <BootsrapTextareaField
-                                                name='summary'
-                                                id="summary"
-                                                label='Summary'
-                                                placeholder="Edit sub-category about...."
-                                                value={
-                                                    this.props.subcategory 
-                                                    ? (summary ? summary :  this.props.subcategory.about) : ''
-                                                }
-                                                type="text"
-                                                rows={10}
-                                                handleChange={this.handleChange}
-                                            />
-                                        </div>
+                                        <CustomCKEditor
+                                            label="Summary"
+                                            editorText={
+                                                this.props.subcategory 
+                                                ? (editorText ? editorText :  this.props.subcategory.about) : ''
+                                            }
+                                            setEditorText={this.setEditorText}
+                                        />
                                     </Fragment>
                                 ) : null
                             ) : <div className="loader" />
@@ -192,7 +189,7 @@ class EditFinancingRequestSupport extends Component {
 
                     <Button
                         type="submit"
-                        disabled={!(subcategory || shortname || summary)}
+                        disabled={!(subcategory || shortname || editorText)}
                         intent="success"
                         text="Save"
                     />
