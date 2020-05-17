@@ -33,7 +33,7 @@ export const AppHeader = () => {
                     }
                     aria-haspopup="true"
                     onClick={(event) => redirect.toExternalLink({ 
-                        url: `/cms`, event })
+                        url: `/admin`, event })
                     }
                 >
                     <PersonIcon />
@@ -50,8 +50,8 @@ export const AppHeader = () => {
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="ml-auto" navbar>
                         <NavItem><Link to='/'>Home</Link></NavItem>
-                        <NavItem><Link to='/licensing'>Licensing</Link></NavItem>
-                        <NavItem><Link to='/financing'>Financing</Link></NavItem>
+                        <NavItem><Link to='/namis'>Namis</Link></NavItem>
+                        <NavItem><Link to='/statistics'>Statistics</Link></NavItem>
                         <NavItem><Link to='/library'>Library</Link></NavItem>
                         <NavItem><Link to='/directory'>Directory</Link></NavItem>
                         <NavItem><Link to='/news'>News</Link></NavItem>

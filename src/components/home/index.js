@@ -35,7 +35,7 @@ class Home extends Component {
                             </div>
                             <div className="col-lg-6 d-flex align-items-center justify-content-start right">
                                 <div className="jumbotron my-5 w-75 re-w text-left">
-                                    <h1 className="display-4 re-display-font-size">Minigrid Developers</h1>
+                                    <h1 className="display-4 re-display-font-size">NAMIS Portal</h1>
                                     <p className="lead">
                                         This Portal provides comprehensive information for policy makers, investors and other stakeholders interested in the development of renewable energy mini grids in Malawi.
                                     </p>

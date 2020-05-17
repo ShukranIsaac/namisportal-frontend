@@ -31,23 +31,19 @@ import Breadcrumbs from './components/breadcrumbs/crumbs/breadcrumbs';
 import BreadRoute from './components/breadcrumbs/breadcrumb.route';
 import PageNotFound from './components/page.not.found';
 
-const defaultHeight = 0;
-
 const wrapper = {
     minHeight: '100vh',
     position: 'relative'
 }
 
-const content = {
-    paddingBottom: defaultHeight,
-}
-
 export const Wrapper = ({ children }) => {
 
     return (
-        <div style={content}>
+        <div style={{ paddingBottom: 0 }}>
             <AppHeader />
 
+            <Breadcrumbs />
+            
             {children}
 
             <Footer />
@@ -63,9 +59,9 @@ export default withRouter(() => {
             <Router>
                 <Switch>
                     <BreadRoute path="/" exact render={props => <Wrapper><Home {...props} /></Wrapper>} />
-                    <UserPrivateRoute path="/cms" component={CMSIndex} />
-                    <BreadRoute title="Licensing" exact path="/licensing" render={props => <Wrapper><Licensing {...props} /></Wrapper>} />
-                    <BreadRoute title="Financing" exact path="/financing" render={props => <Wrapper><Financing {...props} /></Wrapper>} />
+                    <UserPrivateRoute path="/admin" component={CMSIndex} />
+                    <BreadRoute title="Namis" exact path="/namis" render={props => <Wrapper><Licensing {...props} /></Wrapper>} />
+                    <BreadRoute title="Statistics" exact path="/statistics" render={props => <Wrapper><Financing {...props} /></Wrapper>} />
                     <BreadRoute title="Library" exact path="/library" render={props => <Wrapper><Library {...props} /></Wrapper>} />
                     <BreadRoute title="Directory" exact path="/directory" render={props => <Wrapper><Directory {...props} /></Wrapper>} />
                     <BreadRoute title="Stakeholder" exact path="/directory/:id" render={props => <Wrapper><ItemProfile {...props} /></Wrapper>} />

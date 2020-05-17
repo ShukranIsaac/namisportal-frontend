@@ -9,8 +9,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import FinancingIcon from '@material-ui/icons/AttachMoney';
-import DocumentIcon from '@material-ui/icons/InsertDriveFile'
-import GisIcon from '@material-ui/icons/Map'
+import DocumentIcon from '@material-ui/icons/InsertDriveFile';
 import LicencingIcon from '@material-ui/icons/Gavel'
 import DirectoryIcon from '@material-ui/icons/LocalLibrary'
 import NewsIcon from '@material-ui/icons/LibraryBooks'
@@ -28,7 +27,6 @@ const drawer_controls = [
     { name: 'financing', button: <FinancingIcon /> },
     { name: 'directory', button: <DirectoryIcon /> },
     { name: 'library', button: <DocumentIcon /> },
-    { name: 'gis', button: <GisIcon /> },
     { name: 'news', button: <NewsIcon /> },
     // { name: 'contact', button: <ContactIcon/>},
     { name: 'faqs', button: <FAQIcon /> }

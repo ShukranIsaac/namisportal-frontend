@@ -20,7 +20,6 @@ import EditHomeSubcategory from '../home/home.edit.subcategory';
 import CreateHomeSubcategory from '../home/home.add.subcategory';
 import { ListFinancingRequests } from '../financing/financing.list.requests';
 import EditFinancingRequestSupport from '../financing/financing.edit.request';
-import AddFeature from '../gis/gis.cms.add_feature';
 import ListUserAccounts from '../user/user.list.cms.component';
 import EditUserAccount from '../user/user.edit.cms.component';
 import EditUserProfile from '../user/user.details.cms.component';
@@ -31,7 +30,6 @@ import { ListLicensing } from '../licensing/licensing.list';
 import CreateLicensingStep from '../licensing/licensing.create';
 import EditLicensingStep from '../licensing/licensing.edit';
 import AddUserAccount from '../user/user.add.component';
-import GisFeatures from '../gis/gis.cms.features';
 
 /**
  * Renders a single section resource i.e. licencing, library at cms index
@@ -52,8 +50,6 @@ const RenderSection = ({
     handleClick,
     handleChange,
     category,
-    district_name,
-    region_name,
     capitalize,
     handleFilteredResource,
     filteredResource
@@ -166,29 +162,6 @@ const RenderSection = ({
                             capitalize={capitalize}
                         />
                         }
-                    />
-
-                </Fragment>
-            );
-
-        case 'gis':
-            // console.log(props)
-            return (
-                <Fragment>
-
-                    <ResourceSection
-                        option={props.user_event}
-                        name="gis"
-                        List={() => <GisFeatures
-                            {...props}
-                            district_name={district_name}
-                            region_name={region_name}
-                            handleClick={(e) => handleClick(e)}
-                            handleChange={(e) => handleChange(e)}
-                        />
-
-                        }
-                        Create={() => <AddFeature {...props} handleClick={(e) => handleClick(e)} link={link} capitalize={capitalize} />}
                     />
 
                 </Fragment>
