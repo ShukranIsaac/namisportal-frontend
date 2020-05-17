@@ -564,7 +564,7 @@ class CMSIndex extends React.Component {
                                 href="/#" style={{ color: `white` }}
                                 onClick={(event) => redirect.toExternalLink({ url: '/', event })}
                             >
-                                Malawi Mini Grids
+                                Admin - Namis Portal
                             </a>
                         </Typography>
 

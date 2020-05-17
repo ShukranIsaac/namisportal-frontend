@@ -6,7 +6,6 @@ import Home from './components/home';
 import Contact from './components/contact';
 import Directory from './components/directory';
 import FAQ from './components/faq';
-import GIS from './components/gis';
 import News from './components/news';
 import Financing from './components/financing';
 import Library from './components/library';
@@ -43,17 +42,15 @@ const content = {
     paddingBottom: defaultHeight,
 }
 
-export const Wrapper = ({ component, children }) => {
+export const Wrapper = ({ children }) => {
 
     return (
         <div style={content}>
             <AppHeader />
 
-            {component !== "GIS" ? <Breadcrumbs className="demo__crumbs" /> : null}
-
             {children}
 
-            {component !== "GIS" ? <Footer /> : null}
+            <Footer />
         </div>
     )
 
@@ -72,7 +69,6 @@ export default withRouter(() => {
                     <BreadRoute title="Library" exact path="/library" render={props => <Wrapper><Library {...props} /></Wrapper>} />
                     <BreadRoute title="Directory" exact path="/directory" render={props => <Wrapper><Directory {...props} /></Wrapper>} />
                     <BreadRoute title="Stakeholder" exact path="/directory/:id" render={props => <Wrapper><ItemProfile {...props} /></Wrapper>} />
-                    <Route exact path="/gis" render={props => <Wrapper component={`GIS`}><GIS {...props} /></Wrapper>} />
                     <BreadRoute title="News" exact path="/news" render={props => <Wrapper><News {...props} /></Wrapper>} />
                     <BreadRoute title="Article" exact path="/news/:id" render={props => <Wrapper><NewsItemDetails {...props} /></Wrapper>} />
                     <BreadRoute title="Faqs" exact path="/faqs" render={props => <Wrapper><FAQ {...props} /></Wrapper>} />
