@@ -14,55 +14,29 @@ export const Breadcrumbs = ({
     wrapper: Wrapper, 
     setCrumbs, 
     breadcrumbs,
+    crumbs: Navigation,
     ...props 
 }) => {
     const hiddenMod = hidden ? `${block}--hidden` : '';
 
     let crumbs = breadcrumbs.sort((a, b) => {
         return a.pathname.length - b.pathname.length
-    })
+    });
 
     if (setCrumbs) crumbs = setCrumbs(crumbs);
 
-    return (
-        <div className={className}>
-            <Wrapper 
-                className={`${block} ${hiddenMod}`} 
-                style={{ backgroundColor: "#416fd1" }}>
-                <div className={`${block}__inner`}>
-                    {
-                        crumbs.map((crumb, i) => (
-                            <span key={crumb.id} className={`${block}__section`}>
-                                <Link
-                                    exact
-                                    style={{ color: "#fff" }}
-                                    className={`${block}__crumb`}
-                                    activeClassName={`${block}__crumb--active`}
-                                    to={{
-                                        pathname: crumb.pathname,
-                                        search: crumb.search,
-                                        state: crumb.state
-                                    }}>
-                                    {crumb.title}
-                                </Link>
+    return (<div className={className}>
+        <Wrapper 
+            className={`${block} ${hiddenMod}`} 
+            style={{ backgroundColor: "#416fd1" }}>
+            <div className={`${block}__inner`}>
+                <Navigation crumbs={ crumbs } {...props} />
+            </div>
+        </Wrapper>
 
-                                {
-                                    i < crumbs.length - 1 ? (
-                                        <span className={`${block}__separator`}>
-                                            {props.separator}
-                                        </span>
-                                    ) : <span />
-                                }
-                            </span>
-                        ))
-                    }
-                </div>
-            </Wrapper>
+        {props.children}
 
-            {props.children}
-
-        </div>
-    )
+    </div>);
 }
 
 Breadcrumbs.propTypes = {
@@ -70,6 +44,12 @@ Breadcrumbs.propTypes = {
     hidden: PropTypes.bool,
     separator: PropTypes.node,
     setCrumbs: PropTypes.func,
+    crumbs: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.instanceOf(
+            React.Component
+        )
+    ]),
     wrapper: PropTypes.oneOfType([
         PropTypes.func,
         PropTypes.instanceOf(
@@ -92,7 +72,34 @@ Breadcrumbs.defaultProps = {
         <nav {...props}>
             {props.children}
         </nav>
-    )
+    ),
+    crumbs: ({
+        crumbs,
+        separator
+    }) => crumbs.map((crumb, i) => (
+        <span key={crumb.id} className={`${block}__section`}>
+            <Link
+                exact
+                style={{ color: "#fff" }}
+                className={`${block}__crumb`}
+                activeClassName={`${block}__crumb--active`}
+                to={{
+                    pathname: crumb.pathname,
+                    search: crumb.search,
+                    state: crumb.state
+                }}>
+                {crumb.title}
+            </Link>
+
+            {
+                i < crumbs.length - 1 ? (
+                    <span className={`${block}__separator`}>
+                        {separator}
+                    </span>
+                ) : <span />
+            }
+        </span>
+    )),
 }
 
 const mapStateToProps = (state) => ({
