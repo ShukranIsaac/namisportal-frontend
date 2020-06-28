@@ -1,9 +1,8 @@
 import React from 'react';
 import { withRouter } from "react-router";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 
 import Home from './components/home';
-import Contact from './components/contact';
 import Directory from './components/directory';
 import FAQ from './components/faq';
 import News from './components/news';
@@ -68,7 +67,6 @@ export default withRouter(() => {
                     <BreadRoute title="News" exact path="/news" render={props => <Wrapper><News {...props} /></Wrapper>} />
                     <BreadRoute title="Article" exact path="/news/:id" render={props => <Wrapper><NewsItemDetails {...props} /></Wrapper>} />
                     <BreadRoute title="Faqs" exact path="/faqs" render={props => <Wrapper><FAQ {...props} /></Wrapper>} />
-                    <BreadRoute title="Contact" exact path="/contact" render={props => <Wrapper><Contact {...props} /></Wrapper>} />
                     <BreadRoute exact path="/login" render={props => <UserLogin {...props} />} />
                     <BreadRoute exact path="/register" render={props => <UserRegistration {...props} />} />
                     <BreadRoute exact path="/forgotpassword" render={props => <ForgotPassword {...props} /> } />

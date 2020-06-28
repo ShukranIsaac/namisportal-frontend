@@ -1,54 +1,23 @@
-import React, { Component, Fragment } from 'react';
-import { Card, CardBody, Row, Container } from 'reactstrap'
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import ContactForm from './contact.form';
-import ParticlesComponent from '../user/particles';
 import './style.css'
 
 import * as UserAuthAction from '../../actions/user.action';
 
-class Contact extends Component {
+const Contact = ({
+    ...props
+}) => {
 
-    componentDidMount() {
-
-        // fetch
-        // this.props.fetchContact('Contact');
-
-    }
-
-    render() {
-
-        const { classes } = this.props;
-
-        return (
-            <Fragment>
-
-                <div className="page-content">
-
-                    <ParticlesComponent />
-
-                    <Container>
-
-                        <Row>
-                            <Card className={classes.width100}>
-                                <CardBody>
-
-                                    <ContactForm {...this.props} />
-
-                                </CardBody>
-                            </Card>
-                        </Row>
-                    </Container>
-
-                </div>
-
-            </Fragment>
-        );
-
-    }
+    return (<div className="container">
+            <div className="row">
+                <ContactForm {...props} />
+            </div>
+        </div>
+    );
 }
 
 const mapStateToProps = (state) => {
@@ -103,4 +72,5 @@ Contact.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Contact));
+export default withStyles(styles)(connect(mapStateToProps, 
+    mapDispatchToProps)(Contact));

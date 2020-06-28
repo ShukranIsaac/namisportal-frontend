@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 
 // TODO: Use imitation and allow it to be passed as a prop
-import { NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 // Specify BEM block name
 const block = 'breadcrumbs'
@@ -43,8 +43,12 @@ export class Breadcrumbs extends React.Component {
     }
 
     render() {
-        let { className, hidden, wrapper: Wrapper, setCrumbs, breadcrumbs } = this.props;
-
+        let { 
+            className, hidden, 
+            wrapper: Wrapper, 
+            setCrumbs, breadcrumbs 
+        } = this.props;
+        
         let hiddenMod = hidden ? `${block}--hidden` : '';
 
         let crumbs = breadcrumbs.sort((a, b) => {
@@ -57,13 +61,16 @@ export class Breadcrumbs extends React.Component {
 
         return (
             <div className={className}>
-                <Wrapper className={`${block} ${hiddenMod}`}>
+                <Wrapper 
+                    className={`${block} ${hiddenMod}`} 
+                    style={{ backgroundColor: "#416fd1" }}>
                     <div className={`${block}__inner`}>
                         {
                             crumbs.map((crumb, i) => (
                                 <span key={crumb.id} className={`${block}__section`}>
-                                    <NavLink
+                                    <Link
                                         exact
+                                        style={{ color: "#fff" }}
                                         className={`${block}__crumb`}
                                         activeClassName={`${block}__crumb--active`}
                                         to={{
@@ -72,14 +79,14 @@ export class Breadcrumbs extends React.Component {
                                             state: crumb.state
                                         }}>
                                         {crumb.title}
-                                    </NavLink>
+                                    </Link>
 
                                     {
                                         i < crumbs.length - 1 ? (
                                             <span className={`${block}__separator`}>
                                                 {this.props.separator}
                                             </span>
-                                        ) : null
+                                        ) : <span />
                                     }
                                 </span>
                             ))

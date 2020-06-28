@@ -92,18 +92,57 @@ class UserRegistration extends Component {
 
     }
 
+    registerForm = ({
+        email,
+        username,
+        password,
+        firstName,
+        lastName,
+        confirmPassword
+     }) => {
+        const { general } = this.props;
+
+        const fieldsValid = (email && username 
+                            && password && firstName 
+                            && lastName && confirmPassword 
+                            && password.length > 6 ? false : true);
+
+        return (<form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
+
+            <PersonalProfile handleChange={this.handleChange} {...this.state} />
+
+            <div className="margin-fix form-row">
+                <BootstrapGridColumn>
+                    <Button
+                        type="submit"
+                        disabled={fieldsValid}
+                        color="success">
+                        {
+                            general ? (
+                                general.isLoading ? (
+                                    <>Registering...</>
+                                ) : <>Register</>
+                            ) : <>Register</>
+                        }
+                    </Button>
+                </BootstrapGridColumn>
+                <BootstrapGridColumn>
+                    <Link
+                        to="/login"    
+                    >
+                        <button
+                            type="button"
+                            className="btn btn-default"
+                        >Cancel</button>
+                    </Link>
+                </BootstrapGridColumn>
+            </div>
+        </form>);
+    } 
+
     render() {
 
-        const { user, general } = this.props;
-
-        const {
-            email,
-            username,
-            password,
-            firstName,
-            lastName,
-            confirmPassword
-        } = this.state;
+        const { user } = this.props;
 
         // check if user is successfully registered
         if (user !== null) {
@@ -117,8 +156,6 @@ class UserRegistration extends Component {
             }
 
         }
-
-        const fieldsValid = email && username && password && firstName && lastName && confirmPassword && password.length > 6 ? false : true;
 
         return (
             <Fragment>
@@ -138,42 +175,10 @@ class UserRegistration extends Component {
                                     <div style={{ textAlign: 'center' }}>
                                         <CardImg src={require("../../../src/assets/img/malawi.png")} />
                                         <br />
-                                        <p>
-                                            Department of Energy Affairs, Ministry of Energy and Natural Resources
-                                        </p>
+                                        <p>Ministry of Agriculture</p>
                                     </div>
 
-                                    <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
-
-                                        <PersonalProfile handleChange={this.handleChange} {...this.state} />
-
-                                        <div className="margin-fix form-row">
-                                            <BootstrapGridColumn>
-                                                <Button
-                                                    type="submit"
-                                                    disabled={fieldsValid}
-                                                    color="success">
-                                                    {
-                                                        general ? (
-                                                            general.isLoading ? (
-                                                                <>Registering...</>
-                                                            ) : <>Register</>
-                                                        ) : <>Register</>
-                                                    }
-                                                </Button>
-                                            </BootstrapGridColumn>
-                                            <BootstrapGridColumn>
-                                                <Link
-                                                    to="/login"    
-                                                >
-                                                    <button
-                                                        type="button"
-                                                        className="btn btn-default"
-                                                    >Cancel</button>
-                                                </Link>
-                                            </BootstrapGridColumn>
-                                        </div>
-                                    </form>
+                                    { this.registerForm(this.state) }
 
                                 </CardBody>
 

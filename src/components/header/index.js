@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Collapse, Navbar, NavbarToggler, Nav, NavItem } from 'reactstrap';
 import { Link } from "react-router-dom";
 import PersonIcon from '@material-ui/icons/People';
@@ -11,11 +11,7 @@ import UserProfile from '../user/user.profile';
 export const AppHeader = () => {
     const [isOpen, setIsOpen] = useState(false);
 
-    useEffect(() => setIsOpen(!isOpen), []);
-
-    const toggle = () => {
-        setIsOpen(!isOpen);
-    }
+    const toggleHamburger = () => setIsOpen(!isOpen);
 
     /** 
      * Authenticated user
@@ -24,13 +20,12 @@ export const AppHeader = () => {
 
     const userAccountTooltip = () => {
         return (
-            <Tooltip title={user != null ? user.username : "Please login!"}>
+            <Tooltip title={user ? user.username : "Please login!"}>
                 <IconButton
                     aria-label="Admin"
                     buttonRef={node => {
                         // anchorEl = node
-                    }
-                    }
+                    }}
                     aria-haspopup="true"
                     onClick={(event) => redirect.toExternalLink({ 
                         url: `/admin`, event })
@@ -45,18 +40,29 @@ export const AppHeader = () => {
     return (
         <div id='giveHeaderHeight'>
             <Navbar color="light" light expand="md">
-                <Link to="/"><h4>Namis Portal</h4></Link>
-                <NavbarToggler />
+                <Link to="/"><h4>Namis MIS</h4></Link>
+                <NavbarToggler onClick={toggleHamburger}/>
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="ml-auto" navbar>
                         <NavItem><Link to='/'>Home</Link></NavItem>
-                        <NavItem><Link to='/namis'>Namis</Link></NavItem>
-                        <NavItem><Link to='/statistics'>Statistics</Link></NavItem>
+                        <NavItem>
+                            <Link 
+                                to='/#' 
+                                onClick={e => redirect.toExternalLink({
+                                    url: 'www.namis.org/namis1', event: e
+                            })}>Namis</Link>
+                        </NavItem>
+                        <NavItem>
+                            <Link 
+                                to='/#' 
+                                onClick={e => redirect.toExternalLink({
+                                    url: 'www.namis.org/portal', event: e
+                            })}>Statistics</Link>
+                        </NavItem>
                         <NavItem><Link to='/library'>Library</Link></NavItem>
                         <NavItem><Link to='/directory'>Directory</Link></NavItem>
                         <NavItem><Link to='/news'>News</Link></NavItem>
                         <NavItem><Link to="/faqs">FAQs</Link></NavItem>
-                        <NavItem><Link to='/contact'>Contact</Link></NavItem>
                         <NavItem>{ userAccountTooltip() }</NavItem>
                     </Nav>
                 </Collapse>

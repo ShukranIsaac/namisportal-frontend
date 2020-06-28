@@ -118,7 +118,7 @@ class UserLogin extends Component {
             // then redirect to cms index page
             // or else wait for user to enter login password and username in the 
             // form provided.
-            return redirect.to({ url: '/cms', from: this.context })
+            return redirect.to({ url: '/admin', from: this.context })
 
         }
 
@@ -148,9 +148,7 @@ class UserLogin extends Component {
                                 <CardBody>
                                     <div style={{ textAlign: 'center' }}>
                                         <CardImg src={require("../../../src/assets/img/malawi.png")} />
-                                        <p>
-                                            Department of Energy Affairs, Ministry of Energy and Natural Resources
-                                        </p>
+                                        <p>Ministry of Agriculture</p>
                                     </div>
 
                                     <form className={{ style: 'center' }} onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">

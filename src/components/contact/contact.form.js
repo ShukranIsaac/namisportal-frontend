@@ -33,21 +33,17 @@ export const TextField = ({ icon, value }) => {
 
 }
 
-export class SidebarDefault extends React.Component {
+export const SidebarDefault = ({ col, ...props }) => {
 
-    render() {
-        const { col } = this.props;
-
-        return (
-            <div className={col}>
-                <ul className="nav nav-pills nav-stacked">
-                    {
-                        this.props.children
-                    }
-                </ul>
-            </div>
-        );
-    }
+    return (
+        <div className={col}>
+            <ul className="nav nav-pills nav-stacked">
+                {
+                    props.children
+                }
+            </ul>
+        </div>
+    );
 
 }
 
@@ -56,7 +52,8 @@ const SendButton = ({ text, ...other }) => {
     return (<Button
         style={{ alignSelf: 'center' }}
         type="submit"
-        disabled={!(other.fullname && other.email && other.message && other.subject)}
+        disabled={!(other.fullname && other.email && 
+            other.message && other.subject)}
         intent="success"
         text={ text }
     />);
@@ -127,34 +124,29 @@ class ContactForm extends Component {
 
         }
 
-        return (
-
-            <form
-                className={{ style: 'center' }}
+        return (<form className="container" autoComplete="off"
                 onSubmit={(e) => this.handleSubmit(e)}
-                autoComplete="off"
             >
-                <div className='margin-fix form-row'>
+                <div className='form-row'>
                     <BootstrapGridColumn>
-                        <div className='margin-fix form-row'>
+                        <div className='form-row'>
                             {/* <h4 style={{ marginLeft: `2em`, marginTop: `2e` }}><strong>Contact Us</strong></h4> */}
-                            <h6 style={{ marginLeft: `1.5em`, marginTop: `1.5em`, marginRight: `1.5em` }}>
-                                <p>The Working Group welcomes questions and comments about this site.</p>
-                                <p>Please use the email, physical address or form below to contact us.</p>
+                            <h6 style={{ marginLeft: `1.5em`, marginTop: `1em`, marginRight: `1.5em` }}>
+                                <h2>Contact Us</h2>
                             </h6>
                         </div>
                         <SidebarDefault>
-                            <TextField icon={<ContactAddress />} value={`Energy Affairs Department, P/Bag 309, Lilongwe 3`} />
-                            <TextField icon={<ContactMail />} value={`info@energy.gov.mw`} />
+                            <TextField icon={<ContactAddress />} value={`Ministry of Agriculture, P/Bag X, Lilongwe 3`} />
+                            <TextField icon={<ContactMail />} value={`info@namis.gov.mw`} />
                             <TextField icon={<ContactMobile />} value={`+265 (1) 770 688`} />
-                            <TextField icon={<ContactFax />} value={`+265 (1) 770 094/771954`} />
+                            <TextField icon={<ContactFax />} value={`+265 (1) 770 094`} />
                         </SidebarDefault>
                     </BootstrapGridColumn>
                     <BootstrapGridColumn>
                         <div className='margin-fix form-row'>
-                            <h3 style={{ textAlign: 'center' }}>Feel free to ask anything!</h3>
+                            <h3>Any questions? Please send us a message!</h3>
                         </div>
-                        <div className='margin-fix form-row'>
+                        <div className='form-row'>
                             <BootstrapGridColumn>
                                 <BootsrapTextField
                                     name="fullname"
@@ -165,6 +157,9 @@ class ContactForm extends Component {
                                     handleChange={this.handleChange}
                                 />
                             </BootstrapGridColumn>
+                        </div>
+
+                        <div className='form-row'>
                             <BootstrapGridColumn>
                                 <BootsrapTextField
                                     name='email'
@@ -195,7 +190,7 @@ class ContactForm extends Component {
                                 label='Message*'
                                 type='text'
                                 placeholder='Your message...'
-                                rows={8}
+                                rows={4}
                                 handleChange={this.handleChange}
                             />
                         </div>

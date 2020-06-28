@@ -1,16 +1,46 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import Sponsors from '../sponsors';
+import Contact from '../contact';
 
-export const Footer = () => {
+export const Footer = ({
+    stickToBottom,
+    footer,
+    span
+}) => (<div id='footer'>
+        <div style={stickToBottom}> 
+            <Contact />
 
-    const stickToBottom = {
+            <Sponsors />
+        </div>
+
+        <br />
+
+        <div style={footer}>
+            <span style={span}>
+                Copyright &copy; {
+                    new Date().getFullYear()
+                }. All rights Reserved | Ministry of Agriculture, Malawi
+            </span>
+        </div>
+    </div>
+);
+
+Footer.propTypes = {
+    stickToBottom: PropTypes.object,
+    footer: PropTypes.object,
+    span: PropTypes.object
+}
+
+Footer.defaultProps = {
+    stickToBottom: {
         position: 'relative',
         right: 0,
         bottom: 0,
         left: 0,
-    }
-
-    const footer = {
+    },
+    footer: {
         padding: '10px',
         background: '#182026',
         color: '#FFFFFF',
@@ -19,25 +49,10 @@ export const Footer = () => {
         right: 0,
         bottom: 0,
         left: 0,
-    }
-
-    const span = {
+    },
+    span: {
         fontSize: '14px'
     }
-
-    return (
-        <div id='footer'>
-            <div style={stickToBottom}>
-                <Sponsors />
-            </div>
-            <br />
-            <div style={footer}>
-                <span style={span}>
-                    Copyright &copy; {new Date().getFullYear()}. All rights Reserved | Ministry of Agriculture, Malawi
-                </span>
-            </div>
-        </div>
-    );
 }
 
 export default Footer;
