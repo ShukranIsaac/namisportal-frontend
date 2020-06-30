@@ -54,11 +54,8 @@ class News extends Component {
     }
 
     // split and splice the string passed
-    splitCount = (string) => {
-
-        return ((string.split(' ')).splice(0, 62)).join(' ');
-
-    }
+    splitCount = (string) => ((string.split(' '))
+    .splice(0, 62)).join(' ');
 
     render() {
 
