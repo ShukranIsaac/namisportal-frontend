@@ -47,9 +47,9 @@ export const AppHeader = () => {
                     src={ LOGO } 
                     alt="Logo"
                     style={{ 
-                        paddingRight: '20px', 
-                        marginBottom: '-40px',
-                        width: '85px', 
+                        paddingRight: '5px', 
+                        marginBottom: '-30px',
+                        width: '55px', 
                     }}
                 />
                 <Link to="/"><h4>Namis MIS</h4></Link>
