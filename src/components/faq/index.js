@@ -52,7 +52,6 @@ export const FAQ = ({
                                 // if this category has question render, 
                                 // else don't
                                 if (subCategories.length !== 0) {
-                                    
                                     return (
                                     <QuestionCategory 
                                         key={name} index={index} 
