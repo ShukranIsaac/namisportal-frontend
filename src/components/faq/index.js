@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Container, Row, Card } from 'reactstrap';
 
@@ -16,127 +16,111 @@ import { Intent } from '@blueprintjs/core';
  * @author Isaac S. Mwakabira
  * 
  */
-class FAQ extends Component {
+export const FAQ = ({
+    fetchFAQuestions,
+    ...props
+}) => {
+    useEffect(() => {
+        fetchFAQuestions("Faqs");
+    }, [fetchFAQuestions])
 
-    componentDidMount() {
-        // fetch faqs
-        this.props.fetchFAQuestions("Faqs");
-    }
+    const { questions, general } = props;
+    const text = "The following are some of the frequently asked questions. If you have not been helped, please contact us through the link given."
 
-    handleChange = (event) => {
+    return (
+        <div className="page-content">
+            <Container>
+                <Row>
+                    {
+                        questions && (
+                            <NoDataCard
+                                text={text}
+                                header={`Frequently asked questions`}
+                                intent={Intent.PRIMARY}
+                            />
+                        )
+                    }
+                    
+                    <CustomColumn sm='12' md='12' lg='12'>
+                    {
+                        questions ? (questions.subCategories &&
+                        questions.subCategories.length !== 0 
+                        && questions.subCategories.map(({
+                                name,
+                                subCategories
+                            }, index) => {
+                                // if this category has question render, 
+                                // else don't
+                                if (subCategories.length !== 0) {
+                                    
+                                    return (
+                                    <QuestionCategory 
+                                        key={name} index={index} 
+                                        name={name} 
+                                    >
+                                    {
+                                        subCategories.length !== 0 
+                                        ? subCategories.map((question, index) => {
 
-        this.setState({ [event.target.name]: event.target.value })
+                                            return <QuestionListItem 
+                                            key={index} 
+                                            question={question} 
+                                        />
 
-    }
-
-    render() {
-
-        const { questions, general } = this.props;
-        const text = "The following are some of the frequently asked questions. If you have not been helped, please contact us through the link given."
-
-        return (
-            <div className="page-content">
-                <Container>
-                    <Row>
-                        {
-                            questions && (
-                                <NoDataCard
-                                    text={text}
-                                    header={`Frequently asked questions`}
-                                    intent={Intent.PRIMARY}
-                                />
-                            )
-                        }
-                        
-                        <CustomColumn sm='12' md='12' lg='12'>
-                        {
-                            questions ? (questions.subCategories &&
-                            questions.subCategories.length !== 0 
-                            && questions.subCategories.map(({
-                                    name,
-                                    subCategories
-                                }, index) => {
-                                    // if this category has question render, else don't
-                                    if (subCategories.length !== 0) {
-                                        
-                                        return (
-                                        <QuestionCategory 
-                                            key={name} index={index} 
-                                            name={name} 
-                                        >
-                                        {
-                                            subCategories.length !== 0 
-                                            ? subCategories.map((question, index) => {
-
-                                                return <QuestionListItem 
-                                                key={index} 
-                                                question={question} 
-                                            />
-
-                                            }) : <NoDataCard 
-                                                header={`No Frequently asked questions`} 
-                                                intent={Intent.PRIMARY} 
-                                            />
-                                        }
-                                        </QuestionCategory>);
-
-                                    } else {
-                                        return (
-                                            <QuestionCategory 
-                                                key={name} 
-                                                index={index} 
-                                                name={name}
-                                            >
-                                                <NoDataCard 
-                                                    header={'No Frequently asked questions'} 
-                                                    intent={Intent.SUCCESS} 
-                                                />
-                                            </QuestionCategory>
-                                        );
+                                        }) : <NoDataCard 
+                                            header={`No Frequently asked questions`} 
+                                            intent={Intent.PRIMARY} 
+                                        />
                                     }
-                                }) 
-                            )
-                            : <Card>
-                                <NoDataCard 
-                                    text="No Frequently asked questions"
-                                    header="FAQS" 
-                                    intent={Intent.PRIMARY} 
-                                />
-                            </Card>
-                        }
+                                    </QuestionCategory>);
 
-                        {
-                            general && (general.isLoading && <div 
-                                style={{ marginTop: `50px` }} 
-                                className="loader" 
-                            />)
-                        }
-                        </CustomColumn>
-                    </Row>
-                </Container>
-            </div>
-        );
+                                } else {
+                                    return (
+                                        <QuestionCategory 
+                                            key={name} 
+                                            index={index} 
+                                            name={name}
+                                        >
+                                            <NoDataCard 
+                                                header={'No Frequently asked questions'} 
+                                                intent={Intent.SUCCESS} 
+                                            />
+                                        </QuestionCategory>
+                                    );
+                                }
+                            }) 
+                        )
+                        : <Card>
+                            <NoDataCard 
+                                text="No Frequently asked questions"
+                                header="FAQS" 
+                                intent={Intent.PRIMARY} 
+                            />
+                        </Card>
+                    }
 
-    }
-
+                    {
+                        general && (general.isLoading && <div 
+                            style={{ marginTop: `50px` }} 
+                            className="loader" 
+                        />)
+                    }
+                    </CustomColumn>
+                </Row>
+            </Container>
+        </div>
+    );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) => ({
+    questions: state.cms.maincategory,
+    general: state.general.general,
+})
 
-    return {
-        questions: state.cms.maincategory,
-        general: state.general.general,
-    }
+const mapDispatchToProps = (dispatch) => ({
+    fetchFAQuestions: (name) => { dispatch(CMSAction.fetchCategory(name)) },
+    subCategory: (id) => { dispatch(CMSAction.fetchSubCategory(id)) },
+})
 
-}
-
-const mapDispatchToProps = (dispatch) => {
-
-    return {
-        fetchFAQuestions: (name) => { dispatch(CMSAction.fetchCategory(name)) },
-        subCategory: (id) => { dispatch(CMSAction.fetchSubCategory(id)) },
-    }
-
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(FAQ);
+export default connect(mapStateToProps, 
+    mapDispatchToProps)(FAQ);
