@@ -10,7 +10,9 @@ import { Row } from 'reactstrap';
  * 
  * @param {Object} text 
  */
-export const QuestionListItem = ({ question }) => {
+export const QuestionListItem = ({ 
+    question 
+}) => {
 
     if (question !== null) {
         // console.log(question)

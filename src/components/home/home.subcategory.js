@@ -44,7 +44,13 @@ export class HomeSubCategory extends React.Component{
     renderReadMore = (about) => {
         if (about.length > 250){
            
-            return (<span onClick={this.toggle} className="badge badge-info" style={{cursor: 'pointer'}}>Read more...</span>)
+            return (<span 
+                    onClick={this.toggle} 
+                    className="badge badge-info" 
+                    style={{cursor: 'pointer'}}>
+                        Read more...
+                </span>
+            )
         }
         else{
             return ''

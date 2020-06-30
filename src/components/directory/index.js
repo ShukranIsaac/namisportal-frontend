@@ -1,5 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { Container, Card, CardBody, Col, Row, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { 
+    Container, Card, 
+    Row, Pagination, PaginationItem, PaginationLink 
+} from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -9,13 +12,13 @@ import DirectoryItem from './item';
 import './directory.css';
 import * as Stakeholder from '../../actions/stakeholder.action';
 import { redirect } from '../user/user.redirect';
-import ParticlesComponent from '../user/particles';
 import { NoDataCard } from '../card.text';
 import { Intent } from '@blueprintjs/core';
 import CustomColumn from '../news/custom.column';
 
 const Nav = ({ 
-    stakeholders_list, classes 
+    stakeholders_list, 
+    classes 
 }) => {
 
     return <Fragment>
@@ -66,38 +69,31 @@ class Directory extends Component {
 
     render() {
 
-        const { classes, stakeholders_list, general } = this.props;
+        const { stakeholders_list, general } = this.props;
 
         return (
             <div className="page-content">
 
-                <ParticlesComponent />
-
                 <Container>
+                    <Row>
                     {
                         stakeholders_list ?
-                            <Row>
-                                <Col lg='12'>
-                                    <div style={{ margin: '2.5px 0' }}>
-                                        <Card className={classes.headerCard}>
-                                            <CardBody className={classes.paddindUnset}>
-                                                <NoDataCard
-                                                    text={`Here is a list of some of the stakeholders we work with.`}
-                                                    header={`Directory`}
-                                                    intent={Intent.PRIMARY}
-                                                />
-                                            </CardBody>
-                                        </Card>
-                                    </div>
-                                </Col>
-                            </Row>
+                            <CustomColumn sm='12' md='12' lg='12'>
+                                <Card>
+                                    <NoDataCard
+                                        text={`Here is a list of some of the stakeholders we work with.`}
+                                        header={`Directory`}
+                                        intent={Intent.PRIMARY}
+                                    />
+                                </Card>
+                            </CustomColumn>
                             : <CustomColumn sm='12' md='12' lg='12'>
                                 {
                                     general && (
                                         !general.isLoading && (
                                             <Card>
                                                 <NoDataCard
-                                                    text={`No information availble to show. Please check your device internet connection and refresh.`}
+                                                    text={`No information availble to show. Please refresh page`}
                                                     header={`Information!`}
                                                     intent={Intent.WARNING}
                                                 />
@@ -116,7 +112,7 @@ class Directory extends Component {
                                             stakeholders_list.map((stakeholder, index) => {
 
                                                 return (
-                                                    <DirectoryItem key={stakeholder.name} stakeholder={stakeholder} handleClick={this.handleClick} />
+                                                    <DirectoryItem key={stakeholder.name + index} stakeholder={stakeholder} handleClick={this.handleClick} />
                                                 );
 
                                             })
@@ -128,7 +124,7 @@ class Directory extends Component {
                             ) : <div style={{ marginTop: `50px` }} className="loader" />
                         )
                     }
-
+                    </Row>
                 </Container>
 
             </div>
@@ -178,23 +174,15 @@ Directory.propTypes = {
     theme: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) => ({
+    general: state.general.general,
+    stakeholders_list: state.stakeholder.stakeholders_list,
+});
 
-    return {
-        general: state.general.general,
-        stakeholders_list: state.stakeholder.stakeholders_list,
-    };
-
-}
-
-const mapDispatchToProps = (dispatch) => {
-
-    return {
-        // stakeholders
-        fetchStakeholders: () => { dispatch(Stakeholder.fetchAllStakeholders()) },
-    };
-
-}
+const mapDispatchToProps = (dispatch) => ({
+    // stakeholders
+    fetchStakeholders: () => { dispatch(Stakeholder.fetchAllStakeholders()) },
+});
 
 export default withStyles(styles, {
     withTheme: true

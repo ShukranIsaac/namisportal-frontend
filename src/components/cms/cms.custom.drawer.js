@@ -8,9 +8,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import FinancingIcon from '@material-ui/icons/AttachMoney';
 import DocumentIcon from '@material-ui/icons/InsertDriveFile';
-import LicencingIcon from '@material-ui/icons/Gavel'
 import DirectoryIcon from '@material-ui/icons/LocalLibrary'
 import NewsIcon from '@material-ui/icons/LibraryBooks'
 // import ContactIcon from '@material-ui/icons/ContactMail'
@@ -23,18 +21,14 @@ import UserProfile from '../user/user.profile';
 
 const drawer_controls = [
     { name: 'home', button: <HomeIcon /> },
-    { name: 'licensing', button: <LicencingIcon /> },
-    { name: 'financing', button: <FinancingIcon /> },
     { name: 'directory', button: <DirectoryIcon /> },
     { name: 'library', button: <DocumentIcon /> },
     { name: 'news', button: <NewsIcon /> },
-    // { name: 'contact', button: <ContactIcon/>},
     { name: 'faqs', button: <FAQIcon /> }
 ];
 
 const config = [
     { name: 'accounts', button: <PersonAddIcon /> },
-    // { name: 'profile', button: <AccountIcon />},
     { name: 'logout', button: <LogoutIcon /> },
 ];
 
@@ -58,9 +52,7 @@ const CustomDrawer = ({
     capitalize,
     drawerClose,
     link,
-    // home
 }) => {
-    // console.log(home)
     const auth = UserProfile.get();
 
     return (
@@ -81,7 +73,10 @@ const CustomDrawer = ({
 
                         if (name === 'accounts' && auth.roles.admin) {
                             // if user is admin show accounts button
-                            return config.map(({ name, button }) => {
+                            return config.map(({ 
+                                name, 
+                                button 
+                            }) => {
 
                                 return (
                                     <ListItem

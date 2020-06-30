@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import ParticleComponent from '../../user/particles';
 
 // Specify BEM block name
 const block = 'breadcrumbs';
@@ -26,9 +27,14 @@ export const Breadcrumbs = ({
     if (setCrumbs) crumbs = setCrumbs(crumbs);
 
     return (<div className={className}>
+        
+        <ParticleComponent />
+
         <Wrapper 
             className={`${block} ${hiddenMod}`} 
-            style={{ backgroundColor: "#416fd1" }}>
+            style={{ backgroundColor: "#416fd1" }}
+        >
+
             <div className={`${block}__inner`}>
                 <Navigation crumbs={ crumbs } {...props} />
             </div>
@@ -82,7 +88,7 @@ Breadcrumbs.defaultProps = {
                 exact
                 style={{ color: "#fff" }}
                 className={`${block}__crumb`}
-                activeClassName={`${block}__crumb--active`}
+                activeclassname={`${block}__crumb--active`}
                 to={{
                     pathname: crumb.pathname,
                     search: crumb.search,

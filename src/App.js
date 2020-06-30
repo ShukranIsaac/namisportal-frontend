@@ -6,9 +6,7 @@ import Home from './components/home';
 import Directory from './components/directory';
 import FAQ from './components/faq';
 import News from './components/news';
-import Financing from './components/financing';
 import Library from './components/library';
-import Licensing from './components/licensing';
 import UserLogin from './components/user/user.login';
 import UserRegistration from './components/user/user.register';
 
@@ -36,31 +34,28 @@ const wrapper = {
 }
 
 export const Wrapper = ({ children }) => {
-
     return (
-        <div style={{ paddingBottom: 0 }}>
+        <div style={{ 
+            paddingBottom: 0     
+        }}>
             <AppHeader />
-
+    
             <Breadcrumbs />
             
             {children}
-
+    
             <Footer />
         </div>
-    )
-
-}
+    );
+};
 
 export default withRouter(() => {
-    
     return (
         <div style={wrapper}>
             <Router>
                 <Switch>
                     <BreadRoute path="/" exact render={props => <Wrapper><Home {...props} /></Wrapper>} />
                     <UserPrivateRoute path="/admin" component={CMSIndex} />
-                    <BreadRoute title="Namis" exact path="/namis" render={props => <Wrapper><Licensing {...props} /></Wrapper>} />
-                    <BreadRoute title="Statistics" exact path="/statistics" render={props => <Wrapper><Financing {...props} /></Wrapper>} />
                     <BreadRoute title="Library" exact path="/library" render={props => <Wrapper><Library {...props} /></Wrapper>} />
                     <BreadRoute title="Directory" exact path="/directory" render={props => <Wrapper><Directory {...props} /></Wrapper>} />
                     <BreadRoute title="Stakeholder" exact path="/directory/:id" render={props => <Wrapper><ItemProfile {...props} /></Wrapper>} />
@@ -70,10 +65,9 @@ export default withRouter(() => {
                     <BreadRoute exact path="/login" render={props => <UserLogin {...props} />} />
                     <BreadRoute exact path="/register" render={props => <UserRegistration {...props} />} />
                     <BreadRoute exact path="/forgotpassword" render={props => <ForgotPassword {...props} /> } />
-                    <BreadRoute title="404 Not Found" render={PageNotFound} />
+                    <BreadRoute title="404 Not Found" component={ props => <PageNotFound {...props} />} />
                 </Switch>
             </Router>
         </div>
     );
-
 });

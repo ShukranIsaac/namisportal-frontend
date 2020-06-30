@@ -10,7 +10,7 @@ import Axios from "axios";
  */
 const Config = (() => {
 
-    const REMOTE_PROD_SERVER = "http://109.74.196.98:8082";
+    const REMOTE_PROD_SERVER = "http://172.105.76.246:8083/";
 
     const CTECH_REMOTE_PROD_SERVER = "http://78.128.8.15:8082";
 

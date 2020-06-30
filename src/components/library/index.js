@@ -9,7 +9,6 @@ import Tab from '@material-ui/core/Tab';
 
 import Documents from './documents';
 import './library.css';
-import ParticlesComponent from '../user/particles';
 
 import Document from './Document';
 
@@ -69,8 +68,6 @@ class Library extends Component {
     handleChange = (event, value) => {
 
         this.setState({ value });
-        // const { library } = this.props;
-        // this.props.fetchLibrary(library._id, value, 'children');
 
         const resources = this.props.library;
 
@@ -79,7 +76,8 @@ class Library extends Component {
 
             // then iterate through the subcategories
             // and filter the chosen section
-            const filteredResource = resources.subCategories.length !== 0 && resources.subCategories.filter(resource => {
+            const filteredResource = resources.subCategories.length !== 0 
+            && resources.subCategories.filter(resource => {
 
                 if (value !== null && resource !== null) {
                     // check if the chosen resource from the drop down list
@@ -114,15 +112,12 @@ class Library extends Component {
     }
 
     renderDocuments(docs) {
-
         if (docs !== null) {
-
-            return docs && docs.map(({ name, path, filename }, key) => {
-
-                // Transform name to title case
-                // name = name.toLowerCase().split(' ').map(word => {
-                //     return word.replace(word[0], word[0].toUpperCase());
-                // }).join(' ');
+            return docs && docs.map(({ 
+                name, 
+                path, 
+                filename 
+            }, key) => {
 
                 return <Document
                     key={key}
@@ -134,79 +129,54 @@ class Library extends Component {
 
             });
         }
-
     }
 
     render() {
 
-        const { classes, library, general } = this.props;
+        const { 
+            classes, library, general, 
+            appBar: AppBarContainer 
+        } = this.props;
+
         const { value } = this.state;
 
         return (
             <div className='page-content'>
-
-                <ParticlesComponent />
-
                 <Container>
                     <Row>
+                    {
+                        library ?
+                        <div className="card">
+                            <div className="card-body">
+                                <div className={classes.root}>
+                                    <AppBarContainer 
+                                        value={ value }
+                                        handleChange={ this.handleChange }
+                                        library={ library }
+                                    />
+                                    <Documents
+                                        {...this.props}
+                                        renderDocuments={this.renderDocuments}
+                                    />
+                                </div>
+                            </div>
+                        </div> 
+                        : <CustomColumn sm='12' md='12' lg='12'>
                         {
-                            library ?
-                                <div className="card">
-                                    <div className="card-body">
-                                        <div className={classes.root}>
-                                            <AppBar position="static" color="default">
-                                                <Tabs
-                                                    value={value}
-                                                    onChange={this.handleChange}
-                                                    indicatorColor="primary"
-                                                    textColor="primary"
-                                                    variant="scrollable"
-                                                    scrollable={true}
-                                                    scrollButtons="auto"
-                                                >
-                                                    {
-                                                        library && (
-                                                            library.subCategories && (
-                                                                library.subCategories.map(category => {
-
-                                                                    return (
-                                                                        <Tab
-                                                                            key={category.name}
-                                                                            label={category.name}
-                                                                            id={category._id}
-                                                                            value={category.name}
-                                                                        />
-                                                                    )
-                                                                })
-                                                            )
-                                                        )
-                                                    }
-                                                </Tabs>
-                                            </AppBar>
-
-                                            <Documents
-                                                {...this.props}
-                                                renderDocuments={this.renderDocuments}
-                                            />
-                                        </div>
-                                    </div>
-                                </div> : <CustomColumn sm='12' md='12' lg='12'>
-                                    {
-                                        general && (
-                                            !general.isLoading ? (
-                                                <Card>
-                                                    <NoDataCard
-                                                        text={`No information availble to show. Please check your device internet connection and refresh.`}
-                                                        header={`Information!`}
-                                                        intent={Intent.WARNING}
-                                                    />
-                                                </Card>
-                                            ) : <div className="loader" />
-                                        )
-                                    }
-                                </CustomColumn>
+                            general && (
+                                !general.isLoading ? (
+                                    <Card>
+                                        <NoDataCard
+                                            text={`No information availble to show. Please refresh to reload.`}
+                                            header={`Information!`}
+                                            intent={Intent.PRIMARY}
+                                        />
+                                    </Card>
+                                ) : <div style={{ marginTop: `50px` }} className="loader" />
+                            )
                         }
-
+                        </CustomColumn>
+                    }
                     </Row>
                 </Container>
             </div>
@@ -214,28 +184,74 @@ class Library extends Component {
     }
 }
 
-const mapStateToProps = state => {
-
-    return {
-        general: state.general.general,
-        library: state.library.library,
-        library_documents: state.library.library_sub_cate_documents,
-    }
-
-}
-const mapDispatchToProps = (dispatch) => {
-
-    return {
-        fetchLibrary: (id, name, type) => { dispatch(LibraryAction.fetchLibrary(id, name, type)) },
-        libraryCategory: (name) => { dispatch(LibraryAction.fetchLibraryCategory(name)) },
-        addSubCategory: (id, subcategory) => { dispatch(LibraryAction.addSubCategory(id, subcategory)) },
-        fetchCategoryDocuments: (i) => { dispatch(LibraryAction.fetchCategoryDocuments(i)) }
-    }
-
-}
-
 Library.propTypes = {
     classes: PropTypes.object.isRequired,
+    appBar: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.instanceOf(
+            React.Component
+        )
+    ]),
 };
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Library));
+Library.defaultProps = {
+    appBar: ({ 
+        library ,
+        value,
+        handleChange,
+    }) => {
+        return (
+        <AppBar position="static" color="default">
+            <Tabs
+                value={value}
+                onChange={handleChange}
+                indicatorColor="primary"
+                textColor="primary"
+                variant="scrollable"
+                scrollable={true}
+                scrollButtons="auto"
+            >
+                {
+                    library && (
+                        library.subCategories && (
+                            library.subCategories.map(category => {
+                                return (
+                                    <Tab
+                                        key={category.name}
+                                        label={category.name}
+                                        id={category._id}
+                                        value={category.name}
+                                    />
+                                )
+                            })
+                        )
+                    )
+                }
+            </Tabs>
+        </AppBar>)
+    }
+}
+
+const mapStateToProps = state => ({
+    general: state.general.general,
+    library: state.library.library,
+    library_documents: state.library.library_sub_cate_documents,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    fetchLibrary: (id, name, type) => { 
+        dispatch(LibraryAction.fetchLibrary(id, name, type)) 
+    },
+    libraryCategory: (name) => { 
+        dispatch(LibraryAction.fetchLibraryCategory(name)) 
+    },
+    addSubCategory: (id, subcategory) => { 
+        dispatch(LibraryAction.addSubCategory(id, subcategory)) 
+    },
+    fetchCategoryDocuments: (i) => { 
+        dispatch(LibraryAction.fetchCategoryDocuments(i)) 
+    }
+})
+
+export default withStyles(styles)(connect(mapStateToProps, 
+    mapDispatchToProps)(Library));

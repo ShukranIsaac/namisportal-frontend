@@ -12,23 +12,17 @@ import ListLibraryDocuments from '../library/library.list.documents';
 import { ListDirectoryInstitution } from '../directory/directory.list.institutions';
 import EditDirectoryInstitution from '../directory/directory.edit.institution';
 import CreateDirectoryInstitution from '../directory/directory.create.institution';
-import FinancingRequestSupport from '../financing/financing.request.support';
 import UserProfile from '../user/user.profile';
 import { redirect } from '../user/user.redirect';
 import { ListHomeSubcategory } from '../home/home.list.subcategory';
 import EditHomeSubcategory from '../home/home.edit.subcategory';
 import CreateHomeSubcategory from '../home/home.add.subcategory';
-import { ListFinancingRequests } from '../financing/financing.list.requests';
-import EditFinancingRequestSupport from '../financing/financing.edit.request';
 import ListUserAccounts from '../user/user.list.cms.component';
 import EditUserAccount from '../user/user.edit.cms.component';
 import EditUserProfile from '../user/user.details.cms.component';
 import ListFAQS from '../faq/faqs.list.component';
 import CreateQuestion from '../faq/faq.add.component';
 import EditQuestion from '../faq/faq.edit.component';
-import { ListLicensing } from '../licensing/licensing.list';
-import CreateLicensingStep from '../licensing/licensing.create';
-import EditLicensingStep from '../licensing/licensing.edit';
 import AddUserAccount from '../user/user.add.component';
 
 /**
@@ -89,77 +83,6 @@ const RenderSection = ({
                             createCategory={props.createCategory}
                             props={props}
                             link={link} capitalize={capitalize}
-                        />
-                        }
-                    />
-
-                </Fragment>
-            );
-
-        case 'licensing':
-
-            return (
-                <Fragment>
-
-                    <ResourceSection
-                        option={props.user_event}
-                        name="licensing"
-                        List={() => <ListLicensing
-                            {...props}
-                            handleClick={(e) => handleClick(e)}
-                        />
-                        }
-                        Create={() => <CreateLicensingStep
-                            handleClick={(e) => handleClick(e)}
-                            handleChange={(e) => { handleChange(e) }}
-                            {...props}
-                            link={link} capitalize={capitalize}
-                        />
-                        }
-                        Edit={() => <EditLicensingStep
-                            {...props}
-                            category={category}
-                            handleClick={(e) => handleClick(e)}
-                            handleChange={(e) => { handleChange(e) }}
-                            link={link}
-                            capitalize={capitalize}
-                        />
-                        }
-                    />
-
-                </Fragment>
-            );
-
-        case 'financing':
-
-            return (
-                <Fragment>
-
-                    <ResourceSection
-                        option={props.user_event}
-                        name="financing"
-                        List={() => <ListFinancingRequests
-                            {...props}
-                            handleClick={(e) => handleClick(e)}
-                            handleChange={(e) => handleChange(e)}
-                            maincategory={props.maincategory}
-                        />
-                        }
-                        Edit={() => <EditFinancingRequestSupport
-                            handleClick={(e) => handleClick(e)}
-                            editCategory={props.editCategory}
-                            {...props}
-                            link={link}
-                            capitalize={capitalize}
-                        />
-                        }
-                        Create={() => <FinancingRequestSupport
-                            handleClick={(e) => handleClick(e)}
-                            maincategory={props.maincategory}
-                            createCategory={props.createCategory}
-                            {...props}
-                            link={link}
-                            capitalize={capitalize}
                         />
                         }
                     />

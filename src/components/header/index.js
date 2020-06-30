@@ -46,18 +46,24 @@ export const AppHeader = () => {
                     <Nav className="ml-auto" navbar>
                         <NavItem><Link to='/'>Home</Link></NavItem>
                         <NavItem>
-                            <Link 
-                                to='/#' 
-                                onClick={e => redirect.toExternalLink({
-                                    url: 'www.namis.org/namis1', event: e
-                            })}>Namis</Link>
+                            <a href='/#' onClick={
+                                e => redirect.toExternalLink({ 
+                                    url: 'https://www.namis.org/namis1',
+                                    event: e
+                                })
+                            }>
+                                Namis
+                            </a>
                         </NavItem>
                         <NavItem>
-                            <Link 
-                                to='/#' 
-                                onClick={e => redirect.toExternalLink({
-                                    url: 'www.namis.org/portal', event: e
-                            })}>Statistics</Link>
+                            <a href='/#' onClick={
+                                e => redirect.toExternalLink({ 
+                                    url: 'http://172.105.76.246:8081',
+                                    event: e
+                                })
+                            }>
+                                Statistics
+                            </a>
                         </NavItem>
                         <NavItem><Link to='/library'>Library</Link></NavItem>
                         <NavItem><Link to='/directory'>Directory</Link></NavItem>

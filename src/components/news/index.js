@@ -1,8 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Container, Row, Card } from 'reactstrap';
-
-import ParticlesComponent from '../user/particles';
 
 import * as NewsAction from '../../actions/news.action';
 
@@ -68,43 +66,44 @@ class News extends Component {
 
         return (
             <div className="page-content">
-
-                <ParticlesComponent />
-
                 <Container>
-                    <Row style={{ margin: '0px', marginTop: '30px', marginLeft: '60px' }}>
-                        <Card>
+                    <Row>
+                        <CustomColumn sm='12' md='12' lg='12' 
+                            onClick={this.toggleMainItem} 
+                            {...this.state}
+                        >
+                        {
+                            articles.length !== 0 
+                            ? articles.map(article => {
+                                return <Fragment>
+                                    <NoDataCard
+                                        text={`The list below shows all news articles available.`}
+                                        header={`News!`}
+                                        intent={Intent.PRIMARY}
+                                        style={{ marginBottom: '2em', width: '100%' }}
+                                    />
+                                    <NewsListItem key={article.title} 
+                                        when={this.when} splitCount={this.splitCount} 
+                                        article={article} {...this.props} 
+                                    />
+                                </Fragment>
 
-                            <NoDataCard
-                                text={`The list below shows all news articles available.`}
-                                header={`News!`}
-                                intent={Intent.PRIMARY}
-                                style={{ marginBottom: '2em', width: '100%' }}
-                            />
-
-                            <CustomColumn sm='12' md='12' lg='12' onClick={this.toggleMainItem} {...this.state}>
-
-                                {
-                                    general && !general.isLoading ?
-
-                                        articles.length !== 0 ?
-
-                                            articles.map(article => {
-
-                                                return <NewsListItem key={article.title} when={this.when} splitCount={this.splitCount} article={article} {...this.props} />
-
-                                            })
-                                            : <NoDataCard
-                                                text={`No articles available`}
-                                                header={`Information!`}
-                                                intent={Intent.WARNING}
-                                            />
-
-                                        : <div className="loader" />
-                                }
-
-                            </CustomColumn>
-                        </Card>
+                            })
+                            : <Card>
+                                <NoDataCard
+                                    text={`No articles available`}
+                                    header={`Information!`}
+                                    intent={Intent.PRIMARY}
+                                />
+                            </Card>
+                        }
+                        {
+                            general && (general.isLoading && <div 
+                                style={{ marginTop: `50px` }} 
+                                className="loader" 
+                            />)
+                        }
+                        </CustomColumn>
                     </Row>
                 </Container>
             </div>
@@ -114,22 +113,15 @@ class News extends Component {
 
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) => ({
+    errored: state.news.errored,
+    general: state.general.general,
+    articles: state.news.articles,
+})
 
-    return {
-        errored: state.news.errored,
-        general: state.general.general,
-        articles: state.news.articles,
-    };
+const mapDispatchToProps = (dispatch) => ({
+    fetchNewsArticles: () => dispatch(NewsAction.fetchAllArticles()),
+})
 
-}
-
-const mapDispatchToProps = (dispatch) => {
-
-    return {
-        fetchNewsArticles: () => dispatch(NewsAction.fetchAllArticles()),
-    };
-
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(News);
+export default connect(mapStateToProps, 
+    mapDispatchToProps)(News);

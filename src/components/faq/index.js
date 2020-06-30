@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Row, Card, CardBody } from 'reactstrap';
+import { Container, Row, Card } from 'reactstrap';
 
 import CustomColumn from '../news/custom.column';
-import ParticlesComponent from '../user/particles';
 
 import * as CMSAction from '../../actions/cms.action';
 import { NoDataCard } from '../card.text';
@@ -37,87 +36,84 @@ class FAQ extends Component {
 
         return (
             <div className="page-content">
-
-                <ParticlesComponent />
-
                 <Container>
-                    <Row style={{ marginTop: '20px', marginLeft: '50px', marginRight: '50px' }}>
-                        <Card>
-                            {
-                                questions && (
-                                    <NoDataCard
-                                        text={text}
-                                        header={`Frequently asked questions`}
-                                        intent={Intent.PRIMARY}
-                                    />
-                                )
-                            }
-                            <CardBody>
-                                <CustomColumn sm='12' md='12' lg='12'>
+                    <Row>
+                        {
+                            questions && (
+                                <NoDataCard
+                                    text={text}
+                                    header={`Frequently asked questions`}
+                                    intent={Intent.PRIMARY}
+                                />
+                            )
+                        }
+                        
+                        <CustomColumn sm='12' md='12' lg='12'>
+                        {
+                            questions ? (questions.subCategories &&
+                            questions.subCategories.length !== 0 
+                            && questions.subCategories.map(({
+                                    name,
+                                    subCategories
+                                }, index) => {
+                                    // if this category has question render, else don't
+                                    if (subCategories.length !== 0) {
+                                        
+                                        return (
+                                        <QuestionCategory 
+                                            key={name} index={index} 
+                                            name={name} 
+                                        >
+                                        {
+                                            subCategories.length !== 0 
+                                            ? subCategories.map((question, index) => {
 
-                                    {
+                                                return <QuestionListItem 
+                                                key={index} 
+                                                question={question} 
+                                            />
 
-                                        general ?
+                                            }) : <NoDataCard 
+                                                header={`No Frequently asked questions`} 
+                                                intent={Intent.PRIMARY} 
+                                            />
+                                        }
+                                        </QuestionCategory>);
 
-                                            !general.isLoading ?
-
-                                                questions ?
-
-                                                    questions.subCategories ?
-
-                                                        questions.subCategories.length !== 0 && questions.subCategories.map((category, index) => {
-
-                                                            // if this category has question render, else don't
-                                                            if (category.subCategories.length !== 0) {
-
-                                                                return (
-                                                                    <QuestionCategory key={category.name} index={index} name={category.name} >
-
-                                                                        {
-                                                                            category.subCategories.length !== 0 ? category.subCategories.map((question, index) => {
-
-                                                                                return <QuestionListItem key={index} question={question} />
-
-                                                                            }) : <NoDataCard header={`No data`} intent={Intent.WARNING} />
-                                                                        }
-
-                                                                    </QuestionCategory>
-                                                                );
-
-                                                            } else {
-
-                                                                return (
-                                                                    <QuestionCategory key={category.name} index={index} name={category.name}>
-
-                                                                        <NoDataCard header={'No questions'} intent={Intent.SUCCESS} />
-
-                                                                    </QuestionCategory>
-                                                                );
-
-                                                            }
-
-                                                        })
-
-                                                        : <NoDataCard header="There are no questions to show. Please contact us!!" intent={Intent.SUCCESS} />
-
-                                                    : <NoDataCard
-                                                        text={`There are no questions to show! Please check your device internet connection and refresh.`}
-                                                        header={`Information!`}
-                                                        intent={Intent.WARNING}
-                                                    />
-
-                                                : <div className="loader" />
-
-                                            : <NoDataCard header={`No data`} intent={Intent.WARNING} />
-
+                                    } else {
+                                        return (
+                                            <QuestionCategory 
+                                                key={name} 
+                                                index={index} 
+                                                name={name}
+                                            >
+                                                <NoDataCard 
+                                                    header={'No Frequently asked questions'} 
+                                                    intent={Intent.SUCCESS} 
+                                                />
+                                            </QuestionCategory>
+                                        );
                                     }
+                                }) 
+                            )
+                            : <Card>
+                                <NoDataCard 
+                                    text="No Frequently asked questions"
+                                    header="FAQS" 
+                                    intent={Intent.PRIMARY} 
+                                />
+                            </Card>
+                        }
 
-                                </CustomColumn>
-                            </CardBody>
-                        </Card>
+                        {
+                            general && (general.isLoading && <div 
+                                style={{ marginTop: `50px` }} 
+                                className="loader" 
+                            />)
+                        }
+                        </CustomColumn>
                     </Row>
                 </Container>
-
             </div>
         );
 

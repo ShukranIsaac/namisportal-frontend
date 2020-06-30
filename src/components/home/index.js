@@ -29,8 +29,8 @@ const Home = ({
 
     const sections = () => {
         
-        return general && (!general.isLoading ? <HomeSection {...props} /> 
-            : <div className="loader" />);
+        return general && (!general.isLoading ? 
+            <HomeSection {...props} /> : <div className="loader" />);
     }
 
     return (
@@ -44,9 +44,14 @@ const Home = ({
                     }}>
                     <div className="row">
                         <div className="col-lg-6 d-flex align-items-center justify-content-center left">
-                            <h1 className="display-2 re-font-size" style={{ color: '#FFF' }}>
-                                Welcome
-                            </h1>
+                            <div className="row">
+                                <h1 className="display-2 re-font-size" style={{ color: '#FFF' }}>
+                                    Welcome
+                                </h1>
+                                {/* <button className="btn btn-lg btn-md btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" 
+                                    type="submit">Namis
+                                </button> */}
+                            </div>
                         </div>
                         <div className="col-lg-6 d-flex align-items-center justify-content-start right">
                             <div className="jumbotron my-5 w-75 re-w text-left">
@@ -93,43 +98,44 @@ Home.propTypes = {
 
 Home.defaultProps = {
     sections: ({
-        home: { 
-            subCategories 
-        },
+        home,
         ...props
     }) => {
         return (
-            <div className='app-sections'>
-                <Container>
-                    <Row>
-                    {
-                        (subCategories !== undefined && subCategories.length !== 0)
-                        ? subCategories.map((section, index) => {
+        <div className='app-sections'>
+            <Container>
+                <Row>
+                {
+                    home !== null && (home.length !== 0 && 
+                        (home.subCategories.length !== 0 
+                        ? home.subCategories.map(({
+                            name,
+                            subCategories
+                        }, index) => {
                             /**
                              * Making sure this main section does not appear twice
                              * on the home component.
                              */
-                            if (section.name === 'Information for Mini-Grid Developers') {
+                            if (name === 'Information for Mini-Grid Developers') {
                                 return null;
                             }
 
                             return <HomeSubCategory 
                                 key={index} 
                                 subCategories={subCategories} 
-                                section={section.name} 
+                                section={name} 
                             />
-                        }) : <NoDataCard 
-                            header={
-                                `No home subcategories. Please try again!`
-                            } 
+                        }) 
+                        : <NoDataCard 
+                            header={ `No home subcategories. Please try again!` } 
                             intent={Intent.SUCCESS} 
                             style={{ textAlign: `center` }} 
-                        />
-                    }
-                    </Row>
-                </Container>
-            </div>
-        );
+                        />)
+                    )
+                }
+                </Row>
+            </Container>
+        </div>);
     }
 }
 

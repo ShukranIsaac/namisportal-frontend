@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Sponsors from '../sponsors';
-import Contact from '../contact';
+// import Contact from '../contact';
 
 export const Footer = ({
     stickToBottom,
@@ -10,7 +10,7 @@ export const Footer = ({
     span
 }) => (<div id='footer'>
         <div style={stickToBottom}> 
-            <Contact />
+            {/* <Contact /> */}
 
             <Sponsors />
         </div>
