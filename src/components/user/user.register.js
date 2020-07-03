@@ -45,7 +45,8 @@ class UserRegistration extends Component {
     handleChange = (event) => {
 
         this.setState({
-            [event.target.name]: event.target !== 'checked' ? event.target.value : event.target.checked
+            [event.target.name]: event.target !== 'checked' 
+            ? event.target.value : event.target.checked
         });
 
     }
@@ -155,7 +156,8 @@ class UserRegistration extends Component {
         // check if user is successfully registered
         if (user !== null) {
             // force window reload to refresh and clear out the previous state
-            // to avoid not redirecting to login if user object in state is not null
+            // to avoid not redirecting to login 
+            // if user object in state is not null
             // especially when user just logged out from the CMS
             window.location.reload();
 
@@ -217,26 +219,19 @@ class UserRegistration extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) => ({
+    general: state.general.general,
+    user: state.user.user,
+})
 
-    return {
-        general: state.general.general,
-        user: state.user.user,
-    }
-
-}
-
-const mapDispatchToProps = (dispatch) => {
-
-    return {
-        register: (values) => { dispatch(UserAuthActions.register(values)) },
-        login: (user) => { dispatch(UserAuthActions.login(user)) },
-    }
-
-}
+const mapDispatchToProps = (dispatch) => ({
+    register: (values) => { dispatch(UserAuthActions.register(values)) },
+    login: (user) => { dispatch(UserAuthActions.login(user)) },
+})
 
 UserRegistration.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(UserRegistration)));
+export default (withStyles(styles)(connect(mapStateToProps, 
+    mapDispatchToProps)(UserRegistration)));
