@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Container, Row, Card } from 'reactstrap';
+import { Container, Row } from 'reactstrap';
 
 import CustomColumn from '../news/custom.column';
 
@@ -30,22 +30,23 @@ export const FAQ = ({
     return (
         <div className="page-content">
             <Container>
-                <Row>
+                <Row style={{ marginTop: '20px' }}>
                     {
                         questions && (
                             <NoDataCard
                                 text={text}
                                 header={`Frequently asked questions`}
                                 intent={Intent.PRIMARY}
+                                style={{ marginBottom: '2em', width: '100%' }}
                             />
                         )
                     }
                     
                     <CustomColumn sm='12' md='12' lg='12'>
                     {
-                        questions ? (questions.subCategories &&
-                        questions.subCategories.length !== 0 
-                        && questions.subCategories.map(({
+                        questions && (questions.subCategories &&
+                        questions.subCategories.length !== 0 && 
+                        questions.subCategories.map(({
                                 name,
                                 subCategories
                             }, index) => {
@@ -89,13 +90,6 @@ export const FAQ = ({
                                 }
                             }) 
                         )
-                        : <Card>
-                            <NoDataCard 
-                                text="No Frequently asked questions"
-                                header="FAQS" 
-                                intent={Intent.PRIMARY} 
-                            />
-                        </Card>
                     }
 
                     {

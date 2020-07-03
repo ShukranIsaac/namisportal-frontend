@@ -75,17 +75,35 @@ class Directory extends Component {
             <div className="page-content">
 
                 <Container>
-                    <Row>
+                    <Row style={{ marginTop: '20px' }}>
                     {
                         stakeholders_list ?
                             <CustomColumn sm='12' md='12' lg='12'>
-                                <Card>
-                                    <NoDataCard
-                                        text={`Here is a list of some of the stakeholders we work with.`}
-                                        header={`Directory`}
-                                        intent={Intent.PRIMARY}
-                                    />
-                                </Card>
+                                <NoDataCard
+                                    text={`Here is a list of some of the stakeholders we work with.`}
+                                    header={`Directory`}
+                                    intent={Intent.PRIMARY}
+                                    style={{ marginBottom: '2em', width: '100%' }}
+                                />
+                                {
+                                    (stakeholders_list !== null && stakeholders_list !== undefined) && (
+                                        <Fragment>
+                                            {
+                                                stakeholders_list.map((stakeholder, index) => {
+    
+                                                    return (<DirectoryItem 
+                                                        key={stakeholder.name + index} 
+                                                        stakeholder={stakeholder} 
+                                                        handleClick={this.handleClick} 
+                                                    />);
+    
+                                                })
+                                            }
+    
+                                            <Nav {...this.props} />
+                                        </Fragment>
+                                    )
+                                }
                             </CustomColumn>
                             : <CustomColumn sm='12' md='12' lg='12'>
                                 {
@@ -104,25 +122,8 @@ class Directory extends Component {
                             </CustomColumn>
                     }
                     {
-                        general && (
-                            !general.isLoading ? (
-                                (stakeholders_list !== null && stakeholders_list !== undefined) && (
-                                    <Fragment>
-                                        {
-                                            stakeholders_list.map((stakeholder, index) => {
-
-                                                return (
-                                                    <DirectoryItem key={stakeholder.name + index} stakeholder={stakeholder} handleClick={this.handleClick} />
-                                                );
-
-                                            })
-                                        }
-
-                                        <Nav {...this.props} />
-                                    </Fragment>
-                                )
-                            ) : <div style={{ marginTop: `50px` }} className="loader" />
-                        )
+                        general && (general.isLoading && (<div style={{ marginTop: `50px` }} 
+                            className="loader" />))
                     }
                     </Row>
                 </Container>

@@ -32,7 +32,8 @@ export class HomeSubCategory extends React.Component{
         super(props)
         this.state = {
             modal: false,
-            section: filterSection(this.props.subCategories, this.props.section)
+            filteredSection: filterSection(this.props.subCategories, 
+                this.props.section)
         }
 
         this.toggle = this.toggle.bind(this)
@@ -100,7 +101,7 @@ export class HomeSubCategory extends React.Component{
     }
 
     render(){
-        const {section, modal} = this.state
+        const {filteredSection, modal} = this.state
         
         return (
             <Col sm='12' md='6' lg='4'>
@@ -108,34 +109,36 @@ export class HomeSubCategory extends React.Component{
                     <div className="card-body">
                         <h4>
                             <a className="heading" 
-                                href={ this.link(section) } 
+                                href={ this.link(filteredSection) } 
                                 // onClick={ redirect.to({ to: '/' + section })}
                             >
-                                { section.name }
+                                { filteredSection.name }
                             </a>
                         </h4>
                         <p style={{textAlign: 'justify'}}>
-                            { `${section.about.substring(0, 250)} `} 
+                            { `${filteredSection.about.substring(0, 250)} `} 
                             {
-                                this.renderReadMore(section.about)
+                                this.renderReadMore(filteredSection.about)
                             }
                         </p>
                     
                     </div>
                     <div className="card-footer" style={{  backgroundColor: 'unset', borderTop: 'unset' }}>
                         {
-                            section.name !== "Information for Mini-Grid Developers" ? this.linkButton(section) : <></>
+                            filteredSection.name !== "Information for Mini-Grid Developers" 
+                            ? this.linkButton(filteredSection) : <></>
                         }
                     </div>
                 </div>
                 <Modal isOpen={modal} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>{section.name}</ModalHeader>
+                    <ModalHeader toggle={this.toggle}>{filteredSection.name}</ModalHeader>
                     <ModalBody>
-                        {section.about}
+                        {filteredSection.about}
                         <br/>
                         <p>
                             {
-                                section.name !== "Information for Mini-Grid Developers" ? this.linkButton(section) : <div></div>
+                                filteredSection.name !== "Information for Mini-Grid Developers" 
+                                ? this.linkButton(filteredSection) : <div></div>
                             }
                         </p>
                         

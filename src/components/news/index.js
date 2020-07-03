@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Container, Row, Card } from 'reactstrap';
+import { Container, Row } from 'reactstrap';
 
 import * as NewsAction from '../../actions/news.action';
 
@@ -64,42 +64,40 @@ class News extends Component {
         return (
             <div className="page-content">
                 <Container>
-                    <Row>
+                    <Row style={{ marginTop: '20px' }}>
                         <CustomColumn sm='12' md='12' lg='12' 
                             onClick={this.toggleMainItem} 
                             {...this.state}
                         >
-                        {
-                            articles.length !== 0 
-                            ? articles.map(article => {
-                                return <Fragment>
-                                    <NoDataCard
-                                        text={`The list below shows all news articles available.`}
-                                        header={`News!`}
-                                        intent={Intent.PRIMARY}
-                                        style={{ marginBottom: '2em', width: '100%' }}
-                                    />
-                                    <NewsListItem key={article.title} 
-                                        when={this.when} splitCount={this.splitCount} 
-                                        article={article} {...this.props} 
-                                    />
-                                </Fragment>
+                            {
+                                articles.length !== 0 
+                                ? articles.map(article => {
+                                    return <Fragment>
+                                        <NoDataCard
+                                            text={`The list below shows all news articles available.`}
+                                            header={`News!`}
+                                            intent={Intent.PRIMARY}
+                                            style={{ marginBottom: '2em', width: '100%' }}
+                                        />
+                                        <NewsListItem key={article.title} 
+                                            when={this.when} splitCount={this.splitCount} 
+                                            article={article} {...this.props} 
+                                        />
+                                    </Fragment>
 
-                            })
-                            : <Card>
-                                <NoDataCard
-                                    text={`No articles available`}
-                                    header={`Information!`}
-                                    intent={Intent.PRIMARY}
-                                />
-                            </Card>
-                        }
-                        {
-                            general && (general.isLoading && <div 
-                                style={{ marginTop: `50px` }} 
-                                className="loader" 
-                            />)
-                        }
+                                })
+                                : <NoDataCard
+                                text={`No articles available`}
+                                header={`Information!`}
+                                intent={Intent.PRIMARY}
+                            />
+                            }
+                            {
+                                general && (general.isLoading && <div 
+                                    style={{ marginTop: `50px` }} 
+                                    className="loader" 
+                                />)
+                            }
                         </CustomColumn>
                     </Row>
                 </Container>

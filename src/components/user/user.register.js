@@ -17,6 +17,8 @@ import { PersonalProfile } from './user.register.personal';
 import ParticlesComponent from './particles';
 import BootstrapGridColumn from '../forms/form.grid.column';
 
+import LOGO from '../../../src/assets/img/malawi.png';
+
 class UserRegistration extends Component {
 
     constructor() {
@@ -107,37 +109,43 @@ class UserRegistration extends Component {
                             && lastName && confirmPassword 
                             && password.length > 6 ? false : true);
 
-        return (<form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
+        return (<form 
+                onSubmit={(e) => this.handleSubmit(e)} 
+                autoComplete="off"
+            >
+                <PersonalProfile 
+                    handleChange={this.handleChange} 
+                    {...this.state} 
+                />
 
-            <PersonalProfile handleChange={this.handleChange} {...this.state} />
-
-            <div className="margin-fix form-row">
-                <BootstrapGridColumn>
-                    <Button
-                        type="submit"
-                        disabled={fieldsValid}
-                        color="success">
-                        {
-                            general ? (
-                                general.isLoading ? (
-                                    <>Registering...</>
+                <div className="margin-fix form-row">
+                    <BootstrapGridColumn>
+                        <Button
+                            type="submit"
+                            disabled={fieldsValid}
+                            color="success">
+                            {
+                                general ? (
+                                    general.isLoading ? (
+                                        <>Registering...</>
+                                    ) : <>Register</>
                                 ) : <>Register</>
-                            ) : <>Register</>
-                        }
-                    </Button>
-                </BootstrapGridColumn>
-                <BootstrapGridColumn>
-                    <Link
-                        to="/login"    
-                    >
-                        <button
-                            type="button"
-                            className="btn btn-default"
-                        >Cancel</button>
-                    </Link>
-                </BootstrapGridColumn>
-            </div>
-        </form>);
+                            }
+                        </Button>
+                    </BootstrapGridColumn>
+                    <BootstrapGridColumn>
+                        <Link
+                            to="/login"    
+                        >
+                            <button
+                                type="button"
+                                className="btn btn-default"
+                            >Cancel</button>
+                        </Link>
+                    </BootstrapGridColumn>
+                </div>
+            </form>
+        );
     } 
 
     render() {
@@ -159,21 +167,34 @@ class UserRegistration extends Component {
 
         return (
             <Fragment>
-
-                <div className='page-content'>
-
+                <div 
+                    // className="page-content"
+                    style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        background: '#15B371'
+                    }}
+                >
                     <ParticlesComponent />
 
                     <Container>
 
-                        <div style={{ width: '60%', margin: '0 auto' }}>
-
+                        <div 
+                            style={{ 
+                                width: '60%', 
+                                margin: '0 auto',
+                                marginTop: '5%'
+                            }}
+                        >
                             <Card>
 
                                 <CardBody>
 
                                     <div style={{ textAlign: 'center' }}>
-                                        <CardImg src={require("../../../src/assets/img/malawi.png")} />
+                                        <CardImg src={ LOGO } />
                                         <br />
                                         <p>Ministry of Agriculture</p>
                                     </div>

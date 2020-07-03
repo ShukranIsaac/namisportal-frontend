@@ -28,9 +28,8 @@ const Home = ({
     useEffect(() => fetchHome("Home"), [fetchHome]);
 
     const sections = () => {
-        
         return general && (!general.isLoading ? 
-            <HomeSection {...props} /> : <div className="loader" />);
+        <HomeSection {...props} /> : <div className="loader" />);
     }
 
     return (
@@ -108,22 +107,19 @@ Home.defaultProps = {
                 {
                     home !== null && (home.length !== 0 && 
                         (home.subCategories.length !== 0 
-                        ? home.subCategories.map(({
-                            name,
-                            subCategories
-                        }, index) => {
+                        ? home.subCategories.map((section, index) => {
                             /**
                              * Making sure this main section does not appear twice
                              * on the home component.
                              */
-                            if (name === 'Information for Mini-Grid Developers') {
+                            if (section.name === 'Information for Mini-Grid Developers') {
                                 return null;
                             }
 
                             return <HomeSubCategory 
                                 key={index} 
-                                subCategories={subCategories} 
-                                section={name} 
+                                subCategories={home.subCategories} 
+                                section={section.name} 
                             />
                         }) 
                         : <NoDataCard 

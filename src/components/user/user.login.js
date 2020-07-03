@@ -13,6 +13,7 @@ import styles from '../contact/form.styles';
 import { redirect } from './user.redirect';
 import UserProfile from './user.profile';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
+import LOGO from "../../../src/assets/img/malawi.png";
 
 /**
  * User login
@@ -125,7 +126,7 @@ class UserLogin extends Component {
         return (
             <Fragment>
                 <div
-                    // className='page-content'
+                    className='page-content'
                     style={{
                         position: "absolute",
                         top: 0,
@@ -147,11 +148,15 @@ class UserLogin extends Component {
                             <Card>
                                 <CardBody>
                                     <div style={{ textAlign: 'center' }}>
-                                        <CardImg src={require("../../../src/assets/img/malawi.png")} />
+                                        <CardImg src={LOGO} />
                                         <p>Ministry of Agriculture</p>
                                     </div>
 
-                                    <form className={{ style: 'center' }} onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
+                                    <form 
+                                        className={{ style: 'center' }} 
+                                        onSubmit={(e) => this.handleSubmit(e)} 
+                                        autoComplete="off"
+                                    >
                                         <div className='margin-fix'>
                                             {/* <div className="container"> */}
                                             <div className="form-group">
