@@ -46,7 +46,7 @@ const ListNewsArticles = ({
                 />)
             }
 
-            <ul >
+            <ul className="list-group list-group-flush">
                 {
                     articles !== null && 
                     (articles.length > 0 && articles.map(({ 
@@ -55,7 +55,8 @@ const ListNewsArticles = ({
                     }, index) => {
 
                         return (
-                            <li key={index}>
+                            <li key={index}
+                                className="list-group-item">
                                 {
                                     !profile.canWrite({ user })
                                         ? <a href="#/">{title}</a>
