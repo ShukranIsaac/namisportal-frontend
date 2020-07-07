@@ -1,0 +1,146 @@
+[debug] [2020-07-07T13:30:47.425Z] ----------------------------------------------------------------------
+[debug] [2020-07-07T13:30:47.427Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\user\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js login --interactive
+[debug] [2020-07-07T13:30:47.427Z] CLI Version:   8.2.0
+[debug] [2020-07-07T13:30:47.427Z] Platform:      win32
+[debug] [2020-07-07T13:30:47.427Z] Node Version:  v12.16.1
+[debug] [2020-07-07T13:30:47.428Z] Time:          Tue Jul 07 2020 15:30:47 GMT+0200 (Central Africa Time)
+[debug] [2020-07-07T13:30:47.428Z] ----------------------------------------------------------------------
+[debug] [2020-07-07T13:30:47.428Z] 
+[info] Already logged in as mishukran@gmail.com
+[debug] [2020-07-07T13:31:09.807Z] ----------------------------------------------------------------------
+[debug] [2020-07-07T13:31:09.808Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\user\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2020-07-07T13:31:09.809Z] CLI Version:   8.2.0
+[debug] [2020-07-07T13:31:09.809Z] Platform:      win32
+[debug] [2020-07-07T13:31:09.809Z] Node Version:  v12.16.1
+[debug] [2020-07-07T13:31:09.810Z] Time:          Tue Jul 07 2020 15:31:09 GMT+0200 (Central Africa Time)
+[debug] [2020-07-07T13:31:09.810Z] ----------------------------------------------------------------------
+[debug] [2020-07-07T13:31:09.810Z] 
+[debug] [2020-07-07T13:31:09.816Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-07-07T13:31:09.816Z] > authorizing via signed-in user
+[debug] [2020-07-07T13:31:09.816Z] [iam] checking project namisportal for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2020-07-07T13:31:09.820Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/namisportal:testIamPermissions  
+ {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2020-07-07T13:31:30.848Z] [iam] error while checking permissions, command may fail: FirebaseError: Server Error. connect ETIMEDOUT 172.217.170.74:443
+[debug] [2020-07-07T13:31:30.848Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/namisportal  
+ 
+[debug] [2020-07-07T13:31:51.856Z] Server Error. connect ETIMEDOUT 172.217.170.10:443
+[debug] [2020-07-07T13:31:51.861Z] FirebaseError: Server Error. connect ETIMEDOUT 172.217.170.10:443
+    at Request._callback (C:\Users\user\AppData\Roaming\npm\node_modules\firebase-tools\lib\api.js:32:31)
+    at self.callback (C:\Users\user\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:185:22)
+    at Request.emit (events.js:311:20)
+    at Request.EventEmitter.emit (domain.js:482:12)
+    at Request.onRequestError (C:\Users\user\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:877:8)
+    at ClientRequest.emit (events.js:323:22)
+    at ClientRequest.EventEmitter.emit (domain.js:482:12)
+    at TLSSocket.socketErrorListener (_http_client.js:426:9)
+    at TLSSocket.emit (events.js:311:20)
+    at TLSSocket.EventEmitter.emit (domain.js:482:12)
+    at emitErrorNT (internal/streams/destroy.js:92:8)
+    at emitErrorAndCloseNT (internal/streams/destroy.js:60:3)
+    at processTicksAndRejections (internal/process/task_queues.js:84:21)
+[error] 
+[error] Error: Failed to get Firebase project namisportal. Please make sure the project exists and your account has permission to access it.
+[debug] [2020-07-07T13:32:57.870Z] ----------------------------------------------------------------------
+[debug] [2020-07-07T13:32:57.872Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\user\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2020-07-07T13:32:57.872Z] CLI Version:   8.2.0
+[debug] [2020-07-07T13:32:57.872Z] Platform:      win32
+[debug] [2020-07-07T13:32:57.872Z] Node Version:  v12.16.1
+[debug] [2020-07-07T13:32:57.873Z] Time:          Tue Jul 07 2020 15:32:57 GMT+0200 (Central Africa Time)
+[debug] [2020-07-07T13:32:57.873Z] ----------------------------------------------------------------------
+[debug] [2020-07-07T13:32:57.873Z] 
+[debug] [2020-07-07T13:32:57.879Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-07-07T13:32:57.879Z] > authorizing via signed-in user
+[debug] [2020-07-07T13:32:57.879Z] [iam] checking project namisportal for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2020-07-07T13:32:57.881Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/namisportal:testIamPermissions  
+ {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2020-07-07T13:33:00.184Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Tue, 07 Jul 2020 13:33:50 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=289","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-25=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-07-07T13:33:00.186Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/namisportal  
+ 
+[debug] [2020-07-07T13:33:01.229Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Tue, 07 Jul 2020 13:33:51 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-25=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[info] 
+[info] === Deploying to 'namisportal'...
+[info] 
+[info] i  deploying hosting
+[debug] [2020-07-07T13:33:01.232Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/namisportal/versions  
+ {"config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2020-07-07T13:33:04.506Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Tue, 07 Jul 2020 13:33:54 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-25=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[info] i  hosting[namisportal]: beginning deploy...
+[info] i  hosting[namisportal]: found 31 files in build
+[debug] [2020-07-07T13:33:05.116Z] [hosting] hash cache [YnVpbGQ] stored for 31 files
+[debug] [2020-07-07T13:33:05.116Z] [hosting][hash queue][FINAL] {"max":592,"min":4,"avg":47,"active":0,"complete":31,"success":31,"errored":0,"retried":0,"total":31,"elapsed":597}
+[debug] [2020-07-07T13:33:05.116Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/namisportal/versions/4a32e3ae909510eb:populateFiles  
+ <request body omitted>
+[info] i  hosting: adding files to version [0/31] (0%)
+[info] i  hosting: adding files to version [0/31] (0%)
+[info] i  hosting: adding files to version [0/31] (0%)
+[info] i  hosting: adding files to version [0/31] (0%)
+[info] i  hosting: adding files to version [0/31] (0%)
+[info] i  hosting: adding files to version [0/31] (0%)
+[debug] [2020-07-07T13:33:17.115Z] [populateQueue] Retrying task index 0
+[debug] [2020-07-07T13:33:17.115Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/namisportal/versions/4a32e3ae909510eb:populateFiles  
+ <request body omitted>
+[info] i  hosting: adding files to version [0/31] (0%)
+[info] i  hosting: adding files to version [0/31] (0%)
+[info] i  hosting: adding files to version [0/31] (0%)
+[info] i  hosting: adding files to version [0/31] (0%)
+[info] i  hosting: adding files to version [0/31] (0%)
+[info] i  hosting: adding files to version [0/31] (0%)
+[info] i  hosting: adding files to version [0/31] (0%)
+[info] i  hosting: adding files to version [0/31] (0%)
+[info] i  hosting: adding files to version [0/31] (0%)
+[info] i  hosting: adding files to version [0/31] (0%)
+[info] i  hosting: adding files to version [0/31] (0%)
+[debug] [2020-07-07T13:33:38.924Z] [populateQueue] Retrying task index 0
+[debug] [2020-07-07T13:33:38.924Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/namisportal/versions/4a32e3ae909510eb:populateFiles  
+ <request body omitted>
+[info] i  hosting: adding files to version [0/31] (0%)
+[info] i  hosting: adding files to version [0/31] (0%)
+[info] i  hosting: adding files to version [0/31] (0%)
+[info] i  hosting: adding files to version [0/31] (0%)
+[debug] [2020-07-07T13:33:47.842Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Tue, 07 Jul 2020 13:34:37 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-25=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-07-07T13:33:47.846Z] [hosting][populate queue][FINAL] {"max":8919,"min":8919,"avg":8919,"active":0,"complete":1,"success":1,"errored":0,"retried":2,"total":1,"elapsed":42731}
+[debug] [2020-07-07T13:33:47.846Z] [hosting] uploads queued: 10
+[info] i  hosting: uploading new files [0/10] (0%)
+[info] i  hosting: uploading new files [0/10] (0%)
+[info] i  hosting: uploading new files [7/10] (70%)
+[info] i  hosting: uploading new files [8/10] (80%)
+[info] i  hosting: uploading new files [9/10] (90%)
+[info] i  hosting: uploading new files [9/10] (90%)
+[info] i  hosting: uploading new files [9/10] (90%)
+[info] i  hosting: uploading new files [9/10] (90%)
+[debug] [2020-07-07T13:34:03.730Z] [hosting][upload queue][FINAL] {"max":15887,"min":3425,"avg":5628,"active":0,"complete":10,"success":10,"errored":0,"retried":0,"total":10,"elapsed":15888}
+[info] +  hosting[namisportal]: file upload complete
+[debug] [2020-07-07T13:34:03.730Z] [hosting] deploy completed after 59224ms
+[debug] [2020-07-07T13:34:04.545Z] [
+  {
+    "config": {
+      "public": "build",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ],
+      "site": "namisportal"
+    },
+    "site": "namisportal",
+    "version": "sites/namisportal/versions/4a32e3ae909510eb"
+  }
+]
+[info] i  hosting[namisportal]: finalizing version...
+[debug] [2020-07-07T13:34:04.545Z] >>> HTTP REQUEST PATCH https://firebasehosting.googleapis.com/v1beta1/sites/namisportal/versions/4a32e3ae909510eb?updateMask=status  
+ {"status":"FINALIZED"}
+[debug] [2020-07-07T13:34:33.582Z] Error: socket hang up
+    at connResetException (internal/errors.js:604:14)
+    at TLSSocket.socketOnEnd (_http_client.js:460:23)
+    at TLSSocket.emit (events.js:323:22)
+    at TLSSocket.EventEmitter.emit (domain.js:482:12)
+    at endReadableNT (_stream_readable.js:1204:12)
+    at processTicksAndRejections (internal/process/task_queues.js:84:21)
+[error] 
+[error] Error: Server Error. socket hang up
