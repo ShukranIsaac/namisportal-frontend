@@ -8,8 +8,7 @@ import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
 
 import { Divider, FormControl, Paper } from '@material-ui/core';
-import ButtonControl from '../forms/buttons/button.default.control';
-import { Intent, Button } from '@blueprintjs/core';
+import { Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 import { DefaultMuiFormFileinputField } from '../forms/form.fileinput.field';
 import UserProfile from '../user/user.profile';
@@ -18,6 +17,7 @@ import BootstrapGridColumn from '../forms/form.grid.column';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import { BootsrapTextareaField } from '../forms/form.textarea.field';
 import Toast from '../../toastfy';
+import ButtonControls from '../cms/cms.controls';
 
 export const UploadProgressContainer = ({ loaded }) => {
 
@@ -388,11 +388,10 @@ class CreateLibraryItem extends Component {
         return (
             <Fragment>
 
-                <ButtonControl
-                    intent={Intent.NONE}
-                    value="List Documents"
-                    name="default"
-                    handleClick={e => handleClick(e)}
+                <ButtonControls 
+                    keys={['default']}
+                    user={ UserProfile.get() }
+                    handleClick={handleClick}
                 />
 
                 <div className={classes.margin} />

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Container, Button, Card, CardBody, CardImg } from 'reactstrap'
 
-import ParticlesComponent from './particles'
+// import ParticlesComponent from './particles';
 
 import * as UserAuthActions from '../../actions/user.action';
 
@@ -136,7 +136,7 @@ class UserLogin extends Component {
                         background: '#15B371'
                     }}>
 
-                    <ParticlesComponent />
+                    {/* <ParticlesComponent /> */}
 
                     <Container>
                         <div

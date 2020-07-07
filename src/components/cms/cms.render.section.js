@@ -53,175 +53,156 @@ const RenderSection = ({
 
         case 'home':
 
-            return (
-                <Fragment>
-
-                    <ResourceSection
-                        option={props.user_event}
-                        name="home"
-                        List={() => <ListHomeSubcategory
-                            {...props}
-                            handleClick={(e) => handleClick(e)}
-                            category={props.home}
-                            handleChange={(e) => { handleChange(e) }}
-                        />
-                        }
-                        Edit={() => <EditHomeSubcategory
-                            handleClick={(e) => handleClick(e)}
-                            category={props.home}
-                            subcategory={props.subcategory}
-                            editCategory={props.editCategory}
-                            archiveCategory={props.archiveCategory}
-                            {...props}
-                            link={link}
-                            capitalize={capitalize}
-                        />
-                        }
-                        Create={() => <CreateHomeSubcategory
-                            handleClick={(e) => handleClick(e)}
-                            category={props.home}
-                            createCategory={props.createCategory}
-                            props={props}
-                            link={link} capitalize={capitalize}
-                        />
-                        }
+            return <ResourceSection
+                option={props.user_event}
+                name="home"
+                list={() => <ListHomeSubcategory
+                        {...props}
+                        handleClick={(e) => handleClick(e)}
+                        category={props.home}
+                        handleChange={(e) => { handleChange(e) }}
                     />
-
-                </Fragment>
-            );
+                }
+                edit={() => <EditHomeSubcategory
+                        handleClick={(e) => handleClick(e)}
+                        category={props.home}
+                        subcategory={props.subcategory}
+                        editCategory={props.editCategory}
+                        archiveCategory={props.archiveCategory}
+                        {...props}
+                        link={link}
+                        capitalize={capitalize}
+                    />
+                }
+                create={() => <CreateHomeSubcategory
+                        handleClick={(e) => handleClick(e)}
+                        category={props.home}
+                        createCategory={props.createCategory}
+                        props={props}
+                        link={link} capitalize={capitalize}
+                    />
+                }
+            />
 
         case 'directory':
 
-            return (
-                <Fragment>
-
-                    <ResourceSection
-                        option={props.user_event}
-                        name="directory"
-                        List={() => <ListDirectoryInstitution
-                            handleClick={(e) => handleClick(e)}
-                            stakeholders={props.stakeholders_list}
-                            handleChange={(e) => { handleChange(e) }}
-                            {...props}
-                        />
-                        }
-                        Edit={() => <EditDirectoryInstitution
-                            handleClick={(e) => handleClick(e)}
-                            stakeholder={props.stakeholder}
-                            editStakeholder={props.editStakeholder}
-                            // archiveStakeholder={ props.archiveStakeholder }
-                            {...props}
-                            link={link}
-                            capitalize={capitalize}
-                        />
-                        }
-                        Create={() => <CreateDirectoryInstitution
-                            stakeholder={props.stakeholder}
-                            createStakeholder={props.createStakeholder}
-                            {...props}
-                            handleClick={(e) => handleClick(e)}
-                            link={link} capitalize={capitalize}
-                        />
-                        }
+            return <ResourceSection
+                option={props.user_event}
+                name="directory"
+                list={() => <ListDirectoryInstitution
+                        handleClick={(e) => handleClick(e)}
+                        stakeholders={props.stakeholders_list}
+                        handleChange={(e) => { handleChange(e) }}
+                        {...props}
                     />
-
-                </Fragment>
-            );
+                }
+                edit={() => <EditDirectoryInstitution
+                        handleClick={(e) => handleClick(e)}
+                        stakeholder={props.stakeholder}
+                        editStakeholder={props.editStakeholder}
+                        // archiveStakeholder={ props.archiveStakeholder }
+                        {...props}
+                        link={link}
+                        capitalize={capitalize}
+                    />
+                }
+                create={() => <CreateDirectoryInstitution
+                        stakeholder={props.stakeholder}
+                        createStakeholder={props.createStakeholder}
+                        {...props}
+                        handleClick={(e) => handleClick(e)}
+                        link={link} capitalize={capitalize}
+                    />
+                }
+            />
 
         case 'library':
-
-            return (
-                <Fragment>
-
-                    <ResourceSection
-                        option={props.user_event}
-                        name="library"
-                        List={() => <ListLibraryDocuments
-                            handleClick={(e) => handleClick(e)}
-                            docs={props.library}
-                            {...props}
-                            handleChange={(e) => handleChange(e)}
-                            handleFilteredResource={ handleFilteredResource }
-                        />
-                        }
-                        Edit={() => <EditLibraryItem
-                            handleClick={(e) => handleClick(e)}
-                            {...props}
-                            link={link}
-                            capitalize={capitalize}
-                            filteredResource={ filteredResource }
-                        />
-                        }
-                        Create={() => <CreateLibraryItem
-                            handleClick={(e) => handleClick(e)}
-                            {...props}
-                            uploadFile={props.uploadFile}
-                            handleChange={(e) => handleChange(e)}
-                            link={link} capitalize={capitalize}
-                        />
-                        }
+            
+            return <ResourceSection
+                option={props.user_event}
+                name="library"
+                list={() => <ListLibraryDocuments
+                        handleClick={(e) => handleClick(e)}
+                        docs={props.library}
+                        {...props}
+                        handleChange={(e) => handleChange(e)}
+                        handleFilteredResource={ handleFilteredResource }
                     />
-
-                </Fragment>
-            );
+                }
+                edit={() => <EditLibraryItem
+                        handleClick={(e) => handleClick(e)}
+                        {...props}
+                        link={link}
+                        capitalize={capitalize}
+                        filteredResource={ filteredResource }
+                    />
+                }
+                create={() => <CreateLibraryItem
+                        handleClick={(e) => handleClick(e)}
+                        {...props}
+                        uploadFile={props.uploadFile}
+                        handleChange={(e) => handleChange(e)}
+                        link={link} capitalize={capitalize}
+                    />
+                }
+            />
 
         case 'faqs':
 
-            return (
-                <Fragment>
-
-                    <ResourceSection
-                        option={props.user_event}
-                        name="faqs"
-                        List={
-                            () => <ListFAQS
-                                handleClick={(e) => handleClick(e)}
-                                {...props}
-                                questions={props.maincategory}
-                            />
-                        }
-                        Create={
-                            () => <CreateQuestion
-                                handleClick={(e) => handleClick(e)}
-                                handleChange={(e) => handleChange(e)}
-                                {...props}
-                                link={link} capitalize={capitalize}
-                            />
-                        }
-                        Edit={
-                            () => <EditQuestion
-                                handleClick={(e) => handleClick(e)}
-                                handleChange={(e) => handleChange(e)}
-                                {...props}
-                                link={link}
-                                capitalize={capitalize}
-                            />
-                        }
+            return <ResourceSection
+                option={props.user_event}
+                name="faqs"
+                list={
+                    () => <ListFAQS
+                        handleClick={(e) => handleClick(e)}
+                        {...props}
+                        questions={props.maincategory}
                     />
-
-                </Fragment>
-            );
+                }
+                create={
+                    () => <CreateQuestion
+                        handleClick={(e) => handleClick(e)}
+                        handleChange={(e) => handleChange(e)}
+                        {...props}
+                        link={link} capitalize={capitalize}
+                    />
+                }
+                edit={
+                    () => <EditQuestion
+                        handleClick={(e) => handleClick(e)}
+                        handleChange={(e) => handleChange(e)}
+                        {...props}
+                        link={link}
+                        capitalize={capitalize}
+                    />
+                }
+            />
 
         case 'news':
             
-            return (
-                <Fragment>
-
-                    <ResourceSection
-                        option={props.user_event}
-                        name="news"
-                        List={() => <ListNewsArticles
-                            handleClick={(e) => handleClick(e)}
-                            handleChange={e => handleChange(e)}
-                            {...props}
-                        />
-                        }
-                        Edit={() => <EditNewsItem {...props} handleClick={(e) => handleClick(e)} link={link} capitalize={capitalize} />}
-                        Create={() => <CreateNewsItem handleClick={(e) => handleClick(e)} {...props} link={link} capitalize={capitalize} />}
+            return <ResourceSection
+                option={props.user_event}
+                name="news"
+                list={() => <ListNewsArticles
+                        handleClick={(e) => handleClick(e)}
+                        handleChange={e => handleChange(e)}
+                        {...props}
                     />
-
-                </Fragment>
-            );
+                }
+                edit={() => <EditNewsItem 
+                        {...props} 
+                        handleClick={(e) => handleClick(e)} 
+                        link={link} 
+                        capitalize={capitalize} 
+                    />
+                }
+                create={() => <CreateNewsItem 
+                        handleClick={(e) => handleClick(e)} 
+                        {...props} link={link} 
+                        capitalize={capitalize} 
+                    />
+                }
+            />
 
         case 'logout':
 
@@ -234,70 +215,56 @@ const RenderSection = ({
                 return redirect.to({ url: `/login` });
 
             } else {
-
                 return <Fragment />
-
             }
 
         case 'accounts':
 
-            return (
-                <Fragment>
-
-                    <ResourceSection
-                        option={props.user_event}
-                        name="accounts"
-                        List={
-                            () => <ListUserAccounts
-                                {...props}
-                                handleAccountClick={(e) => handleClick(e)}
-                            />
-                        }
-                        Create={() => <AddUserAccount
-                            {...props}
-                            handleClick={handleClick}
-                            handleChange={handleChange}
-                            link={link} capitalize={capitalize}
-                        />
-                        }
-                        Edit={
-                            () => <EditUserAccount
-                                {...props}
-                                handleClick={handleClick}
-                                handleChange={handleChange}
-                                link={link} capitalize={capitalize}
-                            />
-                        }
+            return <ResourceSection
+                option={props.user_event}
+                name="accounts"
+                list={
+                    () => <ListUserAccounts
+                        {...props}
+                        handleAccountClick={(e) => handleClick(e)}
                     />
-
-                </Fragment>
-            );
+                }
+                create={() => <AddUserAccount
+                        {...props}
+                        handleClick={handleClick}
+                        handleChange={handleChange}
+                        link={link} 
+                        capitalize={capitalize}
+                    />
+                }
+                edit={
+                    () => <EditUserAccount
+                        {...props}
+                        handleClick={handleClick}
+                        handleChange={handleChange}
+                        link={link} 
+                        capitalize={capitalize}
+                    />
+                }
+            />
 
         case 'profile':
 
-            return (
-                <Fragment>
-                    <ResourceSection
-                        option={props.user_event}
-                        name="profile"
-                        List={() => <EditUserProfile
-                            {...props}
-                            handleClick={(e) => handleClick(e)}
-                            handleChange={e => handleChange(e)}
-                        />
-                        }
-                        Create={() => (<div>Create new account</div>)}
+            return <ResourceSection
+                option={props.user_event}
+                name="profile"
+                list={() => <EditUserProfile
+                        {...props}
+                        handleClick={(e) => handleClick(e)}
+                        handleChange={e => handleChange(e)}
                     />
-                </Fragment>
-            );
+                }
+                create={() => (<div>Create new account</div>)}
+            />
 
         default: {
 
-            return (
-                <Fragment>
-
-                </Fragment>
-            );
+            return <Fragment />
 
         }
 

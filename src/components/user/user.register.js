@@ -14,7 +14,7 @@ import styles from '../contact/form.styles';
 import { redirect } from './user.redirect';
 // import { StakeholderProfile } from './user.register.company';
 import { PersonalProfile } from './user.register.personal';
-import ParticlesComponent from './particles';
+// import ParticlesComponent from './particles';
 import BootstrapGridColumn from '../forms/form.grid.column';
 
 import LOGO from '../../../src/assets/img/malawi.png';
@@ -180,7 +180,7 @@ class UserRegistration extends Component {
                         background: '#15B371'
                     }}
                 >
-                    <ParticlesComponent />
+                    {/* <ParticlesComponent /> */}
 
                     <Container>
 

@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import ButtonControl from '../forms/buttons/button.default.control';
-import { Intent, Button } from '@blueprintjs/core';
+import { Button } from '@blueprintjs/core';
 import { Divider, Paper, FormControl } from '@material-ui/core';
 import styles from '../contact/form.styles';
 import UserProfile from '../user/user.profile';
@@ -12,6 +11,7 @@ import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import { BootsrapTextareaField } from '../forms/form.textarea.field';
 import Toast from '../../toastfy';
 import CustomCKEditor from '../ckeditor/editor.component';
+import ButtonControls from '../cms/cms.controls';
 
 /**
  * Add new question sections(general categories)
@@ -132,13 +132,13 @@ class CreateQuestion extends Component {
         // be uploaded to
         const { section } = this.state;
         const {
-            _question, editorText, shortname,
+            _question, editorText, shortname, answer,
             section_name, section_short_name, section_summary,
             resource_name, resource_short_name, resource_summary
         } = this.state;
 
         const emptyQFields = _question && editorText && shortname ? false : true;
-        const emptySFields = section_name && section_short_name && section_summary ? false : true;
+        const emptySFields = section_name && section_short_name && answer ? false : true;
 
         // get authenticated user token
         const user = UserProfile.get();
@@ -231,10 +231,11 @@ class CreateQuestion extends Component {
 
         const { classes } = this.props;
         const {
-            section_name, section_short_name, editorText
+            section_name, section_short_name, answer
         } = this.state;
 
-        const emptySFields = section_name && section_short_name && editorText ? false : true;
+        const emptySFields = (section_name && 
+            section_short_name && answer) ? false : true;
 
         return (
             <Fragment>
@@ -286,27 +287,39 @@ class CreateQuestion extends Component {
                     className={classes.margin} intent="primary"
                     text="Cancel" onClick={() => {
                         if (this.state.add_section) {
-                            this.setState({ add_section: false, add_category: true })
+                            this.setState({ 
+                                add_section: false, 
+                                add_category: true 
+                            })
                         }
                     }}
                 />
             </Fragment>
         );
-
     }
 
     editSection = () => {
 
-        const { classes } = this.props;
+        const { 
+            classes 
+        } = this.props;
 
-        const { section, resource_name, resource_short_name, resource_summary } = this.state;
+        const { 
+            section, 
+            resource_name, 
+            resource_short_name, 
+            resource_summary 
+        } = this.state;
 
         return (
             <Fragment>
                 <div className='margin-fix form-row'>
                     <BootstrapGridColumn>
                         <BootsrapTextField
-                            value={section ? (resource_name ? resource_name : section.name) : null}
+                            value={section ? (resource_name ? 
+                                    resource_name : section.name) 
+                                : null
+                            }
                             name='resource_name'
                             label="Resource*"
                             placeholder="Edit resource name..."
@@ -320,7 +333,10 @@ class CreateQuestion extends Component {
                             placeholder="Edit document shortname..."
                             type="text"
                             label="Shortname*"
-                            value={section ? (resource_short_name ? resource_short_name : section.shortName) : null}
+                            value={section ? (resource_short_name ? 
+                                    resource_short_name : section.shortName) 
+                                : null
+                            }
                             handleChange={this.handleTextChange}
                         />
                     </BootstrapGridColumn>
@@ -328,7 +344,11 @@ class CreateQuestion extends Component {
 
                 <div className="form-group">
                     <BootsrapTextareaField
-                        value={section ? (resource_summary ? resource_summary : section.about) : null}
+                        value={
+                            section ? (resource_summary ? 
+                                resource_summary : section.about) 
+                            : null
+                        }
                         name='resource_summary'
                         label="Summary*"
                         placeholder="Edit resource summary..."
@@ -344,7 +364,11 @@ class CreateQuestion extends Component {
 
                 <Button
                     type="submit"
-                    disabled={!(resource_name || resource_short_name || resource_summary)}
+                    disabled={
+                        !(resource_name || 
+                            resource_short_name || 
+                            resource_summary)
+                    }
                     intent="success"
                     text="Save"
                 />
@@ -353,20 +377,27 @@ class CreateQuestion extends Component {
                     className={classes.margin} intent="primary"
                     text="Cancel" onClick={() => {
                         if (this.state.edit_section) {
-                            this.setState({ edit_section: false, add_category: true })
+                            this.setState({ 
+                                edit_section: false, 
+                                add_category: true 
+                            })
                         }
                     }}
                 />
             </Fragment>
         );
-
     }
 
     render() {
+        const { 
+            classes, 
+            handleClick 
+        } = this.props;
 
-        const { classes, handleClick } = this.props;
         const {
-            _question, editorText, shortname,
+            _question, 
+            editorText, 
+            shortname,
         } = this.state;
 
         const emptyQFields = _question && editorText && shortname ? false : true;
@@ -375,28 +406,22 @@ class CreateQuestion extends Component {
 
         return (
             <Fragment>
-
-                <ButtonControl
-                    intent={Intent.NONE}
-                    value="List Questions"
-                    name="default"
-                    handleClick={e => handleClick(e)}
+                <ButtonControls 
+                    keys={['default']}
+                    user={ UserProfile.get() }
+                    handleClick={handleClick}
                 />
 
-                <div className={classes.margin} />
-                <div className={classes.margin} />
                 <div className={classes.margin} />
                 <div className={classes.margin} />
 
                 <Divider />
 
-                <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
+                <div className={classes.margin} />
+                <div className={classes.margin} />
 
-                    <div className={classes.margin} />
-                    <div className={classes.margin} />
-                    <div className={classes.margin} />
-                    <div className={classes.margin} />
-
+                <form onSubmit={(e) => this.handleSubmit(e)} 
+                    autoComplete="off">
                     {
                         (!this.state.add_section && !this.state.edit_section) ? (
                             <Fragment>
@@ -433,7 +458,8 @@ class CreateQuestion extends Component {
                                     className={classes.margin}
                                     name="add_section"
                                     value={this.state.add_section}
-                                    intent="primary" text="Add Section"
+                                    intent="primary" 
+                                    text="Add Section"
                                     onClick={e => this.handleAddSection(e)}
                                 />
 
@@ -466,44 +492,40 @@ class CreateQuestion extends Component {
                                 <div className={classes.margin} />
                                 <div className={classes.margin} />
                                 <div className={classes.margin} />
-                                <div className={classes.margin} />
-                                <div className={classes.margin} />
-                                <div className={classes.margin} />
 
                                 {
-                                    (sections !== null && sections !== undefined) && (
-                                        sections.subCategories.length !== 0 && (
-                                            <>
-                                                <div className='margin-fix form-row'>
-                                                    <BootstrapGridColumn>
-                                                        <BootsrapTextField
-                                                            name="_question"
-                                                            value={this.state._question}
-                                                            label="Question*"
-                                                            type="text"
-                                                            placeholder="Enter new question here..."
-                                                            handleChange={this.handleTextChange}
-                                                        />
-                                                    </BootstrapGridColumn>
-                                                    <BootstrapGridColumn>
-                                                        <BootsrapTextField
-                                                            name="shortname"
-                                                            type="text"
-                                                            placeholder="Enter question shortname..."
-                                                            label="Shortname*"
-                                                            value={this.state.question}
-                                                            handleChange={this.handleTextChange}
-                                                        />
-                                                    </BootstrapGridColumn>
-                                                </div>
+                                    (sections !== null && sections !== undefined)
+                                     && (sections.subCategories.length !== 0 && (
+                                        <>
+                                            <div className='margin-fix form-row'>
+                                                <BootstrapGridColumn>
+                                                    <BootsrapTextField
+                                                        name="_question"
+                                                        value={this.state._question}
+                                                        label="Question*"
+                                                        type="text"
+                                                        placeholder="Enter new question here..."
+                                                        handleChange={this.handleTextChange}
+                                                    />
+                                                </BootstrapGridColumn>
+                                                <BootstrapGridColumn>
+                                                    <BootsrapTextField
+                                                        name="shortname"
+                                                        type="text"
+                                                        placeholder="Enter question shortname..."
+                                                        label="Shortname*"
+                                                        value={this.state.question}
+                                                        handleChange={this.handleTextChange}
+                                                    />
+                                                </BootstrapGridColumn>
+                                            </div>
 
-                                                <CustomCKEditor
-                                                    editorText={this.state.editorText}
-                                                    label="Summary*"
-                                                    setEditorText={this.setEditorText}
-                                                />
-                                            </>
-                                        )
+                                            <CustomCKEditor
+                                                editorText={this.state.editorText}
+                                                label="Summary*"
+                                                setEditorText={this.setEditorText}
+                                            />
+                                        </>)
                                     )
                                 }
 
@@ -511,37 +533,36 @@ class CreateQuestion extends Component {
                                 <div className={classes.margin} />
 
                                 <Button
-                                    type="submit" disabled={emptyQFields}
-                                    intent="success" text="Save"
+                                    type="submit" 
+                                    disabled={emptyQFields}
+                                    intent="success" 
+                                    text="Save"
                                 />
 
                                 <Button
                                     className={classes.margin}
                                     name="default"
-                                    intent="primary" text="Cancel"
+                                    intent="primary" 
+                                    text="Cancel"
                                     onClick={e => handleClick(e)}
                                 />
                             </Fragment>
-                        ) : (
-                                <Fragment>
-                                    {
-                                        this.state.add_section && this.addSection()
-                                    }
+                        ) : (<Fragment>
+                                {
+                                    this.state.add_section && this.addSection()
+                                }
 
-                                    {
-                                        this.state.edit_section && this.editSection()
-                                    }
-                                </Fragment>
-                            )
+                                {
+                                    this.state.edit_section && this.editSection()
+                                }
+                            </Fragment>
+                        )
                     }
-
                 </form>
 
             </Fragment>
         );
-
     }
-
 }
 
 CreateQuestion.propTypes = {

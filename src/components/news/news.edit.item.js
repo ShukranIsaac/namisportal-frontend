@@ -10,6 +10,7 @@ import styles from '../contact/form.styles';
 import UserProfile, { profile } from '../user/user.profile';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import CustomCKEditor from '../ckeditor/editor.component';
+import ButtonControls from '../cms/cms.controls';
 
 /**
  * Edit a single news article
@@ -109,17 +110,14 @@ class EditNewsItem extends Component {
 
         return (
             <Fragment>
-
-                <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
-
-                    <ButtonControl
-                        intent={Intent.NONE}
-                        value="List All Articles"
-                        name="default"
-                        handleClick={e => handleClick(e)}
+                <form onSubmit={(e) => this.handleSubmit(e)} 
+                    autoComplete="off">
+                    <ButtonControls 
+                        keys={['default', 'create']}
+                        user={ user }
+                        handleClick={handleClick}
                     />
 
-                    <div className={classes.margin} />
                     <div className={classes.margin} />
                     <div className={classes.margin} />
 
@@ -127,40 +125,33 @@ class EditNewsItem extends Component {
 
                     <div className={classes.margin} />
                     <div className={classes.margin} />
-                    <div className={classes.margin} />
 
                     {
-                        general && (
-                            !general.isLoading ? (
-                                <>
-                                    {
-                                        (article !== null && article !== undefined) && (
-                                            <>
-                                                <div className="margin-fix form-row">
-                                                    <BootsrapTextField
-                                                        name="title"
-                                                        value={article ? (title ? title : article.title) : ''}
-                                                        placeholder="Edit article title..."
-                                                        label="Article Title"
-                                                        type="text"
-                                                        handleChange={this.handleChange}
-                                                    />
-                                                </div>
+                        general && (!general.isLoading ? (article && (
+                                <Fragment>
+                                    <div className="margin-fix form-row">
+                                        <BootsrapTextField
+                                            name="title"
+                                            value={article ? (title ? title : article.title) : ''}
+                                            placeholder="Edit article title..."
+                                            label="Article Title"
+                                            type="text"
+                                            handleChange={this.handleChange}
+                                        />
+                                    </div>
 
-                                                <CustomCKEditor
-                                                    {...this.state}
-                                                    label="Article Contents"
-                                                    setEditorText={this.setEditorText}
-                                                />
-                                            </>
-                                        )
-                                    }
-                                </>
-                            ) : <div className="loader" />
+                                    <CustomCKEditor
+                                        {...this.state}
+                                        label="Article Contents"
+                                        setEditorText={this.setEditorText}
+                                    />
+                                </Fragment>
+                            )) : <div className="loader" 
+                                style={{ marginTop: `40px` }}
+                            />
                         )
                     }
 
-                    <div className={classes.margin} />
                     <div className={classes.margin} />
                     <div className={classes.margin} />
 

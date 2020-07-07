@@ -3,13 +3,14 @@ import { Col, Modal, ModalHeader, ModalBody } from 'reactstrap'
 import { Link } from "react-router-dom";
 
 // Filter a section from home
-export const filterSection = (sections, name) => {
-    
-    if (sections.length !== 0 && sections === null && sections === undefined) {
-
-      return null;
-
-    }
+export const filterSection = (
+    sections, 
+    name
+) => {
+    if (sections === null 
+        && sections.length !== 0 
+        && sections === undefined) 
+        return null;
 
     return sections.filter(section => {
       // console.log(name)
@@ -20,9 +21,7 @@ export const filterSection = (sections, name) => {
       } 
 
       return null;
-
     })[0];
-
 }
 
 

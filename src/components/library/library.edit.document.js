@@ -16,6 +16,7 @@ import BootstrapGridColumn from '../forms/form.grid.column';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import { BootsrapTextareaField } from '../forms/form.textarea.field';
 import Toast from '../../toastfy';
+import ButtonControls from '../cms/cms.controls';
 
 /**
  * @author Isaac S. Mwakabira
@@ -142,11 +143,10 @@ class EditLibraryItem extends Component {
 
                 <form onSubmit={handleSubmit(values => this.handleSubmit(values))} autoComplete="off">
 
-                    <ButtonControl
-                        intent={Intent.NONE}
-                        value="List Documents"
-                        name="default"
-                        handleClick={e => handleClick(e)}
+                    <ButtonControls 
+                        keys={['default', 'create']}
+                        user={ user }
+                        handleClick={handleClick}
                     />
 
                     <div className={classes.margin} />

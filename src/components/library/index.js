@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Container, Row } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+
+// import Avatar from '@material-ui/core/Avatar';
+import Chip from '@material-ui/core/Chip';
+import DoneIcon from '@material-ui/icons/Done';
 
 import Documents from './documents';
 import './library.css';
@@ -15,14 +16,24 @@ import Document from './Document';
 import * as LibraryAction from '../../actions/index';
 import Config from '../../config';
 import CustomColumn from '../news/custom.column';
-import { Card, Intent } from '@blueprintjs/core';
+import { Intent } from '@blueprintjs/core';
 import { NoDataCard } from '../card.text';
+// import styles from '../contact/form.styles';
 
 const styles = theme => ({
     root: {
         flexGrow: 1,
         width: '100%',
         backgroundColor: theme.palette.background.paper,
+    },
+    chipsRoot: {
+        display: 'flex',
+        justifyContent: 'left',
+        flexWrap: 'wrap',
+        marginBottom: '0.5em',
+        '& > *': {
+            marginRight: theme.spacing.unit * 0.9,
+        }
     },
 });
 
@@ -33,27 +44,23 @@ class Library extends Component {
         this.state = {
             // set the default library category
             // to be selected
-            value: "Tarrifs",
             lock: false
         };
     }
 
     componentDidMount() {
-
         // fetch main category
         this.props.fetchLibrary(null, 'Library', null);
         this.setState({ lock: true })
-
     }
 
     componentDidUpdate(prev, next) {
-
         const { library } = this.props;
-        const { lock, value } = this.state;
+        const { lock } = this.state;
 
         if (prev !== undefined) {
             if (prev.library !== this.props.library) {
-                if (lock && value) {
+                if (lock) {
                     // fetch default child category
                     if (library !== null) {
                         this.props.fetchCategoryDocuments(library.subCategories[0]._id);
@@ -62,10 +69,9 @@ class Library extends Component {
                 }
             }
         }
-
     }
 
-    handleChange = (event, value) => {
+    handleChange = (value) => () => {
 
         this.setState({ value });
 
@@ -95,7 +101,7 @@ class Library extends Component {
             });
 
             // was anything returned
-            if (filteredResource) {
+            if (filteredResource && filteredResource.length !== 0) {
                 // fetch its documents
                 this.props.fetchCategoryDocuments(filteredResource[0]._id);
             }
@@ -103,12 +109,16 @@ class Library extends Component {
 
     };
 
-    toTitleCase(str) {
-
+    toTitleCase = (str) => {
         return str.toLowerCase().split(' ').map(function (word) {
             return word.replace(word[0], word[0].toUpperCase());
         }).join(' ');
+    }
 
+    firstLetter = (str) => {
+        return str.toLowerCase().split(' ').map((word) => {
+            return word.charAt(0).toUpperCase();
+        }).join('');
     }
 
     renderDocuments(docs) {
@@ -131,47 +141,41 @@ class Library extends Component {
 
         const { 
             classes, library, general, 
-            appBar: AppBarContainer 
+            filters: FiltersContainer 
         } = this.props;
-
-        const { value } = this.state;
 
         return (
             <div className='page-content'>
                 <Container>
-                    <Row>
+                    <Row style={{ marginTop: '20px' }}>
                     {
-                        library ?
-                        <div className="card">
-                            <div className="card-body">
-                                <div className={classes.root}>
-                                    <AppBarContainer 
-                                        value={ value }
-                                        handleChange={ this.handleChange }
-                                        library={ library }
-                                    />
-                                    <Documents
-                                        {...this.props}
-                                        renderDocuments={this.renderDocuments}
-                                    />
-                                </div>
+                        (library && library.subCategories.length !== 0) ?
+                        <div className={classes.root}>
+                            <div className={classes.chipsRoot}>
+                                <FiltersContainer 
+                                    handleChange={ this.handleChange }
+                                    library={ library }
+                                    capitalize={ this.firstLetter }
+                                    {...this.props}
+                                />
                             </div>
+                            <Documents
+                                {...this.props}
+                                renderDocuments={this.renderDocuments}
+                            />
                         </div> 
                         : <CustomColumn sm='12' md='12' lg='12'>
-                        {
-                            general && (
-                                !general.isLoading ? (
-                                    <Card>
-                                        <NoDataCard
-                                            text={`No information availble to show. Please refresh to reload.`}
-                                            header={`Information!`}
-                                            intent={Intent.PRIMARY}
-                                        />
-                                    </Card>
-                                ) : <div style={{ marginTop: `50px` }} className="loader" />
-                            )
-                        }
+                            <NoDataCard
+                                text={`No information availble to show. Please refresh to reload.`}
+                                header={`Information!`}
+                                intent={Intent.PRIMARY}
+                            />
                         </CustomColumn>
+                    }
+                    {
+                        general && (general.isLoading && (
+                                <div style={{ marginTop: `50px` }} 
+                                    className="loader" />))
                     }
                     </Row>
                 </Container>
@@ -182,7 +186,7 @@ class Library extends Component {
 
 Library.propTypes = {
     classes: PropTypes.object.isRequired,
-    appBar: PropTypes.oneOfType([
+    filters: PropTypes.oneOfType([
         PropTypes.func,
         PropTypes.instanceOf(
             React.Component
@@ -191,40 +195,42 @@ Library.propTypes = {
 };
 
 Library.defaultProps = {
-    appBar: ({ 
-        library ,
-        value,
+    filters: ({ 
+        library,
         handleChange,
+        classes,
+        // capitalize
     }) => {
-        return (
-        <AppBar position="static" color="default">
-            <Tabs
-                value={value}
-                onChange={handleChange}
-                indicatorColor="primary"
-                textColor="primary"
-                variant="scrollable"
-                scrollable={true}
-                scrollButtons="auto"
-            >
+        return (<Fragment>
+            <div className={classes.chipsRoot}>
                 {
-                    library && (
+                    library ? (
                         library.subCategories && (
-                            library.subCategories.map(category => {
+                            library.subCategories.map(({
+                                _id,
+                                name,
+                            }) => {
                                 return (
-                                    <Tab
-                                        key={category.name}
-                                        label={category.name}
-                                        id={category._id}
-                                        value={category.name}
+                                    <Chip 
+                                        key={_id}
+                                        // avatar={
+                                        //     <Avatar>
+                                        //         {capitalize(name)}
+                                        //     </Avatar>
+                                        // }
+                                        label={name}
+                                        clickable
+                                        variant="outlined"
+                                        onClick={ handleChange(name) }
+                                        deleteIcon={<DoneIcon />}
                                     />
                                 )
                             })
                         )
-                    )
+                    ) : <div>No Filters found</div>
                 }
-            </Tabs>
-        </AppBar>)
+            </div>
+        </Fragment>)
     }
 }
 

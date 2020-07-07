@@ -1,105 +1,97 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { Button, } from '@blueprintjs/core';
 import UserProfile, { profile } from '../user/user.profile';
+import ButtonControls from '../cms/cms.controls';
 
-export class CMSHomeSubCategory extends React.Component {
+export const CMSHomeSubCategory = ({
+    handleClick, 
+    section: { 
+        name, 
+        about, 
+        _id 
+    }
+}) => {
+    const [modal, setModal] = useState();
 
-    constructor() {
-        super()
-        this.state = {
-            modal: false,
+    const renderReadMore = summary => (summary.length > 250) ? 
+        (<span onClick={() => setModal(!modal)} 
+            className="badge badge-info" 
+            style={{ cursor: 'pointer' }}>
+                { !modal ? 'Read more...': 'Read less...' }
+        </span>) : "";
+
+    const user = UserProfile.get();
+
+    return (<li key={_id + name} className="list-group-item">
+        <div className="lead">
+        {
+            !profile.canEdit({ user })
+            ? <div className="heading">{name}</div>
+            : <a
+                name="edit" 
+                id={_id} key={_id} href="/#"
+                onClick={(e) => handleClick(e)}
+                className="heading">
+                {name}
+            </a>
         }
-
-        this.toggle = this.toggle.bind(this)
-        this.renderReadMore = this.renderReadMore.bind(this)
-    }
-
-
-
-    renderReadMore = (about) => {
-        if (about.length > 250) {
-
-            return (<span onClick={this.toggle} className="badge badge-info" style={{ cursor: 'pointer' }}>Read more...</span>)
-        }
-        else {
-            return ''
-        }
-    }
-
-    toggle = () => {
-        this.setState({ modal: !this.state.modal })
-    }
-
-    render() {
-
-        const { handleClick, section: { name, about, _id } } = this.props;
-        const { modal } = this.state;
-        const user = UserProfile.get();
-
-        return (
-            <Col key={name + _id} sm='12' md='8' lg='6'>
-                <div className="card" style={{ minHeight: 'auto' }}>
-                    <div className="card-body">
-                        <h4>
-                            {
-                                !profile.canEdit({ user })
-                                    ? <div className="heading">{name}</div>
-                                    : <a
-                                        name="edit" id={_id}
-                                        key={_id} href="/cms"
-                                        onClick={(e) => handleClick(e)}
-                                        className="heading">
-                                        {name}
-                                    </a>
-                            }
-                        </h4>
-                        <p style={{ textAlign: 'justify' }}>
-                            {`${about.substring(0, 250)} `}
-                            {
-                                this.renderReadMore(about)
-                            }
-                        </p>
-
-                        <Button
-                            name="edit" id={_id}
-                            disabled={!profile.canEdit({ user })}
-                            intent="primary"
-                            text="Edit"
-                            onClick={(e) => handleClick(e)}
-                        />
-                    </div>
-                </div>
-                <Modal
-                    isOpen={modal} toggle={this.toggle}
-                    style={{ minWidth: '20%' }}
-                    centered={true}
-                // modalTransition={{ timeout: 400 }} 
-                // backdropTransition={{ timeout: 1000 }}
-                // backdrop={ false }
-                >
-                    <ModalHeader toggle={this.toggle}>{name}</ModalHeader>
-                    <ModalBody>
-                        {about}
-                        <br />
-                        <p>
-                            <Button
-                                name="edit" id={_id}
-                                disabled={!profile.canEdit({ user })}
-                                intent="primary"
-                                text="Edit"
-                                onClick={(e) => handleClick(e)}
-                            />
-                        </p>
-                    </ModalBody>
-                </Modal>
-            </Col>
-        );
-
-    }
+        </div>
+        <p style={{ textAlign: 'justify' }}>
+        { modal ? about : `${about.substring(0, 250)}`}
+        { renderReadMore(about) }
+        <span><i>
+            <ButtonControls 
+                keys={['edit']}
+                user={ user }
+                id={_id}
+                handleClick={e=>handleClick(e)}
+            />
+        </i></span>
+        </p>
+    </li>)
 }
 
 CMSHomeSubCategory.propTypes = {
     section: PropTypes.object.isRequired
+}
+
+export default CMSHomeSubCategory;
+
+export const StatusModal = ({
+    section: { name, about, _id },
+    toggle,
+    modal,
+    handleClick
+}) => {
+    return (
+        <Col key={name + _id} sm='12' md='8' lg='6'>
+            <Modal
+                isOpen={modal} toggle={toggle}
+                style={{ minWidth: '20%' }}
+                centered={true}
+            // modalTransition={{ timeout: 400 }} 
+            // backdropTransition={{ timeout: 1000 }}
+            // backdrop={ false }
+            >
+                <ModalHeader toggle={toggle}>{name}</ModalHeader>
+                <ModalBody>
+                    {about}
+                    <br />
+                    <p>
+                        <Button
+                            name="edit" id={_id}
+                            disabled={!profile.canEdit({ 
+                                user: UserProfile.get() })
+                            }
+                            intent="primary"
+                            text="Edit"
+                            onClick={(e) => handleClick(e)}
+                        />
+                    </p>
+                </ModalBody>
+            </Modal>
+        </Col>
+    );
 }

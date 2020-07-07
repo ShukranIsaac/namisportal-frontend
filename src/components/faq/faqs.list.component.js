@@ -3,33 +3,33 @@ import PropTypes from 'prop-types';
 import { NoDataCard } from '../card.text';
 import { Intent } from '@blueprintjs/core';
 import UserProfile, { profile } from '../user/user.profile';
-import ButtonControl from '../forms/buttons/button.default.control';
 import { Divider, withStyles } from '@material-ui/core';
 import styles from '../contact/form.styles';
+import ButtonControls from '../cms/cms.controls';
 
 /**
  * List all frequently asked questions
  * 
  * @author Isaac S. Mwakabira
  */
-const ListFAQS = ({ general, questions, handleClick, classes }) => {
+const ListFAQS = ({ 
+    general, 
+    questions, 
+    handleClick, 
+    classes 
+}) => {
 
     // get the logged in user
     const user = UserProfile.get();
 
     return (
         <Fragment>
-
-            <ButtonControl
-                intent={Intent.NONE}
-                value="New Question"
-                name="create"
-                handleClick={e => handleClick(e)}
-                disabled={!profile.canWrite({ user })}
+            <ButtonControls 
+                keys={['create']}
+                user={ user }
+                handleClick={handleClick}
             />
 
-            <div className={classes.margin} />
-            <div className={classes.margin} />
             <div className={classes.margin} />
             <div className={classes.margin} />
 
@@ -37,73 +37,78 @@ const ListFAQS = ({ general, questions, handleClick, classes }) => {
 
             <div className={classes.margin} />
             <div className={classes.margin} />
+
+            {
+                questions && questions.subCategories && (questions.subCategories.length > 0 
+                    ? (<NoDataCard 
+                    header="List of all frequently asked questions." 
+                    intent={Intent.SUCCESS} 
+                />) : <NoDataCard 
+                    header="No list of frequently asked questions." 
+                    intent={Intent.SUCCESS} 
+                />)
+            }
+
+            <div className={classes.margin} />
             <div className={classes.margin} />
 
-            <NoDataCard header="List of all frequently asked questions." intent={Intent.SUCCESS} />
-
-            <div className={classes.margin} />
-            <div className={classes.margin} />
-            <div className={classes.margin} />
-            <div className={classes.margin} />
-
-            <ul>
+            <ul className="list-group list-group-flush">
                 {
-                    general !== null && (
+                    (questions && questions.subCategories !== null) 
+                    && (questions.subCategories.length !== 0 
+                        && questions.subCategories.map(({
+                            subCategories
+                        }, index) => {
 
-                        !general.isLoading ?
+                            // if this category has question render, else don't
+                            if (subCategories) {
 
-                            ((questions !== null && questions !== undefined) && questions.subCategories !== null) && (
-                                questions.subCategories.length !== 0 && questions.subCategories.map((category, index) => {
+                                if (subCategories.length !== 0) {
 
-                                    // if this category has question render, else don't
-                                    if (category.subCategories !== undefined && category.subCategories !== null) {
+                                    return subCategories.map(({ 
+                                        name, 
+                                        _id 
+                                    }, index) => {
 
-                                        if (category.subCategories.length !== 0) {
+                                        return (
+                                            <li key={index}
+                                                className="list-group-item">
+                                            {
+                                                !profile.canWrite({ user })
+                                                ? <a href="#/">{name}</a>
+                                                : <a
+                                                    name="edit" id={_id}
+                                                    key={_id} href={`${'/faqs/' + name}`}
+                                                    onClick={(e) => handleClick(e)}
+                                                    disabled={!profile.canWrite({ user })}
+                                                >
+                                                    {name}
+                                                </a>
+                                            }
+                                            </li>
+                                        )
 
-                                            return category.subCategories.length !== 0 && category.subCategories.map(({ name, _id }, index) => {
+                                    })
 
-                                                return (
-                                                    <li key={index}>
-                                                        {
-                                                            !profile.canWrite({ user })
-                                                                ? <a href="#/">{name}</a>
-                                                                : <a
-                                                                    name="edit" id={_id}
-                                                                    key={_id} href={`${'/faqs/' + name}`}
-                                                                    onClick={(e) => handleClick(e)}
-                                                                    disabled={!profile.canWrite({ user })}
-                                                                >
-                                                                    {name}
-                                                                </a>
-                                                        }
-                                                    </li>
-                                                )
+                                } else {
 
-                                            })
+                                    return null;
 
-                                        } else {
-
-                                            return null;
-
-                                        }
-
-                                    } else {
-
-                                        return null;
-
-                                    }
-
-                                })
-                            )
-
-                            : <div className="loader" />
+                                }
+                            } 
+                            return null;
+                        })
                     )
                 }
             </ul>
-
+            {
+                general !== null && (general.isLoading && <div 
+                    className="loader" 
+                    style={{ marginTop: `40px` }}
+                />)
+            }
         </Fragment>
     );
-
 }
 
 ListFAQS.propTypes = {

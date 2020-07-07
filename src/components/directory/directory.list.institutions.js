@@ -1,11 +1,9 @@
 import React, { Fragment } from 'react';
-// import SearchInputControl from '../forms/search.form.field';
-import ButtonControl from '../forms/buttons/button.default.control';
-import { Intent } from '@blueprintjs/core';
 import { Row, } from 'reactstrap';
 import { Divider, withStyles } from '@material-ui/core';
 import styles from '../contact/form.styles';
 import UserProfile, { profile } from '../user/user.profile';
+import ButtonControls from '../cms/cms.controls';
 
 /**
  * Lists all institutions in the directory
@@ -24,24 +22,15 @@ export const ListDirectoryInstitution = (withStyles(styles)(({
     handleClick,
     general, classes
 }) => {
-
-    // console.log(stakeholders);
-    if (stakeholders === null && stakeholders === undefined) {
-        return <div>No stakeholders</div>
-    }
-
     // authenticated user
     const user = UserProfile.get();
 
     return (
         <Fragment>
-
-            <ButtonControl
-                intent={Intent.NONE}
-                value="New Stakeholder"
-                name="create"
-                handleClick={e => handleClick(e)}
-                disabled={!profile.canWrite({ user })}
+            <ButtonControls 
+                keys={['create']}
+                user={ user }
+                handleClick={handleClick}
             />
 
             <div className={classes.margin} />
@@ -50,48 +39,45 @@ export const ListDirectoryInstitution = (withStyles(styles)(({
 
             <Divider />
 
-            <ul>
-                {
-                    general && (
-                        !general.isLoading ? (
-                            (stakeholders !== null && stakeholders !== undefined) && (
-                                <Fragment>
-                                    {
-                                        stakeholders && stakeholders.map((stakeholder, index) => {
-
-                                            return (
-                                                <Fragment key={index}>
-                                                    <li id={stakeholder._id} key={stakeholder._id}>
-                                                        {
-                                                            !profile.canEdit({ user })
-                                                                ? <a href="#/">{stakeholder.name}</a>
-                                                                : <a
-                                                                    href={`${'directory/' + stakeholder.name}`}
-                                                                    onClick={(e) => { handleClick(e) }}
-                                                                    name="edit"
-                                                                    id={stakeholder._id}
-                                                                >
-                                                                    {stakeholder.name}
-                                                                </a>
-                                                        }
-                                                    </li>
-                                                </Fragment>
-                                            );
-
-                                        })
-                                    }
-                                </Fragment>
-                            )
-                        ) : (<Row>
-                            <div style={{ marginTop: `40px` }} className="loader" />
-                        </Row>
-                            )
-                    )
-
-                }
+            <ul className="list-group list-group-flush">
+            {
+                general && (!general.isLoading ? (
+                (stakeholders && stakeholders.length > 0) 
+                    ? (<Fragment>
+                        {
+                            stakeholders && stakeholders.map(({
+                                _id,
+                                name
+                            }, index) => {
+                                return (
+                                    <Fragment key={index}>
+                                        <li id={_id} 
+                                            key={_id}
+                                            className="list-group-item">
+                                            {
+                                                !profile.canEdit({ user })
+                                                ? <a href="#/">{name}</a>
+                                                : <a
+                                                    href={`${'directory/' + name}`}
+                                                    onClick={(e) => { handleClick(e) }}
+                                                    name="edit"
+                                                    id={_id}
+                                                >
+                                                    {name}
+                                                </a>
+                                            }
+                                        </li>
+                                    </Fragment>
+                                );
+                            })
+                        }
+                    </Fragment>) : <div>No stakeholders</div>) 
+                    : <Row><div style={{ marginTop: `40px` }} 
+                        className="loader" />
+                    </Row>
+                )
+            }
             </ul>
-
         </Fragment>
     );
-
 }))

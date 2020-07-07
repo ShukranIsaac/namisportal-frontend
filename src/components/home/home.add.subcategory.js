@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import { Divider } from '@material-ui/core';
-import ButtonControl from '../forms/buttons/button.default.control';
-import { Intent, Button } from '@blueprintjs/core';
+import { Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 import UserProfile from '../user/user.profile';
 import BootstrapGridColumn from '../forms/form.grid.column';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import { BootsrapTextareaField } from '../forms/form.textarea.field';
+import ButtonControls from '../cms/cms.controls';
 
 /**
  * Add a new home subcategory
@@ -40,9 +40,9 @@ class CreateHomeSubcategory extends Component {
 	 * @param {Event} event
 	 */
     handleChange = (event) => {
-
-        this.setState({ [event.target.name]: event.target.value });
-
+        this.setState({ 
+            [event.target.name]: event.target.value 
+        });
     }
 
     handleChangeMultiple = event => {
@@ -101,27 +101,18 @@ class CreateHomeSubcategory extends Component {
 
     render() {
 
-        const { classes, handleClick, category } = this.props;
+        const { classes, handleClick } = this.props;
         const { name, shortname, about } = this.state;
 
         return (
             <Fragment>
-
+                <ButtonControls 
+                    keys={['default']}
+                    user={ UserProfile.get() }
+                    handleClick={handleClick}
+                />
+                
                 <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
-
-                    {
-                        category.length !== 0 && (
-                            <ButtonControl
-                                intent={Intent.NONE}
-                                value="List SubCategories"
-                                name="default"
-                                handleClick={e => handleClick(e)}
-                            />
-                        )
-                    }
-
-                    <div className={classes.margin} />
-                    <div className={classes.margin} />
                     <div className={classes.margin} />
                     <div className={classes.margin} />
                     <div className={classes.margin} />

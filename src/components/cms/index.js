@@ -548,6 +548,7 @@ class CMSIndex extends React.Component {
                     className={classNames(classes.appBar, {
                         [classes.appBarShift]: this.state.open,
                     })}
+                    style={{ backgroundColor: "#0171D0" }}
                 >
                     <Toolbar disableGutters={!this.state.open}>
                         <IconButton
@@ -709,6 +710,15 @@ const styles = theme => ({
     title: {
         flexGrow: 1,
     },
+    chipsRoot: {
+        display: 'flex',
+        justifyContent: 'left',
+        flexWrap: 'wrap',
+        marginBottom: '1em',
+        '& > *': {
+            marginRight: theme.spacing.unit * 0.9,
+        }
+    },
 });
 
 const mapStateToProps = (state) => {
@@ -752,6 +762,9 @@ const mapDispatchToProps = (dispatch) => {
         createItem: () => { dispatch(UserEventActions.create()) },
         reload: () => { dispatch(UserEventActions.reload()) },
         // Library category
+        fetchLibrary: (id, name, type) => { 
+            dispatch(LibraryAction.fetchLibrary(id, name, type)) 
+        },
         fetchLibraryDocs: () => { dispatch(LibraryAction.fetchAllLibraryDocs()) },
         // library files and documents
         uploadFile: (i, d, t) => { dispatch(LibraryAction.uploadFile(i, d, t)) },

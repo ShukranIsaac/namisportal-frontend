@@ -15,36 +15,30 @@ import React, { Fragment } from "react";
  * 
  * @returns {ResourceSection} component
  */
-const ResourceSection = ({ option, name, List, Create, Edit, Remove, Archive }) => {
-
-    // return if name is null and undefined
-    if(name === null && name === undefined) {
-        return;
-    }
-
-    // return if option is null and undefined
-    if(option === null && option === undefined) {
-        return;
-    }
-
+const ResourceSection = ({ 
+    option, name, 
+    list: List, 
+    create: Create, 
+    edit: Edit, 
+    remove: Remove, 
+    archive: Archive 
+}) => {
     /** 
      * removes any leading and trailling white space 
      * characters from the name string
      */
     const section = name.trim();
 
-    // if no section is defined, just return
-    if(!section) return;
+    // return if name || option is null and undefined
+    if(!name || !option || !section) {
+        return null;
+    }
 
     switch (option.trim()) {
-
+        
         case 'list':
             // list of resource chosen
-            return (
-                <Fragment>
-                    { <List /> }
-                </Fragment>
-            );
+            return <List />
 
         case 'create':
             // create new resource
@@ -88,19 +82,14 @@ const ResourceSection = ({ option, name, List, Create, Edit, Remove, Archive }) 
 
         case 'unpublish':
             // edit
-            return (
-                <Fragment>
+            return (<Fragment>
                     { section && <Edit /> }
                 </Fragment>
             );
         
         default:
             // default, list all
-            return (
-                <Fragment>
-                    { <List /> }
-                </Fragment>
-            );
+            return <List />
 
     }
 

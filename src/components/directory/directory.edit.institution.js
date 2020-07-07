@@ -7,8 +7,7 @@ import AsyncValidate from '../contact/form.async-validate';
 import Validate from '../contact/email.validate';
 
 import { Divider, Paper, FormControl } from '@material-ui/core';
-import ButtonControl from '../forms/buttons/button.default.control';
-import { Intent, Button } from '@blueprintjs/core';
+import { Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 import UserProfile, { profile } from '../user/user.profile';
 import { SelectInputControl } from '../forms/form.selectinput.field';
@@ -16,6 +15,7 @@ import BootstrapGridColumn from '../forms/form.grid.column';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import { BootsrapTextareaField } from '../forms/form.textarea.field';
 import { DefaultMuiFormFileinputField } from '../forms/form.fileinput.field';
+import ButtonControls from '../cms/cms.controls';
 
 /**
  * @author Isaac S. Mwakabira
@@ -435,19 +435,10 @@ class EditDirectoryInstitution extends Component {
          */
         return (
             <Fragment>
-
-                <ButtonControl
-                    intent={Intent.NONE}
-                    value="List Stakeholders"
-                    name="default"
-                    handleClick={e => handleClick(e)}
-                />
-
-                <ButtonControl
-                    intent={Intent.NONE}
-                    value="New Stakeholder"
-                    name="create"
-                    handleClick={e => handleClick(e)}
+                <ButtonControls 
+                    keys={['default', 'create']}
+                    user={ user }
+                    handleClick={handleClick}
                 />
 
                 <ul class="nav nav-tabs" role="tablist" style={{ marginTop: `5px` }}>
@@ -463,7 +454,8 @@ class EditDirectoryInstitution extends Component {
 
                     <div id="stakeholder" class="tab-pane active"><br />
 
-                        <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
+                        <form onSubmit={(e) => this.handleSubmit(e)} 
+                            autoComplete="off">
 
                             {/* <div className={classes.margin} /> */}
 

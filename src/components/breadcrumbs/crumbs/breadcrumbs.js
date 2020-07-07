@@ -32,7 +32,11 @@ export const Breadcrumbs = ({
 
         <Wrapper 
             className={`${block} ${hiddenMod}`} 
-            style={{ backgroundColor: "#416fd1" }}
+            style={{ 
+                backgroundColor: "#182026", // #182026 , 0171D0
+                borderTop: '#0171D0 solid 0.25em',
+                borderBottom: '#0171D0 solid 0.25em'
+            }}
         >
 
             <div className={`${block}__inner`}>
@@ -85,7 +89,7 @@ Breadcrumbs.defaultProps = {
     }) => crumbs.map((crumb, i) => (
         <span key={crumb.id} className={`${block}__section`}>
             <Link
-                exact
+                exact="true"
                 style={{ color: "#fff" }}
                 className={`${block}__crumb`}
                 activeclassname={`${block}__crumb--active`}

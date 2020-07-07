@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import { Divider, Paper, FormControl } from '@material-ui/core';
-import ButtonControl from '../forms/buttons/button.default.control';
-import { Intent, Button } from '@blueprintjs/core';
+import { Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 import UserProfile from '../user/user.profile';
 import { SelectInputControl } from '../forms/form.selectinput.field';
 import BootstrapGridColumn from '../forms/form.grid.column';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import { BootsrapTextareaField } from '../forms/form.textarea.field';
+import ButtonControls from '../cms/cms.controls';
 
 /**
  * @author Isaac S. Mwakabira
@@ -258,18 +258,14 @@ class CreateDirectoryInstitution extends Component {
 
         return (
             <Fragment>
+                <ButtonControls 
+                    keys={['default']}
+                    user={ UserProfile.get() }
+                    handleClick={handleClick}
+                />
+                <form onSubmit={(e) => this.handleSubmit(e)} 
+                    autoComplete="off">
 
-                <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
-
-                    <ButtonControl
-                        intent={Intent.NONE}
-                        value="List Stakeholders"
-                        name="default"
-                        handleClick={e => handleClick(e)}
-                    />
-
-                    <div className={classes.margin} />
-                    <div className={classes.margin} />
                     <div className={classes.margin} />
                     <div className={classes.margin} />
                     <div className={classes.margin} />

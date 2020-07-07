@@ -12,14 +12,29 @@
     z-index: 12;
 }
 
-.navbar > a > h4 {
-    margin: 0;
-    color: inherit
+/* .navbar > a > img {
+    padding-right: 5px;
+    padding-bottom: -25.4px;
+    width: 90px;
+} */
+
+.navbar > a > b > h3 {
+    margin-bottom: -2px;
+    color: #0168BF;
+}
+
+.navbar > a {
+    text-decoration: none;
 }
 
 li a { 
     color: inherit;
     display: block;
+    margin-bottom: -1px;
     padding: 0.5rem 1rem;
+}
+
+li a:hover {
+    color: #0168BF;
 }
 

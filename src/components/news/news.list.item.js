@@ -10,7 +10,12 @@ import Divider from '@material-ui/core/Divider';
  * @author Isaac S. Mwakabira
  * 
  */
-const NewsListItem = ({ when, splitCount, classes, article })=> {
+const NewsListItem = ({ 
+    when, 
+    splitCount, 
+    classes, 
+    article 
+})=> {
     
     return (
         <Fragment>

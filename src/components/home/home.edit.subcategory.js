@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import { Divider } from '@material-ui/core';
-import ButtonControl from '../forms/buttons/button.default.control';
-import { Intent, Button } from '@blueprintjs/core';
+import { Button } from '@blueprintjs/core';
 import styles from '../contact/form.styles';
 import '../cms/style.css';
 import UserProfile, { profile } from '../user/user.profile';
 import BootstrapGridColumn from '../forms/form.grid.column';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
-import { BootsrapTextareaField } from '../forms/form.textarea.field';
+import ButtonControls from '../cms/cms.controls';
+import CustomCKEditor from '../ckeditor/editor.component';
 
 /**
  * Edit a home subcategory
@@ -92,43 +92,42 @@ class EditHomeSubcategory extends Component {
 
     }
 
+    setEditorText = (editor) => {
+        this.setState({ editorText: editor.getData() });
+    }
+
     render() {
 
         const { classes, handleClick, general, subcategory } = this.props;
-        const { name, shortname, about } = this.state;
+        const { editorText } = this.state;
 
+        if (subcategory && !editorText) {
+            Object.assign(this.state, { editorText: subcategory.about })
+        }
         // get authenticated user token
         const user = UserProfile.get();
 
         return (
             <Fragment>
+                <ButtonControls 
+                    keys={['default', 'create']}
+                    user={ user }
+                    handleClick={handleClick}
+                />
 
-                <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
+                <div className={classes.margin} />
+                <div className={classes.margin} />
 
-                    <ButtonControl
-                        intent={Intent.NONE}
-                        value="New SubCategory"
-                        name="create"
-                        handleClick={e => handleClick(e)}
-                        disabled={!profile.canWrite({ user })}
-                    />
+                <Divider />
 
-                    <ButtonControl
-                        intent={Intent.NONE}
-                        value="List SubCategories"
-                        name="list"
-                        handleClick={e => handleClick(e)}
-                    />
+                <div className={classes.margin} />
+                <div className={classes.margin} />
 
-                    <div className={classes.margin} />
-                    <div className={classes.margin} />
-
-                    <Divider />
-
+                <form onSubmit={(e) => this.handleSubmit(e)} 
+                    autoComplete="off">
                     {
                         subcategory !== null && (
                             <div>
-
                                 <div className="margin-fix form-row">
                                     <BootstrapGridColumn>
                                         <BootsrapTextField
@@ -162,41 +161,31 @@ class EditHomeSubcategory extends Component {
                                 </div>
 
                                 <div className="form-group">
-                                    <BootsrapTextareaField
-                                        name="about"
-                                        value={
-                                            subcategory !== null
-                                                ? (this.state.about ? this.state.about : subcategory.about) : ''
-                                        }
-                                        placeholder="Edit sub-category about..."
+                                    <CustomCKEditor
+                                        {...this.state}
                                         label="About"
-                                        type="text"
-                                        rows={10}
-                                        handleChange={this.handleChange}
+                                        setEditorText={this.setEditorText}
                                     />
                                 </div>
-
-                                {
-                                    general !== undefined && general.isLoading ? (<div className="loader" />) : null
-                                }
-
                             </div>
                         )
                     }
 
                     <div className={classes.margin} />
                     <div className={classes.margin} />
-                    <div className={classes.margin} />
 
                     <Button 
-                        type="submit" disabled={!(name || shortname || about)} 
-                        intent="primary" text="Save" 
+                        type="submit" 
+                        disabled={false} 
+                        intent="primary" 
+                        text="Save" 
                     />
 
                     <Button 
                         className={classes.margin} 
                         disabled={!profile.canDelete({ user })} 
-                        intent="danger" text="Delete" 
+                        intent="danger" 
+                        text="Delete" 
                         onClick={(e) => this.archiveCategory(e)} 
                     />
 
@@ -207,14 +196,17 @@ class EditHomeSubcategory extends Component {
                         text="Cancel" 
                         onClick={e => handleClick(e)} 
                     />
-
                 </form>
 
+                {
+                    general && (general.isLoading && (<div 
+                        style={{ marginTop: `40px` }} 
+                        className="loader" 
+                    />))
+                }
             </Fragment>
         );
-
     }
-
 }
 
 EditHomeSubcategory.propTypes = {

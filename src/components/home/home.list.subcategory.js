@@ -2,11 +2,9 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Divider, withStyles } from '@material-ui/core';
 import styles from '../contact/form.styles';
-import ButtonControl from '../forms/buttons/button.default.control';
-import { Intent, } from '@blueprintjs/core';
-import { Row, } from 'reactstrap';
-import UserProfile, { profile } from '../user/user.profile';
+import UserProfile from '../user/user.profile';
 import { CMSHomeSubCategory } from './cms.home.subcategory';
+import ButtonControls from '../cms/cms.controls';
 
 /**
  * List all home subcategory
@@ -23,56 +21,42 @@ export const ListHomeSubcategory = ({
 
     return (
         <Fragment>
-
-            <ButtonControl
-                intent={Intent.NONE}
-                value="New SubCategory"
-                name="create"
-                handleClick={e => handleClick(e)}
-                disabled={!profile.canWrite({ user })}
+            <ButtonControls 
+                keys={['create']}
+                user={ user }
+                handleClick={handleClick}
             />
 
-            <div className={classes.margin} />
             <div className={classes.margin} />
             <div className={classes.margin} />
 
             <Divider />
 
-            <div className='app-sections' style={{ marginTop: '-53px' }}>
+            <div className={classes.margin} />
+            <div className={classes.margin} />
+
+            <ul className='list-group list-group-flush'>
                 {
-                    general && (
-                        !general.isLoading ? (
-                            (category !== null && category !== undefined) && (<Row>
-
-                                {
-                                    category.subCategories !== undefined && category.subCategories.map((section, index) => {
-
-                                        /**
-                                        * Making sure this main section does not appear
-                                        * on the home component. To avoid being edited as its values
-                                        * are hard coded in the frontend
-                                        */
-                                        if (section.name === 'Information for Mini-Grid Developers') {
-                                            return null;
-                                        }
-
-                                        return (<CMSHomeSubCategory key={index} section={section} handleClick={handleClick} />);
-
-                                    })
-                                }
-
-                            </Row>)
-                        ) : (<Row>
-                            <div style={{ marginTop: `40px` }} className="loader" />
-                        </Row>
-                            )
+                    (category && category !== null) && (
+                        category.subCategories !== undefined && 
+                        category.subCategories.map((section, index) => {
+                            return (<CMSHomeSubCategory 
+                                section={ section }
+                                handleClick={handleClick}
+                            />);
+                        })
                     )
                 }
-            </div>
+            </ul>
 
+            {
+                general && (general.isLoading && (<div 
+                    style={{ marginTop: `40px` }} 
+                    className="loader" 
+                />))
+            }
         </Fragment>
     );
-
 }
 
 

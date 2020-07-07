@@ -1,14 +1,18 @@
-import React, { Fragment, Component } from 'react';
-
-// import SearchInputControl from '../forms/search.form.field';
+import React, { 
+    Fragment, 
+    useState, 
+    useEffect
+} from 'react';
+import PropTypes from 'prop-types';
 
 import './library.css';
-import ButtonControl from '../forms/buttons/button.default.control';
-import { Intent } from '@blueprintjs/core';
 import { Divider, withStyles, FormControl, Paper } from '@material-ui/core';
+// import Avatar from '@material-ui/core/Avatar';
+import Chip from '@material-ui/core/Chip';
+import DoneIcon from '@material-ui/icons/Done';
 import styles from '../contact/form.styles';
 import UserProfile, { profile } from '../user/user.profile';
-import { SelectInputControl } from '../forms/form.selectinput.field';
+import ButtonControls from '../cms/cms.controls';
 
 /**
  * List all documents by category groups
@@ -16,55 +20,39 @@ import { SelectInputControl } from '../forms/form.selectinput.field';
  * @author Isaac S. Mwakabira
  * 
  */
-class ListLibraryDocuments extends Component {
-
-    constructor() {
-        super()
-        this.state = {
-            lock: false
-        }
-    }
-
-    componentDidMount() {
-
-        // Library filters/subcategories
-        const resources = this.props.maincategory;
-        const { lock } = this.state;
-
+const ListLibraryDocuments = ({
+    maincategory,
+    handleFilteredResource,
+    fetchCategoryDocs,
+    filters: FiltersContainer,
+    sub_cate_documents,
+    ...props
+}) => {
+    const [state, setState] = useState({ lock: false });
+    
+    useEffect(() => {
         // if resources not null
-        if (resources !== null && !lock) {
-
-            if (resources.subCategories.length !== 0) {
-                // first subcategory in the library main category
-                
-                // fetch its documents
-                // this.props.fetchCategoryDocs(resources.subCategories[0]._id);
-
+        if (maincategory !== null && !state.lock) {
+            if (maincategory.subCategories.length !== 0) {
                 // set lock to true
-                Object.assign(this.state, { lock: true });
+                setState({ lock: true })
             }
-
         }
-    }
+    }, [maincategory, state.lock])
 
-    handleChange = (event) => {
-
-        const resourceSelected = event.target.value;
-
-        const resources = this.props.maincategory;
-
+    const handleChange = (value) => {
         // if resources not null
-        if (resources !== null) {
-
+        if (maincategory !== null) {
             // then iterate through the subcategories
             // and filter the chosen section
-            const filteredResource = resources.subCategories.length !== 0 && resources.subCategories.filter(resource => {
+            const filteredResource = maincategory.subCategories.length !== 0 && 
+            maincategory.subCategories.filter(resource => {
 
-                if (resourceSelected !== null && resource !== null) {
+                if (value !== null && resource !== null) {
                     // check if the chosen resource from the drop down list
                     // equals one of the resources/subCategories
                     // in Library
-                    if (resource.name === resourceSelected) {
+                    if (resource.name === value) {
                         return resource;
                     } else {
                         return null;
@@ -76,121 +64,159 @@ class ListLibraryDocuments extends Component {
             });
 
             // was anything returned
-            if (filteredResource) {
+            if (filteredResource && filteredResource.length !== 0) {
+                if (state.lock) {
+                    // fetch its documents
+                    fetchCategoryDocs(filteredResource[0]._id);
 
-                this.props.handleFilteredResource(filteredResource[0])
-                // fetch its documents
-                this.props.fetchCategoryDocs(filteredResource[0]._id);
-
-                this.setState({ [event.target.name]: resourceSelected })
+                    setState({ lock: false });
+                }
             }
         }
     }
 
-    render() {
-
-        const { classes, general, handleClick, sub_cate_documents } = this.props;
-
-        // Library filters/subcategories
-        const resources = this.props.maincategory;
-
-        // authenticated user
-        const user = UserProfile.get();
-
-        return (
-            <Fragment>
-
-                <ButtonControl
-                    intent={Intent.NONE}
-                    value="New Document"
-                    name="create"
-                    handleClick={e => handleClick(e)}
-                    disabled={!profile.canWrite({ user })}
-                />
-
-                <div className={classes.margin} />
-
-                <Divider />
-
-                <div className={classes.margin} />
-
-                { /** filter categories here */}
-                <FormControl>
-
-                    <Paper elevation={0}>
-
-                        <SelectInputControl
-                            name="library_resource"
-                            {...this.state}
-                            onChange={e => this.handleChange(e)}
-                            // value={this.state.library_resource }
-                        >
-                            <option value="">{`Choose library resource`}</option>
-                            {
-                                (resources !== null && resources !== undefined) && (
-                                    resources.subCategories.length !== 0 && resources.subCategories.map(({ _id, name }, index) => {
-
-                                        // filters
-                                        return <option id={_id} key={`${index}`} value={name}>{name}</option>
-
-                                    })
-                                )
-                            }
-                        </SelectInputControl>
-
-                    </Paper>
-
-                </FormControl>
-
-                {
-                    general && (
-                        !general.isLoading ? (
-                            sub_cate_documents !== null ? (
-                                sub_cate_documents.length !== 0 ? (
-                                    <Fragment>
-
-                                        <ul>
-                                            {
-                                                sub_cate_documents.map((document, index) => {
-
-                                                    return (
-                                                        <Fragment key={document.name}>
-                                                            <li id={index} key={document.name}>
-                                                                {/* <div style={{ marginTop: `0.5em` }}>
-                                                                    {`${document.name}(${document.filename})`}
-                                                                </div> */}
-                                                                {
-                                                                    !profile.canWrite({ user })
-                                                                        ? <a href="#/">{`${document.name}(${document.filename})`}</a>
-                                                                        : <a
-                                                                            href={`${'/library/' + document.name}`}
-                                                                            onClick={(e) => handleClick(e)}
-                                                                            name="edit"
-                                                                            id={document._id}
-                                                                        >
-                                                                            {`${document.name}(${document.filename})`}
-                                                                        </a>
-                                                                }
-                                                            </li>
-                                                        </Fragment>
-                                                    );
-
-                                                })
-                                            }
-                                        </ul>
-
-                                    </Fragment>
-                                ) : <div>No documents found</div>
-                            ) : <div>No documents found</div>
-                        ) : (
-                                <div style={{ marginTop: `50px` }} className="loader" />
-                            )
-                    )
-                }
-            </Fragment>
-        );
+    const firstLetter = (str) => {
+        return str.toLowerCase().split(' ').map((word, index) => {
+            return word.charAt(0).toUpperCase();
+        }).join('');
     }
 
+    const { 
+        classes, 
+        general, 
+        handleClick
+    } = props;
+
+    // authenticated user
+    const user = UserProfile.get();
+
+    return (
+        <Fragment>
+            <ButtonControls 
+                keys={['create']}
+                user={ user }
+                handleClick={handleClick}
+            />
+
+            <div className={classes.margin} />
+
+            <Divider />
+
+            <div className={classes.margin} />
+
+            { /** filter categories here */}
+            <FormControl>
+                <Paper elevation={0}>
+                    <FiltersContainer 
+                        handleChange={ handleChange }
+                        maincategory={ maincategory }
+                        capitalize={ firstLetter }
+                        classes={classes}
+                    />
+                </Paper>
+            </FormControl>
+
+            {
+                sub_cate_documents ? (
+                    sub_cate_documents.length !== 0 ? (
+                        <Fragment>
+                            <ul className="list-group list-group-flush">
+                                {
+                                    sub_cate_documents.map((document, index) => {
+
+                                        return (
+                                            <Fragment key={document.name}>
+                                                <li 
+                                                    id={index} 
+                                                    className="list-group-item"
+                                                    key={document.name}>
+                                                    {/* <div style={{ marginTop: `0.5em` }}>
+                                                        {`${document.name}(${document.filename})`}
+                                                    </div> */}
+                                                    {
+                                                        !profile.canWrite({ user })
+                                                            ? <a href="#/">{`${document.name}(${document.filename})`}</a>
+                                                            : <a
+                                                                href={`${'/library/' + document.name}`}
+                                                                onClick={(e) => handleClick(e)}
+                                                                name="edit"
+                                                                id={document._id}
+                                                            >
+                                                                {`${document.name}(${document.filename})`}
+                                                            </a>
+                                                    }
+                                                </li>
+                                            </Fragment>
+                                        );
+
+                                    })
+                                }
+                            </ul>
+                        </Fragment>
+                    ) : <div>No documents found</div>
+                ) : <div>No documents found</div>
+            }
+
+            {
+                general && (
+                    general.isLoading && (<div 
+                        style={{ marginTop: `50px` }} 
+                        className="loader" 
+                    />))
+            }
+        </Fragment>
+    );
+
 };
+
+ListLibraryDocuments.propTypes = {
+    classes: PropTypes.object.isRequired,
+    filters: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.instanceOf(
+            React.Component
+        )
+    ]),
+};
+
+ListLibraryDocuments.defaultProps = ({
+    filters: ({ 
+        maincategory,
+        handleChange,
+        // capitalize,
+        classes
+    }) => {
+        return (<Fragment>
+            <div className={classes.chipsRoot}>
+                {
+                    maincategory && (
+                        maincategory.subCategories && (
+                            maincategory.subCategories.map(({
+                                _id,
+                                name,
+                            }) => {
+                                return (
+                                    <Chip 
+                                        key={_id}
+                                        // avatar={
+                                        //     <Avatar>
+                                        //         {capitalize(name)}
+                                        //     </Avatar>
+                                        // }
+                                        label={name}
+                                        clickable
+                                        variant="outlined"
+                                        onClick={ (e) => handleChange(name) }
+                                        deleteIcon={<DoneIcon />}
+                                    />
+                                )
+                            })
+                        )
+                    )
+                }
+            </div>
+        </Fragment>)
+    }
+})
 
 export default withStyles(styles)(ListLibraryDocuments);

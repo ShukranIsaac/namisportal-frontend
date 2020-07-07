@@ -15,6 +15,7 @@ import { Divider } from '@material-ui/core';
 import UserProfile from '../user/user.profile';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import CustomCKEditor from '../ckeditor/editor.component';
+import ButtonControls from '../cms/cms.controls';
 
 class CreateNewsItem extends Component {
 
@@ -79,98 +80,87 @@ class CreateNewsItem extends Component {
 
     render() {
 
-        const { classes, handleClick } = this.props;
+        const { 
+            classes, 
+            handleClick 
+        } = this.props;
 
-        return (
-            <Fragment>
+        return (<Fragment>
+            <ButtonControls 
+                keys={['default']}
+                user={ UserProfile.get() }
+                handleClick={handleClick}
+            />
 
-                <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
+            <div className={classes.margin} />
+            <div className={classes.margin} />
 
-                    <ButtonControl
-                        intent={Intent.NONE}
-                        value="List Articles"
-                        name="default"
-                        handleClick={e => handleClick(e)}
+            <Divider />
+
+            <div className={classes.margin} />
+            <div className={classes.margin} />
+
+            <form onSubmit={(e) => this.handleSubmit(e)} 
+                autoComplete="off">
+
+                <div className="margin-fix form-row">
+                    <BootsrapTextField
+                        name="title"
+                        value={this.state.title}
+                        placeholder="Enter article title..."
+                        label="Article Title"
+                        type="text"
+                        handleChange={this.handleChange}
                     />
+                </div>
 
-                    <div className={classes.margin} />
-                    <div className={classes.margin} />
-                    <div className={classes.margin} />
-                    <div className={classes.margin} />
-                    <div className={classes.margin} />
+                <CustomCKEditor
+                    {...this.state}
+                    label="Article Contents"
+                    setEditorText={this.setEditorText}
+                />
 
-                    <Divider />
+                <div className={classes.margin} />
+                <div className={classes.margin} />
+                <div className={classes.margin} />
 
-                    <div className={classes.margin} />
-                    <div className={classes.margin} />
-                    <div className={classes.margin} />
+                <Button
+                    type="submit"
+                    disabled={!(this.state.title && this.state.editorText)}
+                    color="primary"
+                >
+                    Save
+                </Button>
 
-                    <div className="margin-fix form-row">
-                        <BootsrapTextField
-                            name="title"
-                            value={this.state.title}
-                            placeholder="Enter article title..."
-                            label="Article Title"
-                            type="text"
-                            handleChange={this.handleChange}
-                        />
-                    </div>
+                <ButtonControl
+                    name="default"
+                    className={classes.margin}
+                    intent={Intent.PRIMARY}
+                    value="Cancel"
+                    handleClick={e => handleClick(e)}
+                />
 
-                    <CustomCKEditor
-                        {...this.state}
-                        label="Article Contents"
-                        setEditorText={this.setEditorText}
-                    />
+            </form>
 
-                    <div className={classes.margin} />
-                    <div className={classes.margin} />
-                    <div className={classes.margin} />
-
-                    <Button
-                        type="submit"
-                        disabled={!(this.state.title && this.state.editorText)}
-                        color="primary"
-                    >
-                        Save
-                    </Button>
-
-                    <ButtonControl
-                        name="default"
-                        className={classes.margin}
-                        intent={Intent.PRIMARY}
-                        value="Cancel"
-                        handleClick={e => handleClick(e)}
-                    />
-
-                </form>
-
-            </Fragment>
-        );
-
+        </Fragment>);
     }
-
 }
 
 CreateNewsItem.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) => ({
+    errored: state.news.errored,
+    general: state.general.general,
+    article: state.news.article,
+})
 
-    return {
-        errored: state.news.errored,
-        general: state.general.general,
-        article: state.news.article,
-    };
+const mapDispatchToProps = (dispatch) => ({
+    createArticle: (article, user) => {
+        dispatch(NewsAction.createArticle(article, user)) 
+    },
+})
 
-}
-
-const mapDispatchToProps = (dispatch) => {
-
-    return {
-        createArticle: (article, user) => dispatch(NewsAction.createArticle(article, user)),
-    };
-
-}
-
-export default (withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(CreateNewsItem)));
+export default (withStyles(styles)(connect(mapStateToProps, 
+    mapDispatchToProps)(CreateNewsItem)));

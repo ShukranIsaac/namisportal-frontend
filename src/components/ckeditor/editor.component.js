@@ -2,7 +2,11 @@ import React from 'react';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-const CustomCKEditor = ({ label, setEditorText, editorText }) => {
+const CustomCKEditor = ({ 
+    label, 
+    setEditorText, 
+    editorText
+}) => {
 
     return (
         <div className="form-row" style={{ marginTop: `1em` }}>

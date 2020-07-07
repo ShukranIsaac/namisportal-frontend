@@ -21,7 +21,7 @@ export const Footer = ({
             <span style={span}>
                 Copyright &copy; {
                     new Date().getFullYear()
-                }. All rights Reserved | Ministry of Agriculture, Malawi
+                }. All Rights Reserved | Ministry of Agriculture, Malawi
             </span>
         </div>
     </div>

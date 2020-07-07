@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import ButtonControl from '../forms/buttons/button.default.control';
-import { Intent, Button } from '@blueprintjs/core';
+import { Button } from '@blueprintjs/core';
 import { Divider, Paper, FormControl } from '@material-ui/core';
 import styles from '../contact/form.styles';
 import UserProfile, { profile } from '../user/user.profile';
@@ -11,6 +10,7 @@ import { BootsrapTextField } from '../forms/form.bootstrap.field';
 import { BootsrapTextareaField } from '../forms/form.textarea.field';
 import BootstrapGridColumn from '../forms/form.grid.column';
 import CustomCKEditor from '../ckeditor/editor.component';
+import ButtonControls from '../cms/cms.controls';
 
 /**
  * Edit a particular question 
@@ -217,34 +217,22 @@ class EditQuestion extends Component {
 
         return (
             <Fragment>
-
-                <ButtonControl
-                    intent={Intent.NONE}
-                    value="List Questions"
-                    name="default"
-                    handleClick={e => handleClick(e)}
+                <ButtonControls 
+                    keys={['default', 'create']}
+                    user={ user }
+                    handleClick={handleClick}
                 />
 
-                <ButtonControl
-                    intent={Intent.NONE}
-                    value="New Question"
-                    name="create"
-                    handleClick={e => handleClick(e)}
-                />
-
-                <div className={classes.margin} />
-                <div className={classes.margin} />
                 <div className={classes.margin} />
                 <div className={classes.margin} />
 
                 <Divider />
 
-                <form onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
+                <div className={classes.margin} />
+                <div className={classes.margin} />
 
-                    <div className={classes.margin} />
-                    <div className={classes.margin} />
-                    <div className={classes.margin} />
-                    <div className={classes.margin} />
+                <form onSubmit={(e) => this.handleSubmit(e)} 
+                    autoComplete="off">
 
                     {
                         !this.state.add_section ? (
@@ -301,8 +289,6 @@ class EditQuestion extends Component {
                                     )
                                 }
 
-                                <div className={classes.margin} />
-                                <div className={classes.margin} />
                                 <div className={classes.margin} />
                                 <div className={classes.margin} />
 
@@ -376,59 +362,58 @@ class EditQuestion extends Component {
                                     onClick={e => handleClick(e)}
                                 />
                             </Fragment>
-                        ) : (
-                                <Fragment>
-                                    <div className='margin-fix form-row'>
-                                        <BootstrapGridColumn>
-                                            <BootsrapTextField
-                                                name="section_name"
-                                                label="Section*"
-                                                type="text"
-                                                placeholder="Enter section name..."
-                                                handleChange={this.handleTextChange}
-                                            />
-                                        </BootstrapGridColumn>
-                                        <BootstrapGridColumn>
-                                            <BootsrapTextField
-                                                name="section_short_name"
-                                                type="text"
-                                                placeholder="Enter section shortname..."
-                                                label="Shortname*"
-                                                handleChange={this.handleTextChange}
-                                            />
-                                        </BootstrapGridColumn>
-                                    </div>
-
-                                    <div className="form-group">
-                                        <BootsrapTextareaField
-                                            name="section_summary"
-                                            placeholder="Enter section summary..."
-                                            label="Summary*"
+                        ) : (<Fragment>
+                                <div className='margin-fix form-row'>
+                                    <BootstrapGridColumn>
+                                        <BootsrapTextField
+                                            name="section_name"
+                                            label="Section*"
                                             type="text"
-                                            rows={10}
+                                            placeholder="Enter section name..."
                                             handleChange={this.handleTextChange}
                                         />
-                                    </div>
+                                    </BootstrapGridColumn>
+                                    <BootstrapGridColumn>
+                                        <BootsrapTextField
+                                            name="section_short_name"
+                                            type="text"
+                                            placeholder="Enter section shortname..."
+                                            label="Shortname*"
+                                            handleChange={this.handleTextChange}
+                                        />
+                                    </BootstrapGridColumn>
+                                </div>
 
-                                    <div className={classes.margin} />
-                                    <div className={classes.margin} />
-                                    <div className={classes.margin} />
-
-                                    <Button
-                                        type="submit" disabled={emptySFields}
-                                        intent="success" text="Save"
+                                <div className="form-group">
+                                    <BootsrapTextareaField
+                                        name="section_summary"
+                                        placeholder="Enter section summary..."
+                                        label="Summary*"
+                                        type="text"
+                                        rows={10}
+                                        handleChange={this.handleTextChange}
                                     />
+                                </div>
 
-                                    <Button
-                                        className={classes.margin} intent="primary"
-                                        text="Cancel" onClick={() => {
-                                            if (this.state.add_section) {
-                                                this.setState({ add_section: false })
-                                            }
-                                        }}
-                                    />
-                                </Fragment>
-                            )
+                                <div className={classes.margin} />
+                                <div className={classes.margin} />
+                                <div className={classes.margin} />
+
+                                <Button
+                                    type="submit" disabled={emptySFields}
+                                    intent="success" text="Save"
+                                />
+
+                                <Button
+                                    className={classes.margin} intent="primary"
+                                    text="Cancel" onClick={() => {
+                                        if (this.state.add_section) {
+                                            this.setState({ add_section: false })
+                                        }
+                                    }}
+                                />
+                            </Fragment>
+                        )
                     }
 
                 </form>

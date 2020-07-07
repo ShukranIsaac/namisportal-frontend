@@ -41,18 +41,20 @@ export const AppHeader = () => {
 
     return (
         <div id='giveHeaderHeight'>
-            <Navbar color="light" light expand="md">
-                <img 
-                    className="rounded rounded-circle"
-                    src={ LOGO } 
-                    alt="Logo"
-                    style={{ 
-                        paddingRight: '5px', 
-                        marginBottom: '-30px',
-                        width: '55px', 
-                    }}
-                />
-                <Link to="/"><h4>Namis MIS</h4></Link>
+            <Navbar color="#0171D0" light expand="md">
+                <Link to="/">
+                    <img 
+                        className="rounded rounded-circle"
+                        src={ LOGO } 
+                        alt="Logo"
+                        style={{ 
+                            paddingRight: '5px', 
+                            marginBottom: '-25.4px',
+                            width: '90px', 
+                        }}
+                    />
+                </Link>
+                <Link to="/"><b><h3>NAMIS</h3></b></Link>
                 <NavbarToggler onClick={toggleHamburger}/>
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="ml-auto" navbar>
