@@ -116,6 +116,7 @@ export const upload = async (dispatch, url, data) => {
         if (data.file[0].type === 'application/pdf') {
             form.append('file', data.file[0]);
             form.append('name', data.name);
+            form.append('shortName', data.shortName);
             form.append('description', data.about);
             form.append('content-type', 'multipart/form-data')
         }
@@ -160,12 +161,14 @@ export const update = async (dispatch, url, data) => {
         if (data.file[0].type === 'application/pdf') {
             form.append('file', data.file ? data.file[0] : null);
             form.append('name', data.name);
+            form.append('shortName', data.shortName);
             form.append('description', data.about);
             form.append('content-type', 'multipart/form-data')
         }
     } else {
         // form.append('file', data.image[0]);
         form.append('name', data.name)
+        form.append('shortName', data.shortName);
         form.append('description', data.description)
     }
 

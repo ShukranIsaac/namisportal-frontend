@@ -59,8 +59,8 @@ class CreateQuestion extends Component {
 
                 // then iterate through the subcategories
                 // and filter the chosen section
-                const filteredSection = sections.subCategories.length !== 0 && sections.subCategories.filter(section => {
-
+                const filteredSection = sections.subCategories.length !== 0 
+                && sections.subCategories.filter(section => {
                     if (sectionName !== null && section !== null) {
                         // check if the chosen section from the drop down list
                         // equals one of the sections/subCategories
@@ -73,14 +73,14 @@ class CreateQuestion extends Component {
                     } else {
                         return null;
                     }
-
                 });
 
                 // was anything returned
                 if (filteredSection) {
-
-                    this.setState({ [e.target.name]: filteredSection[0], add_category: false });
-
+                    this.setState({ 
+                        [e.target.name]: filteredSection[0], 
+                        add_category: false 
+                    });
                 }
 
             }
@@ -132,13 +132,13 @@ class CreateQuestion extends Component {
         // be uploaded to
         const { section } = this.state;
         const {
-            _question, editorText, shortname, answer,
+            _question, editorText, shortname,
             section_name, section_short_name, section_summary,
             resource_name, resource_short_name, resource_summary
         } = this.state;
 
         const emptyQFields = _question && editorText && shortname ? false : true;
-        const emptySFields = section_name && section_short_name && answer ? false : true;
+        const emptySFields = section_name && section_short_name && section_summary ? false : true;
 
         // get authenticated user token
         const user = UserProfile.get();
@@ -231,11 +231,11 @@ class CreateQuestion extends Component {
 
         const { classes } = this.props;
         const {
-            section_name, section_short_name, answer
+            section_name, section_short_name, section_summary
         } = this.state;
 
         const emptySFields = (section_name && 
-            section_short_name && answer) ? false : true;
+            section_short_name && section_summary) ? false : true;
 
         return (
             <Fragment>
@@ -244,7 +244,7 @@ class CreateQuestion extends Component {
                         <BootsrapTextField
                             value={this.state.section_name}
                             name='section_name'
-                            label="Section*"
+                            label="Name*"
                             placeholder="Enter section name..."
                             type="text"
                             handleChange={this.handleTextChange}
@@ -264,10 +264,10 @@ class CreateQuestion extends Component {
 
                 <div className="form-group">
                     <BootsrapTextareaField
-                        name="answer"
+                        name="section_summary"
                         value={this.state.question}
                         placeholder="Enter answer to the question..."
-                        label="Answer*"
+                        label="Summary*"
                         type="text"
                         rows={10}
                         handleChange={this.handleTextChange}
@@ -391,7 +391,8 @@ class CreateQuestion extends Component {
     render() {
         const { 
             classes, 
-            handleClick 
+            handleClick,
+            maincategory: sections
         } = this.props;
 
         const {
@@ -401,8 +402,6 @@ class CreateQuestion extends Component {
         } = this.state;
 
         const emptyQFields = _question && editorText && shortname ? false : true;
-        // Frequently asked question sections
-        const sections = this.props.maincategory;
 
         return (
             <Fragment>
@@ -438,12 +437,18 @@ class CreateQuestion extends Component {
                                         >
                                             <option value="">{`Choose section`}</option>
                                             {
-                                                (sections !== null && sections !== undefined) && (
-                                                    sections.subCategories.length !== 0 && sections.subCategories.map(({ _id, name }, index) => {
-
+                                                (sections !== null && sections !== undefined) 
+                                                && (sections.subCategories.length !== 0 && 
+                                                    sections.subCategories.map(({ 
+                                                        _id, name 
+                                                    }, index) => {
                                                         // section
-                                                        return <option id={_id} key={`${index}`} value={name}>{name}</option>
-
+                                                        return <option 
+                                                            id={_id} 
+                                                            key={`${index}`} 
+                                                            value={name}>
+                                                                {name}
+                                                        </option>
                                                     })
                                                 )
                                             }
@@ -522,7 +527,7 @@ class CreateQuestion extends Component {
 
                                             <CustomCKEditor
                                                 editorText={this.state.editorText}
-                                                label="Summary*"
+                                                label="Answer*"
                                                 setEditorText={this.setEditorText}
                                             />
                                         </>)

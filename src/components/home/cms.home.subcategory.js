@@ -22,6 +22,10 @@ export const CMSHomeSubCategory = ({
                 { !modal ? 'Read more...': 'Read less...' }
         </span>) : "";
 
+    const dangerouslyRender = (text) => {
+        return <div dangerouslySetInnerHTML={{ __html: text }} />
+    }
+
     const user = UserProfile.get();
 
     return (<li key={_id + name} className="list-group-item">
@@ -39,16 +43,19 @@ export const CMSHomeSubCategory = ({
         }
         </div>
         <p style={{ textAlign: 'justify' }}>
-        { modal ? about : `${about.substring(0, 250)}`}
-        { renderReadMore(about) }
-        <span><i>
-            <ButtonControls 
-                keys={['edit']}
-                user={ user }
-                id={_id}
-                handleClick={e=>handleClick(e)}
-            />
-        </i></span>
+            { 
+                modal ? dangerouslyRender(about) : 
+                dangerouslyRender(about.substring(0, 200))
+            }
+            { renderReadMore(about) }
+            <span><i>
+                <ButtonControls 
+                    keys={['edit']}
+                    user={ user }
+                    id={_id}
+                    handleClick={e=>handleClick(e)}
+                />
+            </i></span>
         </p>
     </li>)
 }

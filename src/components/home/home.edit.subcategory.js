@@ -48,7 +48,7 @@ class EditHomeSubcategory extends Component {
     handleSubmit = (event) => {
         // Prevent default submit action
         event.preventDefault();
-        const { name, shortname, about } = this.state;
+        const { name, shortname, editorText } = this.state;
         // category under which this subcategory should 
         // be uploaded to
         const { subcategory } = this.props;
@@ -57,12 +57,12 @@ class EditHomeSubcategory extends Component {
         if (user !== null && user.token !== undefined) {
 
             let edited_sub_category;
-            if (name || shortname|| about) {
+            if (name || shortname|| editorText) {
                 // get sub-category structure
                 edited_sub_category = {
                     name: name,
                     shortName: shortname,
-                    about: about
+                    about: editorText
                 }
 
                 // then edit this sub category
@@ -183,7 +183,9 @@ class EditHomeSubcategory extends Component {
 
                     <Button 
                         className={classes.margin} 
-                        disabled={!profile.canDelete({ user })} 
+                        disabled={
+                            !profile.canDelete({ user })
+                        } 
                         intent="danger" 
                         text="Delete" 
                         onClick={(e) => this.archiveCategory(e)} 
