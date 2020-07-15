@@ -8,8 +8,8 @@ import './marep.css';
 
 import * as HomeActions from '../../actions/home.action';
 import { HomeSubCategory } from './home.subcategory';
-import { NoDataCard } from '../card.text';
-import { Intent } from '@blueprintjs/core';
+// import { NoDataCard } from '../card.text';
+// import { Intent } from '@blueprintjs/core';
 
 import IMAGE from '../../assets/img/42279146641_d3950cd740_k.jpg';
 
@@ -45,7 +45,9 @@ const Home = ({
         return data.slice(0, index);
     };
 
-    console.log(getSection(props.home.subCategories, 0))
+    const overView = () => {
+        return !(props.home instanceof Array) && (<></>)
+    }
 
     return (
         <>
@@ -119,18 +121,19 @@ Home.defaultProps = {
                 {
                     home !== null && (home.length !== 0 && 
                         (home.subCategories.length !== 0 
-                        ? home.subCategories.map((section, index) => {
+                        && home.subCategories.map((section, index) => {
                             return index !== 0 && <HomeSubCategory 
                                 key={index} 
                                 subCategories={home.subCategories} 
                                 section={section.name} 
                             />
                         }) 
-                        : <NoDataCard 
-                            header={ `No home subcategories. Please try again!` } 
-                            intent={Intent.SUCCESS} 
-                            style={{ textAlign: `center` }} 
-                        />)
+                        // : <NoDataCard 
+                        //     header={ `No home subcategories. Please try again!` } 
+                        //     intent={Intent.SUCCESS} 
+                        //     style={{ textAlign: `center` }} 
+                        // />
+                        )
                     )
                 }
                 </Row>

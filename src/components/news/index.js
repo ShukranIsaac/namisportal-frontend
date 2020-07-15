@@ -70,15 +70,17 @@ class News extends Component {
                             {...this.state}
                         >
                             {
-                                articles.length !== 0 
-                                ? articles.map(article => {
+                                articles.length > 0 && <NoDataCard
+                                    text={`The list below shows all news articles available.`}
+                                    header={`News!`}
+                                    intent={Intent.PRIMARY}
+                                    style={{ marginBottom: '2em', width: '100%' }}
+                                />
+                            }
+                            {
+                                articles.length > 0 
+                                ? articles.map((article) => {
                                     return <Fragment>
-                                        <NoDataCard
-                                            text={`The list below shows all news articles available.`}
-                                            header={`News!`}
-                                            intent={Intent.PRIMARY}
-                                            style={{ marginBottom: '2em', width: '100%' }}
-                                        />
                                         <NewsListItem key={article.title} 
                                             when={this.when} splitCount={this.splitCount} 
                                             article={article} {...this.props} 

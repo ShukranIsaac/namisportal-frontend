@@ -1,40 +1,31 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export const Sponsors = () => {
-    const container = {
-        margin: '0 auto',
-        width: '80%',
-        paddingTop: '20px',
-        paddingBottom: '10px'
-    }
+import LOGO_MIN_AGRICULTURE from '../../assets/img/ministry-of-agriculture.png';
+import LOGO_MALAWI from '../../assets/img/malawi.png';
+import { withStyles } from '@material-ui/core';
 
-    const imageContainer = {
-        maxHeight: '150px',
-        minHeight: '150px',
-        textAlign: 'center',
-    }
-
-    const imageElement = {
-        height: '150px'
-    }
-
+export const Sponsors = ({
+    classes
+}) => {
     return (
-        <div style={container}>
-            {/* <h3 style={heading}>Sponsors</h3> */}
-            <div className = "row">
-                <div className = "col-sm-4">
-                    <div style={imageContainer}>
-                        <img style={imageElement} src={require("../../assets/img/malawi.png")} alt="Malawi Coat of Arms"/>
+        <div className={classes.container}>
+            <div className="row">
+                <div className="col-sm-4">
+                    <div className={classes.imageContainer}>
+                        <img className={classes.imageElement} 
+                            src={LOGO_MALAWI} 
+                            alt="Malawi Coat of Arms"
+                        />
                     </div>
                 </div>
-                <div className = "col-sm-4">
-                    <div style={imageContainer}>
-                        <img style={imageElement} src={require("../../assets/img/world-bank.png")} alt="World Bank"/>
-                    </div>
-                </div>
-                <div className = "col-sm-4">
-                    <div style={imageContainer}>
-                        <img style={imageElement} src={require("../../assets/img/ministry-of-agriculture.png")} alt="Ministry of Agriculture"/>
+                <br></br>
+                <div className="col-sm-4">
+                    <div className={classes.imageContainer}>
+                        <img className={classes.imageElement} 
+                            src={LOGO_MIN_AGRICULTURE} 
+                            alt="Ministry of Agriculture"
+                        />
                     </div>
                 </div>
             </div>
@@ -43,4 +34,28 @@ export const Sponsors = () => {
     );
 }
 
-export default Sponsors;
+const styles = theme => ({
+    container: {
+        margin: '0 auto',
+        width: '80%',
+        paddingTop:  20 + 'px',
+        paddingBottom: 10 + 'px'
+    },
+    imageContainer: {
+        maxHeight: 150 + 'px',
+        minHeight: 150 + 'px',
+        textAlign: 'center',
+    },
+    imageElement: {
+        height: 150 + 'px'
+    }
+})
+
+Sponsors.propTypes = {
+    classes: PropTypes.object.isRequired,
+    theme: PropTypes.object.isRequired,
+}
+
+export default withStyles(styles, {
+    withTheme: true
+})(Sponsors);

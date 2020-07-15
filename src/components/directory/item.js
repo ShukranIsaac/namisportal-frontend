@@ -26,7 +26,11 @@ class Item extends Component {
                                 gridTemplateColumns: '20% 80%' 
                             }}>
 
-                                <CardImg src={ imageUrl.trim() } />
+                                {
+                                    (imageUrl && isNaN(imageUrl)) ? 
+                                    <CardImg src={ imageUrl.trim() } /> :
+                                    <></>
+                                }
 
                                 <div>
                                     <h4>
@@ -51,7 +55,6 @@ class Item extends Component {
                     </Col>
                 </Row>
             );
-
         }
 
     }
@@ -75,4 +78,6 @@ Item.propTypes = {
     theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(Item);
+export default withStyles(styles, { 
+    withTheme: true 
+})(Item);

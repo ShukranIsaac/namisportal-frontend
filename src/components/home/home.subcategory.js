@@ -89,7 +89,9 @@ export class HomeSubCategory extends React.Component{
     
             return (
                 <Link to={ `${ '/' +  this.link(props) }`}>
-                    <button className="btn btn-primary">{ name } section </button>
+                    <button className="btn btn-primary">
+                        { name } section 
+                    </button>
                 </Link>
             );
     

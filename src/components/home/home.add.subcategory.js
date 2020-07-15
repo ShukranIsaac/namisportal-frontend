@@ -88,10 +88,14 @@ class CreateHomeSubcategory extends Component {
                 // home category exists
                 if (category && ( category.length !== 0 )) {
                     // proceeed to adding new subcategories under it
-                    this.props.createCategory(category._id, sub_category, user.token,this.props.capitalize(this.props.link));
+                    this.props.createCategory(category._id, 
+                        sub_category, user.token,
+                        this.props.capitalize(this.props.link));
                 } else {
                     // creating new category
-                    this.props.createCategory(null, sub_category, user.token,this.props.capitalize(this.props.link));
+                    this.props.createCategory(null, 
+                        sub_category, user.token,
+                        this.props.capitalize(this.props.link));
                 }
             }
 

@@ -9,10 +9,11 @@ import './library.css';
 import { Divider, withStyles, FormControl, Paper } from '@material-ui/core';
 // import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
-import DoneIcon from '@material-ui/icons/Done';
+import DeleteIcon from '@material-ui/icons/Delete';
 import styles from '../contact/form.styles';
 import UserProfile, { profile } from '../user/user.profile';
 import ButtonControls from '../cms/cms.controls';
+import Toast from '../../toastfy';
 
 /**
  * List all documents by category groups
@@ -26,6 +27,7 @@ const ListLibraryDocuments = ({
     fetchCategoryDocs,
     filters: FiltersContainer,
     sub_cate_documents,
+    archiveCategory,
     ...props
 }) => {
     const [state, setState] = useState({ lock: false });
@@ -60,7 +62,6 @@ const ListLibraryDocuments = ({
                 } else {
                     return null;
                 }
-
             });
 
             // was anything returned
@@ -69,7 +70,9 @@ const ListLibraryDocuments = ({
                     // fetch its documents
                     fetchCategoryDocs(filteredResource[0]._id);
 
-                    setState({ lock: false });
+                    setState({ lock: false, });
+
+                    handleFilteredResource(filteredResource[0])
                 }
             }
         }
@@ -79,6 +82,87 @@ const ListLibraryDocuments = ({
         return str.toLowerCase().split(' ').map((word, index) => {
             return word.charAt(0).toUpperCase();
         }).join('');
+    }
+
+    const libraryItems = (sub_cate_documents) => {
+        return (<ul className="list-group list-group-flush">
+            {
+                sub_cate_documents.map((document, index) => {
+
+                    return (
+                        <Fragment key={document.name}>
+                            <li 
+                                id={index} 
+                                className="list-group-item"
+                                key={document.name}>
+                                {/* <div style={{ marginTop: `0.5em` }}>
+                                    {`${document.name}(${document.filename})`}
+                                </div> */}
+                                {
+                                    !profile.canWrite({ user })
+                                    ? <a href="#/">
+                                        {`${document.name}(${document.filename})`}
+                                    </a> : <a
+                                        href={`${'/library/' + document.name}`}
+                                        onClick={(e) => handleClick(e)}
+                                        name="edit"
+                                        id={document._id}
+                                    >
+                                        {`${document.name}(${document.filename})`}
+                                    </a>
+                                }
+                            </li>
+                        </Fragment>
+                    );
+                })
+            }
+        </ul>);
+    }
+
+    const handleDeleteFilter = value => {
+        // if resources not null
+        if (maincategory !== null) {
+            // then iterate through the subcategories
+            // and filter the chosen section
+            const filteredResource = maincategory.subCategories.length !== 0 && 
+            maincategory.subCategories.filter(resource => {
+
+                if (value !== null && resource !== null) {
+                    // check if the chosen resource from the drop down list
+                    // equals one of the resources/subCategories
+                    // in Library
+                    if (resource._id === value) {
+                        return resource;
+                    } else {
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
+            });
+
+            // was anything returned
+            if (filteredResource && filteredResource.length !== 0) {
+                if (state.lock) {
+                    // fetch its documents
+                    fetchCategoryDocs(filteredResource[0]._id);
+
+                    setState({ lock: false, });
+
+                    handleFilteredResource(filteredResource[0])
+                }
+
+                if (sub_cate_documents.length > 0) {
+                    Toast.emit({
+                        autoClose: sub_cate_documents.length > 0,
+                        type: Toast.TYPES.WARN,
+                        message: "Please delete all its contents first. And try again!"
+                    });
+                } else {
+                    archiveCategory(filteredResource[0], user.token, "Library")
+                }
+            }
+        }
     }
 
     const { 
@@ -111,6 +195,7 @@ const ListLibraryDocuments = ({
                         handleChange={ handleChange }
                         maincategory={ maincategory }
                         capitalize={ firstLetter }
+                        handleDeleteFilter={handleDeleteFilter}
                         classes={classes}
                     />
                 </Paper>
@@ -120,38 +205,9 @@ const ListLibraryDocuments = ({
                 sub_cate_documents ? (
                     sub_cate_documents.length !== 0 ? (
                         <Fragment>
-                            <ul className="list-group list-group-flush">
-                                {
-                                    sub_cate_documents.map((document, index) => {
-
-                                        return (
-                                            <Fragment key={document.name}>
-                                                <li 
-                                                    id={index} 
-                                                    className="list-group-item"
-                                                    key={document.name}>
-                                                    {/* <div style={{ marginTop: `0.5em` }}>
-                                                        {`${document.name}(${document.filename})`}
-                                                    </div> */}
-                                                    {
-                                                        !profile.canWrite({ user })
-                                                            ? <a href="#/">{`${document.name}(${document.filename})`}</a>
-                                                            : <a
-                                                                href={`${'/library/' + document.name}`}
-                                                                onClick={(e) => handleClick(e)}
-                                                                name="edit"
-                                                                id={document._id}
-                                                            >
-                                                                {`${document.name}(${document.filename})`}
-                                                            </a>
-                                                    }
-                                                </li>
-                                            </Fragment>
-                                        );
-
-                                    })
-                                }
-                            </ul>
+                            {
+                                libraryItems(sub_cate_documents)
+                            }
                         </Fragment>
                     ) : <div>No documents found</div>
                 ) : <div>No documents found</div>
@@ -183,9 +239,9 @@ ListLibraryDocuments.defaultProps = ({
     filters: ({ 
         maincategory,
         handleChange,
-        // capitalize,
+        handleDeleteFilter,
         classes
-    }) => {
+    }) => { 
         return (<Fragment>
             <div className={classes.chipsRoot}>
                 {
@@ -207,7 +263,11 @@ ListLibraryDocuments.defaultProps = ({
                                         clickable
                                         variant="outlined"
                                         onClick={ (e) => handleChange(name) }
-                                        deleteIcon={<DoneIcon />}
+                                        deleteIcon={<DeleteIcon 
+                                                style={{ color: 'red'}} 
+                                            />
+                                        }
+                                        onDelete={e => handleDeleteFilter(_id)}
                                     />
                                 )
                             })
@@ -219,4 +279,6 @@ ListLibraryDocuments.defaultProps = ({
     }
 })
 
-export default withStyles(styles)(ListLibraryDocuments);
+export default withStyles(styles, {
+    withTheme: true
+})(ListLibraryDocuments);

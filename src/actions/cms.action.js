@@ -333,6 +333,7 @@ export const editCategory = (category_id, edited_sub_category, token, category, 
                 if (link) {
                     dispatch(fetchCategory(link));
                 }
+                console.log(link)
 
                 // then change state to default
                 // so that the page redirects and list all

@@ -33,7 +33,7 @@ const wrapper = {
     position: 'relative'
 }
 
-export const Wrapper = ({ children }) => {
+export const Wrapper = ({ children, ...props }) => {
     return (
         <div style={{ 
             paddingBottom: 0     
@@ -44,7 +44,7 @@ export const Wrapper = ({ children }) => {
             
             {children}
     
-            <Footer />
+            <Footer {...props} />
         </div>
     );
 };

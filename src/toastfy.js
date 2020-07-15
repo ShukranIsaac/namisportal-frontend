@@ -62,7 +62,7 @@ export const Toast = (() => {
 
     }
 
-    const emit = ({ type, message }) => {
+    const emit = ({ type, message, autoClose }) => {
 
         switch (type) {
             case TYPES.SUCCESS:
@@ -88,7 +88,7 @@ export const Toast = (() => {
             case TYPES.WARN:
                 toast.warn(message, {
                     position: "bottom-center",
-                    autoClose: 1900,
+                    autoClose: autoClose ? 5000 : 1900,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true

@@ -107,30 +107,34 @@ class EditLibraryItem extends Component {
     archiveDocument = (event) => {
 
         event.preventDefault();
-        // question to be deleted
+        // document to be deleted
         const { document, filteredResource } = this.props;
-        // if question exists then delete
+        
+        // if document exists then delete
         if (document !== null && document._id !== undefined) {
             // then get authenticated user token
             const user = UserProfile.get();
             if (user !== null && user.token !== undefined) {
                 // filtered resource category has to exist
-                if (filteredResource !== null) {
+                if (filteredResource !== null && filteredResource !== undefined) {
                     this.props.archiveFileDocument(filteredResource, document, user.token);
                 } else {
                     Toast.emit({
-                        type: Toast.TYPES.INFO,
+                        type: Toast.TYPES.WARN,
                         message: "Main Category does not exist. Please try again!"
                     });
                 }
             }
         }
-
     }
 
     render() {
 
-        const { classes, handleClick, handleSubmit, document, filteredResource, general } = this.props;
+        const { 
+            classes, handleClick, 
+            handleSubmit, document, 
+            filteredResource, general,
+        } = this.props;
 
         // authenticated user
         const user = UserProfile.get();

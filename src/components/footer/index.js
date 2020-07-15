@@ -7,7 +7,8 @@ import Sponsors from '../sponsors';
 export const Footer = ({
     stickToBottom,
     footer,
-    span
+    span,
+    ...props
 }) => (<div id='footer'>
         <div style={stickToBottom}> 
             {/* <Contact /> */}

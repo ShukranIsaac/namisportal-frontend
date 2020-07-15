@@ -126,13 +126,13 @@ class Library extends Component {
             return docs && docs.map(({ 
                 name, 
                 path, 
-                filename 
+                description 
             }, key) => <Document
                 key={key}
                 index={key + 1}
                 name={name}
                 path={`${Config.REMOTE_PROD_SERVER}/files/${path}`}
-                summary={filename}
+                summary={description}
             />);
         }
     }

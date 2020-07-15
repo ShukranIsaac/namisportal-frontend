@@ -55,16 +55,16 @@ const Nav = ({
 class Directory extends Component {
 
     componentDidMount() {
-
         // fetches all stakeholders
         this.props.fetchStakeholders();
-
     }
 
     handleClick = (e) => {
         // e.preventDefault();
-        return redirect.to({ url: `/directory/` + this.props.stakeholders_list[1].name, from: this.props });
-
+        return redirect.to({ 
+            url: `/directory/` + this.props.stakeholders_list[1].name, 
+            from: this.props 
+        });
     }
 
     render() {
@@ -73,7 +73,6 @@ class Directory extends Component {
 
         return (
             <div className="page-content">
-
                 <Container>
                     <Row style={{ marginTop: '20px' }}>
                     {
@@ -122,16 +121,15 @@ class Directory extends Component {
                             </CustomColumn>
                     }
                     {
-                        general && (general.isLoading && (<div style={{ marginTop: `50px` }} 
-                            className="loader" />))
+                        general && (general.isLoading && (<div 
+                            style={{ marginTop: `50px` }} 
+                            className="loader" 
+                        />))
                     }
                     </Row>
                 </Container>
-
             </div>
-
         );
-
     }
 
 }
@@ -182,9 +180,12 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     // stakeholders
-    fetchStakeholders: () => { dispatch(Stakeholder.fetchAllStakeholders()) },
+    fetchStakeholders: () => { 
+        dispatch(Stakeholder.fetchAllStakeholders()) 
+    },
 });
 
 export default withStyles(styles, {
     withTheme: true
-})(connect(mapStateToProps, mapDispatchToProps)(Directory));
+})(connect(mapStateToProps, 
+    mapDispatchToProps)(Directory));

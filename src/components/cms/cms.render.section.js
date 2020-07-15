@@ -43,7 +43,7 @@ const RenderSection = ({
     props,
     handleClick,
     handleChange,
-    category,
+    // category,
     capitalize,
     handleFilteredResource,
     filteredResource

@@ -45,7 +45,10 @@ const NewsListItem = ({
             </div>
 
             <div>
-                <div dangerouslySetInnerHTML={{ __html: splitCount(article.article) }} />
+                <div dangerouslySetInnerHTML={{ 
+                    __html: splitCount(article.article) 
+                    }} 
+                />
                 <NavLink to={{
                     pathname: `/news/` + article.title,
                     state: {

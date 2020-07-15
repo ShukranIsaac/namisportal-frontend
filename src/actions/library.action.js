@@ -172,7 +172,7 @@ export const fetchAllLibraryDocs = () => {
  * @returns dispatch
  */
 export const uploadFile = (category_id, data, token) => {
-    console.log(data)
+    // console.log(data)
     // url
     const url = `categories/${category_id}/files?token=` + token;
 
