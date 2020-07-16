@@ -33,32 +33,52 @@ export const TextField = ({ icon, value }) => {
 
 }
 
-export const SidebarDefault = ({ col, ...props }) => {
+export const SidebarDefault = ({ 
+    col, 
+    ...props 
+}) => (<div className={col}>
+    <ul className="nav nav-pills nav-stacked">
+        {
+            props.children
+        }
+    </ul>
+</div>)
 
-    return (
-        <div className={col}>
-            <ul className="nav nav-pills nav-stacked">
-                {
-                    props.children
-                }
-            </ul>
-        </div>
-    );
-
-}
-
-const SendButton = ({ text, ...other }) => {
-
-    return (<Button
+const SendButton = ({ 
+    text, 
+    ...other 
+}) => (<Button
         style={{ alignSelf: 'center' }}
         type="submit"
         disabled={!(other.fullname && other.email && 
             other.message && other.subject)}
         intent="success"
         text={ text }
-    />);
+    />
+);
 
-}
+export const ContactInfo = withStyles(styles)(() => {
+    return (<div className='margin-fix form-row'>
+        <BootstrapGridColumn>
+            <div className='form-row'>
+                <h6 style={{ 
+                        marginLeft: `1.5em`, 
+                        marginTop: `1em`, 
+                        marginRight: `1.5em` 
+                    }}
+                >
+                    <h2>Contact Us</h2>
+                </h6>
+            </div>
+            <SidebarDefault>
+                <TextField icon={<ContactAddress />} value={`Ministry of Agriculture, P/Bag X, Lilongwe 3`} />
+                <TextField icon={<ContactMail />} value={`info@namis.gov.mw`} />
+                <TextField icon={<ContactMobile />} value={`+265 (1) 770 688`} />
+                <TextField icon={<ContactFax />} value={`+265 (1) 770 094`} />
+            </SidebarDefault>
+        </BootstrapGridColumn>
+    </div>)
+})
 
 /**
  * Contacts page
@@ -113,15 +133,14 @@ class ContactForm extends Component {
          */
         if (contact_us !== null && (message !== undefined || email !== undefined)) {
             // then redirect user accordingly
-            const { success } = contact_us;
-
-            if (success !== null && success) {
-                // set contact_us to null
-                Object.assign(this.state, { contact_us: null });
-
-                return redirect.to({ url: `/faqs` });
+            if (contact_us) {
+                if (contact_us.success !== null && contact_us.success) {
+                    // set contact_us to null
+                    Object.assign(this.state, { contact_us: null });
+    
+                    return redirect.to({ url: `/faqs` });
+                }
             }
-
         }
 
         return (<form className="container" autoComplete="off"
@@ -129,23 +148,9 @@ class ContactForm extends Component {
             >
                 <div className='form-row'>
                     <BootstrapGridColumn>
-                        <div className='form-row'>
-                            {/* <h4 style={{ marginLeft: `2em`, marginTop: `2e` }}><strong>Contact Us</strong></h4> */}
-                            <h6 style={{ marginLeft: `1.5em`, marginTop: `1em`, marginRight: `1.5em` }}>
-                                <h2>Contact Us</h2>
-                            </h6>
-                        </div>
-                        <SidebarDefault>
-                            <TextField icon={<ContactAddress />} value={`Ministry of Agriculture, P/Bag X, Lilongwe 3`} />
-                            <TextField icon={<ContactMail />} value={`info@namis.gov.mw`} />
-                            <TextField icon={<ContactMobile />} value={`+265 (1) 770 688`} />
-                            <TextField icon={<ContactFax />} value={`+265 (1) 770 094`} />
-                        </SidebarDefault>
-                    </BootstrapGridColumn>
-                    <BootstrapGridColumn>
-                        <div className='margin-fix form-row'>
+                        {/* <div className='margin-fix form-row'>
                             <h3>Any questions? Please send us a message!</h3>
-                        </div>
+                        </div> */}
                         <div className='form-row'>
                             <BootstrapGridColumn>
                                 <BootsrapTextField
@@ -208,6 +213,10 @@ class ContactForm extends Component {
 
     }
 
+}
+
+ContactInfo.propTypes = {
+    classes: PropTypes.object.isRequired,
 }
 
 ContactForm.propTypes = {

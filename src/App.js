@@ -54,14 +54,14 @@ export default withRouter(() => {
         <div style={wrapper}>
             <Router>
                 <Switch>
-                    <BreadRoute path="/" exact render={props => <Wrapper><Home {...props} /></Wrapper>} />
+                    <BreadRoute path="/" exact render={props => <Wrapper {...props}><Home {...props} /></Wrapper>} />
                     <UserPrivateRoute path="/admin" component={CMSIndex} />
-                    <BreadRoute title="Library" exact path="/library" render={props => <Wrapper><Library {...props} /></Wrapper>} />
-                    <BreadRoute title="Directory" exact path="/directory" render={props => <Wrapper><Directory {...props} /></Wrapper>} />
-                    <BreadRoute title="Stakeholder" exact path="/directory/:id" render={props => <Wrapper><ItemProfile {...props} /></Wrapper>} />
-                    <BreadRoute title="News" exact path="/news" render={props => <Wrapper><News {...props} /></Wrapper>} />
-                    <BreadRoute title="Article" exact path="/news/:id" render={props => <Wrapper><NewsItemDetails {...props} /></Wrapper>} />
-                    <BreadRoute title="Faqs" exact path="/faqs" render={props => <Wrapper><FAQ {...props} /></Wrapper>} />
+                    <BreadRoute title="Library" exact path="/library" render={props => <Wrapper {...props}><Library {...props} /></Wrapper>} />
+                    <BreadRoute title="Directory" exact path="/directory" render={props => <Wrapper {...props}><Directory /></Wrapper>} />
+                    <BreadRoute title="Stakeholder" exact path="/directory/:id" render={props => <Wrapper {...props}><ItemProfile {...props} /></Wrapper>} />
+                    <BreadRoute title="News" exact path="/news" render={props => <Wrapper {...props}><News {...props} /></Wrapper>} />
+                    <BreadRoute title="Article" exact path="/news/:id" render={props => <Wrapper {...props}><NewsItemDetails {...props} /></Wrapper>} />
+                    <BreadRoute title="Faqs" exact path="/faqs" render={props => <Wrapper {...props}><FAQ {...props} /></Wrapper>} />
                     <BreadRoute exact path="/login" render={props => <UserLogin {...props} />} />
                     <BreadRoute exact path="/register" render={props => <UserRegistration {...props} />} />
                     <BreadRoute exact path="/forgotpassword" render={props => <ForgotPassword {...props} /> } />

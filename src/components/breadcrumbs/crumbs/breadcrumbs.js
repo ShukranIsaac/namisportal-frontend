@@ -38,7 +38,6 @@ export const Breadcrumbs = ({
                 borderBottom: '#0171D0 solid 0.25em'
             }}
         >
-
             <div className={`${block}__inner`}>
                 <Navigation crumbs={ crumbs } {...props} />
             </div>

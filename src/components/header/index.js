@@ -15,6 +15,10 @@ export const AppHeader = () => {
 
     const toggleHamburger = () => setIsOpen(!isOpen);
 
+    const marginLeft = {
+        marginLeft: '2px'
+    }
+
     /** 
      * Authenticated user
      **/ 
@@ -66,7 +70,9 @@ export const AppHeader = () => {
                                     event: e
                                 })
                             }>
-                                Namis
+                                Namis<span style={marginLeft}>
+                                    <i className="fa fa-external-link"></i>
+                                </span>
                             </Link>
                         </NavItem>
                         <NavItem>
@@ -76,7 +82,9 @@ export const AppHeader = () => {
                                     event: e
                                 })
                             }>
-                                Statistics
+                                Statistics<span style={marginLeft}>
+                                    <i className="fa fa-external-link"></i>
+                                </span>
                             </Link>
                         </NavItem>
                         <NavItem><Link to='/library'>Library</Link></NavItem>
