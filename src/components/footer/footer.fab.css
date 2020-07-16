@@ -35,8 +35,8 @@
 
 .action ul {
     position: absolute;
-    bottom: 55px;
-    right: 20%;
+    bottom: 40px;
+    right: 2%;
     background: #fff;
     min-width: 50vh;
     border-radius: 10px;
@@ -54,7 +54,7 @@
 }
 
 .action.active ul {
-    bottom: 50px;
+    bottom: 40px;
     opacity: 1;
     visibility: visible;
     transition: 0.3s;
