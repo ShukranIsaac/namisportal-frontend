@@ -1,3 +1,10 @@
+* .bg-theme {
+    background: linear-gradient(#0171D0, #15B371, #15B371);
+}
+
+* .card {
+    border-radius: 10px;
+}
 
 .action {
     position: fixed;
@@ -9,9 +16,6 @@
     background: linear-gradient(#7d6cfc, #15B371);
     border-radius: 50%;
     box-shadow: 0 5px 5px rgba(0,0,0,0.1);
-    /* display: flex;
-    justify-content: flex-end;
-    align-items: flex-end; */
 }
 
 .action span {

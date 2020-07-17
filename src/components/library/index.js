@@ -18,7 +18,6 @@ import Config from '../../config';
 import CustomColumn from '../news/custom.column';
 import { Intent } from '@blueprintjs/core';
 import { NoDataCard } from '../card.text';
-// import styles from '../contact/form.styles';
 
 const styles = theme => ({
     root: {
@@ -174,7 +173,7 @@ class Library extends Component {
                     }
                     {
                         general && (general.isLoading && (
-                                <div style={{ marginTop: `50px` }} 
+                                <div style={{ marginTop: `30px` }} 
                                     className="loader" />))
                     }
                     </Row>

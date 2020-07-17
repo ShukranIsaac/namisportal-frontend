@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -83,28 +83,20 @@ export const ContactInfo = withStyles(styles)(() => {
 /**
  * Contacts page
  */
-class ContactForm extends Component {
+const ContactForm = ({
+    ...props
+}) => {
+    const [state, setState] = useState({});
 
-    constructor() {
-        super();
-        this.state = {}
+    const handleChange = (event) => setState({ 
+        [event.target.name]: event.target.value 
+    })
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-
-    }
-
-    handleChange = (event) => {
-
-        this.setState({ [event.target.name]: event.target.value });
-
-    }
-
-    handleSubmit = (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
 
         // state
-        const { fullname, email, subject, message } = this.state;
+        const { fullname, email, subject, message } = state;
 
         if (fullname && email && subject && message) {
             // define sub-category structure
@@ -116,103 +108,98 @@ class ContactForm extends Component {
             }
 
             // send message
-            this.props.contactUs(paylooad);
+            props.contactUs(paylooad);
         }
 
     }
 
-    render() {
+    const { fullname, email, message, subject, general } = state;
 
-        const { fullname, email, message, subject, general } = this.state;
+    const { contact_us } = props;
 
-        const { contact_us } = this.props;
+    /**
+     * Only redirect if and when one of these are value set
+     * and contact_us is not null.
+     */
+    if (contact_us !== null && (message !== undefined || email !== undefined)) {
+        // then redirect user accordingly
+        if (contact_us) {
+            if (contact_us.success !== null && contact_us.success) {
+                // set contact_us to null
+                Object.assign(state, { contact_us: null });
 
-        /**
-         * Only redirect if and when one of these are value set
-         * and contact_us is not null.
-         */
-        if (contact_us !== null && (message !== undefined || email !== undefined)) {
-            // then redirect user accordingly
-            if (contact_us) {
-                if (contact_us.success !== null && contact_us.success) {
-                    // set contact_us to null
-                    Object.assign(this.state, { contact_us: null });
-    
-                    return redirect.to({ url: `/faqs` });
-                }
+                return redirect.to({ url: `/faqs` });
             }
         }
-
-        return (<form className="container" autoComplete="off"
-                onSubmit={(e) => this.handleSubmit(e)}
-            >
-                <div className='form-row'>
-                    <BootstrapGridColumn>
-                        {/* <div className='margin-fix form-row'>
-                            <h3>Any questions? Please send us a message!</h3>
-                        </div> */}
-                        <div className='form-row'>
-                            <BootstrapGridColumn>
-                                <BootsrapTextField
-                                    name="fullname"
-                                    value={fullname}
-                                    label="Fullname*"
-                                    type="text"
-                                    placeholder="Your fullname..."
-                                    handleChange={this.handleChange}
-                                />
-                            </BootstrapGridColumn>
-                        </div>
-
-                        <div className='form-row'>
-                            <BootstrapGridColumn>
-                                <BootsrapTextField
-                                    name='email'
-                                    label='Email*'
-                                    type='email'
-                                    placeholder='Your email...'
-                                    value={email}
-                                    handleChange={this.handleChange}
-                                />
-                            </BootstrapGridColumn>
-                        </div>
-
-                        <div className="form-group">
-                            <BootsrapTextField
-                                value={subject}
-                                name='subject'
-                                label='Subject*'
-                                type='text'
-                                placeholder='Your message subject...'
-                                handleChange={this.handleChange}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <BootsrapTextareaField
-                                value={message}
-                                name='message'
-                                label='Message*'
-                                type='text'
-                                placeholder='Your message...'
-                                rows={4}
-                                handleChange={this.handleChange}
-                            />
-                        </div>
-
-                        {
-                            general ? 
-                                general.isLoading ? <SendButton text="Sending..." {...this.state} /> 
-                                : <SendButton text="Send" {...this.state} />
-                            : <SendButton text="Send" {...this.state} />
-                        }
-                    </BootstrapGridColumn>
-                </div>
-            </form>
-        );
-
     }
 
+    return (<form className="container" autoComplete="off"
+            onSubmit={(e) => handleSubmit(e)}
+        >
+            <div className='form-row'>
+                <BootstrapGridColumn>
+                    {/* <div className='margin-fix form-row'>
+                        <h3>Any questions? Please send us a message!</h3>
+                    </div> */}
+                    <div className='form-row'>
+                        <BootstrapGridColumn>
+                            <BootsrapTextField
+                                name="fullname"
+                                value={fullname}
+                                label="Fullname*"
+                                type="text"
+                                placeholder="Your fullname..."
+                                handleChange={handleChange}
+                            />
+                        </BootstrapGridColumn>
+                    </div>
+
+                    <div className='form-row'>
+                        <BootstrapGridColumn>
+                            <BootsrapTextField
+                                name='email'
+                                label='Email*'
+                                type='email'
+                                placeholder='Your email...'
+                                value={email}
+                                handleChange={handleChange}
+                            />
+                        </BootstrapGridColumn>
+                    </div>
+
+                    <div className="form-group">
+                        <BootsrapTextField
+                            value={subject}
+                            name='subject'
+                            label='Subject*'
+                            type='text'
+                            placeholder='Your message subject...'
+                            handleChange={handleChange}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <BootsrapTextareaField
+                            value={message}
+                            name='message'
+                            label='Message*'
+                            type='text'
+                            placeholder='Your message...'
+                            rows={4}
+                            handleChange={handleChange}
+                        />
+                    </div>
+
+                    {
+                        general ? 
+                            general.isLoading ? <SendButton text="Sending..." {...state} /> 
+                            : <SendButton text="Send" {...state} />
+                        : <SendButton text="Send" {...state} />
+                    }
+                </BootstrapGridColumn>
+            </div>
+        </form>
+    );
 }
 
 ContactInfo.propTypes = {

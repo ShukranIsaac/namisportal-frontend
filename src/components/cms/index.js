@@ -606,19 +606,16 @@ class CMSIndex extends React.Component {
 
                     <div className="card">
                         <div className="card-body">
-
                             {
-                                !this.state.open ?
-                                    <div>
+                                (!this.state.open && link !== 'home') &&
+                                    (<div>
                                         <h4 >
                                             <a className="heading" href="/#"/*href={`/`+ link}*/>
                                                 {this.capitalize(link)}
                                             </a>
                                         </h4>
-                                    </div>
-                                    : <div></div>
+                                    </div>)
                             }
-
                             <RenderSection
                                 link={link}
                                 handleClick={this.handleClick}
@@ -632,7 +629,6 @@ class CMSIndex extends React.Component {
                         </div>
                     </div>
                 </main>
-
             </div>
         );
     }

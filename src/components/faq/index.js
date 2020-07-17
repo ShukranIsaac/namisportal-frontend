@@ -9,6 +9,7 @@ import { NoDataCard } from '../card.text';
 import { QuestionListItem } from './question.item';
 import QuestionCategory from './question.category';
 import { Intent } from '@blueprintjs/core';
+import { withStyles } from '@material-ui/core';
 
 /**
  * Frequently asked questions
@@ -18,6 +19,7 @@ import { Intent } from '@blueprintjs/core';
  */
 export const FAQ = ({
     fetchFAQuestions,
+    classes,
     ...props
 }) => {
     useEffect(() => {
@@ -26,6 +28,10 @@ export const FAQ = ({
 
     const { questions, general } = props;
     const text = "The following are some of the frequently asked questions. If you have not been helped, please contact us through the link given."
+
+    const headerText = name => `No Frequently asked questions under '${
+        name
+    }' category`;
 
     return (
         <div className="page-content">
@@ -68,7 +74,7 @@ export const FAQ = ({
                                         />
 
                                         }) : <NoDataCard 
-                                            header={`No Frequently asked questions`} 
+                                            header={`No Frequently asked questions under ${name} category`} 
                                             intent={Intent.PRIMARY} 
                                         />
                                     }
@@ -82,7 +88,7 @@ export const FAQ = ({
                                             name={name}
                                         >
                                             <NoDataCard 
-                                                header={'No Frequently asked questions'} 
+                                                header={headerText(name)} 
                                                 intent={Intent.SUCCESS} 
                                             />
                                         </QuestionCategory>
@@ -91,19 +97,26 @@ export const FAQ = ({
                             }) 
                         )
                     }
-
+                    </CustomColumn>
                     {
                         general && (general.isLoading && <div 
-                            style={{ marginTop: `50px` }} 
+                            style={{ marginTop: `20px` }} 
                             className="loader" 
                         />)
                     }
-                    </CustomColumn>
                 </Row>
             </Container>
         </div>
     );
 }
+
+const styles = theme => ({
+    root: {
+        flexGrow: 1,
+        width: '100%',
+        backgroundColor: theme.palette.background.paper,
+    }
+});
 
 const mapStateToProps = (state) => ({
     questions: state.cms.maincategory,
@@ -115,5 +128,6 @@ const mapDispatchToProps = (dispatch) => ({
     subCategory: (id) => { dispatch(CMSAction.fetchSubCategory(id)) },
 })
 
-export default connect(mapStateToProps, 
-    mapDispatchToProps)(FAQ);
+export default withStyles(styles, {
+    withTheme: true
+})(connect(mapStateToProps, mapDispatchToProps)(FAQ));

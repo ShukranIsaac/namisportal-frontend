@@ -13,6 +13,19 @@ import { HomeSubCategory } from './home.subcategory';
 
 import IMAGE from '../../assets/img/42279146641_d3950cd740_k.jpg';
 
+// const getSection = (data, index) => {
+//     if (data == null) 
+//         return null;
+
+//     if (index === null) 
+//         return data[0];
+
+//     if (index < 0)
+//         return {};
+
+//     return data.slice(0, index);
+// };
+
 /**
  * @author Paul Sembereka
  * @author Isaac S. Mwakabira
@@ -32,21 +45,20 @@ const Home = ({
         <HomeSections {...props} /> : <div className="loader" />);
     }
 
-    const getSection = (data, index) => {
-        if (data == null) 
-            return null;
+    const portalOverview = () => {
+        if (props.home instanceof Array) {
+            return <></>
+        }
 
-        if (index === null) 
-            return data[0];
-
-        if (index < 0)
-            return {};
-
-        return data.slice(0, index);
-    };
-
-    const overView = () => {
-        return !(props.home instanceof Array) && (<></>)
+        return (<div className="jumbotron my-5 w-75 re-w text-left" 
+                    style={{ borderRadius: '5px' }}
+                >
+                    <h1 className="display-4 re-display-font-size">
+                        {props.home.shortName}
+                    </h1>
+                    <p dangerouslySetInnerHTML={{ __html: props.home.about}} />
+            </div>
+        );
     }
 
     return (
@@ -67,18 +79,7 @@ const Home = ({
                             </div>
                         </div>
                         <div className="col-lg-6 d-flex align-items-center justify-content-start right">
-                            <div className="jumbotron my-5 w-75 re-w text-left">
-                                <h1 className="display-4 re-display-font-size">Portal Overview</h1>
-                                <p className="lead">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sit amet rutrum velit. Sed eu viverra nisi. Ut nunc mi, mollis eget mollis sit amet, ultrices id lorem. Aenean quis urna at arcu molestie pretium vitae id tellus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae    
-                                </p>
-                                <hr className="my-1" />
-                                <p>
-                                    Quisque sagittis ante id varius luctus. Quisque aliquam et orci at dignissim. Vestibulum vitae eros leo. Pellentesque elementum vel libero eu vulputate. Sed nec ultrices nisl. Nullam at pellentesque purus. Integer venenatis aliquam fringilla.
-                                </p>
-                                <hr className="my-1" />
-                                <p>Aenean egestas velit ipsum, eget cursus erat suscipit eget. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam at ante lacinia, dictum erat nec, fermentum ex. </p>
-                            </div>
+                            { portalOverview() }
                         </div>
                     </div>
                 </div>
@@ -127,13 +128,7 @@ Home.defaultProps = {
                                 subCategories={home.subCategories} 
                                 section={section.name} 
                             />
-                        }) 
-                        // : <NoDataCard 
-                        //     header={ `No home subcategories. Please try again!` } 
-                        //     intent={Intent.SUCCESS} 
-                        //     style={{ textAlign: `center` }} 
-                        // />
-                        )
+                        }))
                     )
                 }
                 </Row>

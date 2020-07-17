@@ -7,7 +7,7 @@ import * as UserAuthAction from '../../actions/user.action';
 import ContactMail from '@material-ui/icons/Message';
 import Sponsors from '../sponsors';
 import './footer.fab.css';
-import ContactForm, { ContactInfo } from '../contact/contact.form';
+import ContactForm from '../contact/contact.form';
 
 export const Footer = ({
     stickToBottom,
@@ -27,7 +27,7 @@ export const Footer = ({
 
     return (<div id='footer'>
         {
-            (path && path === '/faqs') && (
+            (path && path !== '/') && (
                 <div className={`action${ state.toggle ? ' active' : ''}`}>
                     <span onClick={handleToggleContactForm}>
                         <ContactMail style={{ color: 'white' }} />
@@ -48,12 +48,12 @@ export const Footer = ({
                                 </i>
                             </h3>
                         </li>
-                        <li>
-                            {
-                                view && <ContactForm {...props} /> 
-                            }
-                        </li>
-                        <li>Please send us a message!</li>
+                        {
+                            view && (<>
+                                <li><ContactForm {...props} /></li>
+                                <li>Please send us a message!</li>
+                            </>)
+                        }
                     </ul>
                 </div>
             )
@@ -61,7 +61,7 @@ export const Footer = ({
 
         <div className={footerContainer}>
             {
-                (path && path !== '/directory') && <Sponsors />
+                !path.includes("/directory") && <Sponsors />
             }
             <div style={footer}>
                 <span style={span}>
@@ -99,10 +99,7 @@ Footer.defaultProps = {
         background: '#182026',
         color: '#FFFFFF',
         textAlign: 'center',
-        // position: 'absolute',
-        // right: 0,
-        // bottom: 0,
-        // left: 0,
+        // minHeight: '109px',
     },
     span: {
         fontSize: '14px'

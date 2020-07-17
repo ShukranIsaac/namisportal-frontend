@@ -33,21 +33,20 @@ const wrapper = {
     position: 'relative'
 }
 
-export const Wrapper = ({ children, ...props }) => {
-    return (
-        <div style={{ 
-            paddingBottom: 0     
-        }}>
-            <AppHeader />
-    
-            <Breadcrumbs />
-            
-            {children}
-    
-            <Footer {...props} />
-        </div>
-    );
-};
+export const Wrapper = ({ 
+    children, 
+    ...props 
+}) => (
+    <div style={{ paddingBottom: 0 }}>
+        <AppHeader />
+
+        <Breadcrumbs />
+        
+        {children}
+
+        <Footer {...props} />
+    </div>
+);
 
 export default withRouter(() => {
     return (

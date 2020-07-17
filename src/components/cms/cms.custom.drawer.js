@@ -10,9 +10,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import DocumentIcon from '@material-ui/icons/InsertDriveFile';
 import DirectoryIcon from '@material-ui/icons/LocalLibrary'
-import NewsIcon from '@material-ui/icons/LibraryBooks'
-// import ContactIcon from '@material-ui/icons/ContactMail'
-// import AccountIcon from '@material-ui/icons/AccountCircle'
+import NewsIcon from '@material-ui/icons/LibraryBooks';
 import PersonAddIcon from '@material-ui/icons/PersonAdd'
 import LogoutIcon from '@material-ui/icons/ExitToApp';
 import HomeIcon from '@material-ui/icons/Home';
@@ -153,7 +151,8 @@ const CustomDrawer = ({
             </List>
 
             {
-                !(auth.roles.admin || auth.roles.writer || auth.roles.publisher) && <Divider />
+                !(auth.roles.admin || auth.roles.writer || auth.roles.publisher) 
+                    && <Divider />
             }
 
         </Fragment>

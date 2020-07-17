@@ -126,14 +126,14 @@ class UserLogin extends Component {
         return (
             <Fragment>
                 <div
-                    className='page-content'
+                    className='page-content bg-theme'
                     style={{
                         position: "absolute",
                         top: 0,
                         left: 0,
                         width: "100%",
                         height: "100%",
-                        background: '#15B371'
+                        // background: '#15B371'
                     }}>
 
                     {/* <ParticlesComponent /> */}
@@ -145,7 +145,7 @@ class UserLogin extends Component {
                                 margin: '0 auto',
                                 marginTop: '5%'
                             }}>
-                            <Card>
+                            <Card className="card">
                                 <CardBody>
                                     <div style={{ textAlign: 'center' }}>
                                         <CardImg src={LOGO} />

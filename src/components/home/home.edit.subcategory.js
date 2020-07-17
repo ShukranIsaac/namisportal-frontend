@@ -184,7 +184,9 @@ class EditHomeSubcategory extends Component {
                     <Button 
                         className={classes.margin} 
                         disabled={
-                            !profile.canDelete({ user })
+                            profile.canDelete({ user }) 
+                            && (subcategory && subcategory.name === "Home" 
+                                ? true : false)
                         } 
                         intent="danger" 
                         text="Delete" 

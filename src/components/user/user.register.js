@@ -110,7 +110,7 @@ class UserRegistration extends Component {
                             && lastName && confirmPassword 
                             && password.length > 6 ? false : true);
 
-        return (<form 
+        return (<form
                 onSubmit={(e) => this.handleSubmit(e)} 
                 autoComplete="off"
             >
@@ -170,14 +170,14 @@ class UserRegistration extends Component {
         return (
             <Fragment>
                 <div 
-                    // className="page-content"
+                    className="bg-theme"
                     style={{
                         position: "absolute",
                         top: 0,
                         left: 0,
                         width: "100%",
                         height: "100%",
-                        background: '#15B371'
+                        // background: '#15B371'
                     }}
                 >
                     {/* <ParticlesComponent /> */}

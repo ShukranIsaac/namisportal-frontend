@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { Button, } from '@blueprintjs/core';
@@ -7,25 +7,15 @@ import ButtonControls from '../cms/cms.controls';
 
 export const CMSHomeSubCategory = ({
     handleClick, 
+    modal,
+    dangerouslyRender,
+    renderReadMore,
     section: { 
         name, 
         about, 
         _id 
     }
 }) => {
-    const [modal, setModal] = useState();
-
-    const renderReadMore = summary => (summary.length > 250) ? 
-        (<span onClick={() => setModal(!modal)} 
-            className="badge badge-info" 
-            style={{ cursor: 'pointer' }}>
-                { !modal ? 'Read more...': 'Read less...' }
-        </span>) : "";
-
-    const dangerouslyRender = (text) => {
-        return <div dangerouslySetInnerHTML={{ __html: text }} />
-    }
-
     const user = UserProfile.get();
 
     return (<li key={_id + name} className="list-group-item">
@@ -44,10 +34,10 @@ export const CMSHomeSubCategory = ({
         </div>
         <p style={{ textAlign: 'justify' }}>
             { 
-                modal ? dangerouslyRender(about) : 
-                dangerouslyRender(about.substring(0, 200))
+                modal ? dangerouslyRender(about && about) : 
+                dangerouslyRender(about && about.substring(0, 200))
             }
-            { renderReadMore(about) }
+            { renderReadMore(about && about) }
             <span><i>
                 <ButtonControls 
                     keys={['edit']}
@@ -78,9 +68,9 @@ export const StatusModal = ({
                 isOpen={modal} toggle={toggle}
                 style={{ minWidth: '20%' }}
                 centered={true}
-            // modalTransition={{ timeout: 400 }} 
-            // backdropTransition={{ timeout: 1000 }}
-            // backdrop={ false }
+                // modalTransition={{ timeout: 400 }} 
+                // backdropTransition={{ timeout: 1000 }}
+                // backdrop={ false }
             >
                 <ModalHeader toggle={toggle}>{name}</ModalHeader>
                 <ModalBody>
