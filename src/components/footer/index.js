@@ -95,7 +95,7 @@ export const Footer = ({
                         <ul>
                             <li>
                                 <h3>
-                                    Help <i className="fa fa-phone"></i>
+                                    Help Line(s) <i className="fa fa-phone"></i>
                                 </h3>
                             </li>
                             <li>+265 (1) xxx xxx</li>
