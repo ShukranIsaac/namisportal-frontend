@@ -198,7 +198,7 @@ class UserRegistration extends Component {
                                     <div style={{ textAlign: 'center' }}>
                                         <CardImg src={ LOGO } />
                                         <br />
-                                        <p>Ministry of Agriculture</p>
+                                        <p style={{ textAlign: 'center' }}>Ministry of Agriculture</p>
                                     </div>
 
                                     { this.registerForm(this.state) }

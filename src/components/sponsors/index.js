@@ -19,7 +19,7 @@ export const Sponsors = ({
                         />
                     </div>
                 </div>
-                <br></br>
+                <div className="col-sm-4"></div>
                 <div className="col-sm-4">
                     <div className={classes.imageContainer}>
                         <img className={classes.imageElement} 

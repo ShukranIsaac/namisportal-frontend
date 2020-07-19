@@ -149,7 +149,7 @@ class UserLogin extends Component {
                                 <CardBody>
                                     <div style={{ textAlign: 'center' }}>
                                         <CardImg src={LOGO} />
-                                        <p>Ministry of Agriculture</p>
+                                        <p style={{ textAlign: 'center' }}>Ministry of Agriculture</p>
                                     </div>
 
                                     <form 
