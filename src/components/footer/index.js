@@ -48,7 +48,12 @@ export const Footer = ({
                                     Any Questions!
                                 </h3>
                             </li>
-                            <li><ContactForm {...props} /></li>
+                            <li>
+                                <ContactForm 
+                                    {...props} 
+                                    handleToggle={handleToggleContactForm}
+                                />
+                            </li>
                             <li>Please send us a message!</li>
                         </ul>
                     </div>
@@ -166,7 +171,7 @@ const mapDispatchToProps = (dispatch) => ({
     fetchContact: (name) => { dispatch(UserAuthAction.fetchContact(name)) },
     // contact us message, don't authenticate this route
     // since any user of the system can send a message.
-    contactUs: (data) => { dispatch(UserAuthAction.contact(data)) },
+    contactUs: (data, cb) => { dispatch(UserAuthAction.contact(data, cb)) },
 })
 
 Footer.propTypes = {

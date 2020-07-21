@@ -100,6 +100,9 @@ export const ForgotPassword = ({
                         </div>
 
                         : <div>
+                            {
+                                user && <p>{user.success}</p>
+                            }
                             <form className={{ style: 'center' }} 
                                 onSubmit={(e) => handleResetPassword(e)} 
                                 autoComplete="off"

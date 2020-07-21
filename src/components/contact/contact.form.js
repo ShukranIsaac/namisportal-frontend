@@ -84,6 +84,7 @@ export const ContactInfo = withStyles(styles)(() => {
  * Contacts page
  */
 const ContactForm = ({
+    handleToggle,
     ...props
 }) => {
     const [fullname, setFullname] = useState();
@@ -109,7 +110,7 @@ const ContactForm = ({
                 email: email,
                 subject: subject,
                 message: message
-            });
+            }, handleToggle);
         }
     }
 

@@ -175,7 +175,7 @@ export const register = (user) => {
  * @param {Object} contact 
  * @returns {Function} dispatch
  */
-export const contact = (contact) => {
+export const contact = (contact, callback) => {
 
     const url = `contacts/message`;
 
@@ -186,6 +186,7 @@ export const contact = (contact) => {
         return await emailMessage(dispatch, url, contact)
 
             .then((response) => {
+                callback()
 
                 // toast message for user feedback
                 Toast.emit({
@@ -200,6 +201,8 @@ export const contact = (contact) => {
             .catch((error) => {
 
                 console.log(error);
+                callback()
+                
                 // toast message for user feedback
                 Toast.emit({
                     type: Toast.TYPES.ERROR,
