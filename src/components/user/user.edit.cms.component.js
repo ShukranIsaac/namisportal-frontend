@@ -56,13 +56,14 @@ class EditUserAccount extends Component {
             username,
             firstname,
             lastname,
+            email,
             myRoles,
             old_password,
             new_password
         } = this.state;
 
         // check previous values of user and update if roles changed
-        if (username || firstname || lastname || myRoles || (new_password && old_password)) {
+        if (username || firstname || lastname || email || myRoles || (new_password && old_password)) {
             // if (this.state.user.roles !== undefined) {
 
             // user roles changed reassign new ones
@@ -89,6 +90,7 @@ class EditUserAccount extends Component {
                 username: username,
                 firstName: firstname,
                 lastName: lastname,
+                email: email,
                 roles: Object.keys(roles).length === 0 ? undefined : roles,
                 password: new_password && old_password ? new_password : undefined
             }
@@ -238,7 +240,7 @@ class EditUserAccount extends Component {
         const {
             /*user,*/
             myRoles,
-            username, firstname, lastname,
+            username, firstname, lastname, email,
             new_password, old_password
         } = this.state;
         const { handleClick, classes, general } = this.props;
@@ -326,7 +328,7 @@ class EditUserAccount extends Component {
                                                             type="submit"
                                                             color="primary"
                                                             text="Update"
-                                                            disabled={!(firstname || username || lastname)}
+                                                            disabled={!(firstname || username || lastname || email)}
                                                         />
 
                                                         {
@@ -487,7 +489,7 @@ class EditUserAccount extends Component {
                                                                 type="submit"
                                                                 color="primary"
                                                                 text="Update"
-                                                                disabled={!(firstname || username || lastname)}
+                                                                disabled={!(firstname || username || lastname || email)}
                                                             />
 
                                                             <Button
