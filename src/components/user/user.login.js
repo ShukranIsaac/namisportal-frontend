@@ -259,21 +259,14 @@ UserLogin.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = state => ({
+    general: state.general.general,
+    user: state.user.user,
+})
 
-    return {
-        general: state.general.general,
-        user: state.user.user,
-    }
+const mapDispatchToProps = dispatch => ({
+    login: (user) => { dispatch(UserAuthActions.login(user)) },
+})
 
-}
-
-const mapDispatchToProps = dispatch => {
-
-    return {
-        login: (user) => { dispatch(UserAuthActions.login(user)) },
-    }
-
-}
-
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(UserLogin));
+export default withStyles(styles)(connect(mapStateToProps, 
+    mapDispatchToProps)(UserLogin));

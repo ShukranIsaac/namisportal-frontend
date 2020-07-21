@@ -54,6 +54,12 @@ const user = (state = initialState, action) => {
                 user: action.payload
             }
 
+        case UserType.REQUEST_USER_ACCOUNT_RECOVERY:
+        case UserType.REQUEST_USER_ACCOUNT_RESETTING:
+            return {
+                ...state,
+                user: action.payload
+            }
         default:
             return state;
     }

@@ -7,6 +7,62 @@ import Toast from '../toastfy';
 import { initial } from './event.action';
 
 /**
+ * User account resetting
+ * 
+ * @param {String} email 
+ */
+export const accountReset = (user, auth_token) => {
+    const url = `users/forgot/${auth_token}`;
+
+    return async dispatch => {
+        dispatch(GeneralAction.isLoading(true))
+        
+        return await post(dispatch, url, user)
+
+            .then((response) => {
+                dispatch(GeneralAction
+                    .fetchSuccess(UserType.REQUEST_USER_ACCOUNT_RESETTING, 
+                        response, false));
+            })
+
+            .catch(error => {
+                console.log(error)
+                dispatch(GeneralAction.hasErrored(true))
+            });
+    }
+}
+
+/**
+ * User account recovery
+ * 
+ * @param {String} email 
+ */
+export const accountRecovery = (email, callback) => {
+    const url = `users/forgot`;
+
+    return async dispatch => {
+        dispatch(GeneralAction.isLoading(true))
+        
+        return await post(dispatch, url, email)
+
+            .then((response) => {
+                callback(true)
+
+                dispatch(GeneralAction
+                    .fetchSuccess(UserType.REQUEST_USER_ACCOUNT_RECOVERY, 
+                        response, false));
+            })
+
+            .catch(error => {
+                console.log(error)
+                callback(false)
+
+                dispatch(GeneralAction.hasErrored(true))
+            });
+    }
+}
+
+/**
  * Authenticate user with API and return authenticated user with token
  * 
  * @param {Object} loginCredentials 

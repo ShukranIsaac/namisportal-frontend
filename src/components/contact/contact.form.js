@@ -86,36 +86,34 @@ export const ContactInfo = withStyles(styles)(() => {
 const ContactForm = ({
     ...props
 }) => {
-    const [state, setState] = useState({});
+    const [fullname, setFullname] = useState();
+    const [email, setEmail] = useState();
+    const [message, setMessage] = useState();
+    const [subject, setSubject] = useState();
 
-    const handleChange = (event) => setState({ 
-        [event.target.name]: event.target.value 
-    })
+    const handleName = (event) => setFullname(event.target.value)
+
+    const handleMessage = (event) => setMessage(event.target.value)
+
+    const handleEmail = (event) => setEmail(event.target.value)
+
+    const handleSubject = (event) => setSubject(event.target.value)
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        // state
-        const { fullname, email, subject, message } = state;
-
         if (fullname && email && subject && message) {
-            // define sub-category structure
-            const paylooad = {
+            // send message
+            contactUs({
                 fullName: fullname,
                 email: email,
                 subject: subject,
                 message: message
-            }
-
-            // send message
-            props.contactUs(paylooad);
+            });
         }
-
     }
 
-    const { fullname, email, message, subject, general } = state;
-
-    const { contact_us } = props;
+    const { contact_us, contactUs, general } = props;
 
     /**
      * Only redirect if and when one of these are value set
@@ -126,7 +124,7 @@ const ContactForm = ({
         if (contact_us) {
             if (contact_us.success !== null && contact_us.success) {
                 // set contact_us to null
-                Object.assign(state, { contact_us: null });
+                Object.assign(props, { contact_us: null });
 
                 return redirect.to({ url: `/faqs` });
             }
@@ -138,9 +136,6 @@ const ContactForm = ({
         >
             <div className='form-row'>
                 <BootstrapGridColumn>
-                    {/* <div className='margin-fix form-row'>
-                        <h3>Any questions? Please send us a message!</h3>
-                    </div> */}
                     <div className='form-row'>
                         <BootstrapGridColumn>
                             <BootsrapTextField
@@ -149,7 +144,7 @@ const ContactForm = ({
                                 label="Fullname*"
                                 type="text"
                                 placeholder="Your fullname..."
-                                handleChange={handleChange}
+                                handleChange={handleName}
                             />
                         </BootstrapGridColumn>
                     </div>
@@ -162,7 +157,7 @@ const ContactForm = ({
                                 type='email'
                                 placeholder='Your email...'
                                 value={email}
-                                handleChange={handleChange}
+                                handleChange={handleEmail}
                             />
                         </BootstrapGridColumn>
                     </div>
@@ -174,7 +169,7 @@ const ContactForm = ({
                             label='Subject*'
                             type='text'
                             placeholder='Your message subject...'
-                            handleChange={handleChange}
+                            handleChange={handleSubject}
                         />
                     </div>
 
@@ -186,15 +181,28 @@ const ContactForm = ({
                             type='text'
                             placeholder='Your message...'
                             rows={4}
-                            handleChange={handleChange}
+                            handleChange={handleMessage}
                         />
                     </div>
 
                     {
                         general ? 
-                            general.isLoading ? <SendButton text="Sending..." {...state} /> 
-                            : <SendButton text="Send" {...state} />
-                        : <SendButton text="Send" {...state} />
+                            general.isLoading 
+                                ? <SendButton text="Sending..."
+                                    fullname={fullname}
+                                    email={email}
+                                    subject={subject}
+                                    message={message} /> 
+                                : <SendButton text="Send" 
+                                    fullname={fullname}
+                                    email={email}
+                                    subject={subject}
+                                    message={message} />
+                        : <SendButton text="Send" 
+                                fullname={fullname}
+                                email={email}
+                                subject={subject}
+                                message={message} />
                     }
                 </BootstrapGridColumn>
             </div>

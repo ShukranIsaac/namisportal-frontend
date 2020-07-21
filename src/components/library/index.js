@@ -61,9 +61,11 @@ class Library extends Component {
             if (prev.library !== this.props.library) {
                 if (lock) {
                     // fetch default child category
-                    if (library !== null) {
-                        this.props.fetchCategoryDocuments(library.subCategories[0]._id);
-                        Object.assign({ lock: false });
+                    if (library && library !== null && library.subCategories) {
+                        if (library.subCategories.length > 0) {
+                            this.props.fetchCategoryDocuments(library.subCategories[0]._id);
+                            Object.assign({ lock: false });
+                        }
                     }
                 }
             }

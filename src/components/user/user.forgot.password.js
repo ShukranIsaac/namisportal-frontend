@@ -1,27 +1,30 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import { Button } from '@blueprintjs/core';
+import * as UserAuthActions from '../../actions/user.action';
 
 import BootstrapGridColumn from '../forms/form.grid.column';
 import { BootsrapTextField } from '../forms/form.bootstrap.field';
+import { connect } from 'react-redux';
+import { redirect } from './user.redirect';
 
 /**
  * Allow users be able to retrieve their passwords/change using their emails
  * if and when they forget their credentials.
  */
-export class ForgotPassword extends Component {
+export const ForgotPassword = ({
+    accountRecovery,
+    accountReset,
+    user,
+    general
+}) => {
+    const [passwordSent, setPasswordSent] = useState(false)
+    const [email, setEmail] = useState()
+    const [password, setPassword] = useState()
+    const [comfirmPassword, setComfirmPassword] = useState()
+    const [token, setToken] = useState();
 
-    constructor() {
-        super()
-        this.state = {
-            passwordSent: false
-        }
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleSubmit = e => {
+    const handleSubmit = e => {
         /**
          * Prevent default behavior
          */
@@ -29,67 +32,152 @@ export class ForgotPassword extends Component {
         /**
          * If email successfully sent, set passwordSent to true
          */
-        this.setState({ passwordSent: true })
+        if (email.trim()) {
+            accountRecovery({
+                email: email
+            }, setPasswordSent)
+        }
     }
 
-    handleChange = e => {
-        this.setState({ [e.target.name]: e.target.value });
+    const handleResetPassword = e => {
+        e.preventDefault()
+        if (password && comfirmPassword) {
+            if (password === comfirmPassword) {
+                accountReset({
+                    password: password
+                }, token);
+            }
+        }
+    }
+    
+    const handleChange = e => setEmail(e.target.value);
+    const handlePasswordChange = e => setPassword(e.target.value);
+    const handleCPasswordChange = e => setComfirmPassword(e.target.value);
+    const handleTokenChange = e => setToken(e.target.value);
+
+    if (general) {
+        if (!general.isLoading) {
+            if(user) {
+                if (user.success === "Success! Password changed") {
+                    return redirect.to({ url: '/login' })
+                }
+            }
+        }
     }
 
-    render() {
+    return (
+        <div id="notfound">
+            <div class="notfound">
+                <div class="notfound-404"></div>
+                { !passwordSent && <h2>To Retrieve Your Account?</h2> }
+                {
+                    !passwordSent && !user ?
+                        <div>
+                            <form className={{ style: 'center' }} 
+                                onSubmit={(e) => handleSubmit(e)} 
+                                autoComplete="off"
+                            >
+                                <div className='margin-fix form-row'>
+                                    <BootstrapGridColumn>
+                                        <BootsrapTextField
+                                            value={email}
+                                            name='email'
+                                            label='Please Enter Your Email*'
+                                            type='text'
+                                            placeholder='The email used to open the account...'
+                                            handleChange={handleChange}
+                                        />
+                                    </BootstrapGridColumn>
+                                </div>
 
-        const { passwordSent } = this.state;
+                                <Button
+                                    type="submit"
+                                    color="primary"
+                                    text="Reset Password"
+                                    disabled={!email}
+                                />
+                            </form>
+                        </div>
 
-        return (
-            <div id="notfound">
-                <div class="notfound">
-                    <div class="notfound-404"></div>
-                    {
-                        passwordSent && <h1>Email Sent!</h1>
-                    }
-                    <h2>To Retrieve Your Account?</h2>
-                    {
-                        !passwordSent ?
-                            <div>
-                                <form className={{ style: 'center' }} onSubmit={(e) => this.handleSubmit(e)} autoComplete="off">
-                                    <div className='margin-fix form-row'>
-                                        <BootstrapGridColumn>
-                                            <BootsrapTextField
-                                                value={this.state.email}
-                                                name='email'
-                                                label='Please Enter Your Email*'
-                                                type='text'
-                                                placeholder='The email used to open the account...'
-                                                handleChange={this.handleChange}
-                                            />
-                                        </BootstrapGridColumn>
-                                    </div>
+                        : <div>
+                            <form className={{ style: 'center' }} 
+                                onSubmit={(e) => handleResetPassword(e)} 
+                                autoComplete="off"
+                            >
+                                <div className='margin-fix form-row'>
+                                    <BootstrapGridColumn>
+                                        <BootsrapTextField
+                                            value={password}
+                                            name='password'
+                                            label='New Password*'
+                                            type='password'
+                                            placeholder='New password...'
+                                            handleChange={handlePasswordChange}
+                                        />
+                                    </BootstrapGridColumn>
+                                </div>
+                                <div className='margin-fix form-row'>
+                                    <BootstrapGridColumn>
+                                        <BootsrapTextField
+                                            value={comfirmPassword}
+                                            name='comfirmPassword'
+                                            label='Comfirm New Password*'
+                                            type='password'
+                                            placeholder='Comfirm New password...'
+                                            handleChange={handleCPasswordChange}
+                                        />
+                                    </BootstrapGridColumn>
+                                </div>
+                                <div className='margin-fix form-row'>
+                                    <BootstrapGridColumn>
+                                        <BootsrapTextField
+                                            value={token}
+                                            name='token'
+                                            label='Auth Token*'
+                                            type='text'
+                                            placeholder='Please paste token sent through email...'
+                                            handleChange={handleTokenChange}
+                                        />
+                                    </BootstrapGridColumn>
+                                </div>
+                                
+                                <Button
+                                    type="submit"
+                                    color="primary"
+                                    text="Change Password"
+                                    disabled={!password && password === comfirmPassword}
+                                />
+                            </form>
+                        </div>
+                }
+                <span>
+                    <Link to="/login">Login</Link>
+                    <>|<Link to="/register">Register</Link></>
+                </span>
 
-                                    <Button
-                                        type="submit"
-                                        color="primary"
-                                        text="Send"
-                                        disabled={!this.state.email}
-                                    />
-                                </form>
-                            </div>
-
-                            : <p>
-                                Check your email account for the system generated default password. Use it to login into your account and immediately create new password.
-                            </p>
-                    }
-                    <span>
-                        <Link to="/login">Login</Link>
-                        {
-                            !passwordSent && <>|<Link to="/register">Register</Link></>
-                        }
-                    </span>
-                </div>
+                {
+                    general && 
+                        general.isLoading ? (<div style={{ alignContent: `center` }} 
+                                className="loader" />) : null
+                }
             </div>
-        );
-
-    }
-
+        </div>
+    );
 }
 
-export default ForgotPassword;
+const mapStateToProps = state => ({
+    general: state.general.general,
+    user: state.user.user,
+})
+
+const mapDispatchToProps = dispatch => ({
+    accountRecovery: (user, callback) => { 
+        dispatch(UserAuthActions.accountRecovery(user, callback)) 
+    },
+    accountReset: (user, token) => { 
+        dispatch(UserAuthActions.accountReset(user, token)) 
+    },
+})
+
+export default connect(mapStateToProps, 
+    mapDispatchToProps)(ForgotPassword);

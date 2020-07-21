@@ -152,14 +152,16 @@ const ListLibraryDocuments = ({
                     handleFilteredResource(filteredResource[0])
                 }
 
-                if (sub_cate_documents.length > 0) {
-                    Toast.emit({
-                        autoClose: sub_cate_documents.length > 0,
-                        type: Toast.TYPES.WARN,
-                        message: "Please delete all its contents first. And try again!"
-                    });
-                } else {
-                    archiveCategory(filteredResource[0], user.token, "Library")
+                if (sub_cate_documents instanceof Array) {
+                    if (sub_cate_documents.length > 0) {
+                        Toast.emit({
+                            autoClose: sub_cate_documents.length > 0,
+                            type: Toast.TYPES.WARN,
+                            message: "Please delete all its contents first. And try again!"
+                        });
+                    } else {
+                        archiveCategory(filteredResource[0], user.token, "Library")
+                    }
                 }
             }
         }

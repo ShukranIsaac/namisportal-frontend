@@ -188,6 +188,16 @@ class EditUserAccount extends Component {
                             handleChange={this.handleTextChange}
                         />
                     </BootstrapGridColumn>
+                    <BootstrapGridColumn>
+                        <BootsrapTextField
+                            value={user!==null ? (this.state.email ? this.state.email : user.email) : ''}
+                            name='email'
+                            label='Email'
+                            type='text'
+                            placeholder='Your email address...'
+                            handleChange={this.handleTextChange}
+                        />
+                    </BootstrapGridColumn>
                 </div>
             </div>
         );
@@ -399,7 +409,9 @@ class EditUserAccount extends Component {
                                                         </div>
 
                                                         {
-                                                            userAuth !== null && (this.assignedRoles({ user: userAuth })).map(role => {
+                                                            userAuth !== null && (this.assignedRoles({ 
+                                                                user: userAuth 
+                                                            })).map(role => {
 
                                                                 if (role !== null) {
 
@@ -606,6 +618,11 @@ class EditUserAccount extends Component {
                                                                 text="Change"
                                                                 disabled={!(old_password && new_password)}
                                                             />
+
+                                                            {/* <Button
+                                                                name="resetPassword" className={classes.margin}
+                                                                text="Password Reset" onClick={e => handleClick(e)}
+                                                            /> */}
 
                                                             <Button
                                                                 name="default" className={classes.margin}
