@@ -213,7 +213,7 @@ class CMSIndex extends React.Component {
                 /**
                  * News
                  */
-                this.props.fetchNewsArticles();
+                this.props.fetchNewsArticles(this.capitalize(link));
                 break;
             case 'accounts':
                 /**
@@ -223,8 +223,6 @@ class CMSIndex extends React.Component {
                 // check if the user exist ie. logged in
                 if (user !== null && user.roles.admin) {
                     this.props.fetchUsers(user);
-                } else {
-
                 }
                 break;
             case 'gis':
@@ -357,23 +355,6 @@ class CMSIndex extends React.Component {
                             this.props.fetchQuestion(event.currentTarget.id);
                         }
                     }
-
-                } else if (link === 'licensing') {
-
-                    /**
-                     * To edit clicked license step in the list
-                     * Then fetch category to edit
-                     */
-                    this.props.subCategory(event.currentTarget.id);
-                    // this.props.reload()
-
-                } else if (link === 'financing') {
-
-                    /**
-                     * To edit chosen financing category
-                     * Then fetch category to edit
-                     */
-                    this.props.subCategory(event.currentTarget.id);
 
                 } else if(link === 'library') {
 
@@ -789,7 +770,7 @@ const mapDispatchToProps = (dispatch) => {
         deleteStakeholder: (s, t) => { dispatch(Stakeholder.deleteStakeholder(s, t)) },
         uploadStakeholderLogo: (i, im, t) => { dispatch(Stakeholder.uploadStakeholderLogo(i, im, t)) },
         // news articles
-        fetchNewsArticles: () => dispatch(NewsAction.fetchAllArticles()),
+        fetchNewsArticles: (name) => dispatch(NewsAction.fetchAllArticles(name)),
         fetchArticle: (id) => dispatch(NewsAction.fetchArticleById(id)),
         editArticle: (id, article, token) => dispatch(NewsAction.editArticle(id, article, token)),
         deleteArticle: (id, token) => dispatch(NewsAction.deleteArticle(id, token)),

@@ -21,7 +21,7 @@ export const addSubCategory = (id, subcategory) => {
                 // toast message for user feedback
                 Toast.emit({
                     type: Toast.TYPES.SUCCESS,
-                    message: `New document successfully created.`
+                    message: `Successfully created.`
                 })
 
                 dispatch(GeneralAction.fetchSuccess(LibraryType.ADD_NEW_SUB_CATEGORY_DOCS, response, false))

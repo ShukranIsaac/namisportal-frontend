@@ -13,7 +13,7 @@ export const ButtonControls = ({
     id
 }) => {
     return keys.map(element => {
-        return <Fragment>
+        return <Fragment key={ element }>
             {
                 element==="create" && <IconButton 
                     color="primary" 

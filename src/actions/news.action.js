@@ -7,10 +7,10 @@ import { initial } from './event.action';
 /**
  * Fetch all news articles
  */
-export const fetchAllArticles = () => {
+export const fetchAllArticles = (category) => {
 
     // resource
-    const url = `/news`;
+    const url = `/categories?name=${category}`;
 
     return async dispatch => {
 
@@ -44,10 +44,10 @@ export const fetchAllArticles = () => {
 /**
  * Create a single article
  */
-export const createArticle = (article, token) => {
+export const createArticle = (category, article, user) => {
 
-    // url resource
-    const url = `/news?token=${token}`;
+    // resource to post data to
+    const url = `/categories/${category}/sub-categories?token=${user.token}`;
 
     return async dispatch => {
 
@@ -66,7 +66,7 @@ export const createArticle = (article, token) => {
                 dispatch(GeneralAction.createSuccess(NewsType.REQUEST_CREATE_ARTICLE, response, false))
 
                 // fetch all articles
-                dispatch(fetchAllArticles())
+                dispatch(fetchAllArticles('News'))
 
                 // then change state to default
                 // so that the page redirects and list all
@@ -101,7 +101,7 @@ export const createArticle = (article, token) => {
 export const editArticle = (id, article, token) => {
 
     // url resource
-    const url = `news/${id}?token=${token}`;
+    const url = `categories/${id}?token=${token}`;
 
     // fetch
     return async dispatch => {
@@ -124,7 +124,7 @@ export const editArticle = (id, article, token) => {
                 // dispatch response
                 dispatch(GeneralAction.updateSuccess(NewsType.REQUEST_EDIT_ARTICLE, response, false))
 
-                dispatch(fetchAllArticles())
+                dispatch(fetchAllArticles('News'))
 
                 // then change state to default
                 // so that the page redirects and list all
@@ -155,10 +155,10 @@ export const editArticle = (id, article, token) => {
  * 
  * @param {String} id 
  */
-export const fetchArticleById = (id) => {
+export const fetchArticleById = (id, token) => {
 
     // url resource
-    const url = `news/${id}`;
+    const url = `/categories/${id}?token=${token}`;
 
     // fetch
     return async dispatch => {
@@ -201,7 +201,7 @@ export const fetchArticleById = (id) => {
 export const deleteArticle = (id, token) => {
 
     // url resource
-    const url = `news/${id}?token=${token}`;
+    const url = `categories/${id}?token=${token}`;
 
     // fetch
     return async dispatch => {
@@ -223,7 +223,7 @@ export const deleteArticle = (id, token) => {
                 // dispatch
                 dispatch(GeneralAction.fetchSuccess(NewsType.REQUEST_DELETE_ARTICLE, response, false))
 
-                dispatch(fetchAllArticles())
+                dispatch(fetchAllArticles('News'))
 
                 // then change state to default
                 // so that the page redirects and list all

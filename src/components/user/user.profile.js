@@ -174,18 +174,11 @@ export const profile = (() => {
     // can delete
     const canDelete = ({ user }) => {
         if (user !== null && user.roles !== null && user.roles !== undefined) {
-
             if (user.roles.publisher || user.roles.admin) {
                 return true;
             }
-
-            return false;
-
-        } else {
-
-            return false;
-
-        }
+        } 
+        return false;
     }
 
     /**

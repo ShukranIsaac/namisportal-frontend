@@ -137,7 +137,7 @@ class EditHomeSubcategory extends Component {
                                             }
                                             name='name'
                                             label='Name'
-                                            disabled={ true }
+                                            // disabled={ true }
                                             type='text'
                                             // id={subcategory._id}
                                             placeholder='Edit sub-category name...'
@@ -183,11 +183,7 @@ class EditHomeSubcategory extends Component {
 
                     <Button 
                         className={classes.margin} 
-                        disabled={
-                            profile.canDelete({ user }) 
-                            && (subcategory && subcategory.name === "Home" 
-                                ? true : false)
-                        } 
+                        disabled={!profile.canDelete({ user })} 
                         intent="danger" 
                         text="Delete" 
                         onClick={(e) => this.archiveCategory(e)} 

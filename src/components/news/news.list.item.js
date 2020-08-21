@@ -23,39 +23,39 @@ const NewsListItem = ({
                 <h4 className="heading">
                     <NavLink 
                         to={{
-                            pathname: `/news/` + article.title,
+                            pathname: `/news/` + article.name,
                             state: {
                                 article: {
-                                    title: article.title,
-                                    text: article.article,
-                                    createdDate: new Date(article.createdDate).toLocaleDateString()
+                                    title: article.name,
+                                    text: article.about,
+                                    createdDate: new Date(article.createdAt).toLocaleDateString()
                                 }
                             }
                         }}
                     > 
-                        { article.title } 
+                        { article.name } 
                     </NavLink>
                 </h4>
                 <p variant="caption">
                     <i> 
                         {/* By John Doe (<a href="mailto:newseditor@grid.mw" className={classes.link}>newseditor@grid.mw</a>), */}
-                        <span className={classes.when}>{ new Date(article.createdDate).toLocaleDateString() }</span>
+                        <span className={classes.when}>{ new Date(article.createdAt).toLocaleDateString() }</span>
                     </i>
                 </p>
             </div>
 
             <div>
                 <div dangerouslySetInnerHTML={{ 
-                    __html: splitCount(article.article) 
+                    __html: splitCount(article.about) 
                     }} 
                 />
                 <NavLink to={{
-                    pathname: `/news/` + article.title,
+                    pathname: `/news/` + article.name,
                     state: {
                         article: {
-                            title: article.title,
-                            text: article.article,
-                            createdDate: new Date(article.createdDate).toLocaleDateString()
+                            title: article.name,
+                            text: article.about,
+                            createdDate: new Date(article.createdAt).toLocaleDateString()
                         },
                     }
                 }}

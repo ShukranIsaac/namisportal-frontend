@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withRouter } from "react-router";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 
@@ -9,9 +9,7 @@ import News from './components/news';
 import Library from './components/library';
 import UserLogin from './components/user/user.login';
 import UserRegistration from './components/user/user.register';
-
 import UserPrivateRoute from './components/user/private.route';
-
 import ForgotPassword from './components/user/user.forgot.password';
 
 // Load Styling
@@ -27,6 +25,7 @@ import ItemProfile from './components/directory/item-profile';
 import Breadcrumbs from './components/breadcrumbs/crumbs/breadcrumbs';
 import BreadRoute from './components/breadcrumbs/breadcrumb.route';
 import PageNotFound from './components/page.not.found';
+// import FormHook from './components/hook.reactform';
 
 const wrapper = {
     minHeight: '100vh',
@@ -36,37 +35,43 @@ const wrapper = {
 export const Wrapper = ({ 
     children, 
     ...props 
-}) => (
-    <div style={{ paddingBottom: 0 }}>
-        <AppHeader />
-
-        <Breadcrumbs />
-        
-        {children}
-
-        <Footer {...props} />
-    </div>
-);
-
-export default withRouter(() => {
+}) => {
+    const [links, setLinks] = useState([])
+    
     return (
-        <div style={wrapper}>
-            <Router>
-                <Switch>
-                    <BreadRoute path="/" exact render={props => <Wrapper {...props}><Home {...props} /></Wrapper>} />
-                    <UserPrivateRoute path="/admin" component={CMSIndex} />
-                    <BreadRoute title="Library" exact path="/library" render={props => <Wrapper {...props}><Library {...props} /></Wrapper>} />
-                    <BreadRoute title="Directory" exact path="/directory" render={props => <Wrapper {...props}><Directory /></Wrapper>} />
-                    <BreadRoute title="Stakeholder" exact path="/directory/:id" render={props => <Wrapper {...props}><ItemProfile {...props} /></Wrapper>} />
-                    <BreadRoute title="News" exact path="/news" render={props => <Wrapper {...props}><News {...props} /></Wrapper>} />
-                    <BreadRoute title="Article" exact path="/news/:id" render={props => <Wrapper {...props}><NewsItemDetails {...props} /></Wrapper>} />
-                    <BreadRoute title="Faqs" exact path="/faqs" render={props => <Wrapper {...props}><FAQ {...props} /></Wrapper>} />
-                    <BreadRoute exact path="/login" render={props => <UserLogin {...props} />} />
-                    <BreadRoute exact path="/register" render={props => <UserRegistration {...props} />} />
-                    <BreadRoute exact path="/forgotpassword" render={props => <ForgotPassword {...props} /> } />
-                    <BreadRoute title="404 Not Found" component={ props => <PageNotFound {...props} />} />
-                </Switch>
-            </Router>
+        <div style={{ paddingBottom: 0 }}>
+            <AppHeader setLinks={ setLinks } />
+    
+            <Breadcrumbs />
+            
+            {children}
+    
+            <Footer links={links} {...props} />
         </div>
-    );
-});
+    )
+}
+
+export default withRouter(() => (
+    <div style={wrapper}>
+        <Router>
+            <Switch>
+                <BreadRoute path="/" exact render={props => <Wrapper {...props}><Home {...props} /></Wrapper>} />
+                <BreadRoute path="/home" exact render={props => <Wrapper {...props}><Home {...props} /></Wrapper>} />
+                <UserPrivateRoute path="/admin" component={CMSIndex} />
+                {/* <BreadRoute title="FormHook" exact path="/formhook" component={FormHook} /> */}
+                
+                <BreadRoute title="Library" exact path="/library" render={props => <Wrapper {...props}><Library {...props} /></Wrapper>} />
+                <BreadRoute title="Directory" exact path="/directory" render={props => <Wrapper {...props}><Directory /></Wrapper>} />
+                <BreadRoute title="Stakeholder" exact path="/directory/:id" render={props => <Wrapper {...props}><ItemProfile {...props} /></Wrapper>} />
+                <BreadRoute title="News" exact path="/news" render={props => <Wrapper {...props}><News {...props} /></Wrapper>} />
+                <BreadRoute title="Article" exact path="/news/:id" render={props => <Wrapper {...props}><NewsItemDetails {...props} /></Wrapper>} />
+                <BreadRoute title="Faqs" exact path="/faqs" render={props => <Wrapper {...props}><FAQ {...props} /></Wrapper>} />
+                
+                <BreadRoute exact path="/login" render={props => <UserLogin {...props} />} />
+                <BreadRoute exact path="/register" render={props => <UserRegistration {...props} />} />
+                <BreadRoute exact path="/forgotpassword" render={props => <ForgotPassword {...props} /> } />
+                <BreadRoute title="404 Not Found" component={ props => <PageNotFound {...props} />} />
+            </Switch>
+        </Router>
+    </div>
+));

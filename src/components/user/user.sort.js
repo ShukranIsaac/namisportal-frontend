@@ -36,10 +36,15 @@ export const algorithms = (() => {
 
     }
 
+    const capitalize = (character) => {
+        return character && character[0].toUpperCase() + character.slice(1);
+    }
+
     return {
         desc, 
         sort, 
-        stableSort
+        stableSort,
+        capitalize
     }
 
 })();

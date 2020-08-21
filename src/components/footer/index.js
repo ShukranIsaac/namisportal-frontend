@@ -10,12 +10,27 @@ import './footer.fab.css';
 import ContactForm from '../contact/contact.form';
 import { Link } from 'react-router-dom';
 import { redirect } from '../user/user.redirect';
+import { algorithms } from '../user/user.sort';
+
+const FooterNavLinks = ({
+    links
+}) => (<ul>
+    <li><h3>Links</h3></li>
+    {
+        links.map(({ name }, index) => <li key={name + index}>
+            <Link to={`/${name.toLowerCase()}`}>
+                { algorithms.capitalize(name) }
+            </Link>
+        </li>)
+    }
+</ul>)
 
 export const Footer = ({
     stickToBottom,
     footer,
     footerContainer,
     span,
+    links,
     ...props
 }) => {
     const [state, setState] = useState({ toggle: false });
@@ -62,14 +77,7 @@ export const Footer = ({
             <div style={footer}>
                 <div className="links">
                     <div className="links-inner">
-                        <ul>
-                            <li><h3>Links</h3></li>
-                            <li><Link to="/">Home</Link></li>
-                            <li><Link to="/library">Library</Link></li>
-                            <li><Link to="/directory">Directory</Link></li>
-                            <li><Link to="/news">News</Link></li>
-                            <li><Link to="/faqs">FAQs</Link></li>
-                        </ul>
+                        <FooterNavLinks links={links} />
                         <ul>
                             <li>
                                 <h3>

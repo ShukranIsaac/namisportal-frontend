@@ -32,7 +32,7 @@ class News extends Component {
 
     componentDidMount() {
         // fetch all news items when this component mounts
-        this.props.fetchNewsArticles();
+        this.props.fetchNewsArticles('News');
     }
 
     toggleMainItem = () => {
@@ -70,7 +70,7 @@ class News extends Component {
                             {...this.state}
                         >
                             {
-                                articles.length > 0 && <NoDataCard
+                                articles.subCategories && articles.subCategories.length > 0 && <NoDataCard
                                     text={`The list below shows all news articles available.`}
                                     header={`News!`}
                                     intent={Intent.PRIMARY}
@@ -78,10 +78,10 @@ class News extends Component {
                                 />
                             }
                             {
-                                articles.length > 0 
-                                ? articles.map((article) => {
+                                articles.subCategories && articles.subCategories.length > 0 
+                                ? articles.subCategories.map((article) => {
                                     return <Fragment>
-                                        <NewsListItem key={article.title} 
+                                        <NewsListItem key={article.name} 
                                             when={this.when} splitCount={this.splitCount} 
                                             article={article} {...this.props} 
                                         />
@@ -117,7 +117,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchNewsArticles: () => dispatch(NewsAction.fetchAllArticles()),
+    fetchNewsArticles: (name) => dispatch(NewsAction.fetchAllArticles(name)),
 })
 
 export default connect(mapStateToProps, 

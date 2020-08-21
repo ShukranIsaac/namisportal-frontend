@@ -127,10 +127,9 @@ export const fetchQuestion = (category_id) => {
  * 
  */
 export const addCategory = (category_id, sub_category, token, link) => {
-
     // url
     let url;
-    if (category_id === null) {
+    if (!category_id) {
         // create new category
         url = `categories?token=` + token;
     } else {

@@ -15,7 +15,7 @@ class Item extends Component {
 
         if (stakeholder !== null && stakeholder !== undefined) {
 
-            const imageUrl = Config.REMOTE_PROD_SERVER + stakeholder.image;
+            const imageUrl = Config.LOCAL_DEV_SERVER + stakeholder.image;
 
             return (
                 <Row>

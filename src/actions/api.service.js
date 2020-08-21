@@ -166,13 +166,13 @@ export const update = async (dispatch, url, data) => {
     } else {
         // form.append('file', data.image[0]);
         form.append('name', data.name)
-        form.append('shortName', data.shortName);
         form.append('description', data.description)
     }
 
     return await Config.DEV_REMOTE_API_URL
 
-        .patch(url, form, progressEvent(dispatch, null))
+        .patch(url, (data.file !== undefined && data.file !== null) 
+            ? form : data, progressEvent(dispatch, null))
 
         .then(response => {
 

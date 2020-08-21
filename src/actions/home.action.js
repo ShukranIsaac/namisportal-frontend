@@ -11,7 +11,7 @@ import Toast from '../toastfy';
  */
 export const fetchHomeDetails = (name) => {
 
-    const url = `categories?name=${name}`;
+    const url = `categories?level=${1}`;
     
     return async (dispatch) => {
 
@@ -49,7 +49,7 @@ export const fetchHomeDetails = (name) => {
  */
 export const fetchHomeCategories = (category) => {
 
-    const url = `categories?name=${category}`;
+    const url = `categories?level=${1}`;
 
     return async dispatch => {
 

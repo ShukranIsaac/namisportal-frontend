@@ -76,27 +76,18 @@ class CreateHomeSubcategory extends Component {
 
             const { name, shortname, about } = this.state;
 
-            let sub_category;
             if (name && shortname && about) {
-                // define sub-category structure
-                sub_category = {
+                // home category exists
+                console.log(category)
+                const category_object = {
+                    level: 1,
                     name: name,
                     shortName: shortname,
                     about: about
                 }
-
-                // home category exists
-                if (category && ( category.length !== 0 )) {
-                    // proceeed to adding new subcategories under it
-                    this.props.createCategory(category._id, 
-                        sub_category, user.token,
-                        this.props.capitalize(this.props.link));
-                } else {
-                    // creating new category
-                    this.props.createCategory(null, 
-                        sub_category, user.token,
-                        this.props.capitalize(this.props.link));
-                }
+                // creating new category
+                this.props.createCategory(null, category_object, user.token,
+                    this.props.capitalize(this.props.link));
             }
 
         }
@@ -107,6 +98,7 @@ class CreateHomeSubcategory extends Component {
 
         const { classes, handleClick } = this.props;
         const { name, shortname, about } = this.state;
+        // console.log(this.props.category)
 
         return (
             <Fragment>

@@ -1,7 +1,7 @@
 import { UserType } from '../action_type/index';
 
 import * as GeneralAction from './general.action';
-import { post, get, put, _delete, emailMessage, patch } from './api.service';
+import { post, get, _delete, emailMessage, patch } from './api.service';
 import UserProfile from '../components/user/user.profile';
 import Toast from '../toastfy';
 import { initial } from './event.action';

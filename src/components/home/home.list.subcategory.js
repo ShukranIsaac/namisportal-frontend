@@ -54,23 +54,10 @@ export const ListHomeSubcategory = ({
 
             <ul className='list-group list-group-flush'>
                 {
-                    (category && category !== null && category !== undefined) && (
+                    (category !== null && category !== undefined) && (
                         <>
                             {
-                                !(category instanceof Array) 
-                                ? <CMSHomeSubCategory 
-                                    renderReadMore={renderReadMore}
-                                    dangerouslyRender={dangerouslyRender}
-                                    modal={modal}
-                                    setModal={setModal}
-                                    section={ category }
-                                    handleClick={handleClick}
-                                /> : loader()
-                            }
-
-                            {
-                                category.subCategories !== undefined && 
-                                category.subCategories.map((section, index) => {
+                                category.map((section, index) => {
                                     return (<CMSHomeSubCategory 
                                         renderReadMore={renderReadMore}
                                         dangerouslyRender={dangerouslyRender}

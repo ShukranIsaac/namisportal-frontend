@@ -8,23 +8,8 @@ import './marep.css';
 
 import * as HomeActions from '../../actions/home.action';
 import { HomeSubCategory } from './home.subcategory';
-// import { NoDataCard } from '../card.text';
-// import { Intent } from '@blueprintjs/core';
 
 import IMAGE from '../../assets/img/42279146641_d3950cd740_k.jpg';
-
-// const getSection = (data, index) => {
-//     if (data == null) 
-//         return null;
-
-//     if (index === null) 
-//         return data[0];
-
-//     if (index < 0)
-//         return {};
-
-//     return data.slice(0, index);
-// };
 
 /**
  * @author Paul Sembereka
@@ -45,21 +30,7 @@ const Home = ({
         <HomeSections {...props} /> : <div className="loader" />);
     }
 
-    const portalOverview = () => {
-        if (props.home instanceof Array) {
-            return <></>
-        }
-
-        return (<div className="jumbotron my-5 w-75 re-w text-left" 
-                    style={{ borderRadius: '5px' }}
-                >
-                    <h1 className="display-4 re-display-font-size">
-                        {props.home.shortName}
-                    </h1>
-                    <p dangerouslySetInnerHTML={{ __html: props.home.about}} />
-            </div>
-        );
-    }
+    const overview = props.home.filter(section => section.name === "Home")[0];
 
     return (
         <>
@@ -79,7 +50,17 @@ const Home = ({
                             </div>
                         </div>
                         <div className="col-lg-6 d-flex align-items-center justify-content-start right">
-                            { portalOverview() }
+                            {
+                                overview ? 
+                                (<div className="jumbotron my-5 w-75 re-w text-left" 
+                                    style={{ borderRadius: '5px' }}
+                                >
+                                    <h1 className="display-4 re-display-font-size">
+                                        { overview ? overview.shortName : '' }
+                                    </h1>
+                                    <p dangerouslySetInnerHTML={{ __html: overview ? overview.about : '' }} />
+                                </div>) : ''
+                            }
                         </div>
                     </div>
                 </div>
@@ -115,25 +96,22 @@ Home.defaultProps = {
         home,
         ...props
     }) => {
+        const list = home.filter(section => section.name !== "Home");
+
         return (
-        <div className='app-sections'>
-            <Container>
-                <Row>
-                {
-                    home !== null && (home.length !== 0 && 
-                        (home.subCategories.length !== 0 
-                        && home.subCategories.map((section, index) => {
-                            return index !== 0 && <HomeSubCategory 
-                                key={index} 
-                                subCategories={home.subCategories} 
-                                section={section.name} 
-                            />
-                        }))
-                    )
-                }
-                </Row>
-            </Container>
-        </div>);
+            <div className='app-sections'>
+                <Container>
+                    <Row>
+                    {
+                        list !== null && (list.length !== 0 && list.map((section, index) => {
+                                return <HomeSubCategory key={index} section={section} />
+                            })
+                        )
+                    }
+                    </Row>
+                </Container>
+            </div>
+        );
     }
 }
 

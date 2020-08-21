@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { Collapse, Navbar, NavbarToggler, Nav, NavItem } from 'reactstrap';
 import { Link } from "react-router-dom";
 import PersonIcon from '@material-ui/icons/People';
+import * as HomeActions from '../../actions/home.action';
 
 import './header.css'
 import { redirect } from '../user/user.redirect';
@@ -9,11 +10,44 @@ import { Tooltip, IconButton } from '@material-ui/core';
 import UserProfile from '../user/user.profile';
 
 import LOGO from '../../assets/img/ministryofagriculture.png';
+import { connect } from 'react-redux';
+import { algorithms } from '../user/user.sort';
 
-export const AppHeader = () => {
+const mapStateToProps = (state) => ({
+    home: state.home.home,
+    general: state.general.general,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    fetchHome: (name) => dispatch(HomeActions.fetchHomeDetails(name)),
+})
+
+const HeaderNavLinks = ({
+    links
+}) => (<Fragment>
+    {
+        links.map(({ name }, index) => <NavItem key={name + index}>
+            <Link to={`/${name.toLowerCase()}`}>
+                { algorithms.capitalize(name) }
+            </Link>
+        </NavItem>)
+    }
+</Fragment>)
+
+export const AppHeader = connect(mapStateToProps, mapDispatchToProps)(({
+    home,
+    fetchHome,
+    setLinks
+}) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleHamburger = () => setIsOpen(!isOpen);
+
+    useEffect(() => {
+        fetchHome("Home")
+    }, [fetchHome]);
+
+    setLinks(home)
 
     const marginLeft = {
         marginLeft: '2px'
@@ -62,7 +96,7 @@ export const AppHeader = () => {
                 <NavbarToggler onClick={toggleHamburger}/>
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="ml-auto" navbar>
-                        <NavItem><Link to='/'>Home</Link></NavItem>
+                        <HeaderNavLinks links={home} />
                         <NavItem>
                             <Link to='/#' onClick={
                                 e => redirect.toExternalLink({ 
@@ -87,16 +121,12 @@ export const AppHeader = () => {
                                 </span>
                             </Link>
                         </NavItem>
-                        <NavItem><Link to='/library'>Library</Link></NavItem>
-                        <NavItem><Link to='/directory'>Directory</Link></NavItem>
-                        <NavItem><Link to='/news'>News</Link></NavItem>
-                        <NavItem><Link to="/faqs">FAQs</Link></NavItem>
                         <NavItem>{ userAccountTooltip() }</NavItem>
                     </Nav>
                 </Collapse>
             </Navbar>
         </div>
     );
-}
+})
 
 export default AppHeader;

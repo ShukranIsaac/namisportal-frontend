@@ -91,7 +91,7 @@ class ListUserAccounts extends Component {
                 // map users
                 users.map(user => {
                     const name = user.lastName + ' ' + user.firstName;
-                    let created = new Date(user.createdDate).toLocaleDateString();
+                    let created = new Date(user.createdAt).toLocaleDateString();
 
                     // logged in user
                     const auth = UserProfile.get();

@@ -63,8 +63,9 @@ class EditNewsItem extends Component {
             if (user.token !== null && user.token !== undefined) {
                 // define article object
                 const article = {
-                    title: title,
-                    article: editorText
+                    name: title,
+                    shortName: title,
+                    about: editorText
                 }
                 
                 // then make post request to the api
@@ -103,7 +104,7 @@ class EditNewsItem extends Component {
         const { title, editorText } = this.state;
 
         if (article && !editorText) {
-            Object.assign(this.state, { editorText: article.article })
+            Object.assign(this.state, { editorText: article.about })
         }
 
         const user = UserProfile.get();
@@ -132,7 +133,7 @@ class EditNewsItem extends Component {
                                     <div className="margin-fix form-row">
                                         <BootsrapTextField
                                             name="title"
-                                            value={article ? (title ? title : article.title) : ''}
+                                            value={article ? (title ? title : article.name) : ''}
                                             placeholder="Edit article title..."
                                             label="Article Title"
                                             type="text"

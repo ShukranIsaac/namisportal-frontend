@@ -54,6 +54,9 @@ class CreateNewsItem extends Component {
         event.preventDefault();
         // state
         const { title, editorText } = this.state;
+        const { 
+            articles: category // News category under which all items will b created
+        } = this.props;
         // user logged
         const user = UserProfile.get();
         if (user !== null) {
@@ -61,13 +64,14 @@ class CreateNewsItem extends Component {
             if (user.token !== null && user.token !== undefined) {
                 // define article object
                 const article = {
-                    title: title,
-                    article: editorText
+                    name: title,
+                    shortName: title,
+                    about: editorText
                 }
 
-                if (article.article) {
+                if (title && editorText && category) {
                     // then make post request to the api
-                    this.props.createArticle(article, user.token);
+                    this.props.createArticle(category._id, article, user);
                     // then change state to default
                     // so that the page redirects and list all home items
                     this.props.defaultItem();
@@ -82,7 +86,7 @@ class CreateNewsItem extends Component {
 
         const { 
             classes, 
-            handleClick 
+            handleClick,
         } = this.props;
 
         return (<Fragment>
@@ -157,9 +161,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    createArticle: (article, user) => {
-        dispatch(NewsAction.createArticle(article, user)) 
-    },
+    createArticle: (id, article, user) => dispatch(NewsAction.createArticle(id, article, user)),
 })
 
 export default (withStyles(styles)(connect(mapStateToProps, 

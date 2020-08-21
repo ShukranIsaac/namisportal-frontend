@@ -216,7 +216,6 @@ class CreateLibraryItem extends Component {
                     this.setState({ edit_resource: false, add_category: true });
                 }
             } else {
-                console.log(library_resource)
                 if (values.supporting_document !== undefined) {
                     // define file structure
                     const data = {
