@@ -20,7 +20,6 @@ const ListNewsArticles = ({
     general, 
     classes 
 }) => {
-    console.log(articles)
     const user = UserProfile.get();
 
     return (
@@ -40,7 +39,8 @@ const ListNewsArticles = ({
             <div className={classes.margin} />
 
             {
-                articles.subCategories !== null && articles.subCategories.length === 0 && (<NoDataCard
+                articles && articles.subCategories 
+                && articles.subCategories.length === 0 && (<NoDataCard
                     header={`No articles`}
                     intent={Intent.SUCCESS}
                 />)
@@ -48,7 +48,7 @@ const ListNewsArticles = ({
 
             <ul className="list-group list-group-flush">
                 {
-                    articles !== null && 
+                    articles && articles !== null && articles.subCategories && 
                     (articles.subCategories.length > 0 && articles.subCategories.map(({ 
                         _id, 
                         name 
