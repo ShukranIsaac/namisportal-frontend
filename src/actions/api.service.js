@@ -23,7 +23,7 @@ const progressEvent = (dispatch, config) => ({
  */
 export const get = async (dispatch, url) => {
 
-    return await Config.PROD_REMOTE_API_URL.get(url)
+    return await Config.DEV_REMOTE_API_URL.get(url)
 
         .then((response) => {
 
@@ -52,7 +52,7 @@ export const emailMessage = async (dispatch, url, data) => {
     const config = new Headers();
     config.append('Access-Control-Allow-Origin', Config.ACCESS_ALLOW_ORIGIN);
 
-    return await Config.PROD_REMOTE_API_URL.post(url, data, config)
+    return await Config.DEV_REMOTE_API_URL.post(url, data, config)
 
         .then(response => {
 
@@ -82,7 +82,7 @@ export const post = async (dispatch, url, data) => {
     const config = new Headers();
     config.append('Access-Control-Allow-Origin', Config.ACCESS_ALLOW_ORIGIN);
 
-    return await Config.PROD_REMOTE_API_URL.post(url, data, config)
+    return await Config.DEV_REMOTE_API_URL.post(url, data, config)
 
         .then(response => {
 
@@ -122,7 +122,7 @@ export const upload = async (dispatch, url, data) => {
         form.append('file', data.image[0]);
     }
 
-    return await Config.PROD_REMOTE_API_URL
+    return await Config.DEV_REMOTE_API_URL
 
         .post(url, form, progressEvent(dispatch, null))
 
@@ -155,24 +155,11 @@ export const update = async (dispatch, url, data) => {
 
     let form = new FormData();
     // check the file type
-    if (data.file !== undefined && data.file !== null) {
-        if (data.file[0].type === 'application/pdf') {
-            form.append('file', data.file ? data.file[0] : null);
-            form.append('name', data.name);
-            form.append('shortName', data.shortName);
-            form.append('description', data.about);
-            form.append('content-type', 'multipart/form-data')
-        }
-    } else {
-        // form.append('file', data.image[0]);
-        form.append('name', data.name)
-        form.append('description', data.description)
-    }
+    form.append('file', data.image[0]);
 
-    return await Config.PROD_REMOTE_API_URL
+    return await Config.DEV_REMOTE_API_URL
 
-        .patch(url, (data.file !== undefined && data.file !== null) 
-            ? form : data, progressEvent(dispatch, null))
+        .patch(url, form)
 
         .then(response => {
 
@@ -206,7 +193,7 @@ export const put = async (dispatch, url, data) => {
     config.append('Access-Control-Allow-Origin', Config.ACCESS_ALLOW_ORIGIN);
     // config.append('withCredentials', true);
 
-    return await Config.PROD_REMOTE_API_URL.put(url, data, config)
+    return await Config.DEV_REMOTE_API_URL.put(url, data, config)
 
         .then(response => {
 
@@ -238,7 +225,7 @@ export const patch = async (dispatch, url, data) => {
     config.append('Access-Control-Allow-Origin', Config.ACCESS_ALLOW_ORIGIN);
     // config.append('withCredentials', true);
 
-    return await Config.PROD_REMOTE_API_URL.patch(url, data, progressEvent(dispatch))
+    return await Config.DEV_REMOTE_API_URL.patch(url, data, progressEvent(dispatch))
 
         .then(response => {
 
@@ -263,7 +250,7 @@ export const patch = async (dispatch, url, data) => {
  */
 export const _delete = async (dispatch, url) => {
 
-    return await Config.PROD_REMOTE_API_URL.delete(url)
+    return await Config.DEV_REMOTE_API_URL.delete(url)
 
         .then(response => {
 

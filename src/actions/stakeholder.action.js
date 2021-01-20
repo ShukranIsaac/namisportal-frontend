@@ -1,5 +1,5 @@
 import * as GeneralAction from './general.action';
-import { post, get, patch, upload, _delete } from './api.service';
+import { post, get, patch, _delete, update } from './api.service';
 import { CMSType } from '../action_type';
 import Toast from '../toastfy';
 import { initial } from './event.action';
@@ -254,7 +254,7 @@ export const uploadStakeholderLogo = (id, image, token) => {
 
         dispatch(GeneralAction.isLoading(true));
 
-        return await upload(dispatch, url, image)
+        return await update(dispatch, url, image)
 
             .then(response => {
 

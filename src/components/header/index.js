@@ -23,10 +23,12 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const HeaderNavLinks = ({
-    links
+    links,
+    filters
 }) => (<Fragment>
     {
-        links.map(({ name }, index) => <NavItem key={name + index}>
+        links.filter(({ name }) => filters.length > 0 ? filters.includes(name) : filters)
+        .map(({ name }, index) => <NavItem key={name + index}>
             <Link to={`/${name.toLowerCase()}`}>
                 { algorithms.capitalize(name) }
             </Link>
@@ -96,7 +98,7 @@ export const AppHeader = connect(mapStateToProps, mapDispatchToProps)(({
                 <NavbarToggler onClick={toggleHamburger}/>
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="ml-auto" navbar>
-                        <HeaderNavLinks links={home} />
+                        <HeaderNavLinks links={home} filters={["Home", "Library"]} />
                         <NavItem>
                             <Link to='/#' onClick={
                                 e => redirect.toExternalLink({ 
@@ -121,6 +123,7 @@ export const AppHeader = connect(mapStateToProps, mapDispatchToProps)(({
                                 </span>
                             </Link>
                         </NavItem>
+                        <HeaderNavLinks links={home} filters={["Directory", "News", "FAQs"]} />
                         <NavItem>{ userAccountTooltip() }</NavItem>
                     </Nav>
                 </Collapse>
