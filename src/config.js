@@ -11,6 +11,7 @@ import Axios from "axios";
 const Config = (() => {
 
     const REMOTE_PROD_SERVER = "http://172.105.76.246:8083";
+    const REMOTE_HEROKU_PROD_SERVER = "https://namisportal.herokuapp.com/";
     const LOCAL_DEV_SERVER =`http://127.0.0.1:8083`;
 
     // API base url
@@ -21,6 +22,8 @@ const Config = (() => {
         baseURL: REMOTE_PROD_SERVER
     })
 
+    const HEROKU_PROD_REMOTE_API_URL = Axios.create({ baseURL: REMOTE_HEROKU_PROD_SERVER })
+
     // Client ip address
     const ACCESS_ALLOW_ORIGIN = "HTTP_X_FORWARDED_FOR";
 
@@ -29,7 +32,8 @@ const Config = (() => {
         DEV_REMOTE_API_URL,
         PROD_REMOTE_API_URL,
         REMOTE_PROD_SERVER,
-        LOCAL_DEV_SERVER
+        LOCAL_DEV_SERVER,
+        HEROKU_PROD_REMOTE_API_URL
     }
 
 })();
