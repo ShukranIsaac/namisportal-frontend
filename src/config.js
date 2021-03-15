@@ -19,7 +19,7 @@ const Config = (() => {
 
     // production
     const PROD_REMOTE_API_URL = Axios.create({
-        baseURL: REMOTE_PROD_SERVER
+        baseURL: process.env.NODE_ENV === 'development' ? REMOTE_HEROKU_PROD_SERVER : REMOTE_PROD_SERVER
     })
 
     const HEROKU_PROD_REMOTE_API_URL = Axios.create({ baseURL: REMOTE_HEROKU_PROD_SERVER })

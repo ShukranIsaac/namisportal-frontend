@@ -102,7 +102,7 @@ export const AppHeader = connect(mapStateToProps, mapDispatchToProps)(({
                         <NavItem>
                             <Link to='/#' onClick={
                                 e => redirect.toExternalLink({ 
-                                    url: 'https://www.namis.org/namis1',
+                                    url: 'https://covmw.com/namistest',
                                     event: e
                                 })
                             }>
@@ -119,6 +119,18 @@ export const AppHeader = connect(mapStateToProps, mapDispatchToProps)(({
                                 })
                             }>
                                 Statistics<span style={marginLeft}>
+                                    <i className="fa fa-external-link"></i>
+                                </span>
+                            </Link>
+                        </NavItem>
+                        <NavItem>
+                            <Link to='/#' onClick={
+                                e => redirect.toExternalLink({ 
+                                    url: 'http://172.105.76.246:8084',
+                                    event: e
+                                })
+                            }>
+                                Analytics<span style={marginLeft}>
                                     <i className="fa fa-external-link"></i>
                                 </span>
                             </Link>

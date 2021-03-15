@@ -86,7 +86,7 @@ export const Footer = ({
                             </li>
                             <li><Link to="/#" onClick={
                                 e => redirect.toExternalLink({ 
-                                    url: 'https://www.namis.org/namis1',
+                                    url: 'https://covmw.com/namistest',
                                     event: e
                                 })
                             }>Namis <i className="fa fa-external-link"/></Link></li>
@@ -96,6 +96,12 @@ export const Footer = ({
                                     event: e
                                 })
                             }>Statistics <i className="fa fa-external-link"/></Link></li>
+                            <li><Link to="/#" onClick={
+                                e => redirect.toExternalLink({ 
+                                    url: 'http://172.105.76.246:8084',
+                                    event: e
+                                })
+                            }>Analytics <i className="fa fa-external-link"/></Link></li>
                         </ul>
                         <ul>
                             <li>
@@ -187,5 +193,4 @@ Footer.propTypes = {
     contactUs: PropTypes.func.isRequired
 }
 
-export default connect(mapStateToProps, 
-    mapDispatchToProps)(Footer);
+export default connect(mapStateToProps, mapDispatchToProps)(Footer);
