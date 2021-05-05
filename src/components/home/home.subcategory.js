@@ -8,16 +8,16 @@ export const HomeSubCategory = ({
     const [modal, setModal] = useState(false);
 
     const renderReadMore = (about) => {
-        if (about.length > 250){
-            return (<span 
-                    onClick={toggle} 
-                    className="badge badge-info" 
-                    style={{cursor: 'pointer'}}>
-                        Read more...
-                </span>
+        if (about.length > 250) {
+            return (<span
+                onClick={toggle}
+                className="badge badge-info inline"
+                style={{ cursor: 'pointer' }}>
+                Read more...
+            </span>
             )
         }
-        else{
+        else {
             return ''
         }
     }
@@ -26,8 +26,8 @@ export const HomeSubCategory = ({
 
     const link = (props) => {
         let url;
-    
-        if( props !== undefined && props !== null) {
+
+        if (props !== undefined && props !== null) {
             let section_name = (props.name).toLowerCase();
             url = section_name;
             section_name = ''
@@ -38,41 +38,37 @@ export const HomeSubCategory = ({
     const linkButton = (props) => {
         const { name } = props
 
-        if(name !== null && name !== undefined) {
+        if (name !== null && name !== undefined) {
             return (
-                <Link to={ `${ '/' +  link(props) }`}>
+                <Link to={`${'/' + link(props)}`}>
                     <button className="btn btn-primary">
-                        { name } section 
+                        {name} section
                     </button>
                 </Link>
             );
         }
-    
+
         return null;
     }
 
     return (
         <Col sm='12' md='6' lg='4'>
-            <div className="card" style={{minHeight: '394px'}}>
+            <div className="card" style={{ minHeight: '394px' }}>
                 <div className="card-body">
                     <h4>
-                        <a className="heading" 
-                            href={ link(section) }
+                        <a className="heading"
+                            href={link(section)}
                         >
-                            { section.name }
+                            {section.name}
                         </a>
                     </h4>
-                    <p style={{textAlign: 'justify'}}>
-                        { `${section.about.substring(0, 250)} `} 
-                        {
-                            renderReadMore(section.about)
-                        }
-                    </p>
+                    <div style={{ textAlign: 'justify' }} dangerouslySetInnerHTML={{ __html: section?.about.substring(0, 250) }} />
+                    {renderReadMore(section.about)}
                 </div>
-                <div className="card-footer" 
-                    style={{  
-                        backgroundColor: 'unset', 
-                        borderTop: 'unset' 
+                <div className="card-footer"
+                    style={{
+                        backgroundColor: 'unset',
+                        borderTop: 'unset'
                     }}
                 >
                     {
@@ -85,9 +81,9 @@ export const HomeSubCategory = ({
                     {section.name}
                 </ModalHeader>
                 <ModalBody>
-                    {section.about}
-                    <br/>
-                    <p>{ linkButton(section) }</p>
+                    <div dangerouslySetInnerHTML={{ __html: section?.about }} />
+                    <br />
+                    <p>{linkButton(section)}</p>
                 </ModalBody>
             </Modal>
         </Col>

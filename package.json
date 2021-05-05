@@ -49,7 +49,7 @@
     },
     "scripts": {
         "analyze": "source-map-explorer build/static/js/main.*",
-        "start": "set PORT=3008 && react-scripts start",
+        "start": "react-scripts start",
         "deploy": "pm2 start ./server.sh --name namisportal",
         "build": "react-scripts build",
         "test": "react-scripts test",

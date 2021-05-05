@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types';
 import { 
     Button, Card, Callout, 
@@ -34,43 +34,30 @@ export const Document = withStyles(styles, {
     path, 
     summary, 
     index,
-    classes
+    classes,
+    isOpen,
+    _id,
+    activeElement,
+    handleClick
 }) => {
-    const [state, setState] = useState({isOpen: false});
-
-    const handleClick = () => {
-        setState({ isOpen: !state.isOpen })
-    }
-
+    // console.log(activeElement)
+    // console.log(isOpen)
     return (
         <div className={classes.docContainer}>
-            <Callout onClick={handleClick} className={classes.button} righticon="add">
-                <div style={{ alignSelf: 'flex-start' }}>
-                    {`${index}. ${name}`}
-                </div>
+            <Callout id={_id} onClick={handleClick} className={classes.button} righticon="add">
+                <div style={{ alignSelf: 'flex-start' }}>{`${index}. ${name}`}</div>
                 <div style={{ marginLeft: 'auto' }}>
-                    {state.isOpen ? <Icon icon="remove" /> : <Icon icon="add" />}
+                    {isOpen && _id===activeElement ? <Icon icon="remove" /> : <Icon icon="add" />}
                 </div>
             </Callout>
-            <Collapse isOpen={state.isOpen}>
-                <Card interactive={true} 
-                    elevation={Elevation.ZERO}
-                >
+            <Collapse isOpen={isOpen && _id===activeElement}>
+                <Card interactive={true} elevation={Elevation.ZERO}>
                     <p> {summary} </p>
-                    <a href="#/" 
-                        onClick={e => redirect.toExternalLink({ 
-                            url: path, event: e })
-                        } 
-                        download={name}
-                    >
-                        <Button className={classes.alignCenter} 
-                            rightIcon="download" intent="success" 
-                            text="Download File/PDF" 
-                        />
+                    <a href="#/" onClick={e => redirect.toExternalLink({ url: path, event: e }) } download={name}>
+                        <Button className={classes.alignCenter} rightIcon="download" intent="success" text="Download File/PDF" />
                     </a>
                 </Card>
             </Collapse>
-
         </div>
     );
 });

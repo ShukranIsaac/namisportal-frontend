@@ -16,15 +16,17 @@ export const ListHomeSubcategory = ({
     classes, general
 }) => {
     const [modal, setModal] = useState();
+    const [activeElement, setActiveElement] = useState();
 
     // get the logged in user
     const user = UserProfile.get();
 
-    const renderReadMore = summary => (summary.length > 250) ? 
-        (<span onClick={() => setModal(!modal)} 
+    const renderReadMore = ({ about, _id }) => (about.length > 250) ? 
+        (<span onClick={e => { setModal(!modal); setActiveElement(e.target.id) }} 
             className="badge badge-info" 
+            id={_id}
             style={{ cursor: 'pointer' }}>
-                { !modal ? 'Read more...': 'Read less...' }
+                { !modal || activeElement !== _id ? 'Read more...': 'Read less...' }
         </span>) : "";
 
     const dangerouslyRender = (text) => {
@@ -64,6 +66,7 @@ export const ListHomeSubcategory = ({
                                         modal={modal}
                                         setModal={setModal}
                                         section={ section }
+                                        activeElement={activeElement}
                                         handleClick={handleClick}
                                     />);
                                 })

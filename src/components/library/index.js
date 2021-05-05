@@ -8,7 +8,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import DoneIcon from '@material-ui/icons/Done';
 
-import Documents from './documents';
 import './library.css';
 
 import Document from './Document';
@@ -43,7 +42,8 @@ class Library extends Component {
         this.state = {
             // set the default library category
             // to be selected
-            lock: false
+            lock: false,
+            isOpen: false,
         };
     }
 
@@ -83,23 +83,23 @@ class Library extends Component {
 
             // then iterate through the subcategories
             // and filter the chosen section
-            const filteredResource = resources.subCategories.length !== 0 
-            && resources.subCategories.filter(resource => {
+            const filteredResource = resources.subCategories.length !== 0
+                && resources.subCategories.filter(resource => {
 
-                if (value !== null && resource !== null) {
-                    // check if the chosen resource from the drop down list
-                    // equals one of the resources/subCategories
-                    // in Library
-                    if (resource.name === value) {
-                        return resource;
+                    if (value !== null && resource !== null) {
+                        // check if the chosen resource from the drop down list
+                        // equals one of the resources/subCategories
+                        // in Library
+                        if (resource.name === value) {
+                            return resource;
+                        } else {
+                            return null;
+                        }
                     } else {
                         return null;
                     }
-                } else {
-                    return null;
-                }
 
-            });
+                });
 
             // was anything returned
             if (filteredResource && filteredResource.length !== 0) {
@@ -122,62 +122,64 @@ class Library extends Component {
         }).join('');
     }
 
-    renderDocuments(docs) {
-        if (docs !== null) {
-            return docs && docs.map(({ 
-                _id,
-                name, 
-                description 
-            }, key) => <Document
-                key={key}
-                index={key + 1}
-                name={name}
-                path={`${Config.REMOTE_PROD_SERVER}/files/download/${_id}`}
-                summary={description}
-            />);
-        }
+    handleClick = e => {
+        this.setState({ isOpen: !this.state.isOpen, activeElement: e.target.id })
+        // console.log(e.target.id)
+        // console.log(!this.state.isOpen)
     }
 
     render() {
 
-        const { 
-            classes, library, general, 
-            filters: FiltersContainer 
+        const {
+            classes, library, general,
+            filters: FiltersContainer
         } = this.props;
 
         return (
             <div className='page-content'>
                 <Container>
                     <Row style={{ marginTop: '20px' }}>
-                    {
-                        (library && library.subCategories.length !== 0) ?
-                        <div className={classes.root}>
-                            <div className={classes.chipsRoot}>
-                                <FiltersContainer 
-                                    handleChange={ this.handleChange }
-                                    library={ library }
-                                    capitalize={ this.firstLetter }
-                                    {...this.props}
-                                />
-                            </div>
-                            <Documents
-                                {...this.props}
-                                renderDocuments={this.renderDocuments}
-                            />
-                        </div> 
-                        : <CustomColumn sm='12' md='12' lg='12'>
-                            <NoDataCard
-                                text={`No information availble to show. Please refresh to reload.`}
-                                header={`Information!`}
-                                intent={Intent.PRIMARY}
-                            />
-                        </CustomColumn>
-                    }
-                    {
-                        general && (general.isLoading && (
-                                <div style={{ marginTop: `30px` }} 
+                        {
+                            (library && library.subCategories.length !== 0) ?
+                                <div className={classes.root}>
+                                    <div className={classes.chipsRoot}>
+                                        <FiltersContainer
+                                            handleChange={this.handleChange}
+                                            library={library}
+                                            capitalize={this.firstLetter}
+                                            {...this.props}
+                                        />
+                                    </div>
+                                    {
+                                        this.props?.library_documents?.map(({
+                                            _id,
+                                            name,
+                                            description
+                                        }, key) => <Document
+                                                key={key}
+                                                index={key + 1}
+                                                _id={_id}
+                                                name={name}
+                                                path={`${Config.REMOTE_PROD_SERVER}/files/download/${_id}`}
+                                                summary={description}
+                                                {...this.state}
+                                                handleClick={this.handleClick}
+                                            />)
+                                    }
+                                </div>
+                                : <CustomColumn sm='12' md='12' lg='12'>
+                                    <NoDataCard
+                                        text={`No information availble to show. Please refresh to reload.`}
+                                        header={`Information!`}
+                                        intent={Intent.PRIMARY}
+                                    />
+                                </CustomColumn>
+                        }
+                        {
+                            general && (general.isLoading && (
+                                <div style={{ marginTop: `30px` }}
                                     className="loader" />))
-                    }
+                        }
                     </Row>
                 </Container>
             </div>
@@ -196,7 +198,7 @@ Library.propTypes = {
 };
 
 Library.defaultProps = {
-    filters: ({ 
+    filters: ({
         library,
         handleChange,
         classes,
@@ -212,7 +214,7 @@ Library.defaultProps = {
                                 name,
                             }) => {
                                 return (
-                                    <Chip 
+                                    <Chip
                                         key={_id}
                                         // avatar={
                                         //     <Avatar>
@@ -222,7 +224,7 @@ Library.defaultProps = {
                                         label={name}
                                         clickable
                                         variant="outlined"
-                                        onClick={ handleChange(name) }
+                                        onClick={handleChange(name)}
                                         deleteIcon={<DoneIcon />}
                                     />
                                 )
@@ -242,19 +244,19 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchLibrary: (id, name, type) => { 
-        dispatch(LibraryAction.fetchLibrary(id, name, type)) 
+    fetchLibrary: (id, name, type) => {
+        dispatch(LibraryAction.fetchLibrary(id, name, type))
     },
-    libraryCategory: (name) => { 
-        dispatch(LibraryAction.fetchLibraryCategory(name)) 
+    libraryCategory: (name) => {
+        dispatch(LibraryAction.fetchLibraryCategory(name))
     },
-    addSubCategory: (id, subcategory) => { 
-        dispatch(LibraryAction.addSubCategory(id, subcategory)) 
+    addSubCategory: (id, subcategory) => {
+        dispatch(LibraryAction.addSubCategory(id, subcategory))
     },
-    fetchCategoryDocuments: (i) => { 
-        dispatch(LibraryAction.fetchCategoryDocuments(i)) 
+    fetchCategoryDocuments: (i) => {
+        dispatch(LibraryAction.fetchCategoryDocuments(i))
     }
 })
 
-export default withStyles(styles)(connect(mapStateToProps, 
+export default withStyles(styles)(connect(mapStateToProps,
     mapDispatchToProps)(Library));

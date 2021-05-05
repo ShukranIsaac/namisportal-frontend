@@ -10,39 +10,36 @@ export const CMSHomeSubCategory = ({
     modal,
     dangerouslyRender,
     renderReadMore,
-    section: { 
-        name, 
-        about, 
-        _id 
-    }
+    section, 
+    activeElement
 }) => {
     const user = UserProfile.get();
 
-    return (<li key={_id + name} className="list-group-item">
+    return (<li key={section?._id + section?.name} className="list-group-item">
         <div className="lead">
         {
             !profile.canEdit({ user })
-            ? <div className="heading">{name}</div>
+            ? <div className="heading">{section?.name}</div>
             : <a
                 name="edit" 
-                id={_id} key={_id} href="/#"
+                id={section?._id} key={section?._id} href="/#"
                 onClick={(e) => handleClick(e)}
                 className="heading">
-                {name}
+                {section?.name}
             </a>
         }
         </div>
         <p style={{ textAlign: 'justify' }}>
             { 
-                modal ? dangerouslyRender(about && about) : 
-                dangerouslyRender(about && about.substring(0, 200))
+                modal && section?._id === activeElement ? dangerouslyRender(section?.about) : 
+                dangerouslyRender(section?.about.substring(0, 200))
             }
-            { renderReadMore(about && about) }
+            { renderReadMore(section) }
             <span><i>
                 <ButtonControls 
                     keys={['edit']}
                     user={ user }
-                    id={_id}
+                    id={section?._id}
                     handleClick={e=>handleClick(e)}
                 />
             </i></span>
