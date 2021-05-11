@@ -123,9 +123,8 @@ class Library extends Component {
     }
 
     handleClick = e => {
-        this.setState({ isOpen: !this.state.isOpen, activeElement: e.target.id })
-        // console.log(e.target.id)
-        // console.log(!this.state.isOpen)
+        this.setState({ isOpen: !this.state.isOpen, activeElement: e.currentTarget.id })
+        // console.log(e.currentTarget.id)
     }
 
     render() {
