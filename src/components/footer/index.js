@@ -117,8 +117,8 @@ export const Footer = ({
                                     Help Line(s) <i className="fa fa-phone"></i>
                                 </h3>
                             </li>
-                            <li>+265 (1) xxx xxx</li>
-                            <li>+265 (1) xxx xxx</li>
+                            <li>Phone: +265 (0) 1 788 738</li>
+                            <li>Fax: +265 (0) 1 788 908</li>
                         </ul>
                     </div>
                 </div>
